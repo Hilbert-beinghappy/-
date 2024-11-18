@@ -1,0 +1,307 @@
+\documentclass[lang=cn,10pt]{elegantbook}
+\title{热学}
+
+
+\author{ Huang}
+\date{\today}
+
+
+\extrainfo{不要以为抹消过去，重新来过，即可发生什么改变。—— 比企谷八幡}
+
+\setcounter{tocdepth}{3}
+
+
+\cover{cover.jpg}
+
+% 本文档命令
+\usepackage{array}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+
+% 修改标题页的橙色带
+% \definecolor{customcolor}{RGB}{32,178,170}
+% \colorlet{coverlinecolor}{customcolor}
+
+\begin{document}
+	
+	\maketitle
+	\frontmatter
+	
+	\tableofcontents
+	
+	\mainmatter
+	\chapter{温度}
+	\section{导学}
+	这一章我们要求掌握的并不多，主要是几个基本的定义以及理想气体状态方程以及范德瓦尔斯方程的运用
+	
+	\section{前置知识}
+	
+	\begin{definition}[平衡态]
+		在不受外界影响的条件下，一个热力学系统的宏观性质(温度、压强等)不随时间改变的状态，叫做平衡态
+	\end{definition}
+	
+	我们需要重点掌握的定义就只有这个。接下来到公式部分。主要分为两种情况
+	
+	第一种是对理想气体使用的
+	\begin{theorem}[理想气体状态方程]{理想}
+		对于理想气体，我们有
+		\begin{equation*}
+			pV=\nu RT=\frac{m}{M}RT
+		\end{equation*}
+		其中$p,V,\nu,T,m,M$分别为系统的压强，体积，总物质的量，温度，总质量，平均摩尔质量，注意的是，代入计算时,
+		$R\text{取}8.31\text{，}M\text{要乘上}10^{-3}\text{变化单位}
+		$
+	\end{theorem}
+	
+		另一种是对于非理想气体的
+	\begin{theorem}[范德瓦尔斯方程]{非理想}
+		对于非理想气体，我们有
+		\begin{equation*}
+			\left( p+\frac{m^2a}{M^2V^2} \right) \left( V-\frac{m}{M}b \right) =\frac{m}{M}RT
+		\end{equation*}
+		通常的，我们会取一摩尔的气体，方程简化为
+		\begin{equation*}
+			\left( p+\frac{a}{{V_m}^2} \right) \left( V-b \right) =RT
+		\end{equation*}
+	\end{theorem}
+	\section{理想气体状态方程的应用}
+	\begin{example}
+		水银压强计中混入了一个空气泡，因此它的读数比实际的气压小.当精确的压强计的读数为768 mmHg时，它的读数只有748 mmHg，此时管内水银面到管顶的距离为80 mm，问当此压强计的读数为734 mmHg时，实际气压应该是多少？设空气的温度保持不变。
+	\end{example}
+	
+	\begin{solution}
+		
+	\end{solution}
+	
+	\begin{example}
+		$
+		\text{一打气筒，每打一次气可将原来压强为}p_0=1.0 atm\,\,,\text{温度为}t_0=-3.0$℃$\text{，}
+		\\
+		\text{体积}V_0=4.0 L\text{的空气压缩到容器内，设容器的体积为}V=1.5\times 10^3L,\text{问}
+		\\
+		\text{需要打几次气，才能使容器的空气温度为}t=45$℃$\text{，压强为}p_0=2.0 atm
+		$
+	\end{example}
+	\begin{solution}
+		
+	\end{solution}
+	
+	\begin{example}
+		按重量计，空气是由76$\%$的氨，23$\%$的氧，约1$\%$的氩组成的，试求空气的平均相对分子质量以及在标况下的密度。
+	\end{example}
+	
+	\begin{solution}
+		
+	\end{solution}
+	
+	\section{范德瓦尔斯方程的应用}
+	
+	\begin{example}
+		1 mol氧气，压强为1000atm，体积为0.050L，其温度为多少？
+	\end{example}
+	\begin{solution}
+		
+	\end{solution}
+	\chapter{气体分子动理论}
+	\section{导学}
+		这一章节，我们要注意的是一个速率和两个公式，然后由上一节内容推出的范德瓦尔斯气体的压强我们蛮注意一下，有的膈应人的题目会考。
+	\section{前置知识}
+	
+	首先我们来到一个速率，也就是分子的方均根速率
+	
+	\begin{definition}[方均根速率]
+		我们定义大量气体分子速率的平方的平均值的平方根为方均根速率，其形式如下
+		\begin{equation*}
+			\sqrt{\overline{v^2}}=\sqrt{\frac{3kT}{m}}=\sqrt{\frac{3RT}{M}},\text{其中}k=\frac{R}{N_{A}}=1.38\times10^{-23}J/K
+		\end{equation*}
+	\end{definition}
+	
+	然后我们来到两个公式中的第一个
+	\begin{theorem}[平均平动动能公式]
+		\begin{equation*}
+			\overline{\varepsilon }=\frac{3}{2}kT,\text{其中}k=\frac{R}{N_{A}}=1.38\times10^{-23}J/K
+		\end{equation*}
+		这个公式表明，气体的平均平动动能只与温度有关，并且成正比。
+	\end{theorem}
+	
+	然后就是用的比较多的压强公式
+	\begin{theorem}[压强公式]
+		\begin{equation*}
+			p=nkT,k=\frac{R}{N_{A}}=1.38\times10^{-23}J/K,n\text{为分子数密度}
+		\end{equation*}
+	\end{theorem}
+	接下来的结论，我们了解即可
+	\begin{theorem}[范德瓦尔斯气体压强]{非理想压强}
+		通常的，我们会取一摩尔的气体
+		\begin{equation*}
+			p=\frac{RT}{V_m-b}-\frac{a}{V_{m}^{2}}
+		\end{equation*}
+		其中$V_{m}$是1mol气体的体积，a，b是由气体性质确定的常量。
+	\end{theorem}
+	
+	\section{两个公式的应用}
+	\begin{example}
+		钠黄光的波长为589.3nm。设想一立方体每边长5.893$\times 10 ^{-7}$m,试问在标况下其中有多少个空气分子。
+	\end{example}
+	\begin{solution}
+		
+	\end{solution}
+	
+	\begin{example}
+		一容器内储有氧气，其压强为$p=1.01\times 10^{5}Pa$,温度为t=27$℃$求：
+		
+		(1)单位体积内分子数
+		
+		(2)氧气的密度
+		
+		(3)氧分子的质量
+		
+		(4)分子间的平均距离
+		
+		(5)分子的平均动能
+	\end{example}
+	\begin{solution}
+		
+	\end{solution}
+	
+	\begin{example}
+		1mol氦气，其分子热运动动能的总和为3.75$\times 10^{5}Pa$,求氦气的温度
+	\end{example}
+    \begin{solution}
+		
+	\end{solution}
+	\chapter{气体分子热运动速率和能量的统计分布律}
+	\section{导学}
+	这一章考点很多，很密集，主要是围绕麦克斯韦速率分布函数，然后由其进行衍生，扩展
+	\section{前置知识}
+	
+	 为了研究目标物体速度变化的快慢，我们引进了加速度的概念，类比一下，我们为了研究某个事件发生的概率与区间的变化的关系，进而引进了概率分布函数，若这个事件的区间是速率，则我们又称这个函数为速率分布函数
+	 
+	 \begin{definition}[速率分布函数]
+	 	我们定义以下为速率分布函数：
+	 	\begin{equation*}
+	 		f\left( v \right) dv=\frac{dN}{N}
+	 	\end{equation*}
+	 	其图像的几何意义就是气体落在某个区间的概率
+	 	
+	 	经过严谨的数学推导，其形式如下：
+	 	\begin{equation*}
+	 		f\left( v \right) =4\pi v^2\left( \frac{m}{2\pi kT} \right) ^{\frac{3}{2}}e^{-\frac{mv^2}{2kT}}
+	 	\end{equation*}我们又称之为麦克斯韦气体速率分布函数
+	 \end{definition}
+	 
+	 根据这个几何意义，我们自然就有以下结论
+	 
+	 \begin{conclusion}
+	 	\begin{equation*}
+	 		\int\limits_0^{\infty}{f\left( v \right) dv}=1
+	 	\end{equation*}
+	 \end{conclusion}
+	 我们称之为\textbf{归一化}。
+	 
+	 这个问题解决之后，我们就来到一个重要的知识点——三个速率
+	 
+	 \begin{definition}[三个速率]
+	 	我们称$f(v)$的极大值对应的速率为\textbf{最该然速率}，其形式如下
+	 	\begin{equation*}
+	 		v_p=\sqrt{\frac{2kT}{m}}=\sqrt{\frac{2RT}{M}},\text{其中}k=\frac{R}{N_{A}}=1.38\times10^{-23}J/K
+	 	\end{equation*}
+	 	主要在讨论分子的速率分布时用。
+	 	
+	 	我们定义大量分子速率的算数平均值为分子的平均速率，其形式如下
+	 	\begin{equation*}
+	 		\overline{v}=\sqrt{\frac{8kT}{\pi m}}=\sqrt{\frac{8RT}{\pi M}},\text{其中}k=\frac{R}{N_{A}}=1.38\times10^{-23}J/K
+	 	\end{equation*}
+	 	主要在讨论分子碰撞问题时用。
+	 	
+	 	我们定义大量气体分子速率的平方的平均值的平方根为\textbf{方均根速率}，其形式如下
+	 	\begin{equation*}
+	 		\sqrt{\overline{v^2}}=\sqrt{\frac{3kT}{m}}=\sqrt{\frac{3RT}{M}},\text{其中}k=\frac{R}{N_{A}}=1.38\times10^{-23}J/K
+	 	\end{equation*}
+	 	主要在讨论分子平均平动动能时用。
+	 \end{definition}
+	 
+	 有了最该然速率之后，我们就可以对麦克斯韦速率分布函数进行化简。形式如下
+	 
+	 	\begin{equation*}
+	 		\text{令}u=\frac{v}{v_p}\text{，就有}
+	 		\frac{dN}{N}=\frac{4}{\sqrt{\pi}}e^{-u^2}u^2du
+	 		,\varDelta u\text{很小时候，}du\approx \varDelta u,
+	 		\text{原式等价于}\frac{\varDelta N}{N}=\frac{4}{\sqrt{\pi}}e^{-u^2}u^2\varDelta u
+	 	\end{equation*}
+
+	接下来一个知识点，挺有趣的，大家当成结论记住吧
+	
+	\begin{theorem}[单位碰壁分子数]
+		在单位时间碰到单位面积器壁上的气体分子数为
+		\begin{equation*}
+			\frac{1}{4}\pi \bar{v}
+		\end{equation*}
+	\end{theorem}
+	这个结论我们在后续会用到。
+	
+	目前为止，麦克斯韦气体速率分布的内容就结束了，由于涉及到能量的部分分配也仅仅是对于平均平动动能的分配，接下来我们要考虑对另一种能量的，也就是对势能的分配，即\textbf{玻尔兹曼分布律}
+	
+	\begin{definition}[玻尔兹曼分布律]
+		我们将分子按势能分布的分布律叫做玻尔兹曼分布律，形式如下
+		\begin{equation*}
+			n=n_{0}e^{-\frac{\varepsilon _p}{kT}}
+		\end{equation*}
+	\end{definition}
+	
+	设在高度为z=0的地方单位体积内分子数为$n_{0}$我们能立即得到以下结论
+	\begin{conclusion}
+		分布在高度z处单位体积内的分子数为
+		\begin{equation*}
+			n=n_{0}e^{-\frac{mgz}{kT}}
+		\end{equation*}
+	\end{conclusion}
+	
+	由此，我们能得到一个等温气压公式
+	\begin{theorem}[等温气压公式]
+		设气体在高度z=0的压强为$p_{0}$，则在高度z=z处有
+		\begin{equation*}
+			p=p_{0}e^{-\frac{mgz}{kT}}=p_{0}e^{-\frac{Mgz}{RT}}
+		\end{equation*}
+		取对数后，还可以变成
+		\begin{equation*}
+			z=\frac{RT}{Mg}\ln \frac{p_0}{p}
+		\end{equation*}
+	\end{theorem}
+	
+	接下来，我们要来到一个经常考的部分——能量按自由度分配
+	
+	\begin{theorem}[能均分定理]
+		在温度为T的平衡状态下，物质分子的每一个自由度都具有相同的平均动能，其大小都等于$\frac{1}{2}kT$，设某种气体气体的平动自由度为t，转动自由度为r，振动自由度为s，则分子的平均总动能为$\frac{s+r+t}{2}kT$
+	\end{theorem}
+	
+	由于分子的内能是分子的动能加上分子内部之间的势能，则对于1mol理想气体，其内能为
+	\begin{equation*}
+		\frac{2s+r+t}{2}RT
+	\end{equation*}
+	因此，对于单原子气体，其内能等于
+	\begin{equation*}
+		\frac{3}{2}RT
+	\end{equation*}
+	
+	对于双原子分子气体，其内能等于
+	 \begin{equation*}
+	 	\frac{7}{2}RT
+	 \end{equation*}
+	 
+	 现在，我们来到理想气体的热容。
+	 
+	 \begin{definition}[摩尔热容]
+	 	1mol物质升高或降低1$℃$所吸收(放出)的热量叫做物质的摩尔热容记作$C_{m}$
+	 \end{definition}
+	 现在我们增添一个体积不变的条件，则其为变为定容摩尔热容记为$C_{V,m}$
+	 由摩尔热容的定义，则可有下列式子
+	 \begin{equation*}
+	 	C_{V,m}=\frac{2s+r+t}{2}R
+	 \end{equation*}
+	 这里我们要注意的是，虽然双原子分子气体的摩尔热容为$\frac{7}{2}R $，但事实上，在只有几百k的时候，其摩尔热容只有$\frac{5}{2}R$，这个在第五章用的很多。
+	\chapter{气体内的运输过程}
+	\chapter{热力学第一定律}
+	\chapter{热力学第二定律}
+	
+	
+\end{document}

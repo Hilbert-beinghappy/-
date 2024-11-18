@@ -1,0 +1,15 @@
+\contentsline {chapter}{\numberline {1}特征值}{1}{}%
+\contentsline {section}{\numberline {1.1}导学}{1}{}%
+\contentsline {section}{\numberline {1.2}特征值和特征多项式}{1}{}%
+\contentsline {subsection}{\numberline {1.2.1}前置知识}{1}{}%
+\contentsline {subsection}{\numberline {1.2.2}特征向量的结构}{3}{}%
+\contentsline {subsection}{\numberline {1.2.3}相似矩阵}{4}{}%
+\contentsline {subsection}{\numberline {1.2.4}秩一矩阵}{5}{}%
+\contentsline {subsection}{\numberline {1.2.5}伴随矩阵}{6}{}%
+\contentsline {subsection}{\numberline {1.2.6}AB与BA}{7}{}%
+\contentsline {section}{\numberline {1.3}可对角化}{7}{}%
+\contentsline {section}{\numberline {1.4}极小多项式}{8}{}%
+\contentsline {chapter}{\numberline {2}相似标准形}{11}{}%
+\contentsline {section}{\numberline {2.1}导学}{11}{}%
+\contentsline {section}{\numberline {2.2}前置知识}{11}{}%
+\contentsline {section}{\numberline {2.3}Frobenius标准形和Jordan标准形}{14}{}%

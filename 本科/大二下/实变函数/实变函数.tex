@@ -1,0 +1,230 @@
+\documentclass[lang=cn,14pt]{elegantbook}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{gensymb}
+\usepackage{txfonts}
+\usepackage{longtable}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{paralist}
+\usepackage{array}
+\RequirePackage{booktabs}  % 三线表宏包
+\setmainfont{TeX Gyre Termes}
+\title{实变函数}
+
+
+
+\author{ Huang}
+
+
+
+\setcounter{tocdepth}{3}
+
+
+\cover{cover.jpg}
+% 本文档命令
+
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+
+% 修改标题页的橙色带
+% \definecolor{customcolor}{RGB}{32,178,170}
+% \colorlet{coverlinecolor}{customcolor}
+
+\begin{document}
+	
+	\maketitle
+	\frontmatter
+	
+	\tableofcontents
+	
+	\mainmatter
+	\chapter{集合论}
+	\chapter{测度论}
+	\section{可测函数的定义}
+		我们知道，对于一个可测函数来说，只需要做到博雷尔集的原像是博雷尔集即可，在简化我们的需求下，可测函数的定义可简化至下述形式
+	\begin{definition}[可测函数]
+		$f:E\longmapsto \mathbb{R} \cup \left\{ +\infty ,-\infty \right\} \text{可测},\text{如果}\forall a\in \mathbb{R} ,\left\{ x\in E:f\left( x \right) >a \right\} \coloneqq E\left( f>a \right) \text{可测}
+		$
+	\end{definition}
+	\begin{remark}
+		$f(x)>a$，事实上$f(x)\in (a,\infty]$,此时意味着$f$可以取到无穷大
+	\end{remark}
+	类似的，我们可以推出可测的三个充要条件,只需要注意
+\begin{equation*}
+	E\left( f\le a \right) =\left( E\left( f>a \right) \right) ^c,E\left( f\ge a \right) =\bigcup_{n=1}^{+\infty}{E\left( f\ge a+\frac{1}{n} \right)}
+\end{equation*}
+同时我们还可以得到一个可测的必要条件
+\begin{theorem}
+	$\text{若}f\text{可测，则}E\left( a\le f<b \right) \text{可测}$
+\end{theorem}
+\begin{proof}
+	考虑到
+	\begin{equation*}
+		E\left( a\le f<b \right) =E(f\ge a)-E(f\ge b)
+	\end{equation*}
+\end{proof}
+\begin{remark}
+	此时若$f$有界，则该条件也可为充分条件，因为取不到无穷大
+\end{remark}
+	\section{可测函数的运算}
+	在前面那一章节中，我们已经知道了可测函数的定义，现在我们想知道两个可测集之间的运算的结果，如可测集的加减乘除是否还是可测，首先我们要考虑到两个可测函数之间的和是否可测
+	\begin{theorem}
+		若$f,g:E\longmapsto \mathbb{R} \cup \left\{ +\infty ,-\infty \right\} \text{可测}$,则$f+g$仍可测
+	\end{theorem}
+	\begin{proof}
+		对于这题的证明，我们按照定义，只需要证明$\forall a,E(f+g>a)$即可证明
+		
+		由于不等号一边存在两个未知量，考虑将其移到右边一个，即命题等价为$\forall a,E(f>a-g)$，此时显然存在一个$r$，使得$f>r>a-g$,那么命题就成立了
+		
+		不妨记$h=a-g$,有可测集的简单运算，其可测。故我们只需要证明：存在一个$r$，使得$f>r>h$即可。即求证
+		\begin{equation*}
+			E\left( f>h \right) =\bigcup_{r\in \mathbb{R}}{E\left( f>r \right) \cap E\left( h<r \right)}
+		\end{equation*}
+		该命题是显然得证的，只需要左边包含右边，右边包含左边即可得证。故定理得证。
+	\begin{theorem}
+		$\left\{ f_n\left( x \right) \right\} \text{是}E\text{上至多可数个可测函数}$，我们有
+		\begin{equation*}
+			\mu \left( x \right) =\mathrm{inf} f_n\left( x \right) ,\lambda \left( x \right) =\mathrm{sup} f_n\left( x \right) 
+		\end{equation*}
+		仍然可测
+	\end{theorem}
+ 	\begin{proof}
+ 		由题，我们有
+ 			\begin{equation*}
+ 				\begin{split}
+ 						E\left( \mu \ge a \right) =\bigcap_n{E\left( f_n\left( x \right) \ge a \right)}
+ 					\\
+ 					E\left( \lambda \le a \right) =\bigcap_n{E\left( f_n\left( x \right) \le a \right)}
+ 				\end{split}
+ 			\end{equation*}
+
+ 		由于$f$可测，并且可列个可测集的交仍然为可测集，于是命题得证
+ 	\end{proof}
+	\begin{remark}
+		连续函数没有这样的性质，如
+		\begin{equation*}
+			f_n\left( x \right) =\begin{cases}
+				0,x\le 0\\
+				nx,0<x\le \frac{1}{n}\\
+				1,x>\frac{1}{n}\\
+			\end{cases}
+		\end{equation*}
+		显然连续，但不满足上述的条件
+	\end{remark}
+	
+	为了证明可测函数的绝对值可积，我们如下定义可测函数的正部和负部
+	\begin{equation*}
+		f=f^+ -f^-
+	\end{equation*}
+	\end{proof}
+	\section{用简单函数逼近可测函数}
+	这一部分，我们需要用到一个特别重要的定理，即非负可测函数可用非负简单函数来逼近
+	\begin{theorem}
+		$E$是$\mathbb{R} ^n$中非负可测函数，则存在非负可测简单函数列$\left\{ \varphi _k\left( x \right) \right\} $，满足$\forall x, \varphi _k \le \varphi _{k+1}$,使得
+		\begin{equation*}
+			\underset{k\rightarrow \infty}{\lim}\varphi _k\left( x \right) =f\left( x \right) 
+		\end{equation*}
+	\end{theorem}
+	\begin{remark}
+		此时若$f$，有界，则可以推出是一致收敛而不是点点收敛
+	\end{remark}
+	\section{几乎处处收敛与叶果洛夫定理}
+	\begin{definition}[几乎处处]
+		若某个性质在去掉一个零测集之后成立，我们就称其为几乎处处成立
+	\end{definition}
+	\begin{theorem}[叶果洛夫定理]
+		$\left\{ f_k \right\} ,f\left( x \right) \text{是定义在}E\text{上的可测函数且几乎处处有限，}m\left( E \right) <+\infty $,若$f_k\left( x \right) \rightarrow f\left( x \right) ,k\rightarrow \infty \text{在}E\text{上几乎处处成立}$，$\forall \delta >0,\text{存在}E_{\delta}\subset E,m\left( E_{\delta} \right) \le \delta ,\text{使得}\left\{ f_k \right\} \text{在}E-E_{\delta}\text{上一致收敛于}f$		
+	\end{theorem}
+	\begin{proof}
+		不妨设$\left\{ f_k \right\} ,f\left( x \right)$在$E$上有界，否则令$ E_{\delta}$为原来的$ E_{\delta}$并上前二者无界的部分
+		
+		此时我们翻译以下题目中的几乎处处收敛的含义，即对于$x$属于不收敛的集合，此时该集合为零测集，用对应的语言如下
+		\begin{equation*}
+			\exists x\in E,\exists \varepsilon >0,\forall N>0,n>N\text{时，}|f_k\left( x \right) -f\left( x \right) |\ge \varepsilon 
+		\end{equation*}
+		翻译成集合的语言就是
+		\begin{equation*}
+			\bigcup_{\varepsilon >0}{\bigcap_{N=1}^{+\infty}{\bigcup_{k=N}^{+\infty}{\left\{ x||f_k\left( x \right) -f\left( x \right) |\ge \varepsilon \right\}}}}
+		\end{equation*}
+		是个零测集
+		
+		我们知道
+		\begin{equation*}
+			m(\bigcap_{N=1}^{+\infty}{\bigcup_{k=N}^{+\infty}{\left\{ x||f_k\left( x \right) -f\left( x \right) |\ge \varepsilon \right\}}})\ge 0
+		\end{equation*}
+		于是乎，我们可得出
+		\begin{equation*}
+			m(\bigcap_{N=1}^{+\infty}{\bigcup_{k=N}^{+\infty}{\left\{ x||f_k\left( x \right) -f\left( x \right) |\ge \varepsilon \right\}}})= 0
+		\end{equation*}
+		上述集合的测度的极限等价于
+		\begin{equation*}
+			\lim_{k\rightarrow +\infty} m\left( \bigcup_{k=N}^{+\infty}{\left\{ x||f_k\left( x \right) -f\left( x \right) |\ge \varepsilon \right\}} \right) =0
+		\end{equation*}
+		于是乎，$\forall \bar{\varepsilon}>0,\exists N'(\varepsilon,\bar{\varepsilon}),\forall N'>N(\varepsilon,\bar{\varepsilon})$,我们有
+		\begin{equation*}
+			m\left( \bigcup_{k=N'}^{+\infty}{\left\{ x||f_k\left( x \right) -f\left( x \right) |\ge \varepsilon \right\}} \right)<\bar{\varepsilon}
+		\end{equation*}
+		考虑集合
+		\begin{equation*}
+			\bigcup_{\varepsilon>0}{\bigcap_{N'=1}^{+\infty}{\bigcup_{k=N'}^{+\infty}{\left\{ x||f_k\left( x \right) -f\left( x \right) |\ge\varepsilon \right\}}}}
+		\end{equation*}
+		此时该集合为零测集，取补即为所要的集合
+	\end{proof}
+	\begin{remark}
+		这个定理说明了，几乎处处收敛和一致收敛只差了一个零测集。
+	\end{remark}
+	\begin{remark}
+		若$m(E)=\infty$则结论不成立
+	\end{remark}
+	\section{依测度收敛}
+	\begin{definition}
+		$\left\{ f_k \right\} ,f\left( x \right) \text{是定义在}E\text{上的可测函数且几乎处处有限，}$,如果$\forall \sigma>0 $,$\lim_{k\rightarrow +\infty} m\left( E\left( |f_k\left( x \right) -f\left( x \right) |\ge \sigma \right) \right) =0
+		$,则称$\left\{ f_k \right\}$依测度收敛于$f$，记为
+		\begin{equation*}
+			f_k\left( x \right) \Rrightarrow f\left( x \right) 
+		\end{equation*}
+	\end{definition}
+	在一致收敛的时候，我们有一个结论，就是如果一个数列收敛于两个函数，那么这两个函数相等，同样的，在依测度收敛里，我们也有类似的结论
+	\begin{theorem}
+		若$\left\{ f_k \right\} ,f\left( x \right),g(x) \text{是定义在}E\text{上的可测函数且几乎处处有限，}$,$f_k\left( x \right) \Rrightarrow f\left( x \right)$,$f_k\left( x \right) \Rrightarrow g\left( x \right)$,则$f$几乎处处相等于$g$
+	\end{theorem}
+	\begin{proof}
+		模仿几乎处处收敛的证明方法，我们可以得到
+		\begin{equation*}
+			|f-g|<|f-f_k|+|g-f_k|
+		\end{equation*}
+		于是乎，我们可以得到
+		\begin{equation*}
+			E\left( |f-g|<\varepsilon \right) \supset E\left( |f-f_k|<\frac{\varepsilon}{2} \right) \cap E\left( |g-f_k|<\frac{\varepsilon}{2} \right) 
+		\end{equation*}
+		取个补集即可得到
+	\end{proof}
+	\section{依测度收敛和几乎处处收敛的关系}
+	在前面，我们讨论了依测度收敛和几乎处处收敛的关系
+	
+	现在我们再列举一下
+	
+	$\forall \varepsilon>0$
+	几乎处处收敛
+    \begin{equation*}
+    	mE\left( \lim_{k\rightarrow +\infty} |f_k-f|\ge \varepsilon\right) =0
+    \end{equation*}
+    
+    依测度收敛
+   \begin{equation*}
+   	\lim_{k\rightarrow +\infty} mE\left( |f_k-f|\ge \varepsilon \right) =0
+   \end{equation*}
+   我们发现，这两个定理具有一定程度上的相似性，差别在于极限符号的有所不同，那有什么方法可以建立两者之间的关系呢？在我们前面证明叶果洛夫定理的时候，我们就证明了类似于依测度收敛的结论，其中我们用到了几乎处处有界以及$m(E)<+\infty$，于是乎我们就能得到以下定理
+   
+ 	\begin{theorem}
+ 		如果满足叶果洛夫定理条件，则$	f_k\left( x \right) \Rrightarrow f\left( x \right)$
+ 	\end{theorem}
+ 	证明见上
+ 	
+ 	同样的，还有一个定理建立起了依测度收敛和几乎处处收敛的关系
+ 	\begin{theorem}[里斯定理]
+ 		$\text{如果在}E\text{上}\left\{ f_n \right\} \text{依测度收敛于}f\text{等价于存在子列}\left\{ f_{n_k} \right\} \text{几乎处处收敛于}f
+ 		$
+ 	\end{theorem}
+   \chapter{积分理论}
+\end{document}

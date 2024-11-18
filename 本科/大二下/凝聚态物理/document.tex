@@ -1,0 +1,107 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[12pt,a4paper]{article}% 文档格式
+\usepackage{ctex,hyperref}% 输出汉字
+\usepackage{times}% 英文使用Times New Roman
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{\fontsize{18pt}{27pt}\selectfont% 小四字号，1.5倍行距
+	{\heiti% 黑体 
+	qzj还没想好题目}}% 题目
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\author{\fontsize{12pt}{18pt}\selectfont% 小四字号，1.5倍行距
+	{\fangsong% 仿宋
+		邱子杰~黄佳炜}\\% 标题栏脚注
+	\fontsize{10.5pt}{15.75pt}\selectfont% 五号字号，1.5倍行距
+	{\fangsong% 仿宋
+		(福州大学~~~物理与信息工程学院、微电子学院)}}% 作者单位，“~”表示空格
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\date{}% 日期（这里避免生成日期）
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath,amsfonts,amssymb}% 为公式输入创造条件的宏包
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}% 图片插入宏包
+\usepackage{subfigure}% 并排子图
+\usepackage{float}% 浮动环境，用于调整图片位置
+\usepackage[export]{adjustbox}% 防止过宽的图片
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{bibentry}
+\usepackage{natbib}% 以上2个为参考文献宏包
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{abstract}% 两栏文档，一栏摘要及关键字宏包
+\renewcommand{\abstracttextfont}{\fangsong}% 摘要内容字体为仿宋
+\renewcommand{\abstractname}{\textbf{摘\quad 要}}% 更改摘要二字的样式
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{xcolor}% 字体颜色宏包
+\newcommand{\red}[1]{\textcolor[rgb]{1.00,0.00,0.00}{#1}}
+\newcommand{\blue}[1]{\textcolor[rgb]{0.00,0.00,1.00}{#1}}
+\newcommand{\green}[1]{\textcolor[rgb]{0.00,1.00,0.00}{#1}}
+\newcommand{\darkblue}[1]
+{\textcolor[rgb]{0.00,0.00,0.50}{#1}}
+\newcommand{\darkgreen}[1]
+{\textcolor[rgb]{0.00,0.37,0.00}{#1}}
+\newcommand{\darkred}[1]{\textcolor[rgb]{0.60,0.00,0.00}{#1}}
+\newcommand{\brown}[1]{\textcolor[rgb]{0.50,0.30,0.00}{#1}}
+\newcommand{\purple}[1]{\textcolor[rgb]{0.50,0.00,0.50}{#1}}% 为使用方便而编辑的新指令
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{url}% 超链接
+\usepackage{bm}% 加粗部分公式
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{epstopdf}
+\usepackage{epsfig}
+\usepackage{longtable}% 长表格
+\usepackage{supertabular}% 跨页表格
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{changepage}% 换页
+\newcommand{\upcite}[1]{\textsuperscript{\textsuperscript{\cite{#1}}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{enumerate}% 短编号
+\usepackage{caption}% 设置标题
+\captionsetup[figure]{name=\fontsize{10pt}{15pt}\selectfont Figure}% 设置图片编号头
+\captionsetup[table]{name=\fontsize{10pt}{15pt}\selectfont Table}% 设置表格编号头
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{indentfirst}% 中文首行缩进
+\usepackage[left=2.50cm,right=2.50cm,top=2.80cm,bottom=2.50cm]{geometry}% 页边距设置
+\renewcommand{\baselinestretch}{1.5}% 定义行间距（1.5）
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr} %设置全文页眉、页脚的格式
+\pagestyle{fancy}
+\hypersetup{colorlinks=true,linkcolor=black}% 去除引用红框，改变颜色
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}% 以下为正文内容
+	\maketitle% 产生标题，没有它无法显示标题
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\lhead{}% 页眉左边设为空
+	\chead{}% 页眉中间设为空
+	\rhead{}% 页眉右边设为空
+	\lfoot{}% 页脚左边设为空
+	\cfoot{\thepage}% 页脚中间显示页码
+	\rfoot{}% 页脚右边设为空
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\begin{abstract}
+		\fangsong 子杰是吊毛
+	\end{abstract}
+	
+	\begin{adjustwidth}{1.06cm}{1.06cm}
+		\fontsize{10.5pt}{15.75pt}\selectfont{\heiti{关键词：}\fangsong{Ca$_{2}$Ge、电子结构、第一性原理、p型掺杂}}\\
+	\end{adjustwidth}
+	\section{引言}
+	地球上 Si 的储存量较大，半导体 Si 的制备工艺成熟，使得 Si 被广泛运用于光电和热电、电子器件以及生物成
+	像等领域。 但随着科技技术的发展，对电子功能材料和电子设备性能要求不断提高，Si 的空穴和电子迁移速度相
+	对较小，不能满足高性能半导体器件要求。 同族元素 Ge 与 Si 相比，其空穴迁移速度是 Si 的４ 倍，电子迁移速度是
+	Si 的２ 倍，且具有较大的激子波尔半径和明显的量子限域效应（例如尺寸依赖的荧光特性），是实现下一代高性能
+	半导体器件的关键材料。Ca$_{2}$Ge 作为一种新型的半导体材料可满足 Ge 的半导体特性，能够稳定的存在，并能在
+	Ge 基上外延生长，且晶格失配率小，同时具有高的载流子迁移率、低的介电常数、优异的光学、电学性质等物性
+	$^{[1-3]}$
+	。 基于 Ca$_{2}$Ge 化合物材料的优异特性，理论上能够满足人类对电子器件存储信息的密度、电路芯片集成度、信
+	息运算和储存速度的高要求，即电子器件满足高集成、多功能和小尺寸的应用要求，在高速、低功耗、信息记录和信
+	息处理器件方面具有潜在的应用价值，在未来的信息时代会得到更广泛的研究和应用。
+	
+	根据现有文献，Ca$_{2}$Ge 研究内容主要集中在电子结构、光电特性和结构稳定性，Migas 等$^{[3]}$在 2003 年采用了第一性原理研究了立方相和正交相 Ca$_2$Ge 的能带结构和光电特性，结果得到立方相 Ca$_2$Ge 为直接型带隙半导体材料，并在高对称点 X 处取得 0. 60 eV 的带隙值，晶格常数为 0. 7197 nm,原胞体积为 0. 0932 nm$^{3}$,正交相 Ca,Ge 的研究结果同样表明其为直接型带隙半导体，并在 $\Gamma$ 点取得 0.37 eV 的最小带隙值，与正交相相比，立方相具有更好的抗辐射能力，正交相和立方相的光学特性主要都是由 Ge 原子的 p 态电子向 Ca 原子3 d态电子转移而产生的。在 2010 年，Yang 等$^{[4]}$也采用了第一性原理方法对 Ca-X(X=Si,Ge,Sn,Pb)的电子结构和生成特性进行了研究，研究结果得到正交相 Ca$_{2}$Ge 是带隙值为 0.265 eV 的直接带隙半导体。Tani 等$^{[5]}$在 2015 年研究了 Ca,Ge 的晶格振动的色散关系，研究表明了在 Ca,Ge 结构体系中，其声子振动在低能区频率大于Ca$_{2}$Si，说明了Ca$_{2}$Ge在低能耗半导体器件具有更好的应用前景.本文主要
+	\section{计算模型和计算方法}
+	\section{结果与讨论}
+	\section{结论}
+	
+
+	
+\end{document}% 结束文档编辑，后面写啥都编译不出来

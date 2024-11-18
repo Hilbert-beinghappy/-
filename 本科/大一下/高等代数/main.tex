@@ -1,0 +1,654 @@
+\documentclass[a4paper,12pt]{book}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{ctex}
+\usepackage{amsmath}
+\usepackage{color}
+
+\begin{document}
+
+\author{H}
+\title{高等代数总结(请配合老师讲义一同食用)}
+\date{\today}
+
+\frontmatter
+\maketitle
+\tableofcontents
+
+\mainmatter
+\chapter{特征值}
+\section{导学}
+
+这一章节是围绕着特征值和特征多项式进行展开，进而衍生出相应的可对角化概念。然后再提出了零化多项式和极小多项式的概念。Hamilton-Cayley Theorem提供出了一个较为简便的找出一个矩阵的零化多项式的方法，然后我们根据极小多项式可以整除零化多项式，可以缩小寻找极小多项式的范围。事实上这样的方法还是不够简便，如何寻找极小多项式会在下一章提到。
+
+可以从目录看出来，本章的重点还是在特征值和特征多项式上，事实也是如此，可对角化的考点较少，思维较为固定，更别说是稍微一提的极小多项式了。本章的知识点主要是从矩阵的角度出发，鲜有线性空间。主要是对高代老师课上内容的补充和整理，再加上一些个人的思考。
+\section{特征值和特征多项式}
+\subsection{前置知识}
+$\mathbf{Define}$ ：设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$。若存在$\lambda \in\mathit{F}$，使得$\mathit{A\alpha = \lambda\alpha}$,则称$\lambda$是$\mathit{A}$的一个特征值，$\alpha$是$\mathit{A}$的属于特征值$\lambda$的一个特征量向量 (当然，这里$\alpha$不为零向量)。
+~\\
+
+
+$\mathbf{Attention}$：设$\mathit{A}$ $\in$$\mathit{F^{n\times n} }$。$\alpha$是$\mathit{A}$的属于特征值$\lambda$的一个特征量向量，$\mathit{i} \in\mathit{N^{+} }$ ,则$\alpha$是$\mathit{A^{\mathit{i}} }$属于特征值$\mathit{\lambda^{\mathit{i}} }$的一个特征量向量.	~\\
+
+$\mathbf{Attention}$：一个特征向量只能属于一个特征值。
+~\\
+
+$\mathbf{Attention}$：$\mathit{A}$的属于特征值$\lambda$的特征量向量的\underline{非零线性组合} 仍是$\mathit{A}$的属于特征值$\lambda$的特征量向量。
+
+~\\
+
+
+$\mathbf{Define}$:设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$，$\lambda$是$\mathit{A}$的一个特征值，称$\mathit{V_{\lambda } }$ 是的属于特征值$\lambda$的特征子空间(特征向量本身就包含对加法和纯量乘法封闭的性质，此时只要包含零向量即可构成线性空间。) ~\\
+
+$\mathbf{Theorem}$:设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$，则$\mathit{A}$的属于不同特征值的特征向量线性无关。~\\
+
+$\mathbf{Define}$:设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$，$\mathit{f} (A)=\sum_{\mathit{i=0} }^{n} a_{i} A^{i} $ ,$\alpha$是$\mathit{A}$的属于特征值$\lambda$的一个特征量向量，则$\alpha$是$\mathit{f}$ ($\mathit{A}$)属于特征值$\mathit{f}$ ($\lambda$)的特征向量。
+
+$\mathbf{Define}$:设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$，矩阵$\lambda$$\mathit{E-A}$,称为$\mathit{A}$的特征矩阵，det（$\lambda$$\mathit{E-A}$）称为$\mathit{A}$的特征多项式，记作$\mathit{f_{A}}$($\lambda$)。$\mathit{f_{A}}$($\lambda$)=0，称为$\mathit{A}$的特征方程，$\mathit{f_{A}}$($\lambda$)的根称为$\mathit{A}$的特征根。~\\
+
+$\mathbf{Attention}$:设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$，$\alpha$是$\mathit{A}$的属于特征值$\lambda$$_{0}$的一个特征向量,则$\lambda$$_{0}$是特征多项式$\mathit{f_{A}}$($\lambda$)的根，$\alpha$是齐次线性方程组（$\lambda$$_{0}$$\mathit{E-A}$）x=0的非零解。
+
+$\mathbf{Attention}$:设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$，则$\mathit{A}$的所有特征值之和为$\mathit{A}$的迹，$\mathit{A}$的所有特征值之积为det（$\mathit{A}$）。
+
+$\mathbf{Attention}$:相似矩阵有相同的特征多项式，从而有相同的特征值。转置矩阵之间也有相同的特征多项式，同理也有相同的特征值。
+
+
+
+~\\
+
+线性空间有关部分，本资料不做更多归纳
+
+\subsection{特征向量的结构}
+$\mathbf{Conclusion}$:$\mathit{A}$是n阶矩阵，$\lambda$$_{1}$,$\lambda$$_{2}$,$\lambda$$_{3}$分别是$\mathit{A}$的k$_{1}$,k$_{2}$,
+k$_{3}$重特征值，且k$_{1}$+k$_{2}$+
+k$_{3}$=n。
+则有$\xi $$_{1}$,$\xi $$_{2}$,$\cdots$,$\xi $$_{s}$是（$\lambda$$_{1}$$\mathit{E-A}$）x=0的一个基础解系
+$\eta  $$_{1}$,$\eta  $$_{2}$,$\cdots$,$\eta  $$_{t}$是（$\lambda$$_{2}$$\mathit{E-A}$）x=0的一个基础解系
+$\delta  $$_{1}$,$\delta   $$_{2}$,$\cdots$,$\delta   $$_{r}$是（$\lambda$$_{3}$$\mathit{E-A}$）x=0的一个基础解系
+此时$\xi $$_{1}$,$\xi $$_{2}$,$\cdots$,$\xi $$_{s}$$\eta  $$_{1}$,$\eta  $$_{2}$,$\cdots$,$\eta  $$_{t}$$\delta  $$_{1}$,$\delta   $$_{2}$,$\cdots$,$\delta   $$_{r}$线性无关。即$\lambda$$_{1}$所对应的特征向量不可由$\lambda$$_{2}$,$\lambda$$_{3}$所对应的特征向量表出。~\\
+
+$\mathbf{Theorem}$:若$\lambda$$_{1}$,$\lambda$$_{2}$,$\cdots$,$\lambda$$_{n}$是$\mathit{A}$的全部特征值，则$\mathit{f}$ ($\lambda$$_{1}$),$\mathit{f}$ ($\lambda$$_{2}$),$\cdots$,$\mathit{f}$ ($\lambda$$_{n}$)是$\mathit{f}$ ($\mathit{A}$)的全部特征值。
+
+$\mathbf{Infer}$:现在讨论特殊情况
+
+$\mathit{f}$ ($\mathit{x}$)=bx(b$\ne $0)则此时det($\lambda$$\mathit{E-bA}$)=($\lambda$-b$\lambda$$_{1}$)$\cdots$($\lambda$-b$\lambda$$_{n}$)
+
+$\mathit{f}$ ($\mathit{x}$)=x+b则此时det($\lambda$$\mathit{E-(A+bE)}$)=($\lambda$-($\lambda$$_{1}$+b))$\cdots$($\lambda$-($\lambda$$_{n}$+b))
+
+$\mathit{f}$($\mathit{x}$)=x$^{-1}$
+则此时det($\lambda$ $\mathit{E-A^{-1}}$)
+=($\lambda$-$\lambda$$_{1}$$^{-1}$)$\cdots$($\lambda$-$\lambda$$_{n}$$^{-1}$)
+
+$\mathit{f}$($\mathit{x}$)=x$^{m}$(m为正整数)
+则此时det($\lambda$ $\mathit{E-A^{m}}$)
+=($\lambda$-$\lambda$$_{1}$$^{m}$)$\cdots$($\lambda$-$\lambda$$_{n}$$^{m}$)
+
+~\\
+
+$\mathbf{Application}$:
+
+例1.  $\mathit{A}$是三阶矩阵，若
+$\mathit{A}^{2}$-6$\mathit{A}$+11$\mathit{E}$=6A$^{-1} $,则$\mathit{A}$的特征值可能是多少？
+
+解：原式等价于 $\lambda$$^{2}$-6$\lambda$+11=6$\lambda$$^{-1} $，
+其中$\lambda$为任意一个特征值。令其等于0，解得$\lambda$=1，2，3.故$\mathit{A}$的特征值只能为这三个中的某一个。
+~\\
+~\\
+
+
+例2.      $\mathit{A}$是n阶矩阵，证明：$\mathit{A}^{2}$+$\mathit{E}$可逆
+
+证明：不妨设$\mathit{A}$的特征值为$\lambda$$_{1}$,$\lambda$$_{2}$,$\cdots$,$\lambda$$_{n}$，则：$\mathit{A}^{2}$+$\mathit{E}$的特征值为$\lambda$$_{1}$$^{2}$+1,$\lambda$$_{2}$$^{2}$+1,$\cdots$,$\lambda$$_{n}$$^{2}$+1
+则det($\mathit{A}^{2}$+$\mathit{E}$)=($\lambda$$_{1}$$^{2}$+1)($\lambda$$_{2}$$^{2}$+1)$\cdots$($\lambda$$_{n}$$^{2}$+1)>0,故可逆。
+~\\
+~\\
+
+\subsection{相似矩阵}
+  $\mathbf{Attention}$:相似矩阵有着相同的特征多项式，故有着相同的特征值和重数。
+  
+  $\mathbf{Attention}$:设$\mathit{A}$,$\mathit{B}$ $\in$ $\mathit{F^{n\times n} }$且$\mathit{A}$$\sim$$\mathit{B}$,则存在n阶可逆阵$\mathit{P}$ $\in$ $\mathit{F^{n\times n} }$使得$\mathit{B=P^{-1}AP}$。若$\alpha$是$\mathit{A}$的属于特征值$\lambda$$_{0}$的一个特征向量，则$\mathit{P^{-1}}$  $\alpha$是$\mathit{B}$的属于特征值$\lambda$$_{0}$的一个特征向量
+  ~\\
+  
+   $\mathbf{Application}$:设$\mathit{A}$=
+   $\begin{bmatrix}
+   	3& 2 & 2\\
+   	2 & 3 & 2\\
+   	2& 2 &3
+   \end{bmatrix}$,
+   $\mathit{P}$=
+   $\begin{bmatrix}
+   	0& 1 & 0\\
+   	1 & 0 & 1\\
+   	0& 0 &1
+   \end{bmatrix}$,
+   $\mathit{B}$=$\mathit{P}$$^{-1}$$\mathit{A}$$^{*}$$\mathit{P}$,求$\mathit{B+2E}$的特征值和特征向量。
+   
+   解：由$\mathit{A}$$^{*}$=det($\mathit{A}) 
+   $$\mathit{A^{-1}}$可知 $\mathit{B}$=$\mathit{P}$$^{-1}$det($\mathit{A}) 
+   $$\mathit{A^{-1}}$$\mathit{P}$。即求$\mathit{A^{-1}}$的特征值和特征向量，事实上，$\mathit{A}$,$\mathit{A^{-1}}$有着相同的特征向量和特征值的重数。即求$\mathit{A}$的特征值和特征向量。
+   
+   $\lambda$$\mathit{E-A}$=
+   $\begin{bmatrix}
+   	$$\lambda$-3$ & -2 & -2\\
+   	-2 & $$\lambda$-3$ & -2\\
+   	-2& -2 & $$\lambda$-3$
+   \end{bmatrix}$=$\lambda$$^{3}$-9$\lambda$$^{2}$+15$\lambda$-7=0
+   
+   解得 $\lambda$=1，1，7
+   
+   $\lambda$=1时，$\mathit{E-A}$=
+    $\begin{bmatrix}
+   	1& 1 & 1\\
+   	 0&  0& 0\\
+   	0& 0 &0
+   \end{bmatrix}$，$\alpha$$_{1}$=
+    $\begin{bmatrix}
+   	1& \\
+   	-1& \\
+   	0& 
+   \end{bmatrix}$，
+   $\alpha$$_{2}$=
+   $\begin{bmatrix}
+   	1& \\
+   	0& \\
+   	-1& 
+   \end{bmatrix}$，
+   
+   
+   $\lambda$=7时，$\mathit{7E-A}$=
+   $\begin{bmatrix}
+   	2& -1 & -1\\
+   	-1&  2& -1\\
+   	0& 0 &0
+   \end{bmatrix}$，
+   $\alpha$$_{3}$=
+   $\begin{bmatrix}
+   	1& \\
+   	1& \\
+   	1& 
+   \end{bmatrix}$
+   
+   要求 $\mathit{B+2E}$的特征值和特征向量，即求$\mathit{A^{-1}det(A)+2E}$的特征值和特征向量。
+   $\lambda$=1，1，7则$\mathit{A^{-1}}$的特征值为1,1,$\frac{1}{7}$
+   特征向量都为$\alpha$$_{1}$，$\alpha$$_{2}$，$\alpha$$_{3}$
+   $\mathit{B+2E}$的特征值为9，9，3.此时对应的特征向量为$\mathit{P}$$^{-1}$$\alpha$$_{1}$，$\mathit{P}$$^{-1}$$\alpha$$_{2}$，$\mathit{P}$$^{-1}$$\alpha$$_{3}$
+   ~\\
+   ~\\
+   
+\subsection{秩一矩阵}
+
+  $\mathbf{Conclusion}$:$\mathit{A}$是n阶矩阵,r($\mathit{A}$)=1,则$\mathit{A}$的所有特征值为$\underset{n-1}{\underbrace{0,\cdots ,0} } $,tr($\mathit{A}$)。当tr($\mathit{A}$)大于0时，$\mathit{A}$可对角化，当tr($\mathit{A}$)等于0时，$\mathit{A}$不可对角化，
+  
+  证明：$\mathit{A}$x=0=0x.故0为$\mathit{A}$的特征值，r($\mathit{A}$)=1，所以0几何重数为n-1，又代数重数大于几何重数，所以0的重数大于等于n-1又有$\mathit{A}$的特征值的和为tr($\mathit{A}$)，并且前n-1个特征值全为0，故最后一个特征值为tr($\mathit{A}$)。
+  
+  $\mathbf{Conclusion}$:tr($\mathit{A}$)=1时，$\mathit{A}$可表示为$\alpha$$\beta$$^{T}$,其中$\alpha$，$\beta$为非零列向量，此时
+  tr($\mathit{A}$)=$\alpha$$^{T}$$\beta$=$\beta$$^{T}$$\alpha$
+  
+  $\mathbf{Infer}$：
+  
+  当tr($\mathit{A}$)=0时，$\mathit{A}$的所有特征向量为$\beta$$^{T}$x=0的所有非零解
+  
+  当tr($\mathit{A}$)$\ne$0时，$\mathit{A}$的所有特征向量为$\beta$$^{T}$x=0的所有非零解+k$\alpha$(k$\ne$0)
+  
+  0对应的特征向量为$\beta$$^{T}$x=0的所有非零解，tr($\mathit{A}$)对应的所有特征向量为k$\alpha$(k$\ne$0)
+  
+  证明：
+  
+  $\mathit{A}$x=$\alpha$$\beta$$^{T}$x=0=0x，又$\alpha$非零，则$\beta$$^{T}$x=0=0x,故0对应的特征向量为$\beta$$^{T}$x=0的所有非零解
+  
+  $\mathit{A}$$\alpha$=$\alpha$$\beta$$^{T}$$\alpha$ =tr($\mathit{A}$)$\alpha$。故tr($\mathit{A}$)对应的所有特征向量为k$\alpha$(k$\ne$0)
+  
+  ~\\
+  ~\\
+  
+  $\mathbf{Application}$:
+  
+  例1. n阶方阵$\mathit{A}$所有元素为1，求$\mathit{A}$的所有特征值和特征向量。
+  
+  解：由题，tr($\mathit{A}$)=1，则阵$\mathit{A}$的所有特征值为$\underset{n-1}{\underbrace{0,\cdots ,0} } $,n。且$\mathit{A}$=$\alpha$$\beta$$^{T}$=
+  $\begin{bmatrix}
+  	1& \\
+  	$$\cdots$$& \\
+  	1& 
+  \end{bmatrix}$
+  $ \begin{bmatrix}
+  	1	& $$\cdots$$ &1
+  \end{bmatrix}$,
+  0对应的特征向量为$\beta$$^{T}$x=0的所有非零解，tr($\mathit{A}$)对应的所有特征向量为k$\alpha$(k$\ne$0)
+  解$\beta$$^{T}$x=0即 
+  $ \begin{bmatrix}
+  	1	& $$\cdots$$ &1
+  \end{bmatrix}$x=0；
+  解得0的特征向量为
+  $\begin{bmatrix}
+  	1& \\
+  	-1&\\
+  	0&\\
+  	$$\cdots$$& \\
+  	0& 
+  \end{bmatrix}$,
+  $\begin{bmatrix}
+  	1& \\
+  	0&\\
+  	-1&\\
+  	$$\cdots$$& \\
+  	0& 
+  \end{bmatrix}$,
+  $\cdots$,
+   $\begin{bmatrix}
+  	1& \\
+  	0&\\
+  	0&\\
+  	$$\cdots$$& \\
+  	-1& 
+  \end{bmatrix}$,n对应的特征向量为
+   $\begin{bmatrix}
+  	1& \\
+  	$$\cdots$$& \\
+  	1& 
+  \end{bmatrix}$。
+  
+  ~\\
+  
+  例2. $\mathit{A}$=$\mathit{E}$+$\alpha$$\beta$$^{T}$其中$\alpha$，$\beta$为列向量且$\beta$$^{T}$$\alpha$=1,求det($\mathit{A}$+$\mathit{E}$)
+  
+  解：$\alpha$$\beta$$^{T}$的特征值为$\underset{n-1}{\underbrace{0,\cdots ,0} } $,1则$\mathit{A}$+$\mathit{E}$的特征值为$\underset{n-1}{\underbrace{2,\cdots ,2} } $,3,则det($\mathit{A}$+$\mathit{E}$)=3$\times$2$^{n-1}$
+  ~\\
+  
+  例3. $\beta$是n维列向量，证明：若$\beta$$^{T}$$\beta$=1，则$\mathit{E}$-$\beta$
+  $\beta$$^{T}$不可逆，若$\beta$$^{T}$$\beta$$\ne$1，则$\mathit{E}$-$\beta$
+  $\beta$$^{T}$可逆.
+  
+  证明：$\mathit{E}$-$\beta$
+  $\beta$$^{T}$的所有特征值为$\underset{n-1}{\underbrace{1,\cdots ,1} } $,1-$\beta$$^{T}$$\beta$。若$\beta$$^{T}$$\beta$=1，则det($\mathit{E}$-$\beta$$\beta$$^{T}$)=0,不可逆。同理。
+  ~\\
+  ~\\
+  
+\subsection{伴随矩阵}
+
+
+ $\mathbf{Conclusion}$:若$\lambda$$_{1}$,$\lambda$$_{2}$,$\cdots$,$\lambda$$_{n}$是n阶方阵$\mathit{A}$的全部特征值
+ 
+ Case1. r($\mathit{A}$)=n,$\mathit{A}$$^{*}$=det($\mathit{A}) 
+ $$\mathit{A^{-1}}$
+ 
+$\mathit{A}$$^{*}$的特征值为$\frac{|A|}{\lambda_{1}}$,$\cdots$,$\frac{|A|}{\lambda_{n}}$。
+
+tr($\mathit{A}$$^{*}$)=$\sum_{j=1}^{n}\prod_{\underset{i\ne j}{i=1} }^{n}  \lambda_{i} $
+~\\
+
+Case2. r($\mathit{A}$)=n-1,r($\mathit{A}$$^{*}$)=1
+
+$\mathit{A}$$^{*}$的特征值为$\underset{n-1}{\underbrace{0,\cdots ,0} } $,tr($\mathit{A}$$^{*}$)。
+
+tr($\mathit{A}$$^{*}$)=$\sum_{j=1}^{n}\prod_{\underset{i\ne j}{i=1} }^{n}  \lambda_{i} $
+
+$\mathit{A}^{*}$的特征多项式|$\lambda\mathit{E-{A}^{*}}$|=$\lambda^{n-1}(\lambda-tr(\mathit{A}^{*}))$
+~\\
+
+
+Case3. r($\mathit{A}$)<n-1,r($\mathit{A}$$^{*}$)=0
+
+$\mathit{A}$$^{*}$的特征值为$\underset{n}{\underbrace{0,\cdots ,0} } $
+
+$\mathit{A}^{*}$的特征多项式|$\lambda\mathit{E-{A}^{*}}$|=$\lambda^{n}$
+
+~\\
+
+$\mathbf{Application}$:
+
+例1.  $\mathit{A}$=
+$\begin{bmatrix}
+	1 & 1 & 1 & 1\\
+	0  & 2 & 2 & 2\\
+	0 & 0 & 3 & 3\\
+	0 & 0 & 0 &4
+\end{bmatrix}$，
+求$\mathit{A}^{*}$的特征值
+
+解：|$\lambda E-\mathit{A}$|=$(\lambda-1)(\lambda-2)(\lambda-3)(\lambda-4)$.故$\mathit{A}$的特征值为1，2，3，4，$\mathit{A}^{*}$的特征值为6，8，12，24.~\\
+
+\subsection{AB与BA}
+
+$\mathbf{Conclusion}$:$\mathit{A,B}$分别是$m\times n,n\times m$矩阵,则|$\lambda \mathit{E_{m}-AB}$|=$\lambda^{m-n}|\mathit{E_{n}-BA}$|(结论不多，但很重要)
+
+$\mathbf{Infer}$:AB与BA的0特征值重数差m-n其他特征值重数一样并且|AB|=|BA|要么说明0是AB与BA的特征值，要么0都不是AB与BA的特征值。
+
+\section{可对角化}
+
+$\mathbf{Define}$ ：设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$。存在n阶可逆阵$\mathit{P}$ $\in$ $\mathit{F^{n\times n} }$使得$\mathit{P^{-1}AP}$为对角阵,则称$\mathit{A}$是可对角化的。(此时的对角线上的元素恰好为$\mathit{A}$的特征值,$\mathit{P}$的列向量为$\mathit{A}$的特征向量。)
+
+$\mathbf{Theorem}$ ：$\mathit{A}$可对角化的充要条件为$\mathit{A}$的特征多项式的根全在$\mathit{F}$上，且每个特征值的代数重数(特征多项式中对应特征值的重数)等于几何重数(特征值对应特征向量个数)。~\\
+
+$\mathbf{Application}$ ：
+
+例1. 已知$\mathit{A}$=
+$\begin{bmatrix}
+	1& -1 & 1\\
+	x& 4 & y\\
+	-3 &-3  &5
+\end{bmatrix}$
+有三个线性无关的特征向量，$\lambda$=2是二重特征值。试求可逆矩阵$\mathit{P}$ ，使得$\mathit{P^{-1}AP}$为对角阵。
+
+解：由$\lambda$=2是二重特征值，可知r($\mathit{2E-A}$)=3-2=1,对$\mathit{2E-A}$作初等变换，可得
+$\begin{bmatrix}
+	1& -1 & 1\\
+	2-x& 0 &-2-y\\
+	 0& 0 &0
+\end{bmatrix}$
+即x=2，y=-2。
+此时$\mathit{A}$=
+$\begin{bmatrix}
+	1& -1 & 1\\
+	2& 4 & -2\\
+	-3 &-3  &5
+\end{bmatrix}$
+
+由$\mathit{A}$的所有特征值之和为10，则可得到$\mathit{A}$的另一个特征值为6，则$\mathit{A}$的特征值为2，2，6。
+
+解（$\mathit{2E-A}$）x=0，得到以下基础解系
+$\begin{bmatrix}
+	1\\
+	0\\
+	1
+\end{bmatrix}$，
+$\begin{bmatrix}
+	-1\\
+	1\\
+	0
+\end{bmatrix}$。
+
+解（$\mathit{6E-A}$）x=0，得到以下基础解系
+$\begin{bmatrix}
+	\frac{1}{3}\\
+	-\frac{1}{3}\\
+	1
+\end{bmatrix}$，
+
+令$\mathit{P}$=
+$\begin{bmatrix}
+	-1& 1 & \frac{1}{3}\\
+	1& 0 & -\frac{1}{3}\\
+	0&1  &1
+\end{bmatrix}$,则$\mathit{P^{-1}AP}$=
+$\begin{bmatrix}
+	2& 0 & 0\\
+	0& 2 & 0l  \\
+	0&0  &6
+\end{bmatrix}$
+~\\
+
+\section{极小多项式}
+
+$\mathbf{Define}$:设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$。若$\mathit{f(A)}$=0,则称$\mathit{f(\lambda)}$是$\mathit{A}$的零化多项式。
+
+$\mathit{Hamilton-CayleyTheorem}$:一个方阵的特征多项式为这个方阵的零化多项式。
+
+$\mathbf{Define}$:设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$。$\mathit{A}$的
+{\color{red}次数最低且首一的零化多项式 }称作$\mathit{A}$的极小多项式。记作$m_{\mathit{A}}(\lambda).$
+
+$\mathbf{Theorem}$:
+
+1.方阵$\mathit{A}$的极小多项式整除$\mathit{A}$的所有零化多项式。
+
+2.方阵的极小多项式唯一。
+
+3.相似矩阵具有相同的极小多项式。
+
+$\mathbf{Attention}$:在不计重数的情况下，$m_{\mathit{A}}(\lambda)$与$f_{\mathit{A}}(\lambda)$有完全相同的根。~\\
+
+$\mathbf{Theorem}$:设$\mathit{A,B}$ $\in$ $\mathit{F^{n\times n} }$,则($m_{\mathit{A}}(\lambda)$,$m_{\mathit{B}}(\lambda)$)=1$\Leftrightarrow $($f_{\mathit{A}}(\lambda)$,$f_{\mathit{B}}(\lambda)$)=1
+
+$\mathbf{Infer}$:设$\mathit{A,B}$ $\in$ $\mathit{F^{n\times n} }$,若($f_{\mathit{A}}(\lambda)$,$f_{\mathit{B}}(\lambda)$)=1，则$f_{\mathit{A}}(B)$，$f_{\mathit{B}}(A)$可逆。~\\
+
+$\mathbf{Application}$ ：
+
+例1. 设$\mathit{A}=
+\begin{bmatrix}
+	1&  0&  0& 0\\
+	-1&  -1&-1  &0 \\
+	1&  1&  1& 0\\
+	2&2  &2  &0
+\end{bmatrix},
+$求$\mathit{A}^{500}$。
+
+解：由Hamilton-CayleyTheorem，可得$\mathit{A}^{3}$-$\mathit{A}^{2}$=0则$\mathit{A}^{500}$=$\mathit{A}^{2}$=
+$\begin{bmatrix}
+	1&  0&  0& 0\\
+	-1&  0&0  &0 \\
+	1&  0&  0& 0\\
+	2&0  &0  &0
+\end{bmatrix}$
+
+\chapter{相似标准形}
+\section{导学}
+
+在这一章节，我们主要解决的是之前遗留下来的问题：矩阵相似的充要条件是什么？有没有找极小多项式的简便方法？另外从可对角化我们得到了启发：能不能找到一个与原矩阵相似的形式较为较为简便的矩阵，来供我们来研究原矩阵的部分性质，因此衍生出来了相似标准形。其中就有Frobenius标准形和Jordan标准形。前者由矩阵不变因子所决定，后者由矩阵初等因子决定，各有各的好处。本章内容安排与书本上不太一致，主要理解为主，并没有安排习题，想要做题请参考书本。~\\
+
+\section{前置知识}
+
+$\mathbf{Define}$ ：类比与数量矩阵，我们将数量矩阵里的元素替换为关于$\lambda$的多项式，即可得到$\lambda$-矩阵，其拥有数量矩阵的初等变换、相抵关系等关系。(当然，一部分满秩的$\lambda$-矩阵还具有可逆的性质，这里要特别注意的是，特征矩阵满秩，但其一定不可逆)
+
+数量矩阵具有相抵标准形，即通过一系列初等变换可变为单位矩阵，类似的$\lambda$-矩阵也有类似的性质，只不过变为的矩阵为\textbf{法式}
+
+$\mathbf{Define}$ ：设$\mathit{A}(\lambda)$是一个m$\times$n的$\lambda$-矩阵且r($\mathit{A}(\lambda)$)=r,
+则
+\begin{equation*}
+\mathit{A}(\lambda)\simeq 
+\begin{pmatrix}
+	d_{1}(\lambda ) &  &  &  &  & \\
+	&  \ddots &  &  &  & \\
+	&  &  d_{r}(\lambda )&  &  & \\
+	&  &  &  0&  & \\
+	&  &  &  &  \ddots & \\
+	&  &  &  &  0&
+\end{pmatrix}
+\end{equation*}
+
+
+其中$d_{i}(\lambda )(i=1,2,\cdots,r)$为首一多项式，且$d_{i}(\lambda )|d_{i+1}(\lambda )(i=1,2,\cdots,r-1)$。
+
+我们知道，特征矩阵肯定是满秩的，这样我们就得到了特征矩阵的法式。
+
+$\mathbf{Infer}$ ：设$\mathit{A}$是数域$\mathit{F}$
+上的n阶方阵，则$\mathit{A}$的特征矩阵$\lambda\mathit{E-A}$的法式为
+\begin{equation*}
+	diag(d_{1}(\lambda ),\cdots,d_{n}(\lambda ))
+\end{equation*}
+
+其中$d_{i}(\lambda )(i=1,2,\cdots,n)$为首一多项式，且$d_{i}(\lambda )|d_{i+1}(\lambda )(i=1,2,\cdots,n-1)$。
+
+我们知道，就算一个矩阵不为方阵，但其仍可取出k阶子式(k小于等于行数和列数中的最小值)就有如下定义
+
+$\mathbf{Define}$ ：设$\mathit{A}(\lambda)$是一个m$\times$n的$\lambda$-矩阵且r($\mathit{A}(\lambda)$)=r,则其所有k阶子式(k小于等于行数和列数中的最小值)中的首一最大公因式为
+$\mathit{A}(\lambda)$的k阶\textbf{行列式因子}。记作$\mathit{D_{k}}(\lambda)$，其个数与$\mathit{A}(\lambda)$的秩个数相同。~\\
+
+接下来我们再回到一般$\lambda$-矩阵的法式
+\begin{equation*}
+	\mathit{A}(\lambda)\simeq 
+	\begin{pmatrix}
+		d_{1}(\lambda ) &  &  &  &  & \\
+		&  \ddots &  &  &  & \\
+		&  &  d_{r}(\lambda )&  &  & \\
+		&  &  &  0&  & \\
+		&  &  &  &  \ddots & \\
+		&  &  &  &  0&
+	\end{pmatrix}
+\end{equation*}
+
+
+其中$d_{i}(\lambda )(i=1,2,\cdots,r)$为首一多项式，且$d_{i}(\lambda )|d_{i+1}(\lambda )(i=1,2,\cdots,r-1)$。根据$d_{i}(\lambda )|d_{i+1}(\lambda )(i=1,2,\cdots,r-1)$，其行列式因子为
+
+$\mathit{D_{1}}$=$d_{1}(\lambda )$
+
+$\mathit{D_{2}}$=$d_{1}(\lambda )d_{2}(\lambda )$
+
+$\cdots$
+
+$\mathit{D_{r}}$=$d_{1}(\lambda )d_{2}(\lambda )\cdots d_{r}(\lambda )$
+
+我们发现$D_{i}(\lambda )|D_{i+1}(\lambda )(i=1,2,\cdots,r-1)$，并由此引出一个新的概念
+
+$\mathbf{Define}$ ：设$D_{i}(\lambda )(i=1,2,\cdots,r)$为$\mathit{A}(\lambda)$的行列式因子，称
+\begin{equation*}
+	d_{1}(\lambda)=D_{1}(\lambda),  
+		d_{i}(\lambda)=\frac{D_{i+1}(\lambda )}{D_{i}(\lambda )}(i=2,\cdots,r-1)
+\end{equation*}
+为$\mathit{A}(\lambda)$的不变因子，显然，其和的$\lambda$-矩阵的行列式因子相互确定。~\\
+
+
+在此时，我们发现不变因子已经是形式比较简单的了，我们是否还能找到比不变因子的形式还简单的一个式子来与不变因子相互确定呢？答案是肯定的，因为在求不变因子的时候，我们并没有要求不变因子在数域$\mathit{F}$上一定可约所以。由因式分解定理，任何一个多项式在$\mathit{F}$都可分解为不可约因式的方幂之积，因此我们对$\mathit{A}(\lambda)$的不变因子$d_{i}(\lambda)(i=1,\cdots,r-1)$进行分解
+\begin{equation*}
+	\begin{split}
+	d_{1}(\lambda)=p_{1}^{e_{11}}(\lambda)p_{2}^{e_{12}}((\lambda))\cdots p_{t}^{e_{1t}}(\lambda)\\
+	d_{2}(\lambda)=p_{1}^{e_{21}}(\lambda)p_{2}^{e_{22}}((\lambda))\cdots p_{t}^{e_{2t}}(\lambda)\\
+	\cdots \cdots \cdots\\
+		d_{r}(\lambda)=p_{1}^{e_{r1}}(\lambda)p_{2}^{e_{r2}}((\lambda))\cdots p_{t}^{e_{rt}}(\lambda)
+\end{split}
+\end{equation*}
+
+其中$\mathit{p}_{j}$是首一的两两互素的不可约多项式，$\mathit{e_{ij}}$是非负整数，且$\mathit{e_{1j}} \le \mathit{e_{2j}} \le \cdots \le \mathit{e_{rj}}(j=1,2,\cdots,t)$由此可见，我们找到了比不变因子的形式还简单的一个式子来与不变因子相互确定，然后再引出一个新的概念。~\\
+
+$\mathbf{Define}$ ：我们将上面分解式中满足$\mathit{e_{ij}}$>0的$p_{j}^{e_{ij}}(\lambda)$叫做$\mathit{A}(\lambda)$的一个\textbf{初等因子}，$\mathit{A}(\lambda)$的全体初等因子称为$\mathit{A}(\lambda)$的\textbf{初等因子组}。$\mathit{A}(\lambda)$的不变因子由其初等因子组和秩唯一确定。
+
+接下来，我们回到之前的一个问题：矩阵相似的充要条件是什么？
+
+$\mathbf{Theorem}$：对于两个$m\times n$的$\lambda$-矩阵$\mathit{A(\lambda),B(\lambda)}$,下列叙述等价
+
+1. $\mathit{A(\lambda),B(\lambda)}$相抵
+
+2.$\mathit{A(\lambda),B(\lambda)}$具有相同的法式
+
+3.$\mathit{A(\lambda),B(\lambda)}$具有相同的行列式因子
+
+4. $\mathit{A(\lambda),B(\lambda)}$具有相同的不变因子
+
+5. $\mathit{A(\lambda),B(\lambda)}$具有相同的初等因子组
+
+因此，我们就解决了目前的一个主要问题，剩下的问题交给下一节。~\\
+
+
+
+
+\section{Frobenius标准形和Jordan标准形}
+
+本节我们主要是围绕Frobenius标准形和Jordan标准形进行展开，来比较二者的特点，顺便解决一下上一章遗留下来的问题：如何较为简便地寻找极小多项式？
+
+首先我们来研究Frobenius标准形，为此，我们需要引进Frobenius块的概念。
+
+$\mathbf{Define}$ ：r阶矩阵
+$
+\begin{pmatrix}
+	0& 0 & \cdots   &0  & -a_{0} \\
+	1& 0 & \cdots  & 0 & -a_{1} \\
+	0& 1 &\cdots   & 0 &-a_{2}  \\
+	\vdots & \vdots &   &  \vdots& \vdots\\
+	0& 0 & \cdots & 1 &-a_{r-1} 
+\end{pmatrix}$
+
+的行列式因子和不变因子均为$\underset{r-1}{\underbrace{1,\cdots ,1} } $,$\mathit{f(\lambda)}$,其中
+\begin{equation*}
+	\mathit{f(\lambda)}=\lambda^{r}+a_{r-1}\lambda^{r-1}+\cdots+a_{1}\lambda+a_{0}
+\end{equation*}
+我们称之为关于$\mathit{f(\lambda)}$的Frobenius块，记作$\mathit{F(f(\lambda))}$。由于其行列式因子和不变因子的特殊性，我们可以推出这一Frobenius块所对应a的特征多项式和极小多项式全为$\mathit{f(\lambda)}$。(记住这个结论即可)
+
+根据这个形式，我们发现，这一形式的极小多项式恰好为最后一个不变因子。能不能推出更一般的结论，使得我们能够快速的找到一个矩阵的的极小多项式呢？
+
+$\mathbf{Theorem}$：设数域$\mathit{F}$上n阶矩阵$\mathit{A}$的不变因子为
+
+\begin{equation*}
+	为\underset{n-k}{\underbrace{1,\cdots ,1} }, d_{1}(\lambda ),d_{1}(\lambda ),\cdots,d_{k}(\lambda )
+\end{equation*}
+则
+\begin{equation*}
+	m_{\mathit{A}}(\lambda)=d_{k}(\lambda )
+\end{equation*}
+因此的话，我们又解决了一个问题，要求一个矩阵的极小多项式，我们只需要求出它最后一个不变因子即可，这无疑是快了不少。接着我们继续回到Frobenius标准形。
+
+$\mathbf{Define}$ ：设数域$\mathit{F}$上n阶矩阵$\mathit{A}$的不变因子为
+\begin{equation*}
+	\underset{n-k}{\underbrace{1,\cdots ,1} }, d_{1}(\lambda ),d_{2}(\lambda ),\cdots,d_{k}(\lambda )
+\end{equation*}
+其中deg$d_{i}(\lambda )\ge 1$,$d_{i}(\lambda )(i=1,2,\cdots,r)$为首一多项式，且$d_{i}(\lambda )|d_{i+1}(\lambda )(i=1,2,\cdots,k-1)$则$\mathit{A}$相似与分块对角矩阵
+\begin{equation*}
+	F=diag(\underset{n-k}{\underbrace{1,\cdots ,1} }, F(d_{1}(\lambda )),F(d_{2}(\lambda )),\cdots,F(d_{k}(\lambda )))
+\end{equation*}
+我们便称$\mathit{F}$为Frobenius标准形由于相似矩阵有着相同的法式，则$\mathit{\lambda E-F}$的法式为
+\begin{equation*}
+	diag(\underset{n-k}{\underbrace{1,\cdots ,1} }, d_{1}(\lambda ),d_{2}(\lambda ),\cdots,d_{k}(\lambda ))
+\end{equation*}
+我们发现，一个方阵的Frobenius标准形是由这个方阵的不变因子唯一确定的，对于每一个Frobenius块的排列有着严格的限制，必须要求所对应的$d_{i}(\lambda )$满足$d_{i}(\lambda )|d_{i+1}(\lambda )。$并且有的时侯我们要研究的对象是对角矩阵，这个时候再从行列式因子来得到不变因子就显得繁琐了，那有没有什么较为简便的呢？那就是接下来我们要研究的Jordan标准形。
+
+首先我们先引入一个广义Jordan块的概念。
+
+$\mathbf{Define}$：设p($\lambda$)是数域$\mathit{F}$上m次首一不可约多项式，$\mathit{F(p(\lambda))}$是关于p($\lambda$)的Frobenius块。令
+\begin{equation*}
+	C=
+	\begin{pmatrix}
+		0  & \cdots & 0 & 1 \\
+		0 & \cdots &  0&0 \\
+		\vdots&  & \vdots &\vdots \\
+		0&  \cdots&0  &0
+	\end{pmatrix}
+\end{equation*}
+并且其为$\mathit{m}$阶方阵，则$\mathit{em}$阶方阵
+\begin{equation*}
+	J=
+	\begin{pmatrix}
+		F(p(\lambda)) &  &  & \\
+		C &  F(p(\lambda))&  & \\
+		& \ddots  &\ddots   & \\
+		&  & C&F(p(\lambda))
+	\end{pmatrix}
+\end{equation*}
+的行列式因子和不变因子为$\underset{em-1}{\underbrace{1,\cdots ,1} },p^{e}(\lambda)$,初等因子为$p^{e}(\lambda)$.
+我们称$\mathit{F}$为关于$p^{e}(\lambda)$的\textbf{广义Jordan块}，记作$\mathit{J(p^{e}(\lambda))}$.
+
+$\mathbf{Define}$：设$\mathit{A}$的初等因子组为$p_{1}^{e_{1}}(\lambda),p_{2}^{e_{2}}(\lambda),\cdots,p_{k}^{e_{k}}(\lambda)$,则$\mathit{A}$相似于分块对角矩阵
+\begin{equation*}
+	J=diag(J(p_{1}^{e_{1}}(\lambda )),J(p^{e_{2}}_{2}(\lambda )),\cdots,J(p^{e_{k}}_{k}(\lambda )))
+\end{equation*}
+我们称这个对角矩阵为$\mathit{A}$的\textbf{广义Jordan标准形}(因为不保证初等因子组中每一个不可约多项式都为一次多项式)
+
+由于初等因子组并没有硬性的顺序要求，又因为$\mathit{A}$的初等因子组是唯一确定的，故可以说$\mathit{A}$的的广义Jordan标准形和初等因子组相互唯一确定。
+
+现在我们将初等因子组放在复数域上进行讨论，则其不变因子必定可以分解为多个一次多项式的次幂的乘积，我们类比原来的广义Jordan块，由于此时所有的不变因子都形如$(\lambda-\lambda_{0})^{e}$,其中$\lambda_{0}$是$\mathit{A}$的特征值则其对应的广义Jordan块为
+\begin{equation*}
+	J((\lambda-\lambda_{0})^{e})=
+\begin{pmatrix}
+	 \lambda_{0}&  &  & \\
+	1&  \lambda_{0}&  & \\
+	& \ddots  &\ddots   & \\
+	&  & 1&\lambda_{0}
+\end{pmatrix}
+\end{equation*}
+其行列式因子和不变因子为$\underset{e-1}{\underbrace{1,\cdots ,1} },(\lambda-\lambda_{0})^{e}$,初等因子为$(\lambda-\lambda_{0})^{e}$.
+
+我们称$J((\lambda-\lambda_{0})^{e})$为属于$\lambda_{0}$的e阶Jordan块，简记为$J(\lambda_{0},e)$。
+
+$\mathbf{Define}$：设$\mathit{A}$的初等因子组为$(\lambda-\lambda_{1})^{e_{1}},(\lambda-\lambda_{2})^{e_{2}},\cdots,(\lambda-\lambda_{m})^{e_{m}}$则$\mathit{A}$相似于分块对角矩阵
+\begin{equation*}
+	J=diag(J(\lambda_{1},e_{1})),\cdots,J(\lambda_{m},e_{m}))
+\end{equation*}
+我们称J为$\mathit{A}$的Jordan标准形。由于初等因子组并没有硬性的顺序要求，又因为$\mathit{A}$的初等因子组是唯一确定的，故可以说$\mathit{A}$的的Jordan标准形和初等因子组相互唯一确定。关于Jordan标准形，还有一些好玩的推论。
+
+$\mathbf{Infer}$：$\mathit{A}$是复数域上的方阵下列命题等价：
+
+1. $\mathit{A}$可对角化
+
+2. $\mathit{A}$的初等因子全是一次的(一次的初等因子对应的Jordan块是一个数，则所有的初等因子所对应的Jordan标准形为对角阵)
+
+3. $m_{A}(\lambda)$无重根(极小多项式对应的是最后一个不变因子，若无重根代表前面的不变因子也无重根))
+
+这个推论能够帮我们快速的判断一些特定矩阵是否可对角化
+
+如$A^{2}-E=0$就可轻松地判断出其可对角化，因为其对应的特征多项式为$(\lambda-1)(\lambda+1)=0$,很容易的判断出这是极小多项式，又没有重根，就可对角化。
+
+$\mathbf{Infer}$：$\mathit{A}$是复数域上的方阵下列命题等价：
+
+1. $\mathit{A}$相似于$cE_{n}$
+
+2. $\mathit{A}$的初等因子全是一次且相同(一次的初等因子对应的Jordan块是一个数，则所有的初等因子所对应的Jordan标准形为对角阵，且对角元素相同)
+
+3. $m_{A}(\lambda)$为一次多项式(极小多项式具有多项式所有的根，若极小多项式为一次，在不考虑重数的情况下，代表多项式仅有一个根，则其不变因子次数全为一次，且又前者整除后者，则$\mathit{A}$的极小多项式全为一次且相等)
+\end{document}

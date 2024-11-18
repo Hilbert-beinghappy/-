@@ -1,0 +1,4824 @@
+\documentclass[lang=cn,10pt]{elegantbook}
+\usepackage{graphicx}
+\usepackage{float}
+
+\title{高代}
+
+
+
+\author{ Huang}
+\date{\today}
+
+
+\extrainfo{这可能是你见过最全的一个高代资料}
+
+\setcounter{tocdepth}{3}
+
+
+\cover{cover.jpg}
+
+% 本文档命令
+\usepackage{array}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+
+% 修改标题页的橙色带
+% \definecolor{customcolor}{RGB}{32,178,170}
+% \colorlet{coverlinecolor}{customcolor}
+
+\begin{document}
+
+\maketitle
+\frontmatter
+
+\tableofcontents
+
+\mainmatter
+
+
+\chapter{线性映射}
+\section{导学}
+线性映射是从一个线性空间再到另一个线性空间的保持加法和数量乘法的映射，这一章我们主要围绕线性映射的运算，核与像以及线性映射和线性变换的矩阵表示展开，这个就是我们研究线性映射的主线。
+\section{前置知识}
+首先，我们来了解一下映射的概念
+\begin{definition}
+	设$S,T$为非空集合，映射$\varphi$:$S\rightarrow T$是指一个对应法则，$\forall\alpha\in S,\exists$唯一的$\beta\in$ T与之对应，记为$\varphi(\alpha)=\beta\text{或}\varphi:\alpha\mapsto\beta$。称$\beta$为$\alpha$在$\varphi$下的\textbf{像}，$\alpha$称为$\beta$在$\varphi$下的\textbf{原像}。
+\end{definition}
+	在这样的对应法则下，我们就会遇到很多种对应情况，其中有两种比较特殊的情况。
+	\begin{definition}[单射]
+		设$\varphi:S\rightarrow T$。若$\forall\alpha_1,\alpha_2\in S$且$\alpha_1\neq\alpha_2$，有$\varphi(\alpha_1)\neq\varphi(\alpha_2)$，则称$\varphi$是单映射，简称\textbf{单射}。等价说法是，对$\forall\alpha_1,\alpha_2\in S$，若$\varphi(\alpha_1)=\varphi(\alpha_2)$，必有$\alpha_1=\alpha_2$
+	\end{definition}
+
+	当然，若一个线性映射的像中0元素的原项只有0元素，那么我们也可以推出这个映射是单射(这是我们后面的知识)
+	\begin{definition}[满射]
+		设$\varphi:S\rightarrow T$。若$\forall\beta\in T,\exists\alpha\in S$，使得 $\varphi(\alpha)=\beta$，则称$\varphi$是满映射，简称\textbf{满射}。等价说法是，$Im{\varphi}=T$
+	\end{definition}
+	 如果一个映射即使单射，又是满射，那么我们称之为\textbf{双射}。
+	 
+	接着我们定义恒等映射
+	\begin{definition}[恒等映射]
+			$id_S:S\rightarrow S,a\mapsto a$是双射，称为S上的\textbf{恒等映射}
+	\end{definition}
+
+	接下来我们来定义映射的合成
+	\begin{definition}[映射合成]
+		映射$\varphi:S\rightarrow T$与$\psi:T\rightarrow U$的合成定义为
+		\begin{equation*}
+			\psi\varphi:S\rightarrow U,\alpha\mapsto\psi(\varphi(\alpha))
+		\end{equation*}
+		注:$\psi\varphi$不可写成$\varphi\psi$。
+		
+		注:设$\varphi:S\rightarrow T$，$\psi:T\rightarrow U$$，\rho:U\rightarrow V$，则有
+		
+		（1）$(\rho\psi)\varphi=\rho(\psi\varphi)$；
+		
+		（2）$\varphi=id_T\varphi=\varphi id_S$
+	\end{definition}
+	然后我们继续定义逆映射(知识点太多了，没办法)
+	\begin{definition}[逆映射]
+		设$\varphi:S\rightarrow T$。若存在$\psi:T\rightarrow S$，s.t. $\psi\varphi=id_S，\varphi\psi=id_T$，则称$\varphi$是\textbf{可逆映射}，并称$\psi$是$\varphi$的\textbf{逆映射}
+	\end{definition}
+	
+	如果一个映射是可逆映射的话，按照它的定义，则其像和原像必须是一一对应的，即必须是单射，然后我们要求这个映射的像都要能找到原像，即必须是满射，故其必须是双射，由此我们得到以下定理
+	
+	\begin{theorem}{定理}
+		$\varphi:S\rightarrow T$可逆的充要条件是$\varphi$是双射
+	\end{theorem}
+	
+	注：可逆映射的逆映射是唯一的。可逆映射$\varphi$的逆映射记为$\varphi^{-1}。$
+	
+	注：$若\varphi:S\rightarrow T$和$\psi:T\rightarrow U$均可逆，则$\psi\varphi$也可逆，且$(\psi\varphi)^{-1}=\varphi^{-1}\psi^{-1}$。
+	
+	然后我们还要注意一个结论
+	\begin{conclusion}
+		设$\varphi:S\rightarrow T$和$\psi:T\rightarrow U$，则有
+		
+		（1）若$\psi\varphi$单，则$\varphi$单；
+		（2）若$\psi\varphi$满，则$\psi$满；
+		（3）若$\psi\varphi$双，则$\varphi$单且$\psi$满
+	\end{conclusion}
+	如何理解这一段话，我们可以想象一下输入信号，有一个输入器，一个中转站，一个显示屏，满射代表显示屏所有的元素都亮了，单射代表着我们输入一个数，显示屏上都唯一对应一个数，我们要想显示屏上元素全亮，无论我们输入什么，其都只是传输到中转站上，最后的结果还是要看中转站和显示屏的关系，此时必须要中转站的输出结果为显示屏上所有元素。类似的，我们要想按一个数，对应一个结果，就必须要保证输入器与中转站的元素是一一对应的，这样就能保证我们输出的结果是唯一的。
+	
+	~\\
+	
+	下面一道例题，特别的重要，当成结论记下来，对做题很有用
+	
+	\begin{example}
+		设$A\in F^{m\times n}，\varphi_A:F^n\rightarrow F^m,X\mapsto AX$。证明：
+		
+		（1）$r(A)=n\Leftrightarrow\varphi_A$单；（2）$r(A)=m\Leftrightarrow\varphi_A$满
+	\end{example}
+	解：
+	\begin{equation*}
+		\begin{split}
+			\left( 1 \right) \text{要证明单射，只要证明零元素原像为只为}0
+			\\
+			\text{即}AX=0\text{只有零解}
+			\\
+			\text{又}r\left( A \right) =n,\text{故}AX=0\text{只有零解}
+			\\
+			\text{故单射的充要条件为}r\left( A \right) =n
+			\\
+			\left( 2 \right) \varphi _A\left( F^n \right) =\left\{ AX|X\in F^n \right\} =<A_1,A_2,\cdots ,A_n>
+			\\
+			\text{其中}A_1,A_2,\cdots ,A_n\text{为}A\text{的列向量，若为满射，则}
+			\\
+			dim\varphi _A\left( F^n \right) =m=dim\left( A_1,A_2,\cdots ,A_n \right) =r\left( A \right) 
+			\\
+			\text{则}\varphi _A\text{为满射的充要条件是}r\left( A \right) =m
+		\end{split}
+	\end{equation*}
+	~\\
+	到此，我们就结束了映射的基础定义。现在，我们就开始我们对与线性映射研究的主线，首先我们来了解一下何为线性映射
+	\begin{definition}[线性映射]
+		设$V,U$是$F$上线空，映射$\varphi:V\rightarrow U$若满足：
+		
+		（1）$\forall\alpha,\beta\in V$有$\varphi(\alpha+\beta)=\varphi(\alpha)+\varphi(\beta)$；
+		
+		（2）$\forall\alpha\in V,k\in F$有$\varphi(k\alpha)=k\varphi(\alpha)$，则称$\varphi$是从$V$到$U$的线性映射
+	\end{definition}
+	注：设$V,U$是$F$上线空，从$V$到$U$的线性映射全体构成的集合记为$L(V,U)$。$L(V,V)$中的元素称为$V$上的线性变换。$L(V,V)$也记为$L(V)$。
+	
+	注：设$V,U$是$F$上线空，$\varphi:V\rightarrow U$，则$\varphi\in L(V,U)\Leftrightarrow$对$\forall\alpha_1,\alpha_2\in V,k_1,k_2\in F$，有$\varphi(k_1\alpha_1+k_2\alpha_2)=k_1\varphi(\alpha_1)+k_2\varphi(\alpha_2)$。
+	
+	注：设$V,U$是$F$上线空$，\varphi\in L(V,U)$，则：
+	
+	（1）$\varphi(0)=0$。
+	
+	（2）$\alpha\in V$，有$\varphi(-\alpha)=-\varphi(\alpha)$。
+	
+	注：线性映射保持零向量，保持负向量。
+	
+	~\\
+	
+	下面这个结论十分的重要，是我们后续对线性映射进行研究的关键
+	
+	\begin{conclusion}
+		设$V,U$是$F$上线空，$\varphi\in L(V,U)，\alpha,\alpha_1,\alpha_2,\cdots,\alpha_s\in V$。
+		
+		（1）若$\alpha$可由$\alpha_1,\alpha_2,\cdots,\alpha_s$表出，则$\varphi(\alpha)$可由$\varphi(\alpha_1),\varphi(\alpha_2),\cdots,\varphi(\alpha_s)$表出；\textbf{(线性映射保持线性表示)}。
+		
+		（2）若$\alpha_1,\alpha_2,\cdots,\alpha_s$相关，则$\varphi(\alpha_1),\varphi(\alpha_2),\cdots,\varphi(\alpha_s)$相关。
+		(\textbf{线性映射将线性相关的向量映成线性相关的向量})。
+	\end{conclusion}
+	接着我们来定义线性映射的加法和乘法
+	\begin{definition}[加法]
+		设$V,U$是$F$上线空，$\varphi,\psi\in L(V,U)$，如下定义从V到U的映射
+		\begin{equation*}
+			\varphi+\psi：
+			(\varphi+\psi)(\alpha)=\varphi(\alpha)+\psi(\alpha),\forall\alpha\in V
+		\end{equation*}
+		则$\varphi+\psi\in L(V,U)$，称为$\varphi$与$\psi$的和。	
+	\end{definition}
+	\begin{definition}[数乘]
+		设$V,U$是$F$上线空，$\varphi\in L(V,U),k\in F$，如下定义从$V$到$U$的映射$k\varphi$：
+		\begin{equation*}
+			(k\varphi)(\alpha)=k\varphi(\alpha),\forall\alpha\in V
+		\end{equation*}
+		则$k\varphi\in L(V,U)$，称为$k$与$\varphi$的数乘。
+	\end{definition}
+	设$V,U$是$F$上线空，按如上定义的加法和数乘，$L(V,U)$构成$F$上的线空。
+	
+	接下来我们所要讲的，是研究线性映射比较重要的一个部分，它能帮助我们较为方便地研究一个线性映射。首先，我们需要一个前置结论
+	
+	\begin{conclusion}
+		设$V,U$是$F$上线空，$\alpha_1,\alpha_2,\cdots,\alpha_n$是$V$的基。
+		
+		（1）设$\varphi,\psi\in L(V,U)$且$\varphi(\alpha_i)=\psi(\alpha_i)(i=1,2,\cdots,n)$，则$\varphi=\psi$。
+		(\textbf{线性映射由它在一组基上的作用确定})。
+		
+		（2）对$\forall\beta_1,\beta_2,\cdots,\beta_n\in U，\exists1\varphi\in L(V,U)$， s.t. $\varphi(\alpha_i)=\beta_i(i=1,2,\cdots,n)$	
+	\end{conclusion}
+	
+	有了这个，我们就来到一个比较重要的部分，线性映射的矩阵表示
+	\begin{definition}[线性映射矩阵表示]
+		设$V,U$是$F$上$n,m$维线空，$\alpha_1,\alpha_2,\cdots,\alpha_n$是$V$的基，$\beta_1,\beta_2,\cdots,\beta_m$是$U$的基，$\varphi\in L(V,U)$
+		且有
+		$\left
+		\{\begin{matrix}\varphi(\alpha_1)=a_{11}\beta_1+a_{12}\beta_2+\cdots+a_{1m}\beta_m,\\\varphi(\alpha_2)=a_{21}\beta_1+a_{22}\beta_2+\cdots+a_{2m}\beta_m,\\\cdots\cdots\cdots\cdots\cdots\cdots\\\varphi(\alpha_n)=a_{n1}\beta_1+a_{n2}\beta_2+\cdots+a_{nm}\beta_m,\\\end{matrix}\right.$。
+		
+		令$A=
+		\left(\begin{matrix}a_{11}&a_{21}&\cdots&a_{n1}\\a_{12}&a_{22}&\cdots&a_{n2}\\\vdots&\vdots&&\vdots\\a_{1m}&a_{2m}&\cdots&a_{nm}\\
+		\end{matrix}
+		\right)$，则$A$\textbf{唯一确定}。将上述等式形式上记为
+	$	\varphi(\alpha_1,\alpha_2,\cdots,\alpha_n)=(\beta_1,\beta_2,\cdots,\beta_m)A$，称$A$为$\varphi$在基$\alpha_1,\alpha_2,\cdots,\alpha_n$与基$\beta_1,\beta_2,\cdots,\beta_m$下的矩阵
+	\end{definition}
+	注：$\varphi(\alpha_i)$在基$\beta_1,\beta_2,\cdots,\beta_m$下的坐标是$A$的第$i$列$(i=1,2,\cdots,n)$。
+	
+	注：设$V,U$是$F$上$n,m$维线空，$\alpha_1,\alpha_2,\cdots,\alpha_n$是$V$的基，$\beta_1,\beta_2,\cdots,\beta_m$是U的基，$\alpha\in V，\varphi\in L(V,U)$且$\varphi$在$\alpha_1,\alpha_2,\cdots,\alpha_n与\beta_1,\beta_2,\cdots,\beta_m$下矩阵为$A$。若$\alpha$在$\alpha_1,\alpha_2,\cdots,\alpha_n$下坐标为$X$，则$\varphi(\alpha)$在$\beta_1,\beta_2,\cdots,\beta_m$下坐标为$AX$。
+	
+	这个定理说明了，在确定一组基之后，一个线性映射\textbf{可以用用一个矩阵来表示且表示法唯一}，这个结论就给我们提供了一个思路：线性映射就是在玩矩阵
+	
+	~\\
+	我们知道，基和基之间是存在着过渡矩阵的，由上面的知识，我们知道，同一个线性映射在不同基下的矩阵是不同的，那么这几个不同的矩阵之间又有什么关系呢？接着就有以下定理
+	
+	\begin{theorem}
+		设$V,U$是$F$上$n,m$维线空，$\alpha_1,\alpha_2,\cdots,\alpha_n$和${\alpha_1}^\prime,{\alpha_2}^\prime,\cdots,{\alpha_n}^\prime$是V的两个基且$({\alpha_1}^\prime,{\alpha_2}^\prime,\cdots,{\alpha_n}^\prime)=(\alpha_1,\alpha_2,\cdots,\alpha_n)P,$
+		
+		$\beta_1,\beta_2,\cdots,\beta_m$和${\beta_1}^\prime,{\beta_2}^\prime,\cdots,{\beta_m}^\prime$是$U$的两个基且
+		
+		$({\beta_1}^\prime,{\beta_2}^\prime,\cdots,{\beta_m}^\prime)=(\beta_1,\beta_2,\cdots,\beta_m)Q$
+		
+		$\varphi\in L(V,U)$且
+		\begin{equation*}
+			\begin{split}
+				\varphi(\alpha_1,\alpha_2,\cdots,\alpha_n)=(\beta_1,\beta_2,\cdots,\beta_m)A
+				\\
+				\varphi({\alpha_1}^\prime,{\alpha_2}^\prime,\cdots,{\alpha_n}^\prime)=({\beta_1}^\prime,{\beta_2}^\prime,\cdots,{\beta_m}^\prime)B				
+			\end{split}
+		\end{equation*}
+		则$B=Q^{-1}AP$，即$A$相抵于$B$。反之，若$A$相抵于$B$，则$A,B$可看成同一个线性映射在两组不同基下的矩阵。
+	\end{theorem}
+	
+	这下好了，在选定一组基下，线性映射与矩阵一一对应，在不同基下的矩阵是相抵的。矩阵这一个玩意，无疑就成了我们研究线性映射的神兵利器。
+	
+	上文中，我们提到了，线性映射和矩阵是一个一一对应的关系，那么这一种关系是什么关系呢？这就要来到我们接下来要讨论的一种关系——同构，首先来到它的定义
+	
+	\begin{definition}[同构映射]
+		设$V,U$是$F$上线空，$\varphi\in L(V,U)$，若$\varphi$是双射，则称$\varphi$是一个（线性）\textbf{同构映射}，并称$V$和$U$是同构的线空，记为$\varphi:V\cong U$
+	\end{definition}
+	所以，我们就能得到下面的定理
+	\begin{theorem}
+		数域$F$上的n(n>0)维线空同构于$F^n$
+	\end{theorem}
+	
+	这个定理表明，我们可以通过研究
+	$F^n$来研究任何与其同构的线性空间，这属实方便了不少。那么，问题来了，该怎么样判断同构呢？下面的一个定理给了我们启发
+	
+	\begin{theorem}
+		$F$上两个有限维线空同构的充要条件是它们维数相同
+	\end{theorem}
+	
+	这无疑就是给了我们判断同构的方法——只要维数相同，就同构。
+	
+	让我们回到一开始的问题，线性映射和矩阵是一种什么关系呢？我们有以下定理
+	\begin{theorem}
+		设$V,U$是$F$上的$n,m$维线空，则$L(V,U)\cong F^{m\times n}$
+	\end{theorem}
+	
+	这个定理告诉我们，线性映射实际上是和矩阵是一个同构关系，研究了矩阵的性质，就是研究了这个线性映射的性质。于是乎，凭借着这一同构的关系，我们能求出一些平时求不出来的线性映射的维数
+	
+	\begin{conclusion}
+		设$V,U$是F上的$n,m$维线空，则$dim{L}(V,U)=mn$
+		
+		设$V$是$F$上的$n$维线空，则$dim{L}(V)=n^2$
+	\end{conclusion}
+	
+	接下来我们要讨论的，是线性映射中比较重要的两个子空间，也就是我们的另一条主线，线性空间的像与核，其中衍生出了大量的结论，希望大家要掌握，我们首先来到定义
+	
+	\begin{definition}[像与核]
+		设$V,U$是$F$上线空，$\varphi\in L(V,U)$，则$Im{\varphi}=\varphi(V)$是$U$的子空间，称为$\varphi$的\textbf{像}，并将$dimIm{\varphi}$称为$\varphi$的\textbf{秩}；$Ker\varphi=\varphi^{-1}(0)$是$V$的子空间，称为$\varphi$的\textbf{核}，并将$dimKer\varphi$称为$\varphi$的\textbf{零度}
+	\end{definition}
+	
+	接着，我们就有以下定理
+	\begin{theorem}
+		设$V,U$是$F$上的$n,m$维线空，$\alpha_1,\alpha_2,\cdots,\alpha_n$；$\beta_1,\beta_2,\cdots,\beta_m$分别是$V,U$的基，$\varphi\in L(V,U)$且$\varphi(\alpha_1,\alpha_2,\cdots,\alpha_n)=(\beta_1,\beta_2,\cdots,\beta_m)A$，
+		
+		$\sigma_1:V\rightarrow F^n,\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_n)\left(\begin{matrix}a_1\\\vdots\\a_n\\\end{matrix}\right)\mapsto\sigma_1(\alpha)=\left(\begin{matrix}a_1\\\vdots\\a_n\\\end{matrix}\right)$，
+		
+		$\sigma_2:U\rightarrow F^m,\beta=(\beta_1,\beta_2,\cdots,\beta_m)\left(\begin{matrix}b_1\\\vdots\\b_m\\\end{matrix}\right)\mapsto\sigma_2(\beta)=\left(\begin{matrix}b_1\\\vdots\\b_m\\\end{matrix}\right)$，
+		
+		$\varphi_A:F^n\rightarrow F^m,\left(\begin{matrix}a_1\\\vdots\\a_n\\\end{matrix}\right)\mapsto A\left(\begin{matrix}a_1\\\vdots\\a_n\\\end{matrix}\right)$，则：
+		
+		（1）$\sigma_2\varphi=\varphi_A\sigma_1$；
+		
+		（2）$\sigma_2(Im{\varphi})=Im{\varphi_A},\sigma_1(Ker\varphi)=Ker\varphi_A$；
+		
+		（3）$dimIm{\varphi}=r(A),dimKer\varphi=n-r(A)$	
+	\end{theorem}
+	由此，我们就能得到重要的维数公式
+	\begin{conclusion}
+		设$V,U$是$F$上的$n,m$维线空，$\varphi\in L(V,U)$，
+		
+		则$dimIm{\varphi}+dimKer\varphi=n$
+		
+		设$V$是$F$上的$n$维线空，$\varphi\in L(V)$，
+		
+		则$dimIm{\varphi}+dimKer\varphi=n$
+	\end{conclusion}
+	同时，我们还能得到以下重要结论
+	\begin{conclusion}
+		设$V,U$是$F$上的$n,m$维线空，$\varphi\in L(V,U)$，则：
+		
+		（1）$\varphi$是单射$\Leftrightarrow Ker\varphi=0\Leftrightarrow r(A)=n$；
+		
+		（2）$\varphi$是满射$\Leftrightarrow I m{\varphi}=U\Leftrightarrow r(A)=m$。
+	\end{conclusion}
+	
+	以上的内容，大致就为线性映射的主体框架，现在，我们来研究其中较为特殊的线性映射——线性变换。为了更好的研究，我们需要引入代数的概念，这个在我们近世代数会更为系统的学习。
+	
+	\begin{definition}[代数]
+		$
+		\text{设}V\text{是}F\text{上线空。如果在}V\text{上定义乘法}“\circ ”\text{，满足：}
+		\\
+		\left( 1 \right) (\alpha \circ \beta )\circ \gamma =\alpha \circ (\beta \circ \gamma ),\forall \alpha ,\beta ,\gamma \in V\text{；}
+		\\
+		\left( 2 \right) \alpha \circ (\beta +\gamma )=\alpha \circ \beta +\alpha \circ \gamma ,(\alpha +\beta )\circ \gamma =\alpha \circ \gamma +\beta \circ \gamma ,\forall \alpha ,\beta ,\gamma \in V\text{；}
+		\\
+		\left( 3 \right) k(\alpha \circ \beta )=(k\alpha )\circ \beta =\alpha \circ (k\beta ),\forall \alpha ,\beta \in V,k\in F\text{，}
+		\\
+		\text{则称}V\text{是}F\text{上的代数。若还满足：}
+		\\
+		\text{（}4\text{）}\exists e\in Vs.t.\text{对}\forall \alpha \in V\text{，有}e\circ \alpha =\alpha =\alpha \circ e\text{，}
+		\\
+		\text{则称}V\text{是}F\text{上带单位元}e\text{的代数。}
+		\\
+		\text{若满足（}1\text{）}-\text{（}3\text{），还满足：}
+		\\
+		\text{（}5\text{）}\alpha \circ \beta =\beta \circ \alpha ,\forall \alpha ,\beta \in V\text{，则称}V\text{是}F-\text{交换代数。}
+		\\
+		\text{不满足（}5\text{）的代数称为非交换代数。}
+		$
+	\end{definition}
+	
+	注：
+	
+	带单位元的代数，单位元\textbf{唯一}。
+	
+	然后我们要引入代数同构的概念
+	
+	\begin{definition}[代数同构]
+		$
+		\text{设}V,U\text{是}F\text{上的两个代数。若存在线性空间同构映射}\varphi :V\rightarrow U\text{满足：}
+		\\
+		\varphi (\alpha \circ \beta )=\varphi (\alpha )\circ \varphi (\beta ),\forall \alpha ,\beta \in V\text{，}
+		\\
+		\text{则称}\varphi \text{是}F\text{上代数同构（映射），称}V\text{与}U\text{\textbf{代数同构}。}
+		$
+	\end{definition}
+	
+	在定义完一个东西之后，我们最想了解其的运算法则，在这里的话我们研究的是乘法。
+	
+	\begin{definition}[乘法]
+		设$V$是$F$上线空$，\varphi,\psi\in L(V)$，$n\in N^+$，,定义$\varphi$与$\psi$的乘积为$\varphi$与$\psi$的合成，
+		\\
+		即：$\psi\varphi:V\rightarrow V,\alpha\mapsto\psi(\varphi(\alpha))$
+		
+		定义$\varphi^n$为$n$个$\varphi$的乘积。
+		
+		定义$\varphi^0$=$id_V$	
+	\end{definition}
+	注：
+	
+	设$V$是$F$上线空，$\varphi\in L(V)$$，n,m\in N$，则：
+	
+	（1）$\varphi^n\varphi^m=\varphi^{n+m}$；
+	
+	（2）$(\varphi^n)^m=\varphi^{nm}$
+	
+	然后我们就有以下定理
+	
+	\begin{theorem}
+		设$V$是$F$上$n$维线空，$\alpha_1,\alpha_2,\cdots,\alpha_n$是$V$的基，如下定义从$L(V)$到$F^{n\times n}$的映射$T：$设$\varphi\in L(V)$且$\varphi(\alpha_1,\alpha_2,\cdots,\alpha_n)=(\alpha_1,\alpha_2,\cdots,\alpha_n)A$，定义$T(\varphi)=A$，则$T$是代数同构
+	\end{theorem}
+	
+	我们继续回到主线，既然线性变换是一种特殊的线性映射，那么它有什么特殊的性质呢？
+	
+	\begin{conclusion}
+		设$V$是$F$上$n$维线空，$\varphi\in L(V)$，则下列条件等价：
+		
+		（1）$\varphi$可逆；
+		
+		（2）$\varphi$是同构映射；
+		
+		（3）$\varphi$单；
+		
+		（4）$\varphi$满；
+		
+		（5）$\varphi$在任意基下的矩阵是可逆阵
+	\end{conclusion}
+	
+	所以说，在线性变换下，单射就是满射，这是别的线性映射没有的性质。这个在证明题的时候很好用。
+	
+	此外，我们想起，线性变换在确定一组基的情况下，是与矩阵同构的。同一个线性变换，在不同基下的的矩阵是不同的，那么这些矩阵之间又有什么关系呢？
+	
+	我们有以下定理
+	\begin{theorem}
+		设$V$是$F$上$n$维线空，$\alpha_1,\alpha_2,\cdots,\alpha_n$和$\beta_1,\beta_2,\cdots,\beta_n$是$V$的两个基且$(\beta_1,\beta_2,\cdots,\beta_n)=(\alpha_1,\alpha_2,\cdots,\alpha_n)P,\varphi\in L(V)$
+		
+		且
+		$\varphi(\alpha_1,\alpha_2,\cdots,\alpha_n)=(\alpha_1,\alpha_2,\cdots,\alpha_n)A,\varphi(\beta_1,\beta_2,\cdots,\beta_n)=(\beta_1,\beta_2,\cdots,\beta_n)B,$
+		
+		则$B=P^{-1}AP$。
+	\end{theorem}
+	我们发现，同一个线性变换下，不同基的矩阵满足上述关系，我们称满足上述关系的矩阵是\textbf{相似}的，于是我们就有下述定义
+	\begin{definition}[相似]
+		设$A,B\in F^{n\times n}$。若存在可逆矩阵$P$使得$B=P^{-1}AP$，则称$A$\textbf{相似}于$B$。
+	\end{definition}
+	有了这个，我们立马能得到一个结论：
+	
+	同一个线性变换在不同基下的矩阵是\textbf{相似的}
+	
+	那么相似矩阵之间，又有什么关系呢？
+	
+	\begin{conclusion}
+		设$A,B\in F^{n\times n}$。若$A$\textbf{相似}于$B$，则有以下结论
+		
+		1.$A,B$有相同的秩
+		
+		2.$A,B$有相同的行列式
+		
+		3.$A,B$有相同的迹
+	\end{conclusion}
+	注：
+	
+	与$kE$相似的矩阵只能是$kE$
+	
+	注：
+	
+	$B=P^{-1}AP  B^n=P^{-1}A^nP$。
+	
+	注:
+	
+	$B=P^{-1}AP\Rightarrow f(B)=P^{-1}f(A)P,f(x)\in F[x]$。
+	
+	注：
+	
+	$A$相似于$B\Rightarrow f(A)$相似于$f(B)$，$f(x)\in F[x]$
+	
+	就此，我们本章的主线也到此结束，我们最后来研究一下在这个主线背景下的一条支线任务——不变子空间，我们先来到它的定义
+	
+	\begin{definition}[不变子空间]
+		设$V$是$F$上线空，$U$是$V$的子空间，$\varphi\in L(V)$。若$\varphi(U)\subset U$，则称$U$是$\varphi-$不变子空间或$\varphi-$子空间。将$\varphi$限制在U上，导出U的线性变换，称为由$\varphi$导出变换（或称为$\varphi$在$U$上的限制变换），记为$\varphi|_U$。
+	\end{definition}
+	注：
+	
+	$\varphi$与$\varphi|_U$的相同点是在$U$上的对应法则一样；
+	
+	不同点是$\varphi\in L(V)$，而$\varphi|_U\in L(U)$。
+	
+	注：
+	
+	定义中$U$是子空间这个条件\textbf{不可少}，否则无法导出$U$上的线性变换$\varphi|_U$。
+	
+	按这个定义出发，显然有
+	
+	设$\varphi$是线空$V$的线性变换，则$Ker\varphi,Im{\varphi}$是$\varphi-$子空间。
+	
+	我们还能得到一个结论
+	\begin{conclusion}
+		设$V$是$F$上$n$维线空$，\varphi\in L(V)$，$U$是$V$的$\varphi-$子空间。设$\alpha_1,\alpha_2,\cdots,\alpha_r$是$U$的一个基，将其扩充为$V$的一个基$\alpha_1,\alpha_2,\cdots,\alpha_r,\alpha_{r+1},\cdots,\alpha_n$，则$\varphi$在此基下的矩阵为$\left(\begin{matrix}a_{11}&\cdots&a_{1r}&a_{1,r+1}&\cdots&a_{1n}\\\cdots&\cdots&\cdots&\cdots&\cdots&\cdots\\a_{r1}&\cdots&a_{rr}&a_{r,r+1}&\cdots&a_{rn}\\0&\cdots&0&a_{r+1,r+1}&\cdots&a_{r+1,n}\\\cdots&\cdots&\cdots&\cdots&\cdots&\cdots\\0&\cdots&0&a_{n,r+1}&\cdots&a_{n,n}\\\end{matrix}\right)$。
+		
+		反之，若$\varphi$在基$\alpha_1,\alpha_2,\cdots,\alpha_r,\alpha_{r+1},\cdots,\alpha_n$下的矩阵为上述形式矩阵，则$<\alpha_1,\alpha_2,\cdots,\alpha_r>$是一个$\varphi-$子空间
+	\end{conclusion}
+	
+	到此为止，线性映射的大体知识框架便搭设完成，如果需要更为细致地填充，大概还需看老师的讲义中的思考题。接下来我们就来到题型部分的总结。
+	
+\section{线性变换中的重点题型}
+\subsection{利用矩阵进行证明}
+在这一个部分，常常是遇到了一些用线性变换知识无法解决或很难解决的问题，我们通常考虑利用在确立一组基后，一个线性变换同构于一个矩阵来进行解题，此外在这里，你还会看到大量的计算题。
+
+\begin{example}
+	设$V,U$是$F$上$n,m$维线空，$\varphi\in L(V,U)$，证：存在$V$的一个基$\xi_1,\xi_2,\cdots,\xi_n$和$U$的一个基$\eta_1,\eta_2,\cdots,\eta_m$，使得
+	$\varphi(\xi_1,\xi_2,\cdots,\xi_n)=(\eta_1,\eta_2,\cdots,\eta_m)\left(\begin{matrix}E_r&0\\0&0\\\end{matrix}\right)$。
+\end{example}
+\begin{solution}
+	
+	不妨设$\varphi(\xi'_1,\xi'_2,\cdots,\xi'_n)=(\beta _1,\beta _2,\cdots ,\beta _m)B_{m\times n}$,我们再观察结论的形式，我们得想办法向这个结论靠拢。
+	
+	遇事不决，相抵标准形,不妨设$rank(B)=r$即存在$m$阶可逆阵$P$,$n$阶可逆阵$Q$，使得
+	\begin{equation*}
+		PB_{m\times n}Q=\left(\begin{matrix}E_r&0\\0&0\\\end{matrix}\right)
+	\end{equation*}
+	于是我们里结论越来越近了,不妨假设
+	\begin{equation*}
+		(\xi_1,\xi_2,\cdots,\xi_n)X=(\xi'_1,\xi'_2,\cdots,\xi'_n),(\eta_1,\eta_2,\cdots,\eta_m)Y=(\beta _1,\beta _2,\cdots ,\beta _m)
+	\end{equation*}
+	代入，可得
+	\begin{equation*}
+		YB_{m\times n}X=\left(\begin{matrix}E_r&0\\0&0\\\end{matrix}\right)
+	\end{equation*}
+	比较系数，可得
+	\begin{equation*}
+		Y^{-1}=P,X=Q
+	\end{equation*}
+	故存在$V$的一个基$\xi_1,\xi_2,\cdots,\xi_n$和$U$的一个基$\eta_1,\eta_2,\cdots,\eta_m$，满足
+	\begin{equation*}
+		(\xi_1,\xi_2,\cdots,\xi_n)Q=(\xi'_1,\xi'_2,\cdots,\xi'_n),(\eta_1,\eta_2,\cdots,\eta_m)P^{-1}=(\beta _1,\beta _2,\cdots ,\beta _m)
+	\end{equation*}
+\end{solution}
+使得
+\begin{equation*}
+	\varphi(\xi_1,\xi_2,\cdots,\xi_n)=(\eta_1,\eta_2,\cdots,\eta_m)\left(\begin{matrix}E_r&0\\0&0\\\end{matrix}\right)
+\end{equation*}
+\begin{example}
+	设$V,U$是$F$上的$n,m$维线空$，\varphi\in L(V,U)$，求证：$\exists\psi\in L(U,V)$，$s.t.$ $\varphi\psi\varphi=\varphi,\psi\varphi\psi=\psi$
+\end{example}
+\begin{solution}
+	
+	在确定一组基后，设$\varphi$对应的矩阵为$A_{m\times n}$,$ \psi$对应的矩阵为$B_{n\times m} $
+	
+	即证明$ABA=A,BAB=B$，
+	
+	无从下手，遇事不决，相抵标准形,存在$n$阶可逆阵$P_{1}$,$m$阶可逆阵$Q$，使得
+	\begin{equation*}
+		QA_{m\times n}P=\left(\begin{matrix}E_{r(A)}&0\\0&0\\\end{matrix}\right)
+	\end{equation*}
+	令
+	\begin{equation*}
+		P\left( \begin{matrix}
+			E_{r\left( A \right)}&		0\\
+			0&		0\\
+		\end{matrix} \right) Q
+	\end{equation*}
+	则有$ABA=A,BAB=B$
+	
+	由线性映射的同构关系，结论得证。
+\end{solution}
+\begin{example}
+	设$V,U$是$F$上的$n,m$维线空$，\varphi,\psi\in L(V,U)$，$Ker\varphi\subset Ker\psi$，证明：$\exists\sigma\in L(U,U)$，$s.t. \psi=\sigma\varphi$
+\end{example}
+\begin{solution}
+	
+	在确定一组基后，设$\varphi$对应的矩阵为$A$,$ \psi$对应的矩阵为$B$
+	
+	由题，即
+	\begin{equation*}
+		AX=0,\text{和}\left( \begin{array}{c}
+			A\\
+			B\\
+		\end{array} \right) X=0\text{同解}
+	\end{equation*}
+	
+	于是有
+	\begin{equation*}
+		rank(A)=rank\left( \begin{array}{c}
+			A\\
+			B\\
+		\end{array} \right)
+	\end{equation*}
+	于是存在$m$阶可逆阵$C$使得
+	\begin{equation*}
+		B=CA
+	\end{equation*}
+	由线性映射的同构，令
+	\begin{equation*}
+		C\cong \sigma 
+	\end{equation*}
+	故存在
+\end{solution}
+\begin{example}
+	设$V$是3维线空，$\varphi\in L(V)$且$\varphi$在基$\alpha_1,\alpha_2,\alpha_3$下的矩阵为$\left(\begin{matrix}3&1&-1\\2&2&-1\\2&2&0\\\end{matrix}\right)$，求证：$U=<\alpha_3,\alpha_1+\alpha_2+2\alpha_3>$是$\varphi-$子空间
+\end{example}
+\begin{solution}
+	
+	因为
+	
+	$\varphi \left( \alpha _3 \right) =-\boldsymbol{\alpha }_1-\alpha _2=2\alpha _3-\left( \alpha _1+\alpha _2+2\alpha _3 \right) \in U
+	\\
+	\varphi \left( \alpha _1+\alpha _2+2\alpha _3 \right) =\left( 3\alpha _1+2\alpha _2+2\alpha _3 \right) +\left( \alpha _1+2\alpha _2+2\alpha _3 \right) -2\left( \alpha _1+\alpha _2 \right) =2\left( \alpha _1+\alpha _2+2\alpha _3 \right) \in U$
+	
+	所以$\varphi(U)\subseteq U $,即$U$是$\varphi-$子空间
+	
+\end{solution}
+\begin{example}
+	设$V,U$是$F$上的5,4维线空$\alpha_1,\cdots,\alpha_5;\beta_1,\cdots,\beta_4$分别是$V,U$的基，$\varphi\in L(V,U)$且$\varphi(\alpha_1,\cdots,\alpha_5)=(\beta_1,\cdots,\beta_4)$$\left(\begin{matrix}1&2&1&-3&2\\2&1&1&1&-3\\1&1&2&2&-2\\2&3&-5&-17&10\\\end{matrix}\right)$，求$Im{\varphi},Ker\varphi$
+\end{example}
+\begin{solution}
+	
+	令
+	\begin{equation*}
+		A=\left(\begin{matrix}1&2&1&-3&2\\2&1&1&1&-3\\1&1&2&2&-2\\2&3&-5&-17&10\\\end{matrix}\right)
+	\end{equation*}
+	对矩阵作行初等变换，有
+	\begin{equation*}
+			B=\left( \begin{matrix}
+			1&		0&		0&		1&		-\frac{9}{4}\\
+			0&		1&		0&		-3&		\frac{11}{4}\\
+			0&		0&		1&		2&		-\frac{5}{4}\\
+			0&		0&		0&		0&		0\\
+		\end{matrix} \right) 
+	\end{equation*}
+	我们可以知道$r(A)=3$,由于行初等变换不改变列向量的线性相关性，于是乎，$A$的前三列线性无关，于是
+	\begin{equation*}
+		\mathrm{Im}\varphi =<\beta _1+2\beta _2+\beta _3+2\beta _4,2\beta _1+\beta _2+\beta _3+3\beta _4,\beta _1+\beta _2+2\beta _3-5\beta _4>
+	\end{equation*}
+	
+	解$AX=0$，得到基础解系
+	\begin{equation*}
+		\boldsymbol{\alpha }_1=\left( \begin{array}{l}
+			-1\\
+			\,\, 3\\
+			-2\\
+			\,\, 1\\
+			\,\, 0\\
+		\end{array} \right) \text{，}\boldsymbol{\alpha }_2=\left( \begin{array}{l}
+			\,\,  9\\
+			-11\\
+			\,\, 5\\
+			\,\, 0\\
+			\,\, 4\\
+		\end{array} \right) 
+	\end{equation*}
+	所以
+	\begin{equation*}
+		Ker\varphi =<-\beta _1+3\beta _2-2\beta _3+\beta _4,9\beta _1+11\beta _2+5\beta _3+4\beta _4>
+	\end{equation*}
+\end{solution}
+\begin{example}
+	$\text{设}V\text{是}n\text{维线性空间，}U\text{是}m\text{维线性空间，}\varphi ,\psi \text{：}V\rightarrow U\text{是线性映射。求证：}
+	\\
+	ker\varphi =ker\psi \text{的充要条件是存在可逆变化}\theta \in \mathcal{L} \left( U \right) ,\text{使得}\varphi =\theta \psi $
+\end{example}
+\begin{solution}
+	
+	在确定一组基后，设$\varphi$对应的矩阵为$A$,$ \psi$对应的矩阵为$B$
+	
+	有题有，$AX=0$与$BX=0$同解$\Longleftrightarrow $
+	\begin{equation*}
+		r\left( A \right) =r\left( \begin{array}{c}
+			A\\
+			B\\
+		\end{array} \right) =r\left( B \right) 
+	\end{equation*}
+	$\Longleftrightarrow $
+	存在可逆矩阵$C$使得$A=CB$
+	
+	令
+	\begin{equation*}
+		C\cong \theta 
+	\end{equation*}
+		由线性映射的同构关系，结论得证。
+\end{solution}
+\subsection{利用基或定义进行证明}
+这种类型的题目，通常就按定义来就行了，当然，有的时候得注意一下，我们在用基进行证明的时候，常常要用到扩基定理。
+
+\begin{example}
+	设$\varphi$是$n$维线空$V$的线性变换，$U$是$V$的$\varphi-$子空间。若$\varphi$可逆，求证：
+	
+	（1）$\varphi|_U$可逆；
+	
+	（2）$U$是$\varphi^{-1}-$子空间，且$(\varphi|_U)^{-1}=\varphi^{-1}|_U$。
+\end{example}
+\begin{solution}
+	
+	(1)$\varphi$可逆，则有
+	\begin{equation*}
+		Ker\varphi=0
+	\end{equation*}
+	
+	$\forall\alpha\in U$,
+	当$ \varphi|_{U}(\alpha)=0$时，有
+	\begin{equation*}
+		\alpha=0
+	\end{equation*}
+	
+	故$\varphi|_U$可逆
+	
+	(2)$\forall \alpha \in U, \exists \beta \in U$使得
+	\begin{equation*}
+		\varphi|_U(\alpha)=\beta=\varphi(\alpha)
+	\end{equation*}
+	由$\varphi|_U,\varphi$可逆，可得
+	\begin{equation*}
+		\varphi^{-1}(\beta)=(\varphi|_U)^{-1}(\beta)=\alpha\in U
+	\end{equation*}
+	
+	于是$U$是$\varphi^{-1}-$子空间，且$(\varphi|_U)^{-1}=\varphi^{-1}|_U$
+\end{solution}
+\begin{example}
+	设$\varphi$是$n$维线空$V$的线性变换，则
+	
+	1.$Ker\varphi\subset Ker\varphi^2\subset Ker\varphi^3\subset\cdots\subset Ker\varphi^m\subset\cdots$；
+	
+	
+	2.$Im{\varphi}\supset I m{\varphi^2}\supset I m{\varphi^3}\supset\cdots\supset I m{\varphi^m}\supset\cdots$；
+	
+	3.存在$s\in N^+$，使得$Ker\varphi^s=Ker\varphi^{s+1}$；
+	
+	4.存在$t\in N^+$，使得$Im{\varphi^t}=Im{\varphi^{t+1}}$；
+	
+	5.若$Ker\varphi^s=Ker\varphi^{s+1}$，则对$i\in N$，有$Ker\varphi^s=Ker\varphi^{s+i}$；
+	
+	6.若$Im{\varphi^t}=Im{\varphi^{t+1}}$，则对$i\in N$，有$Im{\varphi^t}=Im{\varphi^{t+i}}$；
+	
+	7.$Ker\varphi^s=Ker\varphi^{s+1}\Leftrightarrow I m{\varphi^s}=Im{\varphi^{s+1}}$；
+	
+	8.若$Ker\varphi^s=Ker\varphi^{s+1}$，则$V=Ker\varphi^s\oplus I m{\varphi^s}$。
+	
+\end{example}
+
+\begin{solution}
+	
+	
+	看看就完事，我懒得写了。
+\end{solution}
+\subsection{乘积可交换的变换}
+在做题的时候，我们通常会遇到这种等式$AB=BA$我们称之为乘积可交换，那么乘积可交换到底有何性质呢？我们分别从线性映射和矩阵的角度进行讨论。这一部分难度可能会较大，因为涉及到的内容较多。
+
+我们先从线性空间的角度来看，首先以这一道例题开始
+\begin{example}
+	$\text{设}V\text{是}F\text{上线性空间，}\varphi ,\psi \in \mathcal{L} \left( V \right) \text{且}\varphi \psi =\psi \varphi ,W\text{是}V\text{的}\varphi —\text{子空间，}
+	\\
+	\text{则}\psi \left( W \right) \text{也是}V\text{的}\varphi —\text{子空间。}
+	$
+\end{example}
+从这里，我们能得到，如果乘积可交换，那么其可保持\textbf{不变子空间的传递性}。我们可以从下面一题得到我们的结论
+
+\begin{example}
+	$\text{设}V\text{是}F\text{上线性空间，}\varphi ,\psi \in \mathcal{L} \left( V \right) \text{且}\varphi \psi =\psi \varphi ,\text{求证：}
+	Ker\varphi \text{是}\psi —\text{子空间，Im}\varphi \text{是}\psi —\text{子空间}$
+\end{example}
+这道题正面验证了上一题我们所得到的结论，同时，这一题也是很重要的一个结论。我们知道，特征子空间也是线性空间中的一个很重要的不变子空间，接着一道例题是关于它的
+\begin{example}
+	$\text{设}V\text{是}F\text{上线性空间，}\varphi ,\psi \in \mathcal{L} \left( V \right) \text{且}\varphi \psi =\psi \varphi ,\text{设}V_{\lambda _0}\text{是属于}\varphi \text{的属于特征值}\lambda _0\text{的特征子}
+	\text{空间,则}V_{\lambda _0}\text{也是}\psi —\text{子空间}$
+\end{example}
+
+我们用接下来的一题来宣告线性映射部分的结束
+\begin{example}
+	$\text{设}V\text{是}n\text{维复线性空间，}\varphi ,\psi \in \mathcal{L} \left( V \right) \text{且}\varphi \psi =\psi \varphi ,\text{若}\varphi ,\psi \text{均可对角化}
+	\text{证明：}\varphi ,\psi \text{可在同一组基下对角化}$
+\end{example}
+解：
+	我们知道，如果$\varphi$ 可对角化，则$V$可表示为：
+	
+	$V=V_{\lambda _1}\oplus V_{\lambda _2}\oplus \cdots \oplus V_{\lambda _p}$，其中$\lambda _1,\cdots ,\lambda _p$为$\varphi$的所有特征值。由上面的结论，我们可以知道，
+	$\varphi$的特征子空间也是$\psi$ 的特征子空间，而对于任意特征子空间$V_{\lambda _i}\left( i=1,2,\cdots ,p \right) $
+	我们可选取其对应的一组基
+	$\left( e_{i1},e_{i2},\cdots ,e_{im} \right)$ ,其中$dimV_i=m$
+	在这组基下，属于特征子空间$V_{\lambda_i}$的均可表示为对角阵
+
+我们将$i$推广至$p$，于是有
+	在$\left( e_{11},\cdots ,e_{1m_1},e_{21},\cdots ,e_{pm_p} \right)$ 下，$\varphi$ ，$\psi $可对角化，其中$m_1+\cdots +m_p=n$
+
+接着我们来到矩阵的部分,在这一部分的话，其和特征值与特征向量是密切相关的。我们知道，在确定一组基之后，线性映射是与矩阵实际上是同构的关系，在这样一种同构的关系下，矩阵的性质就是线性映射的性质。那么，在上述性质之外，我们还能挖掘出上面别的性质呢？我们先以下面一道例题为开场。
+
+\begin{example}
+	设$\mathbb{C} $上方阵$A,B$满足$AB=BA$，则$A,B$至少有一个公共特征向量
+\end{example}
+解
+
+	定义在选定一组基后，$\varphi$ 对应的矩阵为$A$，$\psi$ 对应的矩阵为$B$，且满足$\varphi \psi =\psi \varphi$
+	
+	由线性映射的乘积可交换性质，我们可以知道，$\varphi$ 的特征子空间也是$\psi $的不变子空间。
+
+	设$\lambda_0$为$\varphi $的一个特征值，于是就有$\varphi $的特征子空间$V_{\lambda _0}$也是$\psi $的不变子空间
+
+	于是乎$\forall \xi \in V_{\lambda_{0}}$我们有，$\varphi (\xi )=\lambda_{0}\xi$ 
+
+	由于$V_{\lambda_{0}}$也时$\psi$ 的不变子空间
+	
+	则$\psi|_{V_{\lambda_{0}}}$作用于$\xi$必有特征值。
+	
+	因此，$\psi,\varphi $至少有一个公共特征向量，由于线性映射的同构关系，$A,B$至少有一个公告特征向量
+	
+	
+	由于属于不同特征值的特征向量必线性无关，于是乎我们可以加强一下命题
+	\begin{example}
+		设$\mathbb{C} $上方阵$A,B$满足$AB=BA$，若$A$至少有s的两两不同的特征值，则$A,B$至少有s个公共特征向量，且它们线性无关。
+	\end{example}
+	这道题的证明思路与上题类似，不多加以赘述。我们甚至还能加强到多个方阵可交换的情景，在这不多加讨论。
+	~\\
+	
+	下面我们来到一个很有意思的例题
+\begin{example}
+	设$F$上n阶矩阵，$A,B$满足$AB=BA$，且$f_A\left( \lambda \right) ,f_B\left( \lambda \right) $的根全在$F$上，则存在n阶可逆阵$P$，使得$P^{-1}AP,P^{-1}BP$同时为上三角矩阵。
+\end{example}
+解
+
+对阶数做数学归纳法
+
+当$n$=1时,显然结论成立
+
+设命题对$n-1$阶矩阵成立，下证对$n$阶矩阵仍成立
+
+我们设$\lambda_{1}$为$A$的一个特征值，由于$AB=BA$，我们可以得到$A$的特征子空间$V_{\lambda_{1}}$也是$B$的不变子空间，于是对于$X_{1}\in V_{\lambda_{1}}$，有
+\begin{equation*}
+	\begin{split}
+		AX_1=\lambda _1X_1
+		\\
+		BX_1=\mu _1X_1
+	\end{split}
+\end{equation*}
+定义在选定一组基后，$\varphi$ 对应的矩阵为$A$，$\psi$ 对应的矩阵为$B$，且满足$\varphi \psi =\psi \varphi$
+
+我们把$X_1$扩充为$F^{n}$的一组基：$X_{1},X_{2},\cdots,X_{n}$
+令$P_{1}=(X_{1},X_{2},\cdots,X_{n})$,则$P_{1}$可逆，并且有
+\begin{equation*}
+	 \varphi \left( X_1,X_2,\cdots ,X_n \right) =\left( X_1,X_2,\cdots ,X_n \right) \left( \begin{matrix}
+	 	\lambda _1&		\boldsymbol{\alpha }\\
+	 	0&		A_1\\
+	 \end{matrix} \right) 
+\end{equation*}
+即$P_{1}^{-1}AP_{1}^{}=\left( \begin{matrix}
+	\lambda _1&		\boldsymbol{\alpha }\\
+	0&		A_1\\
+\end{matrix} \right) $,同理，我们可以得到
+\begin{equation*}
+	\psi \left( X_1,X_2,\cdots ,X_n \right) =\left( X_1,X_2,\cdots ,X_n \right) \left( \begin{matrix}
+		\mu _1&		\beta\\
+		0&		B_1\\
+	\end{matrix} \right) 
+\end{equation*}
+即$P_{1}^{-1}BP_{1}^{}=\left( \begin{matrix}
+	\mu _1&		\beta\\
+	0&		B_1\\
+\end{matrix} \right) $,又$\varphi \psi =\psi \varphi$，于是有
+\begin{equation*}
+	\left( \begin{matrix}
+		\lambda _1&		\boldsymbol{\alpha }\\
+		0&		A_1\\
+	\end{matrix} \right) \left( \begin{matrix}
+		\mu _1&		\beta\\
+		0&		B_1\\
+	\end{matrix} \right) =\left( \begin{matrix}
+		\mu _1&		\beta\\
+		0&		B_1\\
+	\end{matrix} \right) \left( \begin{matrix}
+		\lambda _1&		\boldsymbol{\alpha }\\
+		0&		A_1\\
+	\end{matrix} \right)
+\end{equation*}
+于是，我们有$A_{1}B_{1}=B_{1}A_{1}$,由归纳假设，存在$n-1$阶矩阵$P_{2}$使得$P_{2}^{-1}AP_{2},P_{2}^{-1}BP_{2}$同时为上三角矩阵,令
+\begin{equation*}
+	P=P_1\left( \begin{matrix}
+		1&		0\\
+		0&		P_2\\
+	\end{matrix} \right) 
+\end{equation*}
+则$P$为n阶可逆阵，且满足
+\begin{equation*}
+	\begin{split}
+		P^{-1}AP=\left( \begin{matrix}
+			1&		0\\
+			0&		P_{2}^{-1}\\
+		\end{matrix} \right) P_{1}^{-1}AP_{1}^{}\left( \begin{matrix}
+			1&		0\\
+			0&		P_{2}^{-1}\\
+		\end{matrix} \right) =\left( \begin{matrix}
+			1&		0\\
+			0&		P_{2}^{-1}\\
+		\end{matrix} \right) \left( \begin{matrix}
+			\lambda _1&		\boldsymbol{\alpha }\\
+			0&		A_1\\
+		\end{matrix} \right) \left( \begin{matrix}
+			1&		0\\
+			0&		P_{2}^{}\\
+		\end{matrix} \right) =\left( \begin{matrix}
+			\lambda _1&		\boldsymbol{\alpha }P_2\\
+			0&		P_{2}^{-1}A_1P_{2}^{-1}\\
+		\end{matrix} \right) 
+		\\
+		P^{-1}BP=\left( \begin{matrix}
+			1&		0\\
+			0&		P_{2}^{-1}\\
+		\end{matrix} \right) P_{1}^{-1}BP_{1}^{}\left( \begin{matrix}
+			1&		0\\
+			0&		P_{2}^{-1}\\
+		\end{matrix} \right) =\left( \begin{matrix}
+			1&		0\\
+			0&		P_{2}^{-1}\\
+		\end{matrix} \right) \left( \begin{matrix}
+			\mu _1&		\beta\\
+			0&		B_1\\
+		\end{matrix} \right) \left( \begin{matrix}
+			1&		0\\
+			0&		P_{2}^{}\\
+		\end{matrix} \right) =\left( \begin{matrix}
+			\mu _1&		\beta P_2\\
+			0&		P_{2}^{-1}B_1P_{2}^{-1}\\
+		\end{matrix} \right) 
+	\end{split}
+\end{equation*}
+则$P^{-1}AP,P^{-1}BP$同时为上三角矩阵。
+由数学归纳法原理，对一切正整数$n$都成立，命题为真。
+
+从这一题里我们可以推出一个很好玩的性质，若乘积可交换，只要有n个特征值，就可以相似于一个\textbf{上三角矩阵}，这个就蛮有意思的。由于考试不怎么考像这样有趣的，咱们这个部分就到此结束。
+
+\subsection{幂等变换}
+幂等变换，是一个特殊的线性变换，由于在确定一组基基后，线性映射同构于矩阵，此时幂等变换对应的矩阵我们称作幂等矩阵。接下来我们来研究一下这类的性质。
+
+首先我们给出幂等矩阵的定义
+\begin{definition}[幂等矩阵]
+	若$A$为方阵，且$A^{2}-A$我们便称之为\textbf{幂等矩阵}
+\end{definition}
+其有以下性质
+\begin{example}
+	幂等矩阵的特征值只有0或1
+\end{example}
+证明：
+
+设$\lambda$为A的特征值，则存在非零向量$\alpha$使得
+\begin{equation*}
+	A\alpha=\lambda\alpha
+\end{equation*}
+同时乘$A$,有
+\begin{equation*}
+	\lambda\alpha=	A\alpha=A^{2}\alpha=\lambda A\alpha=\lambda^{2}\alpha
+\end{equation*}
+移项，有
+\begin{equation*}
+	(\lambda^{2}-\lambda)\alpha=0
+\end{equation*}
+解得
+\begin{equation*}
+	\lambda=1\text{或}0
+\end{equation*}
+\begin{example}
+	数域$F$的幂等矩阵一定可对角化
+\end{example}
+证明：
+
+因为
+\begin{equation*}
+	A^{2}-A=0
+\end{equation*}
+于是$A$的零化多项式为
+\begin{equation*}
+	x(x-1)=0
+\end{equation*}
+则其为极小多项式，有因为极小多项式没有重因式，故可对角化。
+\begin{example}
+	若$A$为幂等矩阵，则$rank(A)=tr(A)$
+\end{example}
+证明：
+$A$可对角化，则有
+\begin{equation*}
+	P^{-1}AP=\left( \begin{matrix}
+		E_r&		0\\
+		0&		0\\
+	\end{matrix} \right) 
+\end{equation*}
+又相似矩阵有相同的迹，得证。
+接下来，我们来看看线性变换又有什么性质。
+
+\begin{example}
+	设$V$是$F$上$n$维线空$，\varphi\in L(V)$，则$\exists\psi,\sigma\in L(V)$ s.t. $\varphi=\psi\sigma$，
+	其中$\psi^2=\psi$，$\sigma$是可逆变换
+\end{example}
+\begin{solution}
+	
+	选定一组基后，设$\varphi$对应的矩阵为$A$，$\psi$所对应的基为$B$，$\sigma$所对应的矩阵为$C$
+	
+	遇事不决，相抵标准形，存在$n$阶可逆阵$P,Q$使得
+	\begin{equation*}
+		A=P\left( \begin{matrix}
+			E_r&		0\\
+			0&		0\\
+		\end{matrix} \right)Q=P\left( \begin{matrix}
+		E_r&		0\\
+		0&		0\\
+		\end{matrix} \right)P^{-1}PQ
+	\end{equation*}
+	令
+	\begin{equation*}
+		B=P\left( \begin{matrix}
+			E_r&		0\\
+			0&		0\\
+		\end{matrix} \right)Q=P\left( \begin{matrix}
+			E_r&		0\\
+			0&		0\\
+		\end{matrix} \right)P^{-1},C=PQ
+	\end{equation*}
+	显然满足题目要求，由线性映射的同构，得证。
+\end{solution}
+\begin{example}
+	设$V$是$F$上$n$维线空，$\varphi\in L(V)$满足$\varphi^2=\varphi$且$dimIm{\varphi}=r<n$。证明：存在$V$的一个基$\xi_1,\xi_2,\cdots,\xi_n$使得
+	\begin{equation*}
+		\varphi(\xi_1,\xi_2,\cdots,\xi_n)=(\xi_1,\xi_2,\cdots,\xi_n)\left(\begin{matrix}E_r&0\\0&0\\\end{matrix}\right)
+	\end{equation*}
+	。
+\end{example}
+
+\begin{solution}
+	
+	设在一组基下，$\varphi$的矩阵为$A$，题设条件变为$A^{2}=A$
+	
+	现在我们想要证明这个结论，要知道，在不同基下，同一个线性映射在不同基下的矩阵是相似的，所以我们要证明的就是$A$相似于$\left(\begin{matrix}E_r&0\\0&0\\\end{matrix}\right)$,即存在可逆阵$P$使得$P^{-1}AP=\left(\begin{matrix}E_r&0\\0&0\\\end{matrix}\right)$
+\end{solution}
+
+	遇事不决，相抵标准形，即存在$n$阶可逆阵$P_{1},Q_{1}$,使得
+	\begin{equation*}
+		A=P_{1}\left( \begin{matrix}
+			E_r&		0\\
+			0&		0\\
+		\end{matrix} \right)Q_{1}
+	\end{equation*}
+	化简，可得
+	\begin{equation*}
+		P_{1}^{-1}AQ_{1}^{-1}=\left( \begin{matrix}
+			E_r&		0\\
+			0&		0\\
+		\end{matrix} \right)
+	\end{equation*}
+	即
+	\begin{equation*}
+		P_{1}^{-1}AP_{1}^{-1}=\left( \begin{matrix}
+			E_r&		0\\
+			0&		0\\
+		\end{matrix} \right)Q_{1}P_{1}
+	\end{equation*}
+
+	令
+	\begin{equation*}
+		Q_{1}P_{1}=\left( \begin{matrix}
+			X&		Y\\
+			Z&		W\\
+		\end{matrix} \right) 
+	\end{equation*}
+	其中$X$为$r$阶方阵,代入有
+	\begin{equation*}
+		P_{1}^{-1}AP_{1}^{-1}=\left( \begin{matrix}
+			X&		Y\\
+			0&		0\\
+		\end{matrix} \right)
+	\end{equation*}
+	又$A^{2}=A$，则有
+	\begin{equation*}
+		\left( \begin{matrix}
+			X&		Y\\
+			0&		0\\
+		\end{matrix} \right)^{2}=\left( \begin{matrix}
+		X&		Y\\
+		0&		0\\
+		\end{matrix} \right)
+	\end{equation*}
+	解得
+	\begin{equation*}
+		X=E_{r},Y=0
+	\end{equation*}
+	于是有
+	\begin{equation*}
+		P_{1}^{-1}AP_{1}^{-1}=\left( \begin{matrix}
+			E_{r}&		0\\
+			0&		0\\
+		\end{matrix} \right)
+	\end{equation*}
+	得证。
+\begin{example}
+	设$V$是$F$上$n$维线空$，\varphi\in L(V)$满足$\varphi^2=\varphi$。证明：
+	\begin{equation*}
+		V=Im{\varphi}\oplus Ker\varphi
+	\end{equation*}
+\end{example}
+\begin{solution}
+	
+	因为$\forall \alpha \in V$都有
+	\begin{equation*}
+		\alpha=\alpha-\varphi(\alpha)+\varphi(\alpha)
+	\end{equation*}
+	
+	显然有$\varphi(\alpha) \in Im\varphi$,又因为$\varphi(\alpha-\varphi(\alpha))=\varphi(\alpha)-\varphi^{2}(\alpha)=0$
+	
+	于是有
+	\begin{equation*}
+		V=Im{\varphi}+ Ker\varphi
+	\end{equation*}
+	
+	下证$\mathrm{Im}\varphi \cap Ker\varphi =0$
+	
+	设$\mathrm{Im}\varphi \cap Ker\varphi =\alpha$,因为$\alpha\in Ker\varphi$于是有$\varphi(\alpha)=0$。又因为$\alpha\in Im\varphi$，故$\exists \beta \in V$,使得$\varphi(\beta)=\alpha $,即$\varphi(\beta)=\varphi^{2}(\beta)=\alpha=\varphi(\alpha)=0$
+	
+	结论得证。
+	
+\end{solution}
+\subsection{幂零变换}
+我们还有一个特殊的变换，其为幂零变化，同样的，其也与矩阵同构，相应的矩阵称为幂零矩阵，我们来到定义
+\begin{definition}[幂零矩阵]
+	对于一个$n$阶矩阵，如果存在正整数$l$，使得$A^{l}=0$，我们便称其为\textbf{幂零矩阵}
+\end{definition}
+性质如下
+\begin{example}
+	$n$阶矩阵是幂零矩阵的充要条件是特征值全为0
+\end{example}
+证明：
+
+$\Rightarrow$ ：
+
+设$A$为幂零矩阵，设$A$的特征值为$\lambda$,则存在非零向量$\alpha$,使得
+\begin{equation*}
+	A^{l}\alpha=\lambda^{l}\alpha=0
+\end{equation*}
+解得
+\begin{equation*}
+	\lambda=0
+\end{equation*}
+
+$\Leftarrow$:
+
+设$A$的特征值全为零，对于$A$的特征多项式，我们有
+\begin{equation*}
+	|\lambda E-A|=\lambda^{n}+a_{1}\lambda^{n-1}+\cdots+a_{n-1}\lambda+a_{0}
+\end{equation*}
+由Vieta定理，有
+\begin{equation*}
+	a_{1}=\cdots=a_{0}=0
+\end{equation*}
+于是有
+\begin{equation*}
+	|\lambda E-A|=\lambda^{n}=0
+\end{equation*}
+由Hamilton-Cayley Theorem，得证
+\begin{example}
+	设$A$为数域$F$上的矩阵，则$A$是幂零矩阵的充要条件是对于任意正整数$k$，都有$tr(A^{k})=0$
+\end{example}
+证明：
+
+$\Rightarrow$ ：
+
+$A$为幂零矩阵，则$A$的特征值全为0，$A^{k}$的特征值也为0，由由于迹为所有特征值的和，得证
+
+$\Leftarrow$:
+
+假设有$n$个特征值，记为$\lambda_{1},\lambda_{2},\cdots,\lambda_{n}$
+由题，有
+\begin{equation*}
+	\begin{split}
+		tr(A)=\lambda_{1}+\lambda_{2}+\cdots+\lambda_{n}=0
+		\\
+		tr(A^{2})=\lambda_{1}^{2}+\lambda_{2}^{2}+\cdots+\lambda_{n}^{2}=0
+		\\
+		\cdots
+		\\
+		tr(A^{n})=\lambda_{1}^{n}+\lambda_{2}^{n}+\cdots+\lambda_{n}^{n}=0
+	\end{split}
+\end{equation*}
+设$A$的所有非零互异的特征值是$\lambda_{1},\lambda_{2},\cdots,\lambda_{r}$，其代数重数为$s_{1},s_{2},\cdots,s_{r}$
+
+对于上述式子，我们可以化简为
+\begin{equation*}
+	\begin{split}
+		s_{1}\lambda_{1}+\cdots+s_{r}\lambda_{r}=0
+		\\
+		s_{1}\lambda_{1}^{2}+\cdots+s_{r}\lambda_{r}^{2}=0
+		\\
+		\cdots
+		\\
+		s_{1}\lambda_{1}^{n}+\cdots+s_{r}\lambda_{r}^{n}=0
+	\end{split}
+\end{equation*}
+将其看成关于$s$的方程，由范德蒙行列式的性质，此时只有0解，故解得$A$的所有特征值为0，于是$A$为幂零矩阵。
+\begin{example}
+	幂零矩阵不可对角化
+\end{example}
+证明：
+
+$A^{k}=0$，故$A$的极小多项式次数至少为2，于是其有重根，故不可对角化。
+
+接下来，我们再来看看线性映射的性质，这个就很少了，就一个题目，很有趣的
+\begin{example}
+	设$n$维度线性空间$V$上的线性变换$\varphi$满足$\varphi^{n}=0$，$\varphi^{n-1}\ne 0$.求证：
+	
+	存在$\alpha$$\in$$V$,使得$\alpha,\varphi(\alpha),\cdots,\varphi^{n-1}(\alpha)$线性无关。
+\end{example}
+\begin{solution}
+	
+	自证
+	
+\end{solution}
+这个东西，就是Frobenius标准型的循环基，有意思的很。
+\chapter{多项式}
+\section{导学}
+任给一个一元多项式，在给定数域情况下，我们该如何分解，又能分解成什么样？这个便是我们要研究的主线，由此，我们便在不同数域下对多项式进行讨论。
+\section{前置知识}
+首先，我们要了解的，肯定是一元多项式的定义。
+\begin{definition}[一元多项式]
+	形如
+	$f(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots+a_0$，我们便乘其为称为$F$上关于$x$的\textbf{一元多项式}，其中$F$：数域；$a_i\in F$，$i=0,1,\cdots,n$；n$\in Z_{\geq0}$；$x$：未定元
+	
+	同时，我们记$F$上一元多项式全体为$F[x]$
+\end{definition}
+注
+
+1.当$a_n\neq0$时，次数记为$deg{f}(x)=n$(定义0多项式次数为负无穷)
+
+2..两个多项式称为相等当且仅当它们的次数相同且各次项的系数相等，即若
+
+$f(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0$
+
+$g(x)=b_mx^m+b_{m-1}x^{m-1}+\cdots+b_1x+b_0$
+
+则$f(x)=g(x)$当且仅当$m=n$，$a_i=b_i，i=0,1,\cdots,n$。
+
+接着我们来定义一下其的运算法则
+\begin{definition}[加法和数乘]
+	定义加法：$f(x)+g(x)=(a_n+b_n)x^n+(a_{n-1}+b_{n-1})x^{n-1}+\cdots+(a_1+b_1)x+(a_0+b_0)$
+	
+	定义数乘：
+	$cf(x)=ca_nx^n+ca_{n-1}x^{n-1}+\cdots+ca_1x+ca_0$， 
+	。
+\end{definition}
+然后就这两个个运算，我们能推出其满足以下性质：
+\begin{conclusion}
+	（1）结合律：$(f(x)+g(x))+h(x)=f(x)+(g(x)+h(x))$
+	
+	（2）交换律：$f(x)+g(x)=g(x)+f(x)$
+	
+	（3）存在零元：$f(x)+0=f(x)
+	对于f(x)=\sum_{i=0}^{n}{a_ix^i}$，定义$-f(x)=\sum_{i=0}^{n}{(-a_i)x^i}$，同样存在
+	
+	（4）存在负元：$f(x)+(-f(x))=0$
+	
+	（5）$c(f(x)+g(x))=cf(x)+cg(x)$
+	
+	（6）$(c+d)f(x)=cf(x)+df(x)$
+	
+	（7）$(cd)f(x)=c(df(x))$
+	
+	（8）$1\cdot f(x)=f(x) $
+\end{conclusion}
+我们立即就能得到，$F[x]$关于多项式的加法与数乘构成$F$上的无限维线性空间，因为这个恰好就是那验证线性空间的那八条性质，这个全满足。
+
+既然是线性空间，那我们就肯定要有基，于是，我们就有以下结论
+\begin{conclusion}
+	$1,x,x^2,\cdots,x^n,\cdots$是$F[x]$的一个基
+	
+$	1,x,\frac{x^2}{2!},\cdots,\frac{x^n}{n!},\cdots$也是$F[x]$的一个基
+\end{conclusion}
+
+然后我们要继续定义多项式之间的乘法
+\begin{definition}[乘法]
+	$f(x)g(x)=h(x)$，其中
+	$h(x)=c_{n+m}x^{n+m}+c_{n+m-1}x^{n+m-1}+\cdots+c_1x+c_0\in F[x]$
+	
+	$c_{n+m}=a_nb_m$
+	
+$	c_{n+m-1}=a_nb_{m-1}+a_{n-1}b_m$
+
+	...............
+	
+	$c_k=\sum_{i=0}^{n}\sum_{j=0}^{m}\sum_{i+j=k}{a_ib_j}$
+	
+	...............
+	
+	$c_0=a_0b_0$
+\end{definition}
+满足以下性质
+\begin{conclusion}
+	（9）$(f(x)g(x))h(x)=f(x)(g(x)h(x))$
+	
+	（10）$f(x)g(x)=g(x)f(x)$
+	
+	（11）$(f(x)+g(x))h(x)=f(x)h(x)+g(x)h(x)$
+	
+	（12）$c(f(x)g(x))=(cf(x))g(x)=f(x)(cg(x))$，$c\in F$
+	
+	（13）$1\cdot f(x)=f(x)$	
+\end{conclusion}
+再定义完这些的加法和乘法后，我们想看看在这样的运算法则下，其次数又满足怎样的性质，如下
+\begin{conclusion}
+	设$f(x),g(x)\in F[x]$，则
+	
+	（1）$deg{(}f(x)+g(x))\le m a x{\left\{deg{f}(x),deg{g}(x)\right\}}$
+	
+	（2）$deg{(}cf(x))=deg{f}(x)$，$0\neq c\in F$
+	
+	（3）$deg{(}f(x)g(x))=deg{f}(x)+deg{g}(x)$	
+\end{conclusion}
+接下来的内容，是课上关于这一部分的重点。
+\begin{conclusion}
+	若$f(x)\neq0$且$f(x)g(x)=f(x)h(x)$，则$g(x)=h(x)$
+\end{conclusion}
+这个告诉我们，多项式的乘法满足消去律，前提是消去的是不为零。
+\begin{conclusion}
+	若$f(x),g(x)\in R[x]$且$f^2(x)+g^2(x)=0$，则$f(x)=g(x)=0$。
+\end{conclusion}
+我们要注意的是，这个结论在复数域上不成立。
+
+在定义完这些基本的运算之后，我们就可以来到我们的主线了，首先，我们先来到整除的概念。
+\begin{definition}[整除]
+	设$f(x),g(x)\in F[x]$。若存在$h(x)\in F[x]$，使得
+	
+	$f(x)=g(x)h(x)$，
+	
+	则称$g(x)$是$f(x)$的\textbf{因式}，$f(x)$是$g(x)$的\textbf{倍式}，或称$f(x)$能被$g(x)$整除，或称$g(x)$整除$f(x)$，记为$g(x)|f(x)$。否则称$f(x)$不能被$g(x)$整除，
+\end{definition}
+注：
+
+零多项式可以被任意多项式整除。
+
+	零多项式只能整除零多项式。
+	
+	零次多项式可以整除任意多项式。
+	
+	零次多项式只能被零次多项式整除。
+~\\
+
+整除关系，是良性的关系，其满足
+\begin{conclusion}
+		（1）反身性：$f(x)|f(x)$
+		
+	（2）传递性：若$f(x)|g(x)$，$g(x)|h(x)$，则$f(x)|h(x)$。
+	
+	（3）互伴性：若$f(x)|g(x)$，$g(x)|f(x)$，则存在$0\neq c\in F$使得
+	$f(x)=cg(x)$，
+	
+	此时称$f(x),g(x)$为相伴多项式，记作$f(x)\sim g(x)$。
+	
+	（4）若$f(x)|g(x)$，$f(x)|h(x)$，则对任意$u(x),v(x)\in F[x]$，
+	
+	有
+	$f(x)|u(x)g(x)+v(x)h(x)$
+	
+\end{conclusion}
+通常来讲，我们遇到的式子是不能整除的，于是我们就来到了一个重要的定理
+\begin{definition}[带余除法]
+	设$f(x),g(x)\in F[x]$且$g(x)\neq0$，则存在唯一的$q(x),r(x)\in F[x]$使得
+	\begin{equation*}
+		f(x)=q(x)g(x)+r(x)
+	\end{equation*}
+	其中$deg{r}(x)<deg{g}(x)$,我们称$q(x),r(x)$分别称为$g(x)$除$f(x)$（或$f(x)$除以$g(x$)）的\textbf{商式}和\textbf{余式}。
+\end{definition}
+
+注：
+
+	1.带余除法与数域的扩张无关。
+	
+	2.整除关系与数域的扩张无关。
+
+由整除关系，我们就自然过渡到了下一个版块——公因式，定义如下
+\begin{definition}[公因式]
+	设$f(x),g(x),d(x)\in F[x]$，若$d(x)|f(x),d(x)|g(x)$，则称$d(x)$是$f(x),g(x)$的一个\textbf{公因式}
+\end{definition}
+注：
+
+1.零次多项式是任意两个多项式的公因式
+
+2.若$d(x)$是$f(x),g(x)$的一个公因式，则对$\forall0\neq k\in F$，$kd(x)$也是$f(x),g(x)$的公因式
+
+紧接着，我们便引出最大公因式的概念
+\begin{definition}[最大公因式]
+	设$f(x),g(x)\in F[x]$，$d(x)$是$f(x),g(x)$的一个公因式。若对$f(x),g(x)$的任意一个公因式$h(x)$都有$h(x)|d(x)$，则称$d(x)$是$f(x),g(x)$的一个\textbf{最大公因式}
+\end{definition}
+注
+
+1.最大公因式不唯一，最多差一个非零常数倍，但两个不全为零的多项式$f(x),g(x)$的首项系数为1的最大公因式是唯一确定的，记为$d(x)=(f(x),g(x))$特别的，（0，0）=0
+
+2.最大公因式与数域的扩张有关
+
+3.首一最大公因式与数域的扩张无关。
+
+~\\
+
+那么问题来了，有什么好的方法来求最大公因式么？于是乎，就来到了一个优秀的算法，辗转相除法
+\begin{definition}[辗转相除法]
+	设$f(x),g(x)\in F[x]$，则$f(x),g(x)$存在最大公因式$d(x)$，且存在$u(x),v(x)\in F[x]$使得$d(x)=u(x)f(x)+v(x)g(x)$
+\end{definition}
+注
+
+1.设$f(x),g(x),d(x)\in F[x]$且$d(x)$是$f(x),g(x)$的\textbf{公因式}。若存在$u(x),v(x)\in F[x]$使得$d(x)=u(x)f(x)+v(x)g(x)$，则$d(x)$是$f(x),g(x)$的\textbf{最大公因式}
+
+2.定理中的$u(x),v(x)$不唯一
+
+~\\
+
+接着我们将其推广到多个多项式的最大公因式
+\begin{definition}[最大公因式]
+	设$f_1(x),\cdots,f_s(x)\in F[x]$，$d(x)$是$f_1(x),\cdots,f_s(x)$的一个公因式。若对$f_1(x),\cdots,f_s(x)$的任意一个公因式$h(x)$都有$h(x)|d(x)$，则称$d(x)$是$f_1(x),\cdots,f_s(x)$的一个\textbf{最大公因式}
+\end{definition}
+注
+
+1.设$f_1(x),\cdots,f_s(x)\in F[x]$且$f_1(x),\cdots,f_s(x)$不全为零，则$f_1(x),\cdots,f_s(x)$的\textbf{首一最大公因式}记为$(f_1(x),\cdots,f_s(x))$
+
+2.$((f(x),g(x)),h(x))=(f(x),g(x),h(x))=(f(x),(g(x),h(x)))$
+
+然后，我们就到了一种特殊情况，即首一最大公因式为1的时候，在这个时候我们称之为互素，就有以下定义
+
+\begin{definition}[互素]
+	设$f(x),g(x)\in F[x]$，若$(f(x),g(x))=1$，则称$f(x)$与$g(x)$互素或互质
+\end{definition}
+注
+
+1.互素与数域的扩大无关
+
+2.若$f(x),g(x),h(x)$两两互素，则$(f(x),g(x),h(x))=1$，反之不成立
+
+最后，我们仿照公因式定义公倍式
+\begin{definition}[公倍式]
+	设$f_1(x),\cdots,f_s(x),c(x)\in F[x]$，若$f_i(x)|c(x)(i=1,\cdots,s)$，则称$c(x)$是$f_1(x),\cdots,f_s(x)$的一个\textbf{公倍式}
+\end{definition}
+同理，我们有最小公倍式
+\begin{definition}[最小公倍式]
+	设$f_1(x),\cdots,f_s(x)\in F[x]$，$c(x)是f_1(x),\cdots,f_s(x)$的一个公倍式。若对$f_1(x),\cdots,f_s(x)$的任意一个公倍式$h(x)$都有$c(x)|h(x)$，则称$c(x)$是$f_1(x),\cdots,f_s(x)$的一个最小公倍式
+\end{definition}
+注
+
+1.设$f_1(x),\cdots,f_s(x)\in F[x]$且$f_1(x),\cdots,f_s(x)$全不为零，则$f_1(x),\cdots,f_s(x)$的首一最小公倍式，记为$[f_1(x),\cdots,f_s(x)]$
+
+接着，我们来到最后一个工具——标准分解式，这个与定义，带余除法，辗转相除法共称为证明的四大金刚。为了解释何为标准分解式，我们首先要引入可约和不可约的概念。
+\begin{definition}[可约性]
+	设$f(x)\in F[x]$且$deg{f}(x)\geq1$。若$f(x)$能表为两个次数更低的多项式之积，则称$f(x)$是$F$上的可约多项式，否则称为$F$上的不可约多项式。
+\end{definition}
+注
+
+1.多项式可约不可约与数域有关。
+
+2.$F$上不可约多项式$f(x)$的因式只能是$F$上非零常数及$f(x)$的相伴多项式
+
+3.一次多项式必不可约。
+
+接下来，我们来到一个很重要的结论
+\begin{conclusion}
+	设$p(x)\in F[x]$且$deg{p}(x)>0$，则$p(x)$不可约$\Leftrightarrow$对任意$f(x)\in F[x]$有$(p(x),f(x))=1$或$p(x)|f(x)$
+\end{conclusion}
+这个结论告诉我们，不可约多项式和别的多项式是一种非黑即白的关系，要么整除，要么就互素，这个就很有趣。
+
+接下来我们来到多项式唯一分解定理，这个是标准分解式的基石。
+\begin{theorem}[唯一分解定理]
+	设$f(x)\in F[x]$且$deg{f}(x)\geq1$，则
+	
+	（1）$f(x)=p_1(x)p_2(x)\cdots p_s(x)$，其中$p_i(x)$是$F$上不可约多项式$(i=1,\cdots,s)$；
+	
+	(2)若$f(x)=p_1(x)p_2(x)\cdots p_s(x)=q_1(x)q_2(x)\cdots q_t(x)$，其中$p_i(x),q_j(x)$是$F$上不可约多项式$(i=1,\cdots,s,j=1,\cdots,t)$，则必有$s=t$且经过适当调换因式顺序后，$p_i(x)$与$q_i(x)$相伴$(i=1,\cdots,s)$
+\end{theorem}
+由此，我们能得到任意次数大于零的多项式标准分解式
+\begin{theorem}{标准分解式}
+	设$f(x)\in F[x]$且$deg{f}(x)\geq1$，则
+	\begin{equation*}
+		f(x)=cp_1^{r_1}(x)p_2^{r_2}(x)\cdots p_s^{r_s}(x)
+	\end{equation*}
+	其中$p_i(x)(i=1,\cdots,s)$是首一的两两互素的不可约多项式，$r_i\geq1(i=1,\cdots,s)$。
+\end{theorem}
+我们还能得到以下结论
+\begin{conclusion}
+	设$f(x)=cp_1^{a_1}(x)p_2^{a_2}(x)\cdots p_s^{a_s}(x),g(x)=dp_1^{b_1}(x)p_2^{b_2}(x)\cdots p_s^{b_s}(x)$，其中$p_i(x)(i=1,\cdots,s)$是首一的两两互素的不可约多项式，$a_i\geq0,b_i\geq0,a_i+b_i>0(i=1,\cdots,s)$，则
+	
+	（1）$f(x)g(x)=cdp_1^{a_1+b_1}(x)p_2^{a_2+b_2}(x)\cdots p_s^{a_s+b_s}(x)$；
+	
+	（2）$(f(x),g(x))=p_1^{c_1}(x)p_2^{c_2}(x)\cdots p_s^{c_s}(x),c_i=\min \left\{ a_{i},b_{i} \right\} (i=1,\cdots,s)$；
+	
+	（3）$[f(x),g(x)]=p_{1}^{d_1}(x)p_{2}^{d_2}(x)\cdots p_{s}^{d_s}(x),d_i=\max \left\{ a_i,b_i \right\} (i=1,\cdots ,s)$
+	
+	（4）$(f(x),g(x))[f(x),g(x)]=c^{-1}d^{-1}f(x)g(x)$；
+	
+	（5）$f(x)|g(x)\Leftrightarrow a_i\le b_i(i=1,\cdots,s)$
+\end{conclusion}
+事实上，这玩意在我们实际计算的时候，还真的不好用，最多在证明题里使用。
+
+由不可约多项式，我们又可以衍生出一个新的概念——重因式。
+
+\begin{definition}[重因式]
+	设$f(x),p(x)\in F[x]$且$p(x)$\textbf{不可约}。若存在$k\geq0$使得$p^k(x)|f(x)$，$p^{k+1}(x)\nmid f(x)$，则称$p(x)$是$f(x)$的$k$重因式。当$k=0$时，$p(x)$不是$f(x)$的因式；当$k=1$时，p(x)称为$f(x)$的\textbf{单因式}；当$k>1$时，$p(x)$称为$f(x)$的\textbf{重因式}
+\end{definition}
+注
+
+1.$p(x)$是否是$f(x)$的重因式与\textbf{数域的扩张有关}；
+
+2.但$f(x)$\textbf{是否有重因式与数域的扩张无关}
+
+有几个结论需要我们记住
+\begin{conclusion}
+	不可约多项式$p(x)$是$f(x)$的$k$重因式$\Leftrightarrow$存在$h(x)$使得$f(x)=p^k(x)h(x)$且$(p(x),h(x))=1$
+\end{conclusion}
+\begin{conclusion}
+	不可约多项式$p(x)$是$f(x)$的重因式$\Leftrightarrow$ $p(x)$是$f(x)$和$f^\prime(x)$的公因式
+	
+	非零多项式$f(x)$无重因式$\Leftrightarrow(f(x),f^\prime(x))=1$
+\end{conclusion}
+\begin{conclusion}
+	设$d(x)=(f(x),f^\prime(x))，f(x)=f_1(x)d(x)$，则$f_1(x)$是一个无重因式的多项式，且此多项式的每一个不可约因式与$f(x)$的不可约因式相同
+\end{conclusion}
+到此为止，我们研究多项式的工具就结束了，接下来的内容，便是在已有工具下的补充。
+
+\begin{theorem}[余数定理]
+	设$f(x)\in F[x],b∈F$，则存在唯一的$g(x)\in F[x]$使得$f(x)=(x-b)g(x)+f(b)$
+\end{theorem}
+由此，我们能得到一个算法——综合除法
+\begin{definition}[综合除法]
+	设$f(x)=a_nx^n+\cdots+a_1x+a_0=(x-b)(b_{n-1}x^{n-1}+\cdots+b_1x+b_0)+f(b)$，比对系数，有
+	
+	$b_{n-1}=a_n，b_{n-2}=a_{n-1}+bb_{n-1},b_{n-3}=a_{n-2}+bb_{n-2},\cdots,b_1=a_2+bb_2,b_0=a_1+bb_1,f(b)=a_0+bb_0$
+\end{definition}
+可表示为下图
+
+\begin{tabular}{|c|c|c|c|c|c|c|}
+	\hline
+	& $a_{n}$ & $a_{n-1}$ &$a_{n-2}$  & $\cdots$ &$ a_{1}$ & $a_{0}$ \\
+	\hline
+	b&  &$b_{n-1}b$  & $ b_{n-2}b$ & $\cdots$ & $ b_{1}b$ &$ b_{0}b$  \\
+	\hline
+	& $b_{n-1}$ &$ b_{n-2}$ &$ b_{n-3}$  & $ \cdots$ & $ b_{0}$ &$f(b)$  \\
+	\hline
+\end{tabular}
+\begin{theorem}
+	设$f(x)\in F[x]$且$deg{f}(x)=n>0$，则$f(x)$在$F$内至多有$n$个根（重根按重数计算）
+\end{theorem}
+\begin{definition}[Lagrange插值公式]
+	设$a_1,a_2,\cdots,a_m$是数域$F$上$m$个不同的数，则对任意$m$个数$b_1,b_2,\cdots,b_m$，存在唯一次数小于$m$的多项式
+	\begin{equation*}
+		L(x)=\sum_{i=1}^{m}b_i\prod_{j\neq i}\frac{x-a_j}{a_i-a_j}
+	\end{equation*}
+	满足对于任意的$i(1\le i\le m)$，都有$L(a_i)=b_i$
+\end{definition}
+这个看上去有点抽象，我们举个例子吧
+
+如$f(1)=\sqrt{3},f(2)=114514,f(3)=1919810$这个肯定是不能硬来的，所以我们要用拉格朗日插值公式
+
+令
+\begin{equation*}
+	L(x)=1919810\frac{\left( x-1 \right) \left( x-2 \right)}{\left( 3-1 \right) \left( 3-2 \right)}+114514\frac{\left( x-1 \right) \left( x-3 \right)}{\left( 2-1 \right) \left( 2-3 \right)}+\sqrt{3}\frac{\left( x-2 \right) \left( x-3 \right)}{\left( 1-2 \right) \left( 1-3 \right)}
+\end{equation*}
+这样，这个函数，完美的满足题目所给的条件，很不错。
+
+\begin{definition}[重根]
+	设$b\in F$。若$(x-b)^k|f(x)$，但$(x-b)^{k+1}\nmid f(x)$，则称$b$是$f(x)$的一个$k$\textbf{重根}。若$k=1$，则称$b$为\textbf{单根}
+\end{definition}
+注
+
+$f(x)$在$F$上有重根，则在$F$上必有重因式。反之未必，不能保证重因式有根。
+
+此外，还有几个结论，蛮有意思的
+\begin{conclusion}
+	$f(x)\in R[x]$，若$a+bi,a,b\in R,b\neq0$是$f(x$)的根，$a-bi$也是$f(x)$的根
+\end{conclusion}
+这个结论说明了，如果有复根，一定是成对存在的。
+\begin{conclusion}
+$	p(x)在F$上不可约，则必在复数域上\textbf{无重根}
+\end{conclusion}
+\begin{conclusion}
+$	f(x),p(x)$是$F$上多项式，$p(x)$在$F$上不可约，且$f(x)与p(x)$在$C$上有公共根，则$p(x)|f(x)$
+\end{conclusion}
+到此，前置知识就结束了，我们开启主线任务。
+\section{复系数与实系数多项式}
+把实数域扩充为复数域比较容易实现，因此找出实数域上的不可约多项式，可以利用复数域多项式的信息，故我们先从复系数多项式开始研究。
+
+\begin{theorem}[代数学基本定理]
+	每个次数大于零的复系数多项式在复数域上至少有一个根。
+\end{theorem}
+由定理(2.5)我们可以得到：每一个次数大于零的复系数多项式在复数域上至少有一个根，从而次数大于1的复系数多项式都是可约的，于是得到
+\begin{corollary}
+	复数域上的不可约多项式都是一次的。
+\end{corollary}
+\begin{theorem}[复系数多项式唯一因式分解定理]
+	每一个次数大于0的复系数多项式在复数域上都可以唯一地分解为一次因式的乘积。
+\end{theorem}
+由此，我们可以得到$n(n>0)$次复系数多项式$f(x)$在复数域上的标准分解式：
+\begin{equation}
+	f(x)=c(x-a_1)^{r_1}(x-a_2)^{r_2}\cdots(x-a_s)^{r_s}
+\end{equation}
+其中$a_1,a_2,\cdots,a_s$两两不同，$c$为$f(x)$首项系数$，r_1,r_2,\cdots,r_s\in N^+$且
+$r_1+r_2+\cdots+r_s=n$
+
+于是我们能立即推出：
+
+\begin{corollary}
+	$n(n\geq0)$次复系数多项式在复数域上恰有$n$个根（重根按重数计）。
+\end{corollary}
+至此我们完全解决了复数域上的不可约多项式，从而细化了复系数多项式的唯一因式分解定理。
+
+利用复系数多项式唯一因式分解定理，我们可以得到数域$F$上的$n(n>0)$次复系数多项式$f(x)$的复根与它的系数之间的关系：
+
+\begin{theorem}{Vieta定理}
+	设$f(x)=x^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0\in F[x]$在$F$中有$n$个根$c_1,c_2,\cdots,c_n$，则有
+	\begin{equation}
+		\begin{split}
+			\sum_{1\le i\le n} c_i=-a_{n-1}
+			\\
+			\sum_{1\le i<j\le n}{c_ic_j}=a_{n-2}
+			\\
+			\cdots
+			\\
+			c_1c_2\cdots c_n=(-1)^na_0
+		\end{split}
+	\end{equation}
+\end{theorem}
+接下来我们来讨论实系数多项式
+\begin{theorem}
+	设$f(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0\in R[x]$。若$a+bi(a,b\in R,b\neq0)$是$f(x)$的复根，则$a-bi$也是$f(x)$的复根
+\end{theorem}
+这个说明了虚根是成对出现的。
+
+由此我们立即得到
+\begin{corollary}
+	实系数的奇次多项式至少有一个实根。
+\end{corollary}
+\begin{theorem}
+	实数域上的不可约多项式或为一次多项式或为二次多项式$ax^2+bx+c$，其中$b^2-4ac<0$
+\end{theorem}
+由标准分解式和定理(2.9),我们可以立即推出：
+\begin{theorem}[实系数多项式唯一因式分解定理]
+	每一个次数大于0的实系数多项式$f(x)$在实数域上都可以唯一地分解为一次因式与判别式小于0的二次因式的乘积
+\end{theorem}
+因此，我们可以得到：$n(n>0)$次实系数多项式$f(x)$在实数域上的标准分解式：
+
+\begin{equation}
+	f(x)=d(x-a_1)^{r_1}\cdots(x-a_s)^{r_s}(x^2+b_1x+c_1)^{q_1}\cdots(x^2+b_tx+c_t)^{q_t}
+\end{equation}
+其中$d$是$f(x)$的首项系数，$a_1,\cdots,a_s$两两不同，$b_i^2-4c_i<0$（$i=1,\cdots,t$），
+$r_1,\cdots,r_s,q_1,\cdots,q_t\in N^+,x^2+b_1x+c_1,\cdots,x^2+b_tx+c_t$两两互素且
+$(r_1+\cdots+r_s)+2(q_1+\cdots+q_t)=n$
+
+下面有一道例题，蛮有意思的
+\begin{example}
+	设$f(x)\in C[x]$。若对于任意的$c\in R,f(c)\in R$。求证：$f(x)\in R[x]$。
+\end{example}
+\begin{solution}
+	我们设
+	\begin{equation*}
+		f(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots+a_0
+	\end{equation*}
+	其中$a_{i}\in C(i=1,2,\cdots,n)$我们要证明$a_{i}\in R(i=1,2,\cdots,n)$
+	
+	考虑到
+	\begin{equation*}
+		\begin{cases}
+			a_n1^n+a_{n-1}1^{n-1}+\cdots +a_0=b_1\\
+			a_n2^n+a_{n-1}2^{n-1}+\cdots +a_0=b_2\\
+			\cdots \cdots \cdots \cdots \cdots \cdots\\
+			a_n\left( n+1 \right) ^n+a_{n-1}\left( n+1 \right) ^{n-1}+\cdots +a_0=b_{n+1}\\
+		\end{cases}
+	\end{equation*}
+	其中$b_{i}\in R(i=1,2,\cdots,n)$
+	
+	其可化简为
+	\begin{equation*}
+		\left( \begin{matrix}
+			1^n&		1^{n-1}&		\cdots&		1^0\\
+			2^n&		2^{n-1}&		\cdots&		2^0\\
+			\vdots&		\vdots&		&		\vdots\\
+			\left( n+1 \right) ^n&		\left( n+1 \right) ^{n-1}&		\cdots&		\left( n+1 \right) ^0\\
+		\end{matrix} \right) \left( \begin{array}{c}
+			a_0\\
+			a_1\\
+			\vdots\\
+			a_n\\
+		\end{array} \right) =\left( \begin{array}{c}
+			b_0\\
+			b_1\\
+			\vdots\\
+			b_n\\
+		\end{array} \right) 
+	\end{equation*}
+	其系数矩阵为范德蒙行列式，必然可逆，故
+	\begin{equation*}
+		\left( \begin{array}{c}
+			a_0\\
+			a_1\\
+			\vdots\\
+			a_n\\
+		\end{array} \right) =\left( \begin{matrix}
+			1^n&		1^{n-1}&		\cdots&		1^0\\
+			2^n&		2^{n-1}&		\cdots&		2^0\\
+			\vdots&		\vdots&		&		\vdots\\
+			\left( n+1 \right) ^n&		\left( n+1 \right) ^{n-1}&		\cdots&		\left( n+1 \right) ^0\\
+		\end{matrix} \right) ^{-1}\left( \begin{array}{c}
+			b_0\\
+			b_1\\
+			\vdots\\
+			b_n\\
+		\end{array} \right) 
+	\end{equation*}
+	则$a_{i}\in R(i=1,2,\cdots,n)$，得证。
+\end{solution}
+由这个例题，我们可以衍生出很多孪生兄弟
+
+\begin{remark}
+	
+	设$f(x)\in C[x]且deg{f}(x)=n$。若有$n+1$个两两不同的数$a_1,a_2,\cdots,a_{n+1}\in R$使得$f(a_1),f(a_2),\cdots,f(a_{n+1})\in R$，则$f(x)\in R[x]$
+	
+	设$f(x)\in C[x]$且$deg{f}(x)=n$。若有$n+1$个两两不同的数$a_1,a_2,\cdots,a_{n+1}\in Q$使得$f(a_1),f(a_2),\cdots,f(a_{n+1})\in Q$，则$f(x)\in Q[x]$
+	
+	设$f(x)\in C[x]$且$deg{f}(x)=n$。若有$n+1$个两两不同的数$a_1,a_2,\cdots,a_{n+1}\in Z$使得$f(a_1),f(a_2),\cdots,f(a_{n+1})\in Z$，则$f(x)\notin Z[x]$(整数的逆矩阵不一定为整数)
+\end{remark}
+\section{有理系数和整系数多项式}
+有理数域上的不可约多项式有哪些？如何判别一个有理数多项式是否不可约？这就是我们要讨论的问题
+
+设$f(x)\in Q[x]$,由于$f(x)$和它的相伴元只差一个非零有理数因子，因此$f(x)$和它的相伴元在有理数域上有相同的因式，从而$f(x) $在$Q$上不可约当且仅当它的相伴元在$Q$上不可约。这样我们就可以从$f(x)$的相伴元中选择一个最简单的多项式作为代表研究它的不可约性。这个代表可以很自然地如下选取：例如，$f(x)=\frac{1}{2}x^{3}+\frac{1}{3}x^{2}-2x+1=\frac{1}{6}(3x^{3}+2x^{2}-12x+6)$,显然$3x^{3}+2x^{2}-12x+6$是与$f(x)$相伴的最简单的多项式。一般的，设$f(x)$的各项系数的分母的最小公倍数为$m$，则$f(x)$=$m\frac{1}{m}f(x)$，其中$mf(x)$的各项系数都为整数。设$mf(x)$的各项系数的最大公因数为$d$，则$mf(x)=d\frac{m}{d}f(x)$,其中$\frac{m}{d}f(x)$的各项系数的最大公因数为$\pm1$,于是$\frac{m}{d}f(x)$就是与$f(x)$相伴的最简单的多项式，由此抽象出本原多项式的概念：
+\begin{definition}[本原多项式]
+	一个非零的整系数多项式$f(x)$，如果它的各项系数的最大公因式只有$\pm1$,那么称$f(x)$是一个本原多项式
+\end{definition}
+从前文知道，任何一个非零的有理系数多项式$f(x)$都与一个本原多项式相伴。我们进一步可以得到：与$f(x)$相伴的本原多项式在相差一个正负号的情况下是唯一的，即
+\begin{theorem}
+	两个本原多项式$f(x),g(x)$在$Q[x]$中相伴当且仅当$f(x)=\pm g(x)$
+\end{theorem}
+
+任何一个次数大于0的有理系数多项式都与一个本原多项式相伴，因此我们只需要去研究本原多项式是否不可约。由于因式分解涉及乘法，因此自然要问：两个本原多项式的乘积是否还是本原多项式？下面的定理就回答了这一问题：
+\begin{theorem}
+	两个本原多项式的乘积还是本原多项式
+\end{theorem}
+
+要寻找本原多项式不可约的充分条件，不是很好找。我们可以反过来思考：从一个本原多项式可约能推出怎样的结论？从不可约多项式的等价条件得出，如果一个次数大于0的本原多项式可约，那么它可以分解为两个次数较低的有理系数多项式的乘积。从高斯引理我们可以判断它可以分解为两个次数较低的本原多项式的乘积，于是我们就有：
+
+\begin{theorem}
+	一个次数大于0的本原多项式$f(x)$在$Q$上可约当且仅当$f(x)$可以分解为两个较低的本原多项式的乘积。
+\end{theorem}
+由这个定理，我们可以推出
+\begin{corollary}
+	一个次数大于0的整系数多项式$f(x)$在$Q$上可约当且仅当$f(x)$能分解为两个次数较低的整系数多项式的乘积
+\end{corollary}
+
+接下来，有一个定理，很有意思：
+\begin{theorem}
+	整系数多项式$f(x)$在$Q$上可约$\Leftrightarrow f(x)$在$Z$上可约
+\end{theorem}
+
+有这个定理，我们可以把有理系数多项式在$Q$上的可约问题可以转化为整系数多项式在$Z$上的可约问题
+
+下述定理给出了本原多项式组成的集合的结构
+\begin{theorem}
+	每一个次数大于0的本原多项式$f(x)$都可以唯一地分解为$Q$上地不可约多项式的乘积。唯一性是指，假如$f(x)$有两个这样的分解式：
+	\begin{equation*}
+		f\left( x \right) =p_1\left( x \right) p_2\left( x \right) \cdots p_s\left( x \right) ,f\left( x \right) =q_1\left( x \right) q_2\left( x \right) \cdots q_t\left( x \right) 
+	\end{equation*}
+	则$s=t$且经过适当排列因式的次序后，有
+	\begin{equation*}
+		p_i\left( x \right) =\pm q_i\left( x \right) ,i=1,2,\cdots ,s
+	\end{equation*}
+\end{theorem}
+
+一个次数大于1的整系数多项式$f(x)$如果有一次因式，那么$f(x)$可约，因此次数大于1的整系数多项式$f(x)$在$Q[x]$不可约的必要条件是$f(x)$没有一次因式，而$f(x)$有一次因式当且仅当$f(x)$在$Q$中有根。接下来我们来研究一下整系数多项式在$Q$中有根的必要条件。
+
+\begin{theorem}
+	设$f(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0\in Z[x]$，则有理数$\frac{q}{p}$是$f(x)$的根的必要条件是$p$是$a_n$的因数，$q$是$a_0$的因数，其中$p,q$是互素的整数。
+\end{theorem}
+
+当$\pm1$不是$f(x)$的根时，我们可以推出一个很有意思的结论
+\begin{conclusion}
+	设$c\in Z,f(x)\in Z[x]$且$f(c)=0$，则$\frac{f(-1)}{c+1}\in Z$（$c\neq-1$）、$\frac{f(1)}{c-1}\in Z$（$c\neq1$）
+\end{conclusion}
+故如果计算出$\frac{f(-1)}{c+1}\notin Z$（$c\neq-1$）、$\frac{f(1)}{c-1}\notin Z$（$c\neq1$），那么$c$就不是$f(x)$的根，这个方法在判断多项式的有理根的时候很有用。
+
+用定理(2.16)可以判断二次或三次整系数多项式是否在$Q$上不可约：二次或三次整系数多项式在$Q$上不可约当且仅当它没有有理根。
+
+\begin{remark}
+	
+	对于四次以及四次以上的整系数多项式$f(x)$，如果它没有有理根，那么只能说明$f(x)$没有一次因式，并不能说明$f(x)$在$Q$上不可约，因为$f(x)$可能有二次因式或者次数大于二的因式。这表明，对于四次以及四次以上的整系数多项式$f(x)$，没有有理根只是$f(x)$在$Q$上不可约的必要条件，而不是充分条件。
+\end{remark}
+
+那么有什么办法来判断$f(x)$在$Q$上不可约呢？下面的定理给了我们答案
+\begin{theorem}[Eisenstein判别法]
+	设多项式$f(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0\in Z[x],a_{n}\ne0,n\ge1,p$是一个素数，若$p|a_i(i=0,1,2,\cdots,n-1),$$p\nmid an,p^{2}\nmid a0$，则$f(x)$在$Q$上不可约
+\end{theorem}
+由这个可以推出
+\begin{theorem}
+	在$Q$上存在$n(n\geq1)$次的不可约多项式
+\end{theorem}
+\section{重点题型}
+\subsection{最大公因式总结}
+\begin{conclusion}
+	
+	若$d(x)$是$f(x),g(x)$的\textbf{公因式}，且能写成
+	\begin{equation*}
+		d(x)=u(x)f(x)+v(x)g(x)
+	\end{equation*}
+	那么$d(x)$为\textbf{最大公因式}。
+	
+	~\\
+	
+\end{conclusion}
+\begin{example}
+	设$t(x)$首一，($f(x),g(x))=d(x)$，则$(f(x)t(x),g(x)t(x))=d(x)t(x)$
+\end{example}
+\begin{solution}
+	
+	要证明$d(x)t(x)$是首一最大公因式，首先得证明是公因式,显然有
+	\begin{equation*}
+		d(x)t(x)|f(x)t(x),d(x)t(x)|g(x)t(x)
+	\end{equation*}
+	又因为，$(f(x),g(x))=d(x)$
+	于是有
+	\begin{equation*}
+		u(x)f(x)+v(x)g(x)=d(x)
+	\end{equation*}
+	同乘$t(x)$,有
+	\begin{equation*}
+		u(x)f(x)t(x)+v(x)g(x)t(x)=d(x)t(x)
+	\end{equation*}
+	得证
+\end{solution}
+\begin{example}
+	设$f(x),g(x)$不全为0，证明$\left( \frac{f\left( x \right)}{\left( f\left( x \right) ,g\left( x \right) \right)},\frac{g\left( x \right)}{\left( f\left( x \right) ,g\left( x \right) \right)} \right) =1
+	$
+\end{example}
+\begin{solution}
+	
+	要证明$\left( \frac{f\left( x \right)}{\left( f\left( x \right) ,g\left( x \right) \right)},\frac{g\left( x \right)}{\left( f\left( x \right) ,g\left( x \right) \right)} \right) =1
+	$，即证明
+	\begin{equation*}
+		u(x)
+		\frac{f\left( x \right)}{\left( f\left( x \right) ,g\left( x \right) \right)}
+		+v(x)
+		\frac{g\left( x \right)}{\left( f\left( x \right) ,g\left( x \right) \right)}
+		=1
+	\end{equation*}
+	又$f(x),g(x)$不全为0，则$(f(x),g(x))\ne0$,即证明
+	\begin{equation*}
+		u(x)f(x)+v(x)g(x)=(f(x),g(x))
+	\end{equation*}
+	显然成立。
+\end{solution}
+\begin{example}
+	若$(f_1(x),g(x))=1,(f_2(x),g(x))=1$，则$(f_1(x)f_2(x),g(x))=1$
+\end{example}
+\begin{solution}
+	
+	由$(f_1(x),g(x))=1,(f_2(x),g(x))=1$，则有
+	\begin{equation*}
+		u_{1}(x)f_1(x)+v_{1}(x)g(x)=1,u_{2}(x)f_2(x)+v_{2}(x)g(x)=1
+	\end{equation*}
+	两式相乘，则有
+	\begin{equation*}
+		u_1(x)f_1(x)u_2(x)f_2(x)+u_1(x)f_1(x)v_2(x)g(x)+v_1(x)g(x)u_2(x)f_2(x)+v_1(x)g(x)v_2(x)g(x)=1
+		
+	\end{equation*}
+	即
+	\begin{equation*}
+		u_1(x)f_1(x)u_2(x)f_2(x)+g\left( x \right) \left( u_1(x)f_1(x)v_2(x)+v_1(x)u_2(x)f_2(x)+v_1(x)g(x)v_2(x) \right) =1
+	\end{equation*}
+	则有$(f_1(x)f_2(x),g(x))=1$
+\end{solution}
+\begin{example}
+	如果$(f(x),g(x))=1$,那么$(f(x)g(x),f(x)+g(x))=1$
+\end{example}
+\begin{solution}
+	由$(f(x),g(x))=1$，则有
+	\begin{equation*}
+		u(x)f(x)+v(x)g(x)=1
+	\end{equation*}
+\end{solution}
+对照形式，则有
+\begin{equation*}
+	\begin{split}
+		u(x)[f(x)+g(x)]+[v(x)-u(x)]g(x)=1
+		\\
+			v(x)[f(x)+g(x)]+[v(x)-u(x)]f(x)=1
+	\end{split}
+\end{equation*}
+于是有
+\begin{equation*}
+	(f(x),f(x)+g(x))=1,(g(x),f(x)+g(x))=1
+\end{equation*}
+由上一题，结论得证。
+\subsection{中国剩余定理}
+为了增强文化自信，弘扬中华民族传统美德，这个定理我们就需要掌握，具体内容是啥呢？如下
+\begin{theorem}[中国剩余定理]
+	设$p_1(x),\cdots,p_m(x)\in F[x]$且两两互素，$g_1(x),\cdots,g_m(x)\in F[x]$且$deg{g_i}(x)<deg{p_i}(x)(i=1,\cdots,m)$，
+	则存在唯一的$g(x),q_i(x)\in F[x](i=1,\cdots,m)$使得
+	$deg{g}(x)<\sum_{i=1}^{m}{deg{p_i}(x)}$且$g(x)=p_i(x)q_i(x)+g_i(x)(i=1,\cdots,m)$。
+\end{theorem}
+虽然说，看上去有点复杂，实际上，就是有点复杂，事实上，我们只要会做题就行了。按我给你的套路走，不了解原理也能做题，拿分，以练习为例题。
+\begin{example}
+	设$f(x)$除以$x^2+1,x^2+2$的余式分别为$4x+4,4x+8$，求$f(x)$除以$(x^2+1)(x^2+2)$的余式
+\end{example}
+解：
+
+三步走，第一步，找$q(x),p(x)$
+
+这里$q_{1}(x)=x^2+1,q_{2}(x)=x^2+2,p_{1}(x)=4x+4,p_{2}(x)=4x+8$
+
+第二步，求$f_{i}(x)$,就把除了$q_{i}(x)$以外的所有$q(x)$相乘，凑成1，
+
+这里就两项，有$(-1)(x^2+1)+1(x^2+2)=1$
+于是$f_{1}(x)=x^2+2,f_{2}(x)=(-1)(x^2+1)$
+
+第三步，$p(x)f(x)$累加再加上$t(x)$乘所有$q(x)$
+
+这里有$f(x)=t(x)(x^2+1)(x^2+2)+(4x+4)(x^2+2)+(4x+8)(-1)(x^2+1)=t(x)(x^2+1)(x^2+2)-4x^{2}+4x$
+
+\begin{example}
+	（韩信点兵）有一次战斗后，韩信要清点士兵的人数。让士兵三人一组，就有两人没法编组；五人一组，就有三人无法编组；七人一组，就有两人无法编组。那么请问这些士兵至少有几人？
+\end{example}
+解
+
+三步走，第一步，找$q(x),p(x)$
+
+这里$q_{1}(x)=3,q_{2}(x)=5,q_{3}(x)=7,p_{1}(x)=2,p_{2}(x)=3,p_{3}=2$
+
+第二步，求$f_{i}(x)$,就把除了$q_{i}(x)$以外的所有$q(x)$相乘，凑成1
+
+这里有三项，我们挨个求
+
+$q_{1}(x)=3,q_{2}(x)q_{3}(x)=35,12\cdot3+(-1)\cdot35=1$于是$f_{1}(x)=-35$
+
+$q_{2}(x)=5,q_{1}(x)q_{3}(x)=21,(-4)\cdot5+21=1$于是$f_{2}(x)=21$
+
+$q_{3}(x)=7,q_{1}(x)q_{2}(x)=15,(-2)\cdot7+15=1$于是$f_{3}(x)=15$
+
+第三步，$p(x)f(x)$累加再加上$t(x)$乘所有$q(x)$
+
+这里有$f(x)=105t(x)+(-35)\cdot2+21\cdot3+15\cdot2=105t(x)+23$
+
+至少23人
+\subsection{重因式}
+\begin{conclusion}
+	
+	1.若不可约多项式$p(x)$是$f(x)$的$k(k\geq1)$重因式，则$p(x)$是$f^\prime(x)$的$k-1$重因式
+	
+	2.已知不可约多项式$p(x$)是$f(x)$的因式。若$p(x)$是$f^\prime(x)$的$k(k>0)$重因式，则$p(x)$是$f(x)$的$k+1$重因式
+	
+	3.若不可约多项式$p(x)$ 是$f(x)$的$k(k\geq1)$重因式，则$p(x)$是$f^\prime(x),f^\p \prime(x),\cdots,f^{(k-1)}(x)$的因式，但不是$f^{(k)}(x)$的因式
+\end{conclusion}
+\begin{example}
+	如果$(x-1)^{2}|(Ax^{4}+Bx^{2}+1)$,求$A,B$
+\end{example}
+\begin{solution}
+	
+	由题，1是多项式的二重根，由此，有
+	\begin{equation*}
+		\begin{cases}
+			f\left( 1 \right) =0\\
+			f\prime\left( 1 \right) =0\\
+		\end{cases}
+	\end{equation*}
+	解得
+	\begin{equation*}
+		\begin{cases}
+			A=1\\
+			B=-2\\
+		\end{cases}
+	\end{equation*}
+\end{solution}
+\begin{example}
+	如果$a$是$f'''(x)$的一个$k$重根，证明：$a$是
+	\begin{equation*}
+		g(x)=\frac{(x-a)}{2}[f'(x)+f'(a)]-f(x)+f(a)
+	\end{equation*}
+	的一个$k+3$重根
+\end{example}
+\begin{solution}
+	
+	要证明是$k+3$重根，只需要证明是二阶导的$k+1$重根,
+	有
+	\begin{equation*}
+		g''(x)=\frac{(x-a)}{2}f'''(x)
+	\end{equation*}
+	又有
+	\begin{equation*}
+		(x-a)^{k+1}|g''(x),(x-a)^{k+2}\nmid g''(x)
+	\end{equation*}
+	得证
+\end{solution}
+\subsection{有理根和有理数域上的可约性}
+\begin{conclusion}判断是否有有理根
+	
+	第一步：写出$a_{n},a_{0}$所有因子$s_{i},r_{j}$,组合成有理根的所有候选$\frac{r_{j}}{s_{i}}$
+	
+	第二步：用代入法检验1和-1是不是根
+	
+	1.1和-1都是，用综合除法或者代入验证
+	
+	2.1和-1至少有一个不是，用$\frac{f(1)}{\frac{r_{j}}{s_{i}}-1}$和$\frac{f(-1)}{\frac{r_{j}}{s_{i}}+1}$排除不是整数的候选，其它的代入或者用综合除法验证
+	
+	3.求出根的，用综合除法验证重数
+\end{conclusion}
+\begin{example}
+	证明：$f(x)=x^5-12x^3+36x+12$没有有理根。
+\end{example}
+\begin{solution}
+	
+	显然有有理根仅有$\pm1,\pm2,\pm3 \pm4 \pm 6 \pm12$这几种情况
+	
+	经检验，上述情况都不成立，于是没有有理根
+\end{solution}
+\begin{example}
+	求多项式$f(x)=x^5+x^{4}-6x^3-14x^{2}-11x-3$的有理根
+\end{example}
+\begin{solution}
+	
+	显然有有理根仅有$\pm1,\pm3 $这几种情况
+	
+	$f(1)=-32,f(-1)=0,\frac{-32}{4}=-8,\frac{-32}{-2}=16$
+	
+	于是需要综合除法，
+	经检验3为单根，-3不是根，1是四重根
+\end{solution}
+\begin{conclusion}Eisenstein判别法
+	
+	设多项式$f(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0\in Z[x],a_{n}\ne0,n\ge1,p$是一个素数，若$p|a_i(i=0,1,2,\cdots,n-1),$$p\nmid an,p^{2}\nmid a0$，则$f(x)$在$Q$上不可约
+\end{conclusion}
+\begin{example}
+	判断$x^{4}-8x^{3}+12x^{2}+2$在有理数域上是否可约
+\end{example}
+\begin{solution}
+	
+	$2|2,2\nmid1,4\nmid2$
+	
+	由Eisenstein判别法，Q上不可约
+\end{solution}
+\begin{example}
+	证明：当$n$为素数时，$f(x)=1+x+\frac{x^2}{2!}+\cdots+\frac{x^n}{n!}$在$Q$上不可约。
+\end{example}
+\begin{solution}
+	
+	化简，有
+	\begin{equation*}
+		n!f(x)=x^{n}+\cdots+n!
+	\end{equation*}
+	$n!|n!,n!\nmid1,(n!)^{2}\nmid n!$
+	
+	由Eisenstein判别法，n!f(x)在Q上不可约，进而f(x)在Q上不可约
+\end{solution}
+\begin{example}
+	若$p$为素数，证明：$f(x)=x^{p-1}+x^{p-2}+\cdots+x+1$在$Q$上不可约。
+\end{example}
+\begin{solution}
+	
+	注意到
+	\begin{equation*}
+		(x-1)f(x)=x^{p}-1
+	\end{equation*}
+	令$y=x-1$，有
+	\begin{equation*}
+		f(y+1)=\frac{(y+1)^{p}-1}{y}
+	\end{equation*}
+	又因为
+	\begin{equation*}
+		\begin{split}
+			\left( a+b \right) ^n=C_{n}^{0}a^n+C_{n}^{1}a^{n-1}b+C_{n}^{2}a^{n-2}b^2+\cdots +C_{n}^{n-1}ab^{n-1}+C_{n}^{n}b^n
+			\\
+			=\sum_{k=0}^n{C_{n}^{k}a^{n-k}b^k}
+		\end{split}
+	\end{equation*}
+	所以原式等于
+	\begin{equation*}
+		f(y+1)=\frac{\sum_{k=0}^p{C_{n}^{k}y^{p-k}}-1}{y}=\frac{\sum_{k=0}^{p-1}{C_{n}^{k}y^{p-k}}}{y}=\sum_{k=0}^{p-1}{C_{p}^{k}y^{p-k-1}}
+	\end{equation*}
+	又因为
+	\begin{equation*}
+		C_{p}^{k}=\frac{p!}{i!(p-i)!}\in Z
+	\end{equation*}
+	故有
+	\begin{equation*}
+		p|C_{p}^{k}
+	\end{equation*}
+	又因为$p\nmid1,p^{2}\nmid C_{p}^{k}$，由由Eisenstein判别法，$f(y)$在$Q$上不可约，进而$f(x)$在$Q$上不可约
+\end{solution}
+
+~\\
+
+\begin{example}
+	设$f(x)=(x-a_1)(x-a_2)\cdots(x-a_n)-1$，其中$a_1,a_2,\cdots,a_n$为两两不同的整数。求证：$f(x)$在$Q$上不可约
+\end{example}
+\begin{solution}
+	
+	设$f(x)$可约，则有
+	\begin{equation*}
+		f(x)=g(x)h(x),0<degh(x),degg(x)<n
+	\end{equation*}
+	于是有
+	\begin{equation*}
+		\begin{cases}
+			f(a_1)=g(a_1)h(a_1)=-1\\
+			f(a_2)=g(a_2)h(a_2)=-1\\
+			\cdots\\
+			f(a_n)=g(a_n)h(a_n)=-1\\
+		\end{cases}
+	\end{equation*}
+	又因为$g(x),h(x)$为整系数多项式，于是$g(x)=\pm1,h(x)=\mp1$即
+	\begin{equation*}
+		h(x)+g(x)=0
+	\end{equation*}
+	对$a_{1},\cdots,a_{n}$恒成立。又因为该等式次数小于$n$，又有$n$个根，故该等式为恒等式。
+	于是有
+	\begin{equation*}
+		f(x)=-g^{2}(x)
+	\end{equation*}
+	这与$f(x)$首一矛盾，故$f(x)$在$Q$上不可约。
+\end{solution}
+\chapter{特征值}
+\section{导学}
+
+这一章节是围绕着特征值和特征多项式进行展开，进而衍生出相应的可对角化概念。然后再提出了零化多项式和极小多项式的概念。Hamilton-Cayley Theorem提供出了一个较为简便的找出一个矩阵的零化多项式的方法，然后我们根据极小多项式可以整除零化多项式，可以缩小寻找极小多项式的范围。事实上这样的方法还是不够简便，如何寻找极小多项式会在下一章提到。
+
+可以从目录看出来，本章的重点还是在特征值和特征多项式上，事实也是如此，可对角化的考点较少，思维较为固定，更别说是稍微一提的极小多项式了。本章的知识点主要是从矩阵的角度出发，鲜有线性空间。主要是对高代老师课上内容的补充和整理，再加上一些个人的思考。
+\section{特征值和特征多项式}
+\subsection{前置知识}
+$\mathbf{Define}$ ：设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$。若存在$\lambda \in\mathit{F}$，使得$\mathit{A\alpha = \lambda\alpha}$,则称$\lambda$是$\mathit{A}$的一个特征值，$\alpha$是$\mathit{A}$的属于特征值$\lambda$的一个特征量向量 (当然，这里$\alpha$不为零向量)。
+~\\
+
+
+$\mathbf{Attention}$：设$\mathit{A}$ $\in$$\mathit{F^{n\times n} }$。$\alpha$是$\mathit{A}$的属于特征值$\lambda$的一个特征量向量，$\mathit{i} \in\mathit{N^{+} }$ ,则$\alpha$是$\mathit{A^{\mathit{i}} }$属于特征值$\mathit{\lambda^{\mathit{i}} }$的一个特征量向量.	~\\
+
+$\mathbf{Attention}$：一个特征向量只能属于一个特征值。
+~\\
+
+$\mathbf{Attention}$：$\mathit{A}$的属于特征值$\lambda$的特征量向量的\underline{非零线性组合} 仍是$\mathit{A}$的属于特征值$\lambda$的特征量向量。
+
+~\\
+
+
+$\mathbf{Define}$:设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$，$\lambda$是$\mathit{A}$的一个特征值，称$\mathit{V_{\lambda } }$ 是的属于特征值$\lambda$的特征子空间(特征向量本身就包含对加法和纯量乘法封闭的性质，此时只要包含零向量即可构成线性空间。) ~\\
+
+$\mathbf{Theorem}$:设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$，则$\mathit{A}$的属于不同特征值的特征向量线性无关。~\\
+
+$\mathbf{Define}$:设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$，$\mathit{f} (A)=\sum_{\mathit{i=0} }^{n} a_{i} A^{i} $ ,$\alpha$是$\mathit{A}$的属于特征值$\lambda$的一个特征量向量，则$\alpha$是$\mathit{f}$ ($\mathit{A}$)属于特征值$\mathit{f}$ ($\lambda$)的特征向量。
+
+$\mathbf{Define}$:设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$，矩阵$\lambda$$\mathit{E-A}$,称为$\mathit{A}$的特征矩阵，det（$\lambda$$\mathit{E-A}$）称为$\mathit{A}$的特征多项式，记作$\mathit{f_{A}}$($\lambda$)。$\mathit{f_{A}}$($\lambda$)=0，称为$\mathit{A}$的特征方程，$\mathit{f_{A}}$($\lambda$)的根称为$\mathit{A}$的特征根。~\\
+
+$\mathbf{Attention}$:设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$，$\alpha$是$\mathit{A}$的属于特征值$\lambda$$_{0}$的一个特征向量,则$\lambda$$_{0}$是特征多项式$\mathit{f_{A}}$($\lambda$)的根，$\alpha$是齐次线性方程组（$\lambda$$_{0}$$\mathit{E-A}$）x=0的非零解。
+
+$\mathbf{Attention}$:设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$，则$\mathit{A}$的所有特征值之和为$\mathit{A}$的迹，$\mathit{A}$的所有特征值之积为det（$\mathit{A}$）。
+
+$\mathbf{Attention}$:相似矩阵有相同的特征多项式，从而有相同的特征值。转置矩阵之间也有相同的特征多项式，同理也有相同的特征值。
+
+
+
+~\\
+
+线性空间有关部分，本资料不做更多归纳
+
+\subsection{特征向量的结构}
+$\mathbf{Conclusion}$:$\mathit{A}$是n阶矩阵，$\lambda$$_{1}$,$\lambda$$_{2}$,$\lambda$$_{3}$分别是$\mathit{A}$的k$_{1}$,k$_{2}$,
+k$_{3}$重特征值，且k$_{1}$+k$_{2}$+
+k$_{3}$=n。
+则有$\xi $$_{1}$,$\xi $$_{2}$,$\cdots$,$\xi $$_{s}$是（$\lambda$$_{1}$$\mathit{E-A}$）x=0的一个基础解系
+$\eta  $$_{1}$,$\eta  $$_{2}$,$\cdots$,$\eta  $$_{t}$是（$\lambda$$_{2}$$\mathit{E-A}$）x=0的一个基础解系
+$\delta  $$_{1}$,$\delta   $$_{2}$,$\cdots$,$\delta   $$_{r}$是（$\lambda$$_{3}$$\mathit{E-A}$）x=0的一个基础解系
+此时$\xi $$_{1}$,$\xi $$_{2}$,$\cdots$,$\xi $$_{s}$$\eta  $$_{1}$,$\eta  $$_{2}$,$\cdots$,$\eta  $$_{t}$$\delta  $$_{1}$,$\delta   $$_{2}$,$\cdots$,$\delta   $$_{r}$线性无关。即$\lambda$$_{1}$所对应的特征向量不可由$\lambda$$_{2}$,$\lambda$$_{3}$所对应的特征向量表出。~\\
+
+$\mathbf{Theorem}$:若$\lambda$$_{1}$,$\lambda$$_{2}$,$\cdots$,$\lambda$$_{n}$是$\mathit{A}$的全部特征值，则$\mathit{f}$ ($\lambda$$_{1}$),$\mathit{f}$ ($\lambda$$_{2}$),$\cdots$,$\mathit{f}$ ($\lambda$$_{n}$)是$\mathit{f}$ ($\mathit{A}$)的全部特征值。
+
+$\mathbf{Infer}$:现在讨论特殊情况
+
+$\mathit{f}$ ($\mathit{x}$)=bx(b$\ne $0)则此时det($\lambda$$\mathit{E-bA}$)=($\lambda$-b$\lambda$$_{1}$)$\cdots$($\lambda$-b$\lambda$$_{n}$)
+
+$\mathit{f}$ ($\mathit{x}$)=x+b则此时det($\lambda$$\mathit{E-(A+bE)}$)=($\lambda$-($\lambda$$_{1}$+b))$\cdots$($\lambda$-($\lambda$$_{n}$+b))
+
+$\mathit{f}$($\mathit{x}$)=x$^{-1}$
+则此时det($\lambda$ $\mathit{E-A^{-1}}$)
+=($\lambda$-$\lambda$$_{1}$$^{-1}$)$\cdots$($\lambda$-$\lambda$$_{n}$$^{-1}$)
+
+$\mathit{f}$($\mathit{x}$)=x$^{m}$(m为正整数)
+则此时det($\lambda$ $\mathit{E-A^{m}}$)
+=($\lambda$-$\lambda$$_{1}$$^{m}$)$\cdots$($\lambda$-$\lambda$$_{n}$$^{m}$)
+
+~\\
+
+$\mathbf{Application}$:
+
+例1.  $\mathit{A}$是三阶矩阵，若
+$\mathit{A}^{2}$-6$\mathit{A}$+11$\mathit{E}$=6A$^{-1} $,则$\mathit{A}$的特征值可能是多少？
+
+解：原式等价于 $\lambda$$^{2}$-6$\lambda$+11=6$\lambda$$^{-1} $，
+其中$\lambda$为任意一个特征值。令其等于0，解得$\lambda$=1，2，3.故$\mathit{A}$的特征值只能为这三个中的某一个。
+~\\
+~\\
+
+
+例2.      $\mathit{A}$是n阶矩阵，证明：$\mathit{A}^{2}$+$\mathit{E}$可逆
+
+证明：不妨设$\mathit{A}$的特征值为$\lambda$$_{1}$,$\lambda$$_{2}$,$\cdots$,$\lambda$$_{n}$，则：$\mathit{A}^{2}$+$\mathit{E}$的特征值为$\lambda$$_{1}$$^{2}$+1,$\lambda$$_{2}$$^{2}$+1,$\cdots$,$\lambda$$_{n}$$^{2}$+1
+则det($\mathit{A}^{2}$+$\mathit{E}$)=($\lambda$$_{1}$$^{2}$+1)($\lambda$$_{2}$$^{2}$+1)$\cdots$($\lambda$$_{n}$$^{2}$+1)>0,故可逆。
+~\\
+~\\
+
+\subsection{相似矩阵}
+  $\mathbf{Attention}$:相似矩阵有着相同的特征多项式，故有着相同的特征值和重数。
+  
+  $\mathbf{Attention}$:设$\mathit{A}$,$\mathit{B}$ $\in$ $\mathit{F^{n\times n} }$且$\mathit{A}$$\sim$$\mathit{B}$,则存在n阶可逆阵$\mathit{P}$ $\in$ $\mathit{F^{n\times n} }$使得$\mathit{B=P^{-1}AP}$。若$\alpha$是$\mathit{A}$的属于特征值$\lambda$$_{0}$的一个特征向量，则$\mathit{P^{-1}}$  $\alpha$是$\mathit{B}$的属于特征值$\lambda$$_{0}$的一个特征向量
+  ~\\
+  
+   $\mathbf{Application}$:设$\mathit{A}$=
+   $\begin{bmatrix}
+   	3& 2 & 2\\
+   	2 & 3 & 2\\
+   	2& 2 &3
+   \end{bmatrix}$,
+   $\mathit{P}$=
+   $\begin{bmatrix}
+   	0& 1 & 0\\
+   	1 & 0 & 1\\
+   	0& 0 &1
+   \end{bmatrix}$,
+   $\mathit{B}$=$\mathit{P}$$^{-1}$$\mathit{A}$$^{*}$$\mathit{P}$,求$\mathit{B+2E}$的特征值和特征向量。
+   
+   解：由$\mathit{A}$$^{*}$=det($\mathit{A}) 
+   $$\mathit{A^{-1}}$可知 $\mathit{B}$=$\mathit{P}$$^{-1}$det($\mathit{A}) 
+   $$\mathit{A^{-1}}$$\mathit{P}$。即求$\mathit{A^{-1}}$的特征值和特征向量，事实上，$\mathit{A}$,$\mathit{A^{-1}}$有着相同的特征向量和特征值的重数。即求$\mathit{A}$的特征值和特征向量。
+   
+   $\lambda$$\mathit{E-A}$=
+   $\begin{bmatrix}
+   	$$\lambda$-3$ & -2 & -2\\
+   	-2 & $$\lambda$-3$ & -2\\
+   	-2& -2 & $$\lambda$-3$
+   \end{bmatrix}$=$\lambda$$^{3}$-9$\lambda$$^{2}$+15$\lambda$-7=0
+   
+   解得 $\lambda$=1，1，7
+   
+   $\lambda$=1时，$\mathit{E-A}$=
+    $\begin{bmatrix}
+   	1& 1 & 1\\
+   	 0&  0& 0\\
+   	0& 0 &0
+   \end{bmatrix}$，$\alpha$$_{1}$=
+    $\begin{bmatrix}
+   	1& \\
+   	-1& \\
+   	0& 
+   \end{bmatrix}$，
+   $\alpha$$_{2}$=
+   $\begin{bmatrix}
+   	1& \\
+   	0& \\
+   	-1& 
+   \end{bmatrix}$，
+   
+   
+   $\lambda$=7时，$\mathit{7E-A}$=
+   $\begin{bmatrix}
+   	2& -1 & -1\\
+   	-1&  2& -1\\
+   	0& 0 &0
+   \end{bmatrix}$，
+   $\alpha$$_{3}$=
+   $\begin{bmatrix}
+   	1& \\
+   	1& \\
+   	1& 
+   \end{bmatrix}$
+   
+   要求 $\mathit{B+2E}$的特征值和特征向量，即求$\mathit{A^{-1}det(A)+2E}$的特征值和特征向量。
+   $\lambda$=1，1，7则$\mathit{A^{-1}}$的特征值为1,1,$\frac{1}{7}$
+   特征向量都为$\alpha$$_{1}$，$\alpha$$_{2}$，$\alpha$$_{3}$
+   $\mathit{B+2E}$的特征值为9，9，3.此时对应的特征向量为$\mathit{P}$$^{-1}$$\alpha$$_{1}$，$\mathit{P}$$^{-1}$$\alpha$$_{2}$，$\mathit{P}$$^{-1}$$\alpha$$_{3}$
+   ~\\
+   ~\\
+   
+\subsection{秩一矩阵}
+
+  $\mathbf{Conclusion}$:$\mathit{A}$是n阶矩阵,r($\mathit{A}$)=1,则$\mathit{A}$的所有特征值为$\underset{n-1}{\underbrace{0,\cdots ,0} } $,tr($\mathit{A}$)。当tr($\mathit{A}$)大于0时，$\mathit{A}$可对角化，当tr($\mathit{A}$)等于0时，$\mathit{A}$不可对角化，
+  
+  证明：$\mathit{A}$x=0=0x.故0为$\mathit{A}$的特征值，r($\mathit{A}$)=1，所以0几何重数为n-1，又代数重数大于几何重数，所以0的重数大于等于n-1又有$\mathit{A}$的特征值的和为tr($\mathit{A}$)，并且前n-1个特征值全为0，故最后一个特征值为tr($\mathit{A}$)。
+  
+  $\mathbf{Conclusion}$:tr($\mathit{A}$)=1时，$\mathit{A}$可表示为$\alpha$$\beta$$^{T}$,其中$\alpha$，$\beta$为非零列向量，此时
+  tr($\mathit{A}$)=$\alpha$$^{T}$$\beta$=$\beta$$^{T}$$\alpha$
+  
+  $\mathbf{Infer}$：
+  
+  当tr($\mathit{A}$)=0时，$\mathit{A}$的所有特征向量为$\beta$$^{T}$x=0的所有非零解
+  
+  当tr($\mathit{A}$)$\ne$0时，$\mathit{A}$的所有特征向量为$\beta$$^{T}$x=0的所有非零解+k$\alpha$(k$\ne$0)
+  
+  0对应的特征向量为$\beta$$^{T}$x=0的所有非零解，tr($\mathit{A}$)对应的所有特征向量为k$\alpha$(k$\ne$0)
+  
+  证明：
+  
+  $\mathit{A}$x=$\alpha$$\beta$$^{T}$x=0=0x，又$\alpha$非零，则$\beta$$^{T}$x=0=0x,故0对应的特征向量为$\beta$$^{T}$x=0的所有非零解
+  
+  $\mathit{A}$$\alpha$=$\alpha$$\beta$$^{T}$$\alpha$ =tr($\mathit{A}$)$\alpha$。故tr($\mathit{A}$)对应的所有特征向量为k$\alpha$(k$\ne$0)
+  
+  ~\\
+  ~\\
+  
+  $\mathbf{Application}$:
+  
+  例1. n阶方阵$\mathit{A}$所有元素为1，求$\mathit{A}$的所有特征值和特征向量。
+  
+  解：由题，tr($\mathit{A}$)=1，则阵$\mathit{A}$的所有特征值为$\underset{n-1}{\underbrace{0,\cdots ,0} } $,n。且$\mathit{A}$=$\alpha$$\beta$$^{T}$=
+  $\begin{bmatrix}
+  	1& \\
+  	$$\cdots$$& \\
+  	1& 
+  \end{bmatrix}$
+  $ \begin{bmatrix}
+  	1	& $$\cdots$$ &1
+  \end{bmatrix}$,
+  0对应的特征向量为$\beta$$^{T}$x=0的所有非零解，tr($\mathit{A}$)对应的所有特征向量为k$\alpha$(k$\ne$0)
+  解$\beta$$^{T}$x=0即 
+  $ \begin{bmatrix}
+  	1	& $$\cdots$$ &1
+  \end{bmatrix}$x=0；
+  解得0的特征向量为
+  $\begin{bmatrix}
+  	1& \\
+  	-1&\\
+  	0&\\
+  	$$\cdots$$& \\
+  	0& 
+  \end{bmatrix}$,
+  $\begin{bmatrix}
+  	1& \\
+  	0&\\
+  	-1&\\
+  	$$\cdots$$& \\
+  	0& 
+  \end{bmatrix}$,
+  $\cdots$,
+   $\begin{bmatrix}
+  	1& \\
+  	0&\\
+  	0&\\
+  	$$\cdots$$& \\
+  	-1& 
+  \end{bmatrix}$,n对应的特征向量为
+   $\begin{bmatrix}
+  	1& \\
+  	$$\cdots$$& \\
+  	1& 
+  \end{bmatrix}$。
+  
+  ~\\
+  
+  例2. $\mathit{A}$=$\mathit{E}$+$\alpha$$\beta$$^{T}$其中$\alpha$，$\beta$为列向量且$\beta$$^{T}$$\alpha$=1,求det($\mathit{A}$+$\mathit{E}$)
+  
+  解：$\alpha$$\beta$$^{T}$的特征值为$\underset{n-1}{\underbrace{0,\cdots ,0} } $,1则$\mathit{A}$+$\mathit{E}$的特征值为$\underset{n-1}{\underbrace{2,\cdots ,2} } $,3,则det($\mathit{A}$+$\mathit{E}$)=3$\times$2$^{n-1}$
+  ~\\
+  
+  例3. $\beta$是n维列向量，证明：若$\beta$$^{T}$$\beta$=1，则$\mathit{E}$-$\beta$
+  $\beta$$^{T}$不可逆，若$\beta$$^{T}$$\beta$$\ne$1，则$\mathit{E}$-$\beta$
+  $\beta$$^{T}$可逆.
+  
+  证明：$\mathit{E}$-$\beta$
+  $\beta$$^{T}$的所有特征值为$\underset{n-1}{\underbrace{1,\cdots ,1} } $,1-$\beta$$^{T}$$\beta$。若$\beta$$^{T}$$\beta$=1，则det($\mathit{E}$-$\beta$$\beta$$^{T}$)=0,不可逆。同理。
+  ~\\
+  ~\\
+  
+\subsection{伴随矩阵}
+
+
+ $\mathbf{Conclusion}$:若$\lambda$$_{1}$,$\lambda$$_{2}$,$\cdots$,$\lambda$$_{n}$是n阶方阵$\mathit{A}$的全部特征值
+ 
+ Case1. r($\mathit{A}$)=n,$\mathit{A}$$^{*}$=det($\mathit{A}) 
+ $$\mathit{A^{-1}}$
+ 
+$\mathit{A}$$^{*}$的特征值为$\frac{|A|}{\lambda_{1}}$,$\cdots$,$\frac{|A|}{\lambda_{n}}$。
+
+tr($\mathit{A}$$^{*}$)=$\sum_{j=1}^{n}\prod_{\underset{i\ne j}{i=1} }^{n}  \lambda_{i} $
+~\\
+
+Case2. r($\mathit{A}$)=n-1,r($\mathit{A}$$^{*}$)=1
+
+$\mathit{A}$$^{*}$的特征值为$\underset{n-1}{\underbrace{0,\cdots ,0} } $,tr($\mathit{A}$$^{*}$)。
+
+tr($\mathit{A}$$^{*}$)=$\sum_{j=1}^{n}\prod_{\underset{i\ne j}{i=1} }^{n}  \lambda_{i} $
+
+$\mathit{A}^{*}$的特征多项式|$\lambda\mathit{E-{A}^{*}}$|=$\lambda^{n-1}(\lambda-tr(\mathit{A}^{*}))$
+~\\
+
+
+Case3. r($\mathit{A}$)<n-1,r($\mathit{A}$$^{*}$)=0
+
+$\mathit{A}$$^{*}$的特征值为$\underset{n}{\underbrace{0,\cdots ,0} } $
+
+$\mathit{A}^{*}$的特征多项式|$\lambda\mathit{E-{A}^{*}}$|=$\lambda^{n}$
+
+~\\
+
+$\mathbf{Application}$:
+
+例1.  $\mathit{A}$=
+$\begin{bmatrix}
+	1 & 1 & 1 & 1\\
+	0  & 2 & 2 & 2\\
+	0 & 0 & 3 & 3\\
+	0 & 0 & 0 &4
+\end{bmatrix}$，
+求$\mathit{A}^{*}$的特征值
+
+解：|$\lambda E-\mathit{A}$|=$(\lambda-1)(\lambda-2)(\lambda-3)(\lambda-4)$.故$\mathit{A}$的特征值为1，2，3，4，$\mathit{A}^{*}$的特征值为6，8，12，24.~\\
+
+\subsection{AB与BA}
+
+$\mathbf{Conclusion}$:$\mathit{A,B}$分别是$m\times n,n\times m$矩阵,则|$\lambda \mathit{E_{m}-AB}$|=$\lambda^{m-n}|\mathit{E_{n}-BA}$|(结论不多，但很重要)
+
+$\mathbf{Infer}$:AB与BA的0特征值重数差m-n其他特征值重数一样并且|AB|=|BA|要么说明0是AB与BA的特征值，要么0都不是AB与BA的特征值。
+
+\section{可对角化}
+
+$\mathbf{Define}$ ：设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$。存在n阶可逆阵$\mathit{P}$ $\in$ $\mathit{F^{n\times n} }$使得$\mathit{P^{-1}AP}$为对角阵,则称$\mathit{A}$是可对角化的。(此时的对角线上的元素恰好为$\mathit{A}$的特征值,$\mathit{P}$的列向量为$\mathit{A}$的特征向量。)
+
+$\mathbf{Theorem}$ ：$\mathit{A}$可对角化的充要条件为$\mathit{A}$的特征多项式的根全在$\mathit{F}$上，且每个特征值的代数重数(特征多项式中对应特征值的重数)等于几何重数(特征值对应特征向量个数)。~\\
+
+$\mathbf{Application}$ ：
+
+例1. 已知$\mathit{A}$=
+$\begin{bmatrix}
+	1& -1 & 1\\
+	x& 4 & y\\
+	-3 &-3  &5
+\end{bmatrix}$
+有三个线性无关的特征向量，$\lambda$=2是二重特征值。试求可逆矩阵$\mathit{P}$ ，使得$\mathit{P^{-1}AP}$为对角阵。
+
+解：由$\lambda$=2是二重特征值，可知r($\mathit{2E-A}$)=3-2=1,对$\mathit{2E-A}$作初等变换，可得
+$\begin{bmatrix}
+	1& -1 & 1\\
+	2-x& 0 &-2-y\\
+	 0& 0 &0
+\end{bmatrix}$
+即x=2，y=-2。
+此时$\mathit{A}$=
+$\begin{bmatrix}
+	1& -1 & 1\\
+	2& 4 & -2\\
+	-3 &-3  &5
+\end{bmatrix}$
+
+由$\mathit{A}$的所有特征值之和为10，则可得到$\mathit{A}$的另一个特征值为6，则$\mathit{A}$的特征值为2，2，6。
+
+解（$\mathit{2E-A}$）x=0，得到以下基础解系
+$\begin{bmatrix}
+	1\\
+	0\\
+	1
+\end{bmatrix}$，
+$\begin{bmatrix}
+	-1\\
+	1\\
+	0
+\end{bmatrix}$。
+
+解（$\mathit{6E-A}$）x=0，得到以下基础解系
+$\begin{bmatrix}
+	\frac{1}{3}\\
+	-\frac{1}{3}\\
+	1
+\end{bmatrix}$，
+
+令$\mathit{P}$=
+$\begin{bmatrix}
+	-1& 1 & \frac{1}{3}\\
+	1& 0 & -\frac{1}{3}\\
+	0&1  &1
+\end{bmatrix}$,则$\mathit{P^{-1}AP}$=
+$\begin{bmatrix}
+	2& 0 & 0\\
+	0& 2 & 0l  \\
+	0&0  &6
+\end{bmatrix}$
+~\\
+
+\section{极小多项式}
+
+$\mathbf{Define}$:设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$。若$\mathit{f(A)}$=0,则称$\mathit{f(\lambda)}$是$\mathit{A}$的零化多项式。
+
+$\mathit{Hamilton-CayleyTheorem}$:一个方阵的特征多项式为这个方阵的零化多项式。
+
+$\mathbf{Define}$:设$\mathit{A}$ $\in$ $\mathit{F^{n\times n} }$。$\mathit{A}$的
+{\color{red}次数最低且首一的零化多项式 }称作$\mathit{A}$的极小多项式。记作$m_{\mathit{A}}(\lambda).$
+
+$\mathbf{Theorem}$:
+
+1.方阵$\mathit{A}$的极小多项式整除$\mathit{A}$的所有零化多项式。
+
+2.方阵的极小多项式唯一。
+
+3.相似矩阵具有相同的极小多项式。
+
+$\mathbf{Attention}$:在不计重数的情况下，$m_{\mathit{A}}(\lambda)$与$f_{\mathit{A}}(\lambda)$有完全相同的根。~\\
+
+$\mathbf{Theorem}$:设$\mathit{A,B}$ $\in$ $\mathit{F^{n\times n} }$,则($m_{\mathit{A}}(\lambda)$,$m_{\mathit{B}}(\lambda)$)=1$\Leftrightarrow $($f_{\mathit{A}}(\lambda)$,$f_{\mathit{B}}(\lambda)$)=1
+
+$\mathbf{Infer}$:设$\mathit{A,B}$ $\in$ $\mathit{F^{n\times n} }$,若($f_{\mathit{A}}(\lambda)$,$f_{\mathit{B}}(\lambda)$)=1，则$f_{\mathit{A}}(B)$，$f_{\mathit{B}}(A)$可逆。~\\
+
+$\mathbf{Application}$ ：
+
+例1. 设$\mathit{A}=
+\begin{bmatrix}
+	1&  0&  0& 0\\
+	-1&  -1&-1  &0 \\
+	1&  1&  1& 0\\
+	2&2  &2  &0
+\end{bmatrix},
+$求$\mathit{A}^{500}$。
+
+解：由Hamilton-CayleyTheorem，可得$\mathit{A}^{3}$-$\mathit{A}^{2}$=0则$\mathit{A}^{500}$=$\mathit{A}^{2}$=
+$\begin{bmatrix}
+	1&  0&  0& 0\\
+	-1&  0&0  &0 \\
+	1&  0&  0& 0\\
+	2&0  &0  &0
+\end{bmatrix}$
+
+\chapter{相似标准形}
+\section{导学}
+
+在这一章节，我们主要解决的是之前遗留下来的问题：矩阵相似的充要条件是什么？有没有找极小多项式的简便方法？另外从可对角化我们得到了启发：能不能找到一个与原矩阵相似的形式较为较为简便的矩阵，来供我们来研究原矩阵的部分性质，因此衍生出来了相似标准形。其中就有Frobenius标准形和Jordan标准形。前者由矩阵不变因子所决定，后者由矩阵初等因子决定，各有各的好处。本章内容安排与书本上不太一致，主要理解为主，并没有安排习题，想要做题请参考书本。~\\
+
+\section{前置知识}
+
+$\mathbf{Define}$ ：类比与数量矩阵，我们将数量矩阵里的元素替换为关于$\lambda$的多项式，即可得到$\lambda$-矩阵，其拥有数量矩阵的初等变换、相抵关系等关系。(当然，一部分满秩的$\lambda$-矩阵还具有可逆的性质，这里要特别注意的是，特征矩阵满秩，但其一定不可逆)
+
+数量矩阵具有相抵标准形，即通过一系列初等变换可变为单位矩阵，类似的$\lambda$-矩阵也有类似的性质，只不过变为的矩阵为\textbf{法式}
+
+$\mathbf{Define}$ ：设$\mathit{A}(\lambda)$是一个m$\times$n的$\lambda$-矩阵且r($\mathit{A}(\lambda)$)=r,
+则
+\begin{equation*}
+\mathit{A}(\lambda)\simeq 
+\begin{pmatrix}
+	d_{1}(\lambda ) &  &  &  &  & \\
+	&  \ddots &  &  &  & \\
+	&  &  d_{r}(\lambda )&  &  & \\
+	&  &  &  0&  & \\
+	&  &  &  &  \ddots & \\
+	&  &  &  &  0&
+\end{pmatrix}
+\end{equation*}
+
+
+其中$d_{i}(\lambda )(i=1,2,\cdots,r)$为首一多项式，且$d_{i}(\lambda )|d_{i+1}(\lambda )(i=1,2,\cdots,r-1)$。
+
+我们知道，特征矩阵肯定是满秩的，这样我们就得到了特征矩阵的法式。
+
+$\mathbf{Infer}$ ：设$\mathit{A}$是数域$\mathit{F}$
+上的n阶方阵，则$\mathit{A}$的特征矩阵$\lambda\mathit{E-A}$的法式为
+\begin{equation*}
+	diag(d_{1}(\lambda ),\cdots,d_{n}(\lambda ))
+\end{equation*}
+
+其中$d_{i}(\lambda )(i=1,2,\cdots,n)$为首一多项式，且$d_{i}(\lambda )|d_{i+1}(\lambda )(i=1,2,\cdots,n-1)$。
+
+我们知道，就算一个矩阵不为方阵，但其仍可取出k阶子式(k小于等于行数和列数中的最小值)就有如下定义
+
+$\mathbf{Define}$ ：设$\mathit{A}(\lambda)$是一个m$\times$n的$\lambda$-矩阵且r($\mathit{A}(\lambda)$)=r,则其所有k阶子式(k小于等于行数和列数中的最小值)中的首一最大公因式为
+$\mathit{A}(\lambda)$的k阶\textbf{行列式因子}。记作$\mathit{D_{k}}(\lambda)$，其个数与$\mathit{A}(\lambda)$的秩个数相同。~\\
+
+接下来我们再回到一般$\lambda$-矩阵的法式
+\begin{equation*}
+	\mathit{A}(\lambda)\simeq 
+	\begin{pmatrix}
+		d_{1}(\lambda ) &  &  &  &  & \\
+		&  \ddots &  &  &  & \\
+		&  &  d_{r}(\lambda )&  &  & \\
+		&  &  &  0&  & \\
+		&  &  &  &  \ddots & \\
+		&  &  &  &  0&
+	\end{pmatrix}
+\end{equation*}
+
+
+其中$d_{i}(\lambda )(i=1,2,\cdots,r)$为首一多项式，且$d_{i}(\lambda )|d_{i+1}(\lambda )(i=1,2,\cdots,r-1)$。根据$d_{i}(\lambda )|d_{i+1}(\lambda )(i=1,2,\cdots,r-1)$，其行列式因子为
+
+$\mathit{D_{1}}$=$d_{1}(\lambda )$
+
+$\mathit{D_{2}}$=$d_{1}(\lambda )d_{2}(\lambda )$
+
+$\cdots$
+
+$\mathit{D_{r}}$=$d_{1}(\lambda )d_{2}(\lambda )\cdots d_{r}(\lambda )$
+
+我们发现$D_{i}(\lambda )|D_{i+1}(\lambda )(i=1,2,\cdots,r-1)$，并由此引出一个新的概念
+
+$\mathbf{Define}$ ：设$D_{i}(\lambda )(i=1,2,\cdots,r)$为$\mathit{A}(\lambda)$的行列式因子，称
+\begin{equation*}
+	d_{1}(\lambda)=D_{1}(\lambda),  
+		d_{i}(\lambda)=\frac{D_{i+1}(\lambda )}{D_{i}(\lambda )}(i=2,\cdots,r-1)
+\end{equation*}
+为$\mathit{A}(\lambda)$的不变因子，显然，其和的$\lambda$-矩阵的行列式因子相互确定。~\\
+
+
+在此时，我们发现不变因子已经是形式比较简单的了，我们是否还能找到比不变因子的形式还简单的一个式子来与不变因子相互确定呢？答案是肯定的，因为在求不变因子的时候，我们并没有要求不变因子在数域$\mathit{F}$上一定可约所以。由因式分解定理，任何一个多项式在$\mathit{F}$都可分解为不可约因式的方幂之积，因此我们对$\mathit{A}(\lambda)$的不变因子$d_{i}(\lambda)(i=1,\cdots,r-1)$进行分解
+\begin{equation*}
+	\begin{split}
+	d_{1}(\lambda)=p_{1}^{e_{11}}(\lambda)p_{2}^{e_{12}}((\lambda))\cdots p_{t}^{e_{1t}}(\lambda)\\
+	d_{2}(\lambda)=p_{1}^{e_{21}}(\lambda)p_{2}^{e_{22}}((\lambda))\cdots p_{t}^{e_{2t}}(\lambda)\\
+	\cdots \cdots \cdots\\
+		d_{r}(\lambda)=p_{1}^{e_{r1}}(\lambda)p_{2}^{e_{r2}}((\lambda))\cdots p_{t}^{e_{rt}}(\lambda)
+\end{split}
+\end{equation*}
+
+其中$\mathit{p}_{j}$是首一的两两互素的不可约多项式，$\mathit{e_{ij}}$是非负整数，且$\mathit{e_{1j}} \le \mathit{e_{2j}} \le \cdots \le \mathit{e_{rj}}(j=1,2,\cdots,t)$由此可见，我们找到了比不变因子的形式还简单的一个式子来与不变因子相互确定，然后再引出一个新的概念。~\\
+
+$\mathbf{Define}$ ：我们将上面分解式中满足$\mathit{e_{ij}}$>0的$p_{j}^{e_{ij}}(\lambda)$叫做$\mathit{A}(\lambda)$的一个\textbf{初等因子}，$\mathit{A}(\lambda)$的全体初等因子称为$\mathit{A}(\lambda)$的\textbf{初等因子组}。$\mathit{A}(\lambda)$的不变因子由其初等因子组和秩唯一确定。
+
+接下来，我们回到之前的一个问题：矩阵相似的充要条件是什么？
+
+$\mathbf{Theorem}$：对于两个$m\times n$的$\lambda$-矩阵$\mathit{A(\lambda),B(\lambda)}$,下列叙述等价
+
+1. $\mathit{A(\lambda),B(\lambda)}$相抵
+
+2.$\mathit{A(\lambda),B(\lambda)}$具有相同的法式
+
+3.$\mathit{A(\lambda),B(\lambda)}$具有相同的行列式因子
+
+4. $\mathit{A(\lambda),B(\lambda)}$具有相同的不变因子
+
+5. $\mathit{A(\lambda),B(\lambda)}$具有相同的初等因子组
+
+因此，我们就解决了目前的一个主要问题，剩下的问题交给下一节。~\\
+
+
+
+
+\section{Frobenius标准形和Jordan标准形}
+
+本节我们主要是围绕Frobenius标准形和Jordan标准形进行展开，来比较二者的特点，顺便解决一下上一章遗留下来的问题：如何较为简便地寻找极小多项式？
+
+首先我们来研究Frobenius标准形，为此，我们需要引进Frobenius块的概念。
+
+$\mathbf{Define}$ ：r阶矩阵
+$
+\begin{pmatrix}
+	0& 0 & \cdots   &0  & -a_{0} \\
+	1& 0 & \cdots  & 0 & -a_{1} \\
+	0& 1 &\cdots   & 0 &-a_{2}  \\
+	\vdots & \vdots &   &  \vdots& \vdots\\
+	0& 0 & \cdots & 1 &-a_{r-1} 
+\end{pmatrix}$
+
+的行列式因子和不变因子均为$\underset{r-1}{\underbrace{1,\cdots ,1} } $,$\mathit{f(\lambda)}$,其中
+\begin{equation*}
+	\mathit{f(\lambda)}=\lambda^{r}+a_{r-1}\lambda^{r-1}+\cdots+a_{1}\lambda+a_{0}
+\end{equation*}
+我们称之为关于$\mathit{f(\lambda)}$的Frobenius块，记作$\mathit{F(f(\lambda))}$。由于其行列式因子和不变因子的特殊性，我们可以推出这一Frobenius块所对应a的特征多项式和极小多项式全为$\mathit{f(\lambda)}$。(记住这个结论即可)
+
+根据这个形式，我们发现，这一形式的极小多项式恰好为最后一个不变因子。能不能推出更一般的结论，使得我们能够快速的找到一个矩阵的的极小多项式呢？
+
+$\mathbf{Theorem}$：设数域$\mathit{F}$上n阶矩阵$\mathit{A}$的不变因子为
+
+\begin{equation*}
+	为\underset{n-k}{\underbrace{1,\cdots ,1} }, d_{1}(\lambda ),d_{1}(\lambda ),\cdots,d_{k}(\lambda )
+\end{equation*}
+则
+\begin{equation*}
+	m_{\mathit{A}}(\lambda)=d_{k}(\lambda )
+\end{equation*}
+因此的话，我们又解决了一个问题，要求一个矩阵的极小多项式，我们只需要求出它最后一个不变因子即可，这无疑是快了不少。接着我们继续回到Frobenius标准形。
+
+$\mathbf{Define}$ ：设数域$\mathit{F}$上n阶矩阵$\mathit{A}$的不变因子为
+\begin{equation*}
+	\underset{n-k}{\underbrace{1,\cdots ,1} }, d_{1}(\lambda ),d_{2}(\lambda ),\cdots,d_{k}(\lambda )
+\end{equation*}
+其中deg$d_{i}(\lambda )\ge 1$,$d_{i}(\lambda )(i=1,2,\cdots,r)$为首一多项式，且$d_{i}(\lambda )|d_{i+1}(\lambda )(i=1,2,\cdots,k-1)$则$\mathit{A}$相似与分块对角矩阵
+\begin{equation*}
+	F=diag(\underset{n-k}{\underbrace{1,\cdots ,1} }, F(d_{1}(\lambda )),F(d_{2}(\lambda )),\cdots,F(d_{k}(\lambda )))
+\end{equation*}
+我们便称$\mathit{F}$为Frobenius标准形由于相似矩阵有着相同的法式，则$\mathit{\lambda E-F}$的法式为
+\begin{equation*}
+	diag(\underset{n-k}{\underbrace{1,\cdots ,1} }, d_{1}(\lambda ),d_{2}(\lambda ),\cdots,d_{k}(\lambda ))
+\end{equation*}
+我们发现，一个方阵的Frobenius标准形是由这个方阵的不变因子唯一确定的，对于每一个Frobenius块的排列有着严格的限制，必须要求所对应的$d_{i}(\lambda )$满足$d_{i}(\lambda )|d_{i+1}(\lambda )。$并且有的时侯我们要研究的对象是对角矩阵，这个时候再从行列式因子来得到不变因子就显得繁琐了，那有没有什么较为简便的呢？那就是接下来我们要研究的Jordan标准形。
+
+首先我们先引入一个广义Jordan块的概念。
+
+$\mathbf{Define}$：设p($\lambda$)是数域$\mathit{F}$上m次首一不可约多项式，$\mathit{F(p(\lambda))}$是关于p($\lambda$)的Frobenius块。令
+\begin{equation*}
+	C=
+	\begin{pmatrix}
+		0  & \cdots & 0 & 1 \\
+		0 & \cdots &  0&0 \\
+		\vdots&  & \vdots &\vdots \\
+		0&  \cdots&0  &0
+	\end{pmatrix}
+\end{equation*}
+并且其为$\mathit{m}$阶方阵，则$\mathit{em}$阶方阵
+\begin{equation*}
+	J=
+	\begin{pmatrix}
+		F(p(\lambda)) &  &  & \\
+		C &  F(p(\lambda))&  & \\
+		& \ddots  &\ddots   & \\
+		&  & C&F(p(\lambda))
+	\end{pmatrix}
+\end{equation*}
+的行列式因子和不变因子为$\underset{em-1}{\underbrace{1,\cdots ,1} },p^{e}(\lambda)$,初等因子为$p^{e}(\lambda)$.
+我们称$\mathit{F}$为关于$p^{e}(\lambda)$的\textbf{广义Jordan块}，记作$\mathit{J(p^{e}(\lambda))}$.
+
+$\mathbf{Define}$：设$\mathit{A}$的初等因子组为$p_{1}^{e_{1}}(\lambda),p_{2}^{e_{2}}(\lambda),\cdots,p_{k}^{e_{k}}(\lambda)$,则$\mathit{A}$相似于分块对角矩阵
+\begin{equation*}
+	J=diag(J(p_{1}^{e_{1}}(\lambda )),J(p^{e_{2}}_{2}(\lambda )),\cdots,J(p^{e_{k}}_{k}(\lambda )))
+\end{equation*}
+我们称这个对角矩阵为$\mathit{A}$的\textbf{广义Jordan标准形}(因为不保证初等因子组中每一个不可约多项式都为一次多项式)
+
+由于初等因子组并没有硬性的顺序要求，又因为$\mathit{A}$的初等因子组是唯一确定的，故可以说$\mathit{A}$的的广义Jordan标准形和初等因子组相互唯一确定。
+
+现在我们将初等因子组放在复数域上进行讨论，则其不变因子必定可以分解为多个一次多项式的次幂的乘积，我们类比原来的广义Jordan块，由于此时所有的不变因子都形如$(\lambda-\lambda_{0})^{e}$,其中$\lambda_{0}$是$\mathit{A}$的特征值则其对应的广义Jordan块为
+\begin{equation*}
+	J((\lambda-\lambda_{0})^{e})=
+\begin{pmatrix}
+	 \lambda_{0}&  &  & \\
+	1&  \lambda_{0}&  & \\
+	& \ddots  &\ddots   & \\
+	&  & 1&\lambda_{0}
+\end{pmatrix}
+\end{equation*}
+其行列式因子和不变因子为$\underset{e-1}{\underbrace{1,\cdots ,1} },(\lambda-\lambda_{0})^{e}$,初等因子为$(\lambda-\lambda_{0})^{e}$.
+
+我们称$J((\lambda-\lambda_{0})^{e})$为属于$\lambda_{0}$的e阶Jordan块，简记为$J(\lambda_{0},e)$。
+
+$\mathbf{Define}$：设$\mathit{A}$的初等因子组为$(\lambda-\lambda_{1})^{e_{1}},(\lambda-\lambda_{2})^{e_{2}},\cdots,(\lambda-\lambda_{m})^{e_{m}}$则$\mathit{A}$相似于分块对角矩阵
+\begin{equation*}
+	J=diag(J(\lambda_{1},e_{1})),\cdots,J(\lambda_{m},e_{m}))
+\end{equation*}
+我们称J为$\mathit{A}$的Jordan标准形。由于初等因子组并没有硬性的顺序要求，又因为$\mathit{A}$的初等因子组是唯一确定的，故可以说$\mathit{A}$的的Jordan标准形和初等因子组相互唯一确定。关于Jordan标准形，还有一些好玩的推论。
+
+$\mathbf{Infer}$：$\mathit{A}$是复数域上的方阵下列命题等价：
+
+1. $\mathit{A}$可对角化
+
+2. $\mathit{A}$的初等因子全是一次的(一次的初等因子对应的Jordan块是一个数，则所有的初等因子所对应的Jordan标准形为对角阵)
+
+3. $m_{A}(\lambda)$无重根(极小多项式对应的是最后一个不变因子，若无重根代表前面的不变因子也无重根))
+
+这个推论能够帮我们快速的判断一些特定矩阵是否可对角化
+
+如$A^{2}-E=0$就可轻松地判断出其可对角化，因为其对应的特征多项式为$(\lambda-1)(\lambda+1)=0$,很容易的判断出这是极小多项式，又没有重根，就可对角化。
+
+$\mathbf{Infer}$：$\mathit{A}$是复数域上的方阵下列命题等价：
+
+1. $\mathit{A}$相似于$cE_{n}$
+
+2. $\mathit{A}$的初等因子全是一次且相同(一次的初等因子对应的Jordan块是一个数，则所有的初等因子所对应的Jordan标准形为对角阵，且对角元素相同)
+
+3. $m_{A}(\lambda)$为一次多项式(极小多项式具有多项式所有的根，若极小多项式为一次，在不考虑重数的情况下，代表多项式仅有一个根，则其不变因子次数全为一次，且又前者整除后者，则$\mathit{A}$的极小多项式全为一次且相等)
+
+\chapter{欧氏空间}
+\section{导学}
+
+	在前面的章节，我们研究的是线性空间与线性空间之间元素的数量关系.用向量来解释的话就是不同向量之间的线性关系。现在抛出一个问题？一个向量在空间中到底该如何描述？无非就是长度，方向。抽象到线性空间，我们要更深一步地研究元素之间的度量关系
+\section{前置知识}
+	由三维的的向量，我们描述一个向量的度量关系往往借助向量的内积来表示，所以我们来引进线性空间内积的概念
+	\begin{definition}
+		设$V$是实数域 $\mathbb{R}$ 上的线性空间，我们称映射$(-,-):V\times V \longmapsto  \mathbb{R} $为\textbf{内积}。如果对于任意的$\alpha, \beta, \gamma \in V,c \in\mathbb{R} $都有
+		
+		(1)$(\alpha, \beta)=(\beta,\alpha)$(对称性)
+		
+		(2)$(\alpha+\beta,\gamma)=(\alpha,\gamma)+(\beta,\gamma)$
+		
+		(3)$(c\alpha, \beta)=c(\alpha, \beta)$
+		
+		(4)$(\alpha, \alpha)\ge0$且等号成立的条件为$\alpha=0$(正定性)
+		
+		我们就称$V$为关于内积的\textbf{欧几里得空间}
+	\end{definition}
+	
+	在此定义下，我们就自然就会有以下的内积
+	\begin{definition}[标准内积]
+		在实数域上的n维列向量空间
+		$\mathbb{R} ^n$中，对于\textbf{\textit{X}}$=(a_{1},a_{2},\cdots,a_{n})$,\textbf{\textit{Y}}$=(b_{1},b_{2},\cdots,b_{n})$,定义
+		\begin{equation*}
+			\left( X,Y \right) =a_1b_1+a_2b_2+\cdots +a_nb_n
+		\end{equation*}
+		为标准内积。
+	\end{definition}
+	
+	定义完内积之后，我们就可以研究线性空间的度量关系,首先是长度
+	\begin{definition}
+		设$V$是欧氏空间，$\alpha \in V$我们定义$\alpha$的\textbf{长度}为$\sqrt{(\alpha,\alpha)}$,记作$|\alpha|$，设\textbf{\textit{X}}$=(a_{1},a_{2},\cdots,a_{n})$，其长度用坐标表示就是
+		\begin{equation*}
+			|X|=\sqrt{(X,X)}=\sqrt{a_{1}^{^{2}}+a_{2}^{^{2}}+\cdots+a_{n}^{^{2}}}
+		\end{equation*}
+		
+		对$\frac{\alpha}{|\alpha|},$我们称做将$\alpha$化为\textbf{单位向量}。
+	\end{definition}
+	 
+	 定义完了长度，接下来就来到了向量之间的角度，为了保证定义的合理性，我们需要引用一个不等式
+	 
+	 \begin{theorem}[Cauchy-Schwarz不等式]
+	 	设$V$是欧氏空间，对于任意的$\alpha, \beta \in V$,总有
+	 	\begin{equation*}
+	 		(\alpha,\beta)^{2}\le(\alpha,\alpha)(\beta,\beta)
+	 	\end{equation*}
+	 	当且仅当$\alpha，\beta $线性相关时，等号成立。
+	 \end{theorem}
+	 
+	 由此我们可以得到
+	 \begin{equation*}
+	 	-1\le\frac{(\alpha,\beta)}{|\alpha||\beta|}\le 1
+	 \end{equation*}
+	
+	因此，我们可以定义向量之间的夹角
+	\begin{definition}
+		设$V$是欧氏空间，对于任意的非零向量$\alpha, \beta \in V$，它们的夹角$\theta $由
+		\begin{equation*}
+			\cos \theta=\frac{(\alpha,\beta)}{|\alpha||\beta|}, (0\le\theta\le \pi )
+		\end{equation*}
+	\end{definition}
+	其中，当$ \theta=\frac{\pi}{2}$时，两个向量内积为0，我们就得到了一种特殊情况，定义如下
+	\begin{definition}
+		设$V$是欧氏空间，对于任意的非零向量$\alpha, \beta \in V$，如果满足
+		\begin{equation*}
+			(\alpha, \beta)=0
+		\end{equation*}
+		我们就称$\alpha, \beta $\textbf{正交}，记为$\alpha\bot  \beta $。特别要注意的是，\textbf{零向量和任何向量都正交}。
+	\end{definition}
+	
+	然后我们就有一个结论
+	\begin{conclusion}
+		欧氏空间$V$中不含零向量的\textbf{正交向量组必线性无关。}
+	\end{conclusion}
+	
+	由于在线性空间中，个数和线性空间相等的一组线性无关的向量，可以构成这个线性空间的一组基，我们就有以下定义
+	
+	\begin{definition}
+		欧氏空间$V$中的正交向量组构成的基称为\textbf{正交基}，标准正交向量组构成的基称为\textbf{标准正交基}。
+	\end{definition}
+	
+	注意的是，在标准正交基下，向量的内积形式如下
+	
+	设$\alpha=a_{1}\xi _{1}+a_{2}\xi _{2}+\cdots+a_{n}\xi _{n},\beta=b_{1}\xi _{1}+b_{2}\xi _{2}+\cdots+b_{n}\xi _{n}$
+	\begin{equation*}
+		\left( \alpha,\beta \right) =a_1b_1+a_2b_2+\cdots +a_nb_n
+	\end{equation*}
+	其中$(\xi_{i},\xi_{j})=\delta_{ij}$
+	
+	既然标准正交基有这么好的性质，那么我们该如何得到一组标准正交基呢？于是乎，就有了下面的定理
+	
+	\begin{theorem}[Schimit正交化]
+		取欧氏空间$V$中的一组基$\alpha_{1},\alpha_{2},\cdots,\alpha_{n}$,令
+		\begin{equation*}
+			\begin{aligned}
+				\beta _1&=\boldsymbol{\alpha }_1\\
+				\beta _2&=\boldsymbol{\alpha }_2-\frac{\left< \boldsymbol{\alpha }_2,\beta _1 \right>}{\left< \beta _1,\beta _1 \right>}\beta _1\\
+				\vdots\\
+				\beta _k&=\boldsymbol{\alpha }_k-\frac{\left< \boldsymbol{\alpha }_k,\beta _1 \right>}{\left< \beta _1,\beta _1 \right>}\beta _1-\frac{\left< \boldsymbol{\alpha }_k,\beta _2 \right>}{\left< \beta _2,\beta _2 \right>}\beta _2-\cdots \frac{\left< \boldsymbol{\alpha }_k,\beta _{k-1} \right>}{\left< \beta _{k-1},\beta _{k-1} \right>}\beta _{k-1}\\
+			\end{aligned}
+		\end{equation*}
+		则$\beta_{1},\beta_{2},\cdots,\beta_{n}$，为$V$中的一组正交基
+		再令
+		\begin{equation*}
+			\gamma_{i}=\frac{\beta_{i}}{|\beta_{i}|},(i=1.2.\cdots,k)
+		\end{equation*}
+		则$\gamma_{1},\gamma_{2},\cdots,\gamma_{n}$，为$V$中的一组标准正交基。
+		
+		其中第一步是\textbf{正交化}，第二步是\textbf{单位化}
+	\end{theorem}
+	这个算法，就是我们求标准正交向量组的方法。
+	
+	现在，我们来定义正交矩阵
+	
+	\begin{definition}
+		如果n阶实方阵$Q$满足$Q^{T}Q=E$，则称$Q$为\textbf{正交矩阵}。
+	\end{definition}
+	
+	由这个定义出发，我们能推出以下结论
+	\begin{conclusion}
+		1.正交矩阵是可逆矩阵，并且其逆矩阵也为正交矩阵
+		
+		2.两个正交矩阵的\textbf{乘积}还是正交矩阵
+		
+		3.n阶实方阵$Q$是正交矩阵的充要条件是$Q^{T}=Q^{-1}$
+		
+		4.$Q$是正交矩阵的充要条件是$Q$的\textbf{行(列)向量}是欧氏空间$\mathbb{R} ^n$的\textbf{标准正交基}
+		
+		
+	\end{conclusion}
+	\begin{conclusion}
+		设$\gamma_{1},\gamma_{2},\cdots,\gamma_{n}$，为$V$中的一组标准正交基
+		\begin{equation*}
+			(\beta_{1},\beta_{2},\cdots,\beta_{n})=(\gamma_{1},\gamma_{2},\cdots,\gamma_{n})Q
+		\end{equation*}
+		则$\beta_{1},\beta_{2},\cdots,\beta_{n}$，为$V$中的一组\textbf{标准正交基}当且仅当$Q$是\textbf{正交矩阵}
+	\end{conclusion}
+	
+	效仿向量组之间的正交，我们可以将其推广到子空间的正交。
+	
+	\begin{definition}
+		设\textit{\textbf{U}}为欧氏空间\textit{\textbf{V}}的欧氏子空间，如果向量$\beta$与\textit{\textbf{U}}中所有向量正交，则称向量$\beta$与\textit{\textbf{U}}正交，记为$
+		\left( \beta ,U \right) \text{或}\beta \bot U
+		$
+	\end{definition}
+	由这个定义，我们可以立即推出一个结论
+	\begin{conclusion}
+		向量$\beta$与\textit{\textbf{U}}正交的\textbf{充要条件}是向量$\beta$与\textit{\textbf{U}}的基向量正交
+	\end{conclusion}
+	
+	接下来，我们有这样一个定义
+	
+	\begin{definition}
+		$
+		\text{设}U\text{为欧氏空间}V\text{的欧式子空间，若存在}V\text{的子空间}W
+		\text{，使得}V=U\oplus W\text{且}U\bot W\\ 
+		\text{，则称}W\text{是}U\text{在}V\text{中的补空间}
+		$
+	\end{definition}
+	
+	那么问题来了，这样的一个补空间是唯一的么？答案是补空间是唯一的，我们将其记为$U^{\bot}$
+	
+	我们知道，在确定一种内积之后，其所对应的欧氏空间也就确定，这就造成了欧氏空间的多样性。难道我们没有一种统一的标准，来研究不同的欧氏空间么？带着这个问题，我们先提出一个定义
+	\begin{definition}
+		$
+		\text{设}U,V\text{是两个欧氏空间，}\varphi \text{：}V\rightarrow U\text{是线性映射，如果}\varphi \text{是同构映射}
+		\\
+		\text{且满足：对于任意的}\boldsymbol{\alpha }\text{，}\beta \in V\text{，有}
+		$
+		\begin{equation*}
+			\left( \varphi \left( \boldsymbol{\alpha } \right) ,\varphi \left( \beta \right) \right) =\left( \boldsymbol{\alpha },\beta \right) 
+		\end{equation*}
+		我们则称$\varphi$是欧氏空间的\textbf{同构映射}，也称$U,V$是同构的欧氏空间，记为$U\cong V$
+	\end{definition}
+	
+	在这样一个定义下，我们能得到一个强有力的结论，这个结论帮助我们统一了欧氏空间
+	
+	\begin{conclusion}
+		任意n维欧氏空间都同构于欧氏空间$\mathbb{R}^{n}$ 
+	\end{conclusion}
+	
+	所以说，研究任意n维的欧氏空间，本质上就是在研究欧氏空间$\mathbb{R}^{n}$，由此，我们又可以得到一个推论。
+	
+	\begin{corollary}
+		两个有限维欧氏空间同构的充要条件是它们的\textbf{维数相等}
+	\end{corollary}
+	
+	到此为止，欧氏空间宏观的性质已经结束，说到底，我们都是在研究欧氏空间$\mathbb{R}^{n}$，接下来我们来探寻在以这样一个欧式空间下的一些线性映射的性质。
+	
+	我们知道，在同一线性变换下，不同基所对应的矩阵是相似的。由之前推出的结论，如果这个基为标准正交基，那么就能推出其所对应的矩阵是正交矩阵这一个强力的结论，如果是在那么同一线性变换下的不同标准正交基所对应的矩阵又有什么关系呢？
+	
+	\begin{definition}
+		设$
+		\xi _1,\xi _2,\cdots ,\xi _n,\eta _1,\eta _2,\cdots ,\eta _n
+		$为n维欧式空间$V$的标准正交基，从$
+		\xi _1,\xi _2,\cdots ,\xi _n$到$\eta _1,\eta _2,\cdots ,\eta _n
+		$的过渡矩阵为正交矩阵$Q$，即
+		\begin{equation*}
+			(\eta _1,\eta _2,\cdots ,\eta _n)=(\xi _1,\xi _2,\cdots ,\xi _n)Q
+		\end{equation*}
+		设$\varphi $是$V$的线性变换，$\varphi $在两个标准正交基下的矩阵分别是$A,B$，即
+	
+			\begin{equation*}
+					\begin{split}
+				\varphi(\xi _1,\xi _2,\cdots ,\xi _n)=(\xi _1,\xi _2,\cdots ,\xi _n)A
+				\\
+				\varphi(\eta _1,\eta _2,\cdots ,\eta _n)=(\eta _1,\eta _2,\cdots ,\eta _n)B
+			\end{split}
+			\end{equation*}
+	则有$B=Q^{-1}AQ=Q^{T}AQ$
+	
+	我们称这一种关系为$A$\textbf{正交相似}于$B$
+	\end{definition}
+	
+	我们知道，在平面上向量绕定点旋转保持长度不变，向量关于一条直线的反射保持向量的长度，两个向量的夹角。由此，我们来看一种线性变换
+	\begin{definition}
+		设$\varphi $是$V$的线性变换，$\varphi $保内积，即	$\text{且满足：对于任意的}\boldsymbol{\alpha }\text{，}\beta \in V\text{，有}
+		$
+		\begin{equation*}
+			\left( \varphi \left( \boldsymbol{\alpha } \right) ,\varphi \left( \beta \right) \right) =\left( \boldsymbol{\alpha },\beta \right) 
+		\end{equation*}
+		我们则称$\varphi $是\textbf{正交变换}
+	\end{definition}
+	
+	由此，我们能得到以下结论
+	\begin{conclusion}
+		设$\varphi $是$V$的线性变换，则下列命题等价：
+		
+		1.$\varphi $是正交变换
+		
+		2.$\varphi $保持长度不变，即对于任意的$\alpha \in V,\text{有}|\varphi (\alpha)|=|\alpha|$
+		
+		3.$\varphi $将$V$的标准正交基变为标准正交基
+		
+		4.$\varphi $在$V$下的矩阵是正交矩阵
+	\end{conclusion}
+	
+	我们考虑这样一个正交矩阵：
+	\begin{equation*}
+		A=\left( \begin{matrix}
+			0&		-1\\
+			1&		0\\
+		\end{matrix} \right) 
+	\end{equation*}
+	我们发现，这个矩阵在实数域上没有特征值，在复数域上有特征值$i$和$-i$，由此我们能得到以下结论：
+	\begin{conclusion}
+		设n阶实矩阵$A$是正交矩阵，则
+		
+		1.$|A|=\pm1$
+		
+		2.$
+		A\text{在}\mathbb{C} \text{上的特征值的长度为}1
+		$
+	\end{conclusion}
+	
+	由于正交投影具有以下性质
+	\begin{equation*}
+		(\varphi(\alpha),\beta)=(\alpha,\varphi(\beta)), \forall \alpha,\beta \in V
+	\end{equation*}
+	
+	由此我们抽象这样一个定义
+	\begin{definition}
+		设$\varphi $是$V$的线性变换，$\varphi $保内积，即	$\text{且满足：对于任意的}\boldsymbol{\alpha }\text{，}\beta \in V\text{，有}
+		$
+		\begin{equation*}
+			 \left( \varphi \left( \alpha \right) ,\beta \right) =\left( \alpha ,\varphi \left( \beta \right) \right) 
+		\end{equation*}
+		我们则称$\varphi $是\textbf{对称变换}
+	\end{definition}
+	
+	由此，我们能得到以下结论
+	
+	\begin{conclusion}
+		设$\varphi $是$V$的线性变换，则下列命题等价：
+		
+		1.$\varphi $是对称变换
+		
+		2.存在$V$的一个标准正交基$
+		\xi _1,\xi _2,\cdots ,\xi _n
+		$，使得$\left( \varphi \left( \xi_i \right) ,\xi_{j} \right) =\left( \xi_{i} ,\varphi \left( \xi_{j} \right) \right)(i,j=1,2,\cdots,n)$(当然，对任意的标准正交基也成立)
+		
+		3.$\varphi $在$V$中任意一个正交基下的矩阵实对称矩阵
+	\end{conclusion}
+	下面有两个定理，十分的重要
+	\begin{theorem}
+		设$A$是n阶实对称矩阵，则$A$的\textbf{特征值全为实数}，并且属于不同特征值的特征向量在$\mathbb{R}^{n}$中\textbf{相互正交}
+	\end{theorem}
+	\begin{theorem}
+		设$A$是n阶实对称矩阵，则存在正交矩阵$Q$，使得$Q^{-1}AQ=Q^{T}AQ$为对角矩阵，且对角元为$A$的特征值。
+	\end{theorem}
+	我们发现，仅仅是多了实对称的一个条件，就直接蹦出了如定理1的特征值全为实数的强力条件呢？有，还牛的不得了！
+	\begin{conclusion}
+		设$A,B$，为实对称矩阵，则$A$正交相似于$B$的充要条件是$A,B$有相同的特征值
+	\end{conclusion}
+	这个条件可就厉害得很了，之前我们说有相同的特征值知识矩阵相似的必要条件，并不能推出这些矩阵相似，可是对于是实对称矩阵的话，这个就是一个充要条件，这就好的不行。对于实对称矩阵，我们就没必要求它们的不变因子什么的了，直接算它们的特征值我么们就能判断其是否相似。
+	
+\section{正交矩阵性质总结}
+
+这个部分我们将列举出正交矩阵常考的性质，加以梳理，并在此给出证明
+
+\begin{conclusion}
+	$A$是正交矩阵，$|A|=\pm1$
+\end{conclusion}
+
+证明：
+
+由$A$是正交矩阵，则有$AA^{T}=E$，等号两边同取行列式，可得$|A|^{2}=1$，解得$|A|=\pm1$
+
+\begin{conclusion}
+	$A^{-1}=A^{T}$
+\end{conclusion}
+
+证明：
+
+由$AA^{T}=E$可以直接得到
+
+\begin{conclusion}
+	两个正交矩阵的乘积依旧是正交矩阵
+\end{conclusion}
+
+证明：
+
+设$A,B$为正交矩阵，则
+\begin{equation*}
+	AB(AB)^{T}=ABB^{T}A^{T}=E
+\end{equation*}
+
+\begin{conclusion}
+		$A$是正交向量$\Longleftrightarrow A$的行(列)向量是标准内积空间$\mathbb{R} ^n$的标准正交基。
+\end{conclusion}
+
+证明：
+
+不妨证明列向量是标准正交基
+
+设
+\begin{equation*}
+	A=(\alpha_{1},\alpha_{2},\cdots,\alpha_{n})
+\end{equation*}
+
+又$AA^{T}=E$
+
+则
+\begin{equation*}
+	\alpha_{i}^{T}\alpha_{j}=\delta _{ij},i,j=1,2,\cdots
+\end{equation*}
+
+则在标准内积空间$\mathbb{R} ^n$中
+\begin{equation*}
+	(\alpha_{i}^{T},\alpha_{j})=\delta _{ij},i,j=1,2,\cdots
+\end{equation*}
+
+则$A$的列向量是标准内积空间$\mathbb{R} ^n$的标准正交基。行向量同理。
+
+\begin{conclusion}
+	正交变换不改变向量之间的\textbf{内积}，向量的\textbf{长度}
+\end{conclusion}
+
+证明：
+
+由正交变换的保内积性显然
+
+\begin{conclusion}
+	$A$是正交矩阵，$A$如果有\textbf{实数特征值}，只能为$\pm1$
+	
+	注：正交矩阵不一定有实数特征值，比如$
+	\left( \begin{matrix}
+		0&		-1\\
+		1&		0\\
+	\end{matrix} \right) 
+	$
+\end{conclusion}
+
+证明：
+\begin{equation*}
+	\begin{split}
+		\text{设}\lambda \text{为}A\text{的特征值，则有}
+		\\
+		A\boldsymbol{\alpha }=\lambda \boldsymbol{\alpha }\left( \boldsymbol{\alpha }\ne 0 \right) 
+		\\
+		\text{同时取转置}
+		\\
+		\boldsymbol{\alpha }^TA^T=\lambda \boldsymbol{\alpha }^T
+		\\
+		\text{则}\boldsymbol{\alpha }^TA^TA\boldsymbol{\alpha }=\boldsymbol{\alpha }^T\boldsymbol{\alpha }=\lambda ^2\boldsymbol{\alpha }^T\boldsymbol{\alpha }
+		\\
+		\text{故}\left( \lambda ^2-1 \right) \boldsymbol{\alpha }^T\boldsymbol{\alpha }=0
+		\\
+		\text{又}\boldsymbol{\alpha }^T\boldsymbol{\alpha }\ne 0\text{，则}\lambda =\pm 1
+	\end{split}
+\end{equation*}
+
+\begin{conclusion}
+	关于$|A\pm E|$的性质
+	
+	$A$是n阶正交矩阵，则有
+	
+	$(|A|-1)|A+E|=0$
+	
+	$(|A|-(-1)^{n})|A-E|=0$
+\end{conclusion}
+
+证明：
+
+\begin{equation*}
+	\begin{split}
+		|A^T||A+E|=|A^TA+A^TE|=|E+A^T|=|A+E|
+		\\
+		\Rightarrow \left( |A|-1 \right) |A+E|=0
+		\\
+		|A^T||A-E|=|A^TA-A^TE|=|E-A^T|=\left( -1 \right) ^n|A+E|
+		\\
+		\Rightarrow \left( |A|-\left( -1 \right) ^n \right) |A-E|=0
+	\end{split}
+\end{equation*}
+
+\begin{conclusion}
+	设$A$是正交矩阵，若$A$有特征值$\pm 1$,则-1和1对应的特征向量正交
+\end{conclusion}
+
+证明：
+
+\begin{equation*}
+	\begin{split}
+		\text{设}1\text{对应的特征向量为}\boldsymbol{\alpha }\text{，}-1\text{对应的特征向量为}\beta 
+		\\
+		\text{则有}A\boldsymbol{\alpha }=\boldsymbol{\alpha },A\beta =-\beta \left( \boldsymbol{\alpha },\beta \ne 0 \right) 
+		\\
+		\text{则}\boldsymbol{\alpha }^T=\boldsymbol{\alpha }^TA^T
+		\\
+		\boldsymbol{\alpha }^T\left( -\beta \right) =\boldsymbol{\alpha }^TA^TA\beta =\boldsymbol{\alpha }^T\beta 
+		\\
+		\Rightarrow \boldsymbol{\alpha }^T\beta =0
+	\end{split}
+\end{equation*}
+
+\begin{conclusion}
+	设$A$是三阶非零正交矩阵，则
+	
+	$|A|=1
+	\Longleftrightarrow 
+	A_{ij}=a_{ij}$
+	
+	$|A|=-1
+	\Longleftrightarrow 
+	A_{ij}=-a_{ij}$
+\end{conclusion}
+
+证明：
+
+\begin{equation*}
+	\begin{split}
+		A^*=|A|A^{-1}=\pm A^{T} 
+		\\
+		\text{又}A^*=\left( \begin{matrix}
+			A_{11}&		A_{21}&		A_{31}\\
+			A_{12}&		A_{22}&		A_{32}\\
+			A_{13}&		A_{23}&		A_{33}\\
+		\end{matrix} \right) ,A^T=\left( \begin{matrix}
+			a_{11}&		a_{21}&		a_{31}\\
+			a_{12}&		a_{22}&		a_{32}\\
+			a_{13}&		a_{23}&		a_{33}\\
+		\end{matrix} \right) \\
+		\text{则}A_{ij}=\pm a_{ij}
+	\end{split}
+\end{equation*}
+\section{实对称矩阵性质总结}	
+	\begin{conclusion}
+		1.实对称矩阵一定与对角矩阵相似
+		
+		2.实对称矩阵的不同特征值对应的不同特征向量相互正交
+		
+		3.实对称矩阵可用正交矩阵相似对角化
+	\end{conclusion}
+	
+	\begin{theorem}[谱分解定理]
+		以三阶实对称矩阵$A$为例，若$\lambda_{1},\lambda_{2},\lambda_{3}$为$A$的三个特征值，且$e_{1},e_{2},e_{3}$是属于特征值$\lambda_{1},\lambda_{2},\lambda_{3}$的两两正交的单位正交向量，则$A=\lambda _1e_1{e_1}^T+\lambda _2e_2e_{2}^{T}+\lambda _3e_3e_{3}^{T}$
+	\end{theorem}
+	
+	证明：
+	\begin{equation*}
+		\begin{split}
+			A\text{为实对称矩阵，则存在正交矩阵}Q=\left( e_1,e_2,e_3 \right) 
+			\\
+			\text{使得}Q^TAQ=\left( \begin{matrix}
+				\lambda _1&		0&		0\\
+				0&		\lambda _2&		0\\
+				0&		0&		\lambda _3\\
+			\end{matrix} \right) 
+			\\
+			\text{反解可得}A=\left( e_1,e_2,e_3 \right) \left( \begin{matrix}
+				\lambda _1&		0&		0\\
+				0&		\lambda _2&		0\\
+				0&		0&		\lambda _3\\
+			\end{matrix} \right) \left( e_1,e_2,e_3 \right) ^T
+			\\
+			=\lambda _1e_1{e_1}^T+\lambda _2e_2e_{2}^{T}+\lambda _3e_3e_{3}^{T}
+		\end{split}
+	\end{equation*}
+	这个结论有多好用？来一题
+	
+	$A$特征值为2，1，1$\xi_{1}=(1,1,1)^{T}$是属于特征值2的特征向量，求实对称矩阵$A$
+	
+	解：
+	\begin{equation*}
+		\begin{split}
+			A-E\text{的特征值为}1,0,0,\xi _1=(1,1,1)^T\text{是属于特征值}1\text{的特征向量}
+			\\
+			\text{将}\xi _1\text{单位化，得到}\frac{1}{\sqrt{3}}(1,1,1)^T
+			\\
+			\text{则}A-E=1\times \frac{1}{\sqrt{3}}\left( \begin{array}{c}
+				1\\
+				1\\
+				1\\
+			\end{array} \right) \times \frac{1}{\sqrt{3}}\left( \begin{matrix}
+				1&		1&		1\\
+			\end{matrix} \right) 
+		\end{split}
+	\end{equation*}
+	直接秒杀了，快的很
+\chapter{二次型}
+\section{导言}
+为了把二次曲面$S$化简，需要做直角坐标变换，使得$S$的新方程不含交叉项，从而抽象出：把一个二次齐次多项式化成只含平方项的形式，这个就是我们要研究的问题中心。
+\section{前置知识}
+\begin{definition}
+	数域$F$上的一个$n$元二次型是系数在$F$中的$n$个变量的二元齐次多项式，它的一般形式是
+	\begin{equation}
+		\begin{split}
+			f(x_{1},x_{2},\cdots,x_{n})=a_{11}x^{2}_{1}+2a_{12}x_{1}x_{2}+2a_{1n}x_{1}x_{n}
+			\\
+			+a_{22}x^{2}_{2}+\cdots+2a_{2n}x_{2}x_{n}
+			\\
+			\cdots
+			\\
+			+a_{nn}x^{2}_{n}
+		\end{split}
+	\end{equation}
+	其也可写成
+	\begin{equation}
+		f(x_{1},x_{2},\cdots,x_{n})=\sum_{i=1}^n{\sum_{j=1}^n{a_{ij}x_ix_j}}
+	\end{equation}
+	其中$a_{ij}=a_{ji}$,$1\le i,j\le n$
+\end{definition}
+我们可以把(6.2)式中的系数按照原来的顺序排列成一个矩阵$A$
+其中
+\begin{equation}
+	A=\left( \begin{matrix}
+	a_{11}&		a_{12}&		a_{12}&		\cdots&		a_{1n}\\
+	a_{12}&		a_{22}&		a_{23}&		\cdots&		a_{2n}\\
+	\vdots&		\vdots&		\vdots&		&		\vdots\\
+	a_{1n}&		a_{2n}&		a_{3n}&		\cdots&		a_{nn}\\
+	\end{matrix}\right) 
+\end{equation}
+我们则称$A$是\textbf{二次型}$f(x_{1},x_{2},\cdots,x_{n})$\textbf{的矩阵}，它是对称矩阵。显然二次型$f(x_{1},x_{2},\cdots,x_{n})$的矩阵是\textbf{唯一的}：它的主对角元是$x^{2}_{1},\cdots,x_{n}^{2}$的系数，它的$(i,j)$元是$x_{i}x_{j}$系数的一半，其中$i\ne j$。令
+\begin{equation}
+	X=\left( \begin{array}{c}
+		x_1\\
+		x_2\\
+		\vdots\\
+		x_n\\
+	\end{array} \right) 
+\end{equation}
+则二次型(6.1)可以写成
+\begin{equation}
+	f(x_{1},x_{2},\cdots,x_{n})=X^{T}AX
+\end{equation}
+其中$A$是二次型$f(x_{1},x_{2},\cdots,x_{n})$的矩阵。
+
+为了讨论方便，允许(6.1)系数全为0，即$A=0$.
+
+令$Y=(y_{1},y_{2},\cdots,y_{n})^{T}$,设$C$是数域$F$上的$n$阶可逆矩阵，则关系式
+\begin{equation}
+	X=CY
+\end{equation}
+称为$x$到$y$的一个\textbf{非退化线性替换}
+
+$n$元二次型$X^{T}AX$经过非退化线性替换$X=CY$变成
+\begin{equation}
+	(CY)^{T}A(CY)=Y^{T}C^{T}ACY
+\end{equation}
+记$B=C^{T}AC$,则$(6.7)$可写为$Y^{T}BY$,这是变量$y_{1},y_{2},\cdots,y_{n} $的一个二次型，由于
+\begin{equation}
+	B^{T}=C^{T}AC=B
+\end{equation}
+于是$B$是对称矩阵，则$B$是二次型$Y^{T}BY$的矩阵。
+由此受到启发，我们引出下述两个概念
+\begin{definition}
+	数域F上的两个$n$元二次型$X^{T}AX,Y^{T}BY$,如果存在一个非退化线性替换$X=CY$，把$X^{T}AX$变为$Y^{T}BY$，那么称$X^{T}AX$与$Y^{T}BY$等价，记作$X^{T}AX\cong Y^{T}BY$.
+\end{definition}
+\begin{definition}
+	数域F上的两个$n$阶矩阵，$A,B$如果存在数域$F$上的$n$阶可逆矩阵$C$使得
+	\begin{equation}
+		C^{T}AC=B
+	\end{equation}
+	那么称$A$与$B$合同，记作$A\simeq B$
+\end{definition}
+从(6.7)容易看出：
+
+\begin{proposition}
+	数域F上的两个$n$元二次型$X^{T}AX,Y^{T}BY$等价当且仅当$n$阶对称矩阵$A$与$B$合同
+\end{proposition}
+本章研究的基本问题是：数域$F$上$n$元二次型能不能等价于一个只含平方项的二次型？容易看出，二次型只含平方项的充要条件是它的矩阵是对角矩阵。因此用矩阵的术语，研究的就是：数域$F$上$n$阶对称矩阵能不能合同与一个对角矩阵？
+
+如果一个二次型$X^{T}AX$等价于一个只含平方项的二次型，那么这个只含平方项的二次型称为$X^{T}AX$的一个\textbf{标准型}。
+
+如果对称矩阵$A$合同与一个对角矩阵，那么这个对角矩阵称为$A$的一个\textbf{合同标准型}
+\begin{proposition}
+	实数域上的$n$元二次型$X^{T}AX$有一个标准型为
+	\begin{equation}
+		\lambda_{1}y^{2}_{1}+\lambda_{2}y^{2}_{2}+\cdots+\lambda_{n}y^{2}_{n}
+	\end{equation}
+	其中$\lambda_{1},\lambda_{2},\cdots,\lambda_{n}$是$A$的全部特征值。
+\end{proposition}
+如果$C$为正交矩阵，我们便称变量的替换$X=CY$为\textbf{正交替换}
+\begin{lemma}
+	设$A,B$是数域$F$上的$n$阶矩阵，则$A$合同于$B$当且仅当$A$经过一系列成对的初等行、列变换可以变成$B$，此时对$E$只作其中的初等列变换得到的可逆矩阵$C$，就使得$C^{T}AC=B$
+\end{lemma}
+\begin{theorem}
+	数域$F$上任一对称矩阵都合同于一个对角矩阵
+\end{theorem}
+\begin{theorem}
+	数域$F$上任一$n$元二次型都等价于一个只含平方项的二次型
+\end{theorem}
+由引理6.1，定理6.1定理6.2我们就可以得到求二次型的标准型的有一种方法：对于数域$F$上$n$元二次型$X^{T}AX$，
+\begin{equation}
+	\left( \begin{array}{c}
+		A\\
+		E\\
+	\end{array} \right) \xrightarrow[\text{对}E\text{只作其中的初等列变换}]{\text{对}A\text{作成对的初等行、列变换}}\left( \begin{array}{c}
+		D\\
+		C\\
+	\end{array} \right) 
+\end{equation}
+其中$D$是对角矩阵$\mathrm{diag}\left\{ d_1,d_2,\cdots ,d_n \right\} $，则
+\begin{equation}
+	C^{T}AC=D
+\end{equation}
+令$X=CY$,则得到$X^{T}AX$的一个标准形
+\begin{equation}
+	d_{1}y^{2}_{1}+d_{2}y^{2}_{2}+\cdots+d_{n}y^{2}_{n}
+\end{equation}
+上述方法我们称之为\textbf{矩阵的合同变换}。
+\begin{proposition}
+	数域$F$上任一$n$元二次型$X^{T}AX$的任一标准形中，系数不为0的平方项个数等于它的矩阵$A$的秩。
+\end{proposition}
+于是，我们便称二次型$X^{T}AX$的矩阵$A$的秩为\textbf{二次型$X^{T}AX$的秩}
+
+我们知道，一个二次型的标准形是不唯一的，这个取决于你所采用的非退化线性替换。现在我们来讨论二次型的那些量于所作的非退化线性替换有关。我们已经得到了数域$F$上任一$n$元二次型$X^{T}AX$的任一标准形中，系数不为0的平方项个数等于它的矩阵$A$的秩，这个与其所作的线性替换无关。二次型的标准形中还有那些量具有这种性质？在一个二次型的等价类里最简单的二次型形式是怎么样的，其是否唯一？
+
+我们首先对实数域上的二次型进行讨论。实数域上的二次型简称实二次型。
+
+$n$元实二次型$X^{T}AX$经过一个适当的非退化线性替换$X=CY$可以化为下述形式的标准形：
+\begin{equation}
+	d_{1}y^{2}_{1}+\cdots+d_{p}y^{2}_{p}-d_{p+1}y^{2}_{p+1}-\cdots-d_{r}y^{2}_{r}
+\end{equation}
+其中$d_{i}>0,i=1,2,\cdots,r$由命题(6.3)可知，$r$为这个二次型的秩，由此我们再作一个非退化线性替换：
+\begin{equation*}
+	\begin{split}
+		y_{i}=\frac{1}{\sqrt{d_{i}}}z_{i},i=1,2,\cdots,r
+		\\
+		y_{j}=z_{j},j=r+1,\cdots,n
+	\end{split}
+\end{equation*}
+则二次型(6.14)可变为
+\begin{equation}
+	z^{2}_{1}+\cdots+z^{2}_{p}-z^{2}_{p+1}-\cdots-z^{2}_{r}
+\end{equation}
+因此实二次型$X^{T}AX$有形如(6.15)的一个标准形，我们称之为$X^{T}AX$的\textbf{规范形}，其特征是：只含平方项，且平方项的系数为1，-1，0；系数为1的平方项都在前面。实二次型$X^{T}AX$的规范形(6.15)被两个自然数$p$和$r$决定。
+\begin{theorem}[惯性定理]
+	$n$元实二次型$X^{T}AX$的规范形是唯一的。
+\end{theorem}
+\begin{definition}
+	在实二次型$X^{T}AX$的规范形中，系数为+1的平方项个数$p$称为$X^{T}AX$的正惯性指数，系数为-1的平方项个数$r-p$称为$X^{T}AX$的负惯性指数；正惯性指数减去负惯性指数所得的差$2p-r$称为$X^{T}AX$的符号差。
+\end{definition}
+由此可知，实二次型$X^{T}AX$规范形被它的秩和正惯性指数决定。由此，我们可以得到。
+\begin{proposition}
+	两个$n$元二次型等价$\Longleftrightarrow $它们的规范形相同$\Longleftrightarrow $它们的秩相等，并且正惯性指数也相等。
+\end{proposition}
+
+从实二次型$X^{T}AX$经过非退化线性替换化成规范形的过程中我们可以看到，$X^{T}AX$的任意标准形中系数为正的平方项个数等于$X^{T}AX$的正惯性指数；系数为负的平方项个数等于$X^{T}AX$的负惯性指数。从而虽然$X^{T}AX$的标准形不唯一，但是标准形中系数为正的平方项个数是唯一的，系数为负的平方项个数也是唯一的。
+
+从惯性定理我们能得到：
+
+\begin{corollary}
+	任一$n$级实对称矩阵$A$合同于对角矩阵$\mathrm{diag}\left\{ 1,\cdots ,1,-1,\cdots ,-1,0,\cdots ,0_{} \right\} $，其中1的个数等于$X^{T}AX$的正惯性指数，-1的个数等于$X^{T}AX$的负惯性指数，这个对角矩阵称为$A$的合同规范形
+\end{corollary}
+
+从上面的结论容易得出，$n$阶实对称矩阵$A$的合同标准形中，主对角元为正(负)指数的个数等于$X^{T}AX$的正(负)惯性指数。
+
+从命题(6.4)我们能立即得到：
+
+\begin{corollary}
+	两个$n$阶实对称矩阵合同$\Longleftrightarrow $它们的秩相等，并且正惯性指数也相等。
+\end{corollary}
+
+推论(6.2)表明，秩和正惯性指数恰好完全决定$n$阶实对称的合同类，因此由所有$n$阶实对称矩阵组成的集合中，秩和正惯性指数是合同关系下的一组完全不变量。
+
+现在讨论复数域上的二次型，简称为复二次型。
+
+$n$元复二次型$X^{T}AX$经过一个适当的非退化线性替换$X=CY$可以化为下述形式的标准形：
+\begin{equation}
+	d_{1}y^{2}_{1}+\cdots+d_{r}y^{2}_{r}
+\end{equation}
+其中$d_{i}>0,i=1,2,\cdots,r$;$r$为这个二次型的秩。
+
+设$d_j=r_j\left( \cos \theta _j+i\sin \theta _j \right) $。其中$0\le\theta _j\le 2\pi$,显然有
+\begin{equation*}
+	\left[ \pm \sqrt{r_i}\left( \cos \frac{\theta _j}{2}+i\sin \frac{\theta _j}{2} \right) \right] ^2=d_{j}
+\end{equation*}
+把$\left[  \sqrt{r_i}\left( \cos \frac{\theta _j}{2}+i\sin \frac{\theta _j}{2} \right) \right]$记作$\sqrt{d_{j}}$，再作一个非退化线性替换：
+\begin{equation*}
+	\begin{split}
+		y_{i}=\frac{1}{\sqrt{d_{i}}}z_{i},i=1,2,\cdots,r
+		\\
+		y_{j}=z_{j},j=r+1,\cdots,n
+	\end{split}
+\end{equation*}
+则得到$X^{T}AX$的下述形式的标准形
+\begin{equation}
+	z^{2}_{1}+\cdots+z^{2}_{r}
+\end{equation}
+我们把这个称为复二次型$X^{T}AX$的\textbf{规范形}。其特征是：只含平方项，且平方项的系数为0或1.显然，复二次型$X^{T}AX$的规范性完全由它的秩所决定。于是有
+\begin{theorem}
+	复二次型$X^{T}AX$的规范形是唯一的。
+\end{theorem}
+类比可得
+\begin{proposition}
+	两个$n$元复二次型等价$\Longleftrightarrow $它们的规范形相同$\Longleftrightarrow $它们的秩相等
+\end{proposition}
+\begin{corollary}
+	任一$n$阶复对称矩阵$A$合同于对角阵
+	\begin{equation*}
+		\left( \begin{matrix}
+			E_r&		0\\
+			0&		0\\
+		\end{matrix} \right) 
+	\end{equation*}
+	其中$r=rank(A)$
+\end{corollary}
+\begin{corollary}
+	两个$n$阶复对称矩阵合同$\Longleftrightarrow $它们的秩相等
+\end{corollary}
+
+由推论(6.4)可得出，秩是$n$阶复对称矩阵组合的集合在合同关系下的完全不变量。
+
+
+\begin{definition}
+	如果对于$R^{n}$中任意非零列向量$\alpha$都有$\alpha^{T}A\alpha>0$,我们称$n$元实二次型$X^{T}AX$是正定的
+\end{definition}
+\begin{theorem}
+	$n$元实二次型$X^{T}AX$是正定的当且仅当它的正惯性指数为$n$
+\end{theorem}
+从定理(6.5)我们立即能推出：
+
+\begin{corollary}
+		$n$元实数二次型$X^{T}AX$是正定的$\Longleftrightarrow $它的规范形为$y^{2}_{1}+\cdots+y^{2}_{n}$$\Longleftrightarrow $它的标准形中$n$个系数全大于零。
+\end{corollary}
+\begin{definition}
+	如果实二次型$X^{T}AX$是正定的，那么实对称矩阵$A$称为正定的，即对于$R^{n}$中任意非零列向量$\alpha$都有$\alpha^{T}A\alpha>0$
+\end{definition}
+正定的实对称矩阵称为\textbf{正定矩阵}。
+
+从上面的结论，我们可以推出：
+
+\begin{theorem}
+	$n$阶实对称矩阵$A$是正定的$\Longleftrightarrow $$A$的正惯性指数为$n$$\Longleftrightarrow $$A\simeq E$$\Longleftrightarrow $$A$的合同标准形中主对角元全大于0$\Longleftrightarrow $$A$的特征值全大于0
+\end{theorem}
+\begin{corollary}
+	与正定矩阵合同的也是正定矩阵。
+\end{corollary}
+\begin{corollary}
+	与正定二次型等价的实二次型也是正定的，从而非退化线性替换不改变实二次型的正定性。
+\end{corollary}
+\begin{corollary}
+	正定矩阵的行列式大于0
+\end{corollary}
+\begin{theorem}
+	实对称矩阵$A$是正定的充要条件是$A$的所有顺序主子式全大于0
+\end{theorem}
+由该定理，我们能立即得到
+\begin{corollary}
+	实二次型$X^{T}AX$是正定的的充要条件是$A$的所有顺序主子式全大于0
+\end{corollary}
+\begin{definition}
+	n元二次型$X^{T}AX$称为是半正定(负定，半负定的)，如果对于$R^{n}$中任意非零列向$\alpha$，都有
+	\begin{equation*}
+		\alpha^{T}A\alpha\ge0 (\alpha^{T}A\alpha<0,\alpha^{T}A\alpha\le 0)
+	\end{equation*}
+	如果$X^{T}AX$既不是半正定的，又不是半负定的，那么称它为不定的。
+\end{definition}
+\begin{definition}
+	如果实二次型$X^{T}AX$是半正定(负定，半负定的)，那么实对称矩阵$A$是半正定(负定，半负定的)
+\end{definition}
+\begin{theorem}
+	$n$元实二次型$X^{T}AX$是半正定的$\Longleftrightarrow $它的正惯性指数等于它的秩$\Longleftrightarrow$它的规范形为$y^{2}_{1}+\cdots+y^{2}_{r}(0\le r \le n)$$\Longleftrightarrow$它的标准形中$n$个系数全非负
+\end{theorem}
+由定理(6.8)我们能立即得到
+\begin{corollary}
+	$n$阶实对称矩阵是半正定的$\Longleftrightarrow$$A$的正惯性指数等于它的秩$\Longleftrightarrow$$A\simeq\left( \begin{matrix}
+		E_r&		0\\
+		0&		0\\
+	\end{matrix} \right)$
+	其中$r=rank(A)$$\Longleftrightarrow$$A$的合同标准形中$n$个主对角线元全非负$\Longleftrightarrow$$A$的特征值全非负
+\end{corollary}
+\begin{theorem}
+	实对称矩阵$A$是半正定的充要条件是$A$的所有主子式全非负
+\end{theorem}
+\begin{theorem}
+	实对称矩阵$A$负定的充要条件是：它的奇数阶顺序主子式全小于零，偶数阶顺序主子式全大于0.
+\end{theorem}
+\section{重点题型归纳}
+\subsection{求二次型对应的矩阵}
+在开启这一部分的内容前，我们先要学会读题，将题目中所给出的条件挖掘出来。
+\begin{example}
+$	A=[\alpha_{1},\alpha_{2},\alpha_{3}].\alpha=\left[ \begin{array}{c}
+		1\\
+		0\\
+		3\\
+	\end{array} \right],f(x)=X^{T}AX$在正交变换$X=CY$ 化成$ay^{2}_{1}+by^{2}_{2}+cy^{2}_{3}$
+\end{example}
+这个是前置的条件，现在我们加条件进去，然后翻译翻译。
+\begin{note}
+	
+	1.若给出$A\alpha=0\Longleftrightarrow $$\alpha$是$AX=0$的非零解$\Longleftrightarrow $$\alpha_{1}+3\alpha_{3}=0$
+	
+	2.若给出$A\alpha=3\alpha$$\Longleftrightarrow \alpha $是方程$AX=3X$的非零解$\Longleftrightarrow\alpha$是方程$(3E-AX)=0$的非零解$\Longleftrightarrow $$\alpha_{1}+3\alpha_{3}=\alpha$
+	
+	3.$(A^{-1}-3E)\alpha=0$$\Rightarrow $$A^{-1}\alpha=3\alpha$$\Rightarrow $$A\alpha=\frac{1}{3}\alpha$
+	
+	4.$(A^{*}-3E)\alpha=0$$\Rightarrow $$A^{*}\alpha=3\alpha$$\Rightarrow $$A\alpha=\frac{|A|}{3}\alpha$
+	
+	5.$A$的各行各列元素之和全为三$ \Rightarrow $$A\left( \begin{array}{c}
+		1\\
+		1\\
+		1\\
+	\end{array} \right) =3\left( \begin{array}{c}
+		1\\
+		1\\
+		1\\
+	\end{array} \right) $
+	
+	5.$r(A)=1$或$r(A)=2 \Rightarrow $0为$A$的二重或一重特征值
+	
+	证明：
+	\begin{equation*}
+		P^{-1}AP=\left( \begin{matrix}
+			\lambda _1&		0&		0\\
+			0&		\lambda _2&		0\\
+			0&		0&		\lambda _3\\
+		\end{matrix} \right) 
+	\end{equation*}
+	相似矩阵有相同的特征值，右边式子的秩取决于非零特征值的个数。
+	
+	6.$r(A-2E)=1$或$ r(A-2E)=2\Rightarrow $2为$A$的二重或一重特征值
+	
+	证明
+	\begin{equation*}
+		P^{-1}(A-2E)P=\left( \begin{matrix}
+			\lambda _1-2&		0&		0\\
+			0&		\lambda _2-2&		0\\
+			0&		0&		\lambda _3-2\\
+		\end{matrix} \right)
+	\end{equation*}
+	相似矩阵有相同的特征值，右边式子的秩取决于非2特征值的个数。
+	
+	7.$A^{2}(A-2E)=0$$\Longleftrightarrow $$\lambda=0$或$2$
+	
+	8.$C$的第一列是$c_{1}\Rightarrow Ac_{1}=ac_{1}$
+	
+	证明：
+	\begin{equation*}
+		C^{T}AC=\left( \begin{matrix}
+			a&		0&		0\\
+			0&		b&		0\\
+			0&		0&		c\\
+		\end{matrix} \right) 
+	\end{equation*}
+	\begin{equation*}
+		AC=C\left( \begin{matrix}
+			a&		0&		0\\
+			0&		b&		0\\
+			0&		0&		c\\
+		\end{matrix} \right)=\left( c_1,c_2,c_3 \right)\left( \begin{matrix}
+		a&		0&		0\\
+		0&		b&		0\\
+		0&		0&		c\\
+		\end{matrix} \right)\Rightarrow A \left( c_1,c_2,c_3 \right)=\left( ac_1,bc_2,cc_3 \right)
+	\end{equation*}
+\end{note}
+\subsubsection{矩阵可直接求}
+直接求出$A$的所有元素，一般从特征多项式、迹、$|\lambda E-A|$、$r(\lambda E-A)$入手
+\begin{example}
+	三元二次型$X^{T}AX=cx_{1}^{2}+2ax_{1}x_{2}+2bx_{1}x_{3}+2x_{2}x_{3}(a>b)$经过正交变换$X=PY$变为$y^{2}_{1}+y^{2}_{2}-2y^{2}_{3}$,求$A$
+\end{example}
+\begin{solution}
+	
+	先拿基础分，求二次型的矩阵
+	\begin{equation*}
+		A=\left( \begin{matrix}
+			c&		a&		b\\
+			a&		0&		1\\
+			b&		1&		0\\
+		\end{matrix} \right) 
+	\end{equation*}
+	
+	因为是通过正交变换，所以有相同的特征值，于是矩阵$A$的特征值为$1,1,-2$
+	
+	由$tr(A)=0,$可得$c=0$
+	
+	$|\lambda E-A|=\lambda^{3}-(a^{2}+b^{2}+1)\lambda-2ab=(\lambda-1)^{2}(\lambda+2)=\lambda^{3}-3\lambda+2$
+	
+	比较系数，有
+	\begin{equation*}
+		\begin{cases}
+			ab=-1\\
+			a^2+b^2=2\\
+		\end{cases}\Rightarrow \begin{cases}
+			a=1\\
+			b=-1\\
+		\end{cases}\text{或}\begin{cases}
+			a=-1\\
+			b=1\\
+		\end{cases}
+	\end{equation*}
+\end{solution}
+\begin{example}
+	三元二次型$X^{T}AX(A=A^{T})$的平方项系数全为1，$\alpha=\left[ \begin{array}{c}
+		1\\
+		1\\
+		2\\
+	\end{array} \right] $是$AX=0$的唯一解，求$A$
+\end{example}
+\begin{solution}
+	
+	先拿低保
+		\begin{equation*}
+		A=\left( \begin{matrix}
+			1&		a&		b\\
+			a&		1&		c\\
+			b&		c&		1\\
+		\end{matrix} \right) 
+	\end{equation*}
+	由题，有
+	\begin{equation*}
+		\left( \begin{matrix}
+			1&		a&		b\\
+			a&		1&		c\\
+			b&		c&		1\\
+		\end{matrix} \right)\left( \begin{array}{c}
+		1\\
+		1\\
+		2\\
+		\end{array} \right)=\left( \begin{array}{c}
+		1+a+2b\\
+		a+1+2c\\
+		b+c+2\\
+		\end{array} \right) =0
+	\end{equation*}
+	解得
+	\begin{equation*}
+		\begin{cases}
+			a=1\\
+			b=-1\\
+			c=-1\\
+		\end{cases}
+	\end{equation*}
+\end{solution}
+\begin{example}
+	三元二次型$X^{T}AX=ax_{1}^{2}+x_{2}^{2}-x_{3}^{2}+2x_{1}x_{2}+2bx_{1}x_{3}+2cx_{2}x_{3}$，$A$满足$ AB=0,B=\left[ \begin{matrix}
+		1&		0&		-1\\
+		0&		0&		0\\
+		-1&		0&		1\\
+	\end{matrix} \right] $
+\end{example}
+\begin{solution}
+	
+	先拿低保
+	\begin{equation*}
+		A=\left[ \begin{matrix}
+			a&		1&		b\\
+			1&		1&		c\\
+			b&		c&		-1\\
+		\end{matrix} \right]
+	\end{equation*}
+	由题，有
+	\begin{equation*}
+		\left[ \begin{matrix}
+			a&		1&		b\\
+			1&		1&		c\\
+			b&		c&		-1\\
+		\end{matrix} \right]\left[ \begin{matrix}
+		1&		0&		-1\\
+		0&		0&		0\\
+		-1&		0&		1\\
+		\end{matrix} \right]=\left[ \begin{matrix}
+		a-b&		0&		b-a\\
+		1-c&		0&		c-1\\
+		b+1&		0&		-1-b\\
+		\end{matrix} \right] =0
+	\end{equation*}
+	解得
+	\begin{equation*}
+		\begin{cases}
+			a=1\\
+			b=-1\\
+			c=1\\
+		\end{cases}
+	\end{equation*}
+\end{solution}
+\begin{example}
+	三元二次型$X^{T}AX=x_{1}^{2}+x_{2}^{2}+x_{3}^{2}+2x_{1}x_{2}+2bx_{1}x_{3}+2cx_{2}x_{3}$，$r(A)=1,\left[ \begin{array}{c}
+		1\\
+		1\\
+		1\\
+	\end{array} \right] $是$A$的一个特征向量。
+\end{example}
+\begin{solution}
+	
+	先拿低保
+	\begin{equation*}
+		A=\left[ \begin{matrix}
+			1&		1&		b\\
+			1&		1&		c\\
+			b&		c&		1\\
+		\end{matrix} \right]
+	\end{equation*}
+	
+	由$r(A)=1$,则$A$的特征值为$0,0,3$故对其讨论
+	
+	$\left[ \begin{array}{c}
+		1\\
+		1\\
+		1\\
+	\end{array} \right]$ 对应的特征值为0时，有
+	\begin{equation*}
+		\left[ \begin{matrix}
+			1&		1&		b\\
+			1&		1&		c\\
+			b&		c&		1\\
+		\end{matrix} \right]\left[ \begin{array}{c}
+		1\\
+		1\\
+		1\\
+		\end{array} \right]=0
+	\end{equation*}
+	显然无解。
+		
+		$\left[ \begin{array}{c}
+		1\\
+		1\\
+		1\\
+	\end{array} \right]$ 对应的特征值为3时，有
+	\begin{equation*}
+		\left[ \begin{matrix}
+			1&		1&		b\\
+			1&		1&		c\\
+			b&		c&		1\\
+		\end{matrix} \right]\left[ \begin{array}{c}
+			1\\
+			1\\
+			1\\
+		\end{array} \right]=\left[ \begin{array}{c}
+		3\\
+		3\\
+		3\\
+		\end{array} \right]
+	\end{equation*}
+	解得
+	\begin{equation*}
+		\begin{cases}
+			b=1\\
+			c=1\\
+		\end{cases}
+	\end{equation*}
+\end{solution}
+\subsubsection{矩阵不可直接求}
+像这类题，我们通常是通过求$A$的特征值$\lambda_{1},\lambda_{2},\lambda_{3}$以及对应的特征向量$\alpha_{1},\alpha_{2},\alpha_{3}$
+然后用
+\begin{equation*}
+	A=(\alpha_{1},\alpha_{2},\alpha_{3})\left( \begin{matrix}
+		\lambda _1&		0&		0\\
+		0&		\lambda _2&		0\\
+		0&		0&		\lambda _3\\
+	\end{matrix} \right)(\alpha_{1},\alpha_{2},\alpha_{3})^{T}
+\end{equation*}
+求出$A$
+
+主要分为以下四种情况
+\begin{equation*}
+	\text{三阶实对称矩阵}A\text{的特征值为}\begin{cases}
+		a,b,b\text{且}a:\boldsymbol{\alpha }\\
+		a,b,b\text{且}b:\beta _1,\beta _2\\
+		a,b,c\text{且}b:\beta ,c:\gamma\\
+		a,a,a\\
+	\end{cases}
+\end{equation*}
+有以下结论，以下出现的特征向量均为我随便写的，实际上对任意满足下述条件的特征向量均成立。
+
+$\begin{cases}
+	a,b,b\text{且}a:\boldsymbol{\alpha }=\left[ \begin{array}{c}
+		1\\
+		2\\
+		3\\
+	\end{array} \right] ,\text{则}\left[ \begin{matrix}
+		1&		2&		3\\
+	\end{matrix} \right] \left[ \begin{array}{c}
+		x_1\\
+		x_2\\
+		x_3\\
+	\end{array} \right] =0\text{的非零解都是}b\text{对应的特征向量}\\
+	a,b,b\text{且}b:\beta _1=\left[ \begin{array}{c}
+		1\\
+		2\\
+		3\\
+	\end{array} \right] ,\beta _2=\left[ \begin{array}{c}
+		1\\
+		1\\
+		1\\
+	\end{array} \right] \text{则}\left[ \begin{matrix}
+		1&		2&		3\\
+		1&		1&		1\\
+	\end{matrix} \right] \left[ \begin{array}{c}
+		x_1\\
+		x_2\\
+		x_3\\
+	\end{array} \right] =0\text{非零解都是}a\text{对应的特征向量}\\
+	a,b,c\text{且}b:\beta =\left[ \begin{array}{c}
+		1\\
+		2\\
+		3\\
+	\end{array} \right] ,c:\gamma =\left[ \begin{array}{c}
+		1\\
+		1\\
+		1\\
+	\end{array} \right] \text{则}\left[ \begin{matrix}
+		1&		2&		3\\
+		1&		1&		1\\
+	\end{matrix} \right] \left[ \begin{array}{c}
+		x_1\\
+		x_2\\
+		x_3\\
+	\end{array} \right] =0\text{非零解都是}a\text{对应的特征向量}\\
+	a,a,a\text{则任意非零向量都是}a\text{对应的特征向量}\\
+\end{cases}$
+\begin{example}
+	已知3阶实对称矩阵$A $的各行元素之和均为1，$r(A-6E)=1$
+	
+	(1)求正交矩阵$P$，使得$P^{-1}AP$均为对角阵
+	
+	(2)求$A$
+\end{example}
+\begin{solution}
+	
+	(1)由题意，有1为$A$的特征值且
+	$\left[ \begin{array}{c}
+		1\\
+		1\\
+		1\\
+	\end{array} \right]$为属于1的特征向量，6为$A$的二重特征值
+	
+	由先前结论可知，属于0的特征向量为
+	\begin{equation*}
+		\begin{bmatrix}
+			1& 1 &1
+		\end{bmatrix}X=0
+	\end{equation*}
+	的非零解
+	
+	解得
+	\begin{equation*}
+\beta_{1}=\left[ \begin{array}{c}
+				-1\\
+				1\\
+				0\\
+			\end{array} \right],
+\beta_{2}=\left[ \begin{array}{c}
+	-1\\
+	0\\
+	1\\
+\end{array} \right]
+	\end{equation*}
+	正交化+单位化，有(这里只需要对$\beta_{1},\beta_{2}$进行斯密特正交化就行了)
+	\begin{equation*}
+		\gamma_{1}=\left[ \begin{array}{c}
+			\frac{1}{\sqrt{3}}\\
+			\frac{1}{\sqrt{3}}\\
+			\frac{1}{\sqrt{3}}\\
+		\end{array} \right],
+		\gamma_{2}=\left[ \begin{array}{c}
+			-\frac{1}{\sqrt{2}}\\
+			\frac{1}{\sqrt{2}}\\
+			0\\
+		\end{array} \right],
+		\gamma_{3}=\left[ \begin{array}{c}
+			\frac{-1}{\sqrt{6}}\\
+			\frac{1}{\sqrt{6}}\\
+			\frac{2}{\sqrt{6}}\\
+		\end{array} \right]
+	\end{equation*}
+	取$P=(\gamma_{1},\gamma_{2},\gamma_{3})$,即
+	\begin{equation*}
+		P=\left( \begin{matrix}
+			\frac{1}{\sqrt{3}}&		-\frac{1}{\sqrt{2}}&		\frac{-1}{\sqrt{6}}\\
+			\frac{1}{\sqrt{3}}&		\frac{1}{\sqrt{2}}&		\frac{-1}{\sqrt{6}}\\
+			\frac{1}{\sqrt{3}}&		0&		\frac{2}{\sqrt{6}}\\
+		\end{matrix} \right) 
+	\end{equation*}
+	此时$P$为正交矩阵，有
+	\begin{equation*}
+		P^{T}AP=P^{-1}AP=\left( \begin{matrix}
+			1&		0&		0\\
+			0&		6&		0\\
+			0&		0&		6\\
+		\end{matrix} \right) 
+	\end{equation*}
+	
+	(2)由题，有
+	\begin{equation*}
+		A=(\gamma_{1},\gamma_{2},\gamma_{3})\left( \begin{matrix}
+			\lambda _1&		0&		0\\
+			0&		\lambda _2&		0\\
+			0&		0&		\lambda _3\\
+		\end{matrix} \right)(\gamma_{1},\gamma_{2},\gamma_{3})^{T}=\left( \begin{matrix}
+		\frac{1}{\sqrt{3}}&		-\frac{1}{\sqrt{2}}&		\frac{-1}{\sqrt{6}}\\
+		\frac{1}{\sqrt{3}}&		\frac{1}{\sqrt{2}}&		\frac{-1}{\sqrt{6}}\\
+		\frac{1}{\sqrt{3}}&		0&		\frac{2}{\sqrt{6}}\\
+		\end{matrix} \right)\left( \begin{matrix}
+		1&		0&		0\\
+		0&		6&		0\\
+		0&		0&		6\\
+		\end{matrix} \right)\left( \begin{matrix}
+		\frac{1}{\sqrt{3}}&		\frac{1}{\sqrt{3}}&		\frac{1}{\sqrt{3}}\\
+		-\frac{1}{\sqrt{2}}&		\frac{1}{\sqrt{2}}&		0\\
+		\frac{-1}{\sqrt{6}}&		\frac{-1}{\sqrt{6}}&		\frac{2}{\sqrt{6}}\\
+		\end{matrix} \right)=\left( \begin{matrix}
+		\frac{13}{3}&		-\frac{5}{3}&		-\frac{5}{3}\\
+		-\frac{5}{3}&		\frac{13}{3}&		-\frac{5}{3}\\
+		-\frac{5}{3}&		-\frac{5}{3}&		\frac{13}{3}\\
+		\end{matrix} \right) 
+	\end{equation*}
+\end{solution}
+由于求$A$过于套路化，后面的求$A$我都不写出，有兴趣的自行去做
+\begin{example}
+	已知3阶实对称矩阵$A$，$Ax=0$的通解为$k_1\left[ \begin{array}{c}
+		1\\
+		1\\
+		1\\
+	\end{array} \right] +k_2\left[ \begin{array}{c}
+		0\\
+		1\\
+		1\\
+	\end{array} \right] ,0<r\left( A-E \right) <3$求正交矩阵$P$使得$P^{-1}AP$为对角矩阵
+\end{example}
+\begin{solution}
+	
+	由题$r(A)=1,A$的特征值为$ 0,0,1$
+	
+	由先前的结论，属于1的特征向量为
+	\begin{equation*}
+		\begin{bmatrix}
+			1& 1 & 1\\
+			0& 1 &1
+		\end{bmatrix}\left[ \begin{array}{c}
+			x_1\\
+			x_2\\
+			x_3\\
+		\end{array} \right]=0
+	\end{equation*}
+	的非零解。
+	
+	解得
+	\begin{equation*}
+		\alpha=\left[ \begin{array}{c}
+			0\\
+			-1\\
+			1\\
+		\end{array} \right] 
+	\end{equation*}
+正交化+单位化，有(这里只需要对$\beta_{1},\beta_{2}$进行斯密特正交化就行了)
+	\begin{equation*}
+		\gamma_{1}=\left[ \begin{array}{c}
+			0\\
+			-\frac{1}{\sqrt{2}}\\
+			\frac{1}{\sqrt{2}}\\
+		\end{array} \right],
+		\gamma_{2}=\left[ \begin{array}{c}
+		\frac{1}{\sqrt{3}}\\
+		\frac{1}{\sqrt{3}}\\
+		\frac{1}{\sqrt{3}}\\
+		\end{array} \right],
+		\gamma_{3}=\left[ \begin{array}{c}
+			-\frac{2}{\sqrt{6}}\\
+			\frac{1}{\sqrt{6}}\\
+			\frac{1}{\sqrt{6}}\\
+		\end{array} \right]
+	\end{equation*}
+	剩下过程同上。
+\end{solution}
+\begin{example}
+	3阶实对称矩阵$A$满足：$tr(A)=1,|A|=-1,\alpha=[1,1,1]^{T}$是方程$(A^{*}-E)x=0$的解,求正交矩阵$P$使得$P^{-1}AP$为对角矩阵
+\end{example}
+\begin{solution}
+	
+	因为$(A^{*}-E)x=0$，由前面结论，解得$Ax=-x$，故$-1$为$A$的一个特征值。
+	
+	则$A$的特征值为$0,\lambda_{1},\lambda_{2}$,由$tr(A)=1,|A|=-1$,解得特征值为$1,1,-1$
+	
+	由先前结论可知，属于1的特征向量为
+	\begin{equation*}
+		\begin{bmatrix}
+			1& 1 &1
+		\end{bmatrix}^{T}X=0
+	\end{equation*}
+	的非零解
+	
+	解得
+	\begin{equation*}
+		\beta_{1}=\left[ \begin{array}{c}
+			-1\\
+			1\\
+			0\\
+		\end{array} \right],
+		\beta_{2}=\left[ \begin{array}{c}
+			-1\\
+			0\\
+			1\\
+		\end{array} \right]
+	\end{equation*}
+	正交化+单位化，有(这里只需要对$\beta_{1},\beta_{2}$进行斯密特正交化就行了)
+	\begin{equation*}
+		\gamma_{1}=\left[ \begin{array}{c}
+			\frac{1}{\sqrt{3}}\\
+			\frac{1}{\sqrt{3}}\\
+			\frac{1}{\sqrt{3}}\\
+		\end{array} \right],
+		\gamma_{2}=\left[ \begin{array}{c}
+			-\frac{1}{\sqrt{2}}\\
+			\frac{1}{\sqrt{2}}\\
+			0\\
+		\end{array} \right],
+		\gamma_{3}=\left[ \begin{array}{c}
+			\frac{-1}{\sqrt{6}}\\
+			\frac{1}{\sqrt{6}}\\
+			\frac{2}{\sqrt{6}}\\
+		\end{array} \right]
+	\end{equation*}
+\end{solution}
+\begin{example}
+	3阶实对称矩阵$A=[\alpha_{1},\alpha_{2},\alpha_{3}],\alpha _1=2\alpha _2+\left[ \begin{array}{c}
+		2\\
+		-4\\
+		0\\
+	\end{array} \right] ,r\left( A \right) =1$,求正交矩阵$P$使得$P^{-1}AP$为对角矩阵
+\end{example}
+\begin{solution}
+	
+	$\alpha _1=2\alpha _2+\left[ \begin{array}{c}
+		2\\
+		-4\\
+		0\\
+	\end{array} \right]\Rightarrow\alpha _1-2\alpha _2=\left[ \begin{array}{c}
+	2\\
+	-4\\
+	0\\
+	\end{array} \right]=$
+	\begin{equation*}
+		\left[ \begin{matrix}
+			\alpha _1&		\alpha _2&		\alpha _3\\
+		\end{matrix} \right] \left[ \begin{array}{c}
+			1\\
+			-1\\
+			0\\
+		\end{array} \right] =A\left[ \begin{array}{c}
+			1\\
+			-1\\
+			0\\
+		\end{array} \right] =2\left[ \begin{array}{c}
+			1\\
+			-1\\
+			0\\
+		\end{array} \right] 
+	\end{equation*}
+	
+	于是2为$A$的一个特征值，又$r(A)=1$,于是$0,0,1$为$A$的所有特征值。
+	
+	属于0的所有特征向量为方程
+		\begin{equation*}
+			\begin{bmatrix}
+				1& -1 & 0\\
+			\end{bmatrix}\left[ \begin{array}{c}
+				x_1\\
+				x_2\\
+				x_3\\
+			\end{array} \right]=0
+		\end{equation*}
+		的非零解。
+		
+		剩下的过程自己写一下，都是一样的。
+\end{solution}
+\begin{example}
+	3阶实对称矩阵$A=[\alpha_{1},\alpha_{2},\alpha_{3}],\alpha _1=2\alpha _2+\left[ \begin{array}{c}
+		2\\
+		-4\\
+		0\\
+	\end{array} \right] =-\frac{1}{2}\alpha _2-\alpha _3+\left[ \begin{array}{c}
+	4\\
+	2\\
+	4\\
+	\end{array} \right] ,|\alpha_{1},\alpha_{2},\alpha_{3}|=0$,求正交矩阵$P$使得$P^{-1}AP$为对角矩阵
+\end{example}
+\begin{solution}
+	
+	$\alpha _1=2\alpha _2+\left[ \begin{array}{c}
+		2\\
+		-4\\
+		0\\
+	\end{array} \right]\Rightarrow\alpha _1-2\alpha _2=\left[ \begin{array}{c}
+		2\\
+		-4\\
+		0\\
+	\end{array} \right]=$
+	\begin{equation*}
+		\left[ \begin{matrix}
+			\alpha _1&		\alpha _2&		\alpha _3\\
+		\end{matrix} \right] \left[ \begin{array}{c}
+			1\\
+			-1\\
+			0\\
+		\end{array} \right] =A\left[ \begin{array}{c}
+			1\\
+			-1\\
+			0\\
+		\end{array} \right] =2\left[ \begin{array}{c}
+			1\\
+			-1\\
+			0\\
+		\end{array} \right] 
+	\end{equation*}
+	
+	于是2为$A$的一个特征值
+\end{solution}
+
+$\alpha _1=-\frac{1}{2}\alpha _2-\alpha _3+\left[ \begin{array}{c}
+	4\\
+	2\\
+	4\\
+\end{array} \right] \Rightarrow \alpha _1+\frac{1}{2}\alpha _2+\alpha _3=[\alpha _1,\alpha _2,\alpha _3]\left[ \begin{array}{c}
+	1\\
+	\frac{1}{2}\\
+	1\\
+\end{array} \right] =\left[ \begin{array}{c}
+	4\\
+	2\\
+	4\\
+\end{array} \right] \Rightarrow A\left[ \begin{array}{c}
+	1\\
+	\frac{1}{2}\\
+	1\\
+\end{array} \right] =4\left[ \begin{array}{c}
+	1\\
+	\frac{1}{2}\\
+	1\\
+\end{array} \right] $
+	
+	于是4为$A$的一个特征值
+	
+	又$|A|=0$，0也为$A$的一个特征值。
+	
+	于是属于特征值0的特征向量为
+	\begin{equation*}
+		\begin{bmatrix}
+			1& -1 & 0\\
+			1& \frac{1}{2}  &1
+		\end{bmatrix}
+		\left[ \begin{array}{c}
+			x_1\\
+			x_2\\
+			x_3\\
+		\end{array} \right] =0
+	\end{equation*}
+	的非零解，剩下同上
+\begin{example}
+	3阶实对称矩阵$A=[\alpha_{1},\alpha_{2},\alpha_{3}]$,$A\begin{bmatrix}
+		4 & 0\\
+		-3&5 \\
+		2&2
+	\end{bmatrix}=
+	\begin{bmatrix}
+		12 & 4\\
+		-4&12 \\
+		8&8
+	\end{bmatrix},|\alpha_{1},\alpha_{2},\alpha_{3}|=0$求正交矩阵$P$使得$P^{-1}AP$为对角矩阵
+\end{example}
+\begin{solution}
+	
+	很明显，这对应的行和列是不成比例的，所以我们无法直观地看出特征值和特征向量，所以我们不妨待定系数，即
+	\begin{equation*}
+		A\left[ \begin{array}{c}
+			4+0k\\
+			-3+5k\\
+			2+2k\\
+		\end{array} \right] =\left[ \begin{array}{c}
+			12+4k\\
+			-4+12k\\
+			8+8k\\
+		\end{array} \right] \Rightarrow \begin{cases}
+			12+4k=4\lambda\\
+			-4+12k=\left( -3+5k \right) \lambda\\
+			8+8k=\left( 2+2k \right) \lambda\\
+		\end{cases}\Rightarrow \begin{cases}
+			\lambda =4\\
+			k=1\\
+		\end{cases}\text{或}\begin{cases}
+			\lambda =2\\
+			k=-1\\
+		\end{cases}
+	\end{equation*}
+	故$A$的属于特征值4的特征向量为$\left[ \begin{array}{c}
+		4\\
+		2\\
+		4\\
+	\end{array} \right] $
+	$A$的属于特征值2的特征向量为$\left[ \begin{array}{c}
+		4\\
+		-8\\
+		0\\
+	\end{array} \right] $
+	
+	又$|A|=0$,$A$的特征值为$0,4,2$
+	
+	于是属于特征值0的特征向量为
+	\begin{equation*}
+		\begin{bmatrix}
+			4& 2 & 4\\
+			4& -8  &0
+		\end{bmatrix}
+		\left[ \begin{array}{c}
+			x_1\\
+			x_2\\
+			x_3\\
+		\end{array} \right] =0
+	\end{equation*}
+	剩下的过程就是算算算。
+\end{solution}
+\begin{example}
+	$A$是3阶实对称矩阵，$\alpha,\beta$线性无关且满足$ A\alpha=2\beta,A\beta=4\alpha,\gamma\ne0$且满足$A\gamma=0$.求$A$的所有特征值以及对应的特征向量，可逆矩阵$P$使得$P^{-1}AP$为对角矩阵.($P$要用$\alpha,\gamma,\beta$表示)
+\end{example}
+\begin{solution}
+	
+	容易证明$\alpha,\gamma,\beta$线性无关，由题则有
+	\begin{equation*}
+		A\left( \alpha ,\beta ,\gamma \right) =\left( \alpha ,\beta ,\gamma \right) \left( \begin{matrix}
+			0&		4&		0\\
+			2&		0&		0\\
+			0&		0&		0\\
+		\end{matrix} \right)\Rightarrow \left( \alpha ,\beta ,\gamma \right)^{-1}	A\left( \alpha ,\beta ,\gamma \right)=\left( \begin{matrix}
+		0&		4&		0\\
+		2&		0&		0\\
+		0&		0&		0\\
+		\end{matrix}\right)=B
+	\end{equation*}
+	
+$	|\lambda E-B|=\lambda(\lambda^{2}-8)$解得$B$的特征值为$0,2\sqrt{2},-2\sqrt{2}$解得，分别对应的特征向量为
+\begin{equation*}
+	\gamma_{1}=\left[ \begin{array}{c}
+		0\\
+		0\\
+		1\\
+	\end{array} \right],
+	\gamma_{2}=\left[ \begin{array}{c}
+		\sqrt{2}\\
+		1\\
+		0\\
+	\end{array} \right],
+	\gamma_{3}=\left[ \begin{array}{c}
+	-\sqrt{2}\\
+		1\\
+		0\\
+	\end{array} \right]
+\end{equation*}
+
+于是存在一个可逆阵$Q=(\gamma_{1},\gamma_{2},\gamma_{3})$，使得$Q^{-1}BQ=Q^{-1}\left( \alpha ,\beta ,\gamma \right)^{-1}	A\left( \alpha ,\beta ,\gamma \right)Q=\left( \begin{matrix}
+	2\sqrt{2}&		0&		0\\
+	0&		-2\sqrt{2}&		0\\
+	0&		0&		0\\
+\end{matrix}\right)$
+
+此时$P=\left( \alpha ,\beta ,\gamma \right)Q=\left( \alpha ,\beta ,\gamma \right)\left( \begin{matrix}
+	0&		\sqrt{2}&		-\sqrt{2}\\
+	0&		1&		1\\
+	1&		0&		0\\
+\end{matrix} \right) $
+\end{solution}
+\begin{example}
+	$A$是3阶实对称矩阵，$\alpha _1,\alpha _2,\alpha _3$线性无关且满足$A(\alpha _1-2\alpha _2-\alpha _3)=-2\alpha _2,A\alpha _2=\alpha _3 ,A\alpha _3=\alpha _1$。求$A$的所有特征值以及对应的特征向量，可逆矩阵$P$使得$P^{-1}AP$为对角矩阵
+\end{example}
+\begin{solution}
+	
+	法一：
+	
+	由题，有
+	\begin{equation*}
+		A\left( \alpha _1-2\alpha _2-\alpha _3,\alpha _2,\alpha _3 \right) =A\left( \alpha _1,\alpha _2,\alpha _3 \right) \left( \begin{matrix}
+			1&		0&		0\\
+			-2&		1&		0\\
+			-1&		0&		1\\
+		\end{matrix} \right) =\left( \alpha _1,\alpha _2,\alpha _3 \right) \left( \begin{matrix}
+			0&		0&		1\\
+			-2&		0&		0\\
+			0&		1&		0\\
+		\end{matrix} \right) 
+	\end{equation*}
+	\begin{equation*}
+		\begin{bmatrix}
+			1& 0 &0 \\
+			-2&1  &0 \\
+			-1&0  &1 \\
+			0&0  & 1\\
+			-2& 0 &0 \\
+			0 & 1 &0
+		\end{bmatrix}\Longrightarrow \begin{bmatrix}
+			1& 0 &0 \\
+			0&1  &0 \\
+			0&0  &1 \\
+			1&0  & 1\\
+			-2& 0 &0 \\
+			2 & 1 &0
+		\end{bmatrix}
+	\end{equation*}
+	于是有$\left( \alpha _1,\alpha _2,\alpha _3 \right)^{-1}A\left( \alpha _1,\alpha _2,\alpha _3 \right)=\begin{bmatrix}
+		1&0  & 1\\
+		-2& 0 &0 \\
+		2 & 1 &0
+	\end{bmatrix}=B$
+	
+	$|\lambda E-B|=(\lambda-1)(\lambda^{2}-2)$
+	
+	解$(\sqrt{2}E-B)X=0,$得
+	\begin{equation*}
+		\left[ \begin{array}{c}
+			\frac{1}{\sqrt{2}-1}\\
+			-\frac{\sqrt{2}}{\sqrt{2}-1}\\
+			1\\
+		\end{array} \right] 
+	\end{equation*}
+	
+	解$(-\sqrt{2}E-B)X=0,$得
+	\begin{equation*}
+		\left[ \begin{array}{c}
+			-\frac{1}{\sqrt{2}+1}\\
+			-\frac{\sqrt{2}}{\sqrt{2}+1}\\
+			1\\
+		\end{array} \right] 
+	\end{equation*}
+	
+	解$(E-B)X=0$得
+	\begin{equation*}
+		\left[ \begin{array}{c}
+			-\frac{1}{2}\\
+			1\\
+			0\\
+		\end{array} \right] 
+	\end{equation*}
+	于是，$P=\left( \alpha _1,\alpha _2,\alpha _3 \right)\left( \begin{matrix}
+		\frac{1}{\sqrt{2}-1}&		-\frac{1}{\sqrt{2}+1}&		-\frac{1}{2}\\
+		-\frac{\sqrt{2}}{\sqrt{2}-1}&		-\frac{\sqrt{2}}{\sqrt{2}+1}&		1\\
+		1&		1&		0\\
+	\end{matrix} \right) $
+
+法二：
+	直接待定系数
+	\begin{equation*}
+		A\left( \alpha _1-2\alpha _2-\alpha _3+m\alpha _2+n\alpha _3 \right)  =-2\alpha _2+m\alpha _3+n\alpha _1=\lambda\left( \alpha _1-2\alpha _2-\alpha _3+m\alpha _2+n\alpha _3 \right)
+	\end{equation*}
+	比较系数，得
+	\begin{equation*}
+		\begin{cases}
+			n=\lambda\\
+			-2=-2\lambda \left( m-2 \right)\\
+			m=\lambda \left( n-1 \right)\\
+		\end{cases}\Longrightarrow \begin{cases}
+			m=0\\
+			n=1\\
+			\lambda =1\\
+		\end{cases}\text{或}\begin{cases}
+			m=2-\sqrt{2}\\
+			n=\sqrt{2}\\
+			\lambda =\sqrt{2}\\
+		\end{cases}\text{或}\begin{cases}
+			m=2+\sqrt{2}\\
+			n=-\sqrt{2}\\
+			\lambda =-\sqrt{2}\\
+		\end{cases}
+	\end{equation*}
+\end{solution}
+\begin{example}
+	$A$是3阶实对称矩阵,满足$A^{2}(A-2E)=0,r(A)=2,A=[\alpha_{1},\alpha_{2},\alpha_{3}],\alpha_{1}=2\alpha_{2}$.求$A$的所有特征值以及对应的特征向量，可逆矩阵$P$使得$P^{-1}AP$为对角矩阵
+\end{example}
+\begin{solution}
+	
+	由题$A^2(A-2E)=0\Rightarrow \lambda ^2(\lambda -2)=0$，解得$A$的特征值为0或2
+	
+	又$r(A)=2$,于是$A$的特征值为$0,2,2$
+	
+	又因为
+	$\left( \alpha _1,\alpha _2,\alpha _3 \right) \left( \begin{array}{c}
+		1\\
+		-2\\
+		0\\
+	\end{array} \right) =A\left( \begin{array}{c}
+		1\\
+		-2\\
+		0\\
+	\end{array} \right) =0\left( \begin{array}{c}
+		1\\
+		-2\\
+		0\\
+	\end{array} \right) $
+	
+	于是$\left( \begin{array}{c}
+		1\\
+		-2\\
+		0\\
+	\end{array} \right)$是属于特征值0的特征向量，剩下的就跟前面一样。
+\end{solution}
+\begin{example}
+	二次型$f(x)=X^{T}AX$在正交变换$X=PY$化成$y^{2}_{1}+2y^{2}_{2}+2y^{2}_{3}$，$P$的第一列为$\left[ \begin{array}{c}
+		\frac{1}{\sqrt{5}}\\
+		\frac{2}{\sqrt{5}}\\
+		0\\
+	\end{array} \right] $求$A$的所有特征值以及对应的特征向量使得可逆矩阵$P$使得$P^{-1}AP$为对角矩阵
+\end{example}
+\begin{solution}
+	
+	由题，经过$X=PY$变换之后
+	$X^{T}AX=(PY)^{T}PY=Y^{T}P^{T}APY$
+	
+	于是有$(P_{1},P_{2},P_{3})^{T}A(P_{1},P_{2},P_{3})=\left( \begin{matrix}
+		1&		0&		0\\
+		0&		2&		0\\
+		0&		0&		2\\
+	\end{matrix} \right) $
+	
+	即$A(P_{1},P_{2},P_{3})=(P_{1},P_{2},P_{3})\left( \begin{matrix}
+		1&		0&		0\\
+		0&		2&		0\\
+		0&		0&		2\\
+	\end{matrix} \right)=(P_{1},2P_{2},2P_{3})$
+	
+	于是$P_{1}$是属于特征值1的特征向量，$P_{2},P_{3}$为方程
+	\begin{equation*}
+		\left[ \begin{matrix}
+			\frac{1}{\sqrt{5}}&		\frac{2}{\sqrt{5}}&		0\\
+		\end{matrix} \right] \left[ \begin{array}{c}
+		x_1\\
+		x_2\\
+		x_3\\
+		\end{array} \right] =0
+	\end{equation*}
+	的非零解，剩下过程同上。
+\end{solution}
+\subsection{合同变换法}
+\begin{example}
+	求$f(x_{1},x_{2},\cdots,x_{n})=2x_{1}x_{2}+x_{1}x_{3}$的规范形。
+\end{example}
+\begin{solution}
+	
+	先求矩阵拿低保
+	\begin{equation*}
+		A=\left[ \begin{matrix}
+			0&		1&		\frac{1}{2}\\
+			1&		0&		0\\
+			\frac{1}{2}&		0&		0\\
+		\end{matrix} \right] 
+	\end{equation*}
+	对矩阵进行合同变换
+	\begin{equation*}
+		\begin{bmatrix}
+			0&		1&		\frac{1}{2}\\
+			1&		0&		0\\
+			\frac{1}{2}&		0&		0\\
+			1&0  & 0\\
+			0& 1 &0 \\
+			0 & 0 &1
+		\end{bmatrix}\Longrightarrow \begin{bmatrix}
+			1& 0 &0 \\
+			0&-1  &0 \\
+			0&0  &0 \\
+			\frac{1}{\sqrt{2} } &-\frac{1}{\sqrt{2} }  & 0\\
+			\frac{1}{\sqrt{2} }& \frac{1}{\sqrt{2} }&-\frac{1}{2 }\\
+			0 & 0 &\frac{3}{4 }
+		\end{bmatrix}
+	\end{equation*}
+	即可看出规范形。
+\end{solution}
+\subsubsection{对角矩阵过渡}
+\begin{example}
+$	A=\left[ \begin{matrix}
+		0&		0&		1\\
+		0&		1&		0\\
+		1&		0&		0\\
+	\end{matrix} \right] ,B=\left[ \begin{matrix}
+		0&		1&		0\\
+		1&		0&		0\\
+		0&		0&		1\\
+	\end{matrix} \right] $求一个正交矩阵$Q$，使得$Q^{-1}AQ=B$
+\end{example}
+\begin{solution}
+	
+	由题，存在正交矩阵$Q_{1}$，使得$Q_{1}^{-1}AQ_{1}=\left( \begin{matrix}
+		\lambda _1&		0&		0\\
+		0&		\lambda _2&		0\\
+		0&		0&		\lambda _3\\
+	\end{matrix} \right) $存在正交矩阵$Q_{2}$，使得$Q^{-1}_{2}BQ_{2}=\left( \begin{matrix}
+	\lambda _1&		0&		0\\
+	0&		\lambda _2&		0\\
+	0&		0&		\lambda _3\\
+	\end{matrix} \right) $
+	
+	于是有
+	\begin{equation*}
+		Q_{1}^{-1}AQ_{1}=Q^{-1}_{2}BQ_{2}
+	\end{equation*}
+	
+	则$Q_{2}	Q_{1}^{-1}AQ_{1}Q^{-1}_{2}=B$
+	此时$Q=Q_{1}Q^{-1}_{2}$,计算过程就省略
+\end{solution}
+\begin{example}
+	$A=\left[ \begin{matrix}
+		0&		0&		1\\
+		0&		1&		0\\
+		1&		0&		0\\
+	\end{matrix} \right]$
+	
+	(1)求一个可逆矩阵$C$,使得$C^{3}=A$
+	
+	(2)求一个正定矩阵$C$,使得$C^{2}=A+2E$
+	
+	(3)求一个正定矩阵$C$,使得$C^{n}=A+2E$
+\end{example}
+\begin{solution}
+	
+	(1)
+	
+	解$|\lambda E-A|$得$A$的特征值为$1,1,-1$
+	
+	由题，存在正交矩阵$Q_{1}$，使得$Q_{1}^{-1}AQ_{1}=\left( \begin{matrix}
+		\lambda _1&		0&		0\\
+		0&		\lambda _2&		0\\
+		0&		0&		\lambda _3\\
+	\end{matrix} \right)$
+	
+	则$A=Q_{1}\left( \begin{matrix}
+		\lambda _1&		0&		0\\
+		0&		\lambda _2&		0\\
+		0&		0&		\lambda _3\\
+	\end{matrix} \right)Q_{1}^{-1}$
+	
+	令$C=Q_{1}\left( \begin{matrix}
+		\sqrt[3]{\lambda _1}&		0&		0\\
+		0&		\sqrt[3]{\lambda _2}&		0\\
+		0&		0&		\sqrt[3]{\lambda _3}\\
+	\end{matrix} \right)Q_{1}^{-1}$ 
+	则$C$可逆且满足$C^{3}=A$
+	
+	代入数据$C=Q_{1}\left( \begin{matrix}
+		1&		0&		0\\
+		0&		1&		0\\
+		0&		0&		-1\\
+	\end{matrix} \right)Q_{1}^{-1}$
+	
+	(2)由题，$A+2E$的特征值为$3,3,1$
+	
+	由题，存在正交矩阵$Q_{2}$，使得$Q_{2}^{-1}AQ_{2}=\left( \begin{matrix}
+		\lambda _1&		0&		0\\
+		0&		\lambda _2&		0\\
+		0&		0&		\lambda _3\\
+	\end{matrix} \right)$
+	
+	则$A=Q_{2}\left( \begin{matrix}
+		\lambda _1&		0&		0\\
+		0&		\lambda _2&		0\\
+		0&		0&		\lambda _3\\
+	\end{matrix} \right)Q_{2}^{-1}$
+	
+	令$C=Q_{2}\left( \begin{matrix}
+		\sqrt{\lambda _1+2}&		0&		0\\
+		0&		\sqrt{\lambda _2+2}&		0\\
+		0&		0&		\sqrt{\lambda _3+2}\\
+	\end{matrix} \right)Q_{2}^{-1}$ 
+	则$C$正交且满足$C^{2}=A+2E$
+	
+	代入数据$C=Q_{2}\left( \begin{matrix}
+		\sqrt{3}&		0&		0\\
+		0&		\sqrt{3}&		0\\
+		0&		0&		1\\
+	\end{matrix} \right)Q_{2}^{-1}$
+	
+	剩下自己算，正交矩阵实际上一个样。
+	
+	(3)同上
+\end{solution}
+\begin{example}
+	若可逆线性替换$X=PY$可将二次型$f(x_{1},x_{2})=x_{1}^{2}+2x_{2}^{2}+2x_{1}x_{2}$化为规范形$y^{2}_{1}+y^{2}_{2}$同时将二次型$g(x_{1},x_{2})=-x_{1}^{2}+2x_{2}^{2}+2x_{1}x_{2}$化为标准形$k_{1}y^{2}_{1}+k_{2}y^{2}_{2}$,求可逆矩阵$P$以及$k_{1}，k_{2}$
+\end{example}
+\begin{solution}
+	
+	先求矩阵拿保底
+	\begin{equation*}
+		A=\left[ \begin{matrix}
+			1&		1\\
+			1&		2\\
+		\end{matrix} \right] ,B=\left[ \begin{matrix}
+			-1&		1\\
+			1&		2\\
+		\end{matrix} \right] 
+	\end{equation*}
+	
+	由题，有
+	\begin{equation}
+		P^{T}AP=\left[ \begin{matrix}
+			1&		0\\
+			0&		1\\
+		\end{matrix} \right] ,P^{T}BP=\left[ \begin{matrix}
+		k_{1}&		0\\
+		0&		k_{2}\\
+		\end{matrix} \right]
+	\end{equation}
+	(6.18)左右两边同取行列式，有
+	\begin{equation*}
+		|P|^{2}=1,-3|P|^{2}=k_{1}k_{2}
+	\end{equation*}
+	(6.18)左右两边相减后同取行列式，有
+	\begin{equation*}
+		(k_{1}-1)(k_{2}-1)=0
+	\end{equation*}
+	解得
+	\begin{equation*}
+		k_{1}=1\text{或}k_{2}=1
+	\end{equation*}
+	分别对$\left[ \begin{matrix}
+		1&		0\\
+		0&		-3\\
+	\end{matrix} \right] $和$\left[ \begin{matrix}
+	1&		0\\
+	0&		-3\\
+	\end{matrix} \right] $作合同变换，有
+	\begin{equation*}
+		P_{1}=\left[ \begin{matrix}
+			0&		\sqrt{2}\\
+			\frac{1}{\sqrt{2}}&		-\frac{1}{\sqrt{2}}\\
+		\end{matrix} \right] ,P_{2}=\left[ \begin{matrix}
+		\sqrt{2}&		0\\
+		-\frac{1}{\sqrt{2}}&		\frac{1}{\sqrt{2}}\\
+		\end{matrix} \right] 
+	\end{equation*}
+\end{solution}
+\subsection{正定二次型}
+\begin{definition}
+	如果对于$R^{n}$中任意非零列向量$\alpha$都有$\alpha^{T}A\alpha>0$,我们称$n$元实二次型$X^{T}AX$是正定的
+\end{definition}
+\begin{remark}
+	
+	$A$不是对称矩阵的时候，$A$不是二次型$X^{T}AX$所对应的矩阵，此时$\frac{1}{2}(A+A^{T})$才是二次型$X^{T}AX$所对应的矩阵
+\end{remark}
+\subsubsection{判定正定二次型或者利用正定二次型的性质}
+在这个地方，我们需要知道二次型$X^{T}AX$正定的充要条件，如下
+\begin{conclusion}
+	
+	1.对于任意非零向量$X$,$X^{T}AX$>0
+	
+	2.$A$是正定矩阵
+	
+	3.$A$的特征值均为正数
+	
+	4.$A$的正惯性指数为$n$
+	
+	5.存在可逆阵$C$,使得$A=C^{T}C$
+	
+	6.$A$和单位阵合同
+	
+	7.$A$的所有顺序主子式大于0
+\end{conclusion}
+\begin{example}
+	设$A$是$n$阶矩阵，$B$是$m\times n$实矩阵，证明：$B^{T}AB$是正定矩阵的充要条件是$r(B)=n$
+\end{example}
+\begin{solution}
+	
+	$\Rightarrow$,对于任意$X\ne0$都有$X^{T}B^{T}ABX>0$即此时$(BX)\ne0$
+	
+	令$BX=0,$若无非零解，表明$r(B)=n$
+	
+	$\Leftarrow$此时$BX=0$只有零解，于是对于对于任意$X\ne0$都有$X^{T}B^{T}ABX>0$故为正定矩阵
+\end{solution}
+\begin{example}
+	设$n$元实二次型$f(x_{1},x_{2},\cdots,x_{n})=(x_{1}+a_{1}x_{2})^{2}+(x_{2}+a_{2}x_{3})^{2}+\cdots+(x_{n-1}+a_{n-1}x_{n})^{2}+(x_{n}+a_{n}x_{1})^{2}$，其中$a_{1},a_{2},\cdots,a_{n}$为实数，试问$a_{1},a_{2},\cdots,a_{n}$满足什么条件时，二次型$f(x_{1},x_{2},\cdots,x_{n})$是正定二次型
+\end{example}
+\begin{solution}
+	
+	由题$f=\left[ \begin{array}{c}
+		x_1+a_1x_2\\
+		x_2+a_2x_3\\
+		\vdots\\
+		x_n+a_nx_1\\
+	\end{array} \right]^{T}\left[ \begin{array}{c}
+	x_1+a_1x_2\\
+	x_2+a_2x_3\\
+	\vdots\\
+	x_n+a_nx_1\\
+	\end{array} \right] =	$ $
+	
+	\left[ \begin{array}{c}
+	x_1\\
+	x_2\\
+	x_3\\
+	\vdots\\
+	x_n\\
+	\end{array} \right] ^{T}
+	\left[ \begin{matrix}
+	1&		a_1&		0&		\cdots&		0&		0\\
+	0&		1&		a_2&		\cdots&		0&		0\\
+	\vdots&		\vdots&		\vdots&		&		\vdots&		\vdots\\
+	0&		0&		0&		\cdots&		1&		a_{n-1}\\
+	a_n&		0&		0&		\cdots&		0&		1\\
+	\end{matrix} \right] ^{T}
+	\left[ \begin{matrix}
+	1&		a_1&		0&		\cdots&		0&		0\\
+	0&		1&		a_2&		\cdots&		0&		0\\
+	\vdots&		\vdots&		\vdots&		&		\vdots&		\vdots\\
+	0&		0&		0&		\cdots&		1&		a_{n-1}\\
+	a_n&		0&		0&		\cdots&		0&		1\\
+	\end{matrix} \right] \left[ \begin{array}{c}
+	x_1\\
+	x_2\\
+	x_3\\
+	\vdots\\
+	x_n\\
+	\end{array} \right]  
+	=X^{T}A^{T}AX$
+	
+	若正定，则$|A^{T}A|>0$,即$|A|^{2}>0$$\Rightarrow|A|\ne0$
+	
+	剩下计算就跳过，这个行列式直接按行列展开即可
+\end{solution}
+\begin{example}
+	设矩阵$A=\left[ \begin{matrix}
+		1&		0&		1\\
+		0&		2&		0\\
+		1&		0&		1\\
+	\end{matrix} \right] $,矩阵$B=(kE+A)^{2}$,求对角矩阵$P$使得$B$与$P$相似，并求$k$为何值时，$B$为正定矩阵
+\end{example}
+\begin{solution}
+	
+	解$|\lambda E-A|=0$,得$A$的特征值为$0,2,2$
+	
+	$B$的特征值为$(2+k)^{2},(2+k)^{2},k^{2}$,正定矩阵要求特征值全大于0
+	
+	则$k\ne0$且$k\ne-1$
+\end{solution}
+\begin{example}
+	设$A$为三阶实对称矩阵，且满足$A^{2}+A=0$,且$r(A)=2$,问$k$为何值时，矩阵$A+kE$为正定矩阵
+\end{example}
+\begin{solution}
+	
+	由题，$A$的特征值为0或$-1$，又$r(A)=2$,则$A$的特征值为$0,-1,-1$，$A+kE$的特征值为$k,k-1,k-1$
+	
+	又正定矩阵要求特征值全大于0，于是有
+	$k>1$
+
+\end{solution}
+\begin{example}
+	考虑二次型$x_{1}^{2}+4x_{2}^{2}+4x_{3}^{2}+2\lambda x_{1}x_{2}-2x_{1}x_{3}+4x_{2}x_{3}$,当$\lambda$取得何值时，该二次型为正定二次型
+\end{example}
+\begin{solution}
+	
+	先求矩阵拿低保
+	\begin{equation*}
+		A=\left[ \begin{matrix}
+			1&		\lambda&		-1\\
+			\lambda&		4&		2\\
+			-1&		2&		4\\
+		\end{matrix} \right] 
+	\end{equation*}
+	正定矩阵要求所有的顺序主子式>0
+	解得
+	\begin{equation*}
+		-2<\lambda<1
+	\end{equation*}
+\end{solution}
+\begin{example}
+	若二次型$2x_{1}^{2}+x_{2}^{2}+x_{3}^{2}+2 x_{1}x_{2}+tx_{2}x_{3}$,当$\lambda$为正定二次型，$t$为何值
+\end{example}
+\begin{solution}
+	
+	先求矩阵拿低保
+	\begin{equation*}
+		A=\left[ \begin{matrix}
+			2&		1&		0\\
+			1&		1&		\frac{t}{2}\\
+			0&		\frac{t}{2}&		1\\
+		\end{matrix} \right] 
+	\end{equation*}
+	正定矩阵要求所有的顺序主子式>0
+	解得
+	\begin{equation*}
+		-\sqrt{2}<\lambda<\sqrt{2}
+	\end{equation*}
+\end{solution}
+$n$元二次型$X^{T}AX(A=A^{T})$正定的必要条件如下
+\begin{conclusion}
+	
+	1.$|A|>0$
+	
+	2.$A$主对角线所有元素大于0
+	
+	3.$A$最大的元素只能位于主对角线上
+\end{conclusion}
+
+
+\end{document}

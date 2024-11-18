@@ -1,0 +1,449 @@
+\documentclass[lang=cn,14pt]{elegantbook}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{gensymb}
+\usepackage{txfonts}
+\usepackage{longtable}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{paralist}
+\usepackage{array}
+\RequirePackage{booktabs}  % 三线表宏包
+\setmainfont{TeX Gyre Termes}
+\title{常微分方程}
+
+
+
+\author{ Huang}
+
+
+
+\setcounter{tocdepth}{3}
+
+
+\cover{cover.jpg}
+% 本文档命令
+
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+
+% 修改标题页的橙色带
+% \definecolor{customcolor}{RGB}{32,178,170}
+% \colorlet{coverlinecolor}{customcolor}
+
+\begin{document}
+	
+	\maketitle
+	\frontmatter
+	
+	\tableofcontents
+	
+	\mainmatter
+	\chapter{体系建立}
+	常微分方程，数学专业中最简单的一门课程，和解析几何半斤八两的存在，想掌握这门课程，需要我们建立一下对应的体系，具体如下（见课程）
+	
+	本次讲义我们采取应试的形式，旨在提高同学们的应试能力
+	\chapter{计算部分专练}
+	\section{可分离变量的微分方程}
+	\subsection{齐次微分方程}
+	\begin{definition}[齐次微分方程]
+		我们定义形如$\frac{dy}{dx}=f(\frac{y}{x})$的为齐次微分方程
+	\end{definition}
+	\begin{remark}
+		对于形如这类方程的处理方法，我们通常是令
+		\begin{equation*}
+			u=\frac{y}{x}\rightarrow\frac{dy}{dx}=u+x\frac{du}{dx}
+		\end{equation*}
+	\end{remark}
+	\begin{remark}
+		有的时候题目不是那么的显然，需要我们凑齐次
+	\end{remark}
+	\begin{example}
+		求解
+		\begin{equation*}
+			x^2y'+xy=y^2
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\begin{example}
+		求解
+		\begin{equation*}
+			\frac{dy}{dx}=\frac{y^6-2x^2}{2xy^5+x^2y^2}
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\begin{example}
+		求解
+		\begin{equation*}
+				\frac{dy}{dx}=\frac{2x^3+3xy^{2}+x}{3x^2 y+2y^3-y}
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\subsection{整体换元型微分方程}
+		\begin{definition}[整体换元型微分方程]
+			我们定义形如$\frac{dy}{dx}=f(ax+by+c)$的为整体换元型微分方程
+		\end{definition}
+	\begin{remark}
+		对于这类方程，我们通常是令
+		\begin{equation*}
+			u=ax+by+c\rightarrow\frac{du}{dx}=a+b\frac{dy}{dx}
+		\end{equation*}
+	\end{remark}
+	\begin{remark}
+		这类的思想，主要是对于整体换元
+	\end{remark}
+	\begin{example}
+		解
+		\begin{equation*}
+			\frac{dy}{dx}=(x+y)^{2}
+		\end{equation*}
+	\end{example}
+	\subsection{类齐次微分方程}
+		\begin{definition}[类齐次微分方程]
+		我们定义形如$\frac{dy}{dx}=f(\frac{a_1x+b_1y+c_1}{a_2x+b_2y+c_2})$的为类齐次微分方程
+	\end{definition}
+	\begin{remark}
+		对于这类方程，我们的常规思路就是化成我们前面两个方程的形式
+	\end{remark}
+	\begin{remark}
+		若$\left| \begin{matrix}
+			a_1&		b_1\\
+			a_2&		b_2\\
+		\end{matrix} \right|\ne 0$时，不妨设其存在解$x=\alpha,y=\beta$,如果我们令
+		\begin{equation*}
+			\begin{cases}
+				X=x-\alpha\\
+				Y=y-\beta\\
+			\end{cases}\rightarrow \frac{dY}{dX}=f\left( \frac{a_1+b_1\frac{Y}{X}}{a_2+b_2\frac{Y}{X}} \right) 
+		\end{equation*}
+		则可将其化为已知的形式，其他情况类似，都可以转化为我们已经学过的形式
+	\end{remark}
+	\begin{example}
+		解\begin{equation*}
+			\frac{dy}{dx}=\frac{x-y+1}{x+y-3}
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\begin{example}
+		解\begin{equation*}
+			\frac{dy}{dx}=\frac{x-y+1}{2x-2y-3}
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\section{一阶非齐次线性微分方程}
+	\subsection{不定积分方法特训(分部积分)}
+	\subsubsection{多项式$\times$三角(指数)}
+	\begin{example}
+		\begin{equation*}
+			\int{x\sin x\,\,dx}
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\begin{example}
+		\begin{equation*}
+			\int{x^{2}\sin x\,\,dx}
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\begin{example}
+		\begin{equation*}
+			\int{xe^x\,\,dx}
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\begin{example}
+		\begin{equation*}
+			\int{x^{2}e^x\,\,dx}
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\subsubsection{三角函数$\times$指数函数}
+	\begin{example}
+		\begin{equation*}
+			\int{e^x\sin x\,\,dx}
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\begin{example}
+		\begin{equation*}
+			\int{e^{ax}\sin bx\,\,dx}
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\subsubsection{任意函数$\times$导一次变形函数}
+	\begin{example}
+		\begin{equation*}
+			\int{x\mathrm{arc}\tan x\,\,dx}
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\begin{example}
+		\begin{equation*}
+			\int{x\ln \left( x+1 \right) \,\,dx}
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\subsection{常数变易法}
+	\begin{definition}[一阶非齐次线性微分方程]
+		若方程形如
+		\begin{equation*}
+			y'+P\left( x \right) y=Q\left( x \right) 
+		\end{equation*}
+		我们便称其为一阶非齐次线性微分方程
+	\end{definition}
+	\begin{remark}
+		对于这类方程，我们只需要将方程两边同乘积分因子
+		\begin{equation*}
+			e^{\int{P\left( x \right) dx}}
+		\end{equation*}
+		再同时积分即可
+	\end{remark}
+	\begin{example}
+		解\begin{equation*}
+			y'+y\tan x=\cos x
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\begin{example}
+		解\begin{equation*}
+			\left( y+x^2e^{-x} \right) dx-xdy=0
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\section{伯努利方程}
+	\begin{definition}[伯努利方程]
+		若方程形如
+		\begin{equation*}
+			y'+P\left( x \right) y=Q\left( x \right) y^n 
+		\end{equation*}
+		我们便称其为伯努利方程
+	\end{definition}
+	\begin{remark}
+		对于这类方程的解法，我们的核心思想是凑微分，常见的处理过程如下
+		\begin{equation*}
+			y'+P\left( x \right) y=Q\left( x \right) y^n\rightarrow \mathop {\underbrace{y^{-n}y'}} \limits_{\text{可凑微分}}+P\left( x \right) y^{1-n}=Q\left( x \right) 
+		\end{equation*}
+	\end{remark}
+	\begin{example}
+		解\begin{equation*}
+			\frac{dy}{dx}=6\frac{y}{x}-xy^2
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\begin{example}
+		解\begin{equation*}
+			\frac{dy}{dx}=\frac{4}{x}y+x\sqrt{y}
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\section{恰当方程}
+	\subsection{恰当方程}
+	\begin{definition}[恰当方程]
+		若一一阶个方程可以写成
+		\begin{equation*}
+			M\left( x,y \right) dx+N\left( x,y \right) dy=du\left( x,y \right) 
+		\end{equation*}
+		则称其为恰当方程
+	\end{definition}
+	\begin{remark}
+		\begin{equation*}
+			\frac{\partial M\left( x,y \right)}{\partial y}=\frac{\partial N\left( x,y \right)}{\partial x}
+		\end{equation*}
+		为判断恰当方程的充要条件
+	\end{remark}
+	\begin{remark}
+		求解恰当方程的方法和求解全微分方程的方法是一样的
+	\end{remark}
+		\begin{example}
+		解\begin{equation*}
+			\left( 3x^2+6xy^2 \right) dx+\left( 6x^2y+4y^3 \right) dy=0
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\subsection{非恰当方程化为恰当方程}
+	\begin{note}
+		对于非恰当方程，即
+		\begin{equation*}
+			\frac{\partial M\left( x,y \right)}{\partial y}\ne\frac{\partial N\left( x,y \right)}{\partial x}
+			\end{equation*}
+			我们可将其转化为积分因子。具体如下
+			\begin{equation*}
+				\begin{cases}
+					\mu \left( x \right) =e^{\int{\varphi \left( x \right) dx}},\varphi \left( x \right) =\frac{\frac{\partial M}{\partial y}-\frac{\partial N}{\partial x}}{N}\\
+					\mu \left( y \right) =e^{\int{\varphi \left( y \right) dy}},\varphi \left( y \right) =\frac{\frac{\partial M}{\partial y}-\frac{\partial N}{\partial x}}{-M}\\
+				\end{cases}
+			\end{equation*}
+	\end{note}
+	\begin{example}
+		解\begin{equation*}
+				(y-1-xy)dx+xdy=0
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\begin{example}
+		解\begin{equation*}
+			ydx+(y-x)dy=0
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+	\section{一阶隐式微分方程}
+	\begin{remark}
+		这类题目往往函数的导数过于复杂，我们的核心思想是化简导数
+	\end{remark}
+		\begin{example}
+		解\begin{equation*}
+			\left( \frac{dy}{dx} \right) ^3+2x\frac{dy}{dx}-y=0
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+		\begin{example}
+		解\begin{equation*}
+			x^3+y'^3-3xy'=0
+		\end{equation*}
+	\end{example}
+	\vspace{2cm}
+
+	\section{常系数齐次线性微分方程}
+	\begin{definition}[常系数齐次线性微分方程]
+		我们称形如
+		\begin{equation*}
+			\frac{d^ny}{dx^n}+a_1\frac{d^{n-1}y}{dx^{n-1}}+\cdots +a_{n-1}\frac{dy}{dx}+a_n=0
+		\end{equation*}
+		为常系数齐次线性微分方程
+	\end{definition}
+	\begin{remark}
+		n次齐次线性微分方程组一定存在n个线性无关的解，这些解凑在一起成为一个基本解组
+	\end{remark}
+	\begin{note}
+		\vspace{4cm}
+	\end{note}
+	\begin{example}
+		求方程
+		\begin{equation*}
+			\frac{d^4y}{dx^4}-y=0
+		\end{equation*}
+		的通解
+	\end{example}
+	\vspace{2cm}
+	\begin{example}
+		求方程
+		\begin{equation*}
+			\frac{d^3y}{dx^3}+y=0
+		\end{equation*}
+		的通解
+	\end{example}
+	\vspace{2cm}
+		\begin{example}
+		求方程
+		\begin{equation*}
+			\frac{d^3y}{dx^3}-3\frac{d^2y}{dx^2}+3\frac{dy}{dx}-y=0
+		\end{equation*}
+		的通解
+	\end{example}
+	\vspace{2cm}
+	\section{二阶常系数非齐次线性微分方程}
+		\section{常系数齐次线性微分方程}
+	\begin{definition}[常系数非齐次线性微分方程]
+		我们称形如
+		\begin{equation*}
+			\frac{d^ny}{dx^n}+a_1\frac{d^{n-1}y}{dx^{n-1}}+\cdots +a_{n-1}\frac{dy}{dx}+a_n=f(x)
+		\end{equation*}
+		为常系数非齐次线性微分方程
+	\end{definition}
+	\begin{note}
+		\vspace{5cm}
+	\end{note}
+	\subsection{特解的求法}
+	对于非齐次线性微分方程组，我们目前有三种方法求解，具体如下
+	\begin{equation*}
+		y^*=\begin{cases}
+			\text{待定系数法}\\
+			\text{拉普拉斯变换}\\
+			\text{微分算子法}\\
+		\end{cases}
+	\end{equation*}
+	在这里我们引入求导算子$D$，在我们的练习中会碰上下面的三种类型
+	\subsubsection{$f(x)=ke^{\alpha x}$($D$换$\alpha$)}
+		\begin{example}
+		求方程
+		\begin{equation*}
+			y''+3y'+2y=5e^{3x}
+		\end{equation*}
+		的特解
+	\end{example}
+	\vspace{2cm}
+	\begin{example}
+		求方程
+		\begin{equation*}
+			y''+3y'+2y=e^{-x}
+		\end{equation*}
+		的特解
+	\end{example}
+	\vspace{2cm}
+	\begin{example}
+		求方程
+		\begin{equation*}
+			y''+2y'+y=e^{-x}
+		\end{equation*}
+		的特解
+	\end{example}
+	\vspace{2cm}
+	\subsubsection{$f(x)=\sin(\alpha x)$或者$f(x)=\cos(\alpha x)$($D^{2}$换$-\alpha^{2}$)}
+	\begin{example}
+		求方程
+		\begin{equation*}
+			y''+3y=\sin 2x
+		\end{equation*}
+		的特解
+	\end{example}
+	\vspace{2cm}
+	\begin{example}
+		求方程
+		\begin{equation*}
+			y''+4y=\cos 2x
+		\end{equation*}
+		的特解
+	\end{example}
+	\vspace{2cm}
+		\begin{example}
+		求方程
+		\begin{equation*}
+			y''+3y'-2y=\sin 2x
+		\end{equation*}
+		的特解
+	\end{example}
+	\vspace{2cm}
+	\subsubsection{$f(x)=P(x)Q(x)$}
+	\begin{example}
+		求方程
+		\begin{equation*}
+			y''+3y'-2y=e^{x}\sin 2x
+		\end{equation*}
+		的特解
+	\end{example}
+	\vspace{2cm}
+		\begin{example}
+		求方程
+		\begin{equation*}
+			y''-2y=3x^2+1
+		\end{equation*}
+		的特解
+	\end{example}
+	\vspace{2cm}
+	\begin{example}
+		求方程
+		\begin{equation*}
+			y''+y=x\cos 2x
+		\end{equation*}
+		的特解
+	\end{example}
+	\vspace{2cm}
+	\section{线性微分方程组}
+	\subsection{齐次线性微分方程组}
+	\begin{definition}[基解矩阵]
+		若一个$n\times n$矩阵的每一列都是齐次线性微分方程组的一个解，并且每一个都是线性无关，我们便称其为基解矩阵
+	\end{definition}
+	\chapter{证明题部分专练} 
+	\section{逐步逼近法}
+	 \section{解的存在唯一性}                                               \section{解的延拓}
+	\section{解对初值的连续性和可微性}                                                                                                                                                                                                                                                                                                                                                                                                                                           
+\end{document}

@@ -1,0 +1,417 @@
+\documentclass[aspectratio=169, 10pt, utf8, mathserif]{beamer}
+%导言区
+\usepackage{ctex}
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage{fontspec}
+\usepackage{ulem} %解决下划线换行紊乱
+\usepackage{caption} %添加图、表的标题
+\usepackage{subfigure}
+\usepackage{theorem}
+\usepackage[backend=bibtex,sorting=none]{biblatex} %不列出所有作者
+%\usepackage[backend=bibtex,sorting=none,maxnames=9,minnames=3]{biblatex} %列出所有作者，具体选择列不列可以由其前的“%”来决定
+\addbibresource{ref.bib} %BibTeX数据文件及位置
+\setbeamerfont{footnote}{size=\tiny} %设置脚注引用文献的字体大小
+%\setbeamertemplate{bibliography item}[text] %设置参考文献图标样式数字标号
+\usepackage{appendix} %增加附录
+\usepackage{multicol} %分栏
+\usepackage{syntonly} %只编译文件是否成功，省时省力
+%\syntaxonly %不注释代表只编译是否成功
+%\usepackage[marginal]{footmisc} %首页添加脚注无缩进
+%\renewcommand{\thefootnote}{} %首页添加脚注无编号
+\usepackage{enumerate}
+\usepackage{listings} %代码包
+\usepackage{xcolor} %代码高亮包
+\lstset{
+	language=Matlab, %代码语言使用的是matlab
+	%frame=shadowbox, %把代码用带有阴影的框圈起来
+	%rulesepcolor=\color{red!20!green!20!blue!20}, %代码块边框为淡青色
+	keywordstyle=\color{blue}\bfseries, %代码关键字的颜色为蓝色，粗体
+	commentstyle=\color{orange}\ttfamily, %设置代码注释的颜色,原字体样式\textit
+	backgroundcolor=\color{darkgray!6}, %背景色
+	showstringspaces=false, %不显示代码字符串中间的空格标记
+	numbers=left, %显示行号
+	numberstyle=\tiny, %行号字体
+	basicstyle=\ttfamily,
+	stringstyle=\ttfamily, %代码字符串的特殊格式
+	breaklines=true, %过长的代码自动换行
+	extendedchars=false,  %解决代码跨页时，章节标题，页眉等汉字不显示的问题
+	escapebegin=\begin{CJK*}{GBK}{hei},escapeend=\end{CJK*} %防止中文报错
+	texcl=true,
+	morekeywords={classdef,function,global,parfor,persistent,spmd,plot}} %设置更多关键词
+
+%使用的主题样式和主题色
+\usetheme{Antibes}
+\usecolortheme{beaver}
+\usefonttheme{serif} %已有的字体default professionalfonts serif structurebold structureitalicserif structuresmallcapsserif
+
+% 设置用acrobat打开就会全屏显示
+\hypersetup{pdfpagemode=FullScreen}
+
+
+
+%-------------开始-------------------
+\begin{document}
+	
+	%每个章节都有小目录
+	\AtBeginSection[]
+	{
+		\begin{frame}
+			\frametitle{章节目录}
+			\begin{multicols}{2}
+				\tableofcontents[currentsection]
+			\end{multicols}
+		\end{frame}
+	}
+	
+	\title{常微分方程}
+	\subtitle{第四章：高阶微分方程}
+	\date{\today}
+	%显示封面页
+	\begin{frame}
+		%\maketitle
+		\titlepage
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{总目录}
+		\begin{multicols}{2}
+			\tableofcontents[hideallsubsections]
+		\end{multicols}
+		%\tableofcontents[hideallsubsections]
+	\end{frame}
+	
+	\section{线性微分方程的一般理论}
+	\subsection{引言}
+	\begin{frame}
+		\frametitle{引言}
+	\begin{exampleblock}{$n$阶线性微分方程}
+		我们称形如
+		\begin{equation}
+			\frac{d^nx}{dt^n}+a_1\left( t \right) \frac{d^{n-1}x}{dt^{n-1}}+\cdots +a_n\left( t \right) =f\left( t \right)
+		\end{equation}
+		为$n$阶线性微分方程，其中$a_{i}(t)$及$f(t)$在区间$a\le t\le b$上连续
+	\end{exampleblock}
+	特别的，若$f(t)=0$，则
+		\begin{equation*}
+		\frac{d^nx}{dt^n}+a_1\left( t \right) \frac{d^{n-1}x}{dt^{n-1}}+\cdots +a_n\left( t \right) =0
+	\end{equation*}
+	
+	称为$n$阶齐次线性微分方程，否则称为$n$阶非齐次线性微分方程
+	\end{frame}
+		\begin{frame}
+	
+		\begin{block}{存在唯一性定理}
+			如果$a_{i}(t)$及$f(t)$都是区间$a\le t\le b$上的连续函数，则对于$\forall$$t_{0}$$\in$$[a,b]$以及任意$x_0,x_{0}^{1},\cdots ,x_{0}^{n-1}$，方程$(1)$都存在唯一解$x=\varphi \left( t \right) $定义于区间$a\le t\le b$上，且满足初值条件
+			\begin{equation*}
+				\varphi \left( t_0 \right) =x_0,\frac{d\varphi \left( t_0 \right)}{dt}=x_{0}^{1},\cdots ,\frac{d^{n-1}\varphi \left( t_0 \right)}{dt^{n-1}}=x_{0}^{n-1}
+			\end{equation*}
+		\end{block}
+		
+	\end{frame}
+	\subsection{齐次方程组的性质和解的结构}
+	\begin{frame}
+		\frametitle{齐次方程组的性质和解的结构}
+		\begin{equation}
+			\frac{d^nx}{dt^n}+a_1\left( t \right) \frac{d^{n-1}x}{dt^{n-1}}+\cdots +a_n\left( t \right) =0
+		\end{equation}
+			\begin{block}{叠加原理}
+			如果$x_{1}(t), x_{2}(t),\cdots,x_{n-1}(t)$是$(2)$的解，则
+			\begin{equation}
+				c_1x_1\left( t \right) +\cdots +c_{n-1}x_{n-1}\left( t \right) 
+			\end{equation}
+			也是$(2)$的解，其中$c_{i}$为任意常数
+		\end{block}
+		对定义在区间$[\alpha,b]$上的函数$x_1(t),x_2(t),\cdots,x_k(t)$, 若存在不全为零的常数$c_1,c_2,\cdots,c_k$使得
+		
+		\begin{equation}
+			c_1x_1(t)+c_2x_2(t)+\cdots+c_kx_k(t)\equiv0,\quad t\in[a,b]
+		\end{equation}
+	
+		则称这些函数在此区间上线性相关，否则称线性无关,
+		如函数$1,t,t^2,\cdots,t^{n-1}$在任何区间上线性无关
+	\end{frame}
+	\begin{frame}
+		\begin{exampleblock}{朗斯基行列式}
+		对在区间$[a,b]$\text{上}$k$个$k-1$次可微的函数$x_1(t),x_2(t),\cdots,x_k(t)$,定义它们的朗斯基$(\mathbf{Wronsky}$)行列式为
+		\begin{equation*}
+			W[x_1(t),x_2(t),\cdots ,x_k(t)]=\left| \begin{matrix}
+				x_1(t)&		x_2(t)&		\cdots&		x_k(t)\\
+				x_{1}^{\prime}(t)&		x_{2}^{\prime}(t)&		\cdots&		x_{k}^{\prime}(t)\\
+				\vdots&		\vdots&		&		\vdots\\
+				x_{1}^{(k-1)}(t)&		x_{2}^{(k-1)}(t)&		\cdots&		x_{k}^{(k-1)}(t)\\
+			\end{matrix} \right|.
+		\end{equation*}
+		\end{exampleblock}
+	\end{frame}
+	\begin{frame}
+		\begin{block}{定理2}
+			若函数$x_1(t),x_2(t),\cdots,x_n(t)$在区间$[a,b]$上线性相关，则在区间$[a,b]$上	$W[x_1(t),x_2(t),\cdots ,x_k(t)]\equiv0$
+		\end{block}
+	其的逆不一定成立，如
+	\begin{equation*}
+		x_1\left( t \right) =\begin{cases}
+			t^2,-1\le t\le 0\\
+			0,0<t\le 1\\
+		\end{cases}
+	\end{equation*}
+	\begin{equation*}
+		x_2\left( t \right) =\begin{cases}
+			0,-1\le t\le 0\\
+			t^2,0<t\le 1\\
+		\end{cases}
+	\end{equation*}
+	\end{frame}
+	\begin{frame}
+		\begin{block}{定理3}
+			若函数$x_1(t),x_2(t),\cdots,x_n(t)$在区间$[a,b]$上线性无关，则在区间$[a,b]$上	$W[x_1(t),x_2(t),\cdots ,x_k(t)]$恒不为0
+		\end{block}
+	\textbf{证明}：
+	
+	采用反证法.设有某$个t_{0}$$(a\leq t_0\leq b)$使得$W(t_0)=0.$ 考虑关于$c_1$,$c_2,\cdots,c_n$的齐次线性代数方程组
+	\begin{equation}
+		\begin{cases}
+			c_1x_1(t_0)+c_2x_2(t_0)+\cdots +c_nx_n(t_0)=0\\
+			c_1x_{1}^{\prime}(t_0)+c_2x_{2}^{\prime}(t_0)+\cdots +c_nx_{n}^{\prime}(t_0)=0\\
+			\cdots \cdots\\
+			c_1x_{1}^{(n-1)}(t_0)+c_2x_{2}^{(n-1)}(t_0)+\cdots +c_nx_{n}^{(n-1)}(t_0)=0\\
+		\end{cases}
+	\end{equation}
+	其系数行列式$W(t_0)=0$,故(4.9)有非零解$c_1,c_2,\cdots,c_n.$
+	\end{frame}
+	\begin{frame}
+		现以这组常数构造函数
+		\begin{equation*}
+			x(t)=c_1x_1(t)+c_2x_2(t)+\cdots+c_nx_n(t),a\leq t\leq b,
+		\end{equation*}
+		
+		根据叠加原理，$x(t)$是方程(2)的解,注意到(5),知道这个解$x(t)$满足初值条件
+		\begin{equation}
+			x(t_0)=x'(t_0)=\cdots=x^{(n-1)}(t_0)=0
+		\end{equation}
+		但是$x=0$显然也是方程(2)的满足初值条件(6)的解.由解的唯一性，即知$x(t)\equiv0(\alpha\leq t\leq b)$,即
+		\begin{equation}
+			c_1x_1(t)+c_2x_2(t)+\cdots+c_nx_n(t)\equiv0,\alpha\leq t\leq b
+		\end{equation}
+		因为$c_1,c_2,\cdots,c_n$不全为0,	这就与$x_1(t),x_2(t),\cdots,x_n(t)$线性无关的假设矛盾,于是得证
+	\end{frame}
+	\begin{frame}
+		我们还能得到以下结论
+		\begin{alertblock}{结论}
+			$n$阶齐次线性微分方程的$n$个解构成的郎斯基行列式或者恒等于0，或者在相关区间上处处不为0.
+		\end{alertblock}
+	\end{frame}
+	\begin{frame}
+		\begin{block}{定理4}
+			$n$阶齐次线性微分方程(2)一定存在$n$个线性无关的解
+		\end{block}
+		\begin{block}{定理5}
+			如果$x_1(t),\quad x_2(t),\quad\cdots,x_n(t)$是方程(2)的$n$个线性无关的解，则方程的通解可表为
+			\begin{equation}
+				x=c_1x_1(t)+c_2x_2(t)+\cdots+c_nx_n(t),
+			\end{equation}
+			其中$c_i$是任意常数，且通解包含方程所有解.
+		\end{block}
+	\end{frame}
+	\begin{frame}
+		\textbf{证明}：
+		首先，由叠加原理知道(8)是(2)的解，它包含有$n$个任意常数。我们指出，这些常数是彼此独立的。事实上，
+		\begin{equation*}
+		\left| \begin{matrix}
+			\frac{\partial x}{\partial c_1}&		\frac{\partial x}{\partial c_2}&		...&		\frac{\partial x}{\partial c_n}\\
+			\frac{\partial x^{\prime}}{\partial c_1}&		\frac{\partial x^{\prime}}{\partial c_2}&		...&		\frac{\partial x^{\prime}}{\partial c_n}\\
+			\frac{\partial x^{(n-1)}}{\partial c_1}&		\frac{\partial x^{(n-1)}}{\partial c_2}&		...&		\frac{\partial x^{(n-1)}}{\partial c_n}\\
+		\end{matrix} \right|=W[x_1(t),x_2(t),...,x_n(t)]\ne 0\left( a\le t\le b \right) 
+		\end{equation*}
+		因而$,(8)$为方程(2)的通解.现在，我们证明它包括了方程的所有解.由于方程的解唯一地诀定于初值条件，所以只需证明：任给一初值条件
+		\begin{equation}
+			x(t_0)=x_0,x^{\prime}(t_0)=x_0^{\prime},\ldots,x^{(n-1)}(t_0)=x_0^{(n-1)}
+		\end{equation}
+		能够确定(8) 中的常数$c_1,c_2,\ldots,c_n$的值，使 (8) 满足 (9)。
+		
+		现令 (8) 满足条件 (9), 我们得到如下关于$c_1,c_2,\ldots,c_n$的线性代数方程组：
+	\end{frame}
+	\begin{frame}
+		\begin{equation}
+			\begin{cases}
+				c_1x_1(t_0)+c_2x_2(t_0)+\cdots +c_nx_n(t_0)=x_0\\
+				c_1x_{1}^{\prime}(t_0)+c_2x_{2}^{\prime}(t_0)+\cdots +c_nx_{n}^{\prime}(t_0)=x\prime_0\\
+				\cdots \cdots\\
+				c_1x_{1}^{(n-1)}(t_0)+c_2x_{2}^{(n-1)}(t_0)+\cdots +c_nx_{n}^{(n-1)}(t_0)=x_{0}^{n-1}\\
+			\end{cases}
+		\end{equation}
+		它的系数行列式就是$W(t_0)$, 由定理3知，$W(t_0)\neq0$.根据线性方程组的理论，方程组的理论，方程组(10) 有唯一解$\tilde{c_1},\tilde{c_2},\ldots,\tilde{c_n}$.因此，只要表达式 (8) 中常数取为$\tilde{c_1},\tilde{c_2},\ldots,\tilde{c_n}$,则它就满足条件(9).定理证毕
+	\end{frame}
+	\begin{frame}
+		\begin{block}{推论}
+			方程(2)的线性无关解的最大个数等于$n$.$n$阶齐次线性微分方程的全部解构成一个$n$维\textbf{线性空间}.
+			
+			 (2)的一组$n$个线性无关的解称为一个基本解组。
+			基本解组不是唯一的.$W(t_0)=1$时的基本解组称为\textbf{标准基本解组}.
+		\end{block}
+	\end{frame}
+	\subsection{非齐次线性微分方程与常数变易法}
+	\begin{frame}
+		\frametitle{非齐次线性微分方程与常数变易法}
+		对于方程(1)
+		\begin{equation*}
+				\frac{d^nx}{dt^n}+a_1\left( t \right) \frac{d^{n-1}x}{dt^{n-1}}+\cdots +a_n\left( t \right) =f\left( t \right)
+		\end{equation*}
+		和方程(2)
+		\begin{equation*}
+				\frac{d^nx}{dt^n}+a_1\left( t \right) \frac{d^{n-1}x}{dt^{n-1}}+\cdots +a_n\left( t \right) =0
+		\end{equation*}
+		我们有如下性质
+		\begin{block}{性质1}
+		 如果$\overline{x}(t)$是(1)的解，$x(t)$是(2)的解，则$\overline{x}(t)+x(t)\text{也是}(1)\text{的解}$.
+		\end{block}
+		\begin{block}{性质2}
+			(1)的任意两个解的差是(2)的解
+		\end{block}
+	\end{frame}
+	\begin{frame}
+		\begin{block}{定理6：通解结构定理}
+			如果$x_1(t),x_2(t),\cdots,x_n(t)$是(2)的基本解组， $\overline{x}(t)$是(1)的任一解，则(1)的通解可表为
+			\begin{equation}
+				x=c_1x_1(t)+c_2x_2(t)+\cdots+c_nx_n(t)+\overline{x}(t)
+			\end{equation}
+			其中$c_i$是任意常数，且通解包含方程所有解
+		\end{block}
+	\end{frame}
+	\begin{frame}
+		\frametitle{常数变易法}
+		由定理6知，要解非齐次线性微 分方程，只需
+		知道它的一个解和对应 齐次方程的一个基本解组。进一步，只要知 道对应齐次方程的一个基本解组，我们可以 利用“常数变易法” 求得非齐次方程的解。这与一阶线性方程的情形类似
+	\end{frame}
+	\begin{frame}
+		设$x_1(t),x_2(t),\cdots,x_n(t)$是(4.2)的基本解组，因而
+		\begin{equation}
+			x=c_1x_1(t)+c_2x_2(t)+\cdots+c_nx_n(t)
+		\end{equation}
+		 为(2)的通解，为了求得(1)的一个解， 将上式中的$c_i$换成$t$的待定函数$c_i(t)$,于是有
+		 \begin{equation}
+		 	x=c_1(t)x_1(t)+c_2(t)x_2(t)+\cdots+c_n(t)x_n(t)
+		 \end{equation}
+		 只要我们能找到特定的函数$c_i(t)$, 使
+		 \begin{equation*}
+		 	x=c_1(t)x_1(t)+c_2(t)x_2(t)+\cdots+c_n(t)x_n(t)
+		 \end{equation*}
+		 满足方程(1), 则问题就解决了,我们可将方程(13)带入(1),设法让它满足方程(1)
+		 
+		 对(13)求导，我们可得到
+		 \begin{equation}
+		 	x'=c_1(t)x_1'(t)+c_2(t)x_2'(t)+\cdots+c_n(t)x_n'(t)+c_1'(t)x_1(t)+c_2'(t)x_2(t)+\cdots+c_n'(t)x_n(t)
+		 \end{equation}
+	\end{frame}
+	\begin{frame}
+		此时我们令
+		\begin{equation}
+			c_1'(t)x_1(t)+c_2'(t)x_2(t)+\cdots+c_n'(t)x_n(t)=0
+		\end{equation}
+		于是就能得到
+		\begin{equation*}
+			x'=c_1(t)x_1'(t)+c_2(t)x_2'(t)+\cdots+c_n(t)x_n'(t)
+		\end{equation*}
+		多次重复这样的过程，我们可以得到如下方程组
+		\begin{equation}
+			\begin{cases}
+				x^{\prime}=c_1(t)x_{1}^{\prime}(t)+c_2(t)x_{2}^{\prime}(t)+\cdots +c_n(t)x_{n}^{\prime}(t)\\
+				x^{\prime\prime}=c_1(t)x_{1}^{\prime\prime}(t)+c_2(t)x_{2}^{\prime\prime}(t)+\cdots +c_n(t)x_{n}^{\prime\prime}(t)\\
+				\vdots\\
+				x^{(n-1)}=c_1(t)x_{1}^{(n-1)}(t)+c_2(t)x_{2}^{(n-1)}(t)+\cdots +c_n(t)x_{n}^{(n-1)}\left( t \right)\\
+				x^{(n)}=c_1(t)x_{1}^{(n)}(t)+\cdots +c_n(t)x_{n}^{(n)}(t)+c_{1}^{\prime}(t)x_{1}^{(n-1)}(t)+\cdots +c_{n}^{\prime}(t)x_{n}^{(n-1)}(t)\\
+			\end{cases}
+		\end{equation}
+		将(16)带入(1),我们可以得到
+		\begin{equation*}
+			c_1'(t)x_1^{(n-1)}(t)+c_2'(t)x_2^{(n-1)}(t)+\cdots+c_n'(t)x_n^{(n-1)}(t)=f(t)
+		\end{equation*}
+	\end{frame}
+	\begin{frame}
+		于是$c_{i}(t)$满足
+		\begin{equation}
+			\begin{cases}
+				c_{1}^{\prime}(t)x_1(t)+c_{2}^{\prime}(t)x_2(t)+\cdots +c_{n}^{\prime}(t)x_n(t)=0\\
+				c_{1}^{\prime}(t)x_{1}^{\prime}(t)+c_{2}^{\prime}(t)x_{2}^{\prime}(t)+\cdots +c_{n}^{\prime}(t)x_{n}^{\prime}(t)=0\\
+				\vdots\\
+				c_{1}^{\prime}(t)x_{1}^{(n-2)}(t)+c_{2}^{\prime}(t)x_{2}^{(n-2)}(t)+\cdots +c_{n}^{\prime}(t)x_{n}^{(n-2)}(t)=0\\
+				c_{1}^{\prime}(t)x_{1}^{(n-1)}(t)+c_{2}^{\prime}(t)x_{2}^{(n-1)}(t)+\cdots +c_{n}^{\prime}(t)x_{n}^{(n-1)}(t)=f(t)\\
+			\end{cases}
+		\end{equation}
+		将它看作关于$c_i^{\prime}(t)$的方程组系数,行列式$W[x_1(t),x_2(t),\cdots,x_n(t)]\neq0$,故有解$:c_i^{\prime}(t)=\varphi_i(t),\quad i=1,2,...,n.$
+	\end{frame}
+	\begin{frame}
+
+		$	\text{所以可取:}c_i(t)=\int\varphi_i(t)dt,\quad i=1,2,...,n ,
+			即得到(1)的一个解:$ 
+			\begin{equation}
+				\overline{x}=c_1(t)x_1(t)+c_2(t)x_2(t)+\cdots+c_n(t)x_n(t) 
+				=\sum_{i=1}^nx_i(t)c_i(t)=\sum_{i=1}^nx_i(t)\int\varphi_i(t)dt 
+			\end{equation}
+			
+			\textbf{(1)的通解为:} 
+			\begin{equation}
+					\begin{aligned}
+						x&=c_1x_1(t)+c_2x_2(t)+\cdots+c_nx_n(t)+\overline{x} \\
+						&=\sum_{i=1}^nc_ix_i(t)+\sum_{i=1}^nx_i(t)\int\varphi_i(t)dt \\
+						&=\sum_{i=1}^nx_i(t)\left[\int\varphi_i(t)dt+c_i\right]
+					\end{aligned}
+			\end{equation}
+	\end{frame}
+	\begin{frame}
+		\begin{exampleblock}{例题1}
+			求$x^{\prime\prime}+x=\frac1{x^2}$的通解。(基本解组$\cos t,\sin t)$
+		\end{exampleblock}
+		\begin{equation*}
+			\begin{aligned}
+				&\text{常数变易法}& x=c_1(t)\cos t+c_2(t)\sin t,  \\
+				&\text{代入方程得}& \cos tc_1'(t)+\sin tc_2'(t)=0  \\
+				&\text{及}& -\sin tc_1'(t)+\cos tc_2'(t)=\frac{1}{\cos t},  \\
+				&\text{解得}& c_1'(t)=-\frac{\sin t}{\cos t},c_2'(t)=1,  \\
+				&\text{因此}& c_1(t)=\ln\Bigl|\cos t\Bigr|+\gamma_1,c_2(t)=t+\gamma_2,  \\
+				&\text{故通解为} \\
+				&&x=\gamma_1\cos t+\gamma_2\sin t+\cos t\ln|\cos t|+t\sin t
+			\end{aligned}
+		\end{equation*}
+	\end{frame}
+		\begin{frame}
+		\begin{exampleblock}{例题2}
+			求方程$tx^{\prime\prime}-x^{\prime}=t^2$于域$t\neq0$上的所有解.
+		\end{exampleblock}
+		求解对应的其次线性微分方程，我们很容易得到其的一组基础解系
+		\begin{equation*}
+			x=\frac{1}{2}At^{2}+B
+		\end{equation*}
+		这里$A,B$为任意常数
+		我们可将方程改写为
+		\begin{equation*}
+			x^{\prime\prime}-\frac1tx^{\prime}=t
+		\end{equation*}
+		带入$x=c_1(t)+c_2(t)t^2$，我们即可得到
+		\begin{equation*}
+			\begin{cases}
+				c_1\prime(t)+t^2c_2\prime(t)=0\\
+				2tc_{2}^{\prime}(t)=t\\
+			\end{cases}
+		\end{equation*}
+	\end{frame}
+	\begin{frame}
+		解上述方程，我们即可得到
+		\begin{equation*}
+			\begin{cases}
+				c_1(t)=-\frac{1}{6}t^3+\gamma _1\\
+				c_2(t)=\frac{1}{2}t+\gamma _2\\
+			\end{cases}
+		\end{equation*}
+		所以我们即刻得到原方程的通解
+		\begin{equation*}
+			x=\gamma_1+\gamma_2t^2+\frac13t^3
+		\end{equation*}
+	\end{frame}
+	
+	\section{常系数线性微分方程的解法}
+	\section{高阶微分方程的降阶和幂级数解法}
+	\begin{frame}
+		\zihao{-4}\centering{坚持学习，不是为了输赢。}
+	\end{frame}
+\end{document}

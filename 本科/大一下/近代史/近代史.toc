@@ -1,0 +1,9 @@
+\contentsline {chapter}{\numberline {1}导言}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}进入近代后中华民族的磨难与抗争}{2}{chapter.2}%
+\contentsline {chapter}{\numberline {3}不同社会力量对国家出路的早期探索}{3}{chapter.3}%
+\contentsline {chapter}{\numberline {4}辛亥革命与君主专制制度的终结}{5}{chapter.4}%
+\contentsline {chapter}{\numberline {5}中国共产党的成立和中国革命新局面}{6}{chapter.5}%
+\contentsline {chapter}{\numberline {6}中国革命的新道路}{8}{chapter.6}%
+\contentsline {chapter}{\numberline {7}中华民族的抗日战争}{10}{chapter.7}%
+\contentsline {chapter}{\numberline {8}为建立新中国而奋斗}{11}{chapter.8}%
+\contentsline {chapter}{\numberline {9}中华人民共和国的成立和中国社会主义建设道路的探索}{12}{chapter.9}%

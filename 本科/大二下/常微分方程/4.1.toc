@@ -1,0 +1,6 @@
+\beamer@sectionintoc {1}{线性微分方程的一般理论}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{引言}{4}{0}{1}
+\beamer@subsectionintoc {1}{2}{齐次方程组的性质和解的结构}{6}{0}{1}
+\beamer@subsectionintoc {1}{3}{非齐次线性微分方程与常数变易法}{16}{0}{1}
+\beamer@sectionintoc {2}{常系数线性微分方程的解法}{26}{0}{2}
+\beamer@sectionintoc {3}{高阶微分方程的降阶和幂级数解法}{27}{0}{3}

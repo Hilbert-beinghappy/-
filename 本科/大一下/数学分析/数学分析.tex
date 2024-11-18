@@ -1,0 +1,2086 @@
+\documentclass[lang=cn,10pt]{elegantbook}
+\usepackage{graphicx}
+\usepackage{float}
+
+\title{数分}
+
+
+
+\author{ Huang}
+\date{\today}
+
+
+\extrainfo{数没分，人先疯}
+
+\setcounter{tocdepth}{3}
+
+
+\cover{cover.jpg}
+
+% 本文档命令
+\usepackage{array}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+
+% 修改标题页的橙色带
+% \definecolor{customcolor}{RGB}{32,178,170}
+% \colorlet{coverlinecolor}{customcolor}
+
+\begin{document}
+	
+	\maketitle
+	\frontmatter
+	
+	\tableofcontents
+	
+	\mainmatter
+\chapter{一元函数积分学}
+\section{定积分}
+\subsection{定积分的概念和可积条件}
+\subsubsection{定积分的定义}
+
+设函数$f$在区间$[a,b]$上有定义。
+
+1.我们称点集$P=\left\{ x_0,x_1,\cdots ,x_{n-1},x_n \right\} $为$[a,b]$的一个\textbf{分划}，如果满足条件：
+\begin{equation*}
+	a=x_{0}<x_{1}<\cdots<x_{n-1}<x_{n}=b
+\end{equation*}
+$\text{记}\varDelta x_i=x_i-x_{i-1},i=1,2,\cdots ,n,\text{并称}\left\| P \right\| =\underset{1\leqslant i\leqslant n}{\max}\left\{ \varDelta x_i \right\} \text{为分划}P\text{的}$\textbf{细度}.
+
+
+2.设$P=\left\{ x_0,x_1,\cdots ,x_{n-1},x_n \right\} $为$[a,b]$的一个\textbf{分划}。对于每一个子区间$[x_{i-1},x_{i}]$,任取$\xi_{i}\in[x_{i-1},x_{i}]$,则称$\xi =\left\{ \xi _i|i=1,2,\cdots ,n \right\} $为从属于$P $的一个\textbf{介点集}。并称和式$\sum_{i=1}^n{f\left( \xi _i \right)}\varDelta x_i\text{或}\sum_P{f\left( \xi _i \right) \varDelta x_i}$为$f$在区间$[a,b]$上的\textbf{Riemann和}。
+
+3.设$I$为实数，且有$\underset{\left\| P \right\| \rightarrow 0}{\lim}\sum_{i=1}^n{f\left( \xi _i \right)}\varDelta x_i=I\text{，即}\forall \varepsilon >0,\exists \delta >0\text{，对}\left\| P \right\| >\delta \text{的每个分划}P\text{，以及对}
+$从属于$P$的每个介点集$\xi$，成立$|\sum_{i=1}^n{f\left( \xi _i \right)}\varDelta x_i-I|<\varepsilon$,则称函数$f$在区间$[a,b]$上\textbf{Riemann可积}，记为
+\begin{equation*}
+	f\in R[a,b]
+\end{equation*}
+并称$I$为$f$在区间$[a,b]$上的\textbf{Riemann积分}，记为
+\begin{equation*}
+	\int\limits_a^b{f\left( x \right) dx}=I
+\end{equation*}
+\subsubsection{可积条件}
+利用积分定义中，介点集的任意性可以得到可积的一个必要条件
+\begin{proposition}
+	设$f\in R[a,b],$则$f$在$[a,b]$上有界
+\end{proposition}
+为了描述可积的充要条件，我们需要引入以下概念，设$f$在$[a,b]$上有界，$P=\left\{ x_0,x_1,\cdots ,x_{n-1},x_n \right\} $为$[a,b]$的一个分划，对于$i=1,2,\cdots ,n$，记
+\begin{equation*}
+	M_i=\mathrm{sup}\left\{ f\left( x \right) |x\in \left[ x_{i-1},x_i \right] \right\} ,m_i=\mathrm{inf}\left\{ f\left( x \right) |x\in \left[ x_{i-1},x_i \right] \right\} 
+\end{equation*}
+称$\omega _i=M_i-m_i\text{为}f\text{在}\left[ x_{i-1},x_i \right] \text{上的}$ \textbf{振幅}$\text{，}\sum_{i=1}^n{\omega _ix_i}\text{为}f\text{的}$\textbf{振幅面积}。
+
+\begin{proposition}[可积的第一充分必要条件]
+	有界函数$f\in R[a,b]$的充分必要条件是
+	\begin{equation*}
+		\underset{\left\| P \right\| \rightarrow 0}{\lim}\sum_{i=1}^n{\omega _ix_i}=0
+	\end{equation*}
+\end{proposition}
+\begin{proposition}[可积的第一充分必要条件]
+	有界函数$f\in R[a,b]$的充分必要条件是对每个$\varepsilon>$，存在区间$[a,b] $的一个分划$P$，使成立
+	\begin{equation*}
+		\sum_P{\omega _ix_i}<\varepsilon 
+	\end{equation*}
+\end{proposition}
+\begin{remark}
+	第一个充要条件要求的是对于每一个划分都成立，第二个充要条件\textbf{只要求存在一个分划}$P$就行了，第二个充要条件会方便的多
+\end{remark}
+利用上述的充要条件，我们就可以证明出Riemann可积函数类的三个结论：
+\begin{conclusion}
+	
+	1.设$f\in C[a,b]$,则$f \in R[a,b]$
+	
+	2.设$f$在$[a,b]$上有界且只有\textbf{有限个}间断点，则$f \in R[a,b]$
+	
+	3.设$f$在$[a,b]$上单调，则$f \in R[a,b]$
+\end{conclusion}
+
+另一方面，设$D(x)$为Dirichlet函数，则对任意区间$[a,b]$以及$[a,b]$的任意划分$P$，当$\xi_{i}$均取有理数时，有$\sum_P{f\left( \xi _i \right) \varDelta x_i=b-a}$，$\xi_{i}$均取无理数，$\sum_P{f\left( \xi _i \right) \varDelta x_i=0}$.所以振幅面积总是等于$b-a$，由此可见，Dirichlet函数在任意有界区间$[a,b]$都不可积。
+
+当我们在遇到一些较为复杂的函数的时候，上述的两种方法可能就不太适用，所以我们就需要在需要一种更为强力的判别方法
+\begin{proposition}[可积的第三充要条件]
+	有界函数$f\in R[a,b]$的充分必要条件是$\forall \varepsilon ,\eta >0$，存在$\left[ a,b \right] $的划分$P$，使得振幅不小于$\eta$ 的子区间长度之和小于$\varepsilon $
+\end{proposition}
+\begin{corollary}
+	设函数$f$在区间$[a,b]$上有界，如果$f$的所有不连续点可以用总长度任意小的至多可列个开区间覆盖，则
+	$f\in [a,b]$
+\end{corollary}
+因此，我们可以通俗的解释一下可积的充要条件：要么你振幅面积足够的小，要么容许你有一部分大的振幅面积，但那一部分可以被总长度任意小的至多可列个区间覆盖。
+
+\begin{remark}
+	在实变函数论中，如果一个点集可以被总长度任意小的至多可列个开区间覆盖，那么称这个点集为\textbf{零测度集}。如果某种性质在一个零测度集之外成立，就说这个性质\textbf{几乎处处}成立。应用这些术语，我们就可以论述实变函数论中的Lebesgue定理，它给出了描绘Riemann可积函数的完整刻画。
+\end{remark}
+\begin{proposition}[Lebesgue定理]
+	设函数$f$在区间$[a,b]$上有界，
+	$f\in [a,b]$的充要条件是$f$在$[a,b]$上几乎处处连续。
+\end{proposition}
+\subsubsection{习题练习}
+\begin{example}
+	证明：若函数$f$在$[a,b]$上连续，则$f$在$[a,b]$上可积
+\end{example}
+\begin{solution}
+	
+	证明题，实则是在翻译题目的条件
+	
+	要证明可积，即证明
+	\begin{equation*}
+		\forall \varepsilon >0,\exists \delta >0,\text{对}\left[ a,b \right] \text{上的分割}T\text{，只要}\left\| T \right\| <\delta ,\text{有}\sum_{i=1}^n{\omega _i\varDelta x_i<\varepsilon}		
+	\end{equation*}
+	
+	由闭区间上的连续函数必然一致连续，对上述的$\varepsilon , \delta $，$\text{当}|x\prime-x''|<\delta ,\text{有}|f\left( x\prime \right) -f\left( x'' \right) |<\varepsilon$ 
+	
+	于是乎，有
+	\begin{equation*}
+		\omega _i=\mathrm{sup}\left\{ |f\left( x\prime \right) -f\left( x'' \right) |,x\prime,x''\in \left[ x_{i-1},x_i \right] \right\} <\varepsilon 
+	\end{equation*}
+	
+	累加，得
+	\begin{equation*}
+		\sum_{i=1}^n{\omega _i\varDelta x_i<(b-a)\varepsilon}
+	\end{equation*}
+	得证。
+\end{solution}
+\begin{example}
+	讨论区间$[a,b]$上$f,|f|,f^{2}$的可积性之间的关系
+\end{example}
+\begin{solution}
+	
+	$f\Rightarrow |f|$，由绝对值不等式$\mathop {\mathrm{sup}||f\left( x\prime \right) |-|f\left( x'' \right) ||} \limits_{\omega _{|f|}}<\mathop {\mathrm{sup}|f\left( x\prime \right) -f\left( x'' \right) |} \limits_{\omega _f}
+	$，
+	
+	即$\sum_{i=1}^n{\mathop {\omega _i} \limits_{|f|}\varDelta x_i}<\sum_{i=1}^n{\mathop {\omega _i} \limits_{f}\varDelta x_i}<\varepsilon 
+	$
+	
+	$f\Rightarrow f^{2}$，可积必有界，不妨设$|f|\le M$,
+	
+	则有$\mathop {\mathrm{sup}|f^2\left( x\prime \right) -f^2\left( x'' \right) |} \limits_{\omega _{f^2}}=\mathrm{sup}|f\left( x\prime \right) +f\left( x'' \right) ||f\left( x\prime \right) -f\left( x'' \right) |\le 2M\mathop {\mathrm{sup}|f\left( x\prime \right) -f\left( x'' \right) |} \limits_{\omega _f}
+	$
+	
+	即$\sum_{i=1}^n{\mathop {\omega _i} \limits_{f^2}\varDelta x_i}<2M\sum_{i=1}^n{\mathop {\omega _i} \limits_{f}\varDelta x_i}<2M\varepsilon 
+	$
+	
+	$|f|\Rightarrow f^{2}$，可积必有界，不妨设$|f|\le M$,
+	
+	则有$\mathop {\mathrm{sup}||f^2\left( x\prime \right) |-|f^2\left( x'' \right) ||} \limits_{\omega _{f^2}}=\mathrm{sup}||f\left( x\prime \right) |+|f\left( x'' \right) ||||f\left( x\prime \right) |-|f\left( x'' \right) ||\le 2M\mathop {\mathrm{sup}||f\left( x\prime \right) |-|f\left( x'' \right) ||} \limits_{\omega _{|f|}}
+	$
+	
+	即$\sum_{i=1}^n{\mathop {\omega _i} \limits_{f^2}\varDelta x_i}<2M\sum_{i=1}^n{\mathop {\omega _i} \limits_{|f|}\varDelta x_i}<2M\varepsilon 
+	$
+	
+	$|f|\nRightarrow f$,$f\left( x \right) =\begin{cases}
+		1 ,x\text{为有理数}\\
+		-1\text{，} x\text{为无理数}\\
+	\end{cases}$显然不可积，但$|f|$恒为1，可积
+	
+	 $f^{2}\nRightarrow f$,$f\left( x \right) =\begin{cases}
+	 	1 ,x\text{为有理数}\\
+	 	-1\text{，} x\text{为无理数}\\
+	 \end{cases}$显然不可积，但$f^{2}$恒为1，可积
+	 
+	 $f^{2}\Rightarrow |f|$,$|f|=\sqrt{f^{2}}=\sqrt{x}\circ f^2$则$|f|$的不连续点测度为0，可积
+\end{solution}
+\begin{example}
+	设$f,g$在$[a,b]$上都可积，则$fg$在$[a,b]$上也可积
+\end{example}
+\begin{solution}
+	
+	可积，有
+	\begin{equation*}
+		\sum_{i=1}^m{\mathop {\omega _i} \limits_{f}\varDelta x_i<\varepsilon ,}\sum_{i=1}^m{\mathop {\omega _i} \limits_{g}\varDelta x_i<\varepsilon ,}
+	\end{equation*}
+	
+	可积必有界，则$|f|\le M_{1},|g|\le M$,令$M=\max \left\{ M_1,M_2 \right\} $于是有$|f|\le M,|g|\le M$
+	
+	于是有$ \mathop {\omega _i} \limits_{fg}=\mathrm{sup}|f\left( x\prime \right) g\left( x\prime \right) -f\left( x'' \right) g\left( x'' \right) |=\mathrm{sup}|f\left( x\prime \right) g\left( x\prime \right) -f\left( x\prime \right) g\left( x'' \right) +f\left( x\prime \right) g\left( x'' \right) -f\left( x'' \right) g\left( x'' \right) |\le \mathrm{sup}|f\left( x\prime \right) g\left( x\prime \right) -f\left( x\prime \right) g\left( x'' \right) |+\mathrm{sup}|f\left( x\prime \right) g\left( x'' \right) -f\left( x'' \right) g\left( x'' \right) |\le M\left( \mathop {w_i} \limits_{f}+\mathop {\omega _i} \limits_{g} \right) 
+		$
+		
+	则$\sum_{i=1}^n{\mathop {\omega _i\varDelta x_i} \limits_{fg}}\le M\sum_{i=1}^n{\left( \mathop {w_i} \limits_{f}+\mathop {\omega _i} \limits_{g} \right) \varDelta x_i\le 2\varepsilon}
+	$
+\end{solution}
+\begin{example}
+	证明黎曼函数$R\left( x \right) =\begin{cases}
+		\frac{1}{q}\text{，}x=\frac{p}{q}\text{，}\left( p,q\text{均为互质整数} \right)\\
+		0\text{，}x\text{为无理数}\\
+	\end{cases}$在区间$[0,1]$上可积，且$\int\limits_0^1{R\left( x \right) dx}=0
+	$
+\end{example}
+\begin{solution}
+	
+	有理点为不连续点，测度为0，故黎曼可积。$\int\limits_0^1{R\left( x \right) dx}$=达布积分下和=0
+\end{solution}
+\begin{example}
+	设$f\in R[a,b]$,求证$e^{f(x)}\in R[a,b]$
+\end{example}
+\begin{solution}
+	
+	由$f$,Riemann可积，则有
+	\begin{equation*}
+		\sum_{i=1}^n{\left( \mathop {w_i} \limits_{f} \right) \varDelta x_i<\varepsilon}
+	\end{equation*}
+	
+	可积必有界，不妨设$|f|\le M$,
+	
+	则$\mathop {\omega _i} \limits_{e^f}=\mathrm{sup}|e^{f\left( x\prime \right)}-e^{f\left( x'' \right)}|=e^{\xi}\cdot \mathrm{sup}|f\left( x\prime \right) -f\left( x'' \right) |\left( \xi \in \left[ f\left( x\prime \right) ,f\left( x'' \right) \right] \right) \le e^M\mathrm{sup}|f\left( x\prime \right) -f\left( x'' \right) |=e^M\mathop {\omega _i} \limits_{f}
+	$
+	
+	则$\sum_{i=1}^n{\mathop {\omega _i} \limits_{e^f}\varDelta x_i}\le \sum_{i=1}^n{e^M\mathop {\omega _i} \limits_{f}\varDelta x_i<}e^M\varepsilon 
+	$，得证
+\end{solution}
+\begin{example}
+	设$f\in R[a,b],f(x)\ge \alpha >0$,求证:
+	
+	$(a)\frac{1}{f(x)}\in R[a,b]$
+	
+	$(b)$$\ln f(x) \in R[a,b]$
+\end{example}
+\begin{solution}
+	
+	$(a)$由$f$,Riemann可积，则有
+	\begin{equation*}
+		\sum_{i=1}^n{\left( \mathop {w_i} \limits_{f} \right) \varDelta x_i<\varepsilon}
+	\end{equation*}
+	
+	可积必有界，不妨设$|f|\le M$,
+	
+	则有$ \mathop {\omega _i} \limits_{\frac{1}{f}}=\mathrm{sup}|\frac{1}{f\left( x\prime \right)}-\frac{1}{f\left( x'' \right)}|=\mathrm{sup}|\frac{f\left( x\prime \right) -f\left( x'' \right)}{f\left( x\prime \right) f\left( x'' \right)}|\le \mathrm{sup}|\frac{f\left( x\prime \right) -f\left( x'' \right)}{\alpha ^2}|=\frac{\mathop {\omega _i} \limits_{f}}{\alpha ^2}
+	$
+	
+	则有$\sum_{i=1}^n{\mathop {\omega _i} \limits_{\frac{1}{f}}\varDelta x_i}\le \frac{1}{\alpha ^2}\sum_{i=1}^n{\mathop {\omega _i} \limits_{f}\varDelta x_i<\frac{1}{\alpha ^2}}\varepsilon 
+	$，得证
+	
+	$(b)$由$f$,Riemann可积，则有
+	\begin{equation*}
+		\sum_{i=1}^n{\left( \mathop {w_i} \limits_{f} \right) \varDelta x_i<\varepsilon}
+	\end{equation*}
+	
+	可积必有界，不妨设$|f|\le M$,
+	
+	则有$\mathop {\omega _i} \limits_{\ln f}=\mathrm{sup}|\ln f\left( x\prime \right) -\ln f\left( x'' \right) |=\frac{1}{\xi}\mathrm{sup}|f\left( x\prime \right) -f\left( x'' \right) |\left( \xi \in \left[ f\left( x\prime \right) ,f\left( x'' \right) \right] \right) \le \frac{1}{\alpha}\mathrm{sup}|f\left( x\prime \right) -f\left( x'' \right) |=\frac{1}{\alpha}\mathop {\omega _i} \limits_{f}
+	$
+	
+	则$\sum_{i=1}^n{\mathop {\omega _i} \limits_{\ln f}\varDelta x_i}\le \frac{1}{\alpha}\sum_{i=1}^n{\mathop {\omega _i} \limits_{f}\varDelta x_i<\frac{1}{\alpha}}\varepsilon 
+	$，得证
+\end{solution}
+\begin{example}
+	设$f$在区间 $[a,b]$上有界，其所有间断点构成一个收敛数列，证明：$f\in R[a,b]$
+\end{example}
+\begin{solution}
+	
+	设$c_n $为间断点，不妨设$\lim_{n\rightarrow \infty} c_n=c$即
+	\begin{equation*}
+		\forall \varepsilon >0,\exists N,n>N\text{时，}|c_n-c|<\varepsilon \Longrightarrow -\varepsilon +c<c_n<\varepsilon +c
+	\end{equation*}
+	于是在$[a,b]$挖去区间$(-\varepsilon +c,\varepsilon +c)$的地方只有有限个不连续点，故在这个挖去区间的地方$f$可积，对于剩下的的区间，我们再以细分，采取分割$T_{0}$，使得在采取这个分割时，有
+	\begin{equation*}
+		\sum_{T_0}{\omega _i\varDelta x_i}<\varepsilon 
+	\end{equation*}
+	于是对于$[a,b]$整体区间的总划分$T$，有
+	\begin{equation*}
+		\sum_T{\omega _i\varDelta x_i}=\mathop {\sum_{T_0}{\omega _i\varDelta x_i}} \limits_{\text{第二次精细的划分}}+\mathop {\mathrm{sup}|f\left( x\prime \right) -f\left( x'' \right) |2\varepsilon} \limits_{\text{第一次粗略的划分}}\left( x\prime,x''\in (-\varepsilon +c,\varepsilon +c) \right) \le \sum_{T_0}{\omega _i\varDelta x_i}+4M\varepsilon =(4M+1)\varepsilon 	
+	\end{equation*}
+	原式得证
+\end{solution}
+\subsection{定积分的性质}
+\subsubsection{积分中值定理}
+\begin{proposition}[积分第一中值定理]
+	设$f,g\in R[a,b]$,$m\le f(x)\le M,\forall x \in [a,b] ,g $在$[a,b]$上不变号，则存在$\eta \in [m,M]$,使
+	\begin{equation}
+		\int\limits_a^b{f\left( x \right) g\left( x \right) dx=\eta}\int\limits_a^b{g\left( x \right) dx}
+	\end{equation}
+	如果$f\in C[a,b],g\in R[a,b]$且在$[a,b]$上不变号，则存在$\xi\in [a,b]$,使得
+	\begin{equation}
+		\int\limits_a^b{f\left( x \right) g\left( x \right) dx=f(\xi)}\int\limits_a^b{g\left( x \right) dx}
+	\end{equation}	
+	特别的，如果$f\in C[a,b]$，则存在$\xi\in [a,b]$,使得$\int\limits_a^b{f\left( x \right) dx=}f\left( \xi \right) \left( b-a \right)$
+\end{proposition}
+\begin{remark}
+	在(1.2)中的$\xi\in [a,b]$是否可以改成$\xi\in (a,b)$,答案是可以的
+\end{remark}
+\begin{proposition}[积分第二中值定理]
+	设$f\in R[a,b]$,$g$在$[a,b]$上单调，则存在$\xi\in [a,b]$,使
+	\begin{equation*}
+		\int\limits_a^b{f\left( x \right) g\left( x \right) dx=}g\left( a \right) \int\limits_a^{\xi}{f\left( x \right) dx}+g\left( b \right) \int\limits_{\xi}^b{f\left( x \right) dx}
+	\end{equation*}
+特别是，如果$g$在$[a,b]$单调增加且$g(x)\ge 0$,则存在$\xi \in [a,b]$使得
+\begin{equation*}
+	\int\limits_a^b{f\left( x \right) g\left( x \right) dx=}g\left( b \right) \int\limits_{\xi}^b{f\left( x \right) dx}
+\end{equation*}
+如果$g$在$[a,b]$上单调减少且$g(x)\ge 0,$则存在$\xi \in [a,b]$使得
+\begin{equation*}
+	\int\limits_a^b{f\left( x \right) g\left( x \right) dx=}g\left( a \right) \int\limits_a^{\xi}{f\left( x \right) dx}
+\end{equation*}
+\end{proposition}
+
+下面这一个例题的结果是定积分的一个基本性质。它对于连续的被积函数是普遍成立的，对于一般的函数可以利用积分定义中的介点集的任意性得到
+
+\begin{example}
+	设$f\in R[a,b]$，且$I=\int\limits_a^b{f\left( x \right) dx}>0$,则有子区间$\left[ c,d \right] \subset \left[ a,b \right] $和$\mu >0$，使在区间$[c,d]$上的成立$f(x)\ge \mu $
+\end{example}
+\begin{solution}
+	
+	由定积分定义可知，存在$[a,b]$的一个分划$P=\left\{ x_0,x_1,\cdots ,x_{n-1},x_n \right\} $，使得对任意从属于$P$的介点集$\xi$，成立
+	\begin{equation*}
+		\sum_{i=1}^n{f\left( \xi _i \right) \varDelta x_i}>\frac{I}{2}>0
+	\end{equation*}
+	
+	记$m_i=\mathop {\mathrm{inf}} \limits_{x\in \left[ x_{i-1},x_i \right]}f\left( x \right) ,i=1,2,\cdots ,n,\text{并对上述和式求下确界，有}$
+	\begin{equation*}
+		\sum_{i=1}^n{m_{i} \varDelta x_i}\ge\frac{I}{2}>0
+	\end{equation*}
+	故在和式中至少有一项大于$0$，不妨设是第$k$项，可取$\mu =m_{k},[c,d]=[x_{k-1},x_{k}]$
+\end{solution}
+
+\subsubsection{对积分求极限}
+定积分是一个数，如果其中的被积函数带有参数，则就会得到数列或者函数，从而就会出现对积分求极限的问题(也称为在积分号下求极限的问题)。这一小节主要考虑离散参数情况。主要是例题为主
+\begin{example}
+	证明：$\underset{n\rightarrow \infty}{\lim}\int\limits_0^{\frac{\pi}{2}}{\sin ^nxdx}=0$
+\end{example}
+\begin{solution}
+	
+	像这种积分，我们要分而治之，因为固定$n$时，只要$x$足够接近于$\frac{\pi}{2}$,函数就一定接近于1，如果固定住$x(x<\frac{\pi}{2})$，只要$n$足够大，函数值就很快趋近于0
+	
+	对于给定的$\varepsilon >0,\text{我们可以把积分拆成如下形式}$
+	\begin{equation*}
+		0\le \int\limits_0^{\frac{\pi}{2}}{\sin ^nxdx}=\int\limits_0^{\frac{\pi}{2}-\varepsilon}{\sin ^nxdx}+\int\limits_{\frac{\pi}{2}-\varepsilon}^{\frac{\pi}{2}}{\sin ^nxdx}\le \left( \frac{\pi}{2}-\varepsilon \right) \sin ^n\left( \frac{\pi}{2}-\varepsilon \right) +\varepsilon 
+	\end{equation*}
+	由于$0<
+	\sin ^n\left( \frac{\pi}{2}-\varepsilon \right)<1$ ，则$\lim_{n\rightarrow \infty} \sin ^n\left( \frac{\pi}{2}-\varepsilon \right) =0$，故对上述的$\varepsilon $，$\exists N$,$n>N$时，有
+	\begin{equation*}
+		0<\left( \frac{\pi}{2}-\varepsilon \right) \sin ^n\left( \frac{\pi}{2}-\varepsilon \right)<\varepsilon
+	\end{equation*}
+	则$n>N$时，有
+	\begin{equation*}
+		0\le \int\limits_0^{\frac{\pi}{2}}{\sin ^nxdx}<2\varepsilon 
+	\end{equation*}
+\end{solution}
+\begin{example}
+	设非负函数$f\in C[a,b]$,证明
+	\begin{equation*}
+		\underset{n\rightarrow \infty}{\lim}\left( \int\limits_a^b{f^n\left( x \right) dx} \right) ^{\frac{1}{n}}=\max \left\{ f\left( x \right) |x\in \left[ a,b \right] \right\} 
+	\end{equation*}
+\end{example}
+\begin{solution}
+	
+	这个结论记住就行了
+\end{solution}
+\subsubsection{习题练习}
+\begin{example}
+	设$f(x)$在$[a,b]$上连续，$\int\limits_a^b{f^2\left( x \right) dx}=0$，证明$f(x$)在$[a,b]$上恒为0
+\end{example}
+\begin{solution}
+	
+	由定积分定义可知，存在$[a,b]$的一个分划$P=\left\{ x_0,x_1,\cdots ,x_{n-1},x_n \right\} $，使得对任意从属于$P$的介点集$\xi$，成立
+	\begin{equation*}
+		\sum_{i=1}^n{f^{2}\left( \xi _i \right) \varDelta x_i}=0
+	\end{equation*}
+	显然只能$f^{2}\left( \xi _i \right)=0$，即$f$恒为$0$
+\end{solution}
+\begin{example}
+	设非负函数$f$$\in R[a,b]$,且$\int\limits_a^b{f}>0$，若有多项式$P$使$\int\limits_a^b{P^2\left( x \right) f\left( x \right) dx}=0$，证明$P$恒为0
+\end{example}
+\begin{solution}
+	
+	同上题解法，用定义写
+\end{solution}
+\begin{example}
+	计算极限$\lim_{n\rightarrow \infty} \int\limits_0^1{\left( 1-x^2 \right) ^ndx}$
+\end{example}
+\begin{solution}
+	
+	同例题1.9，分而治之计算，答案为0
+\end{solution}
+\begin{example}
+	已知$x_{n}\in [0,\frac{\pi}{2}],n=1,2,\cdots,$且满足$\int\limits_0^{\frac{\pi}{2}}{\sin ^nxdx}=\frac{\pi}{2}\sin ^nx_n$，试计算极限$\lim_{n\rightarrow \infty} x_n$
+\end{example}
+\begin{solution}
+	
+	由例题1.10的结论，有
+	\begin{equation*}
+		\lim_{n\rightarrow \infty} \sin \left( x_n \right) =\left( \frac{2}{\pi}\int\limits_0^{\frac{\pi}{2}}{\sin ^nxdx} \right) ^{\frac{1}{n}}=1
+	\end{equation*}
+	
+	故$\lim_{n\rightarrow \infty} x_n=\frac{\pi}{2}$
+\end{solution}
+\subsection{变限积分}
+关于变限积分的主要结果是下面两个命题
+\begin{proposition}
+	设$ f\in R[a,b]$,则变上限积分$\int\limits_a^x{f\left( t \right) dt}\text{和变下限积分}\int\limits_x^b{f\left( t \right) dt}$都是$[a,b]$上的连续函数
+\end{proposition}
+\begin{proposition}
+	设$f\in R[a,b],x\in [a,b]$是$f$的连续点，则
+	\begin{equation*}
+		\frac{d}{dx}\int\limits_a^x{f\left( t \right) dt}=f\left( x \right) 
+	\end{equation*}
+\end{proposition}
+由此就给出了原函数存在的一个充要条件\begin{proposition}[原函数存在定理]
+	设$ f\in C[a,b]$，则$f$在$[a,b]$上存在原函数
+\end{proposition}
+\begin{proposition}
+	设$ f\in R[a,b]$,$F$是$f$在$[a,b]$上的一个原函数，则对于每个$x$$\in [a,b]$,成立N-L公式
+	\begin{equation*}
+		\int\limits_a^x{f\left( t \right) dt}=F\left( x \right) -F\left( a \right)
+	\end{equation*}
+\end{proposition}
+\subsubsection{习题练习}         
+\begin{example}
+	计算下列各题
+	
+	(1)设$f(x)=\int\limits_0^x{t\sin \frac{1}{t}dt}$,求$f'(0)$
+	
+	(2)$\frac{d}{dx}\int\limits_{x^2}^{x^3}{\frac{\sin t}{t}dt}$
+	
+\end{example}
+\begin{solution}
+	
+	(1)记$F\left( x \right) =\int{t\sin \frac{1}{t}dt}$则$f\left( x \right) =F\left( x \right) -F\left( 0 \right) $
+	
+	$f\prime\left( x \right) =F\prime\left( x \right) =x\sin \frac{1}{x}$，$f'(0)=0$
+	
+	(2)记$F\left( x \right) =\int{\frac{\sin t}{t}dt}$，则原式等于$F\left( x^3 \right) -F\left( x^2 \right) $
+	
+	于是$\frac{d}{dx}\int\limits_{x^2}^{x^3}{\frac{\sin t}{t}dt}=\left( F\left( x^3 \right) -F\left( x^2 \right) \right) \prime=3x^2F\prime\left( x^3 \right) -2xF\prime\left( x^2 \right) =3x^2\frac{\sin x^3}{x^3}-2x\frac{\sin x^2}{x^2}
+	$
+\end{solution}
+\subsection{定积分的几何应用}
+\subsubsection{平面曲线弧长}
+\begin{conclusion}
+	曲线$y=f(x),a\le x\le b $的弧长$s=\int\limits_a^b{\sqrt{1+\left[ f\prime\left( x \right) \right] ^2}dx}$
+	
+	曲线$\begin{cases}
+		x=x\left( t \right)\\
+		y=y\left( t \right)\\
+	\end{cases},\alpha \le t\le \beta$的弧长$s=\int\limits_{\alpha}^{\beta}{\sqrt{\left[ x\prime\left( t \right) \right] ^2+\left[ y\prime\left( t \right) \right] ^2}dx}$
+	
+	曲线$r=r\left( \theta \right) ,\alpha \le \theta \le \beta \text{的弧长}s=\int\limits_{\alpha}^{\beta}{\sqrt{\left[ r\left( \theta \right) \right] ^2+\left[ r\prime\left( \theta \right) \right] ^2}d\theta}$
+\end{conclusion}
+\begin{example}
+	求曲线$y=\int\limits_0^x{\tan t\,\,dt\,\,\left( 0\le x\le \frac{\pi}{4} \right)}$的弧长
+\end{example}
+\begin{solution}
+	
+	$s=\int\limits_a^b{\sqrt{1+\left[ f\prime\left( x \right) \right] ^2}dx}$,代入计算即可,这题没有什么特别要注意的计算，就跳过
+\end{solution}
+\begin{example}
+	求摆线$\begin{cases}
+		x=1-\cos t\\
+		y=t-\sin t\\
+	\end{cases}\text{一拱}\left( 0\le t\le 2\pi \right) \text{的弧长}s$
+\end{example}
+\begin{solution}
+	
+	$s=\int\limits_{\alpha}^{\beta}{\sqrt{\left[ x\prime\left( t \right) \right] ^2+\left[ y\prime\left( t \right) \right] ^2}dx}=\int\limits_0^{2\pi}{\sqrt{\sin ^2t+\left( 1-\cos t \right) ^2}dt}=\int\limits_0^{2\pi}{\sqrt{2-2\cos t}dt}\overset{\cos t=1-2\sin ^2\frac{t}{2}}{\longrightarrow}\int\limits_0^{2\pi}{2|\sin \frac{t}{2}|dt}
+	$
+	
+	在这里由于$\sin\frac{t}{2}$恒正，直接去绝对值，剩下计算省略
+\end{solution}
+\begin{example}
+	$\text{求心形线}r=a\left( 1+\cos \theta \right) \text{的全长，其中}a>0\text{是常数}$
+\end{example}
+\begin{solution}
+	
+	$s=\int\limits_{\alpha}^{\beta}{\sqrt{\left[ r\left( \theta \right) \right] ^2+\left[ r\prime\left( \theta \right) \right] ^2}d\theta}=a\int\limits_0^{2\pi}{\sqrt{\sin ^2t+\left( 1+\cos t \right) ^2}dt}=a\int\limits_0^{2\pi}{\sqrt{2+2\cos t}dt}\overset{\cos t=2a\cos ^2\frac{t}{2}-1}{\longrightarrow}\int\limits_0^{2\pi}{2|\cos \frac{t}{2}|dt}
+	$
+	
+	在这里由于$\cos\frac{t}{2}$不恒正，去绝对值的时候要考虑正负号，你已经是一个成熟的大学生了，要自己学会计算
+\end{solution}
+\subsubsection{旋转体体积}
+通法：用二重积分求旋转体体积
+
+$xOy$平面上闭区域$D$绕该平面上一条不穿过$D$内部的直线$L$旋转一周所得的旋转体体积为$V_{L}=2\pi \iint_D{r\left( x,y \right) d\sigma}$其中$r\left( x,y \right)$为$D$上任意一点$(x,y)$到旋转轴$L$的距离
+
+当$D$是曲线$y=f(x)$,直线$x=a，x=b(a<b)$以及$x$轴所围成的曲边梯形时
+
+若旋转轴是$x$轴，$D$绕$x$轴旋转一周所得得旋转体体积为$V_x=\pi \int\limits_a^b{|f\left( x \right) |^2dx}$
+
+若旋转轴是$y$轴，且$0\le a$,$D$绕$y$轴旋转一周所得得旋转体体积为$V_y=2\pi \int\limits_a^b{x|f\left( x \right) |dx}$
+
+\begin{example}
+	求心形线$r=1+\cos \theta \text{与}\theta =0\text{，}\theta =\frac{\pi}{2}\text{所围成的图形绕直线}L\text{旋转一周得到的旋转体体积}
+	$(不用算出答案)
+	
+	(1)$L$是极轴
+	
+	(2)$L$是$r=\frac{3}{\cos \theta}$
+\end{example}
+\begin{solution}
+	
+	(1)到转轴的距离为$y=r\sin \theta $于是有
+	\begin{equation*}
+		V=2\pi\int\limits_0^{\frac{\pi}{2}}{d\theta}\int\limits_0^{1+\cos \theta}{r^2\sin \theta}dr=2\pi\int\limits_0^{\frac{\pi}{2}}{\frac{\left( 1+\cos \theta \right) ^3}{3}\sin \theta d\theta}
+	\end{equation*}
+	
+	(2)到转轴的距离为$3-r\cos \theta $
+	则有
+	\begin{equation*}
+		V=2\pi \int\limits_0^{\frac{\pi}{2}}{d\theta}\int\limits_0^{1+\cos \theta}{r\left( 3-r\cos \theta \right)}dr=2\pi \int\limits_0^{\frac{\pi}{2}}{\frac{3}{2}\left( 1+\cos \theta \right) ^2-\frac{\left( 1+\cos \theta \right) ^3}{3}\cos \theta d\theta}
+	\end{equation*}
+\end{solution}
+\begin{example}
+	求摆线$\begin{cases}
+		x=a\left( t-\sin t \right)\\
+		y=a\left( 1-\cos t \right)\\
+	\end{cases}\text{一拱}\left( 0\le x\le 2\pi \right) \text{与}x\text{轴所围成图型绕直线}L\text{旋转一周得到的旋转体的体积}$
+	
+	(1)$L$为$y=2a$
+	
+	(2)$L$为$x=2\pi a$
+		
+\end{example}
+\begin{solution}
+	
+	(1)到转轴的距离为$2a-y$
+	则有
+	\begin{equation*}
+		V=2\pi \int\limits_0^{2\pi a}{dx}\int\limits_0^{f\left( x \right)}{2a-}ydy=2\pi \int\limits_0^{2\pi a}{2af\left( x \right) -\frac{1}{2}f^2\left( x \right) dx}
+	\end{equation*}
+	令$f(x)=y$，并代入参数方程可计算得到
+	
+	(2)到转轴的距离为$2\pi a-x$
+	则有
+	\begin{equation*}
+		V=2\pi \int\limits_0^{2\pi a}{dx}\int\limits_0^{f\left( x \right)}{2\pi a-}xdy=2\pi \int\limits_0^{2\pi a}{\left( 2\pi a-x \right) f\left( x \right) dx}
+	\end{equation*}
+	令$f(x)=y$，并代入参数方程可计算得到
+\end{solution}
+\subsubsection{旋转曲面面积}
+曲线$\varGamma \text{绕直线}L\text{旋转一周所得的旋转曲面面积为}S=\int\limits_{\varGamma}{2\pi hds}$
+
+面积元素为$dS=2\pi hds$，其中$h$表示曲线$\varGamma $上点到旋转轴的距离，$ds$是弧长元素
+\begin{conclusion}
+	曲线$y=f(x),a\le x\le b $的绕$x$轴旋转一周所得的旋转曲面面积$S=2\pi \int\limits_a^b{|f\left( x \right) |}\sqrt{1+\left[ f\prime\left( x \right) \right] ^2}dx$
+	
+	曲线$\begin{cases}
+		x=x\left( t \right)\\
+		y=y\left( t \right)\\
+	\end{cases},\alpha \le t\le \beta$的绕$x$轴旋转一周所得的旋转曲面面积$S=2\pi \int\limits_{\alpha}^{\beta}{|y\left( t \right) |\sqrt{\left[ x\prime\left( t \right) \right] ^2+\left[ y\prime\left( t \right) \right] ^2}dx}
+	$
+	
+	曲线$r=r\left( \theta \right) ,\alpha \le \theta \le \beta \text{的绕$x$轴旋转一周所得的旋转曲面面积}S=2\pi \int\limits_{\alpha}^{\beta}{|r\left( \theta \right) \sin \theta |\sqrt{\left[ r\left( \theta \right) \right] ^2+\left[ r\prime\left( \theta \right) \right] ^2}d\theta}
+	$
+\end{conclusion}
+\begin{example}
+	求心形线$r=1+\cos \theta \text{与}\theta =0\text{，}\theta =\frac{\pi}{2}\text{所围成的图形绕直线}L\text{旋转一周得到的旋转曲面的面积}
+	$
+	
+	(1)$L$是极轴
+	
+	(2)$L$是$r=\frac{3}{\cos \theta}$
+\end{example}
+\begin{solution}
+	
+	(1)到极轴的距离为$r\sin \theta$
+	则有
+	\begin{equation*}
+		S=2\pi \int\limits_0^{\frac{\pi}{2}}{r\left( \theta \right) \sin \theta \sqrt{\left[ r\left( \theta \right) \right] ^2+\left[ r\prime\left( \theta \right) \right] ^2}d\theta}
+	\end{equation*}
+	
+	(2)到$r=\frac{3}{\cos \theta}$的距离为$3-r\cos \theta$
+	则有
+	\begin{equation*}
+		S=2\pi \int\limits_0^{\frac{\pi}{2}}{\left( 3-r\cos \theta \right) \sqrt{\left[ r\left( \theta \right) \right] ^2+\left[ r\prime\left( \theta \right) \right] ^2}d\theta}
+	\end{equation*}
+\end{solution}
+\begin{example}
+	求摆线$\begin{cases}
+		x=a\left( t-\sin t \right)\\
+		y=a\left( 1-\cos t \right)\\
+	\end{cases}\text{一拱}\left( 0\le x\le 2\pi \right) \text{与}x\text{轴所围成图型绕直线}L\text{旋转一周得到的旋转曲面的面积}$
+	
+	(1)$L$为$y=2a$
+	
+	(2)$L$为$x=2\pi a$
+	
+\end{example}
+\begin{solution}
+	
+	(1)到$y=2a$的距离为$2a-y$
+	则有
+	\begin{equation*}
+		S=2\pi \int\limits_0^{2\pi}{\left( 2a-y\left( t \right) \right) \sqrt{\left[ x\prime\left( t \right) \right] ^2+\left[ y\prime\left( t \right) \right] ^2}dt}
+	\end{equation*}
+	
+	(2)到$x=2\pi a$的距离为$2\pi a-x$
+	则有
+	\begin{equation*}
+		S=2\pi \int\limits_0^{2\pi}{\left( 2\pi a-x\left( t \right) \right) \sqrt{\left[ x\prime\left( t \right) \right] ^2+\left[ y\prime\left( t \right) \right] ^2}dt}
+	\end{equation*}
+\end{solution}
+\subsubsection{Guldin定理}
+质心是一个物理量。Guldin的第一和第二定理将求旋转体的体积和面积转化为求质心
+\begin{proposition}[质心公式]
+	设物体的密度为$\rho(x,y)$则物体的质心的横坐标和纵坐标为
+	\begin{equation*}
+		x_c=\frac{\int\limits_l{x\rho \left( x,y \right) ds}}{\int\limits_l{\rho \left( x,y \right) ds}},y_c=\frac{\int\limits_l{y\rho \left( x,y \right) ds}}{\int\limits_l{\rho \left( x,y \right) ds}}\left( s\text{为弧长} \right) 
+	\end{equation*}
+\end{proposition}
+由上面的质心公式，就可以得到下面两个定理(\textbf{了解即可，不如二重积分})
+\begin{proposition}[Guldin第一定理]
+	设平面曲线的质心坐标为$(x_{c},y_{c})$,且曲线位于右半平面内，则曲线绕$y$轴旋转一周所产生的旋转曲面面积$S_{y}$ 等于质心绕$y $轴一周所经过的路程$2\pi x_{c}$乘以曲线的弧长$l$，即$S_{y}=2\pi x_{c}l$       
+\end{proposition}
+\begin{proposition}[Guldin第二定理]
+	设平面图形的质心坐标为$(x_{c},y_{c})$,且图形位于右半平面内，则曲线绕$y$轴旋转一周所产生的旋转体体积$V_{y}$ 等于质心绕$y $轴一周所经过的路程$2\pi x_{c}$乘以图形的面积$S$，即$V_{y}=2\pi x_{c}S$
+\end{proposition}
+\subsection{不等式}
+\subsubsection{凸函数不等式}
+\begin{proposition}[Jensen不等式]
+	设$f,g\in R[a,b],m\le f(x)\le M,p(x)$非负且$\int\limits_a^b{p\left( x \right)}>0$，则当$\phi$是$[m,M]$的下凸函数时，成立不等式
+	\begin{equation*}
+		\varphi \left( \frac{\int\limits_a^b{p\left( x \right) f\left( x \right) dx}}{\int\limits_a^b{p\left( x \right) dx}} \right) \le \frac{\int\limits_a^b{p\left( x \right) \varphi \left( f\left( x \right) \right) dx}}{\int\limits_a^b{p\left( x \right) dx}}
+	\end{equation*}
+	若$\phi$为上凸函数则不等式反向。
+\end{proposition}
+这个不等式包含了很多不等式，我们如果取$p(x)\equiv 1$,就可以得到
+\begin{equation*}
+	\varphi \left( \frac{\int\limits_a^b{f\left( x \right) dx}}{b-a} \right) \le \frac{\int\limits_a^b{\varphi \left( f\left( x \right) \right) dx}}{b-a}
+\end{equation*}
+
+下面一个不等式也是Jensen不等式的特例。设$f\in R[a,b],f\ge m >0$,则成立不等式
+\begin{equation*}
+	\ln \left( \frac{\int\limits_a^b{f\left( x \right) dx}}{b-a} \right) \ge \frac{\int\limits_a^b{\ln f\left( x \right) dx}}{b-a}
+\end{equation*}
+\begin{proposition}[Schwarz不等式]
+	$(a,b)(a,b)\le (a,a)(b,b)$其中$(a,b)$为$a$和$b$的内积
+\end{proposition}
+我们知道，$\int\limits_a^b{f\left( x \right) g\left( x \right) dx}$构成欧氏空间下的内积，于是就有下述不等式
+\begin{corollary}[Schwarz不等式的积分推广]
+	$\int\limits_a^b{f\left( x \right) g\left( x \right) dx}\int\limits_a^b{f\left( x \right) g\left( x \right) dx}\le \int\limits_a^b{f\left( x \right) f\left( x \right) dx}\int\limits_a^b{g\left( x \right) g\left( x \right) dx}$
+\end{corollary}
+\subsection{定积分计算极限}
+接下来，我们来介绍一种求数列极限的新方法————将求数列极限转化为求定积分，它的原理如下
+\begin{proposition}
+	设$f \in R[a,b]$，则有与之对应的等距划分的对应形式
+	\begin{equation*}
+		\int\limits_a^b{f\left( x \right) dx}=\lim_{n\rightarrow \infty} \sum_{i=1}^n{f\left( a+i\frac{b-a}{n} \right) \frac{b-a}{n}}
+	\end{equation*}
+	或
+	\begin{equation*}
+		\int\limits_a^b{f\left( x \right) dx}=\lim_{n\rightarrow \infty} \sum_{i=1}^n{f\left( a+(i-1)\frac{b-a}{n} \right) \frac{b-a}{n}}
+	\end{equation*}
+\end{proposition}
+\begin{example}
+	计算极限
+	
+	$(a)\lim_{n\rightarrow \infty} \left( \frac{1}{n+1}+\frac{1}{n+2}+\cdots +\frac{1}{n+n} \right) $
+	
+	$(b)\lim_{n\rightarrow \infty} \left( \tan \frac{\pi}{4n}+\tan \frac{2\pi}{4n}+\cdots +\tan \frac{\left( n-1 \right) \pi}{4n} \right) \frac{1}{n}
+	$
+	
+	$(c)\lim_{n\rightarrow \infty} \frac{1}{\sqrt{1^2+n^2}}+\frac{1}{\sqrt{2^2+n^2}}+\cdots +\frac{1}{\sqrt{n^2+n^2}}
+	$
+\end{example}
+\begin{solution}
+	
+	$(a)$原式=$\lim_{n\rightarrow \infty} \sum_{i=1}^n{\frac{1}{1+\frac{i}{n}}\frac{1}{n}=\int\limits_0^1{\frac{1}{1+x}dx}}
+	$
+	
+	$(b)$原式=$\lim_{n\rightarrow \infty} \frac{4}{\pi}\sum_{i=1}^{n-1}{\tan \left( \frac{i\pi}{4n} \right) \frac{\pi}{4n}=\frac{4}{\pi}\int\limits_0^{\frac{1}{4}}{\tan xdx}}$
+	
+	
+	$(c)$原式=$\lim_{n\rightarrow \infty} \sum_{i=1}^n{\frac{1}{\sqrt{1+\left( \frac{i}{n} \right) ^2}}\frac{1}{n}=\int\limits_0^1{\frac{1}{\sqrt{1+x^2}}dx}}$
+	
+	
+\end{solution}
+\section{反常积分}
+\subsection{反常积分散敛性判断(无阿贝尔和迪利克雷)}
+因为一个反常积分可能会出现多个瑕点，所以我们要对区间进行划分，让区间只有一个瑕点，再逐个判断敛散性。
+
+如$\int\limits_0^2{\frac{1}{x^p\left( x-1 \right) ^q}dx\left( p,q>0 \right)}$，我们就可以插入$1$和$\frac{1}{2}$，就可以得到$\int\limits_0^2{=}\int\limits_0^{\frac{1}{2}}{}+\int\limits_{\frac{1}{2}}^1{}+\int\limits_1^2{}$
+
+那么问题来了，到底要怎么找瑕点呢？我们可以去找被积函数无定义的点，因为无定义的点可能是瑕点。
+
+比如$\int\limits_0^{\frac{\pi}{2}}{\frac{\sin x}{x^{\alpha}}dx\left( \alpha >0 \right)}$，被积函数在$0$处无定义，当$\alpha>0$时，$0$是瑕点，当$\alpha\le0$时，0不是瑕点。
+
+一般来说，反常积分敛散性的判断有两种
+
+法一：直接利用反常积分定义计算
+
+法二：将反常积分等价于$\frac{1}{x^{p}}$或者$\frac{1}{(x-a)^{p}}$,然后再利用收敛和发散的结论。
+
+一般我们将其与$p-$积分进行比较省敛法。
+\begin{conclusion}
+	无穷区间的$p$积分：$\int\limits_a^{+\infty}{\frac{1}{x^p}}$$(p>1)$时候收敛，$(p\le1)$时候发散
+	
+	无界函数的$p$积分：$\int\limits_a^b{\frac{1}{\left( x-a \right) ^p}}$
+	$(p\le 1)$时候收敛，$(p>1)$时候发散
+\end{conclusion}
+\begin{example}
+	下列广义积分收敛的是
+	
+	$(A)\int\limits_e^{+\infty}{\frac{\ln x}{x}dx}$
+	
+	$(B)\int\limits_e^{+\infty}{\frac{1}{x\ln x}dx}$
+	
+	$(C)\int\limits_e^{+\infty}{\frac{1}{x\left( \ln x \right) ^2}dx}$
+	
+	$(D)\int\limits_e^{+\infty}{\frac{1}{x\sqrt{\ln x}}dx}$
+\end{example}
+\begin{solution}
+	
+	$(A)\int\limits_e^{+\infty}{\frac{\ln x}{x}dx}=\int\limits_e^{+\infty}{\ln xd\ln x=\frac{1}{2}\left( \ln x \right) ^2|_{0}^{+\infty}}$发散
+	
+	$(B)\int\limits_e^{+\infty}{\frac{1}{x\ln x}dx}=\int\limits_e^{+\infty}{\frac{1}{\ln x}d\ln x=\ln \left( \ln x \right) |_{0}^{+\infty}}$发散
+	
+	$(C)\int\limits_e^{+\infty}{\frac{1}{x\left( \ln x \right) ^2}dx}=\int\limits_e^{+\infty}{\frac{1}{\left( \ln x \right) ^2}d\ln x=-\frac{1}{\ln x}|_{0}^{+\infty}}$收敛
+	
+	$(D)\int\limits_e^{+\infty}{\frac{1}{x\sqrt{\ln x}}dx}=\int\limits_e^{+\infty}{\frac{1}{\sqrt{\ln x}^{}}d\ln x=2\sqrt{\ln x}|_{0}^{+\infty}}$发散
+	
+\end{solution}
+\begin{example}
+	反常积分$\int\limits_{-\infty}^0{\frac{1}{x^2}e^{\frac{1}{x}}dx},\int\limits_0^{+\infty}{\frac{1}{x^2}e^{\frac{1}{x}}dx}$的敛散性为
+\end{example}
+\begin{solution}
+	
+	$\int\limits_{-\infty}^0{\frac{1}{x^2}e^{\frac{1}{x}}dx}=-\int\limits_{-\infty}^0{e^{\frac{1}{x}}d\frac{1}{x}=-e^{\frac{1}{x}}\mid_{-\infty}^{0}}
+	$收敛
+	
+	$\int\limits_0^{+\infty}{\frac{1}{x^2}e^{\frac{1}{x}}dx}=-\int\limits_0^{+\infty}{e^{\frac{1}{x}}d\frac{1}{x}=-e^{\frac{1}{x}}\mid_{0}^{+\infty}}$发散
+	
+	
+\end{solution}
+\begin{example}
+	下列反常积分中收敛的是
+	
+$	(A)\int\limits_2^{+\infty}{\frac{dx}{\sqrt{x}}}$
+	
+	$(B)\int\limits_2^{+\infty}{\frac{\ln x}{x}dx}$
+	 
+	$(C)\int\limits_2^{+\infty}{\frac{1}{x\ln x}dx}$
+	
+	$(D)\int\limits_2^{+\infty}{\frac{x}{e^x}dx}$
+\end{example}
+\begin{solution}
+	
+	$(A)\int\limits_2^{+\infty}{\frac{dx}{\sqrt{x}}}=2\sqrt{x}\mid_{2}^{+\infty}$发散
+	
+	$(B)\int\limits_2^{+\infty}{\frac{\ln x}{x}dx}=\int\limits_2^{+\infty}{\ln xd\ln x=\frac{1}{2}\left( \ln x \right) ^2\mid_{2}^{+\infty}}$发散
+	
+	$(C)\int\limits_2^{+\infty}{\frac{1}{x\ln x}dx}=\int\limits_2^{+\infty}{\frac{1}{\ln x}d\ln x=\ln |\ln x|\mid_{2}^{+\infty}}
+	$发散
+	
+	$(D)$自己用分部积分算一下，收敛的
+	
+	
+\end{solution}
+\begin{example}
+	下列广义积分发散的是
+	
+	$(A)\int\limits_{-1}^1{\frac{1}{\sin x}dx}$
+	
+	$(B)\int\limits_{-1}^1{\frac{1}{\sqrt{1-x^2}}dx}$
+	
+$	(C)\int\limits_0^{+\infty}{e^{-x^2}dx}$
+	
+	$(D)\int\limits_2^{+\infty}{\frac{1}{x\ln x^2}dx}$
+\end{example}
+\begin{solution}
+	
+	$(A)\int\limits_{-1}^1{\frac{1}{\sin x}dx},\text{瑕点为}0\text{，则}\int\limits_{-1}^1{\frac{1}{\sin x}dx=\int\limits_{-1}^1{\frac{x}{x\sin x}dx}}\sim \int\limits_{-1}^1{\frac{1}{x}dx}\text{发散}
+	$
+	
+	$ (B)\int\limits_{-1}^1{\frac{1}{\sqrt{1-x^2}}dx}=\mathrm{arc}\sin x\mid_{-1}^{1}$收敛
+	
+	
+	$(C)$泊松积分，略
+	
+	$(D)\int\limits_2^{+\infty}{\frac{1}{x\left( \ln x \right) ^2}dx}=\int\limits_2^{+\infty}{\frac{1}{\left( \ln x \right) ^2}d\ln x=-\frac{1}{\ln x}|_{2}^{+\infty}}$收敛 
+\end{solution}
+\begin{example}
+	若反常积分$\int\limits_0^{+\infty}{\frac{1}{x^a\left( 1+x \right) ^b}dx}$收敛，则$a$，$b$满足什么关系？
+\end{example}
+\begin{solution}
+	
+	显然，$0$和$+\infty$为瑕点
+	
+	在$x$趋近$0$时，$\int\limits_0^{+\infty}{\frac{1}{x^a\left( 1+x \right) ^b}dx}\thicksim \int\limits_0^{+\infty}{\frac{1}{x^a}dx}\Longrightarrow a<1
+	$
+	
+	在$x$趋近$+\infty$时，$\int\limits_0^{+\infty}{\frac{1}{x^a\left( 1+x \right) ^b}dx}\thicksim \int\limits_0^{+\infty}{\frac{1}{x^{a+b}}dx}\Longrightarrow a+b>1$
+\end{solution}
+\begin{example}
+	判断积分$\int\limits_0^1{\left( 1-\frac{\sin x}{x} \right) ^{-\frac{1}{3}}dx}$的敛散性
+\end{example}
+\begin{solution}
+	
+	$0$是瑕点
+	
+	$\sin x=x-\frac{1}{6}x^3+o\left( x^3 \right) \Longrightarrow \frac{\sin x}{x}=1-\frac{1}{6}x^2+o\left( x^2 \right)$
+	
+	则原式子等价于判断$(\dfrac{1}{6}x^{2})^{-\frac{1}{3}}$的敛散性，由于$-\frac{2}{3}<1$,于是收敛
+	\end{solution}
+\begin{example}
+	判断积分$\int\limits_0^1{\frac{1}{\sqrt{x}\left( \sqrt{x}-1 \right) ^2}dx}$的敛散性
+\end{example}
+\begin{solution}
+	
+	这道题我们发现有两个瑕点，分别是$0$和$1$，所以我们在讨论敛散性的时候要拆分区间讨论，这里我们引入中间点$\frac{1}{2}$，则区间变为$\int\limits_0^{\frac{1}{2}}{}+\int\limits_{\frac{1}{2}}^1{}$
+	
+	$x$趋近于$0$时，$\int\limits_0^{\frac{1}{2}}{\frac{1}{\sqrt{x}\left( \sqrt{x}-1 \right) ^2}dx}\sim \int\limits_0^{\frac{1}{2}}{\frac{1}{\sqrt{x}}dx}$收敛
+	
+	$x$趋近于$1$时，$\int\limits_{\frac{1}{2}}^1{\frac{1}{\sqrt{x}\left( \sqrt{x}-1 \right) ^2}dx}\sim \int\limits_{\frac{1}{2}}^1{\frac{1}{\left( \sqrt{x}-1 \right) ^2}dx}$，像这一种情况，我们无法直接判断敛散性，于是可以采取换元或者拉格朗日，这里我玩点花的
+	
+	$\sqrt{x}-1=\sqrt{x}-\sqrt{1}=\frac{1}{2\sqrt{\xi}}\left( x-1 \right) ,\xi \in \left( 0,1 \right) $
+	
+	于是原式的敛散性等价于$\frac{1}{(x-1)^{2}}$$\xi$为非零常数，不影响敛散性，显然，此时$2>1$,发散
+	
+	发散＋收敛=发散，原函数发散
+\end{solution}
+\begin{example}
+	判断积分$\int\limits_0^{+\infty}{\frac{\mathrm{arc}\tan x}{x^n}dx}$的敛散性
+\end{example}
+\begin{solution}
+	
+	这里出现了两个瑕点，$0$和$+\infty$我们要引入中间数$1$，原积分等价于$\int\limits_0^1{+\int\limits_1^{+\infty}}$
+	
+	$x$趋近于$0$时，$\int\limits_0^1{\frac{\mathrm{arc}\tan x}{x^n}dx\sim \int\limits_0^1{\frac{1}{x^{n-1}}dx}}$$n<2$时收敛，$n\ge2$时发散
+	
+	$x$趋近$\infty$时，$\int\limits_1^{+\infty}{\frac{\mathrm{arc}\tan x}{x^n}dx\sim \frac{\pi}{2}\int\limits_1^{+\infty}{\frac{1}{x^n}dx}}$,$n>1$时收敛，$n\le1$时发散
+\end{solution}
+\begin{example}
+	判断积分$\int\limits_0^{\frac{\pi}{2}}{\frac{\cos ^2x-e^{-x^2}}{x^{\alpha}\tan x}dx}$的敛散性
+\end{example}
+\begin{solution}
+	
+	显然，一个瑕点,$0$
+	
+	$x$趋近于$0$时,$\cos ^2x=\frac{1+\cos \left( 2x \right)}{2}=1-x^2+\frac{1}{3}x^4+o\left( x^4 \right) ,e^{-x^2}=1-x^2+\frac{1}{2}x^4+o\left( x^4 \right) 
+	$
+	原式等价于：$\frac{1}{6}\frac{1}{x^{\alpha-3}}$
+	
+	当$\alpha<4$时，收敛
+	
+	当$\alpha\ge4$时，发散
+	
+\end{solution}
+\begin{example}
+	判别积分$\int\limits_0^{\frac{\pi}{2}}{\frac{1}{\sin ^px\cos ^qx}dx}\left( p,q>0 \right)$ 的敛散性
+\end{example}
+\begin{solution}
+	
+	两个瑕点，$0$和$\frac{\pi}{2}$,所以我们要引入中间数$1$，原积分等价于$\int\limits_0^1{+\int\limits_1^{\frac{\pi}{2}}{}}$
+	
+	$x$趋近于0时，$\int\limits_0^{\frac{\pi}{2}}{\frac{1}{\sin ^px\cos ^qx}dx}\sim \int\limits_0^{\frac{\pi}{2}}{\frac{1}{\sin ^px}dx\sim}\int\limits_0^{\frac{\pi}{2}}{\frac{1}{x^p}dx}
+	$,$p<1$时收敛,$p\ge1$发散
+	
+	$x$趋近于$\frac{\pi}{2}$时，$\int\limits_0^{\frac{\pi}{2}}{\frac{1}{\sin ^px\cos ^qx}dx}\sim \int\limits_0^{\frac{\pi}{2}}{\frac{1}{\cos ^qx}dx\sim}\int\limits_0^{\frac{\pi}{2}}{\frac{1}{\sin ^q\left( \frac{\pi}{2}-x \right)}dx}\sim \int\limits_0^{\frac{\pi}{2}}{\frac{1}{\left( \frac{\pi}{2}-x \right) ^q}dx}
+	$，$q<1$时收敛,$q\ge1$发散
+\end{solution}
+含有{\color{red} \text{对数函数}}的反常积分
+
+\begin{conclusion}
+	
+	1.向同一个方向趋近，对数函数的速度远小于幂函数
+	
+	2.在$p\ne1$时，$\int\limits_0^{0.5}{\frac{1}{x^p\ln ^qx}dx}$的敛散性与$\ln ^qx$无关，也就是说，$\ln ^qx$不影响敛散性，可以忽略
+\end{conclusion}
+
+对于含有对数函数的反常积分，将被积函数等价成$\frac{1}{x^{p}}$或者$\frac{1}{(x-a)^{p}}$或$\frac{1}{x^p\ln ^qx}dx$即可
+\begin{example}
+	已知$\alpha>0$,则对于反常积分$\int\limits_0^1{\frac{\ln x}{x^{\alpha}}dx}$的敛散性是？
+\end{example}
+\begin{solution}
+	
+	$0$为瑕点，$\ln x$不影响敛散性，$\int\limits_0^1{\frac{\ln x}{x^{\alpha}}dx}\sim \int\limits_0^1{\frac{1}{x^{\alpha}}dx}$,$\alpha<1 $收敛，$\alpha \ge1 $发散
+\end{solution}
+\begin{example}
+	判别积分$\int\limits_0^{+\infty}{\left( x+\frac{1}{x} \right) ^{\alpha}\ln \left( 1+x^{-3\alpha} \right) dx\left( \alpha >0 \right)}$的敛散性
+\end{example}
+\begin{solution}
+	
+	这里出现了两个瑕点，$0$和$+\infty$我们要引入中间数$1$，原积分等价于$\int\limits_0^1{+\int\limits_1^{+\infty}}$
+	
+	$
+	x\text{趋近于}0\text{，}\left( x+\frac{1}{x} \right) ^{\alpha}\sim \frac{1}{x^{\alpha}},\ln \left( 1+x^{-3\alpha} \right) \sim \ln \left( x^{-3\alpha} \right) =-3\alpha \ln x$
+	则$\int\limits_0^{+\infty}{}\left( x+\frac{1}{x} \right) ^{\alpha}\ln \left( 1+x^{-3\alpha} \right) dx\sim \int\limits_0^{+\infty}{\frac{-3\alpha \ln x}{x^{\alpha}}}dx
+	$，$\alpha<1 $收敛，$\alpha \ge1 $发散
+	
+	$x\text{趋近}+\infty ,\left( x+\frac{1}{x} \right) ^{\alpha}\sim x^{\alpha},\ln \left( 1+x^{-3\alpha} \right) \sim x^{-3\alpha}
+	$，则$\int\limits_0^{+\infty}{}\left( x+\frac{1}{x} \right) ^{\alpha}\ln \left( 1+x^{-3\alpha} \right) dx\sim \int\limits_0^{+\infty}{x^{\alpha}}\cdot x^{-3\alpha}dx=\int\limits_0^{+\infty}{\frac{1}{x^{2\alpha}}}dx
+	$，$2\alpha >1$收敛，$2\alpha\le1$发散
+	
+\end{solution}
+含有{\color{red} \text{指数函数}}的反常积分
+\begin{conclusion}
+	
+	1.$x$足够大时候，有$e^{x}>x^{\alpha}$
+	
+	2.$x$足够小的时候，有$e^{\frac{1}{x}}>\frac{1}{x^{\alpha}}$
+\end{conclusion}
+\begin{example}
+	判别积分$\int\limits_0^{+\infty}{xe^{-x}dx}$的敛散性
+\end{example}
+\begin{solution}
+	
+	显然，$+\infty$为瑕点,在$x$足够大时候，有$e^{x}>x^{\alpha}$
+	
+	则有
+	\begin{equation*}
+		\frac{x}{e^{x}}<\frac{x}{x^{\alpha}}
+	\end{equation*}
+	令$\alpha=3$,则
+	\begin{equation*}
+		\frac{x}{e^{x}}<\frac{1}{x^{2}}
+	\end{equation*}
+	收敛
+\end{solution}
+\chapter{级数}
+\section{常数项级数}
+\subsection{无穷级数的基本概念}
+早在古代，我们就有这样一句话：“一尺之棰，日取其半，万世不竭”，用数学表达就是
+\begin{equation*}
+	1=\frac{1}{2}+\frac{1}{4}+\cdots+\frac{1}{2^{n}}+\cdots
+\end{equation*}
+由此，我们引入无穷级数的概念
+\begin{definition}[无穷级数]
+	我们称形如
+	\begin{equation*}
+		\sum_{i=1}^{\infty}{a_n}=a_1+a_2+\cdots +a_n+\cdots 
+	\end{equation*}
+	为无穷级数，其中$a_{n}$为通项
+\end{definition}
+我们称$a_1+a_2+\cdots +a_n$为部分和数列，记为$S_{n}$，当$S_{n}$收敛时，无穷级数\textbf{收敛}，否则就称之为发散。当无穷级数收敛的时候，我们称极限$S=\lim_{n\rightarrow \infty} S_n$为无穷级数的和，并记为
+\begin{equation*}
+	\sum_{i=1}^{\infty}{a_n}=a_1+a_2+\cdots +a_n+\cdots=S
+\end{equation*}
+为了方便，我们将无穷级数简称为\textbf{级数}。
+
+对于一个收敛级数来说，还需要有余项的概念，我们设$\sum_{i=1}^{\infty}{a_n}$收敛，则级数$\sum_{i=k+1}^{\infty}{a_n}$对于每个$n$均收敛。将它的和$R_{n}$称为收敛数列$\sum_{i=1}^{\infty}{a_n}$的第$n$个\textbf{余项}。若将级数$\sum_{i=1}^{\infty}{a_n}$的部分和数列记为$S_{n}$，记级数的和为$S$，则就有$R_{n}=S-S_{n}$.由此，作为收敛数列的余项一定是无穷小量：$\lim_{n\rightarrow \infty} R_n=0$
+
+由级数的定义可见，从给定的数列$\left\{ a_n \right\} $出发可以构造一个级数
+\begin{equation*}
+	a_1+\sum_{i=1}^{\infty}{\left( a_{n+1}-a_n \right)}
+\end{equation*}
+使得这个数列和级数同收敛同发散，当级数收敛时，级数的和就等于数列的极限$\lim_{n\rightarrow \infty} a_n=S$。
+
+由于级数和数列的上述联系，关于级数的不少性质可以从数列的性质直接推出。首先是级数收敛的必要条件：
+\begin{equation*}
+	\sum_{n=1}^{\infty}{a_n}\text{收敛}\Rightarrow \lim_{n\rightarrow \infty} a_n=0
+\end{equation*}
+当然，这个不是级数收敛的充分条件。
+
+由数列的Cauchy收敛准则我们可以推出\textbf{级数的Cauchy收敛准则}：级数$\sum_{n=1}^{\infty}{a_n}\text{收敛}$收敛的充要条件是对于每个$\varepsilon >0$,存在正整数$N$，使得对满足条件的$n>N$的正整数和每个正整数$p$，成立不等式
+\begin{equation*}
+	|a_{n+1}+a_{n+2}+\cdots +a_{n+p}|<\varepsilon
+\end{equation*}
+
+若级数$\sum{a_n}$的每一项同号，则称该级数为\textbf{同号级数}，习惯上，我们称非负项级数为\textbf{正项级数}，显然对于同号级数只需要研究正项级数就可以了，对于正项级数，其部分和数列为单调增加数列，因此就知道：\textbf{正项和数列收敛的充要条件}是其部分和数列有上界
+
+我们之前以及了解过了\textbf{调和级数}$\sum_{n=1}^{\infty}{\frac{1}{n}}$是发散的，然后进一步地讨论了$p-$\textbf{级数}$\sum_{n=1}^{\infty}{\frac{1}{n^p}}$的敛散性情况。这些为我们后续的继续研究提供了一些理论上的基础。
+\subsection{正项级数}
+从这一节开始我们主要关注级数的敛散性判别法。如果一个级数收敛，其有很多好的性质，我们可以从理论上计算出它的和的近似值。
+
+正项级数的敛散性一般只需要从其部分和数列是否有界就可以判断出，在这方面的话我们已经有了丰富的成果。
+\subsubsection{比较判别法的一般形式}
+首先列出比较判别法的几种常用形式
+\paragraph{比较判别法的基本形式}
+设正项级数$\sum{a_n},\sum{b_n}\text{的通项满足}a_n\le b_n,\text{则有以下结论}$：
+\begin{equation*}
+	\begin{split}
+		\left( 1 \right) b_n\text{收敛}\Rightarrow a_n\text{收敛}
+		\\
+		\left( 2 \right) a_n\text{发散}\Rightarrow b_n\text{发散}
+	\end{split}
+\end{equation*}
+其中关于两个级数通项之间的不等关系只需要对充分大的$n$成立即可
+
+我们称数$\sum{a_n},\sum{b_n}$为\textbf{比较级数}，一般常用的比较级数如
+\begin{equation*}
+	\sum_{n=1}^{\infty}{aq^n},\sum_{n=1}^{\infty}{\frac{1}{n^p},\sum_{n=1}^{\infty}{\frac{1}{n\ln ^pn}}}
+\end{equation*}
+等等。在使用比较判别法时经常需要知道以下“级别关系”
+\begin{equation*}
+	\ln n\ll n^{\varepsilon}\ll a^n\ll n!\ll n^n\left( a>1,\varepsilon >0 \right) 
+\end{equation*}
+\paragraph{比较判别法的极限形式}
+若对于正项级数数$\sum{a_n},\sum{b_n}$存在广义极限
+\begin{equation*}
+	c=\lim_{n\rightarrow \infty} \frac{b_n}{a_n}
+\end{equation*}
+则当$0<c<+\infty$时，正项级数$\sum{a_n},\sum{b_n}$同敛散，$c=0$时可以从$\sum{a_n}$收敛推出$\sum{b_n}$收敛，或者从$\sum{b_n}$发散推出$\sum{a_n}$发散，$c=+\infty$结论相反
+\subsection{比较判别法的特殊形式}
+上一小节中的比较判别法有一个共同点，就是都需要比较级数，如何对于给定级数去寻找合适的比较级数是一个难题。
+
+一种新的方法是“守株待兔”：取定比较级数来导出简单的判别法。Cauchy根值判别法和d’Alembert比值判别法就是如此。它们都是用几何级数作为比较级数。不难看出，这样得到的每一种判别法的能力必然有限，其适用范围为所取的比较级数所限定。例如，$p-$级数的敛散性就不可以用Cauchy根值判别法和d’Alembert比值判别法来判断。下给出常用的判别方法
+\begin{equation*}
+	\begin{split}
+		Cauchy\text{根值判别法：}\overline{\lim_{n\rightarrow \infty} }\sqrt{a_n}=c,c<1\text{收敛，}c>1\text{发散}
+		\\
+		d’Alembert\text{判别法：}\lim_{n\rightarrow \infty} \frac{a_{n+1}}{a_n}=d,d<1\text{收敛，}d>1\text{发散}
+	\end{split}
+\end{equation*}
+此外，建立在广义积分上的Cauchy积分判别法，这个是非常有用的。其不依赖比较级数，还是蛮好用的
+\begin{proposition}[Cauchy积分判别法]
+	设$f$在$[1,+\infty)$上单调减少，则级数$\sum_{n=1}^{\infty}{f\left( n \right)}$与无穷广义积分$\int\limits_1^{+\infty}{f\left( x \right) dx}$同敛散
+\end{proposition}
+判别敛散性的方法很多，由于级数收敛/发散的速度不同，从某种角度来讲没有通用的判别法。
+\subsection{一般项级数}
+现在我们要解决的级数，是由无穷个正项和无穷多个负项构成的，这样的级数我们称之为\textbf{变号级数}。对于其他情况则可归到正项级数的范畴去解决。
+
+这里需要强调指出绝对收敛与条件收敛的区别。从敛散性来看，前者的收敛性可以用正项级数的各种判别法来判定，而后者则需要全新的判别法。从级数，一系列性质来看，两者均有极大的不同。粗略地说，前者和有限和相似，后者则完全不同。
+\subsubsection{一般项级数的敛散性判别法}
+我们称收敛级数$\sum{a_n}$为\textbf{绝对收敛级数}，若$\sum{|a_n|}$也收敛；否则就称为\textbf{条件收敛级数}，用Cauchy收敛准则就可证明
+\begin{proposition}
+	若级数$\sum{|a_n|}$收敛，则级数$\sum{a_n}$必定收敛
+\end{proposition}
+
+由此可知，在研究变号级数$\sum{a_n}$的敛散性时，可以先分析对应的正项级数$\sum{|a_n|}$的敛散性。对后者可以用正项级数的各种判别法。若$\sum{|a_n|}$收敛，则原来级数$\sum{a_n}$的收敛性质已经解决。若$\sum{|a_n|}$发散，则级数$\sum{a_n}$可能收敛也可能发散。
+
+变号级数中最基本的例子是交错级数
+\begin{equation*}
+	\sum_{n=1}^{\infty}{\frac{\left( -1 \right) ^{n-1}}{n}}=1-\frac{1}{2}+\frac{1}{3}-\cdots +\frac{\left( -1 \right) ^{n-1}}{n}+\cdots =\ln 2
+\end{equation*}
+在一般项级数的敛散性除了Cauchy收敛准则仍然有效之外，常用的判别法有。
+\begin{proposition}[Leibniz判别法]
+	若$\text{数列}\left\{ a_n \right\} \text{单调收敛于}0\text{，则}\sum_{n=1}^{\infty}{\left( -1 \right) ^{n-1}a_n}\text{收敛}$	
+\end{proposition}
+\begin{proposition}[Dirichlet判别法]
+	若$\sum_{n=1}^{\infty}{a_n}\text{的部分和数列有界，}b_n\text{单调收敛于}0\text{，则}\sum_{n=1}^{\infty}{a_nb_n}\text{收敛}$	
+\end{proposition}
+\begin{proposition}[Abel判别法]
+	若$\sum_{n=1}^{\infty}{a_n}\text{收敛，}b_n\text{单调有界，则}\sum_{n=1}^{\infty}{a_nb_n}\text{收敛}$
+\end{proposition}
+\subsubsection{一般项级数的基本性质}
+区分绝对收敛级数和条件收敛级数的意义不仅是它们的判别方法不同，更重要的是它们在一系列性质上完全不一样。
+
+作为无限项求和来说，绝对收敛级数和正项级数都满足交换律和结合律，但其的和不变
+
+但对于条件收敛来讲，情况大不同。为了指出这两类级数的根本差异何在，需要引进由级数$\sum_{n=1}^{\infty}{a_n}$导出的两个正项级数$\sum_{n=1}^{\infty}{{a_n}^+\text{和}\sum_{n=1}^{\infty}{{a_n}^-}}$：
+\begin{equation*}
+	\sum_{n=1}^{\infty}{{a_n}^+=\frac{|a_n|+a_n}{2}=\begin{cases}
+			a_n,a_n>0\\
+			0,a_n\le 0\\
+		\end{cases},\sum_{n=1}^{\infty}{{a_n}^-=\frac{|a_n|-a_n}{2}=\begin{cases}
+				-a_n,a_n<0\\
+				0,a_n\ge 0\\
+	\end{cases}}}
+\end{equation*}
+\begin{proposition}
+	
+	(1)$\sum_{n=1}^{\infty}{a_n}$绝对收敛的充分必要条件是由级数$\sum_{n=1}^{\infty}{a_n}$导出的两个正项级数$\sum_{n=1}^{\infty}{{a_n}^+\text{和}\sum_{n=1}^{\infty}{{a_n}^-}}$同时收敛
+	
+	(2)若$\sum_{n=1}^{\infty}{a_n}$收敛，则该级数条件收敛的充要条件是由级数$\sum_{n=1}^{\infty}{a_n}$导出的两个正项级数$\sum_{n=1}^{\infty}{{a_n}^+\text{和}\sum_{n=1}^{\infty}{{a_n}^-}}$同时发散
+\end{proposition}
+\begin{remark}
+	
+	这就是说，条件收敛级数中的正项之和为$+\infty$负项之和为$-\infty$,由此可得条件收敛的级数是依赖于正项和负项在求和过重中相互抵消而收敛的
+\end{remark}
+
+由此出发，不难理解下列著名定理，初看其结果很惊人，但本质不难理解
+\begin{proposition}[Riemann重排定理]
+	设级数$\sum_{n=1}^{\infty}{a_n}$条件收敛，则对于满足$-\infty\le A\le B\le +\infty$的任意一对$A,B$可以改变级数$\sum_{n=1}^{\infty}{a_n}$中项的顺序，使得重排之后的级数的部分和数列$\left\{ S\prime_n \right\} $满足要求
+	\begin{equation*}
+		\mathop {\underline{\lim }} \limits_{n\rightarrow \infty}S\prime_n=A,\mathop {\overline{\lim }} \limits_{n\rightarrow \infty}S\prime_n=B
+	\end{equation*}
+	特别是当$A=B$时，重排级数的和可以是任何有限数或带确定符号的无限大
+\end{proposition}
+
+绝对收敛级数和条件收敛级数的另一个差异表现在于级数的乘积问题。
+
+级数$\sum_{n=1}^{\infty}{a_n}\text{和}\sum_{n=1}^{\infty}{b_n}$的\textbf{乘积}是有限和和有限和乘积的推广。如果将上述的无穷乘积改为有限和，则它们的乘积就等于所有形式为$a_{i}b_{j}$的项的和。对于无穷级数的乘积，这类项有无限多个，因此首先就是按什么顺序相加，其次就是作为无限项求和当然还有敛散性问题。
+
+为简明起见，现在只考虑无穷级数的\textbf{Cauchy乘积}，又称\textbf{对角线乘积}。定义级数$\sum_{n=1}^{\infty}{a_n}\text{和}\sum_{n=1}^{\infty}{b_n}$的乘积为无穷级数$\sum_{n=1}^{\infty}{c_n}$，其中
+\begin{equation*}
+	\sum_{n=1}^{\infty}{c_n}=\sum_{i+j=n+1}^{}{a_ib_j}
+\end{equation*}
+这里的基本结果如下：
+\begin{proposition}[Mertens定理]
+	$\text{设}\sum_{n=1}^{\infty}{a_n}=A\text{，}\sum_{n=1}^{\infty}{b_n=b}\text{且其中至少有一个级数绝对收敛，则有}\sum_{n=1}^{\infty}{c_n}=AB$
+\end{proposition}
+\section{函数项级数}
+\subsection{函数列的一致收敛性}
+这是一个收敛的数列
+\begin{equation*}
+	1,\frac{1}{2},\frac{1}{3},\frac{1}{4},\cdots \longmapsto 0
+\end{equation*}
+
+这是一个收敛的函数列
+\begin{equation*}
+	1,1+x,1+x+\frac{x^{2}}{2},\cdots \longmapsto e^{x}
+\end{equation*}
+
+我们发现，函数列和数列一样，具有收敛的性质，那么我们就有这样一个问题——什么样的函数列是收敛的呢？我们来到这样一个函数列
+\begin{equation*}
+	f_{n}(x)=x^{2}+\frac{1}{x+n}
+\end{equation*}
+我们发现，在给定一个x的值之后，由$f_{n}$所确定的数列总是趋近于$x^{2}$，并且收敛的速度一样。因此，我们便称这种收敛为\textbf{逐点收敛}。并且我们发现，这一收敛的速度和结果与x的取值无关，我们便称这种收敛为\textbf{一致收敛}。
+数学定义如下。~\\
+~\\
+~\\
+
+\begin{definition}
+	$f_{n}(x)$在\textit{I}上\textbf{逐点收敛}到$f(x)$：$N(\varepsilon,x)$
+		\begin{equation*}
+				\forall x\in I,\forall \varepsilon > 0,\exists N, 
+				 n>N  \Longrightarrow |f_{n}(x)-f(x)|	<\varepsilon		
+		\end{equation*}
+	$f_{n}(x)$在\textit{I}上\textbf{一致收敛}到$f(x)$：$N(\varepsilon)$
+		\begin{equation*}
+			\forall \varepsilon > 0,\exists N,\forall x\in I, 
+			n>N  \Longrightarrow |f_{n}(x)-f(x)|	<\varepsilon		
+		\end{equation*}		
+		
+	
+\end{definition}
+用较为通俗易懂的话来解释逐点收敛，就是你任意给定一个\textit{x}和任意小的数，只要我取到一个足够大的数，那么这个函数列和函数的误差就会小于你给定的任意小的数。用同样的话来解释一致收敛，你任意给定一个任意小的数，只要我取到一个足够大的数，那么你无论\textit{x}取啥，这个函数列和函数的误差都会小于你给定的任意小的数。前者取的那个很大的数与你所选取的\textit{x}和任意小的数有关，后面一个则与那个任意小的数有关。你会发现这些定义非常的言简意赅，这个就是数学的美妙之处。
+
+通常的，一致收敛还有一个等价定义
+\begin{definition}
+	\begin{equation*}
+		\underset{x\in I}{sup} |f_{n}(x)-f(x)|\longrightarrow 0
+	\end{equation*}
+\end{definition}
+用人话来解释就是函数列与函数的距离的最大值是趋近
+于0的，你会发现这个定义就更为形象，直观。
+
+此外，还有一个柯西收敛准则定义的版本，这个也蛮有意思的
+\begin{definition}
+	\begin{equation*}
+		\forall \varepsilon > 0,\exists N(\varepsilon),\forall x\in I, 
+		m,n>N  \Longrightarrow |f_{n}(x)-f_{m}(x)|	<\varepsilon
+	\end{equation*}
+\end{definition}
+那有没有什么逐点收敛但不一致收敛的例子呢？我们来到这样一个函数列：
+\begin{equation*}
+	f_{n}(x)=x^{n}
+\end{equation*}
+我们发现，在\textit{x}$\in$ [0,1)时,这个函数列是逐点收敛的，但是在$x\longrightarrow 1$时，函数列收敛的速度不一致，即无论你取多大的\textit{N}，只要你\textit{x}靠近1，就会使得你的函数列与函数的误差大于等于你给定的小的数，所以这是不一致收敛的典型例子。
+
+为什么我们要引进一致收敛的概念呢？举个例子吧
+
+假设$f_{n}\longmapsto f $,那么$f_{n}$连续是否能推出$f$连续呢？答案是否定的，例子如下：
+\begin{equation*}
+	x^{n}\longmapsto
+	\begin{cases}
+		0& \text{  } x\in [0,1)\\
+		1& \text{  } x=1
+	\end{cases}
+\end{equation*}
+这个函数列不一致收敛的本质是函数列在1的附近不是一致收敛的。可以见得，逐点收敛强度不够，我们需要强度更强的一个收敛条件，即为一致收敛。有了一致收敛，我们可以做一些平时做不到的事——换序，这件事的话我们会在实变函数那本书里进行跟多的研究。
+
+\subsection{函数列的一致收敛性的判别}
+
+函数列的一致收敛性，我们通常分为两种情况，一种是证明一致收敛，像这种的形式一般不会太复杂，我们一般是采用定义去做，需要的把式子放缩为与x无关的项。一种是证明不一致收敛，这里我们需要用到一个结论：
+\begin{conclusion}
+	若存在${x_{n}}\in D$,使得$\underset{n\to \infty}{lim}  f_{n}(x_{n})-f(x_{n}) \ne 0$,则函数列不一致收敛。
+\end{conclusion}
+这两个是我们做题时的大杀器，现在我们开始做题。
+~\\
+
+\begin{example}
+证明：若$f_{n}(x)$在(a,b)上一致收敛，在[a，b]上连续，则
+
+(a)${f_{n}(a)},{f_{n}(b)}$收敛
+
+(b)$f_{n}(x)$在[a，b]上一致收敛
+\end{example}
+
+证明：(a)由题意，即证明
+\begin{equation*}
+	 |f_{n}(a)-f_{m}(a)|	<\varepsilon
+\end{equation*}
+
+由$f_{n}(x)$在(a,b)上一致收敛，可得出
+\begin{equation*}
+	\forall \varepsilon > 0,\exists N(\varepsilon),\forall x\in (a,b), 
+	m,n>N  \Longrightarrow |f_{n}(x)-f_{m}(x)|	<\frac{\varepsilon}{3}
+\end{equation*}
+
+又由连续性，则对于上述$\frac{\varepsilon}{3}$,存在$\delta >0$,当$0<|x-a|<\delta$时，有
+\begin{equation*}
+	|f_{n}(x)-f_{n}(a)|	<\frac{\varepsilon}{3},
+		|f_{m}(x)-f_{m}(a)|	<\frac{\varepsilon}{3}
+\end{equation*}
+
+则有
+\begin{equation*}
+	|f_{n}(a)-f_{m}(a)|	<|f_{n}(x)-f_{n}(a)+|f_{m}(x)-f_{m}(a)|+|f_{n}(x)-f_{m}(x)|<\varepsilon
+\end{equation*}
+
+同理可证${f_{n}(b)}$收敛.~\\
+
+(b)由$f_{n}(x)$在(a,b)上一致收敛，${f_{n}(a)},{f_{n}(b)}$收敛，则$f_{n}(x)$在[a，b]上一致收敛。
+
+由这道题，我们可以得到一些结论：
+\begin{conclusion}
+	1. 一致收敛性可以扩展到\textbf{区间端点} 
+	
+	2. 如果在区间端点不一致连续，那么即使在开区间也\textbf{不一致连续}(这个方法常用于给定区间的判定不一致连续)
+\end{conclusion}
+
+\begin{example}
+
+讨论$s_{n}(x)=\frac{x}{1+n^{2}x^{2}}$在$(-\infty ,+\infty )$的一致收敛性
+\end{example}
+
+证明：$\underset{n\to \infty}{lim}s_{n}(x)=s(x)=0$
+
+$x=0$时，$|s_{n}(0)-s(0)|=0$
+
+$x\ne 0$时，$|s_{n}(x)-s(x)|=|\frac{x}{1+n^{2}x^{2}}$在$(-\infty ,+\infty )|\le \frac{x}{2nx}=\frac{1}{2n} \longrightarrow 0$
+
+故$s_{n}(x)$一致收敛于$s(x)$
+
+\begin{example}
+	讨论$s_{n}(x)=\frac{nx}{1+n^{2}x^{2}}$在$x\in [0,1]$的一致收敛性
+\end{example}
+
+解：$s(x)=\underset{n\to \infty}{lim}s_{n}(x)=0$
+
+由$|s_{n}(\frac{1}{n})-s(\frac{1}{n})|=\frac{1}{2} \ne 0,\frac{1}{n} \in [0,1]$
+
+故$s_{n}(x)$不一致收敛于$s(x)$
+\subsection{函数项级数的一致收敛性}
+
+有了函数列的基础认知，类比常数项级数，我们来定义一个函数项级数，其中每一个子列都为函数列.形式如下
+\begin{equation*}
+	\sum_{n=1}^{\infty } f_{n}(x)
+\end{equation*}
+我们记它的前n项和为$s_{n}(x)=\sum_{i=1}^{n} f_{i}(x)$,若$s_{n}(x)$在区间\textit{I}上一致收敛于$s(x)$,我们则称函数项级数$\sum_{n=1}^{\infty } f_{n}(x)$在区间\textit{I}上\textbf{一致收敛于$s(x)$}。下面，我们给出Cauchy对于函数项级数一致收敛的定义。
+\begin{definition}
+
+$\forall \varepsilon > 0,\exists N \in Z, n>N$ 
+对于任意的$p \in  \mathbb{N}$ ,任意的$x \in D $都有
+\begin{equation*}
+	|f_{n+1}(x)+f_{n+2}(x)+\cdots+f_{n+p}(x)|<\varepsilon
+\end{equation*}		
+我们即称函数项级数$\sum_{n=1}^{\infty } f_{n}(x)$在\textit{D}上\textbf{一致收敛}。
+\end{definition}
+同样的，凭借一致收敛的强大性质，我们也可以完成一些原来做不到的事，如逐项积分，这里的话不展开，如感兴趣请参考老师课上的ppt。
+
+
+\subsection{函数项级数的一致收敛性的判别}
+
+既然有性质这么强的一致收敛性，那么我们该如何判定一个函数列的一致收敛性呢？因此就诞生了五种应对三种情况不同的判别法，简写为C,W,A,D.分别为Cauchy，Weierstrass，Abel，Dirichlet，Dini(这个课上没讲，仅供了解)我们分别来进行阐述，课内有的证明过程就不给出。
+
+
+如果函数项级数形式较为简单，就可以考虑Canchy判别法(实际上就是上一节的对于一致收敛的定义)
+\begin{theorem}[Canchy判别法]
+	
+	$\forall \varepsilon > 0,\exists N \in Z, n>N$ 
+	对于任意的$p \in  \mathbb{N}$ ,任意的$x \in D $都有
+	\begin{equation*}
+		|f_{n+1}(x)+f_{n+2}(x)+\cdots+f_{n+p}(x)|<\varepsilon
+	\end{equation*}		
+	我们即称函数项级数$\sum_{n=1}^{\infty } f_{n}(x)$在\textit{D}上\textbf{一致收敛}。
+\end{theorem}
+
+对于可拆成形式如$\sum_{n=1}^{\infty } f_{n}(x)g_{n}(x)$的函数项级数，我们通常采取
+Abel或者Dirichlet判别法，两者类似，要根据实际情况进行选取。
+\begin{theorem}[Dirichlet判别法]
+	若$\sum_{n=1}^{\infty } f_{n}(x)g_{n}(x)$满足以下条件：
+	
+	1.$\forall x \in D$,函数列${f_{n}(x)}$关于n\textbf{单调}
+	
+	2.${f_{n}(x)}$在\textit{D}上\textbf{一致收敛}于0
+	
+	3. $\sum_{n=1}^{\infty } g_{n}(x)$的部分和数列在\textit{D}上\textbf{一致有界}
+	
+	则称函数项级数$\sum_{n=1}^{\infty } f_{n}(x)g_{n}(x)$在\textit{D}上\textbf{一致收敛}
+\end{theorem}
+\begin{theorem}[Abel判别法]
+	若$\sum_{n=1}^{\infty } f_{n}(x)g_{n}(x)$满足以下条件：
+	
+	1.$\forall x \in D$,函数列${f_{n}(x)}$关于n\textbf{单调}
+	
+	2.${f_{n}(x)}$在\textit{D}上\textbf{一致有界}
+	
+	3. $\sum_{n=1}^{\infty } g_{n}(x)$在\textit{D}上\textbf{一致收敛}
+	
+	则称函数项级数$\sum_{n=1}^{\infty } f_{n}(x)g_{n}(x)$在\textit{D}上\textbf{一致收敛}
+\end{theorem}
+
+A-D判别法本质上都是在利用一致有界和收敛与参数\textit{x}无关来证明一致收敛。这两个方法在证明交错级数收敛的时候有奇效。
+
+下面这一个方法的话，也是比较重要的，在处理一些比较难的题目的时候通常要用其进行放缩：
+\begin{theorem}[Weierstrass判别法]
+	若函数项级数$\sum_{n=1}^{\infty } f_{n}(x)$在区间\textit{D}上满足以下条件：
+	
+	1.$|f_{n}(x)|\le M_{n} ,n=1,2,\cdots$
+	
+	2.正项级数$\sum_{n=1}^{\infty } M_{n}(x)$收敛
+	
+	则称函数项级数$\sum_{n=1}^{\infty } f_{n}(x)$在区间\textit{D}上一致收敛且绝对收敛。
+\end{theorem}
+
+接下来给出的判别法课内没有，但是很重要，因此加以补充。
+\begin{theorem}[Dini判别法]
+	$f_{n}(x)$在[a,b]连续，$\forall x\in$[a,b],$f_{n}(x)$关于n单调收敛于连续函数$f(x)$，则$f_{n}(x) \rightrightarrows f(x)$
+\end{theorem}
+
+现给出证明：
+
+由连续，则对于任意$\varepsilon$,存在$\delta >0$,对于$\forall x_{0}\in$[a,b],当$0<|x-x_{0}|<\delta$时，有
+\begin{equation*}
+	|f_{n}(x)-f_{n}(x_{0})|	<\varepsilon,
+	|f(x)-f(x_{0})|	<\varepsilon
+\end{equation*}
+
+又因为收敛，则对上述$\varepsilon$，对于$\forall x_{0}\in$[a,b],存在$N_{0}$,当$n>N_{0}$时，有
+\begin{equation*}
+	|f_{N_{0}}(x_{0})-f(x_{0}|	<\varepsilon,
+\end{equation*}
+
+注意一下，这里的收敛是逐点收敛。
+
+又由$f_{n}(x)$关于n单调，则有
+\begin{equation*}
+	|f_{n}(x_{0})-f(x_{0}|<|f_{N_{0}}(x_{0})-f(x_{0}|	<\varepsilon,
+\end{equation*}
+
+则有
+\begin{equation*}
+	|f_{n}(x)-f(x)|<|f_{n}(x_{0})-f(x_{0})|+	|f_{n}(x)-f_{n}(x_{0})|+|f(x)-f(x_{0})|	<|f_{N_{0}}(x_{0})-f(x_{0})|+2\varepsilon<3\varepsilon,
+\end{equation*}
+
+这个就给我们提供了一个强有力的结论，闭区间上单调且收敛于一个连续函数的连续函数列必一致收敛。
+
+现在我们有五种判别法，那该如何选取呢？一般思路如下：首先我们看函数列形式是否比较简单，如果比较复杂的就直接排除Cauchy，如果出现交错级数的话就排除Dini，如果不好拆成两个函数列或者拆成的两个函数列不好判别一致收敛性的话就排除Abel和Dirichlet，你会发现剩下的就是Weierstrass，这个在判断绝对收敛的时候有奇效，接下来我们开始做题。
+
+\begin{example}
+	证明级数
+	\begin{equation*}
+		\sum_{i=1}^{\infty } \frac{\sin n^{2}x  }{n^{2}} 
+	\end{equation*}
+    在$(-\infty,+\infty)$上一致收敛
+\end{example}
+因为\begin{equation*}
+	|\frac{\sin n^{2}x  }{n^{2}}|\le \frac{1}{n^{2}}
+\end{equation*}
+由Weierstrass判别法，函数项级数一致收敛。
+
+\begin{example}
+	证明
+	\begin{equation*}
+		\sum_{i=1}^{\infty } (-1)^{n-1}\frac{1  }{x^{2}+n} 
+	\end{equation*}
+	关于x在$(-\infty,+\infty)$上一致收敛
+\end{example}
+
+证明：
+
+1. $|\sum_{i=1}^{\infty } (-1)^{n-1}| \le 1$
+
+2. $\forall x \in (-\infty,+\infty),\frac{1  }{x^{2}+n}$关于\textit{n}单调
+
+3. $|\frac{1  }{x^{2}+n}| \le \frac{1}{n}\longrightarrow 0$
+
+由Dirichlet判别法，函数项级数一致收敛.
+
+\begin{example}
+	设$\sum_{i=1}^{\infty }a_{n}$收敛，
+	证明
+	\begin{equation*}
+		\sum_{i=1}^{\infty }a_{n}x^{n}  
+	\end{equation*}
+	关于x在$[0,1]$上一致收敛
+\end{example}
+证明：
+
+1.显然，$\forall x \in[0,1] $，$\sum_{i=1}^{\infty }a_{n}$一致收敛
+
+2. $x^{n}$在$[0,1]$单调且一致有界
+
+由Abel判别法，函数项级数一致收敛
+
+题不多，但都很经典，想做更多的题建议刷谢书。到此，我们就结束了函数项级数大致的模块，接下来的知识板块是函数项级数的一个分支——幂级数，这个也很重要，由于其的重要性，它有资格单独拿一节出来讲。
+\section{幂级数}
+
+我们研究一个函数，通常希望用简单的函数近似复杂的函数，也就是找到一个简单的函数列，使它收敛于复杂的函数。函数项级数是表达函数列的一种方法。最简单的函数是常数函数，其次是线性函数和多项式函数。受此启发，幂级数成为重要的研究对象。指的是形如$\sum_{i=0}^{\infty } a_{i} (x-x_{0} )^{i} $的函数项级数。
+\subsection{收敛域和收敛半径}
+
+作为函数项级数的分支，幂函数也具有函数项级数的性质。我们首先回到函数项级数的一致收敛性。我们知道，函数项级数的一致收敛性与其自变量的定义域有关，类似的，幂级数也有相应的性质。直观上来看，当自变量距离$x_{0}$太远的时候级数是不可能收敛的，所以我们就有如下定理：
+\begin{theorem}[Abel第一定理]
+	若幂级数$\sum_{i=0}^{\infty } a_{i} (x-x_{0} )^{i} $在一点$x_{1}(\ne 0)$收敛，则幂级数在$|x|<|x_{1}|$上绝对收敛。
+	若在一点$x_{2}(\ne 0)$发散，则幂级数在$|x|>|x_{2}|$上发散。
+\end{theorem}
+对其可以形象的理解为：收敛点往内也收敛，发散点往外还发散。
+
+此外，我们还能从这个地方得到一个推论
+
+\begin{corollary}
+	对任意的幂级数，必存在唯一的\textit{R}满足$0\le R \le +\infty$，当|\textit{x}|<\textit{R}时绝对收敛，当|\textit{x}|>\textit{R}时发散。
+\end{corollary}
+
+我们称这样的\textit{R}为\textbf{收敛半径}，其围成的区域$(-R,+R)$我们称之为\textbf{收敛区间}，在其端点是否收敛，我们需要另外讨论。若一个区间将幂级数所有收敛的点都囊括在内，我们便称之为\textbf{收敛域}。如何求一个幂级数的收敛半径，便成了我们现在的一个问题，通常有两种方法
+
+\begin{theorem}
+	对任意的幂级数$\sum_{i=0}^{\infty } a_{i} (x-x_{0} )^{i} $，若$\lim_{n \to \infty} |\frac{a_{n+1} }{a_{n}} |=\rho $,则幂级数的收敛半径为$\frac{1}{\rho}$ 
+\end{theorem}
+
+\begin{theorem}[方法二——（Cauchy-Hadamard）定理]
+	对任意的幂级数$\sum_{i=0}^{\infty } a_{i} (x-x_{0} )^{i} $，若$\overline{ \lim_{n \to \infty}}  \sqrt[n]{|a_{n} |}  =\rho $,则幂级数的收敛半径为$\frac{1}{\rho}$ 
+\end{theorem}
+
+因为上极限总是存在的，用方法二总能求出幂级数的收敛半径.
+
+\subsection{幂级数的性质}
+我们来到幂级数的性质，首先我们要继续回到幂级数的一致收敛性，由此有一个定理
+\begin{theorem}[Abel第二定理]
+	任意的幂级数$\sum_{i=0}^{\infty } a_{i} (x-x_{0} )^{i} $在其收敛域内\textbf{内闭一致收敛}
+\end{theorem}
+
+由此定理，我们可以直接得到幂级数在收敛区间可以逐项微商与逐项积分，因为这两个是一致收敛的直接结论。故有以下定理
+
+\begin{theorem}[定理]
+	若幂级数幂级数$\sum_{i=0}^{\infty } a_{i} (x-x_{0} )^{i} $的收敛半径\textit{R}>0,设它在收敛区间$(-R,+R)$的和函数为$S(x)=\sum_{i=0}^{\infty } a_{i} (x-x_{0} )^{i}, $|\textit{x}|<\textit{R},则幂级数在收敛区间可以逐项微商与逐项积分，即${S }' (x)=\sum_{i=0}^{\infty } ia_{i} (x-x_{0} )^{i-1}$ ,|\textit{x}|<\textit{R},$\int_{0}^{x} {S } (t) dt=\sum_{i=0}^{\infty } \frac{a_{i}}{i+1} (x-x_{0} )^{i+1}$,|\textit{x}|<\textit{R},且它们的收敛半径仍为\textit{R}。
+\end{theorem}
+
+于是幂级数经逐项微商与逐项积分，收敛半径不变。事实上，收敛半径相同不一定有收敛域相同，设$\sum_{i=0}^{\infty } a_{i} (x-x_{0} )^{i} $，$\sum_{i=0}^{\infty } ia_{i} (x-x_{0} )^{i-1}$，$\sum_{i=0}^{\infty } \frac{a_{i}}{i+1} (x-x_{0} )^{i+1}$的收敛域分别为$I_{1},I_{2},I_{3}$,则有$I_{2}\subseteq I_{1}\subseteq I_{3}$,，即逐项微商收敛域不扩大，逐项积分收敛域不缩小.
+\subsection{幂级数展开}
+
+在研究完幂级数的性质之后，我们想再研究一下幂级数的应用，也就是上文提到的拟合复杂函数，那么问题就来了，如果函数能展开为幂级数，我们对这个函数有什么要求呢？就有以下定义
+
+\begin{definition}
+	给定一个函数$f(x)$,如果存在一个幂级数$\sum_{n=0}^{\infty } a_{n} (x-x_{0} )^{n} $在$(x_{0}-r,x_{0}+r)$收敛于$f(x)$,即$f(x)$=$\sum_{n=0}^{\infty } a_{n} (x-x_{0} )^{n} $,$|x-x_{0}|<r$.我们即称$f(x)$在$(x_{0}-r,x_{0}+r)$可以展开为幂级数。
+\end{definition}
+
+当然，这里面的区间如果改为闭区间、半开半闭区间、无穷区间也可以类似定义。
+
+这样子定义完之后，我们就不禁有了这几个问题：如何确定幂级数$\sum_{n=0}^{\infty } a_{n} (x-x_{0} )^{n} $的系数？幂级数$\sum_{n=0}^{\infty } a_{n} (x-x_{0} )^{n} $在其收敛域内的和函数是否一定为$f(x)$呢？接下来，我们就要探讨这两个问题。
+
+对于第一个问题，由于幂级数在一致收敛的情况下具有逐项微分的性质，我们可以在多次求导之后在分别带入$x_{0}$，即可得到下面这个定理
+\begin{theorem}
+	若$f(x)$在$(x_{0}-r,x_{0}+r)$可以展开为幂级数$\sum_{n=0}^{\infty } a_{n} (x-x_{0} )^{n} $,则$a_{n}=\frac{{f}^{(n)}(x_{0} ) }{n!} $
+\end{theorem}
+
+这里我们要注意以下几点
+
+1. 将定理中的开区间改为闭区间、半开半闭区间、无穷区间也成立
+
+2. 幂级数$\sum_{n=0}^{\infty } \frac{{f}^{(n)}(x_{0} ) }{n!} (x-x_{0} )^{n} $我们称之为泰勒级数，当$x_{0}=0$时，我们称之为麦克劳林级数。
+
+3. 函数在$(x_{0}-r,x_{0}+r)$可以展开为幂级数，则该幂级数只能是泰勒级数
+
+4. 函数在$(-r,+r)$可以展开为幂级数，则该幂级数只能是麦克劳林级数
+
+因而，我们就解决了第一个问题，那么第二个问题的答案是什么呢？
+
+答案便是不一定，例子如下：
+\begin{example}
+	\begin{equation*}
+		f(x)=\begin{cases}
+			e^{-\frac{1}{x^{2} } }  & \text{ } x\ne 0 \\
+			0& \text{ } x=0
+		\end{cases}
+	\end{equation*}
+\end{example}
+
+$f(x)$在实数域上可微，我们可以证明$f(x)$任意阶导数在0处的值都为零。则$f(x)$的麦克劳林级数为$\sum_{n=0}^{\infty }  0  x^{n} $，其收敛域为$(-\infty,+\infty)$,但很显然，该级数在其收敛域上的和函数并不是$f(x)$，这就解决了第二个问题。~\\
+
+函数在$(x_{0}-r,x_{0}+r)$可以展开为幂级数$\sum_{n=0}^{\infty } \frac{{f}^{(n)}(0 ) }{n!} (x-x_{0} )^{i} $，我们只能从这里推出函数任意次可微的必要条件，是否有个更为强力的条件，能够称为函数可以展开为幂级数的充要条件呢？
+
+首先，我们回到函数在$(x_{0}-r,x_{0}+r)$的泰勒公式
+\begin{equation*}
+	f(x-x_{0})=f(0)+{f}' (0)(x-x_{0} )+\cdots +\frac{{f}^{(n)}(0)}{n!}(x-x_{0})^{n}+R_{n}(x)
+\end{equation*}
+
+\begin{equation*}
+	R_{n}(x)=\int_{x_{0} }^{x}  \frac{{f}^{(n)}(t)}{n!}(x-t)^{n}\mathrm{d}t   = \frac{{f}^{(n)}(\theta x)}{(n+1)!}(x-x_{0})^{n+1}=\frac{{f}^{(n+1)}(x_{0}+\theta(x-x_{0}))}{n!}(1-\theta)^{n}(x-x_{0})^{n+1} (0<\theta<1)
+\end{equation*}
+
+其中分别是积分余项、拉格朗日余项和柯西余项，利用上述理论可以得到如下定理.(还是拉格朗日余项简洁)
+
+有了这个，我们就能得到一个加强版的定理
+\begin{theorem}
+	设$f(x)$在$(x_{0}-r,x_{0}+r)$任意阶可微，$(x_{0}-r,x_{0}+r)$可以展开为幂级数$\sum_{n=0}^{\infty } \frac{{f}^{(n)}(0 ) }{n!} (x-x_{0} )^{n} $的\textbf{充要条件}是对于任意的$x \in (x_{0}-r,x_{0}+r)$都有$\lim_{n \to \infty} R_{n}(x)=0$
+\end{theorem}
+
+于是乎，我们就得到了这个强有力的充要条件，在这里的话，我们要注意几点：
+
+1. 将定理中的开区间改为闭区间、半开半闭区间、无穷区间也成立
+
+2. $(x_{0}-r,x_{0}+r)$是幂级数$\sum_{i=0}^{\infty } \frac{{f}^{(n)}(0 ) }{n!} (x-x_{0} )^{n} $收敛域的子集
+
+有了这一个结论，我们就可以对一些基本初等函数进行幂级数展开。
+
+\begin{conclusion}
+	$e^{x}=\sum_{n=0}^{\infty } \frac{x^{n} }{n!} ,x \in (-\infty ,+\infty )$
+\end{conclusion}
+
+证明:考虑到拉格朗日余项
+\begin{equation*}
+	R_{n}(x)=\frac{{f}^{(n)}(\theta x)}{(n+1)!}(x-x_{0})^{n+1},(0<\theta<1)
+\end{equation*}
+
+代入原式可得
+\begin{equation*}
+	R_{n}(x)=\frac{e^{\theta x}}{(n+1)!}x^{n+1},(0<\theta<1)
+\end{equation*}
+
+对于任意$x \in (-\infty ,+\infty )$，有
+\begin{equation*}
+	|e^{\theta x}|\le e^{ |x|}
+\end{equation*}
+
+则有
+\begin{equation*}
+	|R_{n}(x)|\le\frac{e^{ |x|}}{(n+1)!}x^{n+1}\longrightarrow 0
+\end{equation*}
+
+在这里的话我们是求出了在0处的幂级数展开，事实上，由
+$e^{x}=e^{x_{0}}e^{x-x_{0}}$我们可以求出$e^{x}$在任一点处的幂级数展开。
+
+\begin{conclusion}
+$	\sin x =\sum_{n=0}^{\infty }(-1)^{n}\frac{x^{2n+1} }{(2n+1)!}$,
+$x \in (-\infty ,+\infty )$
+
+$	\cos x =\sum_{n=0}^{\infty }(-1)^{n}\frac{x^{2n} }{(2n)!}$,
+$x \in (-\infty ,+\infty )$
+\end{conclusion}
+
+证明：考虑到拉格朗日余项
+\begin{equation*}
+	R_{n}(x)=\frac{{f}^{(n)}(\theta x)}{(n+1)!}(x-x_{0})^{n+1},(0<\theta<1)
+\end{equation*}
+
+代入原式可得
+\begin{equation*}
+	R_{n}(x)=\frac{\sin(\theta x+(n+1)\frac{\pi}{2})}{(n+1)!}x^{n+1},(0<\theta<1)
+\end{equation*}
+
+\begin{equation*}
+	|R_{n}(x)|\le\frac{1}{(n+1)!}x^{n+1}\longrightarrow 0
+\end{equation*}
+
+\begin{conclusion}
+	$(1+x)^{\alpha} =1 + \sum_{n=1}^{\infty }\frac{\alpha(\alpha-1)\cdots(\alpha-n)}{n!}x^{n},x\in (-1,1)$
+\end{conclusion}
+
+证明：
+考虑到柯西余项
+\begin{equation*}
+	R_{n}(x)=\frac{{f}^{(n+1)}(x_{0}+\theta(x-x_{0}))}{n!}(1-\theta)^{n}(x-x_{0})^{n+1}, (0<\theta<1)
+\end{equation*}
+
+代入原式
+
+\begin{equation*}
+	R_{n}(x)=\frac{\alpha(\alpha-1)\cdots(\alpha-n)}{n!}x^{n+1}(\frac{1-\theta}{1+\theta x})^{n}(1+\theta x)^{\alpha -1},(0<\theta<1)
+\end{equation*}
+ 
+	注意到$\frac{\alpha(\alpha-1)\cdots(\alpha-n)}{n!}x^{n+1}$的收敛半径为1.
+	在$x \in (-1,1)$时，$(\frac{1-\theta}{1+\theta x})^{n},(1+\theta x)^{\alpha -1}$均为有界量
+	
+	故$\lim_{n \to \infty} R_{n}(x)=0$
+
+此时，端点的选取和$\alpha$的取值有关
+	
+	当$\alpha \le -1$时，收敛域为$(-1,1)$
+	
+	当$-1<\alpha<0$时，收敛域为$(-1,1]$
+	
+	当$\alpha$>0时，收敛域为[-1,1]
+\begin{conclusion}
+	$\ln (x+1)=\sum_{n=1}^{\infty }  \frac{(-1)^{n}}{n}x^{n},x\in(-1,1]$
+\end{conclusion}
+
+证明：$0\le x \le 1$时，考虑拉格朗日余项
+\begin{equation*}
+	R_{n}(x)=\frac{{f}^{(n)}(\theta x)}{(n+1)!}(x-x_{0})^{n+1},(0<\theta<1)
+\end{equation*}
+
+代入原式可得
+\begin{equation*}
+	R_{n}(x)=\frac{(-1)^{n}}{n+1} (\frac{x}{1+\theta x}),(0<\theta<1)
+\end{equation*}
+
+当$-1<x<0$时，考虑柯西余项
+\begin{equation*}
+	R_{n}(x)=\frac{{f}^{(n+1)}(x_{0}+\theta(x-x_{0}))}{n!}(1-\theta)^{n}(x-x_{0})^{n+1}, (0<\theta<1)
+\end{equation*}	
+
+代入原式可得
+\begin{equation*}
+	R_{n}(x)=(-1)^{n}\frac{(1-\theta)^{n}}{(1+\theta x)^{n+1}}x^{n+1}, (0<\theta<1)
+\end{equation*}
+
+则有
+
+\begin{equation*}
+	|R_{n}(x)|=|\frac{1}{(1+\theta x)} \frac{(1-\theta)^{n}}{(1+\theta x)^{n}}x^{n+1}| \le \frac{|x|^{n+1}}{1-|x|}\longrightarrow 0
+\end{equation*}
+
+\begin{conclusion}
+	$\arctan x=\sum_{n=0}^{\infty }  \frac{(-1)^{n}}{2n+1}x^{2n+1},x\in[-1,1]$
+\end{conclusion}	
+
+证明：由之前的结论，可得
+\begin{equation*}
+	\frac{1}{1+x}=\sum_{n=0}^{\infty }(-1)^{n}x^{n},x \in (-1,1)
+\end{equation*}
+
+将$x$替换为$x^{2}$，可得到
+\begin{equation*}
+	\frac{1}{1+x^{2}}=\sum_{n=0}^{\infty }(-1)^{n}x^{2n},x \in (-1,1)
+\end{equation*}
+
+逐项积分，可得
+\begin{equation*}
+	\arctan x=\sum_{n=0}^{\infty }  \frac{(-1)^{n}}{2n+1}x^{2n+1},x\in(-1,1)
+\end{equation*}
+
+又幂级数$\sum_{n=0}^{\infty }  \frac{(-1)^{n}}{2n+1}x^{2n+1}$在$x=\pm1$收敛，由阿贝尔第二定理可知，其和函数在$x=\pm1$分别左右连续，又$\arctan x$在$x=\pm1$连续,故幂级数$\sum_{n=0}^{\infty }  \frac{(-1)^{n}}{2n+1}x^{2n+1}$在$x=\pm1$的值与$\arctan x$相同,得证。
+
+\begin{conclusion}
+	$\arcsin x=x+\sum_{n=1}^{\infty }  \frac{(2n-1)!!}{(2n)!!}\frac{x^{2n+1}}{2n+1},x\in[-1,1]$
+\end{conclusion}
+
+证明：由之前的结论，可得
+\begin{equation*}
+	\frac{1}{\sqrt{1+x}}=1+\sum_{n=1}^{\infty }(-1)^{n}\frac{(2n-1)!!}{(2n)!!}x^{n},x \in (-1,1)
+\end{equation*}
+
+将$x$替换为$-x^{2}$，可得到
+\begin{equation*}
+	\frac{1}{\sqrt{1-x^{2}}}=1+\sum_{n=1}^{\infty }(-1)^{n}\frac{(2n-1)!!}{(2n)!!}x^{2n},x \in (-1,1)
+\end{equation*}
+
+逐项积分，可得
+\begin{equation*}
+	\arcsin x=x+\sum_{n=1}^{\infty }  \frac{(2n-1)!!}{(2n)!!}\frac{x^{2n+1}}{2n+1},x\in (-1,1)
+\end{equation*}
+
+由拉比判别法，幂级数$x+\sum_{n=1}^{\infty }  \frac{(2n-1)!!}{(2n)!!}\frac{x^{2n+1}}{2n+1} $在$x=\pm1$收敛，由阿贝尔第二定理可知，其和函数在$x=\pm1$分别左右连续，又$\arcsin x$在$x=\pm1$连续,故幂级数$x+\sum_{n=1}^{\infty }  \frac{(2n-1)!!}{(2n)!!}\frac{x^{2n+1}}{2n+1}$在$x=\pm1$的值与$\arcsin x$相同,得证。
+
+以上就是常见的幂级数展开，请务必当成结论记住。
+\subsection{幂级数求和}
+	这一章节的话，主要以技巧为主，大体的方法分为两个方法，分别为求导法和幂级数的运算，然后凭此来细分。
+	
+	\subsubsection{求导法}
+	这里我们来到第一种情况：通过求导将目标级数化成常见级数
+		\begin{example}
+			求$\sum_{n=1}^{\infty } (-1)^{n-1}\frac{x^{n} }{n}$的和函数  
+		\end{example}
+		
+		解：由
+		\begin{equation*}
+			\sum_{n=1}^{\infty } (-1)^{n-1}\frac{x^{n} }{n}=\sum_{n=0}^{\infty } (-1)^{n}\frac{x^{n+1} }{n+1}
+		\end{equation*}
+		
+		又因为
+		\begin{equation*}
+			({\frac{x^{n+1} }{n+1}})' =x^{n}
+		\end{equation*}
+		
+		又有
+		\begin{equation*}
+			\frac{1}{1+x}=\sum_{n=0}^{\infty }(-1)^{n}x^{n},x \in (-1,1)
+		\end{equation*}
+	
+		则
+		\begin{equation*}
+			(\sum_{n=1}^{\infty } (-1)^{n-1}\frac{x^{n} }{n})'=(\sum_{n=0}^{\infty } (-1)^{n}\frac{x^{n+1} }{n+1})'=\sum_{n=0}^{\infty }(-1)^{n}x^{n}=\frac{1}{1+x}
+		\end{equation*}
+	又因为该幂级数的收敛域为(-1,1]，则和函数为
+		\begin{equation*}
+			\int_{0}^{x}\frac{1}{t+1}  \mathrm{d}t =\ln |x+1|, x\in (-1,1]
+		\end{equation*}
+		
+		\begin{example}
+			求级数$\sum_{n=1}^{\infty }\frac{x^{n+3}}{(n+3)(n+2)(n+1)}$的和函数
+		\end{example}
+		
+		因为
+		\begin{equation*}
+			(\frac{x^{n+3}}{(n+3)(n+2)(n+1)})''' =x^{n}
+		\end{equation*}
+		
+		又有
+		\begin{equation*}
+			\frac{1}{1-x}=\sum_{n=0}^{\infty }x^{n},x \in (-1,1)
+		\end{equation*}
+		
+		则
+		\begin{equation*}
+			(\sum_{n=1}^{\infty }\frac{x^{n+3}}{(n+3)(n+2)(n+1)})'''=\sum_{n=1}^{\infty }x^{n}=\frac{1}{1-x}
+		\end{equation*}
+		
+		又有$S(0)=S'(0)=S''(0)=S'''(0)=0$,级数的收敛域为[-1,1].
+		
+		至于结果嘛，咳咳咳，重在思维。
+		
+		\begin{example}
+			求级数$\sum_{n=1}^{\infty }(-1)^{n}\frac{x^{2n}}{(2n+1)!(2n+3)}$的和函数
+		\end{example}
+		
+		考虑到
+		\begin{equation*}
+			(x^{3}\frac{(-1)^{n}x^{2n}}{(2n+1)!(2n+3)})'=\frac{(-1)^{n}x^{2n+2}}{(2n+1)!}=x\frac{(-1)^{n}x^{2n+1}}{(2n+1)!}
+		\end{equation*}
+		
+		又因为
+		\begin{equation*}
+			\sin x =\sum_{n=0}^{\infty }(-1)^{n}\frac{x^{2n+1} }{(2n+1)!}
+		\end{equation*}
+		
+		则有
+		\begin{equation*}
+			(x^{3}s(x))'=x\sin x
+		\end{equation*}
+		
+		又
+		\begin{equation*}
+			s(0)=\frac{1}{3}
+		\end{equation*}
+		
+		结果自己算一下，重在思考
+		
+		\begin{example}
+			求级数$\sum_{n=1}^{\infty }(-1)^{n}\frac{x^{n}}{(2n+1)!(2n+3)}$的和函数
+		\end{example}
+		
+		我们可以想办法将其转化为上一题
+		
+		注意到
+		\begin{equation*}
+			x=\sqrt{|x|^{2}}
+		\end{equation*}
+		故可分为两类
+		
+		当$x\ge0$时
+		\begin{equation*}
+			令t=\sqrt{x}
+		\end{equation*}
+		原式变为
+		\begin{equation*}
+			\sum_{n=1}^{\infty }(-1)^{n}\frac{t^{2n}}{(2n+1)!(2n+3)}
+		\end{equation*}
+		剩下解法同上
+		
+		当$x<0$时
+		\begin{equation*}
+			x^{n}=(-1)^{n}(-x)^{n},令t=\sqrt{-x}
+		\end{equation*}
+		
+		原式变为
+		\begin{equation*}
+			\sum_{n=1}^{\infty }\frac{t^{2n}}{(2n+1)!(2n+3)}
+		\end{equation*}
+		同上
+		
+	接下来，我们来到第二种情况：将常见级数转化为目标级数
+		\begin{example}
+			求级数$\sum_{n=1}^{\infty }nx^{n} $的和函数，并由此求出$\sum_{n=1}^{\infty }\frac{(2n-1)}{2^{n}} $
+		\end{example}
+		
+		注意到
+		\begin{equation*}
+			nx^{n}=x(x^{n})' 
+		\end{equation*}
+		
+		又有
+		\begin{equation*}
+			\frac{1}{1-x}=\sum_{n=0}^{\infty }x^{n},x \in (-1,1)
+		\end{equation*}
+		
+		则
+		\begin{equation*}
+			\sum_{n=1}^{\infty }nx^{n}=x(\sum_{n=1}^{\infty }x^{n})'=\frac{x}{(1-x)^{2}} ,x \in (-1,1)
+		\end{equation*}
+		
+		则
+		\begin{equation*}
+			\sum_{n=1}^{\infty }\frac{(2n-1)}{2^{n}}=2\sum_{n=1}^{\infty }\frac{n}{2^{n}}-\sum_{n=1}^{\infty }\frac{1}{2^{n}}
+		\end{equation*}
+		
+		由
+		\begin{equation*}
+			\sum_{n=1}^{\infty }nx^{n}=\frac{x}{(1-x)^{2}}
+		\end{equation*}
+		
+		代入$x=\frac{1}{2}$
+		
+		得，原式等于
+		\begin{equation*}
+			\frac{2\times \frac{1}{2}}{(1-\frac{1}{2})^{2}}-\frac{\frac{1}{2}}{1-\frac{1}{2}}=3
+		\end{equation*}
+		
+		\begin{example}
+			求出$\sum_{n=1}^{\infty }\frac{n(n+1)}{2^{n}} $的和。
+		\end{example}
+		
+		注意到
+		\begin{equation*}
+			n(n+1)x^{n}=x(x^{n+1})''
+		\end{equation*}
+		又有
+		\begin{equation*}
+			\frac{1}{1-x}=\sum_{n=0}^{\infty }x^{n},x \in (-1,1)
+		\end{equation*}
+		则
+		\begin{equation*}
+			\sum_{n=1}^{\infty }n(n+1)x^{n}=\sum_{n=1}^{\infty }x(x^{n+1})''=x\sum_{n=1}^{\infty }(x^{n+1})''=x(\sum_{n=1}^{\infty }x^{n+1})''=x(x\sum_{n=1}^{\infty }x^{n})''=x(\frac{x}{1-x})''=\frac{2x}{(1-x)^{3}}
+		\end{equation*}
+		
+		令$x=\frac{1}{2}$，得
+		\begin{equation*}
+			\frac{2\times \frac{1}{2}}{(1-\frac{1}{2})^{3}}=8
+		\end{equation*}
+		
+		\begin{example}
+			求出$\sum_{n=0}^{\infty }\frac{(n+1)x^{n+1}}{n!} $的和。
+		\end{example}
+		
+		注意到
+		\begin{equation*}
+			(n+1)x^{n+1}=x(x^{n+1})'
+		\end{equation*}
+		
+		则
+		\begin{equation*}
+			\sum_{n=0}^{\infty }\frac{(n+1)x^{n+1}}{n!}=x(\sum_{n=0}^{\infty }\frac{x^{n+1}}{n!})=x(xe^{x})'
+		\end{equation*}
+		
+		到此，求导法的大致内容就已经结束，我们来进入下一个方法。
+	\subsubsection{幂级数的运算}
+	
+	这一种方法，主要分为幂级数的加减法和幂级数的乘法。我们先从幂级数的加减法开始入手，这里主要要记住一些结论。
+	
+		\begin{example}
+			求出$\sum_{n=0}^{\infty }\frac{n^{3}x^{n}}{n!} $的和。
+		\end{example}
+		
+		这里，我们要补充一个知识
+		\begin{equation*}
+			\frac{n^{m}}{n!}=A_{m}\frac{1}{(n-m)!}+A_{m-1}\frac{1}{(n-m+1)!}+\cdots+A_{1}\frac{1}{(n-1)!}
+		\end{equation*}
+		
+		于是就有
+		\begin{equation*}
+			\frac{n^{3}}{n!}=A_{3}\frac{1}{(n-3)!}+A_{2}\frac{1}{(n-2)!}+A_{1}\frac{1}{(n-1)!}
+		\end{equation*}
+		
+		解得
+		\begin{equation*}
+			\begin{cases}
+				A_{3}=1\\
+				A_{2}=3\\
+				A_{1}=1
+			\end{cases}
+		\end{equation*}
+		
+		则有
+		\begin{equation*}
+			\frac{n^{3}}{n!}=\frac{1}{(n-3)!}+\frac{3}{(n-2)!}+\frac{1}{(n-1)!}
+		\end{equation*}
+		
+		由于化简出了$(n-3)!$这一项，为保证分解之后有意义，则$n\ge 3$
+		原式化简为
+		
+		\begin{equation*}
+			\begin{split}
+				\sum_{n=0}^{\infty }\frac{n^{3}x^{n}}{n!}=\sum_{n=3}^{\infty }\frac{1}{(n-3)!}x^{n}+\sum_{n=3}^{\infty }\frac{3}{(n-2)!}x^{n}+\sum_{n=3}^{\infty }\frac{1}{(n-1)!}x^{n}+1+x+4x^{2}\\
+				=x^{3}\sum_{n=3}^{\infty }\frac{1}{(n-3)!}x^{n-3}+3x^{2}\sum_{n=3}^{\infty }\frac{1}{(n-2)!}x^{n-2}+x\sum_{n=3}^{\infty }\frac{1}{(n-1)!}x^{n-1}+1+x+4x^{2}\\
+				=(x^{3})e^{x}+3x^{2}(e^{x}-1)+x(e^{x}-1-x)+1+x+4x^{2}=(x^{3}+3x^{2}+x)e^{x}+1
+			\end{split}		
+		\end{equation*}
+		
+		一题足矣，主要是有个感觉即可。下面的类型是比较难的，了解即可。现在要用到一个结论，是关于幂级数乘积的
+		
+		\begin{conclusion}
+			r,s,t为整数
+			\begin{equation*}
+				\sum_{n=p+q}^{\infty }(\sum_{i=p}^{n-q}a_{i} b_{n-i}  ) x^{n+r} =\sum_{n=p}^{\infty }a_{n}x^{n+s}\cdot  \sum_{n=q}^{\infty }b_{n}x^{n+t},(r=s+t )
+			\end{equation*}
+			
+			m为正整数，r,s,t为整数
+			\begin{equation*}
+				\sum_{n=p+q}^{\infty }(\sum_{i=p}^{n-q}a_{i} b_{n-i}  ) x^{mn+r} =\sum_{n=p}^{\infty }a_{n}x^{n+s}\cdot  \sum_{n=q}^{\infty }b_{n}x^{mn+t},(r=s+t )
+			\end{equation*}
+		\end{conclusion}
+		
+		下面开始做题
+		
+		\begin{example}
+			求级数$\sum_{n=2}^{\infty }(n-1)x^{n} $的和
+		\end{example}
+		
+		由公式
+		\begin{equation*}
+			\sum_{n=2}^{\infty }(n-1)x^{n}=\sum_{n=2}^{\infty }
+			\sum_{n=1}^{n-1 }1\cdot 1x^{n}=\sum_{n=1}^{\infty }x^{n}
+			\cdot \sum_{n=1}^{\infty }x^{n}=(\frac{x}{1-x})^{2}
+		\end{equation*}
+		
+		\begin{example}
+			求级数$\sum_{n=2}^{\infty }(\frac{1}{n}\sum_{i=1}^{n-1})\frac{1}{i}x^{n} $的和
+		\end{example}
+		
+		这一题的话，是比较特殊的，但又比较典型。这里要化为咱们公式的形式，需要一点变形，类似于咱们求等差公式求和
+		
+		\begin{equation*}
+			\begin{split}
+				1+\frac{1}{2}+\cdots +\frac{1}{n-1}\\
+				\frac{1}{n-1}+\frac{1}{n-2}+\cdots+1
+			\end{split}
+		\end{equation*}
+		两式相加，有
+		\begin{equation*}
+			\sum_{i=1}^{n-1 }(\frac{1}{i}+\frac{1}{n-i})=\sum_{i=1}^{n-1 }\frac{n}{i(n-i)}
+		\end{equation*}
+		
+		则原式子可化为
+		\begin{equation*}
+			\sum_{n=2}^{\infty }\frac{1}{2n}\sum_{i=1}^{n-1 }\frac{n}{i(n-i)}x^{n}=\frac{1}{2}\sum_{n=2}^{\infty }\sum_{i=1}^{n-1 }\frac{1}{i(n-i)}x^{n}=\frac{1}{2}(\sum_{n=1}^{\infty }\frac{x^{n}}{n})^{2}
+		\end{equation*}
+		
+		又因为
+		\begin{equation*}
+			({\frac{x^{n} }{n}})' =x^{n-1}
+		\end{equation*}
+		
+		又有
+		\begin{equation*}
+			\frac{1}{1-x}=\sum_{n=1}^{\infty }x^{n-1},x \in (-1,1)
+		\end{equation*}
+		
+		\begin{equation*}
+			\int_{0}^{x}\frac{1}{1-t}  \mathrm{d}t =-\ln |1-x|, x\in (-1,1)
+		\end{equation*}
+		
+		故
+		\begin{equation*}
+			\sum_{n=2}^{\infty }(\frac{1}{n}\sum_{i=1}^{n-1})\frac{1}{i}x^{n}=\frac{1}{2}\cdot (\ln |1-x|)^{2}, x\in (-1,1)
+		\end{equation*}
+
+\chapter{多元函数微分学}
+\section{基本概念}
+
+到目前为止，我们只研究过两个变量的共同变动，在他们之中一个变量的变动依赖着另外一个：自变量的数值完全能决定因变量的数值，呈现出一对一的关系。但是我们知道，在生活中或者科学上，我们常常遇到几个自变量的情况，于是我们要想确定某时刻函数的数值，就必须确定在这一时刻中各个自变量所取的数值。
+
+例如，圆柱体的体积$V$和它的底半径$R$和高度$H$的函数，这些变量就满足下述公式
+\begin{equation*}
+	V=\pi R^{2}H
+\end{equation*}
+我们只要知道了它们的自变量$R$和$H$的数值，就可以决定对应的$V$的数值。类似的例子还有很多，不一一赘述。
+
+要想对于几个自变量的函数的概念给出准确的定义，我们先从最简单的情况，也就是自变量有两个的时候开始。
+\subsection{二元函数及其定义域}
+在此之前，我们接触的一元函数，其自变量$x$所能取的范围为$x$轴上的数，我们记其构成的集合为$\mathcal{X}$。我们只要确定了$x$，就有一确定的$y$与之对应。像这种对于$\mathcal{X}$中的每一个$x$，依照某一法则或者规律，都有一确定的$y$与之对应，我们就称变量$y$(其变动区域为$\mathcal{Y}$)为自变量$x$在集合$\mathcal{X}$中的函数。其中$\mathcal{X}$就称为函数的\textbf{定义域}
+
+我们将其推广到二元函数的情况，此时的自变量，就为$x,y$，其构成的数对$(x,y)$所能取到的范围我们记为$\mathcal{M}$，我们只要确定了$x,y$，就有一确定的$z$与之对应。像这种对于$\mathcal{M}$中的每一个$(x,y)$，依照某一法则或者规律，都有一确定的$z$与之对应，我们就称变量$z$(其变动区域为$\mathcal{Z}$)为自变量$x,y$在集合$\mathcal{M}$中的函数。其中$\mathcal{M}$就称为函数的\textbf{定义域}，变量$x,y$对于它们的函数$z$而言，称为它的\textbf{变元}。与一元函数相类似，$z$与$x,y$之间的函数关系表示为：
+\begin{equation*}
+	z=f(x,y)
+\end{equation*}
+若$(x_{0},y_{0})$是从$\mathcal{M}$中取出的一个数对，则$f(x_{0},y_{0})$就表示$x=x_{0},y=y_{0}$时函数$f(x,y)$所取得的一个数值。
+
+在一元函数的时候，自变量所变动的范围只是有限的或者无穷的区间，但上升到二元函数的情景，其所变动的范围就有无限种复杂可能，因为此时的区域就为一个平面，对于平面的组成，就复杂起来了。但有的时候，利用这些区域的几何性质就可以简化问题的难度，比如区域是个圆，我们就可以利用圆的性质。于是，要研究函数的性质，我们可以先研究使它有定义的数对$(x,y)$在平面上所围成的图形，数对$(x,y)$我们便称之为点，这种点所成的集合我们就按照其对应的图形的名称来称呼它。例如，满足不等式
+\begin{equation*}
+	a\le x \le b ,c\le y \le d
+\end{equation*}
+的点集我们称之为矩形，其边长分别为$b-a$和$d-c$。满足不等式
+\begin{equation*}
+	(x-\alpha)^{2}+(y-\beta)^{2}\le r^{2}
+\end{equation*}
+的点集我们称之为以$(\alpha,\beta)$为圆心，半径为$r$的圆，等等。
+
+恰如函数$y=f(x)$可用其图像来几何说明一样，方程$z=f(x,y)$也可用图像来得到几何上的说明。我们在空间上分别取$x,y,z$三个轴，用其组成直角坐标系，先在$xy$平面上画出$x，y$的变动区域$\mathcal{M}$，然后再把$\mathcal{M}$内所有对应的点在$z$轴上取出，这样所得的轨迹就是我们的函数\textbf{空间图形}。一般来说我们得到的是一个曲面，同时我们称$z=f(x,y)$为\textbf{曲面方程}
+
+\subsubsection{$n$维算术空间}
+
+现在我们把目标放到$n$个自变量($n\ge 3$)的情况。
+
+当$n=3$的时候，$(x,y,z)$组成的数值还可以用解释为空间中的点，而这种数值的集则可以解释为空间中的一部分或者几何学中的体。但在$n>3$的时候就不可能有直接的几何说明，因为我们无法想象高维的物体的样子。
+
+即使如此，我们还是希望把之前那些原有的几何方法扩充到更多个变量的函数的理论上去，因此我们就引入了$n$维“空间”的概念。
+
+我们称$n$个实数所组称的数对$M(x_{1},x_{2},\cdots,x_{n})$为\textbf{点}，数$x_{1},x_{2},\cdots,x_{n}$称为点$M$的\textbf{坐标}。所有可以想象的$n$维的点就可以组成一个$n$维的\textbf{空间}（有时被称为\textbf{算术空间}）
+
+引入两个点
+\begin{equation*}
+	M(x_{1},x_{2},\cdots,x_{n}),M'(x'_{1},x'_{2},\cdots,x'_{n})
+\end{equation*}
+之间的距离$\overline{MM'}$的概念是有必要的，类比解析几何中的距离公式，我们有
+\begin{equation*}
+	\overline{MM'}=\overline{M'M}=\sqrt{\sum_{i=1}^n{\left( x'_i-x_i \right) ^2}}
+\end{equation*}
+其中在$n=2$或者$n=3$时便是我们所熟悉的两点之间的距离，如果我们再取一点
+\begin{equation*}
+	M''(x''_{1},x''_{2},\cdots,x''_{n})
+\end{equation*}
+我们就可以证明，$\overline{MM'},\overline{M'M''},\overline{MM''}$满足以下关系
+\begin{equation*}
+	\overline{MM''}\le \overline{MM'}+\overline{M'M''}
+\end{equation*}
+这也是我们熟悉的“两边之和大于第三边”
+
+这样，距离这一重要性质在我们的“空间”中也一样成立。
+\subsubsection{$n$维空间内的区域}
+现在我们来看看一些$n$维空间内的一些体或者区域的例子。
+
+(1)坐标各自相互独立地满足不等式
+\begin{equation*}
+	a_{1}\le x_{1}\le b_{1},a_{2}\le x_{2}\le b_{2},\cdots,a_{n}\le x_{n}\le b_{n},
+\end{equation*}
+的一切点$M(x_{1},x_{2},\cdots,x_{n})$所成的集合，我们称之为($n$维)“长方体”，并记成
+\begin{equation*}
+	[a_{1},b_{1};a_{2},b_{2};\cdots;a_{n},b_{n}]
+\end{equation*}
+$n=2$时，我们就得到了二维平面上的长方形，$n=3$时，我们就得到了三维空间上的长方体。
+
+若在前面的关系式中去掉等号，得到
+\begin{equation*}
+		a_{1}< x_{1}< b_{1},a_{2}< x_{2}< b_{2},\cdots,a_{n}< x_{n}< b_{n},
+\end{equation*}
+我们就可以用这个来定义\textbf{开的}长方体：
+\begin{equation*}
+	(a_{1},b_{1};a_{2},b_{2};\cdots;a_{n},b_{n})
+\end{equation*}
+
+因为要与之相区别，我们就把前一个称为\textbf{闭的}长方体。差$b_{1}-a_{1},b_{2}-a_{2},\cdots,b_{n}-a_{n}$称为两种长方体的度量
+
+任意中心在$M^{0}$的开的长方体
+\begin{equation*}
+	(x_{1}-\delta_{1},x_{1}+\delta;\cdots;x_{n}-\delta,x_{n}+\delta_{2})
+\end{equation*}
+称为点$M^{0}$的\textbf{邻域}，其中最常见的就是立方体
+\begin{equation*}
+	(x_{1}-\delta,x_{1}+\delta;\cdots;x_{n}-\delta,x_{n}+\delta)
+\end{equation*}
+其一切度量都为$2\delta$
+
+(2)若$M_{0}(x^{0}_{1},x^{0}_{2},\cdots,x^{0}_{n})$是定点，而$r$是正常数，则由不等式
+\begin{equation*}
+	(x_{1}-x_{1}^{0})^{2}+(x_{2}-x_{2}^{0})^{2}+\cdots+(x_{n}-x_{n}^{0})^{}\le r^{2}
+\end{equation*}
+所确定的一切点$M(x_{1},x_{2},\cdots,x_{n})$所成的集合，我们称为是\textbf{闭}的$n$维球。其半径为$r$，而中心在点$M_{0}$处。换句话说，这个球是是所有与某一定点$M_{0}$的距离不超过$r$的点所成的集合，这个是很显然的，在$n=2$时所呈现的图形便是圆，在$n=3$时所呈现的图形便是通常的球。
+
+中心点在$M_{0}(x^{0}_{1},x^{0}_{2},\cdots,x^{0}_{n})$处而有任意半径$r>0$的开球也可以看作这一点的\textbf{邻域}。要区别于先前的长方形的邻域，我们就称之为球形的邻域。
+\subsubsection{开域及闭域的一般定义}
+若点$M'(x'_{1},x'_{2},\cdots,x'_{n})$连同它的充分小的邻域都属于$n$维空间中的集合$\mathcal{M}$，那我们就称这个点为集合$\mathcal{M}$的\textbf{内点}。这里我们要知道，无论邻域的类型，都不影响我们内点的定义。
+
+开的长方体
+\begin{equation*}
+		(a_{1},b_{1};a_{2},b_{2};\cdots;a_{n},b_{n})
+\end{equation*}
+中的每一点都是内点，事实上，若
+\begin{equation*}
+	a_{1}< x'_{1}< b_{1},a_{2}< x'_{2}< b_{2},\cdots,a_{n}< x'_{n}< b_{n},
+\end{equation*}
+由于实数的稠密性，我们很容易能找到一个$\delta>0$,使得
+\begin{equation*}
+	a_{1}< x'_{1}-\delta<x'_{1}+\delta< b_{1},a_{2}< x'_{2}-\delta<x'_{2}+\delta b_{2},\cdots,a_{n}< x'_{n}-\delta<x'_{n}+\delta< b_{n},
+\end{equation*}
+
+同样对于中心在点$M_{0}$处的半径为$r$的开球，属于它的每一点$M'$都是它的内点。
+
+若取$\rho$满足
+\begin{equation*}
+	0<\rho<r-\overline{M_{0}M'}
+\end{equation*}
+并以$M'$为中心作出半径为$\rho$的球，则其必定包含在原来的球内，因为只要当$\overline{M_{0}M'}<\rho $,就有
+\begin{equation*}
+	\overline{M_{0}M}\le \overline{M_{0}M'} +\overline{M'M_{0}}<\rho +\overline{M'M_{0}}<r
+\end{equation*}
+所以点$M$仍然属于原来的球。
+
+像这种完全由内点组成的集合叫做\textbf{开域}，开的长方体，开的球就是开域的例子。
+
+现在我们把聚点的概念推广到$n$维空间的集合$\mathcal{M}$中去，若在点$M_{0}$的任一邻域内总包含着集合$\mathcal{M}$中的至少一个异于$M_{0}$的点，则我们就把$M_{0}$称为\textbf{聚点}。
+
+我们引入聚点的概念就是为了定义\textbf{闭域}。
+
+开域的聚点而不属于这域的称为它的\textbf{界点}。界点的全体组成域界，开域连同着它的界就成为\textbf{闭域}
+\section{连续函数}
+\section{多元函数的导数和微分}
+\section{高阶导数和微分}
+\section{极值}
+\end{document}

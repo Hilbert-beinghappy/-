@@ -1,0 +1,5 @@
+\contentsline {chapter}{\numberline {1}领悟认识真谛，把握人生方向}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}不考}{2}{chapter.2}%
+\contentsline {chapter}{\numberline {3}继承优良传统，弘扬爱国精神}{3}{chapter.3}%
+\contentsline {chapter}{\numberline {4}明确价值要求，践行价值准则}{5}{chapter.4}%
+\contentsline {chapter}{\numberline {5}遵守道德规范，锤炼道德品格}{6}{chapter.5}%
