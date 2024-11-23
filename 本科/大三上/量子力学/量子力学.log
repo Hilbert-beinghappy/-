@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.4.27)  18 NOV 2024 22:05
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.4.27)  23 NOV 2024 14:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1586,37 +1586,55 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@everytoks=\toks46
 \@floatcapt=\box136
 )
+(d:/Program Files/texlive/2023/texmf-dist/tex/latex/esint/esint.sty
+Package: esint 
+\symlargesymbolsA=\mathgroup7
+)
+(d:/Program Files/texlive/2023/texmf-dist/tex/latex/mathtools/mathtools.sty
+Package: mathtools 2022/06/29 v1.29 mathematical typesetting tools
+
+(d:/Program Files/texlive/2023/texmf-dist/tex/latex/mathtools/mhsetup.sty
+Package: mhsetup 2021/03/18 v1.4 programming setup (MH)
+)
+\g_MT_multlinerow_int=\count558
+\l_MT_multwidth_dim=\dimen353
+\origjot=\skip142
+\l_MT_shortvdotswithinadjustabove_dim=\dimen354
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen355
+\l_MT_above_intertext_sep=\dimen356
+\l_MT_below_intertext_sep=\dimen357
+\l_MT_above_shortintertext_sep=\dimen358
+\l_MT_below_shortintertext_sep=\dimen359
+\xmathstrut@box=\box137
+\xmathstrut@dim=\dimen360
+)
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... none found.
-
-
-LaTeX Warning: Unused global option(s):
-    [15pt].
 
 (./量子力学.aux)
 \openout1 = `量子力学.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-Package hyperref Info: Link coloring ON on input line 28.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+Package hyperref Info: Link coloring ON on input line 29.
  (./量子力学.out) (./量子力学.out)
 \@outlinefile=\write7
 \openout7 = `量子力学.out'.
@@ -1663,8 +1681,8 @@ Package caption Info: End \AtBeginDocument code.
 (d:/Program Files/texlive/2023/texmf-dist/tex/latex/footmisc/footmisc.sty
 Package: footmisc 2022/03/08 v6.0d a miscellany of footnote facilities
 \FN@temptoken=\toks47
-\footnotemargin=\dimen353
-\@outputbox@depth=\dimen354
+\footnotemargin=\dimen361
+\@outputbox@depth=\dimen362
 Package footmisc Info: Declaring symbol style bringhurst on input line 695.
 Package footmisc Info: Declaring symbol style chicago on input line 703.
 Package footmisc Info: Declaring symbol style wiley on input line 712.
@@ -1690,10 +1708,10 @@ Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file '量子力学.bbl' not found.
 
 No file 量子力学.bbl.
-Package biblatex Info: Reference section=0 on input line 28.
-Package biblatex Info: Reference segment=0 on input line 28.
-\c@lstlisting=\count558
-Package hyperref Info: Option `pageanchor' set `false' on input line 30.
+Package biblatex Info: Reference section=0 on input line 29.
+Package biblatex Info: Reference segment=0 on input line 29.
+\c@lstlisting=\count559
+Package hyperref Info: Option `pageanchor' set `false' on input line 31.
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: xetex
 * paper: a4paper
@@ -1729,52 +1747,59 @@ Package hyperref Info: Option `pageanchor' set `false' on input line 30.
 File: ./figure//cover.jpg Graphic file (type bmp)
 <./figure//cover.jpg>
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
-(Font)              scaled to size 24.88pt on input line 30.
-LaTeX Font Info:    Trying to load font information for U+rsfs on input line 30
+(Font)              scaled to size 24.88pt on input line 31.
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 31
 .
 (d:/Program Files/texlive/2023/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 30.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 31.
 
 
 (d:/Program Files/texlive/2023/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 30.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 31.
 
 
 (d:/Program Files/texlive/2023/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
+LaTeX Font Info:    Trying to load font information for U+esint on input line 3
+1.
+
+(d:/Program Files/texlive/2023/texmf-dist/tex/latex/esint/uesint.fd
+File: uesint.fd 
+)
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
-(Font)              scaled to size 14.4pt on input line 30.
+(Font)              scaled to size 14.4pt on input line 31.
  [1
 
 
 
 ]
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
-(Font)              scaled to size 17.28pt on input line 33.
+(Font)              scaled to size 17.28pt on input line 34.
 
 (./量子力学.toc [1
 
 
 
-])
+]
+LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
+(Font)              scaled to size 9.0pt on input line 85.
+ [2])
 \tf@toc=\write8
 \openout8 = `量子力学.toc'.
 
-LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
-(Font)              scaled to size 9.0pt on input line 35.
- [2]
+ [3]
 Chapter 1.
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 42.
+(Font)              scaled to size 7.0pt on input line 43.
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
-(Font)              scaled to size 5.0pt on input line 42.
+(Font)              scaled to size 5.0pt on input line 43.
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
-(Font)              scaled to size 12.0pt on input line 50.
+(Font)              scaled to size 12.0pt on input line 51.
 File: figure/screenshot001.png Graphic file (type bmp)
 <figure/screenshot001.png>
 [1
@@ -1789,11 +1814,11 @@ File: figure/screenshot003.png Graphic file (type bmp)
  [3]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 235.
+(hyperref)                removing `math shift' on input line 236.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 235.
+(hyperref)                removing `math shift' on input line 236.
 
 File: figure/screenshot004.png Graphic file (type bmp)
 <figure/screenshot004.png>
@@ -1825,11 +1850,11 @@ File: figure/screenshot0014.png Graphic file (type bmp)
  [11] [12] [13] [14] [15]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 806.
+(hyperref)                removing `math shift' on input line 807.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 806.
+(hyperref)                removing `math shift' on input line 807.
 
 [16] [17]
 Chapter 2.
@@ -1848,69 +1873,69 @@ File: figure/screenshot0018.png Graphic file (type bmp)
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1056.
+(hyperref)                removing `math shift' on input line 1057.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\delta' on input line 1056.
+(hyperref)                removing `\delta' on input line 1057.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1056.
+(hyperref)                removing `math shift' on input line 1057.
 
 File: figure/screenshot0019.png Graphic file (type bmp)
 <figure/screenshot0019.png>
 [21]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1111.
+(hyperref)                removing `math shift' on input line 1112.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1111.
+(hyperref)                removing `math shift' on input line 1112.
 
 [22] [23]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1188.
+(hyperref)                removing `math shift' on input line 1189.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\begingroup' on input line 1188.
+(hyperref)                removing `\begingroup' on input line 1189.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\endgroup' on input line 1188.
+(hyperref)                removing `\endgroup' on input line 1189.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@@over' on input line 1188.
+(hyperref)                removing `\@@over' on input line 1189.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1188.
+(hyperref)                removing `math shift' on input line 1189.
 
 [24] [25] [26] [27] [28] [29] [30] [31] [32] [33] [34] [35] [36]
 Chapter 3.
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2169.
+(hyperref)                removing `math shift' on input line 2170.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\begingroup' on input line 2169.
+(hyperref)                removing `\begingroup' on input line 2170.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\endgroup' on input line 2169.
+(hyperref)                removing `\endgroup' on input line 2170.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@@over' on input line 2169.
+(hyperref)                removing `\@@over' on input line 2170.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2169.
+(hyperref)                removing `math shift' on input line 2170.
 
 [37
 
@@ -1938,20 +1963,221 @@ Missing character: There is no ② (U+2461) in font [texgyretermes-regular.otf]/
 T:script=latn;language=dflt;mapping=tex-text;!
 Missing character: There is no ② (U+2461) in font [texgyretermes-regular.otf]/O
 T:script=latn;language=dflt;mapping=tex-text;!
-[44] [45] [46] (./量子力学.aux)
+[44] [45]
+File: figure/screenshot0021.png Graphic file (type bmp)
+<figure/screenshot0021.png>
+File: figure/screenshot0022.png Graphic file (type bmp)
+<figure/screenshot0022.png>
+File: figure/screenshot0023.png Graphic file (type bmp)
+<figure/screenshot0023.png>
+ [46] [47] [48]
+File: figure/screenshot0024.png Graphic file (type bmp)
+<figure/screenshot0024.png>
+ [49]
+
+LaTeX Font Warning: Font shape `TU/KaiTi(0)/b/n' undefined
+(Font)              using `TU/KaiTi(0)/m/n' instead on input line 2957.
+
+[50]
+File: figure/screenshot0025.png Graphic file (type bmp)
+<figure/screenshot0025.png>
+ [51]
+File: figure/screenshot0026.png Graphic file (type bmp)
+<figure/screenshot0026.png>
+ [52] [53] [54] [55] [56]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 3461.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 3461.
+
+File: figure/screenshot0027.png Graphic file (type bmp)
+<figure/screenshot0027.png>
+[57] [58]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 3651.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\delta' on input line 3651.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 3651.
+
+File: figure/screenshot0028.png Graphic file (type bmp)
+<figure/screenshot0028.png>
+[59] [60]
+
+LaTeX Warning: Command \textcircled invalid in math mode on input line 3752.
+
+LaTeX Font Info:    Trying to load font information for OMS+texgyretermes(0) on
+ input line 3752.
+LaTeX Font Info:    No file OMStexgyretermes(0).fd. on input line 3752.
+
+LaTeX Font Warning: Font shape `OMS/texgyretermes(0)/m/n' undefined
+(Font)              using `OMS/cmsy/m/n' instead on input line 3752.
+
+
+LaTeX Warning: Command \textcircled invalid in math mode on input line 3752.
+
+
+LaTeX Warning: Command \textcircled invalid in math mode on input line 3760.
+
+
+LaTeX Warning: Command \textcircled invalid in math mode on input line 3760.
+
+[61] [62]
+Overfull \hbox (32.03638pt too wide) detected at line 3879
+[]\OMS/texgyretermes(0)/m/n/10 j\OML/cmm/m/it/10 n[]\OMS/texgyretermes(0)/m/n/1
+0 i \OT1/cmr/m/n/10 = [][]\OMS/texgyretermes(0)/m/n/10 j\OML/cmm/m/it/10 n[]\OM
+S/texgyretermes(0)/m/n/10 i \OT1/cmr/m/n/10 = [][][][]\OMS/texgyretermes(0)/m/n
+/10 j\OML/cmm/m/it/10 n\OMS/texgyretermes(0)/m/n/10 i \OT1/cmr/m/n/10 = []([][]
+ \OMS/texgyretermes(0)/m/n/10 ^^@ \OT1/cmr/m/n/10 1)[]\OMS/texgyretermes(0)/m/n
+/10 j\OML/cmm/m/it/10 n\OMS/texgyretermes(0)/m/n/10 i \OT1/cmr/m/n/10 = []([]\O
+ML/cmm/m/it/10 n[]\OMS/texgyretermes(0)/m/n/10 j\OML/cmm/m/it/10 n\OMS/texgyret
+ermes(0)/m/n/10 i ^^@ []j\OML/cmm/m/it/10 n\OMS/texgyretermes(0)/m/n/10 i\OT1/c
+mr/m/n/10 ) = [](\OML/cmm/m/it/10 n[]\OMS/texgyretermes(0)/m/n/10 j\OML/cmm/m/i
+t/10 n\OMS/texgyretermes(0)/m/n/10 i ^^@ []j\OML/cmm/m/it/10 n\OMS/texgyreterme
+s(0)/m/n/10 i\OT1/cmr/m/n/10 ) = (\OML/cmm/m/it/10 n \OMS/texgyretermes(0)/m/n/
+10 ^^@ \OT1/cmr/m/n/10 1)[][]\OMS/texgyretermes(0)/m/n/10 j\OML/cmm/m/it/10 n\O
+MS/texgyretermes(0)/m/n/10 i \OT1/cmr/m/n/10 = (\OML/cmm/m/it/10 n \OMS/texgyre
+termes(0)/m/n/10 ^^@ \OT1/cmr/m/n/10 1)\OMS/texgyretermes(0)/m/n/10 j\OML/cmm/m
+/it/10 n[]\OMS/texgyretermes(0)/m/n/10 i
+ []
+
+[63] [64] [65]
+Chapter 5.
+LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/it' will be
+(Font)              scaled to size 10.0pt on input line 4091.
+[66
+
+]
+Overfull \hbox (21.33835pt too wide) detected at line 4182
+\OML/cmm/m/it/10 R[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^R\OT1/cmr/m/n/10 )\OML/
+cmm/m/it/10 R[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^R\OT1/cmr/m/n/10 ) \OMS/texg
+yretermes(0)/m/n/10 ^^@ \OML/cmm/m/it/10 R[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^
+^R\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 R[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^R\OT
+1/cmr/m/n/10 ) = [] [] \OMS/texgyretermes(0)/m/n/10 ^^@ [] []
+ []
+
+Missing character: There is no 设 ("8BBE) in font cmr10!
+[67] [68] [69]
+! Extra }, or forgotten $.
+l.4483 在 \(\{\hat{J}}
+                     ^2, \hat{J}_z\) 表象中，\(\hat{J}_z\) 是对角矩阵，其对角元是其本征值 \(\hb...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+[70] [71] [72] [73] [74]
+! Missing $ inserted.
+<inserted text> 
+                $
+l.4809 ^^I\item 宇称：与 $l$ 有关，\begin{cases}
+                                         
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.4812 ^^I\end{cases}
+                     
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+[75] [76] [77] [78]
+File: figure/screenshot0029.png Graphic file (type bmp)
+<figure/screenshot0029.png>
+File: figure/screenshot0030.png Graphic file (type bmp)
+<figure/screenshot0030.png>
+ [79]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 5119.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\begingroup' on input line 5119.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\endgroup' on input line 5119.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\@@over' on input line 5119.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 5119.
+
+[80]
+
+! Package amsmath Error: Erroneous nesting of equation structures;
+(amsmath)                trying to recover with `aligned'.
+
+See the amsmath package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5194 \end{align*}
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[81]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 5289.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\begingroup' on input line 5289.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\endgroup' on input line 5289.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\@@over' on input line 5289.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 5289.
+
+[82]
+File: figure/screenshot0031.png Graphic file (type bmp)
+<figure/screenshot0031.png>
+File: figure/screenshot0032.png Graphic file (type bmp)
+<figure/screenshot0032.png>
+ [83] [84] (./量子力学.aux)
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
 Package rerunfilecheck Info: File `量子力学.out' has not changed.
-(rerunfilecheck)             Checksum: 2AD445DE49BDCCAEDD31AF4A8ACDFE59;9945.
+(rerunfilecheck)             Checksum: 2E78B1F405380E08A11EE53333BF2252;13452.
 Package logreq Info: Writing requests to '量子力学.run.xml'.
 \openout1 = `量子力学.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 46343 strings out of 476683
- 1013243 string characters out of 5801401
- 1945295 words of memory out of 5000000
- 65768 multiletter control sequences out of 15000+600000
- 524000 words of font info for 119 fonts, out of 8000000 for 9000
+ 47613 strings out of 476683
+ 1051345 string characters out of 5801401
+ 1961946 words of memory out of 5000000
+ 66989 multiletter control sequences out of 15000+600000
+ 526404 words of font info for 142 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 103i,25n,107p,677b,801s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 103i,25n,107p,677b,1322s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on 量子力学.pdf (49 pages).
+Output written on 量子力学.pdf (88 pages).

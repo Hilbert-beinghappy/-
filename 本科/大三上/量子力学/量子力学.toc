@@ -61,3 +61,27 @@
 \contentsline {section}{\numberline {4.2}virial定理和F-H定理}{42}{section.4.2}%
 \contentsline {section}{\numberline {4.3}一维无限深方势阱}{43}{section.4.3}%
 \contentsline {subsection}{\numberline {4.3.1}三维无限深方势阱}{45}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}束缚态和散射态}{46}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}一维定态的几个基本命题}{46}{subsection.4.3.3}%
+\contentsline {section}{\numberline {4.4}一维有限深方势阱}{49}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}束缚态}{49}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}散射态}{52}{subsection.4.4.2}%
+\contentsline {section}{\numberline {4.5}自由粒子}{54}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}概率流密度}{56}{subsection.4.5.1}%
+\contentsline {section}{\numberline {4.6}一维有限高方势垒$\&$量子隧穿}{57}{section.4.6}%
+\contentsline {section}{\numberline {4.7}$\delta $势阱/势垒}{60}{section.4.7}%
+\contentsline {section}{\numberline {4.8}简谐振子}{62}{section.4.8}%
+\contentsline {chapter}{\numberline {5}角动量理论}{66}{chapter.5}%
+\contentsline {section}{\numberline {5.1}角动量的一般理论}{66}{section.5.1}%
+\contentsline {section}{\numberline {5.2}角动量的本征值和本征矢}{68}{section.5.2}%
+\contentsline {section}{\numberline {5.3}轨道角动量}{71}{section.5.3}%
+\contentsline {section}{\numberline {5.4}自旋角动量和pauli算符}{75}{section.5.4}%
+\contentsline {section}{\numberline {5.5}电子自旋在任意方向的投影}{78}{section.5.5}%
+\contentsline {section}{\numberline {5.6}角动量的合成}{79}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}两个一般角动量的合成}{79}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}双自旋$\frac {1}{2}$粒子}{80}{subsection.5.6.2}%
+\contentsline {section}{\numberline {5.7}耦合表象}{80}{section.5.7}%
+\contentsline {subsection}{\numberline {5.7.1}自旋-轨道耦合(L-S耦合与J-J耦合)}{81}{subsection.5.7.1}%
+\contentsline {subsection}{\numberline {5.7.2}非耦合表象}{82}{subsection.5.7.2}%
+\contentsline {subsection}{\numberline {5.7.3}耦合表象}{82}{subsection.5.7.3}%
+\contentsline {subsection}{\numberline {5.7.4}双自旋$\frac {1}{2}$系统非耦合表象和耦合表象的联系}{82}{subsection.5.7.4}%

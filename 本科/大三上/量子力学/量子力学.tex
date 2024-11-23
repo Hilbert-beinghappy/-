@@ -1,7 +1,8 @@
-\documentclass[lang=cn,15pt]{elegantbook}
+\documentclass[lang=cn,10pt]{elegantbook}
 \usepackage{graphicx}
 \usepackage{float}
-
+\usepackage{esint}
+\usepackage{mathtools}
 \title{量子力学}
 
 
@@ -2686,4 +2687,2682 @@ V(x,y,z) =
 \[
 \Psi(x, y, z) = \varphi_x(x) \varphi_y(y) \varphi_z(z)
 \]
+\subsection{束缚态和散射态}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figure/screenshot0021}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figure/screenshot0022}
+\end{figure}
+Quantum case: 存在量子隧穿（粒子有一定概率通过高于其能量的势垒）。
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figure/screenshot0023}
+\end{figure}
+
+\subsection{一维定态的几个基本命题}
+\textbf{朗斯基行列式}
+
+\[
+w(\psi_1, \psi_2) = 
+\begin{vmatrix}
+	\psi_1 & \psi_1' \\
+	\psi_2 & \psi_2'
+\end{vmatrix}
+= \psi_1 \psi_2' - \psi_2 \psi_1'
+\]
+
+若 \(\psi_1 = C \psi_2\)，则
+\[
+W(\psi_1, \psi_2) = C (\psi_2 \psi_2' - \psi_2 \psi_2') = 0.
+\]
+
+\begin{itemize}
+	\item 若 \(w(\psi_1, \psi_2) = 0\)，则称 \(\psi_1\) 和 \(\psi_2\) 线性相关。
+	\item 若 \(W(\psi_1, \psi_2) \neq 0\)，则称 \(\psi_1\) 和 \(\psi_2\) 线性无关。
+\end{itemize}
+
+\begin{proposition}
+	若 $\psi_1$ 和 $\psi_2$ 是定态薛定谔方程的两个解，则它们的朗斯基行列式为常数。
+\end{proposition}
+
+
+\begin{proof}
+	\begin{align*}
+		-\frac{\hbar^2}{2m} \frac{d^2}{dx^2} \psi_1 + V \psi_1 &= E \psi_1 \quad \text{(1)} \\
+		-\frac{\hbar^2}{2m} \frac{d^2}{dx^2} \psi_2 + V \psi_2 &= E \psi_2 \quad \text{(2)}
+	\end{align*}
+	
+	将 (1) 乘以 $\psi_2$，(2) 乘以 $\psi_1$，然后相减：
+	
+	\[
+	-\frac{\hbar^2}{2m} \left( \psi_2 \frac{d^2 \psi_1}{dx^2} - \psi_1 \frac{d^2 \psi_2}{dx^2} \right) + V(\psi_2 \psi_1 - \psi_1 \psi_2) = E(\psi_2 \psi_1 - \psi_1 \psi_2)
+	\]
+	
+	由于 $V(\psi_2 \psi_1 - \psi_1 \psi_2) = 0$（因为 $\psi_2 \psi_1 - \psi_1 \psi_2 = 0$），我们得到：
+	
+	\[
+	-\frac{\hbar^2}{2m} \left( \psi_2 \frac{d^2 \psi_1}{dx^2} - \psi_1 \frac{d^2 \psi_2}{dx^2} \right) = 0
+	\]
+	
+	这意味着：
+	
+	\[
+	\frac{d}{dx} \left( \psi_2 \frac{d \psi_1}{dx} - \psi_1 \frac{d \psi_2}{dx} \right) = 0
+	\]
+	
+	因此，朗斯基行列式 $W(\psi_1, \psi_2) = \psi_2 \frac{d \psi_1}{dx} - \psi_1 \frac{d \psi_2}{dx}$ 是一个常数。
+\end{proof}
+
+\begin{proposition}
+	一维定态简并度 $\leq 2$
+\end{proposition}
+
+\begin{proof}
+	假设 $E$ 对应三个独立的本征解 $\psi_1, \psi_2, \psi_3$。
+	
+	则由命题1：
+	\[
+	W(\psi_1, \psi_3) = C_{13} C_{10}
+	\]
+	\[
+	W(\psi_1, \psi_3) = C_{13} C_{10}
+	\]
+	
+	则
+	\[
+	C_{13} W(\psi_1, \psi_2) - C_{12} W(\psi_1, \psi_3) = 0
+	\]
+	
+	即
+	\[
+	W(\psi_1, C_{13} \psi_2 - C_{12} \psi_3) = 0
+	\]
+	
+	由于 $W(\psi_1, C_{13} \psi_2 - C_{12} \psi_3) = 0$，这与三者独立矛盾，证毕。
+\end{proof} 
+
+\begin{proposition}
+	本征解的实部和虚部也分别是解。
+\end{proposition}
+
+\begin{proof}
+	令本征解 $\psi = \alpha + i\beta$，其中 $\alpha, \beta$ 为实数。
+	
+	则
+	\[
+	-\frac{\hbar^2}{2m} \psi'' + V \psi = E \psi
+	\]
+	
+	即
+	\[
+	-\frac{\hbar^2}{2m} (\alpha'' + i\beta'') + V(\alpha + i\beta) = E(\alpha + i\beta)
+	\]
+	
+	分离实部和虚部，我们得到两个方程：
+	\[
+	\text{实部：} -\frac{\hbar^2}{2m} \alpha'' + V \alpha = E \alpha
+	\]
+	\[
+	\text{虚部：} -\frac{\hbar^2}{2m} \beta'' + V \beta = E \beta
+	\]
+	
+	这两个方程满足同样的薛定谔方程，证毕。
+\end{proof}
+\begin{proposition}
+	一维束缚定态无简并（无奇点的势场）。
+\end{proposition}
+
+\begin{proof}
+	假设 $E$ 对应两个独立的本征解 $\psi_1$ 和 $\psi_2$。
+	
+	由命题1，我们有 $W(\psi_1, \psi_2) = \text{const}$。
+	
+	而由于是束缚态，粒子无法运动到无穷远处，因此：
+	\[
+	\psi_1 \bigg|_{x \to \infty} = 0
+	\]
+	\[
+	\psi_2 \bigg|_{x \to \infty} = 0
+	\]
+	
+	这意味着：
+	\[
+	W(\psi_1, \psi_2) \bigg|_{x \to \infty} = 0
+	\]
+	
+	因此，常数 $\text{const} = 0$。
+	
+	所以，$W(\psi_1, \psi_2) = 0$，这与 $\psi_1$ 和 $\psi_2$ 线性相关矛盾，证毕。
+\end{proof}
+
+\begin{proposition}
+	一维束缚态总是可以用实波函数来描述。
+\end{proposition}
+
+\begin{proof}
+	设描述一维束缚态的波函数 $\psi = \alpha + i\beta$，其中 $\alpha, \beta$ 为实数。
+	
+	由命题3，$\alpha$ 和 $\beta$ 也是解。由命题4，我们有 $\beta = c\alpha$，其中 $c$ 为常数。
+	
+	因此，波函数可以写为：
+	\[
+	\psi = \alpha + i(c\alpha) = \alpha(1 + ic)
+	\]
+	
+	这可以进一步写为：
+	\[
+	\psi = A e^{i\theta}\alpha
+	\]
+	其中 $A$ 是模长，$\theta$ 是相位。整体相位 $\theta$ 无物理意义。
+	
+	我们可以选择 $\theta = 0$，则 $\psi = A\alpha$ 为实函数，证毕。
+\end{proof}
+\begin{proposition}
+	束缚态 $V_{\text{min}} \leq E < V_{\pm\infty}$。
+\end{proposition}
+
+\begin{proof}
+	\begin{enumerate}
+		\item $E = \langle H \rangle$
+		\[
+		= \langle \hat{T} \rangle + \langle V \rangle \geq \langle V \rangle \geq \langle V \rangle_{\text{min}}.
+		\]
+		\item 束缚态要求 $\psi \big|_{x \to \pm\infty} = 0$。
+		\[
+		-\frac{\hbar^2}{2m} \frac{d^2}{dx^2} \psi(x) + V(x) \psi(x) = E \psi(x)
+		\]
+		\[
+		\Longrightarrow \frac{d^2}{dx^2} \psi(x) = -\frac{2m(E-V)}{\hbar^2} \psi(x)
+		\]
+		\[
+		\text{形式解: } \psi(x) = A e^{\sqrt{-\frac{2m(E-V)}{\hbar^2}} x} + B e^{-\sqrt{-\frac{2m(E-V)}{\hbar^2}} x}
+		\]
+	\end{enumerate}
+	
+	当 $E < V$ 时，根号下为正数。
+	\[
+	\psi(x) = A e^{kx} + B e^{-kx} \quad \text{其中 } k = \sqrt{\frac{2m(V-E)}{\hbar^2}}
+	\]
+	
+	当 $E > V$ 时，根号下为负数。
+	\[
+	\psi(x) = A e^{ilx} + B e^{-ilx} \quad \text{其中 } l = \sqrt{\frac{2m(E-V)}{\hbar^2}}
+	\]
+	不收敛 $\Rightarrow \psi \big|_{x \to \pm\infty} \neq 0$。
+	
+	综上，$V_{\text{min}} \leq E < V_{\pm\infty}$。
+\end{proof}
+\begin{proposition}
+	一维束缚态中，若 $V(x) = V(-x)$，则 $\psi(x)$ 具有确定的宇称。
+\end{proposition}
+
+\begin{proof}
+	考虑薛定谔方程：
+	\[
+	-\frac{\hbar^2}{2m} \frac{d^2}{dx^2} \psi(x) + V(x) \psi(x) = E \psi(x)
+	\]
+	空间反演 $\Rightarrow x \rightarrow -x$。
+	
+	由于 $V(x) = V(-x)$，我们有：
+	\[
+	-\frac{\hbar^2}{2m} \frac{d^2}{dx^2} \psi(-x) + V(x) \psi(-x) = E \psi(-x)
+	\]
+	这意味着 $\psi(x)$ 和 $\psi(-x)$ 满足相同的方程，都是对应 $E$ 的本征解。
+	
+	由命题4，一维束缚态无简并，因此：
+	\[
+	\psi(x) = c^2 \psi(-x)
+	\]
+	
+	应用宇称算符 $\hat{P}$，我们得到：
+	\[
+	\hat{P} \psi(-x) = \psi(x) = c \psi(-x) = c \hat{P} \psi(x) = c \hat{P} c \psi(-x) = c^2 \psi(x)
+	\]
+	
+	由此可得 $c^2 = 1 \Rightarrow c = \pm 1$，因此：
+	\[
+	\psi(x) = \pm \psi(-x)
+	\]
+	
+	当 $\psi(x) = \psi(-x)$ 时，称 $\psi(x)$ 为偶宇称；
+	当 $\psi(x) = -\psi(-x)$ 时，称 $\psi(x)$ 为奇宇称。
+\end{proof}
+
+\section{一维有限深方势阱}
+\subsection{束缚态}
+\begin{example}
+	 一个质量为 $\mu$ 的粒子在一维势场 $V(x)$ 中运动，其中势场定义为：
+	\[
+	V(x) = 
+	\begin{cases} 
+		0, & \text{如果 } |x| > a \\
+		-V_0, & \text{如果 } |x| \leq a 
+	\end{cases}
+	\]
+	其中 $V_0 > 0$。
+	
+	求基态能量 $E_0$ 满足的方程；求存在且仅存在一个束缚态的条件。
+\end{example}
+\begin{solution}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{figure/screenshot0024}
+	\end{figure}
+	\textbf{薛定谔方程:}
+	\[
+	\hat{H} \psi = E \psi
+	\]
+	其中哈密顿算符 $\hat{H}$ 为:
+	\[
+	\hat{H} = \hat{T} + V = 
+	\begin{cases} 
+		-\frac{\hbar^2}{2\mu} \frac{d^2}{dx^2}, & \text{如果 } |x| > a \\
+		-\frac{\hbar^2}{2\mu} \frac{d^2}{dx^2} - V_0, & \text{如果 } |x| \leq a
+	\end{cases}
+	\]
+	
+	\textbf{特解:} $e^{\sqrt{\kappa} x}$ 和 $e^{-\sqrt{\kappa} x}$
+	
+	\textbf{一般解:} $A e^{\sqrt{k} x} + B e^{-\sqrt{k} x}$，其中 $A, B$ 为任意常数。
+	
+	上述薛定谔方程可以表示为：
+	\[
+	\begin{cases} 
+		\frac{d^2}{dx^2} \psi(x) = -\frac{2\mu E}{\hbar^2} \psi(x), & \text{如果 } |x| > a \\
+		\frac{d^2}{dx^2} \psi(x) = -\frac{2\mu(E + V_0)}{\hbar^2} \psi(x), & \text{如果 } |x| \leq a
+	\end{cases}
+	\]
+	
+	\textbf{解的形式:}
+	\[
+	\psi(x) = 
+	\begin{cases} 
+		C_1 e^{\sqrt{\frac{-2\mu E}{\hbar^2}} x} + C_2 e^{-\sqrt{\frac{-2\mu E}{\hbar^2}} x}, & \text{如果 } |x| > a \\
+		C_3 e^{\sqrt{\frac{2\mu(E + V_0)}{\hbar^2}} ix} + C_4 e^{-\sqrt{\frac{2\mu(E + V_0)}{\hbar^2}} ix}, & \text{如果 } |x| \leq a
+	\end{cases}
+	\]
+	
+	\textbf{束缚态条件:}
+	由于系统处于束缚态，我们有 $V_{\text{min}} < E < V_{\pm\infty}$。
+	
+	动能 $T = E - V$ 表明粒子只能在一定范围内运动，不能运动到无穷远处。因此，$T_{\pm\infty} = E - V_{\pm\infty} < 0$。
+	
+	粒子也不能处处动能都为负值，这意味着 $E > V_{\text{min}}$。
+	
+	\textbf{解的形式:}
+	令 $\alpha = \sqrt{\frac{-2\mu E}{\hbar^2}}$ 和 $\beta = \sqrt{\frac{2\mu(E+V_0)}{\hbar^2}}$，则有：
+	\[
+	e^{i\varphi} = \cos\varphi + i\sin\varphi, \quad e^{-i\varphi} = \cos\varphi - i\sin\varphi
+	\]
+	
+	上述解可表示为：
+	\[
+	\begin{cases} 
+		\psi_1(x) = C_1 e^{\alpha x} + C_2 e^{-\alpha x}, & \text{如果 } |x| > a \\
+		\psi_2(x) = C_3 e^{i\beta x} + C_4 e^{-i\beta x}, & \text{如果 } |x| \leq a
+	\end{cases}
+	\]
+	
+	由欧拉公式，我们可以将解进一步表示为：
+	\[
+	\psi_2(x) = (C_3 + C_4) \cos(\beta x) + i(C_3 - C_4) \sin(\beta x) = C_5 \cos(\beta x) + C_6 \sin(\beta x), \quad |x| \leq a
+	\]
+	
+	\textbf{对称性讨论:}
+	注意到，由于 $V(x)$ 是对称的，因此 $\psi(x)$ 具有确定的宇称。我们可以考虑偶宇称和奇宇称的情况：
+	
+	偶宇称：
+	\[
+	\begin{cases} 
+		A e^{\alpha x}, & x < -a \\
+		B \cos(\beta x), & -a < x < a \\
+		A e^{-\alpha x}, & x > a
+	\end{cases}
+	\]
+	
+	奇宇称：
+	\[
+	\begin{cases} 
+		A' e^{\alpha x}, & x < -a \\
+		B' \sin(\beta x), & -a < x < a \\
+		-A' e^{-\alpha x}, & x > a
+	\end{cases}
+	\]
+	
+\textbf{边界条件:}
+\[
+\psi_1(a) = \psi_2(a)
+\]
+\[
+\Rightarrow B \cos(\beta a) = A e^{-\alpha a} \quad \text{(1)}
+\]
+\[
+\psi_1'(a) = \psi_2'(a)
+\]
+\[
+\Rightarrow B' \sin(\beta a) = -A' e^{-\alpha a} \quad \text{(2)}
+\]
+\[
+\Rightarrow \beta B' \cos(\beta a) = \alpha A' e^{\alpha a} \quad \text{(4)}
+\]
+
+我们不关心 \(A\) 与 \(B\) 的取值，同样也不关心 \(A'\) 与 \(B'\) 的取值。
+
+由方程 (1) 和 (2) 可得：
+\[
+\beta \tan(\beta a) = \alpha
+\]
+两边同乘以 \(a\)，得到：
+\[
+\beta a \tan(\beta a) = \alpha a
+\]
+
+令 \(\beta a = \xi\)，\(\alpha a = \eta\)，则有：
+\[
+\xi \tan(\xi) = \eta
+\]
+\[
+-\xi \cot(\pi) = \eta
+\]
+
+又因为：
+\[
+\xi^2 + \eta^2 = a^2 \left( \alpha^2 + \beta^2 \right) = a^2 \left[ \frac{-2\mu E}{\hbar^2} + \frac{2\mu (E + V_0)}{\hbar^2} \right]
+\]
+	
+	\textbf{束缚态条件:}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{figure/screenshot0025}
+	\end{figure}
+	
+	由图像知，偶宇称一定有至少一个束缚态。为保证系统只有一个束缚态，需要满足 $Q < \frac{\pi}{2}$。
+	
+	\begin{enumerate}
+		\item 在这个例子里，如果我们令 $V_0 = \infty$，则每一个交点为 $\beta = n \cdot \frac{\pi}{2}$，即 $\beta a = n \frac{\pi}{2}$。
+		
+		\[
+		a \sqrt{\frac{2\mu(E+V_0)}{\hbar^2}} = n \frac{\pi}{2}.
+		\]
+		
+		\[
+		a^2 \frac{2\mu(E+V_0)}{\hbar^2} = n^2 \frac{\pi^2}{4}
+		\]
+		
+		\[
+		E + V_0 = \frac{n^2 \pi^2 \hbar^2}{2\mu (2a)^2}
+		\]
+		
+		这不过是上一节中的一维无限深方势阱能级的平移。
+		
+		\item 随着 $V_0, a, \mu$ 的增大，束缚态的数目逐渐增多。
+		
+		\item 无论势阱多浅多窄，束缚态总是存在的。
+	\end{enumerate}
+\end{solution}
+\subsection{散射态}
+(E>0)
+首先明确一个思想：散射态无法严格归一化，因此 $|\psi|^2$ 的绝对大小没有意义。
+
+\begin{example}
+	 一束粒子被 $V(x)$ 散射，$V(x)$ 定义为：
+	\[
+	V(x) = 
+	\begin{cases} 
+		-V_0 & \text{if } -a < x < a \\
+		0 & \text{elsewhere}
+	\end{cases}
+	\]
+	求反射率与透射率。
+\end{example}
+\begin{solution}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{figure/screenshot0026}
+	\end{figure}
+	\begin{align*}
+		\text{1区：} & -\frac{\hbar^2}{2\mu} \frac{d^2}{dx^2} \psi_1(x) = E \psi_1(x) & \Rightarrow \psi_1(x) = A e^{ikx} + B e^{-ikx} \\
+		\text{2区：} & \left[ -\frac{\hbar^2}{2\mu} \frac{d^2}{dx^2} - V_0 \right] \psi_2(x) = E \psi_2(x) & \Rightarrow \psi_2(x) = C e^{ikx} + D e^{-ikx} \\
+		\text{3区：} & -\frac{\hbar^2}{2\mu} \frac{d^2}{dx^2} \psi_3(x) = E \psi_3(x) & \Rightarrow \psi_3(x) = E e^{ikx} + F e^{-ikx}
+	\end{align*}
+	
+$	\text{其中 } k = \sqrt{\frac{2\mu E}{\hbar^2}}, \quad l = \sqrt{\frac{2\mu (E-V_0)}{\hbar^2}}.$
+
+	考虑真实的散射情况，设粒子从左侧入射，则 $F = 0$。
+	
+	令入射波的振幅为 1，则有：
+	\[
+	\psi_1(x) = e^{ikx} + r e^{-ikx}
+	\]
+	其中 $r$ 为反射系数。
+	
+	\[
+	\psi_2(x) = C_0 e^{ikx} + D_0 e^{-ikx} = C \sin(kx) + D \cos(kx)
+	\]
+	这里 $C_0$ 和 $D_0$ 为常数，可以表示为 $C$ 和 $D$。
+	
+	\[
+	\psi_3(x) = t e^{ikx}
+	\]
+	这里 $t$ 为透射系数。
+	
+	\begin{align*}
+		j_i &= \frac{\hbar k}{2\mu} \\
+		j_r &= |r|^2 \frac{\hbar k}{2\mu} \\
+		j_t &= |t|^2 \frac{\hbar k}{2\mu}
+	\end{align*}
+	
+	因此，反射率 \( R = \frac{j_r}{j_i} = |r|^2 \) 和透射率 \( T = \frac{j_t}{j_i} = |t|^2 \)。
+	
+	解出 \( |r|^2 \) 和 \( |t|^2 \) 即可（实际上，只用解出其中的一个）。
+	
+	在 $x = -a$ 处：
+	\begin{align*}
+		\psi_1(-a) &= \psi_2(-a) \Rightarrow e^{-ika} + r e^{ika} = -C \sin(ka) + D \cos(ka). \tag{1} \\
+		\psi_1'(-a) &= \psi_2'(-a) \Rightarrow ike^{-ika} - rik e^{ika} = C \cos(ka) + D \sin(ka) \tag{2}
+	\end{align*}
+	
+	在 $x = a$ 处：
+	\begin{align*}
+		\psi_1(a) &= \psi_2(a) \Rightarrow C \sin(ka) + D \cos(ka) = t e^{ika} \tag{3} \\
+		\psi_1'(a) &= \psi_2'(a) \Rightarrow C \cos(ka) - D \sin(ka) = tike^{ika} \tag{4}
+	\end{align*}
+	
+	或写成：
+	\begin{align*}
+		-e^{ika} r + (C - \sin(ka)) C + \cos(ka) D &= e^{-ika} \\
+		ike^{ika} r + (\cos(ka) C + \sin(ka) D) &= ike^{-ika} \\
+		\sin(ka) C + \cos(ka) D + (-e^{ika}) t &= 0 \\
+		\cos(ka) C + (-\sin(ka)) D + (-ike^{ika}) t &= 0
+	\end{align*}
+	
+	即
+	\[
+	\begin{bmatrix}
+		-e^{ika} & -\sin(ka) & \cos(ka) & 0 \\
+		ike^{ika} & \cos(ka) & \sin(ka) & 0 \\
+		0 & \sin(ka) & \cos(ka) & -e^{ika} \\
+		0 & \cos(ka) & -\sin(ka) & -ike^{ika}
+	\end{bmatrix}
+	\begin{bmatrix}
+		r \\
+		C \\
+		D \\
+		t
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		e^{-ika} \\
+		ike^{-ika} \\
+		0 \\
+		0
+	\end{bmatrix}
+	\]
+\end{solution}
+
+\[
+t = \frac{\det(M_1)}{\det(M_0)} = \frac{1}{\det(M_0)}
+\begin{vmatrix}
+	-e^{ika} & -\sin(ka) & \cos(ka) & 0 \\
+	ike^{ika} & l\cos(ka) & l\sin(ka) & ke^{-ika} \\
+	0 & \sin(ka) & \cos(ka) & 0 \\
+	0 & l\cos(ka) & -l\sin(ka) & 0
+\end{vmatrix}
+\]
+
+\[
+= \frac{1}{\det(m_0)} \begin{vmatrix}
+	-e^{ika} & -\sin(ka) & \cos(ka) & 0 \\
+	ike^{ika} & l\cos(ka) & l\sin(ka) & 0 \\
+	0 & \sin(ka) & \cos(ka) & -e^{ika} \\
+	0 & l\cos(ka) & -l\sin(ka) & -ike^{ika}
+\end{vmatrix}
+\]
+
+\[
+= \frac{2ikl}{e^{ika} \left[ (l^2k^2) \sin(2ka) + 2ikl \cos(2ka) \right]} = \frac{e^{-ika}}{\cos(ka) - i \left( \frac{l^2k^2}{2} \right) \sin(ka)}
+\]
+
+\[
+T = |t|^2 = \frac{1}{1 + \frac{(k^2 - l^2)^2}{4k^2l^2} \sin^2(2ka)} = \frac{1}{1 + \frac{V_0^2}{4E(E + V_0)} \sin^2 \left[ \frac{2a}{\hbar} \sqrt{2\mu(E + V_0)} \right]}
+\]
+观察透射率 \( T \) 的形式，我们发现，当 \( \sin \theta = 0 \) 时，\( T \) 取最大值 1，意味着完全透射，势阱好像不存在。
+
+当 \( b \) 很大时能量满足：
+\[
+(E + V_0) = \frac{\hbar^2 k^2}{2\mu}
+\]
+
+\[
+E + V_0 = \frac{n^2 \pi^2 \hbar^2}{2\mu (2a)^2}
+\]
+
+恰好是一维无限深方势阱。
+\section{自由粒子}
+$V(x)=0$
+
+\textbf{定态 Schr\"{o}dinger 方程:}
+\[
+-\frac{\hbar^2}{2\mu} \frac{d^2}{dx^2} \psi(x) = E \psi(x)
+\]
+\[
+\frac{d^2}{dx^2} \psi(x) = -\frac{2\mu E}{\hbar^2} \psi(x)
+\]
+令 \( k = \sqrt{\frac{2\mu E}{\hbar^2}} \)，则有：
+\[
+\psi(x) = A e^{ikx} + B e^{-ikx}
+\]
+
+没有任何边界条件限制 \( k \) 的取值，因此 \( k \) 可以取任意非负实数，则 \( E \) 是连续的。
+
+由于：
+\[
+\psi(x) = A e^{ikx} + B e^{-ikx} = A e^{ikx} + B e^{-ikx}
+\]
+这组本征解对 \( \hat{H} \) 是二重简并的，简并来自于 \( k \) 和 \( -k \) 都对应能量 \( \frac{\hbar^2 k^2}{2\mu} \)。
+
+在自由空间中 $[\hat{K}, \hat{H}] = 0$，它们存在一组共同的本征函数。（$P = \hbar k$ de Broglie 关系）
+
+上面的波函数只是 $\hat{H}$ 的本征函数而非 $\hat{K}$ 的本征函数。但若取 $\psi_k(x) = c e^{ikx}$，$k$ 取 $(-\infty, +\infty)$，则 $\psi(x)$ 是 $\hat{K}$ 和 $\hat{H}$ 的共同本征函数，且对 $\hat{K}, \hat{H}$ 非简并。
+
+尝试将 $\psi_k(x)$ 归一化：
+\[
+|C|^2 \int_{-\infty}^{\infty} e^{-ikx} e^{ikx} \, dx = 1 \quad \text{无法实现！}
+\]
+因此，自由粒子的定态在物理上无法实现。
+
+\[
+\Rightarrow \text{自由粒子只可能处于 } \psi_k \text{ 的叠加态上。}
+\]
+
+在叠加原理，我们总可以将一般态写成本征态的线性叠加：
+\[
+\psi(x) = \int_{-\infty}^{\infty} D(k) \psi_k(x) \, dk,
+\]
+其中 $D(k)$ 为叠加系数。
+
+\[
+= C \int_{-\infty}^{\infty} D(k) e^{ikx} \, dk.
+\]
+
+而 $\psi(x) = \frac{1}{\sqrt{2\pi\hbar}} \int_{-\infty}^{\infty} \varphi(k) e^{ikx} dk$. 坐标 $\leftrightarrow$ 波矢 表象变换。
+
+因此 $C = \frac{1}{\sqrt{2\pi\hbar}}$ 且 $D(k) = \varphi(k)$。
+
+\[
+\Rightarrow \text{一维自由粒子定态波函数} \quad \psi_k(x) = \frac{1}{\sqrt{2\pi\hbar}} e^{ikx}
+\]
+
+完整定态波函数（含时） $\psi_k(x,t) = \frac{1}{\sqrt{2\pi\hbar}} e^{ikx} \cdot e^{-i\frac{\hbar E_k}{\hbar}t}$
+
+其服从的正交归一条件为
+\[
+\langle \psi_k | \psi_{k'} \rangle = \delta_{k,k'}
+\]
+并不满足严格的归一化条件，我们称这种归一化为“Dirac函数归一”。
+
+自由粒子的含时波函数为：
+\[
+\psi(x,t) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty} \varphi(k) e^{i(kx - \frac{\hbar}{2m}t)} \, dk
+\]
+这个时候粒子可以存在于有限区域，又由于 $\psi(x,t)$ 包含了不同波矢的平面波成份，因此形成一个波包。
+
+现考虑粒子的运动速率，显然这对应于波包的整体速率。设波包波矢在 $k_0$ 附近，波包的弥散程度为 $2\Delta k$，则
+\[
+\psi(x,t) = \frac{1}{\sqrt{2\pi}} \int_{k_0 - \Delta k}^{k_0 + \Delta k} \varphi(k) e^{i(kx - \omega(k)t)} \, dk
+\]
+其中 $\omega(k) = \frac{\hbar k^2}{2m}$。
+
+考虑 $\Delta k$ 较小的情况，则此时 $\varphi(k) \approx \varphi(k_0)$。
+
+令 $\xi = k - k_0$，$k = \xi + k_0$。
+
+则 $w(k) = w(k_0 + 3)$，使用泰勒展开（Taylor expansion）：
+
+\[
+= w(k_0) + \left. \frac{dw(k)}{dk} \right|_{k=k_0} \xi + \cdots
+\]
+
+\[
+\approx w(k_0) + \left. \frac{dw(k)}{dk} \right|_{k=k_0} \xi
+\]
+
+\begin{align*}
+	\psi(x,t) &= \frac{1}{\sqrt{2\pi}} \int_{-\Delta k}^{\Delta k} \varphi(k) e^{i(kx - \omega(k)t)} e^{i\left(x - \frac{d\omega(k)}{dk}\bigg|_{k=k_0} t\right)} \, dk \\
+	&= \frac{1}{\sqrt{2\pi}} e^{i k_0 x} \cdot e^{-\omega(k_0) t} \varphi(k_0) \int_{-\Delta k}^{\Delta k} e^{i\left(x - \frac{d\omega(k)}{dk}\bigg|_{k=k_0} t\right)} \, dk \\
+	&= \frac{1}{\sqrt{2\pi}} \varphi(k_0) e^{i(k_0 x - \omega(k_0) t)} \left[ \frac{1}{i\left(x - \frac{d\omega(k)}{dk}\bigg|_{k=k_0} t\right)} \left( e^{i\left(x - \frac{d\omega(k)}{dk}\big|_{k=k_0} t\right)} - e^{-i\left(x - \frac{d\omega(k)}{dk}\big|_{k=k_0} t\right)} \right) \right] \\
+	&= \frac{1}{\sqrt{2\pi}} \varphi(k_0) e^{i(k_0 x - \omega(k_0) t)} \frac{1}{i\left(x - \frac{d\omega(k)}{dk}\big|_{k=k_\infty} t\right)} 2i \sin\left(x - \frac{d\omega(k)}{dk}\big|_{k=k_\infty} t\right) \Delta k \\
+	&= \frac{2}{\sqrt{2\pi}} \frac{\sin\left\{x - \frac{d\omega}{dk}\bigg|_{k=k_\infty} t\right\} \Delta k}{x - \frac{d\omega}{dk}\big|_{k=k_\infty} t}\varphi(k_0) e^{i(k_0 x - \omega(k_0) t)} 
+\end{align*}
+
+因此，波包整体移动的速度（群速度）为：
+\[
+v_g = \left. \frac{d\omega}{dk} \right|_{k=k_0} = \frac{2k_0 \hbar}{2\mu} = \frac{k_0 \hbar}{\mu} = \frac{p}{\mu} = v_0.
+\]
+这正是具有动量 \(p\) 的经典粒子的速度。
+
+或 \([\hat{p}, \hat{H}] = 0\)。
+
+用动量的本征函数作为定态，\(\psi_p = \frac{1}{\sqrt{2\pi\hbar}} e^{i p x/\hbar}\)。
+
+\[
+\psi_p(x) = \frac{1}{\sqrt{2\pi\hbar}} e^{i p x/\hbar}.
+\]
+
+\[
+\psi_p(x,t) = \frac{1}{\sqrt{2\pi\hbar}} e^{i p x/\hbar} \cdot e^{-i \frac{E_p}{\hbar} t}
+\]
+
+\[
+\psi_p(x,t) = \frac{1}{\sqrt{2\pi\hbar}} \int_{-\infty}^{\infty} \varphi(p) e^{i(p x - \frac{E_p}{\hbar} t)} \, dp
+\]
+
+其中 \(\langle \psi_p | \psi_p' \rangle = \delta(p - p')\)。
+\subsection{概率流密度}
+回顾电磁学中的流守恒方程。
+
+积分形式：
+\[
+\frac{d}{dt} \iiint \rho(\vec{r},t) \, d\tau = - \oint \vec{J}(\vec{r},t) \cdot d\vec{S}
+\]
+
+微分形式：
+\[
+\frac{\partial}{\partial t} \rho + \nabla \cdot \vec{J} = 0
+\]
+
+这反应了电荷的守恒，“电荷不能凭空产生，也不能凭空消失”。
+
+这个公式原则上应该适用于一切满足守恒体系。
+
+NR QM 里 概率是守恒的，“粒子不能凭空产生，也不能凭空消失”也应满足这个方程。
+
+
+	考虑概率密度随时间的变化。
+	
+	\[
+	\frac{\partial \rho}{\partial t} = \frac{\partial}{\partial t} (\psi^* \psi) = (\partial_t \psi^*) \psi + \psi^* (\partial_t \psi)
+	\]
+	
+	设 $\hat{H} \psi = E \psi$，则有 $(-\frac{\hbar^2}{2\mu} \nabla^2 + V) \psi = E \psi$，因此 $\partial_t \psi = \frac{i}{\hbar} (-\frac{\hbar^2}{2\mu} \nabla^2 + V) \psi$。
+	
+	\[
+	\Rightarrow \partial_t \psi^* = \frac{i}{\hbar} (-\frac{\hbar^2}{2\mu} \nabla^2 + V) \psi^*
+	\]
+	
+	\[
+	\Rightarrow \partial_t \psi^* = \frac{i}{\hbar} (-\frac{\hbar^2}{2\mu} \nabla^2 + V) \psi^*
+	\]
+	
+	\[
+	= -\frac{i}{\hbar} (-\frac{\hbar^2}{2\mu} \nabla^2 + V) \psi^* \psi + \psi^* \frac{i}{\hbar} (-\frac{\hbar^2}{2\mu} \nabla^2 + V) \psi
+	\]
+	
+	\[
+	= \frac{1}{i\hbar} \left( -\frac{\hbar^2}{2\mu} \right) \left[ \psi^* \nabla^2 \psi - (\nabla \psi)^2 \right]
+	\]
+	
+	\[
+	= \frac{i\hbar}{2\mu} \left[ \psi^* \nabla^2 \psi - \psi (\nabla \psi)^2 \right]
+	\]
+	
+	\[
+	= \frac{i\hbar}{2\mu} \nabla \cdot (\psi^* \nabla \psi - \psi \nabla \psi^*)
+	\]
+	
+	\[
+	= \nabla \cdot \left[ \frac{i\hbar}{2\mu} (\psi^* \nabla \psi - \psi \nabla \psi^*) \right]
+	\]
+	
+考虑概率密度随时间的变化。
+
+\[
+\frac{\partial \rho}{\partial t} - \frac{i\hbar}{2\mu} (\psi^* \nabla \psi - \psi \nabla \psi^*) = \vec{J} \cdot \vec{c}(\vec{r},t)
+\]
+
+则
+
+\[
+\frac{\partial \rho}{\partial t} + \nabla \cdot \vec{J}(\vec{r},t) = 0
+\]
+
+我们称
+
+\[
+\vec{J} = \frac{i\hbar}{2\mu} (\psi^* \nabla \psi - \psi \nabla \psi^*)
+\]
+
+为概率流密度。
+
+
+\begin{equation*}
+	\text{概率守恒方程}\left\{ \begin{array}{l}
+		\frac{\partial \rho}{\partial t}+\nabla \cdot \vec{J}=0\text{微分形式}\\
+		\iiint{\rho}(\vec{r})d\tau +\varoiint{\vec{J}}\cdot d\vec{S}=0\text{积分形式}\\
+	\end{array} \right. 
+\end{equation*}
+\begin{example}
+	$e^{ikx}$
+\end{example}
+\begin{solution}
+	\begin{align*}
+		J(x) &= \frac{i\hbar}{2\mu} \left( e^{ikx} \frac{\partial}{\partial x} e^{-ikx} - e^{-ikx} \frac{\partial}{\partial x} e^{ikx} \right) \\
+		&= \frac{i\hbar}{2\mu} \left( -ik e^{ikx} e^{-ikx} - ik e^{-ikx} e^{ikx} \right) \\
+		&= \frac{i\hbar}{2\mu} \left( -2ik \right) = \frac{\hbar k}{\mu} = v.
+	\end{align*}
+\end{solution}
+\section{一维有限高方势垒$\&$量子隧穿}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figure/screenshot0027}
+\end{figure}
+\begin{enumerate}
+	\item 若 $E > V_0$,
+	
+	当 $x < -a$:
+	\[
+	-\frac{\hbar^2}{2\mu} \frac{d^2}{dx^2} \psi(x) = E \psi(x) \Rightarrow \frac{d^2}{dx^2} \psi(x) = \frac{-2\mu E}{\hbar^2} \psi(x)
+	\]
+	\[
+	\psi_1(x) = A e^{ikx} + B e^{-ikx}
+	\]
+	
+	当 $-a < x < a$:
+	\[
+	\left[ -\frac{\hbar^2}{2\mu} \frac{d^2}{dx^2} + V_0 \right] \psi_2(x) = E \psi_2(x) \Rightarrow \frac{d^2}{dx^2} \psi(x) = \frac{-2\mu(E - V_0)}{\hbar^2} \psi(x)
+	\]
+	\[
+	\psi_2(x) = C e^{ilx} + D e^{-ilx}
+	\]
+	
+	当 $x > a$:
+	\[
+	-\frac{\hbar^2}{2\mu} \frac{d^2}{dx^2} \psi(x) = E \psi(x) \Rightarrow \frac{d^2}{dx^2} \psi(x) = \frac{-2\mu E}{\hbar^2} \psi(x)
+	\]
+	\[
+	\psi_3(x) = E e^{ikx} + F e^{-ikx}
+	\]
+	
+	与一维有限深方势阱问题完全相同。
+	
+	\begin{align*}
+		T &= \frac{1}{1 + \frac{V_0^2}{4E(E + V_0)} \sin^2\left(\frac{2a}{\hbar} \sqrt{2\mu(E - V_0)}\right)} \\
+		R &= 1 - T
+	\end{align*}
+	
+	\item 若$0 < E < V_0$,
+	
+	则
+	\begin{align*}
+		& x < -a: \quad -\frac{\hbar^2}{2\mu} \frac{d^2}{dx^2} \psi(x) = E \psi(x) \quad \Rightarrow \frac{d^2}{dx^2} \psi(x) = \frac{-2\mu E}{\hbar^2} \psi(x) \\
+		& \Rightarrow \psi_1(x) = A e^{ikx} + B e^{-ikx} \\
+		& -a < x < a: \quad \left[ -\frac{\hbar^2}{2\mu} \frac{d^2}{dx^2} + V_0 \right] \psi_2(x) = E \psi_2(x) \quad \Rightarrow \frac{d^2}{dx^2} \psi(x) = \frac{-2\mu(E - V_0)}{\hbar^2} \psi(x) \\
+		& \Rightarrow \psi_2(x) = C e^{lx} + D e^{-lx} \\
+		& x > a: \quad -\frac{\hbar^2}{2\mu} \frac{d^2}{dx^2} \psi(x) = E \psi(x) \quad \Rightarrow \frac{d^2}{dx^2} \psi(x) = \frac{-2\mu E}{\hbar^2} \psi(x) \\
+		& \Rightarrow \psi_3(x) = E e^{ikx} + F e^{-ikx}
+	\end{align*}
+	
+	其中 $k = \sqrt{\frac{2\mu E}{\hbar^2}}$ 和 $l = \sqrt{\frac{-2\mu(E - V_0)}{\hbar^2}}$.
+	
+	假设粒子从左侧入射。
+	
+	\[
+	\psi_1(x) = e^{ikx} + r e^{-ikx}
+	\]
+	
+	\[
+	\psi_2(x) = C e^{ix} + D e^{-ix}
+	\]
+	
+	\[
+	\psi_3(x) = t e^{ikx}
+	\]
+	
+	同样有
+	\begin{align*}
+		j_i &= \frac{\hbar k}{\mu} \\
+		j_r &= |r|^2 \frac{\hbar k}{\mu} \\
+		j_t &= |t|^2 \frac{\hbar k}{\mu}
+	\end{align*}
+	
+	因此，反射率 \( R = \frac{j_r}{j_i} = |r|^2 \) 和透射率 \( T = \frac{j_t}{j_i} = |t|^2 \)。
+	
+	\begin{align*}
+		\psi_1(-a) &= \psi_2(-a) \Rightarrow e^{-ika} + r e^{ika} = C e^{-la} + D e^{la} \\
+		\psi_1'(-a) &= \psi_2'(-a) \Rightarrow ike^{-ika} - ikr e^{ika} = l C e^{-la} - lDe^{la} \\
+		\psi_2(a) &= \psi_3(a) \Rightarrow C e^{la} + D e^{-la} = te^{ika} \\
+		\psi_3'(a) &= \psi_3'(a) \Rightarrow lC e^{la} - lDe^{-la} = ikte^{ika}
+	\end{align*}
+	
+	$\Rightarrow$
+	\begin{align*}
+		-e^{ika} r + e^{-la} C + e^{la} D &= e^{-ika} \\
+		ike^{ika} r + (e^{-la} C + (-le^{la}) D) &= ike^{-ika} \\
+		e^{la} C + e^{-la} D + e^{ika} t &= \\
+		le^{la} C + (le^{-la}) D + ike^{ika} t &= 0
+	\end{align*}
+	
+	\[
+	\begin{bmatrix}
+		-e^{i\alpha} & e^{-i\alpha} & e^{i\alpha} & 0 \\
+		ike^{i\alpha} & le^{-i\alpha} & -le^{i\alpha} & 0 \\
+		0 & e^{ix} & e^{-ix} & e^{i\alpha} \\
+		0 & le^{i\alpha} & -le^{-i\alpha} & ike^{i\alpha}
+	\end{bmatrix}
+	\begin{bmatrix}
+		r \\
+		c \\
+		d \\
+		t
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		e^{i\alpha} \\
+		ike^{-i\alpha} \\
+		0 \\
+		0
+	\end{bmatrix}
+	\]
+	
+	\[
+	T = |t|^2 = \left| \frac{\det M_4}{\det M_0} \right|^2 = \frac{1}{1 + \left[ 1 + \frac{l^2 - k^2}{\alpha(k)^2} \right] \sinh^2(2l\alpha)}
+	\]
+	
+	\[
+	= \frac{1}{1 + \frac{V_0^2}{4EC(V_0 - E)} \sinh^2 \left( \frac{l\alpha}{\hbar} \sqrt{2m(V_0 - E)} \right)}
+	\]
+	
+	\[
+	R = 1 - T
+	\]
+	
+	我们发现，在 \( E < V_0 \) 时粒子仍有一定概率穿透势垒。
+	
+	我们称这种现象为量子隧穿（Quantum tunneling）。
+	
+	其物理机制可能与QFT有关。
+	
+	量子隧穿与很多日常现象有关。
+	
+	\item $E = V_0$
+	\begin{equation*}
+		-\frac{\hbar^2}{2m} \frac{d^2}{dx^2} \psi(x) = E \psi(x)
+	\end{equation*}
+	
+	\begin{equation*}
+		-\frac{\hbar^2}{2m} \frac{d^2}{dx^2} \psi(x) + V_0 \psi(x) = E \psi(x) \implies -\frac{\hbar^2}{2m} \frac{d^2}{dx^2} \psi(x) = 0
+	\end{equation*}
+	
+	\begin{equation*}
+		-\frac{\hbar^2}{2m} \frac{d^2}{dx^2} \psi(x) = E \psi(x)
+	\end{equation*}
+	
+	\begin{equation*}
+		\implies
+		\begin{cases}
+			\psi_1(x) = e^{ikx} + re^{-ikx} \\
+			\psi_2(x) = Ax + B \\
+			\psi_3(x) = te^{ikx}
+		\end{cases}
+	\end{equation*}
+	\begin{align*}
+		\psi_1(-a) &= \psi_1(-a) \implies e^{-ika} + re^{ika} = -Aa + B \\
+		\psi_1'(-a) &= \psi_1'(-a) \implies ike^{-ika} - ikre^{ika} = A \\
+		\psi_2(a) &= \psi_2(a) \implies te^{ika} = Aa + B \\
+		\psi_2'(a) &= \psi_2'(a) \implies ikte^{ika} = A
+	\end{align*}
+	\[
+	\begin{bmatrix}
+		-e^{ika} & -a & 1 & 0 \\
+		ike^{ika} & 1 & 0 & 0 \\
+		0 & a & 1 & -e^{ika} \\
+		0 & 1 & 0 & -ike^{ika}
+	\end{bmatrix}
+	\begin{bmatrix}
+		r \\
+		A \\
+		B \\
+		t
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		e^{ika} \\
+		ike^{-ika} \\
+		0 \\
+		0
+	\end{bmatrix}
+	\]
+	
+	\[
+	T = |t|^2 = \left| \frac{\det(M_4)}{\det(M_0)} \right|^2 = \frac{1}{1 + k^2a^2} = \frac{1}{1 + \frac{2m\hbar}{\hbar^2}a^2}
+	\]
+	
+	\[
+	R = 1 - T
+	\]
+\end{enumerate}
+\section{$\delta$势阱/势垒}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figure/screenshot0028}
+\end{figure}
+定态 S. eq.:
+\[
+\left[ -\frac{\hbar^2}{2m} \frac{d^2}{dx^2} + \alpha \delta(x) \right] \psi(x) = E \psi(x) \quad (\delta \text{ 势垒})
+\]
+
+
+\[
+\left[ -\frac{\hbar^2}{2m} \frac{d^2}{dx^2} - \alpha \delta(x) \right] \psi(x) = E \psi(x) \quad (\delta \text{ 势阱})
+\]
+
+先考虑 $\delta$ 势阱：
+
+\textbf{[束缚态]} $E < 0$
+
+对于 $-\infty < x < 0$：
+\[
+-\frac{\hbar^2}{2m} \frac{d^2}{dx^2} \psi(x) = E \psi(x) \implies \psi(x) = A e^{kx} + B e^{-kx}
+\]
+
+对于 $0 < x < +\infty$：
+\[
+-\frac{\hbar^2}{2m} \frac{d^2}{dx^2} \psi(x) = E \psi(x) \implies \psi(x) = C e^{kx} + D e^{-kx}
+\]
+
+由于 $x \rightarrow -\infty$ 时 $\psi(x)$ 有界 $\implies B = 0 \implies \psi_1(x) = A e^{kx}$
+
+$x \rightarrow +\infty$ 时 $\psi(x)$ 有界 $\implies C = 0 \implies \psi_2(x) = A e^{-kx}$
+
+由于 $x=0$ 处 $\psi(x)$ 的连续性 $\implies A = D$
+
+由于 $x=0$ 处是奇点，因此 $\psi(x)$ 在该处不连续。
+
+现考虑 $\psi(x)$ 在 $x=0$ 处的跳跃性：
+
+\[
+\frac{d^2}{dx^2} \psi = -\frac{2m(E-V)}{\hbar^2} \psi(x)
+\]
+
+两边取 $0$ 附近无穷小邻域的积分：
+
+\[
+\lim_{\varepsilon \to 0} \int_{-\varepsilon}^{+\varepsilon} \frac{d^2}{dx^2} \psi(x) dx = \int_{-\varepsilon}^{+\varepsilon} -\frac{2m(E-V)}{\hbar^2} \psi(x) dx
+\]
+
+\[
+\left. \frac{d}{dx} \psi(x) \right|_{0^+} - \left. \frac{d}{dx} \psi(x) \right|_{0^-} = \frac{2m\alpha}{\hbar^2} \int_{-\varepsilon}^{+\varepsilon} \delta(x) \psi(x) dx
+\]
+
+\[
+\psi'(0^+) - \psi'(0^-) = \frac{2m\alpha}{\hbar^2} \psi(0)
+\]
+
+因此：
+
+\[
+\psi'(0) - \psi'(0) = \frac{2m\alpha}{\hbar^2} \psi(0)
+\]
+
+\[
+-kAe^{-k\cdot0} - kAe^{k\cdot0} = \frac{2m\alpha}{\hbar^2} A e^{k\cdot0}
+\]
+
+\[
+2kA = \frac{2m\alpha}{\hbar^2} A
+\]
+
+\[
+k = \frac{m\alpha}{\hbar^2}
+\]
+
+则：
+
+\[
+E = -\frac{\hbar^2 k^2}{2m} = -\frac{m\alpha^2}{2\hbar^2}
+\]
+
+因此，无论 $\alpha$ 取何值，$\delta$ 势阱都有且仅有一个束缚态。
+
+\textbf{[散射态]} $E > 0$
+
+对于 $-\infty < x < 0$：
+\[
+-\frac{\hbar^2}{2m} \frac{d^2}{dx^2} \psi(x) = E \psi(x) \implies \psi_1(x) = A e^{ikx} + B e^{-ikx}
+\]
+
+对于 $0 < x < +\infty$：
+\[
+-\frac{\hbar^2}{2m} \frac{d^2}{dx^2} \psi(x) = E \psi(x) \implies \psi_2(x) = C e^{ikx} + D e^{-ikx}
+\]
+
+考虑真实的散射情况。我们令入射波从左往右运动，振幅为1，则 $\psi_1(x) = e^{ikx} + B e^{-ikx}$ 式写成 $\psi_1(x) = e^{ikx} + r e^{-ikx}$
+
+$\psi_2(x) = C e^{ikx}$ $\psi_2(x) = t e^{ikx}$
+
+由边界条件 $\psi(0) = \psi(0)$：
+\[
+e^{ik\cdot0} + r e^{-ik\cdot0} = t e^{ik\cdot0} \implies 1 + r = t \quad \textcircled{1}
+\]
+
+由 $\delta$ 势处 $\frac{d}{dx} \psi(x)$ 的跳跃条件：
+\[
+ikte^{ik\cdot0} - ik e^{ik\cdot0} + ikr e^{-ik\cdot0} = \frac{2m\alpha}{\hbar^2} t e^{ik\cdot0}
+\]
+\[
+ik(t + r - 1) = \frac{2m\alpha}{\hbar^2} t \quad \textcircled{2}
+\]
+
+由1,2得：
+\[
+\left\{
+\begin{array}{l}
+	t = \frac{1}{1 - i\frac{m\alpha}{\hbar^2 k}} \\
+	r = \frac{i\frac{m\alpha}{\hbar^2 k}}{1 - i\frac{m\alpha}{\hbar^2 k}}
+\end{array}
+\right.
+\]
+
+入射波的概率流密度为 $J_i = \frac{i\hbar}{2m} (\psi_1^* \frac{d\psi_1}{dx} - \psi_1 \frac{d\psi_1^*}{dx}) = \frac{\hbar k}{2m}$
+
+反射波的概率流密度为 $J_r = \frac{i\hbar}{2m} (\psi_r^* \frac{d\psi_r}{dx} - \psi_r \frac{d\psi_r^*}{dx}) = \frac{\hbar k}{2m} |r|^2$
+
+透射波的概率流密度为 $J_t = \frac{i\hbar}{2m} (\psi_t^* \frac{d\psi_t}{dx} - \psi_t \frac{d\psi_t^*}{dx}) = \frac{\hbar k}{2m} |t|^2$
+
+则透射概率为：
+\[
+T = \frac{J_t}{J_i} = |t|^2 = \left| \frac{1}{1 - i\frac{m\alpha}{\hbar^2 k}} \right|^2 = \frac{1}{1 + \left(\frac{m\alpha}{\hbar^2 k}\right)^2}
+\]
+
+反射概率为：
+\[
+R = \frac{J_r}{J_i} = |r|^2 = 1 - T
+\]
+\section{简谐振子}
+\[
+F = -kx = -\omega x
+\]
+
+势能
+\[
+V(x) = \frac{1}{2}kx^2 = \frac{1}{2}\omega x^2 \quad \text{其中} \quad \omega = \sqrt{\frac{k}{m}}
+\]
+
+在量子力学中，同样考虑粒子在势场 \( V(x) = \frac{1}{2}\omega x^2 \) 中运动，则定态 Schrödinger 方程为
+\[
+\left[ -\frac{\hbar^2}{2m} \frac{d^2}{dx^2} + \frac{1}{2}m\omega^2 x^2 \right] \psi(x) = E \psi(x)
+\]
+
+显然，由于 \( V(\pm\infty) = \infty \)，这个势场只允许存在束缚态。
+
+观察这个问题中的 Hamiltonian：
+\[
+\hat{H} = \frac{\hat{p}^2}{2m} + \frac{1}{2}m\omega^2 x^2 = \left( \frac{m\omega}{2\pi\hbar} \right)^{1/2} \left( \hat{a}^\dagger \hat{a} + \frac{1}{2} \right)
+\]
+
+在经典情况下，平方和可以做因式分解。
+
+\[
+\mathcal{H} = \left( \sqrt{\frac{m\omega}{2}} x - i \frac{1}{\sqrt{2m\omega}} \hat{p} \right) \cdot \left( \sqrt{\frac{m\omega}{2}} x + i \frac{1}{\sqrt{2m\omega}} \hat{p} \right)
+\]
+
+或写成
+\[
+\hat{H} = \hbar \omega \frac{1}{\sqrt{2m\omega}} (\mu \omega x - i \hat{p}) \cdot \frac{1}{\sqrt{2m\omega}} (\mu \omega x + i \hat{p}) + \frac{1}{2} \hbar \omega
+\]
+
+因为其等于 \(\frac{1}{2m} (\mu \omega x \hat{p} + \hat{p} \mu \omega x) + i \omega \hat{x} \hat{p} - i \omega \hat{p} \hat{x})\) 但在量子情况下，\(x \hat{p} \neq \hat{p} x\) \(-i\hbar \omega \hat{H}\)
+
+因此，需改写为
+\[
+\hat{\mathcal{H}} = \hbar \omega \left[ \frac{1}{\sqrt{2m\omega}} (\mu \omega x - i \hat{p}) \cdot \frac{1}{\sqrt{2m\omega}} (\mu \omega x + i \hat{p}) \right] + \frac{\hbar \omega}{2}
+\]
+
+令 \(\frac{1}{\sqrt{2m\omega}} (\mu \omega x - i \hat{p}) = \hat{a}^\dagger\) （这里可以看出，\(\hat{a}, \hat{a}^\dagger\) 均不是厄米算符）
+
+则 \(\frac{1}{\sqrt{2m\omega}} (\mu \omega x + i \hat{p}) = \hat{a}\)
+
+\[
+\hat{\mathcal{H}} = (\hat{a}^\dagger \hat{a} + \frac{1}{2}) \hbar \omega
+\]
+\[
+\hat{H} = \left( \hat{N} + \frac{1}{2} \right) \hbar \omega = \hbar \omega \hat{N} + \frac{1}{2} \hbar \omega
+\]
+
+\(\hat{H}\) 与 \(\hat{N}\) 不过相差常数和一个常数。
+
+于是求解 \(\hat{H}\) 的本征值与本征态问题就变成了求解 \(\hat{N}\) 的本征值与本征态问题。
+
+考虑 \([ \hat{a}, \hat{a}^\dagger ]\)
+\[
+= \left[ \frac{1}{\sqrt{2m\hbar\omega}} (\mu \omega x + i \hat{p}), \frac{1}{\sqrt{2m\hbar\omega}} (\mu \omega x - i \hat{p}) \right]
+= \frac{i\mu\omega}{2\hbar} (-[x, \hat{p}] + [\hat{p}, x])
+= \frac{i}{2\hbar} (-i\hbar - i\hbar)
+= 1
+\]
+则 \([ \hat{a}^\dagger, \hat{a} ] = -1\)
+
+设 \(\hat{N}\) 的本征态为 \(|n\rangle\)，对应本征值 \(n\)
+\[
+\hat{H} |n\rangle = \left( n + \frac{1}{2} \right) \hbar \omega |n\rangle \quad \text{即} \quad E_n = \left( n + \frac{1}{2} \right) \hbar \omega
+\]
+
+考虑 \(\hat{a}\) 对 \(|n\rangle\) 的作用是什么。
+\[
+\hat{a} |n\rangle = \alpha |n'\rangle \quad (1)
+\]
+则
+\[
+\langle n | \hat{a}^\dagger = \alpha^* \langle n'| \quad (2)
+\]
+(1)(2) \(\Rightarrow \langle n | \hat{a}^\dagger \hat{a} | n \rangle = |\alpha|^2 \langle n' | n' \rangle\)
+\[
+\Rightarrow n = |\alpha|^2 \Rightarrow \alpha = \sqrt{n}
+\]
+\(n \geq 0\)
+
+现考虑 \(|n'\rangle\) 到底是什么态。
+\[
+\hat{a} |n'\rangle = \hat{a}^\dagger \hat{a} |n'\rangle
+= \hat{a}^\dagger \hat{a} \frac{1}{\sqrt{n}} \hat{a} |n\rangle
+= \frac{1}{\sqrt{n}} (\hat{a} \hat{a}^\dagger - 1) \hat{a} |n\rangle
+= \frac{1}{\sqrt{n}} (\hat{a} n' |n\rangle - \hat{a} |n\rangle)
+= \frac{1}{\sqrt{n}} (n' |n\rangle - \hat{a} |n\rangle)
+= (n-1) \frac{1}{\sqrt{n}} \hat{a} |n\rangle = (n-1) |n'\rangle
+\]
+因此 \(|n'\rangle\) 也是 \(\hat{N}\) 的本征态，本征值为 \(n-1\)。
+
+由于一维束缚系统无简并 \(\Rightarrow |n'\rangle = |n-1\rangle\)
+
+\(\hat{a} |n\rangle = \sqrt{n} |n-1\rangle\)
+
+再考虑 \(\hat{a}^\dagger\) 对 \(|n\rangle\) 的作用。
+\[
+\hat{a}^\dagger \hat{a} |n\rangle = n |n\rangle
+\]
+\[
+\hat{a}^\dagger \sqrt{n} |n-1\rangle = n |n\rangle
+\]
+\[
+\hat{a}^\dagger |n-1\rangle = \sqrt{n} |n\rangle
+\]
+令 \(n \rightarrow n+1\)
+\[
+\hat{a}^\dagger |n\rangle = \sqrt{n+1} |n+1\rangle
+\]
+
+因此我们把 \(\hat{a}\) 称为降阶算符/湮灭算符，\(\hat{a}^\dagger\) 称为升阶算符/产生算符。
+
+使用湮灭算符 \(\hat{a}\) 时要小心，因为若在某一态上重复作用 \(\hat{a}\)，会得到一个本征值为负的态，但负的能量是非物理的。
+
+因此一定存在一个基态 \(|0\rangle\) 使得 \(\hat{a} |0\rangle = 0\)，因此 \(\hat{a}^\dagger \hat{a} |0\rangle = 0\)，这意味着 \(|0\rangle\) 是 \(n=0\) 的态 \(|0\rangle\)（\(E = \frac{1}{2}\hbar \omega\)）。
+
+而 \(\hat{a}^\dagger\) 会使 \(n+1\)，因此 \(n=0, 1, 2, 3, \cdots\) 的态一定存在。若 \(n\) 取非整数，则 \(\hat{a}\) 不能使其降至 \(|0\rangle\) 态，从而会产生负能级。
+
+（例如，若 \(n=0.6\)，则 \(\hat{a} |0.3\rangle = C_1 |0.3-1\rangle\)，\(\hat{a}^2 |0.3\rangle = C_1 C_1 |0.3-2\rangle \cdots\)）
+
+因此 \(n\) 只能取非负整数。
+
+\[
+E_n = \left( n + \frac{1}{2} \right) \hbar \omega \quad n = 0, 1, 2, 3, \cdots
+\]
+
+\textbf{波函数}
+\[
+\psi_n(x) = \langle x | n \rangle
+\]
+
+考虑基态，\(\hat{a} \psi_0(x) = 0\)
+
+\[
+(\mu \omega x + i \hat{p}) \psi_0(x) = 0
+\]
+
+\[
+\frac{d}{dx} \psi_0(x) = -\frac{\mu \omega}{\hbar} x \psi_0(x)
+\]
+
+\[
+\frac{1}{\psi_0(x)} d\psi_0(x) = -\frac{\mu \omega}{\hbar} x dx
+\]
+
+\[
+\ln \psi_0(x) = -\frac{\mu \omega}{2\hbar} x^2 + C
+\]
+
+\[
+\psi_0(x) = A e^{-\frac{\mu \omega}{2\hbar} x^2}
+\]
+
+归一化，\(|A|^2 \int_{-\infty}^{\infty} e^{-\frac{\mu \omega}{\hbar} x^2} dx = 1 \Rightarrow |A|^2 \sqrt{\frac{\pi \hbar}{\mu \omega}} = 1 \Rightarrow A = \left( \frac{\mu \omega}{\pi \hbar} \right)^{1/4}\)
+
+\[
+\psi_0(x) = \left( \frac{\mu \omega}{\pi \hbar} \right)^{1/4} e^{-\frac{\mu \omega}{2\hbar} x^2}
+\]
+
+由 \(\hat{a}^\dagger |n\rangle = \sqrt{n+1} |n+1\rangle \Rightarrow \hat{a}^\dagger \psi_n = \sqrt{n+1} \psi_{n+1}\)
+
+\[
+\psi_1 = \frac{1}{\sqrt{1}} \hat{a}^\dagger \psi_0
+\]
+
+\[
+\psi_2 = \frac{1}{\sqrt{2}} \hat{a}^\dagger \psi_1 = \frac{1}{\sqrt{2!}} (\hat{a}^\dagger)^2 \psi_0
+\]
+
+\[
+\psi_3 = \frac{1}{\sqrt{3}} \hat{a}^\dagger \psi_2 = \frac{1}{\sqrt{3!}} (\hat{a}^\dagger)^3 \psi_0
+\]
+
+\[
+\psi_n = \frac{1}{\sqrt{n!}} (\hat{a}^\dagger)^n \psi_0 = N_n e^{-\alpha x^2/2} H_n(\alpha x)
+\]
+
+其中 \(\alpha = \sqrt{\frac{\mu \omega}{\hbar}}\)，\(N_n = \sqrt{\frac{\alpha}{\sqrt{\pi} 2^n n!}}\) 为归一化常数，\(H_n(\alpha x)\) 为厄米多项式。
+
+\textbf{[x, \(\hat{p}\)] 递推关系}
+\[
+\left\{
+\begin{array}{l}
+	\hat{a} = \frac{1}{\sqrt{2m\omega}} (\mu \omega x + i \hat{p}) \\
+	\hat{a}^\dagger = \frac{1}{\sqrt{2m\omega}} (\mu \omega x - i \hat{p})
+\end{array}
+\right.
+\]
+
+\[
+\Rightarrow
+\left\{
+\begin{array}{l}
+	x = \sqrt{\frac{\hbar}{2m\omega}} (\hat{a} + \hat{a}^\dagger) \\
+	\hat{p} = -i \sqrt{\frac{\mu \hbar \omega}{2}} (\hat{a} - \hat{a}^\dagger) \\
+	\frac{d}{dx} = \sqrt{\frac{m\omega}{2\hbar}} (\hat{a} - \hat{a}^\dagger)
+\end{array}
+\right.
+\]
+
+因此
+\[
+x |n\rangle = \sqrt{\frac{\hbar}{2m\omega}} (\hat{a} + \hat{a}^\dagger) |n\rangle = \sqrt{\frac{\hbar}{2m\omega}} (\sqrt{n} |n-1\rangle + \sqrt{n+1} |n+1\rangle)
+\]
+\[
+\frac{d}{dx} |n\rangle = \sqrt{\frac{m\omega}{2\hbar}} (\hat{a} - \hat{a}^\dagger) |n\rangle =- \sqrt{\frac{m\omega}{2\hbar}} (\sqrt{n+1} |n+1\rangle - \sqrt{n} |n-1\rangle)
+\]
+\textbf{粒子数表象}
+现考虑，谐振子能级公式 \( E_n = \left(n + \frac{1}{2}\right) \hbar \omega \) 中 \( n \) 的物理意义。
+
+它是整数，且一次变化 1，因此 \( n \) 代表某种具有 \( \hbar \omega \) 的准粒子的数目。
+
+\[
+\hat{a}^\dagger \hat{a} |n\rangle = \hat{N} |n\rangle = n |n\rangle
+\]
+
+称 \( \hat{N} \) 为粒子数算符。
+
+显然它是一个厄米算符，因此可以用其正交归一基矢 \( |n\rangle \) 张成一个完备空间，称为粒子数表象。
+
+在其中，\( \hat{N} \) 是对角阵，对角元就是其本征值。
+
+\[
+\hat{N} = \begin{bmatrix}
+	0 & 1 & 2 & 3 & \cdots \\
+\end{bmatrix}
+\]
+
+而
+\[
+\hat{a}_m = \langle m | \hat{a} | n \rangle = \sqrt{n} \langle m | n-1 \rangle = \sqrt{n} \delta_{m, n-1}
+\]
+
+因此
+\[
+\hat{a} = \begin{bmatrix}
+	0 & \sqrt{1} & 0 & 0 & \cdots \\
+	0 & 0 & \sqrt{2} & 0 & \cdots \\
+	0 & 0 & 0 & \sqrt{3} & \cdots \\
+	\vdots & \vdots & \vdots & \vdots & \ddots \\
+\end{bmatrix}
+\]
+
+而
+\[
+\hat{a}^\dagger = \begin{bmatrix}
+	0 & 0 & 0 & 0 & \cdots \\
+	\sqrt{1} & 0 & 0 & 0 & \cdots \\
+	0 & \sqrt{2} & 0 & 0 & \cdots \\
+	0 & 0 & \sqrt{3} & 0 & \cdots \\
+	\vdots & \vdots & \vdots & \vdots & \ddots \\
+\end{bmatrix}
+\]
+
+同理可写出
+\[
+\hat{x} = \sqrt{\frac{\hbar}{2m\omega}} (\hat{a} + \hat{a}^\dagger) = \sqrt{\frac{\hbar}{2m\omega}} \begin{bmatrix}
+	0 & \sqrt{1} & 0 & 0 & \cdots \\
+	\sqrt{1} & 0 & \sqrt{2} & 0 & \cdots \\
+	0 & \sqrt{2} & 0 & \sqrt{3} & \cdots \\
+	\vdots & \vdots & \vdots & \vdots & \ddots \\
+\end{bmatrix}
+\]
+
+\[
+\hat{p} = -i \sqrt{\frac{m\hbar \omega}{2}} (\hat{a} - \hat{a}^\dagger) = i \sqrt{\frac{m\hbar \omega}{2}} \begin{bmatrix}
+	0 & -\sqrt{1} & 0 & 0 & \cdots \\
+	\sqrt{1} & 0 & -\sqrt{2} & 0 & \cdots \\
+	0 & \sqrt{2} & 0 & -\sqrt{3} & \cdots \\
+	\vdots & \vdots & \vdots & \vdots & \ddots \\
+\end{bmatrix}
+\]
+
+\textbf{关于谐振子}
+\begin{enumerate}
+	\item 基态能量不为0，而为 \(\frac{1}{2} \hbar \omega\) （真空能）
+	\item \(V(x) = V(-x)\)，定态解有确定的宇称，基态是偶函数，此后的各激发态奇偶交替。
+	\item \(\langle m | n \rangle = \delta_{m,n}\)
+\end{enumerate}
+\chapter{角动量理论}
+\section{角动量的一般理论}
+由 Noether 定理
+
+\begin{align*}
+	\text{时间平移不变性} &\quad \Longrightarrow \quad \text{能量守恒} \quad \Longrightarrow \quad \text{Hamilton量是时间演化生成元}. \\
+	\text{空间平移不变性} &\quad \Longrightarrow \quad \text{动量守恒} \quad \Longrightarrow \quad \text{动量是空间平移生成元}. \\
+	\text{空间转动不变性} &\quad \Longrightarrow \quad \text{角动量守恒} \quad \Longrightarrow \quad \text{角动量是空间转动生成元}.
+\end{align*}
+
+据此猜测：无穷小转动算符：\(\hat{d}_n(\varepsilon) = 1 - \frac{i}{\hbar} \hat{J}_n \varepsilon\)
+
+转动算符：\(\hat{D}_n(\theta) = e^{-i \hat{J}_n \theta}/\hbar\)
+
+
+\textbf{经典转动}
+
+\textbf{定义}
+\begin{enumerate}
+	\item 保模长，保内积
+	\item 无限维
+	\item 保序性 \quad \textit{的线性操作}
+\end{enumerate}
+
+\textbf{性质}:绕不同的轴的转动不可对易
+
+\textbf{转动的表示矩阵}
+二维转动矩阵定义为：
+\[
+R = \begin{bmatrix}
+	\cos\theta & -\sin\theta \\
+	\sin\theta & \cos\theta
+\end{bmatrix}
+\]
+
+应用此矩阵于向量 \(\begin{bmatrix} P\cos\alpha \\ P\sin\alpha \end{bmatrix}\) 得到：
+\[
+R \begin{bmatrix} P\cos\alpha \\ P\sin\alpha \end{bmatrix} = \begin{bmatrix} P\cos(\alpha+\theta) \\ P\sin(\alpha+\theta) \end{bmatrix}
+\]
+
+三维转动需要指定转轴
+
+绕z轴转动等价于z分量不变，x,y分量在xy平面上做二维转动。因此，
+
+\[
+R_z(\theta) = \begin{bmatrix}
+	\cos\theta & -\sin\theta & 0 \\
+	\sin\theta & \cos\theta & 0 \\
+	0 & 0 & 1
+\end{bmatrix}
+\]
+
+同理，
+
+\[
+R_x(\theta) = \begin{bmatrix}
+	1 & 0 & 0 \\
+	0 & \cos\theta & -\sin\theta \\
+	0 & \sin\theta & \cos\theta
+\end{bmatrix}
+\]
+
+\[
+R_y(\theta) = \begin{bmatrix}
+	\cos\theta & 0 & \sin\theta \\
+	0 & 1 & 0 \\
+	-\sin\theta & 0 & \cos\theta
+\end{bmatrix}
+\]
+
+我们以 \( R_{z}(\theta) \) 为例
+
+考虑无穷小转动 \( \theta = \varepsilon \rightarrow 0 \)。
+
+\[
+R_z(\varepsilon) = \begin{bmatrix}
+	\cos\varepsilon & -\sin\varepsilon & 0 \\
+	\sin\varepsilon & \cos\varepsilon & 0 \\
+	0 & 0 & 1
+\end{bmatrix}
+\approx \begin{bmatrix}
+	1 - \frac{\varepsilon^2}{2} & -\varepsilon & 0 \\
+	\varepsilon & 1 - \frac{\varepsilon^2}{2} & 0 \\
+	0 & 0 & 1
+\end{bmatrix}
+\]
+
+其他类似
+
+\[
+R_x(\theta) R_y(\theta) - R_y(\theta) R_x(\theta) = 
+\begin{bmatrix}
+	1 & 0 & 0 \\
+	0 & 1 - \frac{\varepsilon^2}{2} & -\varepsilon \\
+	0 & \varepsilon & 1 - \frac{\varepsilon^2}{2}
+\end{bmatrix}
+\begin{bmatrix}
+	1 - \frac{\varepsilon^2}{2} & 0 & -\varepsilon \\
+	\varepsilon & 1 & 0 \\
+	0 & \varepsilon & 1 - \frac{\varepsilon^2}{2}
+\end{bmatrix}
+-
+\begin{bmatrix}
+	1 - \frac{\varepsilon^2}{2} & 0 & -\varepsilon \\
+	\varepsilon & 1 & 0 \\
+	0 & \varepsilon & 1 - \frac{\varepsilon^2}{2}
+\end{bmatrix}
+\begin{bmatrix}
+	1 & 0 & 0 \\
+	0 & 1 - \frac{\varepsilon^2}{2} & -\varepsilon \\
+	0 & \varepsilon & 1 - \frac{\varepsilon^2}{2}
+\end{bmatrix}
+\]
+
+\[
+= \begin{bmatrix}
+	1 - \frac{\varepsilon^2}{2} & 0 & -\varepsilon \\
+	-\varepsilon & 1 - \frac{\varepsilon^2}{2} & -\varepsilon + \frac{\varepsilon^3}{2} \\
+	\varepsilon - \frac{\varepsilon^3}{2} & \varepsilon & 1 - \frac{3\varepsilon^2}{2}
+\end{bmatrix}
+-
+\begin{bmatrix}
+	1 - \frac{\varepsilon^2}{2} & -\varepsilon & -\varepsilon + \frac{\varepsilon^3}{2} \\
+	0 & 1 - \frac{\varepsilon^2}{2} & -\varepsilon \\
+	\varepsilon & \varepsilon - \frac{\varepsilon^3}{2} & 1 - \frac{3\varepsilon^2}{2}
+\end{bmatrix}
+\]
+
+\[
+= \begin{bmatrix}
+	0 & -\varepsilon^2 & \frac{\varepsilon^3}{2} \\
+	-\varepsilon^2 & 0 & \frac{\varepsilon^3}{2} \\
+	-\frac{\varepsilon^3}{2} & \frac{\varepsilon^3}{2} & 0
+\end{bmatrix}
+\]
+
+保留 \(\varepsilon^2\) 项，得到：
+
+\[
+\begin{bmatrix}
+	0 & -\varepsilon^2 & 0 \\
+	-\varepsilon^2 & 0 & 0 \\
+	0 & 0 & 0
+\end{bmatrix}
+\]
+
+\begin{align*}
+	R_y(\varepsilon) R_z(\varepsilon) - R_z(\varepsilon) R_y(\varepsilon) &= R_x(\varepsilon^2) - I \\
+	R_z(\varepsilon) R_x(\varepsilon) - R_x(\varepsilon) R_z(\varepsilon) &= R_y(\varepsilon^2) - I
+\end{align*}
+
+\[
+\Longrightarrow \quad R_\alpha(\varepsilon) R_\beta(\varepsilon) - R_\beta(\varepsilon) R_\alpha(\varepsilon) = \varepsilon_{\alpha\beta\gamma} R_\gamma(\varepsilon^2) - I
+\]
+
+
+\textbf{量子转动}
+
+记住结论就行了!!
+
+$设 \quad \left[ \hat{D}_\alpha(\epsilon), \hat{D}_\beta(c\epsilon) \right] = \mathcal{E}_{\text{expr}} \hat{D}_\alpha(c\epsilon) - 1$
+
+以 $\quad \left[ \hat{D}_x(\epsilon), \hat{D}_y(c\epsilon) \right] \quad \text{为例}$
+
+同样只保留至 \(\epsilon^2\) 项。
+
+
+\[
+\Rightarrow \quad [\hat{J}_x, \hat{J}_y] = i \hbar \hat{J}_z
+\]
+
+
+同理可得
+\[
+[\hat{J}_y, \hat{J}_z] = i\hbar \hat{J}_x
+\]
+\[
+[\hat{J}_z, \hat{J}_x] = i\hbar \hat{J}_y
+\]
+
+\[
+\Rightarrow \quad [\hat{J}_\alpha, \hat{J}_\beta] = i\hbar \varepsilon_{\alpha\beta\gamma} \hat{J}_\gamma \quad \text{角动量的对易关系}
+\]
+
+等价于
+\[
+\vec{J} \times \vec{J} = i\hbar \vec{J} \quad \text{角动量的定义式}
+\]
+
+同时可引入角动量平方算符，\(\hat{J}^2 = \hat{J}_x^2 + \hat{J}_y^2 + \hat{J}_z^2\)
+
+\[
+[\hat{J}^2, \hat{J}_z] = [\hat{J}_x^2 + \hat{J}_y^2 + \hat{J}_z^2, \hat{J}_z]
+\]
+\[
+= \hat{J}_x [\hat{J}_x, \hat{J}_z] + [\hat{J}_x, \hat{J}_z] \hat{J}_x + \hat{J}_y [\hat{J}_y, \hat{J}_z] + [\hat{J}_y, \hat{J}_z] \hat{J}_y
+\]
+\[
+= \hat{J}_x (-i\hbar \hat{J}_y) + (-i\hbar \hat{J}_y) \hat{J}_x + \hat{J}_y (i\hbar \hat{J}_x) + (i\hbar \hat{J}_x) \hat{J}_y = 0
+\]
+
+同理有
+\[
+[\hat{J}^2, \hat{J}_x] = 0
+\]
+\[
+[\hat{J}^2, \hat{J}_y] = 0
+\]
+
+\[
+\Rightarrow \quad [\hat{J}^2, \hat{J}_\alpha] = 0 \quad \alpha = x, y, z
+\]
+
+\section{角动量的本征值和本征矢}
+由于 \(\hat{J}^2\) 与 \(\hat{J}_z\) 对易，它们存在一组共同本征态，令其为 \(\{|j, m\rangle\}\)，\(j, m\) 称为量子数。
+
+以 \(\{|j, m\rangle\}\) 为基矢张成的空间称为 \(\hat{J}\) 共同表象。
+
+设
+\[
+\hat{J}^+ |j, m\rangle = \lambda_+ |j, m\rangle = \lambda_+' |j, m\rangle
+\]
+\[
+\hat{J}_z |j, m\rangle = \lambda_0 |j, m\rangle = m \hbar |j, m\rangle
+\]
+
+\(\lambda_+'\) 和 \(m\hbar\) 分别为 \(\hat{J}^+\)，\(\hat{J}_z\) 在 \(|j, m\rangle\) 态上的本征值。
+
+\textit{How to solve?}
+
+类比谐振子中的处理方式，构造一组升降阶算符
+\[
+\hat{J}_+ = \hat{J}_x + i\hat{J}_y
+\]
+\[
+\hat{J}_- = \hat{J}_x - i\hat{J}_y
+\]
+$(\hat{J}_+)^\dagger = \hat{J}_-$
+
+考虑其对易关系
+
+\begin{enumerate}
+	\item \([\hat{J}_-, \hat{J}_+] = -2i\hat{J}_z\)
+	\[
+	\text{左边} = [\hat{J}_x - i\hat{J}_y, \hat{J}_x + i\hat{J}_y]
+	\]
+	\[
+	= i\hbar(\hat{J}_x - i\hat{J}_y)\hat{J}_z - (-i\hbar)\hat{J}_z(\hat{J}_x + i\hat{J}_y) = -2i\hbar\hat{J}_z
+	\]
+	
+	\item \([\hat{J}_x, \hat{J}_\pm] = \pm\hbar\hat{J}_\pm\)
+	\[
+	\text{取“+”时 左边} = [\hat{J}_x, \hat{J}_x + i\hat{J}_y] = i\hbar\hat{J}_y - i\hbar\hat{J}_x = i\hbar(\hat{J}_y + \hat{J}_x)
+	\]
+	\[
+	= \hbar(i\hat{J}_y + \hat{J}_x) = \hbar(\hat{J}_x + i\hat{J}_y) = \hbar\hat{J}_+
+	\]
+	\[
+	\text{取“-”时 同理}
+	\]
+	
+	\item \([\hat{J}^2, \hat{J}_\pm] = 0\)
+\end{enumerate}
+另外，
+\[
+\hat{J}_\pm \hat{J}_\mp = \hat{J}^2 - \hat{J}_z^2 \pm \hbar \hat{J}_z
+\]
+
+\[
+\hat{J}_- \hat{J}_+ = (\hat{J}_x - i\hat{J}_y)(\hat{J}_x + i\hat{J}_y)
+\]
+\[
+= \hat{J}_x^2 + i\hat{J}_x\hat{J}_y - i\hat{J}_y\hat{J}_x + \hat{J}_y^2
+\]
+\[
+= \hat{J}_x^2 + \hat{J}_y^2 + i[\hat{J}_x, \hat{J}_y]
+\]
+\[
+= \hat{J}^2 - \hat{J}_z^2 + i\hbar \hat{J}_z
+\]
+\[
+= \hat{J}^2 - \hat{J}_z^2 - \hbar \hat{J}_z
+\]
+
+考虑 \(\hat{J}_\pm\) 对 \(|j, m\rangle\) 的作用。（即考虑 \(\hat{J}_\pm\) 作用在 \(|j, m\rangle\) 态上的结果）
+
+\[
+\hat{J}_\pm |j, m\rangle = \hat{J}_\pm \hat{J}' |j, m\rangle = \hat{J}_\pm \lambda_\pm |j, m\rangle = \lambda_\pm \hat{J}_\pm |j, m\rangle
+\]
+
+因此 \(\hat{J}_\pm \hat{J}_\pm\) 对应的本征值。
+
+\begin{align*}
+	\hat{J}_z \hat{J}_\pm |j, m\rangle &= \left( \hat{J}_\pm \hat{J}_\pm \pm \hat{J}_\pm \right) |j, m\rangle \\
+	&= \left( m_\pm \pm \hat{J}_\pm \right) |j, m\rangle \\
+	&= (m \pm \hbar) \hat{J}_\pm |j, m\rangle
+\end{align*}
+
+因此 \(\hat{J}_+\) 使 \(\hat{J}_z\) 的本征值上升 \(\hbar\)，\(\hat{J}_-\) 使 \(\hat{J}_z\) 的本征值下降 \(\hbar\)。
+
+$\hat{J}_\pm |j, m\rangle $应与 \(|j, m\pm 1\rangle\) 只相差一个常系数。\(\hat{J}_\pm |j, m\rangle = c |j, m\pm 1\rangle\)
+
+在这节的后面，我们再来计算 \(c\)。
+
+与谐振子升降阶算符类似，升、降阶过程不能永远进行下去。
+
+（否则会出现角动量在z轴的投影大于角动量的模长的荒谬论）
+
+必须在某两个态（最高、最低）截断。
+
+设 \(\hat{J}_+ |j, m_{\text{max}}\rangle = 0\) \(\hat{J}_- |j, m_{\text{min}}\rangle = 0\)
+
+\begin{itemize}
+	\item 以 \(|j, m_{\text{max}}\rangle\) 为例
+	\[
+	\hat{J}^2 |j, m_{\text{max}}\rangle = \lambda |j, m_{\text{max}}\rangle \quad \hat{J}_z |j, m_{\text{max}}\rangle = m_{\text{max}} \hbar |j, m_{\text{max}}\rangle
+	\]
+	由于 \(\hat{J}_- \hat{J}_+ = \hat{J}^2 - \hat{J}_z^2 - \hbar \hat{J}_z \Rightarrow \hat{J}^2 = \hat{J}_- \hat{J}_+ + \hat{J}_z^2 + \hbar \hat{J}_z\)
+	\[
+	\hat{J}^2 |j, m_{\text{max}}\rangle = (\hat{J}_- \hat{J}_+ + \hat{J}_z^2 + \hbar \hat{J}_z) |j, m_{\text{max}}\rangle = (m_{\text{max}}^2 + m_{\text{max}}) \hbar^2 |j, m_{\text{max}}\rangle
+	\]
+	\[
+	= m_{\text{max}} (m_{\text{max}} + 1) \hbar^2 |j, m_{\text{max}}\rangle
+	\]
+	which tells us: \(\hat{J}^2\) 的本征值可以用 \(\hat{J}_z\) 本征值的最大值来表示。
+	\[
+	\lambda = m_{\text{max}} (m_{\text{max}} + 1)
+	\]
+	
+	\item 再以 \(|j, m_{\text{min}}\rangle\) 为例
+	
+	由于 \(\hat{J}_+ \hat{J}_- = \hat{J}_- \hat{J}_- + \hat{J}_- \hat{J}_- = \hat{J}_+ \hat{J}_- + \hat{J}_-\)
+	
+	\begin{align*}
+		\hat{J}^2 |j, m_{\text{min}}\rangle &= (\hat{J}_+ \hat{J}_- + \hat{J}_- + \hat{J}_- (\hat{J}_- + \hat{J}_-)) |j, m_{\text{min}}\rangle \\
+		&= (m_{\text{min}}^2 \hbar^2 - m_{\text{min}} \hbar^2) |j, m_{\text{min}}\rangle \\
+		&= m_{\text{min}} (m_{\text{min}} - 1) \hbar^2 |j, m_{\text{min}}\rangle \\
+		\lambda &= m_{\text{min}} (m_{\text{min}} - 1)
+	\end{align*}
+\end{itemize}
+\[
+m_{\text{max}}(m_{\text{max}} + 1) = m_{\text{min}}(m_{\text{min}} - 1)
+\]
+
+\begin{align*}
+	&\Longrightarrow \left\{
+	\begin{array}{l}
+		m_{\text{min}} = m_{\text{max}} + 1 \\
+		m_{\text{min}} = -m_{\text{max}}
+	\end{array}
+	\right. \\
+	&= \left\{
+	\begin{array}{l}
+		m_{\text{max}}(m_{\text{max}} + 1) \\
+		m_{\text{min}} = -m_{\text{max}}
+	\end{array}
+	\right.
+\end{align*}
+
+因此，\(\hat{J}_z\) 的取值范围是从 \(-m_{\text{max}} \hbar \longrightarrow m_{\text{max}} \hbar\)
+
+每次变化 \(\hbar\)（\(m\) 每次变化 1）
+
+即 \(-m_{\text{max}} + N = m_{\text{max}}\) \(N\) 为从最低态到最高态升阶的次数。
+
+\begin{align*}
+	&\text{则} 2 m_{\text{max}} = N \\
+	&\text{则} m_{\text{max}} = \frac{N}{2}
+\end{align*}
+
+为整数或半整数。
+由于 \( m_{\text{max}} \) 表征了 \( \hat{J}^2 \) 的本征值，因此我们令 \( m_{\text{max}} = j \)。
+
+对于一个给定的 \( j \)，有 \( 2j + 1 \) 个 \( m \)。
+
+\[
+\hat{J}^2 |j, m\rangle = j(j+1) \hbar^2 |j, m\rangle
+\]
+\[
+\hat{J}_z |j, m\rangle = m \hbar |j, m\rangle
+\]
+
+\( j \) 为整数或半整数。
+
+\[
+m = -j, -j+1, -j+2, \ldots, j-2, j-1, j
+\]
+
+\textbf{填坑: 计算 \(C\)}
+
+以 \(\hat{J}_+\) 为例
+
+设 \(\hat{J}_+ |j, m\rangle = c_+ |j, m+1\rangle\)
+
+\begin{align*}
+	&\text{两边取模方.} \langle j, m | \hat{J}_- \hat{J}_+ | j, m \rangle = |c_+|^2 \langle j, m+1 | j, m+1 \rangle \\
+	&\langle j, m | \hat{J}_- \hat{J}_+ | j, m \rangle = |q|^2
+\end{align*}
+
+\(j(j+1) \hbar - m \hbar - m^2 \langle j, m | j, m \rangle = |q|^2\)
+
+\[
+\Longrightarrow c_+ = \sqrt{j(j+1) - m(m+1)} \hbar
+\]
+
+同理对于 \(\hat{J}_-\)，计算可得 \(c_- = \sqrt{j(j-1) - m(m-1)} \hbar\)
+
+\[
+\hat{J}_{\pm} |j, m\rangle = \sqrt{j(j\pm1) - m(m\pm1)} \hbar |j, m\pm1\rangle
+\]
+
+\textbf{j=1的粒子角动量的矩阵表示}
+
+在 \(\{\hat{J}}^2, \hat{J}_z\) 表象中，\(\hat{J}_z\) 是对角矩阵，其对角元是其本征值 \(\hbar, 0, -\hbar\)。
+
+\[
+\hat{J}_z = \hbar \begin{bmatrix}
+1 & 0 & 0 \\
+0 & 0 & -1 \\
+\end{bmatrix}
+\]
+
+对于 \(\hat{J}_x\)，其矩阵元
+
+\[
+J_{x, m, m'} = \langle 1 m | \hat{J}_x | 1 m' \rangle = \langle 1 m | \frac{\hat{J}_+ + \hat{J}_-}{2i} | 1 m' \rangle
+\]
+
+\[
+= \frac{1}{2} \langle 1 m | (\sqrt{1(m) - m(m+1)} \hbar | 1 m+1 \rangle + \sqrt{1(m) - m(m-1)} \hbar | 1 m-1 \rangle)
+\]
+
+\[
+= \frac{1}{2} \sqrt{1(m) - m(m+1)} \delta_{m, m'+1} + \frac{1}{2} \sqrt{1(m) - m(m-1)} \delta_{m, m'-1}
+\]
+
+则 \(J_{x, 10} = \frac{1}{2} \sqrt{1(1) - 0(0+1)} \hbar = \frac{1}{\sqrt{2}} \hbar\)
+
+\(J_{x, 01} = J_{x, 10}^* = \frac{1}{\sqrt{2}} \hbar\)
+
+\[
+\hat{J}_x = \frac{1}{\sqrt{2}} \hbar \begin{bmatrix}
+0 & 1 & 0 \\
+1 & 0 & 1 \\
+0 & 1 & 0
+\end{bmatrix}
+\]
+
+同理
+
+\[
+J_{y, m, m'} = \langle 1 m | \hat{J}_y | 1 m' \rangle = \langle 1 m | \frac{\hat{J}_+ - \hat{J}_-}{2i} | 1 m' \rangle
+\]
+
+\[
+\hat{J}_y = \frac{1}{\sqrt{2}} \hbar \begin{bmatrix}
+0 & -i & 0 \\
+i & 0 & -i \\
+0 & i & 0
+\end{bmatrix}
+\]
+
+通过求解矩阵本征矢，我们可以得到：
+
+\[
+|J_z\rangle = \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}, \quad |J_{z,0}\rangle = \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}, \quad |J_z\rangle = \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}
+\]
+
+\[
+|J_x+\rangle = \begin{bmatrix} \frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}} \\ -\frac{1}{\sqrt{2}} \end{bmatrix}, \quad |J_{x,0}\rangle = \begin{bmatrix} \frac{1}{\sqrt{2}} \\ 0 \\ -\frac{1}{\sqrt{2}} \end{bmatrix}, \quad |J_x\rangle = \begin{bmatrix} \frac{1}{\sqrt{2}} \\ -\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}} \end{bmatrix}
+\]
+
+\[
+|J_y+\rangle = \begin{bmatrix} \frac{1}{\sqrt{2}} \\ \frac{i}{\sqrt{2}} \\ -\frac{1}{\sqrt{2}} \end{bmatrix}, \quad |J_{y,0}\rangle = \begin{bmatrix} \frac{1}{\sqrt{2}} \\ 0 \\ \frac{1}{\sqrt{2}} \end{bmatrix}, \quad |J_y\rangle = \begin{bmatrix} \frac{1}{\sqrt{2}} \\ -\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}} \end{bmatrix}
+\]
+
+\section{轨道角动量}
+
+经典的轨道角动量
+\[
+\vec{L} = \vec{r} \times \vec{p} = \begin{vmatrix}
+	\hat{e}_x & \hat{e}_y & \hat{e}_z \\
+	x & y & z \\
+	p_x & p_y & p_z
+\end{vmatrix} = (y p_z - z p_y) \hat{e}_x + (z p_x - x p_z) \hat{e}_y + (x p_y - y p_x) \hat{e}_z
+\]
+
+类比经典情况，令
+\[
+\hat{L}_x = y \hat{p}_z - z \hat{p}_y, \\
+\hat{L}_y = z \hat{p}_x - x \hat{p}_z, \\
+\hat{L}_z = x \hat{p}_y - y \hat{p}_x
+\]
+
+经检验，其满足 \([ \hat{L}_\alpha, \hat{L}_\beta ] = i\hbar \epsilon_{\alpha\beta\gamma} \hat{L}_\gamma \Leftrightarrow \vec{L} \times \vec{L} = i\hbar \hat{L}\)
+
+因此类比是合理的。
+
+考虑其在坐标表象下的具体形式
+
+取球坐标系。
+
+\[
+\vec{L} = \vec{r} \times \vec{p} = \vec{r} \times (-i\hbar \nabla)
+\]
+
+\[
+\nabla = \vec{e}_r \frac{\partial}{\partial r} + \vec{e}_\theta \frac{1}{r} \frac{\partial}{\partial \theta} + \vec{e}_\varphi \frac{1}{r \sin \theta} \frac{\partial}{\partial \varphi}
+\]
+
+\[
+\left\{
+\begin{array}{l}
+	\vec{e}_r \times \vec{e}_r = 0 \\
+	\vec{e}_r \times \vec{e}_\theta = \vec{e}_\varphi \\
+	\vec{e}_r \times \vec{e}_\varphi = -\vec{e}_\theta
+\end{array}
+\right\} \Rightarrow \hat{L} = -i\hbar \left( \vec{e}_\varphi \frac{\partial}{\partial \theta} - \vec{e}_\theta \frac{1}{\sin\theta} \frac{\partial}{\partial \varphi} \right)
+\]
+
+只与角度有关！
+
+投影到 \(\vec{e}_x, \vec{e}_y, \vec{e}_z\) 方向
+
+\[
+\begin{aligned}
+	\hat{e}_r &= \sin \theta \cos \varphi \, \hat{e}_x + \sin \theta \sin \varphi \, \hat{e}_y + \cos \theta \, \hat{e}_z \\
+	\hat{e}_\theta &= \cos \theta \cos \varphi \, \hat{e}_x + \cos \theta \sin \varphi \, \hat{e}_y - \sin \theta \, \hat{e}_z \\
+	\hat{e}_\varphi &= -\sin \varphi \, \hat{e}_x + \cos \varphi \, \hat{e}_y
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+	\hat{L} &= i \hbar \left( \sin \varphi \, \frac{\partial}{\partial \theta} + \cot \theta \sin \varphi \, \frac{\partial}{\partial \varphi} \right) \hat{e}_x \\
+	&\quad + i \hbar \left( \cos \varphi \, \frac{\partial}{\partial \theta} + \cot \theta \cos \varphi \, \frac{\partial}{\partial \varphi} \right) \hat{e}_y \\
+	&\quad - i \hbar \, \frac{\partial}{\partial \varphi} \, \hat{e}_z
+\end{aligned}
+\]
+
+
+\textbf{[\(\hat{L}_z, \hat{L}_x\)] 的共同本征函数}
+
+先考虑，\(\hat{L}_z = -i\hbar \frac{\partial}{\partial \varphi}\) 的本征函数 \(f\)
+
+\[
+\hat{L}_z f(\varphi) = \hat{L}_z f(\varphi) \quad \text{即} \quad -i\hbar \frac{\partial}{\partial \varphi} f(\varphi) = \hat{L}_z f(\varphi)
+\]
+
+\[
+\Rightarrow \frac{1}{f} df = -\frac{\hat{L}_z}{\hbar} d\varphi = \frac{i\hat{L}_z}{\hbar} d\varphi
+\]
+
+\[
+\ln f = \frac{i\hat{L}_z}{\hbar} \varphi + c
+\]
+
+\[
+\Rightarrow f(\varphi) = N e^{\frac{i\hat{L}_z}{\hbar} \varphi}
+\]
+
+由于在位置空间转动 \(2\pi\) 后波函数要保持不变。
+
+\[
+f(\varphi + 2\pi) = f(\varphi)
+\]
+
+\[
+N e^{\frac{i\hat{L}_z}{\hbar} (2\pi)} = N e^{\frac{i\hat{L}_z}{\hbar} \varphi} \cdot e^{\frac{i\hat{L}_z}{\hbar} 2\pi} = N e^{\frac{i\hat{L}_z}{\hbar} \varphi}
+\]
+
+\[
+\Rightarrow e^{\frac{i\hat{L}_z}{\hbar} 2\pi} = 1
+\]
+
+\[
+\Rightarrow (e^{i\frac{\hat{L}_z}{\hbar}})^{2\pi/\hat{L}_z} = 1 \Rightarrow \frac{\hat{L}_z}{\hbar} = m \quad m \text{为 } 0, \pm1, \pm2, \ldots
+\]
+
+\[
+\hat{L}_z = m\hbar
+\]
+
+\[
+\Rightarrow f(\varphi) = N e^{im\varphi} \quad m \text{为 } 0, \pm1, \pm2, \ldots
+\]
+
+再考虑 $\hat{L}^2$
+
+利用 $\hat{L}^2 = \hat{L}_z^2 + \frac{1}{2}(\hat{L}_+ \hat{L}_- + \hat{L}_- \hat{L}_+)$
+
+可得 $\hat{L}^2 = -\hbar^2 \left[ \frac{1}{\sin\theta} \frac{\partial}{\partial \theta} \left( \sin\theta \frac{\partial}{\partial \theta} \right) + \frac{1}{\sin^2\theta} \frac{\partial^2}{\partial \varphi^2} \right]$
+
+注意球坐标下 $\nabla^2 = \frac{1}{r^2} \frac{\partial}{\partial r} \left( r^2 \frac{\partial}{\partial r} \right) + \frac{1}{r^2 \sin\theta} \frac{\partial}{\partial \theta} \left( \sin\theta \frac{\partial}{\partial \theta} \right) + \frac{1}{r^2 \sin^2\theta} \frac{\partial^2}{\partial \varphi^2}$
+
+$\hat{L}^2$ 与 $\nabla^2$ 角度部分仅相差因子 $-\frac{1}{r^2}$
+
+而 $\hat{p}^2 = -\hbar^2 \nabla^2$
+
+因此轨道角动量与动能的转动部分有关
+
+考虑 $m$ 取最大值 $l$ 的态 $|l l \rangle$
+
+\begin{equation}
+	\hat{L}_+ |l l\rangle = 0
+\end{equation}
+
+\begin{equation}
+	(\hat{L}_x + i\hat{L}_y) |l l\rangle = 0
+\end{equation}
+
+投影到 $|\theta, \varphi\rangle$ 方向
+
+\begin{equation}
+	(\hat{L}_x + i\hat{L}_y) \langle \theta, \varphi | l l \rangle
+\end{equation}
+
+\begin{equation}
+	-i\kappa e^{it}\left(i\frac{\partial}{\partial \theta} - \omega t \theta \frac{\partial}{\partial \theta}\right) \langle \theta, \varphi | (L)
+\end{equation}
+
+\begin{equation}
+	\left(i\frac{\partial}{\partial \theta} - \omega t \theta \frac{\partial}{\partial \theta}\right) Y_{l}^{m}(\theta, \varphi) = 0
+\end{equation}
+
+\begin{equation}
+	\left(i\frac{\partial}{\partial \theta} - \omega t \theta \frac{\partial}{\partial \theta}\right) \theta(0) e^{il\varphi} = 0
+\end{equation}
+
+\begin{equation}
+	i\frac{\partial \theta}{\partial \theta} e^{im\varphi} - \theta \omega t \theta i l e^{il\varphi} = 0
+\end{equation}
+
+解得 $\theta(\theta) = N' \sin^l \theta$
+
+因此 $Y_{l}^{m}(\theta, \varphi) = N N' e^{im\varphi} \sin^l \theta$
+
+归化 $\Rightarrow \frac{(l-1)!}{2^l l} \sqrt{\frac{(2l+1)(l+m)!}{4\pi (l-m)!}} e^{im\varphi} \sin^l \theta$
+
+通过在 $Y_{l}^{m}(\theta, \varphi)$ 上不断作用 $\hat{L}_-$，可得到所有的 $Y_{l}^{m}(\theta, \varphi)$
+
+\begin{equation}
+	Y_{l}^{m}(\theta, \varphi) = \sqrt{\frac{(l-m)!(2l+1)}{4\pi (l+m)!}} e^{im\varphi} P_{l}^{m}(\cos \theta)
+\end{equation}
+
+称为球谐函数，它是 $\hat{L}^2$ 和 $\hat{L}_z$ 的共同本征函数，满足正交归一关系
+
+\begin{equation}
+	\langle Y_{l}^{m} | Y_{l'}^{m'} \rangle = \delta_{ll'} \delta_{mm'}
+\end{equation}
+
+
+\textbf{另解}:
+
+\[
+\hat{L}^2 Y(\theta, \varphi) = -\hbar^2 \left[ \frac{1}{\sin\theta} \frac{\partial}{\partial \theta} \left( \sin\theta \frac{\partial Y}{\partial \theta} \right) + \frac{1}{\sin^2\theta} \frac{\partial^2 Y}{\partial \varphi^2} \right] Y(\theta, \varphi) = \hbar^2 l(l+1) Y(\theta, \varphi)
+\]
+
+这个方程可以分离变量。
+
+令 $Y(\theta, \varphi) = \Theta(\theta) \Phi(\varphi)$
+
+\[
+\frac{1}{\sin\theta} \frac{\partial}{\partial \theta} \left( \sin\theta \frac{\partial \Theta}{\partial \theta} \right) \Phi + \frac{\Theta}{\sin^2\theta} \frac{\partial^2 \Phi}{\partial \varphi^2} + l(l+1) \Theta \Phi = 0
+\]
+
+两边同乘以 $\frac{\sin\theta}{\Phi}$
+
+\[
+\frac{\sin\theta}{\Theta} \frac{\partial}{\partial \theta} \left( \sin\theta \frac{\partial \Theta}{\partial \theta} \right) + l(l+1) \sin^2\theta = -\frac{1}{\Phi} \frac{\partial^2 \Phi}{\partial \varphi^2}
+\]
+
+上式对任意 $\theta, \varphi$ 都成立 $\Rightarrow$ 两边都等于一个常数
+
+\[
+\left\{
+\begin{array}{l}
+	\frac{1}{\Phi} \frac{d^2 \Phi}{d\varphi^2} = -c \\
+	\frac{\sin\theta}{\Theta} \frac{\partial}{\partial \theta} \left( \sin\theta \frac{\partial \Theta}{\partial \theta} \right) + l(l+1) \sin^2\theta = c
+\end{array}
+\right.
+\]
+
+方程1：若 $c < 0$，则 $-c > 0$
+
+则方程特解为 $e^{\sqrt{-c}\varphi}$
+
+不可能满足边界条件 $Y(\theta, \varphi + 2\pi) = Y(\theta, \varphi)$
+
+因此只能是 $c > 0$
+
+则方程特解为 $e^{i\sqrt{c}\varphi}$
+
+$Y(\theta, \varphi + 2\pi) = Y(\theta, \varphi) \Rightarrow \sqrt{c} = m \quad m = 0, \pm1, \pm2, \ldots$
+
+$\Rightarrow c = m^2$
+
+方程2：
+
+\[
+\frac{\sin\theta}{\Theta} \frac{\partial}{\partial \theta} \left( \sin\theta \frac{\partial \Theta}{\partial \theta} \right) + l(l+1) \sin^2\theta = m^2
+\]
+
+\[
+\Rightarrow \frac{1}{\sin\theta} \frac{d}{d\theta} \left( \sin\theta \frac{d\Theta}{d\theta} \right) + \left( l(l+1) - \frac{m^2}{\sin^2\theta} \right) \Theta = 0
+\]
+
+这个方程的解是连带勒让德多项式 $P_l^m(\cos\theta)$
+
+\[
+\Rightarrow Y_l^m(\theta, \varphi) = \Theta(\theta) \Phi(\varphi) = A_l^m P_l^m(\cos\theta) e^{im\varphi}
+\]
+
+归一化，得
+
+\[
+Y_l^m(\theta, \varphi) = \sqrt{\frac{(2l+1)(l-m)!}{4\pi(l+m)!}} e^{im\varphi} P_l^m(\cos\theta)
+\]
+
+
+
+称为球谐函数，它是 $\hat{L}^2$ 和 $\hat{L}_z$ 的共同本征函数，满足正交归一关系
+
+\begin{equation}
+	\langle Y_{l}^{m} | Y_{l'}^{m'} \rangle = \delta_{ll'} \delta_{mm'}
+\end{equation}
+
+\textbf{常用的球谐函数}
+
+\begin{align*}
+	Y_0^0 &= \frac{1}{\sqrt{4\pi}} \\
+	Y_1^0 &= \sqrt{\frac{3}{4\pi}} \cos\theta \\
+	Y_1^1 &= -\sqrt{\frac{3}{8\pi}} \sin\theta e^{i\varphi} \\
+	Y_1^{-1} &= \sqrt{\frac{3}{8\pi}} \sin\theta e^{-i\varphi}
+\end{align*}
+
+\textbf{球谐函数的性质}
+
+\begin{enumerate}
+	\item 宇称：与 $l$ 有关，\begin{cases} 
+		\text{偶宇称} & l \text{为偶} \\
+		\text{奇宇称} & l \text{为奇}
+	\end{cases}
+	\item 正交归一性：$\langle Y_l^m | Y_{l'}^{m'} \rangle = \delta_{ll'} \delta_{mm'}$
+	\item 完备性：球谐函数可以用来展开任意的角向函数
+	\item 递推关系：
+	\begin{align*}
+		\cos\theta \, Y_l^m &= a \, Y_{l-1}^m + b \, Y_{l+1}^m \\
+		\sin\theta \, Y_l^m &= c \, Y_{l-1}^m + d \, Y_{l+1}^m
+	\end{align*}
+	\item 笛卡尔坐标系与球坐标系的关系：
+	\begin{align*}
+		x &= r \sin\theta \cos\varphi = r \sqrt{\frac{4\pi}{3}} (Y_1^1 - Y_1^{-1}) \\
+		y &= r \sin\theta \sin\varphi = r i \sqrt{\frac{4\pi}{3}} (Y_1^1 + Y_1^{-1}) \\
+		z &= r \cos\theta = r 2 \sqrt{\frac{\pi}{3}} Y_1^0
+	\end{align*}
+\end{enumerate}
+\section{自旋角动量和pauli算符}
+\begin{enumerate}
+	\item 由 S-G 实验可知，电子具有某种内禀的角动量 \(\hat{S}\)，称作自旋角动量。
+	
+	其各分量满足对易关系
+	\[
+	[\hat{S}_\alpha, \hat{S}_\beta] = i \hbar \epsilon_{\alpha \beta \gamma} \hat{S}_\gamma
+	\]
+	即
+	\[
+	\hat{S} \times \hat{S} = i \hbar \hat{S}
+	\]
+	
+	自旋角动量在 z 轴的投影为 \(\pm \frac{\hbar}{2}\)，即 \(m_{\text{max}} = \frac{1}{2}\)，则 \(J = \frac{1}{2}\)。
+	
+	为示区分，在研究自旋的问题里，分别令 \(J\) 和 \(m\) 为 \(S\) 和 \(m_s\)，\(m_s = \pm \frac{1}{2}\)。
+	
+	令 \(\hat{S}\) 和 \(\hat{S}_z\) 的共同本征态为 \(|S, m_s\rangle\)
+	\[
+	\hat{S}^2 |S, m_s\rangle = S(S+1) \hbar^2 |S, m_s\rangle = \frac{3}{4} \hbar^2 |S, m_s\rangle
+	\]
+	
+	实验告诉我们，所有粒子都具有自旋。
+	
+	\begin{tabular}{cccc}
+		光子 & 胶子 & Higgs子 & \textit{Fermion} \\
+		1 & 1 & 0 & \\
+		夸克 & 电子 & 中微子 & \textit{Boson} \\
+		$\frac{1}{2}$ & $\frac{1}{2}$ & $\frac{1}{2}$ & \\
+	\end{tabular}
+	
+	由于粒子间可以组合成复合粒子，因此 $S$ 可以取所有非负整数与半整数。
+	
+	$S = 0, \frac{1}{2}, 1, \frac{3}{2}, 2, \frac{5}{2}, \ldots$
+	
+	$m_s = 0, \pm \frac{1}{2}, \pm 1, \pm \frac{3}{2}, \ldots, \pm S$
+	
+	继续讨论自旋体系
+	
+	在 $\{\hat{S}^2, \hat{S}_z\}$ 表象下
+	
+	\[
+	\hat{S}_z = \frac{\hbar}{2} \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix} = \frac{\hbar}{2} \hat{\sigma}_z
+	\]
+	
+	\[
+	\hat{S}_x = \frac{\hbar}{2} \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix} = \frac{\hbar}{2} \hat{\sigma}_x
+	\]
+	
+	\[
+	\hat{S}_y = \frac{\hbar}{2} \begin{bmatrix} 0 & -i \\ i & 0 \end{bmatrix} = \frac{\hbar}{2} \hat{\sigma}_y
+	\]
+	
+	$\hat{S}_i$ 称为 Pauli 矩阵
+	
+	$\{\hat{S}^2, \hat{S}_z\}$ 表象也称为 $\hat{\sigma}_z$ 表象 (Pauli 表象)
+	
+	\begin{enumerate}
+		\item $[\hat{S}_\alpha, \hat{S}_\beta] = \hbar \epsilon_{\alpha \beta \gamma} \hat{S}_\gamma$
+		\item $\{\hat{S}_\alpha, \hat{S}_\beta\} = \hat{S}_\alpha \hat{S}_\beta + \hat{S}_\beta \hat{S}_\alpha = 0$
+		\item
+		\begin{align*}
+			\hat{S}_z |\uparrow\rangle &= |\uparrow\rangle \\
+			\hat{S}_x |\uparrow\rangle &= |\downarrow\rangle \\
+			\hat{S}_y |\uparrow\rangle &= i |\downarrow\rangle \\
+			\hat{S}_z |\downarrow\rangle &= -|\downarrow\rangle \\
+			\hat{S}_x |\downarrow\rangle &= |\uparrow\rangle \\
+			\hat{S}_y |\downarrow\rangle &= -i |\uparrow\rangle
+		\end{align*}
+		\item 完备性：任意的 $2 \times 2$ 矩阵都可以用 $\{\hat{S}_x, \hat{S}_y, \hat{S}_z\}$ 来展开
+		\item General Euler formula: $e^{i\alpha \hat{S}_3} = \cos(\alpha) + i \hat{S}_3 \sin(\alpha)$
+	\end{enumerate}
+	
+	\item 考虑自选后描述量子体系的波函数
+	
+	首先明确一个思想：坐标部分和自旋部分的态矢量不在同一个线性空间中。
+	
+	设坐标部分在 $\mathcal{E}_r$ 空间内，自旋部分在 $\mathcal{E}_s$ 空间内，可构建 $\mathcal{E} = \mathcal{E}_r \otimes \mathcal{E}_s$ 使得系统的态矢量处于 $\mathcal{E}$ 空间中。
+	
+	$\mathcal{E}_r$ 空间 CSO 可选为 $\{x, y, z\}$
+	
+	$\mathcal{E}_s$ 空间 CSO 可选为 $\{\hat{S}_x, \hat{S}_y, \hat{S}_z\}$
+	
+	由于对于给定的粒子，$S$ 是固定的，$S^2$ 可简写不写。
+	
+	$\mathcal{E}$ 空间 CSO 可选为 $\{x, y, z, S_x, S_y, S_z\}$
+	
+	$\mathcal{E}_r$ 空间基矢 $|x, y, z\rangle$
+	
+	$\mathcal{E}_s$ 空间基矢 $|m_s\rangle$
+	
+	$\mathcal{E}$ 空间基矢 $|x, y, z, m_s\rangle = |x, y, z\rangle \otimes |m_s\rangle$
+	
+	其满足
+	\[
+	\langle x, y, z, m_s | x', y', z', m_s' \rangle = \delta_x \delta_y \delta_z \delta_{m_s m_s'}
+	\]
+	正交归一性。
+	
+	完备性
+	\[
+	\int_{-\infty}^{\infty} |x, y, z, \uparrow\rangle \langle x, y, z, \uparrow| + |x, y, z, \downarrow\rangle \langle x, y, z, \downarrow| \, dx \, dy \, dz = 1
+	\]
+	
+	此空间中任意的态矢量 $|\psi\rangle$ 都可用 $|x, y, z, m_s\rangle$ 来展开
+	\[
+	|\psi\rangle = \int_{-\infty}^{\infty} \left( |x, y, z, \uparrow\rangle \langle x, y, z, \uparrow | \psi \rangle + |x, y, z, \downarrow\rangle \langle x, y, z, \downarrow | \psi \rangle \right) \, dx \, dy \, dz
+	\]
+	\[
+	= \int_{-\infty}^{\infty} \left( \psi_\uparrow(x, y, z) |x, y, z, \uparrow\rangle + \psi_\downarrow(x, y, z) |x, y, z, \downarrow\rangle \right) \, dx \, dy \, dz
+	\]
+	\[
+	= \int_{-\infty}^{\infty} \left( \psi_\uparrow(x, y, z) |x, y, z, \uparrow\rangle + \psi_\downarrow(x, y, z) |x, y, z, \downarrow\rangle \right) \, dx \, dy \, dz
+	\]
+	
+	由于 $\hat{S}_z$ 表象中 $|\uparrow\rangle = \begin{bmatrix} 1 \\ 0 \end{bmatrix}$，$|\downarrow\rangle = \begin{bmatrix} 0 \\ 1 \end{bmatrix}$
+	
+	上式 = $\int_{-\infty}^{\infty} \begin{bmatrix} \psi_\uparrow(x, y, z) \\ \psi_\downarrow(x, y, z) \end{bmatrix} |x, y, z\rangle \, dx \, dy \, dz$
+	
+	我们定义旋量 $[\psi]_{CSO}(x, y, z) = \begin{bmatrix} \psi_\uparrow(x, y, z) \\ \psi_\downarrow(x, y, z) \end{bmatrix}$
+	
+	\[
+	\langle \psi | = \int_{-\infty}^{\infty} \langle x, y, z | [\psi]_{CSO}^\dagger(x, y, z) \, dx \, dy \, dz
+	\]
+	\[
+	= \int_{-\infty}^{\infty} \langle x, y, z | \begin{bmatrix} \psi_\uparrow^*(x, y, z) & \psi_\downarrow^*(x, y, z) \end{bmatrix} \, dx \, dy \, dz
+	\]
+	
+	内积：$\langle \psi | \varphi \rangle$
+	\[
+	= \int_{-\infty}^{\infty} \begin{bmatrix} \psi_\uparrow^*(x, y, z) & \psi_\downarrow^*(x, y, z) \end{bmatrix} \begin{bmatrix} \varphi_\uparrow(x, y, z) \\ \varphi_\downarrow(x, y, z) \end{bmatrix} \, dx \, dy \, dz
+	\]
+	\[
+	= \int_{-\infty}^{\infty} \left( \psi_\uparrow^*(x, y, z) \varphi_\uparrow(x, y, z) + \psi_\downarrow^*(x, y, z) \varphi_\downarrow(x, y, z) \right) \, dx \, dy \, dz
+	\]
+	
+	归一化条件
+	\[
+	1 = \langle \psi | \psi \rangle
+	\]
+	\[
+	= \int_{-\infty}^{\infty} \left( |\psi_\uparrow(x, y, z)|^2 + |\psi_\downarrow(x, y, z)|^2 \right) \, dx \, dy \, dz
+	\]
+\end{enumerate}
+\begin{example}
+	已知电子某一时刻的波函数为 $\psi(\mathbf{r}, t) = \psi_1(\mathbf{r}) \chi_+(\sigma_z) + \psi_2(\mathbf{r}) \chi_-(\sigma_z)$，其中 $\chi_+$ 与 $\chi_-$ 分别是电子自旋沿正 z 轴与负 z 轴的归一化波函数。试写出电子自旋沿正 z 轴且在薄壳 $(r, r + dr)$ 内出现的概率 $P_1$；电子自旋沿负 z 轴且在 $(\theta, \varphi)$ 方向 $d\Omega = \sin\theta d\theta d\varphi$ 立体角内出现的概率 $P_2$；电子自旋沿正 z 轴的概率 $P_3$。
+\end{example}
+\begin{solution}
+	在 $\hat{S}_z$ 表象中，$\chi_+ = \begin{bmatrix} 1 \\ 0 \end{bmatrix}$，$\chi_- = \begin{bmatrix} 0 \\ 1 \end{bmatrix}$
+	
+	则 $\psi_{\vec{r}(\uparrow)} = \begin{bmatrix} \psi_{1}(\vec{r}, t) \\ \psi_{2}(\vec{r}, t) \end{bmatrix}$
+	
+	归一化，$\hat{\psi}_{\vec{r}(\uparrow)} = \frac{1}{\sqrt{\int_{-\infty}^{\infty} |\psi_{1}|^2 d\tau + \int_{-\infty}^{\infty} |\psi_{2}|^2 d\tau}} \begin{bmatrix} \psi_{1}(\vec{r}, t) \\ \psi_{2}(\vec{r}, t) \end{bmatrix} = N \begin{bmatrix} \psi_{1}(\vec{r}, t) \\ \psi_{2}(\vec{r}, t) \end{bmatrix}$
+	
+	注意，此时 $\psi_{\vec{r}(\uparrow)}$ 归一化了，但 $\psi_{1}$，$\psi_{2}$ 不一定归一化了。
+	
+	电子自旋沿 z 轴向上的概率：
+	\[
+	P_{\uparrow} = \int_{-\infty}^{\infty} |N \psi_{1}|^2 d\tau = \frac{\int_{-\infty}^{\infty} |\psi_{1}|^2 d\tau}{\int_{-\infty}^{\infty} (|\psi_{1}|^2 + |\psi_{2}|^2) d\tau}
+	\]
+	
+	电子自旋沿 z 轴向下的概率：
+	\[
+	P_{\downarrow} = \int_{-\infty}^{\infty} |N \psi_{2}|^2 d\tau = \frac{\int_{-\infty}^{\infty} |\psi_{2}|^2 d\tau}{\int_{-\infty}^{\infty} (|\psi_{1}|^2 + |\psi_{2}|^2) d\tau}
+	\]
+	
+	(1) $P = P_{\uparrow} \cdot P(r \rightarrow r + dr)$
+	\[
+	= P_{\uparrow} \cdot \int_{\Omega} \frac{|\psi_{1}|^2 d\tau}{\int_{-\infty}^{\infty} |\psi_{1}|^2 d\tau}
+	\]
+	\[
+	= P_{\uparrow} \cdot r dr \int_{0}^{\pi} \int_{0}^{2\pi} \frac{|\psi_{1}|^2 \sin\theta d\theta d\phi}{\int_{-\infty}^{\infty} |\psi_{1}|^2 d\tau}
+	\]
+	
+	(2) $P = P_{\downarrow} \cdot P(\cos\theta, \varphi)$
+	\[
+	= P_{\downarrow} \cdot \int_{-\infty}^{\infty} \frac{|\psi_{2}| r d\tau}{\int_{-\infty}^{\infty} |\psi_{2}|^2 d\tau}
+	\]
+	\[
+	= P_{\downarrow} \cdot \sin\theta d\theta d\varphi \int_{-\infty}^{\infty} \frac{|\psi_{2}| r d\tau}{\int_{-\infty}^{\infty} |\psi_{2}|^2 d\tau}
+	\]
+	
+	(3) $P_{\uparrow}$
+\end{solution}
+\section{电子自旋在任意方向的投影}
+三维空间中任意方向的单位矢量 $\vec{n} = (\sin\theta \cos\varphi, \sin\theta \sin\varphi, \cos\theta)$
+
+\[
+\hat{S}_n = \hat{\vec{S}} \cdot \vec{n}
+\]
+\[
+= \hat{S}_x \sin\theta \cos\varphi + \hat{S}_y \sin\theta \sin\varphi + \hat{S}_z \cos\theta
+\]
+\[
+= \frac{\hbar}{2} \left( \sin\theta \cos\varphi \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix} + \sin\theta \sin\varphi \begin{bmatrix} 0 & -i \\ i & 0 \end{bmatrix} + \cos\theta \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix} \right)
+\]
+\[
+= \frac{\hbar}{2} \begin{bmatrix} \cos\theta & \sin\theta \cos\varphi - i \sin\theta \sin\varphi \\ \sin\theta \cos\varphi + i \sin\theta \sin\varphi & -\cos\theta \end{bmatrix}
+\]
+\[
+= \frac{\hbar}{2} \begin{bmatrix} \cos\theta & \sin\theta e^{-i\varphi} \\ \sin\theta e^{i\varphi} & -\cos\theta \end{bmatrix}
+\]
+
+本征值与本征矢
+
+本征方程 $\hat{S}_n |S_n\rangle = \pm \frac{\hbar}{2} |S_n\rangle$
+
+对于这个问题我们无需解久期方程，因为电子自旋角动量在任意方向的投影必为 $\pm \frac{\hbar}{2}$
+
+设 $|S_n\rangle$ 在 $\hat{S}_z$ 表象下表示为 $\begin{bmatrix} \alpha \\ \beta \end{bmatrix}$
+
+\[
+\frac{\hbar}{2} \begin{bmatrix} \cos\theta & \sin\theta e^{-i\varphi} \\ \sin\theta e^{i\varphi} & -\cos\theta \end{bmatrix} \begin{bmatrix} \alpha \\ \beta \end{bmatrix} = \frac{\hbar}{2} \begin{bmatrix} \alpha \\ \beta \end{bmatrix}
+\]
+
+代入 $S_n = \frac{\hbar}{2}$
+
+\[
+\begin{bmatrix} \cos\theta & \sin\theta e^{-i\varphi} \\ \sin\theta e^{i\varphi} & -\cos\theta \end{bmatrix} \begin{bmatrix} \alpha \\ \beta \end{bmatrix} = \begin{bmatrix} \alpha \\ \beta \end{bmatrix}
+\]
+
+解得
+\[
+\begin{cases}
+	\cos\theta \alpha + \sin\theta e^{-i\varphi} \beta = \alpha \\
+	\sin\theta e^{i\varphi} \alpha - \cos\theta \beta = \beta
+\end{cases}
+\]
+
+\[
+\Rightarrow \beta = \frac{1 - \cos\theta}{\sin\theta e^{-i\varphi}} \alpha
+\]
+\[
+= \frac{1 - \cos\theta}{\sin\theta} e^{i\varphi} \alpha
+\]
+\[
+= \frac{2 \sin^2 \frac{\theta}{2}}{2 \sin \frac{\theta}{2} \cos \frac{\theta}{2}} e^{i\varphi} \alpha
+\]
+\[
+= \frac{\sin \frac{\theta}{2}}{\cos \frac{\theta}{2}} e^{i\varphi} \alpha
+\]
+
+归一化条件 $|\alpha|^2 + |\beta|^2 = 1$
+
+\[
+\alpha^2 + \left(\frac{\sin \frac{\theta}{2}}{\cos \frac{\theta}{2}}\right)^2 \alpha^2 = 1
+\]
+\[
+\left(1 + \frac{\sin^2 \frac{\theta}{2}}{\cos^2 \frac{\theta}{2}}\right) \alpha^2 = 1 \Rightarrow \alpha = \cos \frac{\theta}{2}
+\]
+
+则 $\beta = \sin \frac{\theta}{2} \cdot e^{i\varphi}$
+
+则 $|S_{n+}\rangle = \begin{bmatrix} \cos \frac{\theta}{2} \\ \sin \frac{\theta}{2} \cdot e^{i\varphi} \end{bmatrix}$
+
+同理可得 $|S_{n-}\rangle = \begin{bmatrix} \cos \frac{\theta}{2} \\ -\sin \frac{\theta}{2} \cdot e^{i\varphi} \end{bmatrix}$
+\section{角动量的合成}
+\subsection{两个一般角动量的合成}
+
+设有两个粒子，角动量分别为 $\hat{\vec{J}}_1$ 和 $\hat{\vec{J}}_2$。
+
+求该双粒子体系的总角动量 $\hat{\vec{J}} = \hat{\vec{J}}_1 + \hat{\vec{J}}_2$ 的本征值等于多少？
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figure/screenshot0029}
+\end{figure}
+
+但在量子力学中，由于 $[\hat{J}_x, \hat{J}_y]$ 一般不为零，因此无法同时确定 $\hat{\vec{J}}$ 的大小和方向。
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figure/screenshot0030}
+\end{figure}
+
+故而，应采用第二种定义来确定 $\hat{J}$ 的最大值与最小值。
+
+\begin{itemize}
+	\item 最大情况：\quad $\hat{J}_{1z} \rightarrow m_{\text{max}} \quad \hat{J}_{2z} \rightarrow m_{\text{max}} \quad J = J_1 + J_2$
+	\item 最小情况：\quad $\hat{J}_{1z} \rightarrow m_{\text{max}} \quad \hat{J}_{2z} \rightarrow m_{\text{min}} \quad J = |J_1 - J_2|$
+\end{itemize}
+
+\[
+m = -J, -J+1, \ldots, J-1, J
+\]
+
+角动量是量子化的，$J$ 每次变化 1。
+
+因此 $J$ 的取值为 $|J_1 - J_2|, |J_1 - J_2| + 1, \ldots, J_1 + J_2 - 1, J_1 + J_2$
+
+而 $m$ 的取值为 $-J, -J+1, \ldots, J-1, J$
+
+\subsection{双自旋$\frac{1}{2}$粒子}
+\[
+S_1 = \frac{1}{2} \quad S_2 = \frac{1}{2}
+\]
+\[
+\Rightarrow S = 0, 1
+\]
+
+则
+
+\begin{tabular}{c|c|c}
+	$S$ & $m_s$ & $|S, m_s\rangle$ \\
+	\hline
+	1 & 1 & $|1, 1\rangle$ \\
+	& 0 & $|1, 0\rangle$ \\
+	& -1 & $|1, -1\rangle$ \\
+	0 & 0 & $|0, 0\rangle$ \\
+\end{tabular}
+
+$\text{自旋三重态} \quad \left\{ |1, 1\rangle, |1, 0\rangle, |1, -1\rangle \right\}$
+
+$\text{自旋单态} \quad |0, 0\rangle$
+
+\[
+|1 1\rangle \longrightarrow |\uparrow \uparrow\rangle \quad \text{是显然的.}
+\]
+\[
+|1 -1\rangle \longrightarrow |\downarrow \downarrow\rangle
+\]
+
+那么 $|1 0\rangle$ 和 $|0 0\rangle$ 对应什么呢？
+\section{耦合表象}
+考虑经典力学的N粒子体系，体系相对参考点O的总角动量等于体系中所有粒子相对参考点O的角动量的矢量和。
+
+对于孤立系统或中心力场而言，总角动量是守恒量，但粒子间有相互作用（力，力矩等），因此每个粒子的角动量 $\vec{L}_i$ 不是守恒量。
+
+同样的，在量子体系中，若孤立体系或中心力场中的两个角动量 $\hat{J}_1, \hat{J}_2$ 受彼此影响，则它们都不是守恒量。取而代之的是它们的和 $\hat{J} = \hat{J}_1 + \hat{J}_2$ 是守恒量。
+
+这意味着
+\begin{align*}
+	[\hat{J}, \hat{H}] &\neq 0 \\
+	[\hat{J}_1, \hat{H}] &\neq 0 \\
+	[\hat{J}_2, \hat{H}] &= 0
+\end{align*}
+反过来也可以推。
+
+\begin{itemize}
+	\item 几个对易关系
+	\begin{align*}
+		[\hat{J}_1, \hat{J}_2] &= 0 \quad \text{: } \hat{J}_1, \hat{J}_2 \text{ 处于两个不同的空间，测量相互不影响} \\
+		[\hat{J}_i, \hat{J}_\alpha] &= 0 \\
+		[\hat{J}_i^2, \hat{J}_j^2] &= 0 : [\hat{J}_i^2 + \hat{J}_j^2 + 2\hat{J}_i\hat{J}_j, \hat{J}_i] = 0 \\
+		[\hat{J}_1^2, \hat{J}_2^2] &= 0 \quad \text{同上} \\
+		[\hat{J}_2, \hat{J}_1^2] &= 0 : [\hat{J}_{12} + \hat{J}_{22}, \hat{J}_1^2] = 0 \\
+		[\hat{J}_2^2, \hat{J}_1^2] &= 0 \quad \text{同上} \\
+		[\hat{J}_i, \hat{J}_{12}] &= [\hat{J}_i^2 + \hat{J}_j^2 + 2\hat{J}_i\hat{J}_j, \hat{J}_{12}] = 2(\hat{J}_i[\hat{J}_2, \hat{J}_\alpha] + [\hat{J}_i, \hat{J}_\alpha]\hat{J}_2) \\
+		[\hat{J}_i^2, \hat{J}_{12}] &\neq 0
+	\end{align*}
+\end{itemize}
+
+\subsection{自旋-轨道耦合(L-S耦合与J-J耦合)}
+
+现在考虑这两个角动量分别为轨道角动量 $\hat{L}$ 和自旋角动量 $\hat{S}$ 的情况。
+
+在相对论修正下，中心势中的 Hamilton 量中存在一个自旋-轨道耦合项：
+\[
+\hat{H}_{SO} = \xi(r) \hat{L} \cdot \hat{S}
+\]
+
+\[
+\begin{align*}
+	[\hat{L}_z, \hat{H}_{SO}] &= \xi(r) [\hat{L}_z, \hat{L}_x \hat{S}_x + \hat{L}_y \hat{S}_y + \hat{L}_z \hat{S}_z] \\
+	&= \xi(r) (i \hbar \hat{L}_y \hat{S}_x - i \hbar \hat{L}_x \hat{S}_y) \\
+	[\hat{S}_z, \hat{H}_{SO}] &= \xi(r) [\hat{S}_z, \hat{L}_x \hat{S}_x + \hat{L}_y \hat{S}_y + \hat{L}_z \hat{S}_z] \\
+	&= \xi(r) (i \hbar \hat{L}_x \hat{S}_y - i \hbar \hat{L}_y \hat{S}_x)
+\end{align*}
+\]
+
+同理有：$\hat{L}_x, \hat{L}_y, \hat{S}_x, \hat{S}_y$ 与 $\hat{H}_{SO}$ 不对易。
+
+于是 $\hat{L}$ 和 $\hat{S}$ 不是守恒量。
+
+然而，如果我们令 $\hat{J} = \hat{L} + \hat{S}$，则
+\[
+[\hat{J}_z, \hat{H}_{SO}] = [\hat{L}_z, \hat{H}_{SO}] + [\hat{S}_z, \hat{H}_{SO}] = 0
+\]
+
+同理有：$[\hat{J}_x, \hat{H}_{SO}] = [\hat{J}_y, \hat{H}_{SO}] = 0$。
+
+因此 $\hat{J}$ 是个守恒量。
+
+因为 $\hat{L}$ 和 $\hat{S}$ 不为守恒量，用它们构建 CSCO 一般不太方便，我们可以选择用守恒量 $\hat{J}$ 来构建 CSCO。
+
+\textbf{L-S 耦合和 J-J 耦合}
+
+现具体考虑原子中的电子间的角动量合成方式。
+
+若有多个电子，则有多种合成方式：
+\[
+L_1, S_1; \quad L_2, S_2; \quad \ldots; \quad L_i, S_i; \quad \ldots; \quad L_N, S_N
+\]
+
+\begin{enumerate}
+	\item 先将每个电子的轨道角动量 $L_i$ 合成出一个总轨道角动量 $\hat{L}$，再将每个电子的自旋角动量 $S_i$ 合成出一个总自旋角动量 $\hat{S}$，再将总轨道角动量 $L$ 和总自旋角动量 $S$ 合成出总角动量 $\hat{J}$：
+	\[
+	\hat{L} = \hat{L}_1 + \hat{L}_2 + \hat{L}_3 + \cdots + \hat{L}_N = \sum_{i=1}^{N} \hat{L}_i
+	\]
+	\[
+	\hat{S} = \hat{S}_1 + \hat{S}_2 + \hat{S}_3 + \cdots + \hat{S}_N = \sum_{i=1}^{N} \hat{S}_i
+	\]
+	\[
+	\hat{J} = \hat{L} + \hat{S} \quad \text{称作 LS 耦合}
+	\]
+	
+	\item 先将每个电子的轨道角动量 $L_i$ 和自旋角动量 $S_i$ 合成出一个单电子总角动量 $\hat{J}_i$，再将每个电子的总角动量 $\hat{J}_i$ 合成出体系的总角动量 $\hat{J}$：
+	\[
+	\hat{J}_i = \hat{L}_i + \hat{S}_i
+	\]
+	\[
+	\hat{J} = \sum_{i=1}^{N} \hat{J}_i \quad \text{称作 JJ 耦合}
+	\]
+	
+	\item 两粒子的轨道角动量与自旋角动量合成出一个 $\hat{J}_{ij}$，再将所有的 $\hat{J}_{ij}$ 合成出总的 $\hat{J}$。
+\end{enumerate}
+
+\subsection{非耦合表象}
+设有任意两个角动量 $\hat{J}_1$ 和 $\hat{J}_2$。
+
+对于单个的 $\hat{J}_1$，知道了 $\hat{J}_1^2$ 和 $\hat{J}_{1z}$ 的共同本征矢 $|j_1, m_1\rangle$ 我们就知晓了 $\hat{J}_1$ 的所有信息。对于单个的 $\hat{J}_2$，知道了 $\hat{J}_2^2$ 和 $\hat{J}_{2z}$ 的共同本征矢 $|j_2, m_2\rangle$ 我们就知晓了 $\hat{J}_2$ 的所有信息。
+
+知道了 $\hat{J}_1, \hat{J}_2$ 的信息则该系统的所有信息都被确定了。于是 $\{\hat{J}_1, \hat{J}_2, \hat{J}_1^2, \hat{J}_2^2\}$ 构成一组 CSCO（完备集），维数为4。
+
+基矢为 $|j, m, j_z, m_z\rangle$ 有：
+\[
+\hat{J}^2 |j, m, j_z, m_z\rangle = j(j+1) \hbar^2 |j, m, j_z, m_z\rangle
+\]
+\[
+\hat{J}_z |j, m, j_z, m_z\rangle = m \hbar |j, m, j_z, m_z\rangle
+\]
+\[
+\hat{J}_1^2 |j, m, j_z, m_z\rangle = j_1(j_1+1) \hbar^2 |j, m, j_z, m_z\rangle
+\]
+\[
+\hat{J}_2^2 |j, m, j_z, m_z\rangle = j_2(j_2+1) \hbar^2 |j, m, j_z, m_z\rangle
+\]
+\[
+\hat{J}_{2z} |j, m, j_z, m_z\rangle = m_2 \hbar |j, m, j_z, m_z\rangle
+\]
+
+在非耦合表象中并没有出现总角动量 $\hat{J}$，故称其为非耦合表象。
+
+例如上节中的 $|\uparrow \uparrow \rangle$，$|\downarrow \downarrow \rangle$。
+\subsection{耦合表象}
+在此问题中，引入 $j = j_1 + j_2$，则 $\hat{J}^2, \hat{J}_z, \hat{J}_1^2, \hat{J}_2^2$ 也是两两对易的，$\{\hat{J}^2, \hat{J}_z, \hat{J}_1^2, \hat{J}_2^2\}$ 也构成一组 CSCO（完备集）。
+
+基矢为 $|j, m, j_1, j_2\rangle$ 有：
+\[
+\hat{J}^2 |j, m, j_1, j_2\rangle = j(j+1) \hbar^2 |j, m, j_1, j_2\rangle
+\]
+\[
+\hat{J}_z |j, m, j_1, j_2\rangle = m \hbar |j, m, j_1, j_2\rangle
+\]
+\[
+\hat{J}_1^2 |j, m, j_1, j_2\rangle = j_1(j_1+1) \hbar^2 |j, m, j_1, j_2\rangle
+\]
+\[
+\hat{J}_2^2 |j, m, j_1, j_2\rangle = j_2(j_2+1) \hbar^2 |j, m, j_1, j_2\rangle
+\]
+
+例如上节中的 $|1, 1\rangle, |1, 0\rangle, |1, -1\rangle, |0, 0\rangle$。
+\subsection{双自旋$\frac{1}{2}$系统非耦合表象和耦合表象的联系}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		耦合表象 & 非耦合表象 \\ \hline
+		$|11\rangle$ & $|\uparrow\uparrow\rangle$ \\ \hline
+		$|1-1\rangle$ & $|\downarrow\downarrow\rangle$ \\ \hline
+		$|10\rangle$ & ? \\ \hline
+		$|00\rangle$ & ? \\ \hline
+	\end{tabular}
+\end{table}
+
+求 $|10\rangle$ 和 $|00\rangle$ 在非耦合表象下的形式。
+
+由正交归一性，$|10\rangle$ 和 $|00\rangle$ 应不含 $|\uparrow\downarrow\rangle$ 和 $|\downarrow\downarrow\rangle$ 的成分。于是令
+\[
+|10\rangle = c_1 |\uparrow\downarrow\rangle + c_2 |\downarrow\uparrow\rangle
+\]
+\[
+|00\rangle = c_3 |\uparrow\downarrow\rangle + c_4 |\downarrow\uparrow\rangle
+\]
+
+对于 $|10\rangle$，有
+\[
+\hat{S}_- |10\rangle = \sqrt{1(1+1) - 1(1-1)} \hbar |10\rangle
+\]
+\[
+|10\rangle = \frac{1}{\sqrt{2}} \hat{S}_- |11\rangle
+\]
+\[
+= \frac{1}{\sqrt{2}} (\hat{S}_- + \hat{S}_{2-}) |\uparrow\uparrow\rangle
+\]
+\[
+= \frac{1}{\sqrt{2}} \left[ (\hat{S}_- |\uparrow\rangle) |\uparrow\rangle + |\uparrow\rangle (\hat{S}_- |\uparrow\rangle) \right]
+\]
+\[
+= \frac{1}{\sqrt{2}} \left( \hbar |\downarrow\rangle + \hbar |\downarrow\rangle \right)
+\]
+\[
+= \frac{1}{\sqrt{2}} (|\downarrow\uparrow\rangle + |\uparrow\downarrow\rangle)
+\]
+
+对于 $|00\rangle$ 有
+\[
+\hat{S}_+ |00\rangle = 0
+\]
+\[
+(\hat{S}_{1+} + \hat{S}_{2+}) (c_3 |\uparrow\downarrow\rangle + c_4 |\downarrow\uparrow\rangle) = 0
+\]
+\[
+c_3 (\hat{S}_{1+} |\uparrow\rangle) |\downarrow\rangle_2 + c_4 (\hat{S}_{2+} |\downarrow\rangle) |\uparrow\rangle_2 + c_3 |\uparrow\rangle_1 (\hat{S}_{2+} |\downarrow\rangle) + c_4 |\downarrow\rangle_1 (\hat{S}_{1+} |\uparrow\rangle) = 0
+\]
+\[
+c_4 |\uparrow\uparrow\rangle + c_3 |\uparrow\uparrow\rangle = 0
+\]
+\[
+\Longrightarrow c_3 = -c_4
+\]
+
+为满足归一化条件，令 $c_3 = \frac{1}{\sqrt{2}}$，则
+\[
+|00\rangle = \frac{1}{\sqrt{2}} (|\uparrow\downarrow\rangle - |\downarrow\uparrow\rangle)
+\]
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figure/screenshot0031}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figure/screenshot0032}
+\end{figure}
+
+
+\begin{itemize}
+	\item 纠缠态：不能写成两个单粒子态矢的简单直积形式的态称作纠缠态。
+\end{itemize}
+
 \end{document}
