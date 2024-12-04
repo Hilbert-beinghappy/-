@@ -3,6 +3,7 @@
 \usepackage{float}
 \usepackage{esint}
 \usepackage{mathtools}
+\usepackage{tikz}
 \title{量子力学}
 
 
@@ -5365,4 +5366,23 @@ c_4 |\uparrow\uparrow\rangle + c_3 |\uparrow\uparrow\rangle = 0
 	\item 纠缠态：不能写成两个单粒子态矢的简单直积形式的态称作纠缠态。
 \end{itemize}
 
+\begin{tikzpicture}[>=stealth]
+	% 定义节点
+	\node (X) at (0,2) {$X$};
+	\node (Y) at (4,2) {$Y$};
+	\node (Xpp) at (0,0) {$X''$};
+	\node (Ypp) at (4,0) {$Y''$};
+	
+	% 绘制箭头
+	\draw[->] (X) -- node[above] {$T$} (Y);
+	\draw[->] (X) -- node[left] {$J_X$} (Xpp);
+	\draw[->] (Y) -- node[right] {$J_Y$} (Ypp);
+	\draw[->] (Xpp) -- node[below] {$T^{**}$} (Ypp);
+	
+	% 添加说明文字
+	\node[align=left] at (10,2) {For any $x \in X, f \in Y'$:};
+	\node[align=left] at (10,1) {$T^{**}(J_X(x))(f) = (T^*)'(J_X(x))(f) = J_X(x)(T^*f) = (T^*f)(x) = f(Tx)$};
+	\node[align=left] at (10,0) {$J_Y(Tx)(f) = f(Tx)$};
+	\node[align=left] at (10,-1) {$\Rightarrow J_Y(Tx) = T^{**}(J_X(x))$};
+\end{tikzpicture}
 \end{document}
