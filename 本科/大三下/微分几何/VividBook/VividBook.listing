@@ -1,0 +1,11 @@
+\begin{mycmd2}{[root@azurekite /]\#}
+\begin{lstlisting}[style=python2]
+def main(): # 主函数
+    pool = multiprocessing.Pool(processes=2) # 定义2个大小的进程池
+    for item in range(10): # 创建10个进程
+        result = pool.apply_async(func=work, args=(item,)) # 非阻塞形式执行进程
+        print(result.get()) # 获取进程返回结果
+    pool.close() # 执行完毕后关闭进程池
+    pool.join() # 等待进程池执行完毕
+\end{lstlisting}
+\end{mycmd2}

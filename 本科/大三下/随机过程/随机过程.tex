@@ -1,4 +1,4 @@
-\documentclass[lang=cn,10pt]{elegantbook}
+\documentclass[lang=cn,10pt,thmcnt=section]{elegantbook}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{esint}
@@ -1395,5 +1395,214 @@ Hence, $N(t)$ will (with a probability going to 1) just equal the number of subi
 \end{tikzpicture}
 \caption{将区间 \([0, t]\) 划分为 \(k\) 个相等的子区间}
 \end{figure}
+\section{Interarrival and Waiting Time Distributions}
+Consider a Poisson process, and let $X_1$ denote the time of the first event. Further, for $n \geq 1$, let $X_n$ denote the time between the $(n-1)$st and the $n$th event. The sequence $\{X_n, n \geq 1\}$ is called the sequence of \textit{interarrival times}. We shall now determine the distribution of the $X_n$. To do so we first note that the event $\{X_1 > t\}$ takes place if, and only if, no events of the Poisson process occur in the interval $[0, t]$, and thus
+\[
+P\{X_1 > t\} = P\{N(t) = 0\} = e^{-\lambda t}
+\]
+Hence, $X_1$ has an exponential distribution with mean $1/\lambda$. To obtain the distribution of $X_2$ conditional on $X_1$. This gives
+\[
+P\{X_2 > t \mid X_1 = s\} = P\{0 \text{ events in } (s, s+t] \mid X_1 = s\}
+\]
+\[
+= P\{0 \text{ events in } (s, s+t]\} \quad \text{(by independent increments)}
+\]
+\[
+= e^{-\lambda t} \quad \text{(by stationary increments)}
+\]
+Therefore, from the above we conclude that $X_2$ is also an exponential random variable with mean $1/\lambda$, and furthermore, that $X_2$ is independent of $X_1$. Repeating the same argument yields the following.
+\begin{proposition}
+	The random variables \(X_n\), \(n = 1, 2, \ldots\), are independent identically distributed (i.i.d.) exponential random variables having mean \(1/\lambda\).
+\end{proposition}
+
+\begin{remark}
+	The proposition should not surprise us. The assumption of stationary and independent increments is equivalent to asserting that, at any point in time, the process \textit{probabilistically restarts} itself. That is, the process from any point on is independent of all that has previously occurred (by independent increments), and also has the same distribution as the original process (by stationary increments). In other words, the process has no \textit{memory}, and hence exponential interarrival times are to be expected.
+\end{remark}
+
+Another quantity of interest is \( S_n \), the arrival time of the \( n \)th event, also called the \textit{waiting time} until the \( n \)th event. Since
+\[
+S_n = \sum_{i=1}^{n} X_i, \quad n \geq 1,
+\]
+it is easy to show, using moment generating functions, that Proposition 2.2.1 implies that \( S_n \) has a gamma distribution with parameters \( n \) and \( \lambda \). That is, its probability density is
+\[
+f(t) = \lambda e^{-\lambda t} \frac{(\lambda t)^{n-1}}{(n-1)!}, \quad t \geq 0.
+\]
+
+The above could also have been derived by noting that the \( n \)th event occurs prior or at time \( t \) if, and only if, the number of events occurring by time \( t \) is at least \( n \). That is,
+\[
+N(t) \geq n \Leftrightarrow S_n \leq t.
+\]
+Hence,
+\[
+P\{S_n \leq t\} = P\{N(t) \geq n\}
+\]
+\[
+= \sum_{j=n}^{\infty} e^{-\lambda t} \frac{(\lambda t)^j}{j!},
+\]
+which upon differentiation yields that the density function of \( S_n \) is
+\[
+f(t) = -\sum_{j=n}^{\infty} \lambda e^{-\lambda t} \frac{(\lambda t)^{j-1}}{j!} + \sum_{j=n}^{\infty} \lambda e^{-\lambda t} \frac{(\lambda t)^{j-1}}{(j-1)!}
+\]
+\[
+= \lambda e^{-\lambda t} \frac{(\lambda t)^{n-1}}{(n-1)!}
+\]
+\begin{remark}
+	Another way of obtaining the density of \( S_n \) is to use the independent increment assumption as follows
+	\[
+	P\{t < S_n < t + dt\} = P\{N(t) = n - 1, \text{1 event in } (t, t + dt)\} + o(dt)
+	\]
+	\[
+	= P\{N(t) = n - 1\} P\{\text{1 event in } (t, t + dt)\} + o(dt)
+	\]
+	\[
+	= e^{-\lambda t} \frac{(\lambda t)^{n-1}}{(n-1)!} \lambda dt + o(dt)
+	\]
+	which yields, upon dividing by \( dt \) and then letting it approach 0, that
+	\[
+	f_{S_n}(t) = \frac{\lambda e^{-\lambda t} (\lambda t)^{n-1}}{(n-1)!}
+	\]
+\end{remark}
+Proposition 2.2.1 also gives us another way of defining a Poisson process. For suppose that we start out with a sequence \(\{X_n, n \geq 1\}\) of independent identically distributed exponential random variables each having mean \(1/\lambda\). Now let us define a counting process by saying that the \( n \)th event of this process occurs at time \( S_n \), where
+\[
+S_n = X_1 + X_2 + \cdots + X_n.
+\]
+The resultant counting process \(\{N(t), t \geq 0\}\) will be Poisson with rate \( \lambda \).
+
+\section{Conditional Distribution of The Arrrival Times}
+Suppose we are told that exactly one event of a Poisson process has taken place by time $t$, and we are asked to determine the distribution of the time at which the event occurred. Since a Poisson process possesses stationary and independent increments, it seems reasonable that each interval in $[0, t]$ of equal length should have the same probability of containing the event. In other words, the time of the event should be uniformly distributed over $[0, t]$. This is easily checked since, for $s \leq t$,
+\begin{align*}
+	P\{X_1 < s \mid N(t) = 1\} &= \frac{P\{X_1 < s, N(t) = 1\}}{P\{N(t) = 1\}} \\
+	&= \frac{P\{\text{1 event in } [0, s), \text{0 events in } [s, t)\}}{P\{N(t) = 1\}} \\
+	&= \frac{P\{\text{1 event in } [0, s)\} P\{\text{0 events in } [s, t)\}}{P\{N(t) = 1\}} \\
+	&= \frac{\lambda s e^{-\lambda s} e^{-\lambda (t-s)}}{\lambda t e^{-\lambda t}} \\
+	&= \frac{s}{t}.
+	\end{align*}
+This result may be generalized, but before doing so we need to introduce the concept of order statistics. Let $Y_1, Y_2, \ldots, Y_n$ be $n$ random variables. We say that $Y_{(1)}, Y_{(2)}, \ldots, Y_{(n)}$ are the order statistics corresponding to $Y_1, Y_2, \ldots, Y_n$ if $Y_{(k)}$ is the $k$th smallest value among $Y_1, \ldots, Y_n, k = 1, 2, \ldots, n$. If the $Y_i$'s are independent identically distributed continuous random variables with probability density $f$, then the joint density of the order statistics $Y_{(1)}, Y_{(2)}, \ldots, Y_{(n)}$ is given by
+\[
+f(y_1, y_2, \ldots, y_n) = n! \prod_{i=1}^{n} f(y_i), \quad y_1 < y_2 < \cdots < y_n.
+\]
+The above follows since (i) $(Y_{(1)}, Y_{(2)}, \ldots, Y_{(n)})$ will equal $(y_1, y_2, \ldots, y_n)$ if $(Y_1, Y_2, \ldots, Y_n)$ is equal to any of the $n!$ permutations of $(y_1, y_2, \ldots, y_n)$, and (ii) the probability density that $(Y_1, Y_2, \ldots, Y_n)$ is equal to $y_1, y_2, \ldots, y_n$, is $f(y_1) f(y_2) \cdots f(y_n) = \prod_{i} f(y_i)$ when $(y_1, y_2, \ldots, y_n)$ is a permutation of $(y_1, y_2, \ldots, y_n)$.
+
+If the $Y_i, i = 1, \ldots, n$, are uniformly distributed over $(0, t)$, then it follows from the above that the joint density function of the order statistics $Y_{(1)}, Y_{(2)}, \ldots, Y_{(n)}$ is
+\[
+f(y_1, y_2, \ldots, y_n) = \frac{n!}{t^n}, \quad 0 < y_1 < y_2 < \cdots < y_n < t.
+\]
+We are now ready for the following useful theorem.
+\begin{theorem}
+	Given that \( N(t) = n \), the \( n \) arrival times \( S_1, \ldots, S_n \) have the same distribution as the order statistics corresponding to \( n \) independent random variables uniformly distributed on the interval \( (0, t) \).
+\end{theorem}
+\begin{proof}
+	We shall compute the conditional density function of \( S_1, \ldots, S_n \) given that \( N(t) = n \). So let \( 0 < t_1 < t_2 < \cdots < t_{n+1} = t \) and let \( h_i \) be small enough so that \( t_i + h_i < t_{i+1} \), \( i = 1, \ldots, n \). Now,
+\[
+P\{t_i \leq S_i \leq t_i + h_i, i = 1, 2, \ldots, n \mid N(t) = n\}
+\]
+\[
+= \frac{P\{\text{exactly 1 event in } [t_i, t_i + h_i], i = 1, \ldots, n, \text{no events elsewhere in } [0, t]\}}{P\{N(t) = n\}}
+\]
+\[
+= \frac{\lambda h_1 e^{-\lambda h_1} \cdots \lambda h_n e^{-\lambda h_n} e^{-\lambda (t - h_1 - \cdots - h_n)}}{e^{-\lambda t} (\lambda t)^n / n!}
+\]
+\[
+= \frac{n!}{t^n} h_1 h_2 \cdots h_n
+\]
+
+Hence,
+\[
+\frac{P\{t_i \leq S_i \leq t_i + h_i, i = 1, 2, \ldots, n \mid N(t) = n\}}{h_1 h_2 \cdots h_n} = \frac{n!}{t^n},
+\]
+and by letting the \( h_i \to 0 \), we obtain that the conditional density of \( S_1, \ldots, S_n \) given that \( N(t) = n \) is
+\[
+f(t_1, \ldots, t_n) = \frac{n!}{t^n}, \quad 0 < t_1 < \cdots < t_n < t,
+\]
+which completes the proof.
+\end{proof}
+\begin{remark}
+	Intuitively, we usually say that under the condition that \( n \) events have occurred in \( (0, t) \), the times \( S_1, \ldots, S_n \) at which events occur, considered as unordered random variables, are distributed independently and uniformly in the interval \( (0, t) \).
+\end{remark}
+\begin{example}
+	Suppose that travelers arrive at a train depot in accordance with a Poisson process with rate \(\lambda\). If the train departs at time \( t \), let us compute the expected sum of the waiting times of travelers arriving in \( (0, t) \). That is, we want \( E[\sum_{i=1}^{N(t)} (t - S_i)] \), where \( S_i \) is the arrival time of the \( i \)th traveler. Conditioning on \( N(t) \) yields
+\[
+E\left[\sum_{i=1}^{N(t)} (t - S_i) \bigg| N(t) = n \right] = E\left[\sum_{i=1}^n (t - S_i) \bigg| N(t) = n \right]
+\]
+\[
+= n t - E\left[\sum_{i=1}^n S_i \bigg| N(t) = n \right]
+\]
+\end{example}
+Now if we let \( U_1, \ldots, U_n \) denote a set of \( n \) independent uniform \( (0, t) \) random variables, then
+\[
+E\left[\sum_{i=1}^n S_i \bigg| N(t) = n \right] = E\left[\sum_{i=1}^n U_i \right] \quad \text{(by Theorem 2.3.1)}
+\]
+\[
+= E\left[\sum_{i=1}^n U_{(i)} \right] \quad \left(\text{since} \sum_{i=1}^n U_{(i)} = \sum_{i=1}^n U_i \right)
+\]
+\[
+= \frac{n t}{2}.
+\]
+
+Hence,
+\[
+E\left[\sum_{i=1}^{N(t)} (t - S_i) \bigg| N(t) = n \right] = n t - \frac{n t}{2} = \frac{n t}{2}
+\]
+
+and
+\[
+E\left[\sum_{i=1}^{N(t)} (t - S_i) \right] = \frac{t}{2} E[N(t)] = \frac{\lambda t^2}{2}.
+\]
+
+As an important application of Theorem 2.3.1, suppose that each event of a Poisson process with rate \(\lambda\) is classified as being either a type-I or type-II event, and suppose that the probability of an event being classified as type-I depends on the time at which it occurs. Specifically, suppose that if an event occurs at time \( s \), then, independently of all else, it is classified as being a type-I event with probability \( P(s) \) and a type-II event with probability \( 1 - P(s) \). By using Theorem 2.3.1 we can prove the following proposition.
+
+\begin{proposition}
+	If \( N_i(t) \) represents the number of type-\( i \) events that occur by time \( t \), \( i = 1, 2 \), then \( N_1(t) \) and \( N_2(t) \) are independent Poisson random variables having respective means \( \lambda t p \) and \( \lambda t(1 - p) \), where
+\[
+p = \frac{1}{t} \int_0^t P(s) \, ds
+\]
+\end{proposition}
+\begin{proof}
+	We compute the joint distribution of \( N_1(t) \) and \( N_2(t) \) by conditioning on \( N(t) \)
+\[
+P\{N_1(t) = n, N_2(t) = m\}
+\]
+\[
+= \sum_{k=0}^{\infty} P\{N_1(t) = n, N_2(t) = m \mid N(t) = k\} P\{N(t) = k\}
+\]
+\[
+= P\{N_1(t) = n, N_2(t) = m \mid N(t) = n + m\} P\{N(t) = n + m\}
+\]
+Now consider an arbitrary event that occurred in the interval \([0, t]\). If it had occurred at time \( s \), then the probability that it would be a type-I event would be \( P(s) \). Hence, since by Theorem 2.3.1 this event will have occurred at some time uniformly distributed on \((0, t)\), it follows that the probability that it will be a type-I event is
+\[
+p = \frac{1}{t} \int_0^t P(s) \, ds
+\]
+independently of the other events. Hence, \( P\{N_1(t) = n, N_2(t) = m \mid N(t) = n + m\} \) will just equal the probability of \( n \) successes and \( m \) failures in \( n + m \) independent trials when \( p \) is the probability of success on each trial. That is,
+\[
+P\{N_1(t) = n, N_2(t) = m \mid N(t) = n + m\} = \binom{n + m}{n} p^n (1 - p)^m
+\]
+Consequently,
+\[
+P\{N_1(t) = n, N_2(t) = m\} = \frac{(n + m)!}{n! m!} p^n (1 - p)^m e^{-\lambda t} \frac{(\lambda t)^{n + m}}{(n + m)!}
+\]
+\[
+= e^{-\lambda p} \frac{(\lambda p)^n}{n!} e^{-\lambda (1 - p)} \frac{(\lambda (1 - p))^m}{m!},
+\]
+which completes the proof.
+\end{proof}
+The importance of the above propositionis illustrated by the following example
+\begin{example}
+	\textbf{The Infinite Server Poisson Queue.} Suppose that customers arrive at a service station in accordance with a Poisson process with rate \(\lambda\). Upon arrival the customer is immediately served by one of an infinite number of possible servers, and the service times are assumed to be independent with a common distribution \( G \). To compute the joint distribution of the number of customers that have completed their service and the number that are in service at time \( t \), call an entering customer a type-I customer if it completes its service by time \( t \) and a type-II customer if it does not complete its service by time \( t \). Now, if the customer enters at time \( s \), \( s \leq t \), then it will be a type-I customer if its service time is less than \( t - s \), and since the service time distribution is \( G \), the probability of this will be \( G(t - s) \). Hence,
+	\[
+	P(s) = G(t - s), \quad s \leq t,
+	\]
+	and thus from Proposition 2.3.2 we obtain that the distribution of \( N_1(t) \)—the number of customers that have completed service by time \( t \)—is Poisson with mean
+	\[
+	E[N_1(t)] = \lambda \int_0^t G(t - s) \, ds = \lambda \int_0^t G(y) \, dy.
+	\]
+	Similarly, \( N_2(t) \), the number of customers being served at time \( t \), is Poisson distributed with mean
+	\[
+	E[N_2(t)] = \lambda \int_0^t \overline{G}(y) \, dy.
+	\]
+	Further \( N_1(t) \) and \( N_2(t) \) are independent.
+\end{example}
+
+
+
 
 \end{document}

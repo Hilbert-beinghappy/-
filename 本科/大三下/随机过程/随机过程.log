@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.3.17)  29 MAR 2025 11:46
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.3.17)  2 APR 2025 12:58
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1556,24 +1556,32 @@ Chapter 2.
 
 [24]
 
-[25] (./随机过程.aux)
+[25]
+
+[26]
+
+[27]
+
+[28]
+
+[29] (./随机过程.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2022/08/05>
  ***********
 Package rerunfilecheck Info: File `随机过程.out' has not changed.
-(rerunfilecheck)             Checksum: 00AAD3BC8A49CED2D77A3D3CEC76F9EA;2606.
+(rerunfilecheck)             Checksum: AB649458D63A5F86231F317767FCB46B;3232.
 Package logreq Info: Writing requests to '随机过程.run.xml'.
 \openout1 = `随机过程.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 46182 strings out of 473832
- 976817 string characters out of 5733158
- 1985543 words of memory out of 5000000
- 68465 multiletter control sequences out of 15000+600000
+ 46189 strings out of 473832
+ 976932 string characters out of 5733158
+ 1986251 words of memory out of 5000000
+ 68472 multiletter control sequences out of 15000+600000
  564653 words of font info for 101 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  103i,12n,127p,1394b,1340s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on 随机过程.pdf (27 pages).
+Output written on 随机过程.pdf (31 pages).
