@@ -1,43 +1,39 @@
-%\documentclass[lang=cn,10pt,newtx,thmcnt=section,cod=minted]{vividbook} %开启minted版本,
-\documentclass[lang=cn,10pt,newtx,thmcnt=section]{vividbook} % 无minted版本!使用这个请务必注释掉48行附近的\input{cha/minteds.tex}
+\documentclass[lang=cn,10pt,thmcnt=section]{elegantbook}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{esint}
+\usepackage{mathtools}
+\usepackage{tikz}
 \title{微分几何}
-\subtitle{Bringing Color to Knowledge}
 
-\author{黄佳炜}
 
+
+\author{Huang}
 \date{\today}
-\version{V6-正式版}
-\bioinfo{邮箱}{917568554@qq.com}
 
-\extrainfo{在没有结束前，总要做很多没有意义的事，这样才可以在未来某一天，用这些无意义的事去堵住那些讨厌的缺口}
+
+
 
 \setcounter{tocdepth}{3}
 
-\logo{logo-blue.pdf}
-\cover{cover4.pdf}
+
+\cover{cover.jpg}
 
 % 本文档命令
 \usepackage{array}
 \newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
 
 % 修改标题页的橙色带
-\definecolor{customcolor}{RGB}{245, 250, 246}
-\colorlet{coverlinecolor}{customcolor}
-\usepackage{cprotect}
-\usepackage{zhlipsum}
-\usepackage{longtable}
-\addbibresource[location=local]{reference.bib} % 参考文献，不要删除
-\usepackage{animate}
-\definecolor{framegolden}{RGB}{0, 174, 247} % 控制外框颜色
+% \definecolor{customcolor}{RGB}{32,178,170}
+% \colorlet{coverlinecolor}{customcolor}
 \begin{document}
-
-\chapterimage{sd6.pdf} 
-\maketitle
-\frontmatter
-
-\tableofcontents
-
-\mainmatter
+	
+	\maketitle
+	\frontmatter
+	
+	\tableofcontents
+	
+	\mainmatter
 \chapter{预备知识}
 \section{向量空间}
 \begin{definition}[同向]
@@ -3104,7 +3100,7 @@ G &= \bm{r}_\varphi \cdot \bm{r}_\varphi = (R + r \cos\theta)^2
 
 第二基本形式系数：
 \begin{align*}
-L &= \bm{r}_{\theta\theta} \cdot \bm{n} = r \\
+L &= \bm{r}_{\theta\theta} \cdot \bm{n} = r \\ 
 M &= \bm{r}_{\theta\varphi} \cdot \bm{n} = 0 \\
 N &= \bm{r}_{\varphi\varphi} \cdot \bm{n} = (R + r \cos\theta)\cos\theta
 \end{align*}
@@ -3119,4 +3115,423 @@ H = \frac{1}{2}\left(\frac{L}{E} + \frac{N}{G}\right) = \frac{1}{2}\left(\frac{1
 \]
 \end{proof}
 
+
+补充：曲面上两种线
+\begin{itemize}
+    \item 我们称 \( V \in T_pS \) 是一个渐近方向，若 \( k_n(v) = \frac{II(v, v)}{I(v,v)} = 0 \)。
+
+    若 \( r(s) = r(u(s), v(s)) \) 的切方向 \( r'(s) \) 是渐近方向，则 称\( r(s) \) 为曲面上的一条渐近线。此时 \( k_n(r'(s)) \equiv 0 \)。  
+\end{itemize}
+
+渐近线方程
+
+\[ k_n(r'(s)) \equiv 0 \iff II(r'(s), r'(s)) \equiv 0. \]
+
+\[
+\Leftrightarrow L\left( \frac{du}{ds} \right)^2 + 2M\left( \frac{du}{ds} \right) \left( \frac{dv}{ds} \right) + N\left( \frac{dv}{ds} \right)^2 = 0
+\]
+
+\[
+\Leftrightarrow L\left( \frac{du}{dv} \right)^2 + 2M\left( \frac{du}{dv} \right) + N = 0.
+\]
+
+将 \( u \) 视为 \( v \) 的函数：
+\[
+\frac{du}{dv} = \frac{du/ds}{dv/ds}
+\]
+
+方程有解的必要条件是判别式 \( \Delta \geq 0 \)：
+\[
+\Delta \geq 0 \iff \det II\leq 0 \iff K \leq 0.
+\]
+
+解得 \( u = f(v) + C \)，于是可以讨论曲线 \( u = f(v) + C \)：
+\[
+F(u,v) = C
+\]
+
+\begin{example}
+    $z=\frac{x}{y}+\frac{y}{x}$求渐近线
+\end{example}
+\begin{proof}
+    \begin{align*}
+        r(x,y) &= (x, y, f(x,y)) \\
+        \vec{n} &= \frac{(-f_x, -f_y, 1)}{\sqrt{f_x^2 + f_y^2 + 1}} \quad , \quad r_{xx} = (0, 0, f_{xx}) \\
+        r_{xy} &= (0, 0, f_{xy}) \quad , \quad r_{yy} = (0, 0, f_{yy}) \\
+        L &= \frac{f_{xx}}{\sqrt{f_x^2 + f_y^2 + 1}}, \quad M = \frac{f_{xy}}{\sqrt{f_x^2 + f_y^2 + 1}}, \quad N = \frac{f_{yy}}{\sqrt{f_x^2 + f_y^2 + 1}} \\   
+        z &= f(x, y), \quad f_x = (1, 0, f_x) \\
+        y &= (0, 1, f_y) \\
+        \vec{n} &= \frac{(-f_x, -f_y, 1)}{\sqrt{f_x^2 + f_y^2 + 1}} \\
+        f_x &= \frac{1}{y} - \frac{y}{x^2} \\
+        f_{xx} &= \frac{2y}{x^3} \\
+        f_{xy} &= -\frac{1}{y^2} - \frac{1}{x^2} \\
+        f_{yy} &= \frac{2x}{y^3} \\ 
+            \text{故而渐进线方程：} & \\
+            \frac{2y}{x^3} \left( \frac{dx}{dy} \right)^2 
+              - 2 \left( \frac{1}{x^2 + y^2} \right) \left( \frac{dx}{dy} \right) 
+              + \frac{2x}{y^3} &= 0 \\
+            y^4 \left( \frac{dz}{dy} \right)^2 
+              - (xy^3 + yx^3) \left( \frac{dx}{dy} \right) 
+              + x^4 &= 0 \\
+            \left[ y \left( \frac{dx}{dy} \right) - x \right] 
+              \cdot \left[ y^3 \left( \frac{dx}{dy} \right) - x^3 \right] &= 0 \\
+            \Rightarrow \quad \frac{dx}{dy} &= \frac{x}{y} \quad \text{或} \quad 
+            \end{align*}
+            
+            所以有两个解
+            \begin{enumerate}
+                \item $\frac{dx}{dy} = \frac{x}{y} \Rightarrow \ln x = \ln y + c $
+                \item $\frac{dx}{dy} = \frac{x^3}{y^3}\Rightarrow \frac{l}{x^2} = \frac{1}{y^2} + c $
+            \end{enumerate}     
+\end{proof}
+曲率线
+\begin{itemize}
+    \item 若$r(x)=r(u(s),v(s))$的逐点的切方向$r'(s)$都是主方向（主曲率的特征方向），称$r(s)$为一条曲率线
+\end{itemize}
+曲率方程 
+
+设 \( v(s) = \left( \frac{du}{ds}, \frac{dv}{ds} \right) \).
+
+\[
+\left( \frac{du}{ds}, \frac{dv}{ds} \right) 
+\begin{pmatrix}
+a & b \\
+c & d
+\end{pmatrix} 
+\mathbin{/\mkern-6mu/} 
+\left( \frac{du}{ds}, \frac{dv}{ds} \right) 
+\iff 
+\left( \frac{du}{ds}, \frac{dv}{ds} \right) 
+\begin{pmatrix}
+L & M \\
+M & N
+\end{pmatrix} 
+\mathbin{/\mkern-6mu/} 
+\left( \frac{du}{ds}, \frac{dv}{ds} \right) 
+\begin{pmatrix}
+E & F \\
+F & G
+\end{pmatrix}
+\]
+
+
+\[
+\left( \begin{matrix} E & F \\ F & G \end{matrix} \right)
+\left( \begin{matrix} x \\ y \end{matrix} \right)
+\mathbin{/\mkern-6mu/}
+\left( \begin{matrix} L & M \\ M & N \end{matrix} \right)
+\left( \begin{matrix} x \\ y \end{matrix} \right)
+\]
+
+\[
+\Leftrightarrow 
+\left( \begin{matrix} Ex + Fy \\ Fx + Gy \end{matrix} \right)
+\mathbin{/\mkern-6mu/}
+\left( \begin{matrix} Lx + My \\ Mx + Ny \end{matrix} \right)
+\]
+
+\[
+\Leftrightarrow 
+(Ex + Fy)(Mx + Ny) = (Fx + Gy)(Lx + My)
+\]
+
+\[
+\Leftrightarrow 
+(ME - LF)x^2 + (EN - LG)xy + (NF - MG)y^2 = 0. \quad (*)
+\]
+
+(*)式等价于下面的式子。
+
+$$\left|\begin{matrix}
+    \left(\frac{dv}{ds}\right)^2 & -\left(\frac{du}{ds}\right)\left(\frac{dv}{ds}\right) & \left(\frac{du}{ds}\right)^2 \\
+    E & F & G \\
+    L & M & N
+    \end{matrix}\right| = 0.$$
+上式称为曲率线方程。
+
+\begin{example}[球面]
+    \[
+M = F = 0 \quad \Rightarrow \quad \theta = C \ \text{或} \ \varphi = c
+\]
+\end{example}
+
+\begin{corollary}
+    若 \( M = F = 0 \)
+\[
+\Rightarrow \frac{du}{ds} = 0 \ \text{或} \ \frac{dv}{ds} = 0.
+\]
+\[
+\Rightarrow u = C \ \text{或} \ v = c
+\]
+\(v\) 曲线 和 \( u \) 曲线 是 曲率线。
+\end{corollary}
+
+\chapter{特殊曲面}
+\section{保长对应}
+\begin{definition}[保长对应]
+    设映射 $\sigma: S_1 \rightarrow S_2$ 是一个保长对应，若 $\forall w \in T_p S_1$，有
+\[
+\|w\|_{E^3} = \|d\sigma_p(w)\|_{E^3}.
+\]
+\end{definition}
+\begin{proposition}
+    $\sigma: S_1 \rightarrow S_2$ 为保长的充要条件是：\\
+$\forall w_1, w_2 \in T_p S_1$，有 $\mathcal{I}_p(w_1, w_2) = \widetilde{\mathcal{I}}(\sigma(p), d\varphi_p(w_1), d\varphi_p(w_2))$\\
+其中 $\mathcal{I}$ 和 $\widetilde{\mathcal{I}}$ 分别为 $S_1$ 和 $S_2$ 的第一基本形式。
+\end{proposition}
+
+\begin{proof}
+    $(\Rightarrow) \quad \|w\|_{E^3} = \|d\varphi_p(w)\|_{E^3} $\\
+\[
+\mathcal{I}_p(w, w) \leq \widetilde{\mathcal{I}}(d\varphi_p(w), d\varphi_p(w)) \quad \text{保模长}
+\]
+极化恒等式 $(\langle u, v \rangle = \frac{1}{4}(\|u+v\|^2 - \|u-v\|^2))$ \quad \text{保面积} $\blacktriangledown$
+
+ $(\Leftarrow) \text{取} w_1 = w_2 = w$
+\end{proof}
+\begin{corollary}
+    若 $S_1$ 和 $S_2$ 共用一组参数 $(u,v)$. 
+\[
+\Rightarrow \mathcal{I} = \widetilde{\mathcal{I}} \Rightarrow E = \widehat{E}, F = \widehat{F}, G = \widehat{G}.
+\]
+\end{corollary}
+\begin{example}
+    正螺面. 
+$r(u,v) = (u \cos v, u \sin v, v)$. 
+和悬链面. $\widetilde{r}(\rho, \theta) = (\rho \cos \theta, \rho \sin \theta, \text{arcosh} \rho)$. 
+之间存在保长对应. 
+
+（习题之一：验证两者都是极小曲面 $H=0$）
+\end{example}
+\begin{proof}
+    首先对正螺面，
+$$r_u = (\cos v, \sin v, 0), \quad r_v = (-u \sin v, u \cos v, 1),E = 1, \quad F = 0, \quad G = u^2 + 1$$. 
+$\Rightarrow \mathcal{I} = du \otimes du + (u^2 + 1) dv \otimes dv$. \\
+
+对于悬链面，
+$\widetilde{r}_\rho = (\cos \theta, \sin \theta, \frac{1}{\sqrt{\rho^2 - 1}})$ 
+$\widetilde{E} = 1 + \frac{1}{\rho^2 - 1} = \frac{\rho^2}{\rho^2 - 1}, \quad \widetilde{F} = 0, \quad \widetilde{G} = \rho^2$. \\
+$\widetilde{\mathcal{I}} = \frac{\rho^2}{\rho^2 - 1} d\rho \otimes d\rho + \rho^2 d\theta \otimes d\theta$. \\
+
+\begin{align*}
+\cosh y &= \sinh y \\
+\cosh^2 y &= 1 + \sinh^2 y \\
+y &= \text{arcosh} \rho \\
+\rho &= \cosh y \\
+y' &= \frac{1}{\rho'_y} \\
+&= \frac{1}{\sinh(\text{arcosh} \rho)} = \frac{1}{\sqrt{\rho^2 - 1}}.
+\end{align*}
+故而可尝试
+\[
+\left\{
+\begin{array}{l}
+u = \sqrt{\rho^2 - 1} \Rightarrow du = \frac{\rho}{\sqrt{\rho^2 - 1}} d\rho \quad \checkmark \\
+v = \theta \Rightarrow dv = d\theta
+\end{array}
+\right.
+\]
+故而在上述换元有 $\boxed{\mathcal{I} = \widetilde{\mathcal{I}}} \Rightarrow$ 两者之间存在保长对应。$\square$
+\end{proof}
+\begin{proposition}
+    若两张曲面用同一参数 $(u,v)$，
+但 $K \neq \widetilde{K}$，则两者不可能保长。
+
+\end{proposition}
+\begin{proof}
+    $K$完全由第一基本形式决定。
+\end{proof}
+\section{可展曲面}
+
+\begin{definition}[直纹面]
+    称由单参数直线族给出的曲面为直纹面，换而言之，直纹面一定有以下参数表达。
+\[
+r(u,v) = a(u) + v b(u).
+\]
+\end{definition}
+\begin{proposition}
+    直纹面的高斯曲率 $K \leq 0$. 
+\end{proposition}
+
+\begin{proof}
+
+    $$r_u = a' + v b', \quad r_v = b,r_{uu} = a'' + v b'', \quad r_{uv} = b', \quad r_{vv} = 0$$. 
+
+$$K = \frac{LN - M^2}{EG - F^2} = \frac{-M^2}{EG - F^2} \leq 0$$.
+\end{proof}
+\begin{definition}[可展曲面]
+    $K=0$ 的直纹面称为可展曲面。
+\end{definition}
+\begin{proposition}
+    直纹面可展 $\Leftrightarrow [a'(u), b(u), b'(u)] \equiv 0$.
+\end{proposition}
+\begin{proof}
+    由直纹面计算可知 $K=0 \Leftrightarrow M=0$. 
+$\Leftrightarrow r_{uv} \cdot \overrightarrow{n} = 0. \Leftrightarrow r_{uv} \cdot (r_u \times r_v) = 0.$
+$\Leftrightarrow [a' + vb', b, b'] = [a', b, b'] \equiv 0. \quad \square$
+\end{proof}
+
+\begin{proposition}
+    可展曲面只有柱面、锥面和切线面三类。（局部上）
+\end{proposition}
+
+\begin{proof}
+    由于可展 $\Leftrightarrow [a', b, b'] \equiv 0$. \\
+分情况讨论： \\
+(一) $b(u) \times b'(u) \equiv \overrightarrow{0}$，下证 $b(u)$ 为常向量，故其为柱面。 
+若 $b \equiv \overrightarrow{0}$ 即证，不然不妨设 $b(u)$ 单位（重参化）。 
+$b(u) \cdot b'(u) \equiv \overrightarrow{0} \cdot \Rightarrow b'(u) \equiv \overrightarrow{0} \Rightarrow b(u)$ 为常向量。
+
+\vspace{1cm}
+
+(二) 则下面假设 $b(u) \times b'(u)$ 恒不为零（局部上）， 
+那么（局部上）线性无关。 
+但同时有 $[a'(u), b(u), b'(u)] \equiv 0$ 
+$\Rightarrow a'(u) = \lambda(u) b(u) + \mu(u) b'(u). \quad (*)$ 
+
+定义 $\widehat{a}(u) = a(u) - \mu(u) b(u)$ 
+
+$\Rightarrow \widehat{a}'(u) = a'(u) - \mu'(u) b(u) - \mu(u) b'(u)$ 
+$= (\lambda(u) - \mu'(u)) b(u).$
+
+现在对于 $\lambda(u) - \mu'(u)$ 是否恒为零分类。 
+
+(1) $\lambda(u) - \mu'(u) \equiv 0 \Rightarrow \widehat{a}'(u) \equiv 0 \Rightarrow \widehat{a}(u)$ 为常向量。 
+那么原方程 $r(u,v) = a(u) + vb(u)$ 
+$= \widehat{a}(u) + (v + \mu(u)) b(u).$ 
+下面换元 $$\left\{
+\begin{array}{l}
+\widehat{u} = u \\
+v = v + \mu(u)
+\end{array}
+\right.\\
+\frac{\partial (\widehat{u}, v)}{\partial (u, v)} = 
+\begin{vmatrix}
+1 & 0 \\
+\mu' & 1
+\end{vmatrix}
+= 1.$$正则
+ $\Rightarrow$ 原方程形如 $r(u,v) = \widehat{a}(\widehat{u}) + v b(\widehat{u}) \Rightarrow$锥面。
+
+\vspace{1cm}
+
+(2) $\lambda(u) - \mu'(u)$ 恒不为零（局部上） 
+则 $b(u) = \frac{\widehat{a}'(u)}{\lambda(u) - \mu'(u)}$. 
+故而 $r(u,v) = a(u) + vb(u) = \widehat{a}(u) + v \frac{\widehat{a}'(u)}{\lambda(u) - \mu'(u)}$ 
+作换元 $$\left\{
+\begin{array}{l}
+\widehat{u} = u \\
+\widehat{v} = \frac{v + \mu(u)}{\lambda(u) - \mu'(u)}
+\end{array}
+\right.
+\frac{\partial (\widehat{u}, \widehat{v})}{\partial (u, v)} = 
+\begin{vmatrix}
+1 & 0 \\
+* & \frac{1}{\lambda(u) - \mu'(u)}
+\end{vmatrix}
+\neq 0$$
+$\Rightarrow$ 原方程形如 $r(u,v) = \widehat{a}(\widehat{u}) + v \widehat{a}'(\widehat{u}) \Rightarrow$切线面
+\end{proof}
+
+\begin{proposition}
+    柱面、锥面和切线面事实上都和平面保长。
+\end{proposition}
+\begin{proof}
+    (一) 柱面。
+\[
+r(u,v) = a(u) + v b_0.
+\]
+\[
+r_u = a', \quad r_v = b_0. \quad \text{此时 } F \neq 0.
+\]
+\[
+a'(u) = \frac{a'(u) \cdot b_0}{|b_0|^2}.
+\]
+\[
+(a'(u) + \lambda(u) b_0) \cdot b_0 \equiv 0
+\]
+能要无损元使 \(r_u\) 和 \(r_v\) 正交。
+令 \(\widehat{a}(u) = a(u) + \lambda(u) b_0\) 同时要求 \(\widehat{a}'(u) \cdot b_0 \equiv 0\)。
+
+\[
+r(u,v) = \widehat{a}(u) + (v + \lambda(u)) b_0.
+\]
+
+故而
+\[
+r(u,v) = \widehat{a}(u) + (v + \lambda(u)) b_0.
+\]
+取 \(u\) 为弧长参数。
+\[
+r_u = \widehat{a}'(u) \text{ 单位}, \quad r_v = b_0 \text{ 单位}.
+\]
+\[
+\Rightarrow \mathcal{I} = du \otimes du + d\widetilde{v} \otimes d\widetilde{v} \Rightarrow \text{和平面保长}.
+\]
+
+(二) 锥面
+
+\[
+r(u,v) = a_0 + v b(u)
+\]
+\[
+r_u = v b'(u), \quad r_v = b(u).
+\]
+\[
+E = v^2, \quad F = 0 \quad (b \text{ 单位， } b \cdot b' = 0), \quad G = 1
+\]
+
+\[
+\begin{cases}
+x = v \cos u \\
+y = v \sin u
+\end{cases}
+\]
+\[
+dx = dv \cos u - \sin u v du, \quad dy = dv \sin u + \cos u v du
+\]
+\[
+dx \otimes dx = -2v \sin u \cos u \, du \otimes dv + v^2 \sin^2 u \, du \otimes du
+\]
+\[
+\mathcal{I} = v^2 du \otimes du + dv \otimes dv.
+\]
+\[
+\mathcal{I} = dx \otimes dx + dy \otimes dy
+\]
+
+(三) 切线面.
+\[
+r(u,v) = a(u) + v a'(u).
+\]
+\[
+r_u = a'(u) + v a''(u) = T(u) + v k(u) N(u), \quad r_v = T(u).
+\]
+\[
+E = 1 + v^2 k^2(u), \quad F = 1, \quad G = 1.
+\]
+\[
+\mathcal{I} = (1 + v^2 k^2(u)) du \otimes du + du \otimes dv + dv \otimes du + dv \otimes dv.
+\]
+公式没有挠率！
+
+\end{proof}
+综上可总结一个定理。
+\begin{theorem}
+    直纹面和平面保长 $\Leftrightarrow$ 其为柱面、锥面或切线面。
+
+加强版：无脐点的正则曲面和平面保长 $\Leftrightarrow$ 其为柱面、锥面或切线面。
+\end{theorem}
+
+\begin{definition}[脐点]
+    我们称 $p \in S$ 为一个脐点，若在 $p$ 处 $k_1 = k_2 = \begin{cases} 
+        0, & \text{平点} \\
+        \neq 0, & \text{圆点}
+        \end{cases}$
+\end{definition}
+
+\begin{proof}
+    $(\Leftarrow) \checkmark$
+
+$(\Rightarrow)$ 和平面保长 $\Rightarrow$ 曲面 $k \equiv 0 \Rightarrow k_1 k_2 \equiv 0 \Rightarrow \frac{k_1 \equiv 0 \text{ 或 } k_2 \equiv 0}{直线} \Rightarrow$  直纹面 $\Rightarrow \square$
+\end{proof}
 \end{document}
