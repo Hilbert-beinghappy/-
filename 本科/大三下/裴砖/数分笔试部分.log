@@ -1,10 +1,10 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  29 APR 2025 20:51
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  1 MAY 2025 22:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**VividBook
-(./VividBook.tex
+**数分笔试部分
+(./数分笔试部分.tex
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
 (./elegantbook.cls
@@ -1307,33 +1307,33 @@ Package: mhsetup 2021/03/18 v1.4 programming setup (MH)
 )
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... none found.
- (./VividBook.aux)
-\openout1 = `VividBook.aux'.
+ (./数分笔试部分.aux)
+\openout1 = `数分笔试部分.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-Package hyperref Info: Link coloring ON on input line 29.
- (./VividBook.out) (./VividBook.out)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+Package hyperref Info: Link coloring ON on input line 30.
+ (./数分笔试部分.out) (./数分笔试部分.out)
 \@outlinefile=\write7
-\openout7 = `VividBook.out'.
+\openout7 = `数分笔试部分.out'.
 
 
 *geometry* driver: auto-detecting
@@ -1395,16 +1395,16 @@ Package biblatex Info: XeTeX detected.
 (biblatex)             Assuming input encoding 'utf8'.
 Package biblatex Info: Automatic encoding selection.
 (biblatex)             Assuming data encoding 'utf8'.
-\openout5 = `VividBook.bcf'.
+\openout5 = `数分笔试部分.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'VividBook.bbl' not found.
+Package biblatex Info: ... file '数分笔试部分.bbl' not found.
 
-No file VividBook.bbl.
-Package biblatex Info: Reference section=0 on input line 29.
-Package biblatex Info: Reference segment=0 on input line 29.
+No file 数分笔试部分.bbl.
+Package biblatex Info: Reference section=0 on input line 30.
+Package biblatex Info: Reference segment=0 on input line 30.
 \c@lstlisting=\count568
-Package hyperref Info: Option `pageanchor' set `false' on input line 31.
+Package hyperref Info: Option `pageanchor' set `false' on input line 32.
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: xetex
 * paper: a4paper
@@ -1440,25 +1440,25 @@ Package hyperref Info: Option `pageanchor' set `false' on input line 31.
 File: ./figure/cover.jpg Graphic file (type bmp)
 <./figure/cover.jpg>
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
-(Font)              scaled to size 24.88pt on input line 31.
-LaTeX Font Info:    Trying to load font information for U+rsfs on input line 31.
+(Font)              scaled to size 24.88pt on input line 32.
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 32.
 (/usr/local/texlive/2025/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 31.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 32.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 31.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 32.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+esint on input line 31.
+LaTeX Font Info:    Trying to load font information for U+esint on input line 32.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/esint/uesint.fd
 File: uesint.fd 
 )
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
-(Font)              scaled to size 14.4pt on input line 31.
+(Font)              scaled to size 14.4pt on input line 32.
 
 
 [1
@@ -1467,75 +1467,87 @@ LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
 
 ]
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
-(Font)              scaled to size 17.28pt on input line 34.
- (./VividBook.toc)
+(Font)              scaled to size 17.28pt on input line 35.
+ (./数分笔试部分.toc
+
+[1
+
+
+
+])
 \tf@toc=\write8
-\openout8 = `VividBook.toc'.
+\openout8 = `数分笔试部分.toc'.
 
 
 
-[1
-
-
-
-]
+LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
+(Font)              scaled to size 9.0pt on input line 37.
+[2]
 Chapter 1.
+LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
+(Font)              scaled to size 12.0pt on input line 40.
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 50.
+(Font)              scaled to size 7.0pt on input line 83.
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
-(Font)              scaled to size 5.0pt on input line 50.
+(Font)              scaled to size 5.0pt on input line 83.
 
 
 [1
 
 
 ]
+Missing character: There is no 。 ("3002) in font cmr10!
+Missing character: There is no 。 ("3002) in font cmr10!
+Missing character: There is no 。 ("3002) in font cmr10!
 
-LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
-(Font)              scaled to size 9.0pt on input line 180.
+
 [2]
 
 [3]
-LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
-(Font)              scaled to size 12.0pt on input line 243.
+File: figure/1.PNG Graphic file (type bmp)
+<figure/1.PNG>
 
 
 [4]
 
 [5]
-
-[6]
-
-[7]
-
-[8]
 Chapter 2.
 
 
-[9
+[6
 
 ]
 
-[10]
+[7]
 
 LaTeX Font Warning: Font shape `TU/STKaiti(0)/b/n' undefined
-(Font)              using `TU/STKaiti(0)/m/n' instead on input line 712.
+(Font)              using `TU/STKaiti(0)/m/n' instead on input line 432.
 
 
+
+[8]
+
+[9]
+Chapter 3.
+
+
+[10
+
+]
 
 [11]
+Missing character: There is no ， ("FF0C) in font cmr10!
+
 
 [12]
-Missing character: There is no 。 ("3002) in font cmr10!
-Missing character: There is no 。 ("3002) in font cmr10!
-Missing character: There is no 。 ("3002) in font cmr10!
-Missing character: There is no 。 ("3002) in font cmr10!
-Missing character: There is no 。 ("3002) in font cmr10!
-
 
 [13]
+Chapter 4.
 
-[14]
+
+[14
+
+]
 
 [15]
 
@@ -1543,118 +1555,9 @@ Missing character: There is no 。 ("3002) in font cmr10!
 
 [17]
 
-LaTeX Font Warning: Font shape `TU/STFangsong(0)/b/n' undefined
-(Font)              using `TU/STFangsong(0)/m/n' instead on input line 1215.
-
-
-
 [18]
 
-[19]
-
-[20]
-
-[21]
-
-[22]
-
-[23]
-
-[24]
-Chapter 3.
-
-
-[25
-
-]
-
-[26]
-
-[27]
-
-[28]
-
-[29]
-
-[30]
-LaTeX Font Info:    Trying to load font information for OMS+texgyretermes(0) on input line 2082.
-LaTeX Font Info:    No file OMStexgyretermes(0).fd. on input line 2082.
-
-
-LaTeX Font Warning: Font shape `OMS/texgyretermes(0)/m/n' undefined
-(Font)              using `OMS/cmsy/m/n' instead on input line 2082.
-
-
-LaTeX Warning: Command \textcircled invalid in math mode on input line 2082.
-
-
-LaTeX Warning: Command \textcircled invalid in math mode on input line 2082.
-
-
-
-[31]
-
-[32]
-
-[33]
-
-[34]
-
-[35]
-
-[36]
-
-[37]
-
-[38]
-
-[39]
-
-[40]
-
-[41]
-
-[42]
-
-[43]
-
-[44]
-
-[45]
-
-[46]
-
-[47]
-Chapter 4.
-
-Underfull \hbox (badness 10000) in paragraph at lines 3283--3285
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3308--3310
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3311--3315
-
- []
-
-
-
-[48
-
-]
-
-[49]
-
-[50]
-Missing character: There is no 直 ("76F4) in font cmr7!
-Missing character: There is no 线 ("7EBF) in font cmr7!
-
-
-[51] (./VividBook.aux)
+[19] (./数分笔试部分.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2022/08/05>
@@ -1663,19 +1566,19 @@ L3 programming layer <2022/08/05>
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package rerunfilecheck Info: File `VividBook.out' has not changed.
-(rerunfilecheck)             Checksum: 10CAB7196C96F8DBA7E5077409FB6501;4421.
-Package logreq Info: Writing requests to 'VividBook.run.xml'.
-\openout1 = `VividBook.run.xml'.
+Package rerunfilecheck Info: File `数分笔试部分.out' has not changed.
+(rerunfilecheck)             Checksum: 2A7C2C4B13778756D21744B7E8B03A4A;6498.
+Package logreq Info: Writing requests to '数分笔试部分.run.xml'.
+\openout1 = `数分笔试部分.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 47034 strings out of 473832
- 1027155 string characters out of 5729481
- 2010506 words of memory out of 5000000
- 69302 multiletter control sequences out of 15000+600000
- 567105 words of font info for 117 fonts, out of 8000000 for 9000
+ 46153 strings out of 473832
+ 985357 string characters out of 5729481
+ 2004398 words of memory out of 5000000
+ 68439 multiletter control sequences out of 15000+600000
+ 564284 words of font info for 100 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 103i,21n,130p,694b,1452s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 103i,12n,130p,691b,1342s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on VividBook.pdf (53 pages).
+Output written on 数分笔试部分.pdf (22 pages).
