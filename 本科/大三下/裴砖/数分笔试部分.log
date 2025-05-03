@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  1 MAY 2025 22:35
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  3 MAY 2025 12:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1557,7 +1557,40 @@ Chapter 4.
 
 [18]
 
-[19] (./数分笔试部分.aux)
+[19]
+Chapter 5.
+
+
+[20
+
+]
+
+[21]
+Chapter 6.
+
+
+[22
+
+]
+
+[23]
+
+[24]
+Overfull \hbox (2.38576pt too wide) in paragraph at lines 1407--1408
+[]\TU/STSong(0)/b/n/10 例 题 \TU/texgyretermes(0)/b/n/10 6.42 []\TU/texgyretermes(0)/m/n/10 (Tauber \TU/STSong(0)/m/n/10 定 理\TU/texgyretermes(0)/m/n/10 ) \TU/STSong(0)/m/n/10 设 级 数 $[][] \OML/cmm/m/it/10 a[]x[]$ \TU/STSong(0)/m/n/10 收 敛 半 径 为 \TU/texgyretermes(0)/m/n/10 1\TU/STSong(0)/m/n/10 ，|  左 极 限 $[][] [][] \OML/cmm/m/it/10 a[]x[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 A$ \TU/STSong(0)/m/n/10 存 在，|  且 $[][] \OML/cmm/m/it/10 na[] \OT1/cmr/m/n/10 =
+ []
+
+
+
+[25]
+Chapter 7.
+
+
+[26
+
+]
+
+[27] (./数分笔试部分.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2022/08/05>
@@ -1566,19 +1599,25 @@ L3 programming layer <2022/08/05>
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package rerunfilecheck Info: File `数分笔试部分.out' has not changed.
-(rerunfilecheck)             Checksum: 2A7C2C4B13778756D21744B7E8B03A4A;6498.
+
+Package rerunfilecheck Warning: File `数分笔试部分.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `数分笔试部分.out':
+(rerunfilecheck)             Before: 34E5EB243D458A1B5D0FA77FDE6B0E05;8824
+(rerunfilecheck)             After:  75B5E6E0B612FBB5D18FBE84F7A9D09D;9209.
 Package logreq Info: Writing requests to '数分笔试部分.run.xml'.
 \openout1 = `数分笔试部分.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 46153 strings out of 473832
- 985357 string characters out of 5729481
- 2004398 words of memory out of 5000000
- 68439 multiletter control sequences out of 15000+600000
+ 46239 strings out of 473832
+ 990163 string characters out of 5729481
+ 2006962 words of memory out of 5000000
+ 68525 multiletter control sequences out of 15000+600000
  564284 words of font info for 100 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  103i,12n,130p,691b,1342s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on 数分笔试部分.pdf (22 pages).
+Output written on 数分笔试部分.pdf (30 pages).

@@ -3534,4 +3534,430 @@ E = 1 + v^2 k^2(u), \quad F = 1, \quad G = 1.
 
 $(\Rightarrow)$ 和平面保长 $\Rightarrow$ 曲面 $k \equiv 0 \Rightarrow k_1 k_2 \equiv 0 \Rightarrow \frac{k_1 \equiv 0 \text{ 或 } k_2 \equiv 0}{直线} \Rightarrow$  直纹面 $\Rightarrow \square$
 \end{proof}
+\section{极小曲面}
+Plateau 在 1837 年提出这样的问题：以空间曲线为边界，形成一张“肥皂泡”曲面，其形状为何？
+
+考虑到表面张力，其表面积应该是最小的，何种形状？几何上的这种曲面要满足何等展开
+\begin{definition}[曲面变分]
+    设 $r: D \subset \mathbb{R}^2 \rightarrow \mathbb{R}^3$ 为正则曲面。
+
+定义 $\alpha: (-\epsilon, \epsilon) \times D \rightarrow \mathbb{R}^3$，
+\[
+\alpha(t, u, v) \mapsto r_t(u, v)
+\]
+满足：
+\begin{enumerate}
+    \item \[
+\alpha(0, u, v) = r_0(u, v) = r(u, v),
+\]
+    \item  $\forall t, r_t(u, v)$ 均为正则曲面。
+\end{enumerate}
+
+称 $\alpha$ 为 $r$ 的变分，$\left. \frac{d}{dt} \right|_{t=0} \alpha(t, u, v)$ 称为变分方向。
+\end{definition}
+\begin{definition}[法向变分]
+    设
+\[
+\alpha(t, u, v) = r(u, v) + t \varphi(u, v) \cdot n(u, v)
+\]
+为法向变分，若
+\begin{enumerate}
+    \item $\varphi(u, v) \in C^3(D)$.
+    \item $\varphi \big|_{\partial D} \equiv 0$.
+\end{enumerate}
+
+则
+\[
+\left. \frac{d}{dt} \right|_{t=0} \alpha(t, u, v) = \varphi(u, v) \cdot n(u, v)
+\]
+称为变分方向。
+\end{definition}
+几何学家将“表面积最小”解释为在变分中表面积达到极值，即考虑
+\[
+\left. \frac{d}{dt} \right|_{t=0} A(r_t(u,v)) = 0.
+\]
+
+
+\begin{proposition}
+    \[
+\left. \frac{d}{dt} \right|_{t=0} A(r_t(u,v)) = -2 \int_D \varphi H \, d\sigma.
+\]
+\[
+d\sigma = \sqrt{EG - F^2} \, du \, dv.
+\]
+\end{proposition}
+
+\begin{proof}
+    根据定义
+\[
+A(r_t(u,v)) = \int_D d\sigma_t = \int_D \sqrt{E(t)G(t) - F(t)^2} \, du \, dv.
+\]
+
+注意到 $r_t = r + t \varphi \cdot n$。
+
+\[
+\Rightarrow (r_t)_u = r_u + t \varphi_u \cdot n + t \varphi \cdot n_u
+\]
+\[
+(r_t)_v = r_v + t \varphi_v \cdot n + t \varphi \cdot n_v
+\]
+
+\[
+E(t) = (r_t)_u \cdot (r_t)_u = E - 2t \varphi L + o(t)
+\]
+\[
+F(t) = (r_t)_u \cdot (r_t)_v = F - 2t \varphi M + o(t)
+\]
+\[
+G(t) = (r_t)_v \cdot (r_t)_v = G - 2t \varphi N + o(t)
+\]
+
+
+回到
+\[
+\left. \frac{d}{dt} \right|_{t=0} A(r_t) = \left. \frac{d}{dt} \right|_{t=0} \int_D \sqrt{E(t)G(t) - F(t)^2} \, du \, dv.
+\]
+\[
+= \int_D \left. \frac{d}{dt} \right|_{t=0} \sqrt{E(t)G(t) - F(t)^2} \, du \, dv
+\]
+\[
+= \int_D \frac{E'(0)G(0) + E(0)G'(0) - 2F(0)F'(0)}{2\sqrt{EG - F^2}} \, du \, dv = -2 \int_D \varphi \cdot \frac{LG + NE - 2MF}{2\sqrt{EG - F^2}} \, du \, dv
+\]
+\[
+= -2 \int_D \varphi \cdot H \, d\sigma.
+\]
+
+其中
+\[
+E(0) = E, \quad F(0) = F, \quad G(0) = G,
+\]
+\[
+E'(0) = -2\varphi L, \quad F'(0) = -2\varphi M, \quad G'(0) = -2\varphi N.
+\]
+
+\end{proof}
+\begin{corollary}
+    \[
+\left. \frac{d}{dt} \right|_{t=0} A(r_t) = 0 \Longleftrightarrow H \equiv 0.
+\]
+
+表面积达到极值，即极小曲面 $\Longleftrightarrow H \equiv 0$。
+\end{corollary}
+\section{旋转面}
+
+将曲线 $\begin{cases} x = 0 \\ z = f(y) \end{cases}$ 绕 $z$ 轴旋转生成曲面。
+
+\[
+r(u, v) = (u \cos v, u \sin v, f(u)).
+\]
+
+\[
+r_u = (\cos v, \sin v, f'(u))
+\]
+\[
+r_v = (-u \sin v, u \cos v, 0)
+\]
+
+\[
+E = 1 + f'^2, \quad F = 0, \quad G = u^2.
+\]
+
+\[
+r_{uu} = (0, 0, f''), \quad r_{uv} = (-\sin v, \cos v, 0), \quad r_{vv} = (-u \cos v, -u \sin v, 0)
+\]
+
+\[
+r_{u} \times r_{v} = (-uf'(u)\cos v, -uf'(u)\sin v, u).
+\]
+
+\[
+n = \frac{r_{u} \times r_{v}}{|r_{u} \times r_{v}|} = \frac{1}{\sqrt{1 + f'^2}} (-f'(u)\cos v, -f'(u)\sin v, 1)
+\]
+
+\[
+L = \frac{f''}{\sqrt{1 + f'^2}}, \quad M = 0, \quad N = \frac{uf'}{\sqrt{1 + f'^2}}.
+\]
+
+结论
+\begin{itemize}
+    \item \[
+\boxed{M = F = 0} \Rightarrow \text{u, v 曲线恰好为曲率线}.
+\]
+
+u 曲线：经线，v 曲线：纬圆。
+
+    \item \[
+E = 1 + f'^2, \quad F = 0, \quad G = u^2
+\]
+\[
+L = \frac{f''}{\sqrt{1 + f'^2}}, \quad M = 0, \quad N = \frac{u f'}{\sqrt{1 + f'^2}}
+\]
+
+\[
+\boxed{M = F = 0} \Rightarrow k_1 = \frac{L}{E} = \frac{f''}{(1 + f'^2)^{3/2}} = k f(u)
+\]
+\[
+k_2 = \frac{N}{G} = \frac{f'}{u \sqrt{1 + f'^2}} = \frac{\sin \theta}{u}
+\]
+\[
+k = \frac{f' f''}{u (1 + f'^2)^2}
+\]
+
+\end{itemize}
+\subsection{常高斯曲率的旋转面}
+\[
+\Leftrightarrow f'f''' = ku(1 + f'^2)^2.
+\]
+
+观察到
+\[
+\left(\frac{1}{1 + f'^2}\right)' = \frac{-2f'f'''}{(1 + f'^2)^2}
+\]
+
+两边积分
+\[
+\frac{1}{1 + f'^2} = c - ku^2 \Rightarrow f' = \pm \sqrt{\frac{1}{c - ku^2} - 1} = \pm \sqrt{\frac{1 - c + ku^2}{c - ku^2}}
+\]
+\[
+f(u) = \pm \int \sqrt{\frac{1 - c + ku^2}{c - ku^2}} \, du.
+\]
+
+下面关于 $k$ 的正负分为三类：
+
+(1.1) $k = 0$，$f(u) = \pm \sqrt{\frac{1 - c}{c}} u + c'$
+
+\begin{itemize}
+    \item $a = 0$ 平面
+    \item $a \neq 0$ 锥面
+    \item $a = \infty$ 柱面
+\end{itemize}
+
+(1.2) $k > 0$ 不妨设 $k = \frac{1}{a^2}$
+
+\[
+f(u) = \pm \int \sqrt{\frac{a^2(1 - b^2) + u^2}{b^2a^2 - u^2}} \, du.
+\]
+
+此时 $c$ 必须大于 0，故可令 $c = b^2$.
+
+\[
+\text{特例} \sqrt{b^2 - 1} \Rightarrow f(u) = \pm \int \frac{u}{\sqrt{a^2 - u^2}} \, du = \pm \sqrt{a^2 - u^2} + C
+\]
+
+\[
+(\text{圆} \Rightarrow \text{旋转面为球} (\text{对面的高斯曲率} k = \frac{1}{r^2}))
+\]
+
+(1.3) $k < 0$. 不妨设 $k = -\frac{1}{a^2}$
+
+\[
+f(u) = \pm \int \sqrt{\frac{a^2(1 - c) - u^2}{ca^2 + u^2}} \, du
+\]
+
+此时 $c > 1$ 无解，故而 $c < 1$，设 $c = 1 - b^2$. 带入.
+
+\[
+f(u) = \pm \int \sqrt{\frac{a^2b^2 - u^2}{a^2(1 - b^2) + u^2}} \, du.
+\]
+
+\[
+\text{特例} b^2 = 1 \Rightarrow f(u) = \pm \int \frac{\sqrt{a^2 - u^2}}{u} \, du
+\]
+\[
+u = a \cos \theta, \quad du = -a \sin \theta \, d\theta \quad 0 < \theta < \pi/2
+\]
+
+\[
+f = \mp a \int \frac{\sin^2 \theta}{\cos \theta} \, d\theta = \pm a (\log (\sec \theta + \tan \theta) - \sin \theta).
+\]
+
+\[
+\int \sec \theta \, d\theta = \log (\sec \theta + \tan \theta) + C \quad \text{(常识)}
+\]
+
+\[
+\Gamma(\theta) = (a \cos \theta, \pm a (\log (\sec \theta + \tan \theta) - \sin \theta))\text{曳物线}
+\]
+
+\subsection{旋转极小曲面}
+\[
+H = \frac{1}{2}(k_1 + k_2) = \frac{1}{2} \left( \frac{f''}{\sqrt{1 + f'^2}} + \frac{f'}{u \sqrt{1 + f'^2}} \right) = 0.
+\]
+
+\[
+\Rightarrow u f'' + f'(1 + f'^2) = 0. \quad (*)
+\]
+
+不难观察到
+\[
+\left( \frac{u f'}{\sqrt{1 + f'^2}} \right)' = \frac{(f' + u f'') \sqrt{1 + f'^2} - u f' \cdot \frac{2 f' f''}{2 \sqrt{1 + f'^2}}}{1 + f'^2}
+\]
+\[
+= \frac{(f' + u f'')(1 + f'^2) - u (f')^2 f''}{(1 + f'^2)^{3/2}}
+\]
+\[
+\frac{u f'}{\sqrt{1 + f'^2}} = c.
+\]
+
+\[
+\Rightarrow \frac{f'^2}{1 + f'^2} = \frac{c}{u^2}. \quad (c \geq 0)
+\]
+
+\begin{enumerate}
+    \item $c = 0 \Rightarrow f' = 0 \Rightarrow$ 平面.
+    \item $c > 0 \Rightarrow c = a^2$.
+\end{enumerate}
+
+\[
+\Rightarrow f'(u) = \pm \frac{a}{\sqrt{u^2 - a^2}} \Rightarrow f(u) = \pm a \log(u + \sqrt{u^2 - a^2})
+\]
+
+令 $u = a \cosh \frac{r}{a}$.
+
+\[
+f(u) = \pm a \log \left( a \cosh \frac{r}{a} + a \sinh \frac{r}{a} \right).
+\]
+
+\[
+= \pm a \log \left( a e^{\frac{r}{a}} \right) = \pm r + c.
+\]
+
+故而 $r(u, v) = (u \cos v, u \sin v, f(u))$
+
+\[
+= \left( a \cosh \frac{r}{a} \cos v, a \cosh \frac{r}{a} \sin v, \pm r \right)
+\]
+
+\[
+\sim (u \cos v, u \sin v, \operatorname{arccosh} u)
+\]
+\chapter{曲线论基本定理}
+\section{活动标架法和曲面基本方程}
+我们要约定一些记号。
+\begin{enumerate}
+    \item $u^1$ 和 $u^2$ 表示，$u \text{和}v$
+    \item $g_{ij} \sim I \sim \begin{pmatrix} E & F \\ F & G \end{pmatrix}$, \quad $h_{ij} \sim II \sim \begin{pmatrix} L & M \\ M & N \end{pmatrix}$, \quad $h_{ij} = -r_i \cdot n_j$
+    \item 固定$g^{ij}\sim I^{-1}$
+    \item Einstein 求和记号：若公式中有上下指标成对出现的时候，
+    \[
+    \sum_{j=1}^{2} g^{ij} h_{jk} = g^{il} h_{lk} + g^{ik} h_{2k}.
+    \]但不允许以下情况
+    \begin{itemize}
+        \item 成对但重复
+        \item 不能出现超过两个
+    \end{itemize}
+    \item 约定 $h_i^j  g^{jk} h_{ik} = g^{jl} h_{ik} + g^{ik} h_{jk}$. \quad $h^{ij} = h_k^i g^{kj}$
+    \item
+    \[
+    g^{ij} g_{ij} = \sum_{i,j=1}^{2} g^{ij} g_{ij} = g^{11} g_{11} + g^{12} g_{12} + g^{21} g_{21} + g^{22} g_{22}
+    \]
+    \[
+    \begin{pmatrix} g_{ij} = \begin{pmatrix} E & F \\ F & G \end{pmatrix} \\ h_{ij} = \begin{pmatrix} L & M \\ M & N \end{pmatrix} \end{pmatrix} \quad h_{11} = L, \quad h_{12} = h_{21} = M, \quad h_{22} = N.
+    \]
+    \[
+    \Rightarrow \frac{1}{EG - F^2} \left( \begin{matrix} EG - F^2 & -F E \\ -F E \end{matrix} \right) = 
+    \]
+    \[
+    g^{ij} g_{jk} = \delta_k^i = \begin{cases} 0, & i \neq k \\ 1, & i = k \end{cases}
+    \]
+\end{enumerate}
+\subsubsection{活动标架法}
+我们知道对于正则曲面来说，$\{r_u, r_v, n\}$ 总是一组基，称其为曲面上的活动标架。
+
+我们关心的是这组标架的导数如何用自身表示出来，
+待定系数法
+\[
+\begin{cases}
+r_{ij} = \Gamma_{ij}^k r_k + b_{ij} n \quad 1\\
+n_k = c_k^l r_l + d_k n.\quad 2
+\end{cases}
+\]
+\[
+\text{解出 } \Gamma_{ij}^k, b_{ij}, c_k^l, d_k.
+\]
+
+看2 两边点乘 $n$，$\Rightarrow 0 = d_k$
+
+两边互乘 $r_p$，$\Rightarrow \frac{n_k \cdot r_p}{-h_{kp}} = c_k \frac{r_e \cdot r_p}{g_{kp}} \Rightarrow c_k^2 g_{kp} = -h_{kp}$
+
+两边右乘 $g^{pm}$，$\Rightarrow c_k^2 g_{kp} g^{pm} = -h_{kp} g^{pm}$
+
+$\Rightarrow C_k^m = -h_k^m$
+
+对1两边点乘 $r_e$，$\Rightarrow r_{ij} \cdot r_e = \Gamma_{ij}^k \frac{r_k \cdot r_e}{g_{ke}}$
+
+$r_{ij} \cdot r_e = \Gamma_{ij}^k g_{ke} \Rightarrow \Gamma_{ij}^k = \Gamma_{lij}$
+
+$\Gamma^{k}_{lij} $是什么？
+
+\[
+    \Gamma^{k}_{lij}  = r_{ij} \cdot r_k = (r_i \cdot r_{,l})_j - r_i \cdot r_{lj}
+\]
+\[
+= \partial_j g_{il} - \Gamma_{ilj}
+\]
+
+\[
+\Rightarrow
+\begin{cases}
+\Gamma_{kij}^j + \Gamma_{ikj}^i = \partial_j g_{ik} \quad (1) \\
+\Gamma_{kij}^i + \Gamma_{jki}^j = \partial_i g_{jk} \quad (2) \\
+\Gamma_{jik}^i + \Gamma_{ijk}^k = \partial_k g_{ij} \quad (3)
+\end{cases}
+\]
+
+\[
+(1) + (2) - (3) \Rightarrow \Gamma_{kij}  = \frac{1}{2} (\partial_i g_{jk} + \partial_j g_{ik} - \partial_k g_{ij})
+\]
+
+\[
+\Rightarrow \Gamma^k_{ij} = g^{ik} \Gamma_{l_{ij}}
+\]
+
+\begin{proposition}[Weingarten方程（曲面基本方程）]
+    \[
+\sum r_{ij} = \Gamma_{ij}^k r_k + h_{ij} \cdot n
+\]
+\[
+\left\{
+\begin{array}{l}
+n_k = - h_k^l r_l \\
+\end{array}
+\right.
+\]
+
+其中
+\[
+\Gamma_{ij}^k = g^{kl} \Gamma_{lij}
+\]
+
+而
+\[
+\Gamma_{ij} = \frac{1}{2} (\partial_i g_{jl} + \partial_j g_{il} - \partial_l g_{ij}).
+\]
+
+\end{proposition}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document}

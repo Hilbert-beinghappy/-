@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  29 APR 2025 20:51
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  3 MAY 2025 19:49
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1468,17 +1468,21 @@ LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
 ]
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
 (Font)              scaled to size 17.28pt on input line 34.
- (./VividBook.toc)
-\tf@toc=\write8
-\openout8 = `VividBook.toc'.
-
-
+ (./VividBook.toc
 
 [1
 
 
 
-]
+])
+\tf@toc=\write8
+\openout8 = `VividBook.toc'.
+
+
+
+LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
+(Font)              scaled to size 9.0pt on input line 36.
+[2]
 Chapter 1.
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
 (Font)              scaled to size 7.0pt on input line 50.
@@ -1491,8 +1495,6 @@ LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
 
 ]
 
-LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
-(Font)              scaled to size 9.0pt on input line 180.
 [2]
 
 [3]
@@ -1654,7 +1656,27 @@ Missing character: There is no 直 ("76F4) in font cmr7!
 Missing character: There is no 线 ("7EBF) in font cmr7!
 
 
-[51] (./VividBook.aux)
+[51]
+
+[52]
+
+[53]
+
+[54]
+
+[55]
+Chapter 5.
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 3864.
+
+
+
+[56
+
+]
+
+[57] (./VividBook.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2022/08/05>
@@ -1664,18 +1686,18 @@ L3 programming layer <2022/08/05>
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `VividBook.out' has not changed.
-(rerunfilecheck)             Checksum: 10CAB7196C96F8DBA7E5077409FB6501;4421.
+(rerunfilecheck)             Checksum: 374C437E9BB70F1E687F4831963EB974;5373.
 Package logreq Info: Writing requests to 'VividBook.run.xml'.
 \openout1 = `VividBook.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 47034 strings out of 473832
- 1027155 string characters out of 5729481
- 2010506 words of memory out of 5000000
- 69302 multiletter control sequences out of 15000+600000
+ 47075 strings out of 473832
+ 1028891 string characters out of 5729481
+ 2011547 words of memory out of 5000000
+ 69343 multiletter control sequences out of 15000+600000
  567105 words of font info for 117 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  103i,21n,130p,694b,1452s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on VividBook.pdf (53 pages).
+Output written on VividBook.pdf (60 pages).

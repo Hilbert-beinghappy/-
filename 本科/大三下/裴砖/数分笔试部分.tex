@@ -1004,13 +1004,562 @@ f\left( \frac{a + b}{2} \right) \leq \frac{1}{b - a} \int_a^b f(x) \, dx \leq \f
 1 \leq \int_0^2 f(x) \, dx \leq 3.
 \]
 \end{example}
+\chapter{反常积分}
+\section{反常积分收散性判断}
+\begin{example}
+	设 \( f > 0 \) 内可积，若  
+\[
+\lim_{x \to +\infty} \frac{\ln f(x)}{\ln x} = p, \quad \text{则:}
+\]
+
+\[
+\int f(x) dx 
+\begin{cases} 
+\text{收敛, } & -\infty < p < -1 \\ 
+\text{发散, } & -1 < p < +\infty.
+\end{cases}
+\]
+\end{example}
+\begin{example}
+	若 \( f \in C^1[0,+\infty) \) 且 \( f(0) > 0 \), \( f'(x) > 0 \). 若  
+\[
+\int_0^\infty \frac{1}{f(x)+f'(x)} dx < \infty, \quad \text{证明:}
+\]
+
+\[
+\int_0^\infty \frac{1}{f(x)} dx < \infty.
+\]
+\end{example}
+\begin{example}
+	设 \( f \in C[0,+\infty) \), \( f(x) > 0 \),  
+\[
+\int_{0}^{\infty} \frac{1}{f(x)} dx < \infty,
+\]
+求证：  
+\[
+\lim_{X \to \infty} \frac{1}{X} \int_{0}^{X} f(x) dx = +\infty.
+\]
+\end{example}
+\begin{example}
+	设 \( f \in D[n, +\infty) \)，\(\lim_{x \to +\infty} f'(x) = +\infty\) 且 \( f \) 严格递增，求证：  
+\[
+\int_0^{+\infty} \sin f(x) dx
+\]  
+收敛。
+\end{example}
+\begin{example}
+	设 \( a > 0 \)，\( f \) 在 \([a, +\infty)\) 上平方可积，证明：  
+\[
+\int_a^{+\infty} \frac{f(x)}{x} dx
+\]  
+收敛。
+\end{example}
+\begin{example}
+	设 \( f \) 在 \([a, +\infty)\) (\( a > 1 \)) 上内闭可积，且已知  
+\[
+\int_a^{+\infty} x f(x) dx
+\]  
+收敛，求证：  
+\[
+\int_a^{+\infty} f(x) dx
+\]  
+收敛。
+\end{example}
+\begin{example}
+	讨论广义积分 
+\[
+\int_{0}^{\infty} \frac{\sin x}{x^p} dx \quad ( p > 0 )
+\] 
+的敛散性。对于收敛的情况还要判断是条件收敛还是绝对收敛。
+
+设 \( p > 0 \)，证明广义积分 
+\[
+\int_{0}^{\infty} \frac{\sin x}{x^p + \sin x} dx
+\] 
+在 \( 0 < p \leq \frac{1}{2} \) 时发散，在 \(\frac{1}{2} < p \leq 1\) 时条件收敛，在 \( p > 1 \) 时绝对收敛。
+\end{example}
+\begin{example}
+	已知 \( f(x) \) 在 \([0, +\infty)\) 单调、导数连续，且  
+\[
+\lim_{x \to +\infty} f(x) = 0,
+\] 
+证明：
+\[
+\int_{0}^{\infty} f(x) \sin x dx
+\] 
+绝对收敛。
+\end{example}
+\section{反常积分特殊性质}
+对于正则函数 \(\sum_{n=0}^{\infty}\) 而言，若级数收敛，则 \(\lim_{n \to \infty} a_n = 0\)。但是这对于反常积分未必成立，常常需要增加适当的条件。否则，\(\lim_{n \to \infty} f(n)\) 可能不存在任何非绝对的平方项！
+\begin{example}
+	判断“求积分 \(\int_{-\infty}^{+\infty} \frac{dx}{1 + x^2 + y^2}\)”的函数性质。
+\end{example}
+\begin{example}
+	设反常积分 \(\int_{a}^{\infty} f(x) dx\) 收敛，且 \(\lim_{x \to +\infty} f(x)\) 有意义，则它一定为 0。
+\end{example}
+\begin{example}
+	
+	若无穷限积分 \(\int_{a}^{\infty} f(x) dx\) 收敛，且 \(f\) 单调，则有 \(\lim_{x \to +\infty} x f(x) = 0\)。
+
+\end{example}
+\begin{example}
+	反常积分 \(\int_a^{+\infty} f(x) dx\) 收敛，且被积函数 \(f\) 在 \([a, +\infty)\) 上一致连续，则 \(\lim_{x \to +\infty} f(x) = 0\)。
+
+\end{example}
+\begin{remark}
+	在无穷限积分 \( \int f(x) dx \) 收敛时，若 \( f(x) \) 不连续，则 \( f(x) \) 不成立。若 \( f(x) \) 不成立，则 \( f(x) \) 不成立。若 \( f(x) \) 不成立，则 \( f(x) \) 不成立。
+	\end{remark}
+\begin{example}
+	设 \( f(x) \) 为正态的整数，且被积函数 \( f \) 在 \([a,+\infty)\) 上一致连续，则
+\[
+f(x) = \frac{1}{2} \int_0^a f(t) dt
+\]
+在 \([a,+\infty)\) 上一致连续。
+\end{example}
+\begin{example}
+	已知无穷积分 
+\[
+\int_{a}^{\infty} f(x) \, dx
+\] 
+收敛且 \( xf \) 单调，证明 
+\[
+\lim_{x \to +\infty} xf(x)\ln x = 0.
+\]
+\end{example}
+\begin{example}
+	设函数 \( f(x) \) 连续且 
+\[
+\int_{0}^{+\infty} f(x) \, dx
+\] 
+收敛，则一定存在一个趋于 \( +\infty \) 的数列 \(\{x_n\}_{n=1}^{+\infty} \subset [0, +\infty)\)，使得 \(\lim_{n \to +\infty} f(x_n) = 0\).
+
+\end{example}
+\begin{example}
+	(2021 人大预推免) 若 \( f(x) \in C[0, +\infty) \)，且 \( f(x) \) 的广义积分 
+\[
+\int_0^\infty f(x) dx
+\] 
+收敛。
+
+\begin{enumerate}
+\item $\lim_{x \to \infty} f(x)$ 是否一定存在？不存在。请举反例：存在，请给出理由。
+\item 若 (1) 中的极限存在，是多少？此时 \( f(x) \) 在 \((0, +\infty)\) 上是否一致收敛？
+\end{enumerate}
+\end{example}
+\begin{example}
+	(2021 厦大夏令营) 设函数 \( f \in L^1(\mathbb{R}) \)，正项级数 
+\[
+\sum_{n=1}^\infty a_n
+\] 
+收敛。求证: 
+\[
+\lim_{n \to \infty} f\left(\frac{x}{a_n}\right) = 0, \text{ a.e. } x \in \mathbb{R}.
+\]
+\end{example}
+\chapter{级数}
+\section{级数的计算}
+\subsection{凑已知函数}
+\begin{example}
+	对 $|x| < 1$，计算
+\[
+\sum_{n=0}^{\infty} \frac{4n^2 + 4n + 3}{2n+1}x^n.
+\]
+\end{example}
+\begin{example}
+	(2024 人大预推免) 判断
+\[
+\sum_{n=1}^{\infty} \left( \frac{1}{n^2} - (-1)^n \frac{1}{n} \right)
+\]
+是否收敛？若收敛，求其和。
+\end{example}
+\begin{example}
+	令 $a_n = 1 - \frac{1}{2} + \cdots + \frac{(-1)^{n-1}}{n} - \ln 2$, $n = 1, 2, \cdots$，求
+\[
+\sum_{n=1}^{\infty} a_n
+\]
+的和。
+\end{example}
+\begin{example}
+	解决以下问题：
+\begin{enumerate}
+    \item 设 $a_1 \in (0, 1)$, $a_{n+1} = \sqrt{\frac{1 + a_n}{2}}$, $n = 1, 2, \cdots$，求 $\lim_{n \to \infty} a_1 a_2 \cdots a_n$。
+    \item 对 $|x| < 1$, 计算 $\sum_{k=1}^{\infty} \frac{1}{2^k} \tan \frac{x}{2^k}$。
+\end{enumerate}
+\end{example}
+\subsection{利用幂级数}
+\begin{example}
+	计算 $\sum_{n=1}^{\infty} \left(1 + \frac{1}{2} + \cdots + \frac{1}{n}\right) x^n$.
+	\end{example}
+	
+	\begin{example}
+	(2023 北师大夏令营) 确定级数 $S(x) = \sum_{n=1}^{\infty} \frac{x^n}{n}$ 的收敛域，并计算：
+	\[
+	S(x) + S(1-x) + \ln x \cdot \ln(1-x)
+	\]
+	\end{example}
+	
+	\begin{example}
+	(2023 浙大夏令营) 计算 $\sum_{n=0}^{\infty} \frac{1}{(2n)!}$.
+	\end{example}
+
+	\begin{example}
+		利用幂级数的性质，求下列级数的和：
+		\begin{enumerate}
+			\item $\sum_{n=1}^{\infty} \frac{n(n+2)}{4^{n+1}}$;
+			\item $\sum_{n=0}^{\infty} \frac{(n+1)^2}{2^n}$;
+			\item $\sum_{n=0}^{\infty} (-1)^n \frac{1}{3^n (2n+1)}$;
+			\item $\sum_{n=2}^{\infty} (-1)^n \frac{1}{2^n (n^2 - 1)}$;
+			\item $\sum_{n=0}^{\infty} (-1)^n \frac{2^{n+1}}{n!}$.
+		\end{enumerate}
+	\end{example}
+\subsection{特殊方法}
+\begin{example}
+	求证：
+\[
+\sum_{n=1}^{\infty} \frac{1}{(2n-1)^2} = \frac{\pi^2}{8}.
+\]
+\end{example}
+\begin{example}
+	设 $f \in C^1[0,1]$, $f(x) \geq 0$，证明下述级数收敛且求值
+\[
+\sum_{n=1}^{\infty} (-1)^{n-1} \int_0^1 x^n f(x) dx.
+\]
+\end{example}
+\begin{example}
+	计算
+\[
+\sum_{n=1}^{\infty} \left( \ln 2 - \sum_{k=1}^n \frac{(-1)^{k-1}}{k} \right).
+\]
+\end{example}
+\begin{example}
+	计算
+\[
+\sum_{n=1}^{\infty} \left( \ln 2 - \frac{1}{n+1} - \frac{1}{n+2} - \cdots - \frac{1}{2n} \right).
+\]          
+\end{example}
+\section{敛散性判断}
+\subsection{数项级数}
+\begin{example}
+	设正项级数 $\sum_{n=1}^{\infty} a_n$ 收敛，$0 < \alpha, \beta < 1$，$\alpha + \beta > 1$，求证：级数 $\sum_{n=1}^{\infty} \frac{a_n^{\alpha}}{n^{\beta}}$ 收敛。
+	\end{example}
+	
+	\begin{example}
+	设正项数列 $\{a_n\}$ 单调减少，则 $\lim_{n \to \infty} a_n = 0$ 的充要条件是正项级数 $\sum_{n=1}^{\infty} \left(1 - \frac{a_{n+1}}{a_n}\right)$ 发散。
+	\end{example}
+	
+	该命题有如下等价形式：
+	
+	\begin{itemize}
+		\item 设 $\{a_n\}$ 为单调增加的正数数列，则该数列与级数 $\sum_{n=1}^{\infty} \left(1 - \frac{a_n}{a_{n+1}}\right)$ 同敛散。（2023 华东师大夏令营）
+		\item 若正项级数 $\sum_{n=1}^{\infty} a_n$ 的部分和数列为 $\{S_n\}$，则 $\sum_{n=1}^{\infty} \frac{a_n}{S_n}$ 与 $\sum_{n=1}^{\infty} \frac{a_n}{S_n}$ 同敛散。
+	\end{itemize}
+	
+	\begin{example}
+	(Kummer 判别法) 证明以下命题：
+	\begin{itemize}
+		\item 正项级数 $\sum_{n=1}^{\infty} a_n$ 收敛的充分必要条件是存在正数数列 $\{b_n\}$ 和正数 $\delta$，使得当 $n$ 充分大时有 $b_n \cdot \frac{a_n}{a_{n+1}} - b_{n+1} \geq \delta > 0$；
+		\item 正项级数 $\sum_{n=1}^{\infty} a_n$ 发散的充分必要条件是存在发散的正项级数 $\sum_{n=1}^{\infty} \frac{1}{b_n}$，当 $n$ 充分大时有 $b_n \cdot \frac{a_n}{a_{n+1}} - b_{n+1} \leq 0$。
+	\end{itemize}
+	\end{example}
+	
+	\begin{example}
+	证明以下两个命题：
+	\begin{itemize}
+		\item 对于给定的收敛正项级数 $\sum_{n=1}^{\infty} a_n$，一定存在收敛正项级数 $\sum_{n=1}^{\infty} b_n$，使得 $\lim_{n \to \infty} \frac{a_n}{b_n} = 0$；
+		\item 对于给定的发散正项级数 $\sum_{n=1}^{\infty} a_n$，一定存在发散正项级数 $\sum_{n=1}^{\infty} b_n$，使得 $\lim_{n \to \infty} \frac{b_n}{a_n} = 0$。
+	\end{itemize}
+	\end{example}
+	
+	注：上述这两个命题表明：对于比较判别法而言，不论是判别出收敛还是发散，都不可能存在万能的比较级数！
+	
+	\begin{example}
+	正项级数 $\sum_{n=1}^{\infty} \frac{1}{a_n}$ 收敛，证明：级数 $\sum_{n=1}^{\infty} \frac{n}{a_1 + a_2 + \cdots + a_n}$ 也收敛。
+	\end{example}
+	
+	\begin{example}
+	(2024 北师大夏令营) 设 $x > 0$，证明：级数 $\sum_{n=1}^{\infty} \frac{x^n}{(1+x)(1+x^2)\cdots(1+x^n)}$ 收敛。
+	\end{example}
+	
+	\begin{example}
+	(2023 华东师范夏令营) 设 $\{a_n\}$ 单调增加，讨论 $\sum_{n=1}^{\infty} \left(1 - \frac{a_n}{a_{n+1}}\right)$ 的收敛性。
+	\end{example}
+	
+	\begin{example}
+	(2023 中山夏令营) 设正项级数 $\sum_{n=1}^{\infty} u_n$ 收敛，证明：级数 $\sum_{n=1}^{\infty} (e^{u_n} - 1)$ 也收敛。若 $\sum_{n=1}^{\infty} u_n$ 不是正项级数，问能否由它收敛推知级数 $\sum_{n=1}^{\infty} (e^{u_n} - 1)$ 也收敛？
+	\end{example}
+	
+	\begin{example}
+	(2023 中科院提前批) 证明：函数项级数 $\sum_{n=1}^{\infty} (-1)^n x^n (1-x)$ 在 $[0,1]$ 上绝对收敛且一致收敛，但不绝对一致收敛。
+	\end{example}
+	
+	\begin{example}
+	(2023 山大夏令营) 设 $S_n(x) = nx(1-x^2)^n, x \in [0,1]$，证明 $S_n(x)$ 收敛于 $S(x) = 0$，但不一致收敛于 $S(x) = 0$。
+	\end{example}
+	
+	\begin{example}
+	(2023 浙大直博) 求证：$f(x) = \sum_{n=1}^{+\infty} \frac{1}{n^x}$ 在 $(1, +\infty)$ 上连续可微。
+	\end{example}
+	
+	\begin{example}
+	(2024 上交夏令营) 设函数项级数 $S(x) = \sum_{n=0}^{\infty} \frac{(-1)^n e^{-nx}}{n+x^2}$，试讨论以下问题：
+	\begin{itemize}
+		\item 求函数 $S(x)$ 的定义域。
+		\item 讨论 $S(x)$ 在定义域内的连续性。
+		\item $\lim_{x \to +\infty} S(x)$ 是否存在？给出证明。
+	\end{itemize}
+	\end{example}
+	
+\subsection{函数项级数}
+对于函数项级数来说，主要的一致收敛性判别法有：Cauchy 一致收敛准则 Weierstrass 判别法（也称为 M 判别法、强级数判别法和优级数判别法），以及通过 Abel 变换得到的 Abel 判别法和 Dirichlet 判别法。
+
+Cauchy 一致收敛准则是充分必要条件，但应用时往往需要较复杂的技巧。
+
+Weierstrass 判别法只对绝对一致收敛的情况有效，但是可举例说明，存在绝对一致收敛的函数项级数的例子，使得 Weierstrass 判别法失效，但由于它将问题归结为正项级数的收敛性判别，使用方便，因此有广泛的应用。
+
+Abel 判别法和 Dirichlet 判别法都是函数项级数一致收敛的充分必要条件，其证明与广义积分和数项级数的同名判别法类似。
+
+在讨论函数项级数 $\sum_{n=1}^{\infty} u_n(x)$ 的一致收敛性时比较容易的一类情况是能够得到其部分和函数列 $\{S_n(x)\}$ 的紧凑表达式，这时问题就转化为函数列的一致收敛性问题（不难看出可以将已经列举的各种判别法改述为关于函数列的一致收敛性判别法）。如果同时还能得到级数的和函数，即函数列 $\{S_n(x)\}$ 的极限函数 $S(x)$ 的表达式，则就有上确界判别法：函数列 $\{S_n(x)\}$ 在数集 $E$ 上一致收敛于 $S(x)$ 的充分必要条件是
+\[
+\lim_{n \to \infty} \sup_{x \in E} \{|S_n(x) - S(x)|\} = 0.
+\]
+
+\begin{example}
+设连续函数列 $\{f_n(x)\}$ 在 $[a,b]$ 上一致收敛于 $f(x)$，而 $g(x) \in C(-\infty, +\infty)$，求证：$\{g(f_n(x))\}$ 在 $[a,b]$ 上一致收敛于 $g(f(x))$。
+\end{example}
+
+\begin{example}
+(2023 中科院提前批) 证明：函数项级数 $\sum_{n=1}^{\infty} (-1)^n x^n (1-x)$ 在 $[0,1]$ 上绝对收敛且一致收敛，但不绝对一致收敛。
+\end{example}
+
+\begin{example}
+(2024 浙大夏令营) 设可微函数列 $\{f_n(x)\}$ 在 $[0,1]$ 上处处收敛，且 $\{f'_n(x)\}$ 在 $[0,1]$ 上一致有界。证明 $\{f_n(x)\}$ 在 $[0,1]$ 上一致收敛。
+\end{example}
+
+\begin{example}
+(2023 山大夏令营) 设 $S_n(x) = nx(1-x^2)^n, x \in [0,1]$，证明 $S_n(x)$ 收敛于 $S(x) = 0$，但不一致收敛于 $S(x) = 0$。
+\end{example}
+
+\begin{example}
+(2023 浙大直博) 求证：$f(x) = \sum_{n=1}^{+\infty} \frac{1}{n^x}$ 在 $(1, +\infty)$ 上连续可微。
+\end{example}
+
+\begin{example}
+(2024 上交夏令营) 设函数项级数 $S(x) = \sum_{n=0}^{\infty} \frac{(-1)^n e^{-nx}}{n+x^2}$，试讨论以下问题：
+\begin{itemize}
+    \item 求函数 $S(x)$ 的定义域。
+    \item 讨论 $S(x)$ 在定义域内的连续性。
+    \item $\lim_{x \to +\infty} S(x)$ 是否存在？给出证明。
+\end{itemize}
+\end{example}
+
+\begin{example}
+(2023 首师夏令营) 设 $u_n(x) \geq 0$ 在 $[a,b]$ 上连续，而 $\sum_{n=1}^{\infty} u_n(x)$ 在 $[a,b]$ 上收敛于连续函数 $f(x)$，则 $\sum_{n=1}^{\infty} u_n(x)$ 在 $[a,b]$ 上一致收敛于 $f(x)$。
+\end{example}
+
+\begin{example}
+(2024 浙大夏令营) 设可微函数列 $\{f_n(x)\}$ 在 $[0,1]$ 上处处收敛，且 $\{f'_n(x)\}$ 在 $[0,1]$ 上一致有界，证明 $\{f_n(x)\}$ 在 $[0,1]$ 上一致收敛。
+\end{example}
+\section{综合运用}
+\subsection{级数证明}
+\begin{example}
+	设 $a_n > -1$ 且 $\sum_{n=1}^{\infty} a_n$ 收敛，则 $\prod_{n=1}^{\infty} (1 + a_n)$ 收敛当且仅当 $\sum_{n=1}^{\infty} a_n^2$ 收敛。
+	\end{example}
+	
+	\begin{example}
+	已知正项级数 $\sum_{n=1}^{\infty} a_n$ 收敛，证明 $\sum_{n=1}^{\infty} \sqrt{a_n a_{n+1}}$ 也收敛，反之正确吗？
+	\end{example}
+	
+	\begin{example}
+	设 $a_n > 0$，且满足 $\{a_n - a_{n+1}\}$ 递减，$\sum_{n=1}^{\infty} a_n$ 收敛，求证：$\lim_{n \to \infty} \left( \frac{1}{a_{n+1}} - \frac{1}{a_n} \right) = +\infty$。
+	\end{example}
+	
+	\begin{example}
+	设 $a_n > 0$，$\sum_{n=1}^{\infty} |b_n| < \infty$ 且 $\frac{a_n}{a_{n+1}} \leq 1 + \frac{1}{n} + \frac{1}{n \ln n} + b_n$，$n = 1, 2, \ldots$，证明：$\sum_{n=1}^{\infty} a_n$ 发散。
+	\end{example}
+	
+	\begin{example}
+	设 $\{a_n\}$ 递减到 0，证明：$\sum_{n=1}^{\infty} n(a_n - a_{n+1})$ 收敛的充要条件是 $\sum_{n=1}^{\infty} a_n$ 收敛。
+	\end{example}
+\subsection{幂级数的阶}
+下面讨论幂级数系数的阶与和函数的阶之间的关系。
+
+\begin{example}
+证明以下命题：
+\begin{itemize}
+    \item 设 $f(x) = \sum_{n=0}^{\infty} a_n x^n$，$g(x) = \sum_{n=0}^{\infty} b_n x^n$，$x \in (-1, 1)$，满足 $b_n > 0$，$\lim_{n \to \infty} \frac{a_n}{b_n} = 0$，$\lim_{x \to 1^-} g(x) = +\infty$，则 $\lim_{x \to 1^-} \frac{f(x)}{g(x)} = 0$。
+    \item 设 $f(x) = \sum_{n=0}^{\infty} a_n x^n$，$g(x) = \sum_{n=0}^{\infty} b_n x^n$，$x \in (-1, 1)$，满足 $b_n > 0$，$\lim_{n \to \infty} \frac{a_n}{b_n} = 1$，$\lim_{x \to 1^-} g(x) = +\infty$，则 $\lim_{x \to 1^-} \frac{f(x)}{g(x)} = 1$。
+    \item 设 $f(x) = \sum_{n=0}^{\infty} a_n x^n$，$g(x) = \sum_{n=0}^{\infty} b_n x^n$，$x \in \mathbb{R}$，满足 $b_n > 0$，$\lim_{n \to \infty} \frac{a_n}{b_n} = 1$，则 $\lim_{x \to +\infty} \frac{f(x)}{g(x)} = 1$。
+\end{itemize}
+\end{example}
+\begin{example}
+	给定 $\{a_n\}_{n=0}^{\infty} \subset \mathbb{R}$，设 $f(x) = \sum_{n=0}^{\infty} a_n x^n$，$x \in (-1, 1)$，若 $f(x) = \sum_{n=0}^{\infty} a_n x^n$，$x \in (-1, 1)$，证明：$\lim_{x \to 1^-} f(x) = +\infty$（或 $-\infty$），并指出 $\lim_{n \to \infty} \left| \sum_{k=0}^n a_k \right| = \infty$ 推不出 $\lim_{x \to 1^-} |f(x)| = \infty$。
+	\end{example}
+	
+	\begin{example}
+	(2024 复旦数学夏令营) 已知 $\lim_{n \to \infty} a_n = 1$，求 $\lim_{x \to 1^-} \frac{\sum_{n=0}^{\infty} a_n x^n}{\ln(1 - x)}$。
+	\end{example}
+\subsection{Tauber定理}
+\begin{example}
+	若 $\sum_{n=0}^{\infty} a_n x^n$ 在 $(-1, 1)$ 收敛且 $\lim_{x \to 1^-} \sum_{n=0}^{\infty} a_n x^n = A$，若 $a_n \geq 0$，则 $\sum_{n=0}^{\infty} a_n = A$。
+	\end{example}
+	
+	\begin{example}
+	(Tauber 定理) 设级数 $\sum_{n=0}^{\infty} a_n x^n$ 收敛半径为 1，左极限 $\lim_{x \to 1^-} \sum_{n=0}^{\infty} a_n x^n = A$ 存在，且 $\lim_{n \to \infty} n a_n = 0$，则 $\sum_{n=0}^{\infty} a_n = A$。
+	\end{example}
+\chapter{多元微积分}
+\section{连续性和可微性}
+\begin{example}
+	设 $f(x, y) = \sqrt{|xy|}$，求证：
+\begin{itemize}
+\item $f(x, y)$ 在 $(0, 0)$ 点连续；
+\item $\frac{\partial f}{\partial x}(0, 0)$ 和 $\frac{\partial f}{\partial y}(0, 0)$ 都存在；
+\item $f(x, y)$ 在 $(0, 0)$ 点不可微。
+\end{itemize}
+\begin{example}
+	(2024 同济夏令营改编) 设 $f(x, y) = |x - y| \phi(x, y)$，其中 $\phi(x, y)$ 在点 $(0, 0)$ 的一个邻域上有定义，要求给出函数 $\phi(x, y)$ 加上适当的条件，使得：
+\begin{itemize}
+\item $f(x, y)$ 在点 $(0, 0)$ 连续；
+\item $f(x, y)$ 在点 $(0, 0)$ 存在偏导数；
+\item $f(x, y)$ 在点 $(0, 0)$ 可微。
+\end{itemize}
+\end{example}
+\end{example}
+\begin{example}
+	设 $f(x, y) = \begin{cases} \frac{\sqrt{|x - y|}}{x^2 + y^2} \sin(x^2 + y^2), & x^2 + y^2 \neq 0, \\ 0, & x^2 + y^2 = 0, \end{cases}$
+讨论：
+\begin{enumerate}
+\item $f(x, y)$ 在点 $(0, 0)$ 是否连续？
+\item $f(x, y)$ 在点 $(0, 0)$ 是否可微？
+\end{enumerate}
+\end{example}
+\section{曲线积分}
+
+\section{重积分计算}
+\begin{example}
+	(2021 复旦夏令营) 计算积分 $\iint_{0\le x + y \leq \pi} \ln|\sin(x - y)| \, dx \, dy$。
+\end{example}
+\begin{example}
+	(2024 中科院夏令营) 计算积分：
+\[
+\iint_{D} (x + y) \, dx \, dy,
+\]
+其中 $D = \{ (x, y) \mid (x - 1)^2 + (y - 1)^2 \leq 2, y \geq x \}$。
+
+\end{example}
+\begin{example}
+	(2023 中科院推免生) 计算四重积分：
+\[
+\int_{Q(x)\leq 1} e^{Q(x)} \, dx \, dy \, dz \, dt.
+\]
+\end{example}
+\begin{example}
+	(2024 人大预推免) 计算 $n$ 维超球体的体积。
+\end{example}
+\section{曲线积分}
+
+\subsection{第一型曲线积分}
+第一型曲线积分是对弧长的积分，与曲线的方向无关。即：
+\[
+I = \int_{AB} f(x) \, ds = \int_{BA} f(x) \, ds.
+\]
+
+若 $\Gamma$ 是 $\mathbb{R}^n$ 中简单可求长的曲线，且 $f(x)$ 在 $\Gamma$ 上连续，则 $f(x)$ 在 $\Gamma$ 上的第一型曲线积分存在。
+
+若 $\Gamma$ 是 $\mathbb{R}^n$ 中逐段光滑的简单曲线，且有参数表示：
+\[
+\Gamma: x = x(t) \in \mathbb{R}^n, \quad a \leq t \leq b,
+\]
+
+则弧长微分：
+\[
+ds = |x'(t)| dt = \left( \sum_{i=1}^{n} (x_i'(t))^2 \right)^{1/2} dt,
+\]
+则：
+\[
+\int_{\Gamma} f(x) \, ds = \int_{a}^{b} f(x(t)) |x'(t)| dt.
+\]
+
+
+\begin{example}
+	求 $I = \oint_{C} x^2 \, ds$，其中 $C$ 为：
+\[
+\begin{cases}
+x^2 + y^2 + z^2 = R^2, \\
+x + y + z = 0.
+\end{cases}
+\]
+\end{example}
+
+\begin{example}
+	设椭圆 $\frac{x^2}{4} + \frac{y^2}{3} = 1$ 的周长为 $a > 0$，计算 $\oint_{\frac{x^2}{4} + \frac{y^2}{3} = 1} (2xy + 3x^2 + 4y^2) \, ds$。
+
+\end{example}
+
+\begin{example}
+	设 $a > 0$，$\Gamma: \left\{ \begin{array}{l} x^2 + y^2 + z^2 = a^2, \\ x + y + z = 0 \end{array} \right.$，试计算 $\int_{\Gamma} (1 + x)^2 \, ds$。
+\end{example}
 
 
 
 
 
 
+\subsection{第二型曲线积分}
+第二型曲线积分的形式为：
+\[
+I = \int_{\Gamma} P(x, y, z) \, dx + Q(x, y, z) \, dy + R(x, y, z) \, dz
+\]
 
+若逐段光滑的有向曲线 $\Gamma$ 有参数表示：
+\begin{align*}
+x &= x(t), \\
+y &= y(t), \\
+z &= z(t), \quad a \leq t \leq b,
+\end{align*}
+
+则：
+\[
+\int_{\Gamma} P \, dx + Q \, dy + R \, dz = \int_{a}^{b} \left[ P(x(t), y(t), z(t)) x'(t) + Q(x(t), y(t), z(t)) y'(t) + R(x(t), y(t), z(t)) z'(t) \right] dt.
+\]
+
+\begin{example}
+	计算积分 $I = \oint_{C} (x^2 + 2xy) \, dy$，其中 $C$ 表示逆时针方向的上半椭圆 $\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$。
+
+\end{example}
+
+\begin{example}
+	设 $C$ 为抛物线 $2x = \pi y^2$ 自 $(0, 0)$ 到 $\left( \frac{\pi}{2}, 1 \right)$ 的弧段，求积分：
+\[
+I = \int_{C} \left( 2xy^3 - y^2 \cos x \right) dx + \left( 1 - 2y \sin x + 3x^2 y^2 \right) dy.
+\]
+\end{example}
+\begin{example}
+	(2024 北师夏令营改编) 设 $f(x) \in C^1(-\infty, +\infty)$，$L$ 是上半平面 $(y > 0)$ 内的有向分段光滑曲线，起点为 $(a, b)$，终点为 $(c, d)$。计算：
+\[
+I = \int_{L} \frac{1}{y} [1 + y^2 f(xy)] dx + \frac{x}{y^2} [y^2 f(xy) - 1] dy.
+\]
+\end{example}
+
+\begin{example}
+	计算 $I = \oint_{x^2 + y^2 = 1} \frac{x \, dy - y \, dx}{x^2 + y^2}$，方向取逆时针。
+\end{example}
+
+\begin{example}
+	求简单正定向光滑闭曲线 $L$ 使得积分 $\oint_{L} (y^3 - y) \, dx - 2x^3 \, dy$ 值最大，并计算最大值。
+\end{example}
+\begin{example}
+	设 $D$ 是平面内的单连通区域，$\omega = P dx + Q dy$，其中 $P, Q$ 在 $D$ 上有连续的偏导数，则以下结论等价：
+\begin{itemize}
+\item 对 $D$ 内的任意一条闭曲线 $C$，有 $\oint_{C} \omega = 0$。
+\item 对 $D$ 内的任一条路径 $C$，积分 $\int_{C} \omega$ 仅与 $C$ 的起点和终点有关，而与所沿的路径无关。
+\item 在 $D$ 内处处成立 $\frac{\partial P}{\partial y} = \frac{\partial Q}{\partial x}$。
+\item 存在函数 $\varphi(x, y)$，使得在 $D$ 内成立 $d\varphi(x, y) = P(x, y) dx + Q(x, y) dy$。
+\end{itemize}
+\end{example}
+
+\begin{example}
+	计算积分 $I = \oint_{C} \frac{e^y}{x^2 + y^2} \left[ (x \sin x + y \cos x) dx + (y \sin x - x \cos x) dy \right]$，其中 $C: x^2 + y^2 = 1$，取逆时针方向。
+\end{example}
 
 
 
