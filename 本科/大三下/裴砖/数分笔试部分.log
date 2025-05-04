@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  3 MAY 2025 12:24
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  4 MAY 2025 22:54
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1487,110 +1487,121 @@ Chapter 1.
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
 (Font)              scaled to size 12.0pt on input line 40.
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 83.
+(Font)              scaled to size 7.0pt on input line 86.
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
-(Font)              scaled to size 5.0pt on input line 83.
+(Font)              scaled to size 5.0pt on input line 86.
 
 
 [1
 
 
 ]
-Missing character: There is no 。 ("3002) in font cmr10!
-Missing character: There is no 。 ("3002) in font cmr10!
-Missing character: There is no 。 ("3002) in font cmr10!
-
 
 [2]
 
 [3]
-File: figure/1.PNG Graphic file (type bmp)
-<figure/1.PNG>
-
 
 [4]
 
 [5]
-Chapter 2.
+Missing character: There is no 。 ("3002) in font cmr10!
+Missing character: There is no 。 ("3002) in font cmr10!
 
 
-[6
+[6]
+Missing character: There is no 。 ("3002) in font cmr10!
 
-]
 
 [7]
 
-LaTeX Font Warning: Font shape `TU/STKaiti(0)/b/n' undefined
-(Font)              using `TU/STKaiti(0)/m/n' instead on input line 432.
-
-
-
 [8]
+File: figure/1.PNG Graphic file (type bmp)
+<figure/1.PNG>
+
 
 [9]
-Chapter 3.
+
+[10]
+Chapter 2.
 
 
-[10
+[11
 
 ]
-
-[11]
-Missing character: There is no ， ("FF0C) in font cmr10!
-
 
 [12]
 
+LaTeX Font Warning: Font shape `TU/STKaiti(0)/b/n' undefined
+(Font)              using `TU/STKaiti(0)/m/n' instead on input line 747.
+
+
+
 [13]
-Chapter 4.
+
+[14]
+Chapter 3.
 
 
-[14
+[15
 
 ]
 
-[15]
-
 [16]
+Missing character: There is no ， ("FF0C) in font cmr10!
+
 
 [17]
 
 [18]
-
-[19]
-Chapter 5.
+Chapter 4.
 
 
-[20
+[19
 
 ]
+
+[20]
 
 [21]
-Chapter 6.
 
-
-[22
-
-]
+[22]
 
 [23]
 
 [24]
-Overfull \hbox (2.38576pt too wide) in paragraph at lines 1407--1408
+Chapter 5.
+
+
+[25
+
+]
+
+[26]
+Chapter 6.
+
+
+[27
+
+]
+
+[28]
+
+[29]
+Overfull \hbox (2.38576pt too wide) in paragraph at lines 1722--1723
 []\TU/STSong(0)/b/n/10 例 题 \TU/texgyretermes(0)/b/n/10 6.42 []\TU/texgyretermes(0)/m/n/10 (Tauber \TU/STSong(0)/m/n/10 定 理\TU/texgyretermes(0)/m/n/10 ) \TU/STSong(0)/m/n/10 设 级 数 $[][] \OML/cmm/m/it/10 a[]x[]$ \TU/STSong(0)/m/n/10 收 敛 半 径 为 \TU/texgyretermes(0)/m/n/10 1\TU/STSong(0)/m/n/10 ，|  左 极 限 $[][] [][] \OML/cmm/m/it/10 a[]x[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 A$ \TU/STSong(0)/m/n/10 存 在，|  且 $[][] \OML/cmm/m/it/10 na[] \OT1/cmr/m/n/10 =
  []
 
 
 
-[25]
+[30]
 Chapter 7.
 
 
-[26
+[31
 
 ]
 
-[27] (./数分笔试部分.aux)
+[32] (./数分笔试部分.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2022/08/05>
@@ -1599,25 +1610,19 @@ L3 programming layer <2022/08/05>
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-Package rerunfilecheck Warning: File `数分笔试部分.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `数分笔试部分.out':
-(rerunfilecheck)             Before: 34E5EB243D458A1B5D0FA77FDE6B0E05;8824
-(rerunfilecheck)             After:  75B5E6E0B612FBB5D18FBE84F7A9D09D;9209.
+Package rerunfilecheck Info: File `数分笔试部分.out' has not changed.
+(rerunfilecheck)             Checksum: 75B5E6E0B612FBB5D18FBE84F7A9D09D;9209.
 Package logreq Info: Writing requests to '数分笔试部分.run.xml'.
 \openout1 = `数分笔试部分.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 46239 strings out of 473832
- 990163 string characters out of 5729481
- 2006962 words of memory out of 5000000
- 68525 multiletter control sequences out of 15000+600000
- 564284 words of font info for 100 fonts, out of 8000000 for 9000
+ 46359 strings out of 473832
+ 996743 string characters out of 5729481
+ 2007376 words of memory out of 5000000
+ 68634 multiletter control sequences out of 15000+600000
+ 564340 words of font info for 107 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 103i,12n,130p,691b,1342s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 103i,18n,130p,691b,1342s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on 数分笔试部分.pdf (30 pages).
+Output written on 数分笔试部分.pdf (35 pages).

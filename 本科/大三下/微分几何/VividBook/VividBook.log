@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  3 MAY 2025 19:49
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  4 MAY 2025 00:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1694,7 +1694,7 @@ Package logreq Info: Writing requests to 'VividBook.run.xml'.
 Here is how much of TeX's memory you used:
  47075 strings out of 473832
  1028891 string characters out of 5729481
- 2011547 words of memory out of 5000000
+ 2011545 words of memory out of 5000000
  69343 multiletter control sequences out of 15000+600000
  567105 words of font info for 117 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191

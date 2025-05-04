@@ -38,18 +38,26 @@
 	\chapter{数列}
 	\section{极限的计算}
 	\subsection{stolz定理}
-	\begin{theorem}[stolz]
+	\begin{theorem}[Stolz]
 		\begin{itemize}
 			\item $(\frac{0}{0})$型,$\{ a_n\} ,\{ b_n\}$是无穷小量，$\{ a_n\}$单调递减，$\lim_{n \to \infty}  \frac{b_{n+1}-b_n}{a_{n+1}-a_n}=l$,	则$\lim_{n \to \infty}  \frac{b_n}{a_n}=l$
 			\item $(\frac{*}{\infty})$型,$\{ a_n\} $是严格单调递增无穷大量，$\lim_{n \to \infty}  \frac{b_{n+1}-b_n}{a_{n+1}-a_n}=l$,则$\lim_{n \to \infty}  
 			\frac{b_n}{a_n}=l$
 		\end{itemize}
 	\end{theorem}
-
+	\begin{remark}
+		该定理可以理解为离散版本的洛必达
+	\end{remark}
 	\begin{example}
 		设 $a_1 \in (0,1), a_{n+1} = \sin a_n, n = 1,2,\cdots$，试计算  
-\[ \lim_{n \to \infty} \sqrt[n]{n a_n}. \]
+\[ \lim_{n \to \infty} \sqrt{n }a_n. \]
 	\end{example}
+	\begin{proof}
+
+		显然$x_n$趋向于0，考虑到$$\frac{n}{\frac{1}{a_n^2}}=\frac{n+1-n}{\frac{1}{a_{n+1}^2}-\frac{1}{a_n^2}}=\frac{1}{\frac{1}{a_{n+1}^2}-\frac{1}{a_n^2}}=\frac{a_n^2 a_{n+1}^2}{a_n^2 - a_{n+1}^2}=\frac{a_n^4}{a_n^2 - \sin^2 a_n}=\lim_{n \to \infty} \frac{x^4}{x^2 -\sin^2x}=3$$
+
+		因此$$\lim_{n \to \infty} \sqrt{n }a_n=\sqrt{3}$$
+	\end{proof}
 	\begin{example}
 		设 $a_n > 0$ 且  
 \[ \lim_{n \to \infty} \frac{a_{n+1}}{a_n} \]  
@@ -61,9 +69,22 @@
 (2) 进一步，若  
 \[ \lim_{n \to \infty} a_n = a, \]  
 计算  
-\[ \lim_{n \to \infty} \left( \frac{\sqrt[n]{a_1} + \sqrt[n]{a_2} + \cdots + \sqrt[n]{a_n}}{n} \right)^n. \]  
+\[ \lim_{r \to 0} \left( \frac{a_1^r + a_2^r + \cdots + a_n^r}{n} \right)^{\frac{1}{r}} \]  
 (2023中科院夏令营)
 	\end{example}
+	\begin{proof}
+		(1) 
+
+		注意到$$
+			\lim_{n \to \infty}a_n^{\frac{1}{n}}=\lim_{n \to \infty} e^{\frac{1}{n}\ln a_n}=\lim_{n \to \infty} e^{\frac{\ln a_{n+1}-\ln a_n}{n+1-n}}=e^{\lim_{n \to \infty} \frac{a_{n+1}}{a_n}}
+		$$
+
+		（2）注意到
+		\begin{align*}
+			&\lim_{r \to 0} \left( \frac{a_1^r + a_2^r + \cdots + a_n^r}{n} \right)^{\frac{1}{r}} = \lim_{r \to 0} e^{\frac{1}{r} \left[ \ln \left( \sum_{j=1}^n a_j^r \right) - \ln n \right] } \\
+			&\text{洛必达法则} \quad \lim_{r \to 0} e^{\frac{\sum\limits_{j=1}^n (\ln a_j \cdot a_j^r)}{\sum\limits_{j=1}^n a_j^r}} = \lim_{r \to 0} e^{\frac{\sum\limits_{j=1}^n \ln a_j}{n}} = \sqrt[n]{a_1 a_2 \cdots a_n}=a.
+			\end{align*}
+	\end{proof}
 \begin{example}
 	\begin{itemize}
 		\item 设  
@@ -72,20 +93,74 @@
 		\[ \lim_{n \to \infty} S_n. \]
 		
 		\item 计算  
-		\[ \lim_{n \to \infty} \frac{\ln n}{\sum_{k=1}^n \frac{1}{k} - \ln n}. \]  
+		\[ \lim_{n \to \infty} \frac{\ln n}{\ln \sum_{k=0}^n k^{2020}}. \]  
 		(第十二届全国大学生数学竞赛)
 	\end{itemize}
 \end{example}
-
+	\begin{remark}
+		$\text{分子求和时，不是单纯的} \sum_{k=0}^{n+1} \ln C_n^k - \sum_{k=0}^n \ln C_n^k \text{，而是} \sum_{k=0}^{n+1} \ln C_{n+1}^k - \sum_{k=0}^n \ln C_n^k.$
+\end{remark}
+\begin{proof}
+	(1)利用两次Stolz定理即可
+	\begin{align*}
+		&\lim_{n \to \infty} \frac{\sum_{k=0}^n \ln C_n^k}{n^2} = \lim_{n \to \infty} \frac{\sum_{k=0}^{n+1} \ln C_{n+1}^k - \sum_{k=0}^n \ln C_n^k}{(n+1)^2 - n^2} \\
+		&= \lim_{n \to \infty} \frac{\sum_{k=1}^n \ln C_{n+1}^k - \sum_{k=1}^n \ln C_n^k}{2n+1} \\
+		&C_{n+1}^k = \frac{n+1}{n+1-k} C_n^{k-1} \\
+		&= \lim_{n \to \infty} \frac{\sum_{k=1}^n \ln \frac{n+1}{k} + \sum_{k=1}^n \ln C_n^{k-1} - \sum_{k=1}^n \ln C_n^k}{2n+1} \\
+		&= \lim_{n \to \infty} \frac{\sum_{k=1}^n \ln (n+1) - \sum_{k=1}^n \ln k}{2n+1} \\
+		&= \lim_{n \to \infty} \frac{n \ln (n+1) - \sum_{k=1}^n \ln k}{2n+1} \\
+		&= \lim_{n \to \infty} \frac{n \ln (n+1) - (n-1) \ln n - \ln n}{2} \\
+		&= \lim_{n \to \infty} \frac{n \ln \left(1 + \frac{1}{n}\right)}{2} \\
+		&= \frac{1}{2}.
+	\end{align*}
+	
+	（2）利用Stolz定理
+	\begin{align*}
+		&\lim_{n \to \infty} \frac{\ln n}{\ln \sum_{k=1}^n k^{2020}} = \lim_{n \to \infty} \frac{\ln (n+1) - \ln n}{\ln \sum_{k=1}^{n+1} k^{2020} - \ln \sum_{k=1}^n k^{2020}} \\
+		&= \lim_{n \to \infty} \frac{\ln \left(1 + \frac{1}{n}\right)}{\ln \left(1 + \frac{(n+1)^{2020}}{\sum_{k=1}^n k^{2020}}\right)} \\
+		&= \lim_{n \to \infty} \frac{1}{n \ln \left(1 + \frac{(1+\frac{1}{n})^{2020}}{\sum_{k=1}^n \left(\frac{k}{n}\right)^{2020}}\right)} \\
+		&= \lim_{n \to \infty} \frac{1}{\frac{1}{n} \sum_{k=1}^n \left(\frac{k}{n}\right)^{2020}} = \int_0^1 x^{2020} \, dx = \frac{1}{2021}.
+		\end{align*}
+	
+\end{proof}
 \subsection{abel变换}
 \begin{theorem}
 	\[
 \sum_{k=1}^n a_k b_k = \sum_{k=1}^{n-1} (a_k - a_{k+1}) B_k + a_n B_n, \quad \text{其中 } B_k = \sum_{i=1}^k b_i.
 \]
 \end{theorem}
+\begin{remark}
+	该定理可以理解为离散版本的分部积分,分部积分具有改善阶的效果，而该定理也具有类似的效果
+\end{remark}
 \begin{example}
 	设 $\lim_{n \to \infty} \sum_{k=1}^n a_k$ 存在，试计算 $\lim_{n \to \infty} \frac{1}{n} \sum_{k=1}^n k a_k$.
 \end{example}
+
+\begin{remark}
+
+	如果我们直接使用Stolz定理，就有
+\[
+\lim_{n \to \infty} \frac{\sum_{k=1}^n k a_k}{n} = \lim_{n \to \infty} \frac{n a_n}{n - (n-1)} = \lim_{n \to \infty} n a_n.
+\]
+遗憾的是，上述最后的极限可能不存在，而Stolz定理可以适用。
+
+\end{remark}
+
+\begin{remark}
+	本题是一个重要的需要记忆的结论，在很多难题时可能是一个很微不足道的中间步骤，但却会把人狠狠的卡住。此外，此类问题还不是直接应用Stolz定理就可以的。
+\end{remark}
+\begin{proof}
+	使用abel变换，我们有
+\[
+\lim_{n \to \infty} \frac{\sum_{k=1}^n k a_k}{n} = \lim_{n \to \infty} \frac{\sum_{k=1}^{n-1} (k - (k+1)) \sum_{j=1}^k a_j + n \sum_{k=1}^n a_k}{n}
+\]
+\[
+= \lim_{n \to \infty} \frac{-\sum_{k=1}^{n-1} \sum_{j=1}^k a_j}{n} + \lim_{n \to \infty} \sum_{k=1}^n a_k
+\]
+\[
+= \lim_{n \to \infty} \frac{-\sum_{j=1}^n a_j}{n+1-n} + \lim_{n \to \infty} \sum_{k=1}^n a_k = 0.
+\]
+\end{proof}
 \begin{example}
 	(2023 中科大考研压轴) 设有实数列 $\{a_n\}$, 令 $S_n = \sum\limits_{k=1}^n a_k$, $\sigma_n = \frac{1}{n}\sum\limits_{k=1}^n S_k$。
 
@@ -94,6 +169,23 @@
 (2) 若 $\{\sigma_n\}$ 收敛, 且 $a_n = o\left(\frac{1}{n}\right)$, 则 $\{S_n\}$ 收敛。
 
 \end{example}
+\begin{proof}
+	(1)Stolz一下就出结果了
+
+	（2）注意到$$\sigma_n = \frac{1}{n}\sum\limits_{k=1}^n S_k=\frac{1}{n}\sum\limits_{k=1}^n S_k\cdot 1$$
+	使用abel变换，我们有
+	$$
+	\frac{1}{n}\sum\limits_{k=1}^n S_k\cdot 1=\frac{1}{n}(\sum\limits_{k=1}^{n-1} (S_k-S_{k+1})\cdot k+S_n\cdot n)=\frac{1}{n}\sum\limits_{k=1}^{n-1} k(S_k-S_{k+1})+S_n
+	$$
+
+	注意到$S_k-S_{k+1}=-a_{k+1}$，所以
+	$$
+	\sigma_n=\frac{1}{n}\sum\limits_{k=1}^{n-1} k(S_k-S_{k+1})+S_n=\frac{1}{n}\sum\limits_{k=1}^{n-1} k(-a_{k+1})+S_n=(n-1)a_n+S_n
+	$$第三个等号用到了Stolz定理
+
+	注意到$a_n=o(\frac{1}{n})$，所以$S_n$收敛
+\end{proof}
+
 \begin{example}
 	(2023 中科院提前批) 设 $\lim\limits_{n \to \infty} a_n = a$, $\lim\limits_{n \to \infty} b_n = b$, 试求：
 
@@ -103,8 +195,27 @@
 
 
 \end{example}
+\begin{proof}
+	用 $a_n - a, b_n - b$ 分别代替 $a_n, b_n$，从而不妨设 $a = b = 0$。由极限性质，我们知道
+\[
+|a_n| \leq M, |b_n| \leq M. 
+\]
+然后由极限定义，对任何 $\epsilon > 0$，存在 $N \in \mathbb{N}$，当 $n \geq N$，就有
+\[
+|a_n| \leq \epsilon, |b_n| \leq \epsilon. 
+\]
+于是当 $n > 2N$，此时 $n - N \geq N$，我们有
+\[
+\left| \frac{a_1 b_n + a_2 b_{n-1} + \cdots + a_n b_1}{n} \right| = \left| \frac{\sum_{k=1}^n a_k b_{n-k}}{n} \right| \leq \left| \frac{\sum_{k=1}^N a_k b_{n-k}}{n} \right| + \left| \frac{\sum_{k=N+1}^n a_k b_{n-k}}{n} \right| \leq \frac{N M \epsilon}{n} + \frac{M \epsilon (n - N)}{n}.
+\]
+于是让 $n \to +\infty$ 我们得到
+\[
+\varlimsup_{n \to \infty} \left| \frac{a_1 b_n + a_2 b_{n-1} + \cdots + a_n b_1}{n} \right| \leq M \epsilon,
+\]
+由 $\epsilon$ 任意性我们得证
+\end{proof}
 \subsection{拟合法}
-拟合法主要是一种思想，在于抓住问题的关键部分
+拟合法主要是一种思想，在于抓住问题的关键部分,这个核心思想是laplace方法的精髓
 \begin{example}
 	(2023 北师大夏令营) 设 $f \in C[0,1]$，求证：
 \[
@@ -112,6 +223,39 @@
 \]
 
 \end{example}
+\begin{proof}
+	由于 \( f \in C[0,1] \)，对任意 \( \epsilon > 0 \)，存在 \( \delta > 0 \)，使得当 \( x \in [0, \delta] \) 时，
+\[
+|f(x) - f(0)| \leq \epsilon.
+\]
+
+因 \( |f(x)| \leq M \)（\( M \) 为 \( f \) 的上界），
+\[
+\left| \int_\delta^1 \frac{h}{h^2 + x^2} f(x) \, dx \right| \leq hM \int_\delta^1 \frac{1}{x^2} \, dx = hM \left( \frac{1}{\delta} - 1 \right).
+\]
+当 \( h \to 0^+ \) 时，此部分趋于 \( 0 \)。
+
+令 \( x = ht \)，则 \( dx = h \, dt \)，积分变为
+\[
+\int_0^{\delta/h} \frac{h}{h^2 + h^2 t^2} f(ht) \cdot h \, dt = \int_0^{\delta/h} \frac{1}{1 + t^2} f(ht) \, dt.
+\]
+当 \( h \to 0^+ \) 时，\( \delta/h \to +\infty \)，且 \( f(ht) \to f(0) \) 一致成立。于是
+\[
+\int_0^{\infty} \frac{1}{1 + t^2} f(0) \, dt = f(0) \cdot \frac{\pi}{2}.
+\]
+\[
+\left| \int_0^{\infty} \frac{1}{1 + t^2} [f(ht) - f(0)] \, dt \right| \leq \epsilon \int_0^{\infty} \frac{1}{1 + t^2} \, dt = \epsilon \cdot \frac{\pi}{2}.
+\]
+
+结合两部分积分，得
+\[
+\left| \int_0^1 \frac{h}{h^2 + x^2} f(x) \, dx - \frac{\pi}{2} f(0) \right| \leq \epsilon \cdot \frac{\pi}{2} + o(1).
+\]
+由 \( \epsilon \) 的任意性，当 \( h \to 0^+ \) 时，
+\[
+\lim_{h \to 0^+} \int_0^1 \frac{h}{h^2 + x^2} f(x) \, dx = \frac{\pi}{2} f(0).
+\]
+\end{proof}
 \begin{example}
 	(2022 浙大直博压轴) 设 $f(x) \in R[0,1]$，求证：
 \[
@@ -119,6 +263,56 @@
 \]
 
 \end{example}
+\begin{proof}
+	像类似黎曼引理的题目，我们考虑分割区间
+ 
+对任意子区间 \([a, b] \subset [0, 1]\)，当 \( n \to \infty \) 时，
+\[
+\int_a^b |\sin nx| \, dx \to \frac{2}{\pi} (b - a).
+\]
+这是因为 \( |\sin nx| \) 的周期为 \( \frac{\pi}{n} \)，其平均值为 \(\frac{2}{\pi}\)
+
+由于 \( f \) 在 \([0,1]\) 上黎曼可积，对任意 \(\epsilon > 0\)，存在分划
+\[
+0 = t_0 < t_1 < \cdots < t_k = 1,
+\]
+使得上和与下和之差满足
+\[
+\sum_{i=1}^k \left( M_i - m_i \right)(t_i - t_{i-1}) < \epsilon,
+\]
+其中 \( M_i = \sup_{[t_{i-1}, t_i]} f(x) \)，\( m_i = \inf_{[t_{i-1}, t_i]} f(x) \)。
+
+将原积分分解为分划区间上的和：
+\[
+\int_0^1 f(x) |\sin nx| \, dx = \sum_{i=1}^k \int_{t_{i-1}}^{t_i} f(x) |\sin nx| \, dx.
+\]
+构造阶梯函数 \( \varphi(x) \)，在 \([t_{i-1}, t_i)\) 上取值为 \( m_i \) 或 \( M_i \)，使得
+\[
+\int_0^1 |f(x) - \varphi(x)| \, dx < \epsilon.
+\]
+对每个子区间 \([t_{i-1}, t_i]\)，利用平均值性质得
+\[
+\int_{t_{i-1}}^{t_i} \varphi(x) |\sin nx| \, dx \approx \varphi(\xi_i) \cdot \frac{2}{\pi} (t_i - t_{i-1}),
+\]
+其中 \( \xi_i \in [t_{i-1}, t_i] \)。求和后得到
+\[
+\int_0^1 \varphi(x) |\sin nx| \, dx \approx \frac{2}{\pi} \int_0^1 \varphi(x) \, dx.
+\]
+
+剩余部分满足
+\[
+\left| \int_0^1 (f(x) - \varphi(x)) |\sin nx| \, dx \right| \leq \int_0^1 |f(x) - \varphi(x)| \, dx < \epsilon.
+\]
+
+综上所述，当 \( n \to \infty \) 时，
+\[
+\lim_{n \to \infty} \int_0^1 f(x) |\sin nx| \, dx = \frac{2}{\pi} \int_0^1 \varphi(x) \, dx + O(\epsilon).
+\]
+由于 \( \int_0^1 \varphi(x) \, dx \) 逼近 \( \int_0^1 f(x) \, dx \)，且 \(\epsilon\) 任意小，故
+\[
+\lim_{n \to \infty} \int_0^1 f(x) |\sin nx| \, dx = \frac{2}{\pi} \int_0^1 f(x) \, dx.
+\]
+\end{proof}
 \begin{example}
 	\begin{itemize}
 		\item 求证：
@@ -132,6 +326,58 @@
 		\]
 	\end{itemize}
 \end{example}
+\begin{proof}
+	（1）
+
+	对于任意 $\epsilon > 0$，选择 $\delta = \epsilon / 2$，将积分为：
+$$
+\int_{0}^{\frac{\pi}{2}} \sin^n x \, dx = \int_{0}^{\frac{\pi}{2} - \delta} \sin^n x \, dx + \int_{\frac{\pi}{2} - \delta}^{\frac{\pi}{2}} \sin^n x \, dx.
+$$
+在区间 $[0, \frac{\pi}{2} - \delta]$ 上, $\sin x \le \cos \delta < 1$, 因此:
+$$
+\int_{0}^{\frac{\pi}{2} - \delta} \sin^n x \, dx \le \left(\frac{\pi}{2} - \delta\right) (\cos \delta)^n.
+$$
+由于 $\cos \delta < 1$, 当 $n \to \infty$ 时, $(\cos \delta)^n \to 0$. 存在 $N_1$ 使得当 $n > N_1$ 时, 该部分积分小于 $\epsilon / 2$.
+在区间 $[\frac{\pi}{2} - \delta, \frac{\pi}{2}]$ 上, 令 $t = \frac{\pi}{2} - x$, 则积分变为:
+$$
+\int_{0}^{\delta} \cos^n t \, dt \le \int_{0}^{\delta} 1 \, dt = \delta = \epsilon / 2.
+$$
+当 $n > N_1$ 时, 总积分满足:
+$$
+\int_{0}^{\frac{\pi}{2}} \sin^n x \, dx < \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon.
+$$
+由 $\epsilon$ 的任意性, 得:
+$$
+\lim_{n \to \infty} \int_{0}^{\frac{\pi}{2}} \sin^n x \, dx = 0.
+$$
+
+	(2)因为 $f$ 在 $x=1$ 连续，所以对任何 $\epsilon > 0$，存在 $\delta \in (0,1)$，使得
+	\[
+	|f(x) - f(1)| \leq \epsilon, \forall x \in [1-\delta, 1].
+	\]
+	因为 $f \in R[0,1]$，所以存在 $M > 0$，使得 $|f(x)| \leq M, \forall x \in [0,1]$。于是我们有
+	\[
+	\left| n \int_0^1 f(x) x^n dx - n \int_0^1 f(1) x^n dx \right| = n \int_0^1 |f(x) - f(1)| \cdot x^n dx
+	\]
+	\[
+	\leq 2Mn \int_0^{1-\delta} x^n dx + n \epsilon \int_{1-\delta}^1 x^n dx
+	\]
+	\[
+	\leq 2Mn \int_0^{1-\delta} (1-\delta)^n dx + n \epsilon \int_0^1 x^{n-1} dx
+	\]
+	\[
+	= 2Mn(1-\delta)^{n+1} + \epsilon.
+	\]
+	因此我们有
+	\[
+	\lim_{n \to \infty} \left| n \int_0^1 f(x) x^n dx - n \int_0^1 f(1) x^n dx \right| \leq \epsilon.
+	\]
+	即由 $\epsilon$ 任意性即得
+	\[
+	\lim_{n \to \infty} n \int_0^1 f(x) x^n dx = \lim_{n \to \infty} n \int_0^1 f(1) x^n dx = \lim_{n \to \infty} f(1) \frac{n}{n+1} = f(1).
+	\]
+	我们完成了证明。
+\end{proof}
 \section{渐进展开}
 \subsection{初等方法}
 反复利用Stolz定理即可
@@ -142,17 +388,58 @@
 \]
 
 \end{example}
+\begin{proof}
+	显然 $x_n$ 递减到 0 以及
+    $$
+    \lim_{n \to \infty} n x_n = \lim_{n \to \infty} \frac{n}{\frac{1}{x_n}} \xrightarrow{\text{Stolz定理8.1}} \lim_{n \to \infty} \frac{1}{\frac{1}{x_{n+1}} - \frac{1}{x_n}} = \lim_{x \to 0} \frac{x \ln(1+x)}{x - \ln(1+x)} = 2.
+    $$
+    于是继续运用 Stolz 定理, 我们有
+    % 注意：以下推导在图像中可能存在错误或不清晰的步骤
+    \begin{align*}
+        \lim_{n \to \infty} \frac{n(nx_n - 2)}{\ln n} &= \lim_{n \to \infty} \frac{nx_n \left(n - \frac{2}{x_n}\right)}{\ln n} = 2 \lim_{n \to \infty} \frac{1 - \frac{2}{nx_n} + \frac{2}{x_n}}{\ln \frac{n+1}{n}} \\
+        &\xrightarrow{\ln \frac{n+1}{n} \sim \frac{1}{n}, x_n \sim \frac{2}{n}} 4 \lim_{n \to \infty} \frac{1 - \frac{2}{nx_n} + \frac{2}{x_n}}{x_n} = 4 \lim_{x \to 0} \frac{1 - \frac{2}{\ln(1+x)} + \frac{2}{x}}{x} = \frac{2}{3}.
+        % 原图推导步骤似乎有误，特别是从第一行到第二行的转换以及最终结果与中间步骤的 L'Hopital 极限不符
+    \end{align*}
+
+
+\end{proof}
 \begin{example}
 	设 $x_{n+1}=\sin x_n$, $n=1,2,\cdots$, $x_1\in (0,\pi)$。计算
 \[
 \lim_{n\to\infty}\frac{n}{\ln n}\left(1-\sqrt{\frac{n}{3}}x_n\right)。
 \]
 \end{example}
+\begin{proof}
+	显然 $x_n$ 递减到 0 以及 ($x_{n+1} = \sin x_n$)
+    $$
+    \lim_{n \to \infty} n x_n^2 = \lim_{n \to \infty} \frac{n}{\frac{1}{x_n^2}} \xrightarrow{\text{Stolz定理8.1}} \lim_{n \to \infty} \frac{1}{\frac{1}{x_{n+1}^2} - \frac{1}{x_n^2}} = \lim_{n \to \infty} \frac{1}{\frac{1}{\sin^2 x_n} - \frac{1}{x_n^2}} = \lim_{x \to 0} \frac{x^2 \sin^2 x}{x^2 - \sin^2 x} = 3.
+    $$
+    于是继续运用 Stolz 定理 我们有
+    % 注意：以下推导在图像中可能存在错误或不清晰的步骤
+    \begin{align*}
+        \lim_{n \to \infty} \frac{n}{\ln n} \left(1 - \sqrt[3]{\frac{n}{x_n^2}}\right) &= \lim_{n \to \infty} \frac{n \left(1 - \frac{n^{1/3}}{x_n^{2/3}}\right)}{\ln n} = \lim_{n \to \infty} \frac{n x_n^2 \left(\frac{1}{x_n^2} - \frac{n^{1/3}}{x_n^{8/3}}\right)}{\ln n \left(1 + \sqrt[3]{\frac{n}{x_n^2}}\right)} \\ % 此步骤代数转换似乎有问题
+        &= \frac{3}{2} \lim_{n \to \infty} \frac{\frac{1}{x_n^2} - \frac{n^{1/3}}{x_n^{8/3}}}{\ln n} \xrightarrow{\text{Stolz?}} \frac{3}{2} \lim_{n \to \infty} \frac{\frac{1}{x_{n+1}^2} - \frac{1}{x_n^2} - \frac{1}{3}}{\ln \frac{n+1}{n}} \\
+        &= \frac{3}{2} \lim_{n \to \infty} \frac{\frac{1}{\sin^2 x_n} - \frac{1}{x_n^2} - \frac{1}{3}}{\frac{1}{n}} \\
+        &= \frac{9}{2} \lim_{n \to \infty} \frac{\frac{1}{\sin^2 x_n} - \frac{1}{x_n^2} - \frac{1}{3}}{x_n^2} \quad (\text{using } nx_n^2 \to 3) \\
+        &= \frac{9}{2} \lim_{x \to 0} \frac{\frac{1}{\sin^2 x} - \frac{1}{x^2} - \frac{1}{3}}{x^2} = \frac{3}{10}.
+    \end{align*}
+\end{proof}
 \begin{example}
 	(2023 南大夏令营) 已知方程 $x^n - 2023x = 2023$ 在 $(0,+\infty)$ 上有唯一解 $x_n$，试求极限
 \[
 \lim_{n\to\infty}\frac{nx_n^n}{\ln n}。
 \]
+\end{example}
+\begin{example}
+	\begin{align*}
+		&\text{ 本题属于 } n \text{ 可以解出来的类型. 注意到} \\
+		&\quad 0 < x_n < 1, n = \frac{\ln(2023 - 2023x_n)}{\ln x_n}. \\
+		&\text{显然画出 } f(x) = \frac{\ln(2023 - 2023x)}{\ln x} \text{ 的图像并类似\ } \lim_{n \to \infty} x_n = 1. \\
+		&\text{于是由洛必达法则有} \\
+		&\quad \lim_{n \to \infty} \frac{n}{\ln n} x_n^n = \lim_{n \to \infty} \frac{\ln(2023 - 2023x_n)}{\ln x_n} e^{\frac{\ln(2023 - 2023x_n) \cdot \ln x_n}{\ln x_n}} = 2023 \lim_{x \to 1^-} \frac{(1-x) \ln(2023 - 2023x)}{\ln x \left( \frac{\ln(2023 - 2023x)}{\ln x} \right)} \\
+		&\quad = -2023 \lim_{x \to 1^-} \ln \left( \frac{\ln(2023 - 2023x)}{\ln x} \right) = -2023 \lim_{x \to 1^-} \frac{-\frac{1}{1-x}}{\frac{1}{(2023 - 2023x) \ln(2023 - 2023x)} - \frac{1}{x \ln x}} \\
+		&\quad = -2023 \lim_{x \to 1^-} \frac{\frac{1}{2023 \ln(2023 - 2023x)} + \frac{1-x}{x \ln x}}{0 - 1} = -2023 \cdot \frac{1}{0 - 1} = 2023.
+		\end{align*}
 \end{example}
 \begin{example}
 	\begin{enumerate}
@@ -295,14 +582,42 @@ $f$ 是单调递增或是单调递减的情形。
 \begin{example}
 	设 \( u_1 = b \), \( u_{n+1} = u_n^2 + (1 - 2a)u_n + a^2 \)，试判断 \( u_n \) 的敛散性。
 \end{example}
-
+\begin{proof}
+	折线图方法知当且仅当 $a-1 \le b \le a$ 时, $\lim_{n \to \infty} x_n$ 收敛且极限值为 $a$.
+\end{proof}
 \begin{example}
 	设 \( x_{n+1}(2 - x_n) = 1 \), \( n = 1, 2, \cdots \)。试判断 \( x_n \) 的敛散性。
 \end{example}
-
+\begin{proof}
+	折线图或者直接求通项的方法知 $\lim_{n \to \infty} x_n = 1$. 我们给出通项法证明：
+    注意到由题目条件得
+    $$
+    x_n \ne 2, x_{n+1} - 1 = \frac{x_n - 1}{2 - x_n}, \quad n = 1, 2, \dots
+    $$
+    若 $x_{n_0} = 1$, 则 $x_n = 1, \forall n \ge n_0$, 此时当然有 $\lim_{n \to \infty} x_n = 1$. 因此下面假设 $x_n \ne 1, \forall n \ge 1$. 于是左右取倒数得
+    $$
+    \frac{1}{x_{n+1} - 1} = \frac{2 - x_n}{x_n - 1} = \frac{1}{x_n - 1} - 1 \implies \frac{1}{x_{n+1} - 1} - \frac{1}{x_n - 1} = -1 \implies \frac{1}{x_n - 1} = \frac{1}{x_1 - 1} - (n-1).
+    $$
+    % Note: The image derivation seems slightly different in the last step, showing:
+    % \frac{1}{x_{n+1} - 1} = \frac{1}{x_1 - 1} - n \to -\infty
+    因此 $\lim_{n \to \infty} x_{n+1} = 1$.
+\end{proof}
 \begin{example}
 	定义数列 \( a_0 = x \), \( a_{n+1} = \frac{a_n^2 + y^2}{2} \), \( n = 0, 1, 2, \cdots \)，记 \( D = \{(x, y) \in \mathbb{R}^2 : \text{数列 } a_n \text{ 收敛}\} \)。
 \end{example}
+\begin{proof}
+	Step 1 \\
+    $t = \frac{t^2+y^2}{2}$ 关于 $t$ 有解可知 $\Delta = 4 - 4y^2 \ge 0$, 即 $|y| \le 1$.
+
+    Step 2 \\
+    解 $t^2 - 2t + y^2 = 0$ 知 $t = 1 \pm \sqrt{1 - y^2}$, 由折线图技巧我们知道
+    $$
+    D = \{(x, y) \in \mathbb{R}^2 : 1 - \sqrt{1 - y^2} \le x \le 1 + \sqrt{1 - y^2}; |y| \le 1\}.
+    $$
+    % Note: The lower bound for x in the image looks like -1 - \sqrt{...}, but 1 - \sqrt{...} corresponds to the circle (x-1)^2 + y^2 = 1 derived from t = 1 +/- sqrt(1-y^2) if x=t. Using 1 - sqrt(...) as it seems contextually more likely.
+    由初中数学得面积为 $4 + \pi$. % Note: The area of the domain D described above (a circle of radius 1) is \pi. The area 4+\pi might refer to a different context or shape.
+
+\end{proof}
 \chapter{函数}
 \section{连续性和可微性}
 \subsection{定义法}
