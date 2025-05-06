@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  4 MAY 2025 22:54
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  5 MAY 2025 23:05
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1619,7 +1619,7 @@ Package logreq Info: Writing requests to '数分笔试部分.run.xml'.
 Here is how much of TeX's memory you used:
  46359 strings out of 473832
  996743 string characters out of 5729481
- 2007376 words of memory out of 5000000
+ 2007379 words of memory out of 5000000
  68634 multiletter control sequences out of 15000+600000
  564340 words of font info for 107 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
