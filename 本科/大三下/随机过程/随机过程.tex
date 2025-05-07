@@ -4,6 +4,7 @@
 \usepackage{esint}
 \usepackage{mathtools}
 \usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
 \title{随机过程}
 
 
@@ -37,7 +38,6 @@
 	\mainmatter
 	\chapter{离散时间马尔可夫链}
 	\section{马氏链及其转移概率}
-	\subsection{马氏链及其转移概率}
 	有一类随机过程，它具备所谓的“无后效性”（Markov 性），
 即要确定过程将来的状态，知道它此刻的情况就足够了，并不需要
 对它以往状况的认识，这类过程称为Markov过程.我们将介绍离散
@@ -386,7 +386,7 @@ p & j = i + 1
 
 设 $\{X_n, n = 0, 1, \ldots\}$ 是齐次马氏链，具有转移矩阵 $P = (p_{ij})$，则有
 \[ p_{ij} \geq 0 \quad \forall i, j \in S \text{且} \sum_{j \in S} p_{ij} = 1 \quad \forall i \in S. \]
-\subsection{随机矩阵}
+\section{转移概率矩阵}
 \begin{definition}[随机矩阵]
 	称矩阵 $A = (a_{ij})_{S \times S}$ 为随机矩阵，若 $a_{ij} \geq 0 (\forall i, j \in S)$，且 $\sum_{j \in S} a_{ij} = 1 (\forall i \in S)$。
 \end{definition}
@@ -593,6 +593,1020 @@ C_n^{(n+j-i)/2} p^{(n+j-i)/2} q^{(n-j+i)/2} & n + j - i \text{为偶数} \\
 对任意的 $n \geq 0$，
 \[
 \sum_{i \in \mathcal{S}} \pi_i(n) = P(X_n \in \mathcal{S}) = 1.
+\]
+\begin{theorem}
+	\[
+\pi(n + 1) = \pi(n) \mathbf{P}, \quad \pi(n) = \pi(0) \mathbf{P}^n,
+\]
+其中 $\mathbf{P}^n$ 是 $\mathbf{P}$ 的 $n$ 次幂，特别有 $\pi(n) = \pi(k) \mathbf{P}^{n-k}$, $0 \leq k \leq n$.
+
+\end{theorem}
+\begin{proof}
+	\[
+\begin{aligned}
+\pi_j(n + 1) &= P(X_{n+1} = j) = P(X_n \in \mathcal{S}, X_{n+1} = j) \\
+&= \sum_{i \in \mathcal{S}} P(X_n = i, X_{n+1} = j) \\
+&= \sum_{i \in \mathcal{S}} P(X_n = i) P(X_{n+1} = j | X_n = i) = \sum_{i \in \mathcal{S}} \pi_i(n) p_{ij}.
+\end{aligned}
+\]
+
+令 $P_{:,j} := (p_{ij}, i \in \mathcal{S})'$ 为一步转移概率矩阵的第 $j$ 列。
+
+则 $\pi_j(n + 1) = \pi(n) P_{:j}$。写成向量形式，即为 $\pi(n + 1) = \pi(n) \mathbf{P}$.
+\end{proof}
+
+由马氏性可得：对任意 $i_0, i_1, \ldots, i_m \in \mathcal{S}$，
+和 $n_0 < n_1 < \cdots < n_m$ 有
+\[
+\begin{aligned}
+& P(X_{n_0} = i_0, X_{n_1} = i_1, \ldots, X_{n_{m-1}} = i_{m-1}, X_{n_m} = i_m) \\
+&= P(X_{n_0} = i_0, X_{n_1} = i_1, \ldots, X_{n_{m-1}} = i_{m-1}) \cdot P(X_{n_m} = i_m | X_{n_0} = i_0, X_{n_1} = i_1, \ldots, X_{n_{m-1}} = i_{m-1}) \\
+&= P(X_{n_0} = i_0, X_{n_1} = i_1, \ldots, X_{n_{m-1}} = i_{m-1}) P(X_{n_m} = i_m | X_{n_{m-1}} = i_{m-1}) \\
+&= P(X_{n_0} = i_0, \ldots, X_{n_{m-2}} = i_{m-2}) \cdot P(X_{n_{m-1}} = i_{m-1} | X_{n_{m-2}} = i_{m-2}, \ldots, X_{n_1} = i_1, X_{n_0} = i_0) p_{i_{m-1} i_m}^{(n_m - n_{m-1})} \\
+&= \cdots \\
+&= \pi_{i_0}(n_0) p_{i_0 i_1}^{(n_1 - n_0)} p_{i_1 i_2}^{(n_2 - n_1)} \cdots p_{i_{m-1} i_m}^{(n_m - n_{m-1})}.
+\end{aligned}
+\]
+从而知，马氏链 $\{X_n, n = 0, 1, \cdots\}$ 的任何有限维联合分布由转移矩阵 $\mathbf{P}$ 及其初始分布完全确定。
+\begin{example}
+	\[
+\begin{aligned}
+& P(X_2 = 1, X_5 = 3, X_7 = 2) \\
+&= P(X_5 = 3, X_2 = 1) P(X_7 = 2 | X_5 = 3, X_2 = 1) \\
+&= P(X_2 = 1) P(X_5 = 3 | X_2 = 1) P(X_7 = 2 | X_5 = 3) \\
+&= \pi_1(2) p_{13}^{(3)} p_{32}^{(2)}
+\end{aligned}
+\]
+\end{example}
+
+上面讨论可知，给定齐次马氏链，可得一随机矩阵 $\mathbf{P}$，而且该马氏链的若干转移概率均可由 $\mathbf{P}$ 确定。反之，若给定一随机矩阵 $\mathbf{P}$，我们可否确定一齐次马氏链，使其转移概率为给定的 $\mathbf{P}$ 相同？答案是肯定的！
+
+\begin{theorem}[马氏链的存在性]
+	 对任给的随机矩阵 $\mathbf{P} = (p_{ij})_{S \times S}$，$S$ 上的概率分布为 $\mu = \{\mu_i, i \in \mathcal{S}\}$，存在唯一的概率空间 $(\Omega, \mathcal{F}, \tilde P)$ 及其上的随机过程 $\{X_n, n = 0, 1, \cdots\}$ 使得：
+\begin{enumerate}
+    \item $\mu$ 为该过程的初始分布，即 $\tilde P(X_0 = i) = \mu_i, i \in \mathcal{S}$;
+    \item $\{X_n, n = 0, 1, \cdots\}$ 是以 $\mathbf{P}$ 为转移矩阵的齐次马氏链，即
+    \[
+    \tilde P(X_{n+1} = j | X_n = i) = p_{ij} \quad \forall i, j \in \in \mathcal{S}, n \geq 0.
+    \]
+\end{enumerate}
+\end{theorem}
+\section{状态的分类及性质}
+\begin{definition}
+	设 $S$ 是 Markov Chain $\{X_n\}$ 的状态空间
+\begin{enumerate}
+    \item 如果 $p_{ii} = 1$，则称 $i$ 是吸收状态（即可知 $p_{ii}^{(n)} \equiv 1, n \geq 1$）;
+    \item 称状态 $i$ 可达状态 $j$，如果存在状态 $i_1, \ldots, i_n \in S$，使得 $p_{i_1 i_2} p_{i_2 i_3} \cdots p_{i_n j} > 0$。或等价地，存在 $n \geq 0$，使得 $p_{ij}^{(n)} > 0$，则称 $i$ 通 $j$，记为 $i \rightarrow j$.
+    \item 如果 $i \rightarrow j$ 且 $j \rightarrow i$，则称 $i$ 与 $j$ 是互通的，记为 $i \leftrightarrow j$. 若对一切 $i, j \in S$，均有 $i \leftrightarrow j$ 成立，则称转移矩阵（或马氏链）是不可约.
+\end{enumerate}
+\end{definition}
+\begin{remark}
+	$\rightarrow$ 具有传递性。即若 $i \rightarrow j$ 且 $j \rightarrow k$，则 $i \rightarrow k$. 理由：存在 $n, m, s.t. p_{ij}^{(n)} > 0$ 且 $p_{jk}^{(m)} > 0$，则由 $C-K$ 方程 $p_{ik}^{(n+m)} \geq p_{ij}^{(n)} p_{jk}^{(m)} > 0$.
+\end{remark}
+\begin{proposition}
+	互通有下列关系
+\begin{enumerate}
+    \item 对称性 $i \leftrightarrow j$, 则 $j \leftrightarrow i$;
+    \item 传递性 $i \leftrightarrow j, j \leftrightarrow k$, 则 $i \leftrightarrow k$;
+\end{enumerate}
+\end{proposition}
+\begin{example}
+	记某设备的状态为 $1, 2, 3$，其中 $1$ 表示设备运行良好，$2$ 表示运行正常，$3$ 表示设备失效。以 $X_n$ 表示设备在时刻 $n$ 的状态，且假设 $\{X_n, n = 0, 1, \ldots\}$ 是齐次马氏链。在有维修及更换条件下，其转移矩阵为
+\[
+\mathbf{P} = 
+\begin{pmatrix}
+\frac{2}{3} & \frac{3}{12} & \frac{1}{12} \\
+0 & \frac{4}{5} & \frac{1}{5} \\
+0 & 0 & 1
+\end{pmatrix}
+\]
+
+试说明: $1 \rightarrow 2$, $2 \rightarrow 3$, $3$ 是吸收的。
+\end{example}
+
+
+
+% 在文档末尾添加如下TikZ图
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % 定义节点
+        \node[circle, draw] (1) at (0,0) {1};
+        \node[circle, draw] (2) at (3,0) {2};
+        \node[circle, draw] (3) at (6,0) {3};
+        
+        % 绘制转移概率 - 准确匹配图片
+        \draw[->, thick] (1) to[bend left=20] node[above] {$\frac{1}{2}$} (2);
+        \draw[->, thick] (2) to[bend left=20] node[above] {$\frac{2}{3}$} (3);
+        \draw[->, thick] (1) to[bend left=40] node[above] {$\frac{4}{5}$} (3);
+		\draw[->, thick] (3) edge [loop right] node {$1$} (3);
+		\draw[->, thick] (2) edge [loop right] node {$\frac{4}{5}$} (2);
+		\draw[->, thick] (1) edge [loop right] node {$\frac{2}{3}$} (1);
+    \end{tikzpicture}
+\end{figure}
+\begin{proof}
+	如图
+\end{proof}
+
+\begin{example}
+	记马氏链 $\{X_n, n \geq 0\}$ 的状态空间 $S = \{1, 2, 3\}$。对应的一步转移概率矩阵为
+
+\[
+\mathbf{P} = 
+\begin{pmatrix}
+\frac{1}{3} & 0 & \frac{2}{3} \\
+0 & 1 & 0 \\
+0 & \frac{1}{3} & \frac{2}{3}
+\end{pmatrix}
+\]
+
+则状态1是否可达状态2？
+\end{example}
+\begin{proof}
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[node distance=1.5cm, on grid, auto]
+		\tikzset{
+			state/.style={circle, draw=black, thick, minimum width=1em},
+			arrow/.style={thick, ->, >={Latex[width=1mm, length=1mm]}}
+		}
+	
+		% 定义节点
+		\node[state] (1) {1};
+		\node[state] (2) [right=of 1] {2};
+		\node[state] (3) [right=of 2] {3};
+	
+		% 绘制箭头并添加概率值
+		\path [arrow] (1) edge [loop left] node {$\frac{1}{3}$} (1);
+		\path [arrow] (1) edge [bend left] node[above] {$\frac{2}{3}$} (3);
+		\path [arrow] (2) edge [loop left] node {$1$} (2);
+		\path [arrow] (3)edge[bend left] node[above] {$\frac{2}{3}$} (2);
+		\path [arrow] (3) edge [loop right] node {$\frac{2}{3}$} (3);
+	\end{tikzpicture}
+\end{figure}
+
+虽然 \(p_{12} = 0\)，但 \(p_{12}^{(2)} \geq p_{13} p_{32} = \frac{2}{9} > 0\)。故仍然有 \(1 \rightarrow 2\)。
+
+\end{proof}
+\begin{definition}[周期]\label{3.4}
+	集合 $\{n, p_{ii}^{(n)} > 0\}$ 非空，$d(i)$ 为 $\{n, p_{ii}^{(n)} > 0\}$ 的最大公约数，则称 $d(i)$ 为 $i$ 的周期。特别地，当 $d(i) = 1$ 时，称 $i$ 为非周期的。若集合 $\{n, p_{ii}^{(n)} > 0\} = \emptyset$，则称 $i$ 的周期为 $\infty$。
+\end{definition}
+
+假设 $i$ 状态为 $d$，能不能推出对所有的 $n$，$p_{ii}^{(nd)} > 0$？
+
+\begin{remark}
+
+	由定义\ref{3.4} 知道，虽然有周期 $d$，但并不是对所有的 $n$，$p_{ii}^{(nd)}$ 都大于 0。
+
+但是可以证明，当 $n$ 充分大之后一定有 $p_{ii}^{(dn)} > 0$。
+
+\end{remark}
+\begin{example}
+	考察如下图
+	
+	\begin{tikzpicture}[node distance=2cm, on grid, auto]
+		\tikzset{
+			state/.style={circle, draw=black, thick, minimum width=1em},
+			arrow/.style={thick, ->, >={Latex[width=1mm, length=1mm]}}
+		}
+	
+		% 定义节点
+		\node[state] (1) {1};
+		\node[state] (2) [above right=of 1] {2};
+		\node[state] (3) [right=of 2] {3};
+		\node[state] (4) [below right=of 3] {4};
+		\node[state] (5) [below left=of 1] {5};
+		\node[state] (6) [left=of 5] {6};
+		\node[state] (7) [above left=of 6] {7};
+		\node[state] (8) [above=of 7] {8};
+		\node[state] (9) [above right=of 8] {9};
+	
+		% 绘制边并添加权重
+		\path [arrow] (7) edge node {$1$} (8);
+		\path [arrow] (8) edge node {$1$} (9);
+		\path [arrow] (9) edge node {$1$} (1);
+		\path [arrow] (6) edge node {$1$} (7);
+		\path [arrow] (1) edge node {$\frac{2}{3}$} (5);
+		\path [arrow] (5) edge node {$1$} (6);
+		\path [arrow] (6) edge node {$1$} (5);
+		\path [arrow] (1) edge node {$\frac{1}{3}$} (2);
+		\path [arrow] (2) edge node {$1$} (3);
+		\path [arrow] (3) edge node {$1$} (4);
+		\path [arrow] (4) edge node {$1$} (1);
+	\end{tikzpicture}
+
+	由状态 1 出发再回到状态 1 的可能步长为 $T = \{4, 6, 8, 10, \cdots\}$，它的最大公约数是 2，虽然从状态 1 出发 2 步并不能回到状态 1，我们仍然称 2 是状态 1 的周期。
+	
+\end{example}
+\begin{example}
+	如果质点每次向前、向后移动一步的概率是 $\frac{1}{3}$，向后移动两步概率为 $\frac{1}{3}$，则每个状态均为非周期的。
+\end{example}
+\begin{proof}
+	对任意的 $i$，$p_{i,i+1} = p_{i,i-1} = p_{i,i-2} = \frac{1}{3}$.
+
+$p_{ii}^{(2)} \geq p_{i,i+1} p_{i+1,i} = \frac{1}{3} \cdot \frac{1}{3} > 0$.
+
+$p_{ii}^{(3)} \geq p_{i,i-2} p_{i-2,i-1} p_{i-1,i} = \left(\frac{1}{3}\right)^3 > 0$.
+
+由于 $2, 3$ 互素，可知 $i$ 非周期。
+\end{proof}
+\begin{example}
+	在直线上，如果质点每次向前移动一步的概率为 $p$，向后移动5步概率是 $q = 1 - p$，$pq > 0$，则每个状态周期均为6。
+
+\end{example}
+\begin{proof}
+	任取 $n$ 满足 $p_{ii}^{(n)} > 0$，则记向前移动次数为 $x$，向后移动的次数记为 $y$。
+
+\begin{equation*}
+\begin{cases}
+x + y = n \\
+x = 5y
+\end{cases}
+\end{equation*}
+
+故可知 $n = 6y$。同时 $p_{ii}^{(6)} \geq p_{i,i+1} p_{i+1,i+2} p_{i+2,i+3} p_{i+3,i+4} p_{i+4,i+5} p_{i+5,i} > 0$。故周期为6。
+
+\end{proof}
+\begin{theorem}
+	设 $i \leftrightarrow j$，则 $d(i) = d(j)$。
+
+证明 $d(i) | d(j)$ 且 $d(j) | d(i)$。证明 $d(i)$ 为 $\{k | p_{jj}^{(k)} > 0\}$ 的公约数。
+\end{theorem}
+\begin{proof}
+	令 $p_{ii}^{(r)} > 0$, $p_{ij}^{(s)} > 0 (r, s \geq 1)$。任取 $n \in \{k | p_{jj}^{(k)} > 0\}$。则有
+\[
+p_{ii}^{(r+n+s)} \geq p_{ij}^{(s)} p_{jj}^{(n)} p_{ji}^{(r)} > 0, \quad p_{ii}^{(r+s)} \geq p_{ij}^{(s)} p_{ji}^{(r)} > 0.
+\]
+从而由周期的定义知 $d(i) | (r+n+s)$, $d(i) | (r+s)$，故有 $d(i) | n$。于是 $d(i)$ 为 $\{k | p_{jj}^{(k)} > 0\}$ 的公约数。因此，$d(i) | d(j)$。同理可得 $d(j) | d(i)$。
+\end{proof}
+\begin{lemma}
+	设 $m \geq 2$，正整数 $s_1, s_2, \ldots, s_m$ 的最大公因数为 $d$，则存在正整数 $N$，使得 $n > N$ 时，必有非负整数 $c_1, c_2, \ldots, c_m$ 使得 $nd = \sum_{i=1}^{m} c_i s_i$。
+\end{lemma}
+
+\begin{theorem}\label{3.7}
+	设 $i \in S$, $d(i) \geq 1$，则存在 $N \geq 1$ 使得 $p_{ii}^{(nd(i))} > 0$ 对一切 $n \geq N$ 成立。
+\end{theorem}
+\begin{proof}
+	将集合 $\{n \geq 1 : p_{ii}^{(n)} > 0\}$ 按其中元素递增的顺序重新排列成 $\{n_1, \ldots, n_k, \ldots\}$。令 $\hat{d}_k$ 为 $\{n_1, n_2, \ldots, n_k\}$ 的最大公约数，则有
+\[
+\hat{d}_1 \geq \hat{d}_2 \geq \ldots \geq \hat{d}_k \geq \hat{d}_{k+1} \geq \ldots \geq d(i)。
+\]
+因 $\hat{d}_i$ 和 $d(i)$ 均有限，故存在 $n_0$ 使得：$\hat{d}_k = d(i)$ 对一切 $k > n_0$。则由初等数论知：$\exists N \geq 1$，当 $n \geq N$ 时，有非负整数 $s_1 \geq 0, \ldots, s_{n_0} \geq 0$ 使得 $nd(i) = s_1 n_1 + \ldots + s_{n_0} n_{n_0}$。故
+\[
+p_{ii}^{(nd(i))} \geq (p_{ii}^{(n_1)})^{s_1} \ldots (p_{ii}^{(n_{n_0})})^{s_{n_0}} > 0。
+\]
+\end{proof}
+\section{常返性}
+\begin{definition}[首达时间]
+	设对 $j \in S$，令
+\[
+T_{ij} := 
+\begin{cases} 
+\min\{n:, n \geq 1, X_n = j, X_0 = i\} & \text{若} \{n \geq 1 | X_n = j, X_0 = i\} \neq \emptyset \\
++\infty & \text{若} \{n \geq 1 | X_n = j, X_0 = i\} = \emptyset.
+\end{cases}
+\]
+若 $X_0 = i$，则称 $T_{ij}$ 为从 $i$ 出发首次到达 $j$ 的时间，而 $T_{ii}$ 则表示从 $i$ 出发首次回到 $i$ 的时间。
+\end{definition}
+\begin{definition}[首达概率]
+	对 $i, j \in S$，令
+\[
+f_{ij}^{(n)} = P(T_{ij} = n | X_0 = i), \quad n \geq 1.
+\]
+称 $f_{ij}^{(n)}$ 为从 $i$ 出发经过 $n$ 步首次到达 $j$ 的概率。$f_{ii}^{(n)}$ 为从 $i$ 出发经过 $n$ 步首次回到 $i$ 的概率。
+\end{definition}
+由定义易知：
+\begin{align*}
+f_{ij}^{(n)} &= P(X_k \neq j, 1 \leq k \leq n-1, X_n = j | X_0 = i) \\
+&= \sum_{i_k \neq j, 1 \leq k \leq n-1} P(X_k = i_k, 1 \leq k \leq n-1, X_n = j | X_0 = i) \\
+&= \sum_{i_k \neq j, 1 \leq k \leq n-1} p_{ii_1} p_{i_1 i_2} \cdots p_{i_{n-1} j} \\
+&= \sum_{i_{n-1} \neq j} \sum_{i_{n-2} \neq j} \cdots \sum_{i_1 \neq j} p_{ii_1} p_{i_1 i_2} \cdots p_{i_{n-1} j}
+\end{align*}
+
+\begin{example}
+	记某设备的状态为 $1, 2, 3$，其中 $1$ 表示设备运行良好，$2$ 表示运行正常，$3$ 表示设备失效。以 $X_n$ 表示设备在时刻 $n$ 的状态，且假设 $\{X_n, n = 0, 1, \ldots\}$ 是齐次马氏链。在有维修及更换条件下，其转移矩阵为
+\[
+\mathbf{P} = \begin{pmatrix}
+\frac{2}{3} & \frac{3}{12} & \frac{1}{12} \\
+0 & \frac{4}{5} & \frac{1}{5} \\
+0 & 0 & 1
+\end{pmatrix}
+\]
+求 $f_{13}^{(1)}$，$f_{13}^{(2)}$，$f_{13}^{(3)}$。
+\end{example}
+\begin{proof}
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+			% 定义节点
+			\node[circle, draw] (1) at (0,0) {1};
+			\node[circle, draw] (2) at (3,0) {2};
+			\node[circle, draw] (3) at (6,0) {3};
+			
+			% 绘制转移概率 - 准确匹配图片
+			\draw[->, thick] (1) to[bend left=20] node[above] {$\frac{1}{2}$} (2);
+			\draw[->, thick] (2) to[bend left=20] node[above] {$\frac{2}{3}$} (3);
+			\draw[->, thick] (1) to[bend left=40] node[above] {$\frac{4}{5}$} (3);
+			\draw[->, thick] (3) edge [loop right] node {$1$} (3);
+			\draw[->, thick] (2) edge [loop right] node {$\frac{4}{5}$} (2);
+			\draw[->, thick] (1) edge [loop right] node {$\frac{2}{3}$} (1);
+		\end{tikzpicture}
+	\end{figure}
+
+	\begin{enumerate}
+		\item $f_{13}^{(1)} = P(T_{13} = 1 | X_0 = 1) = p_{13} = \frac{1}{12}$;
+		\item $f_{13}^{(2)} = p_{11} p_{13} + p_{12} p_{23} = \frac{19}{180}$;
+		\item $P(T_{13} \geq 3 | X_0 = 1) = 1 - f_{13}^{(1)} - f_{13}^{(2)} = \frac{73}{90}$. 表示设备在 $[0,3]$ 内运行的可靠性。
+	\end{enumerate}
+	\begin{align*}
+		f_{13}^{(3)} &= P(T_{13} = 3 | X_0 = 1) \\
+		&= P(X_3 = 3, X_2 \neq 3, X_1 \neq 3 | X_0 = 1) \\
+		&= P(X_3 = 3, X_2 = 1, X_1 = 1 | X_0 = 1) \\
+		&\quad + P(X_3 = 3, X_2 = 1, X_1 = 2 | X_0 = 1) \\
+		&\quad + P(X_3 = 3, X_2 = 2, X_1 = 1 | X_0 = 1) \\
+		&\quad + P(X_3 = 3, X_2 = 2, X_1 = 2 | X_0 = 1) \\
+		&= \frac{1}{27} + 0 + \frac{1}{30} + \frac{1}{25} = \frac{149}{1350}
+		\end{align*}
+\end{proof}
+\begin{align*}
+	f_{ij} & := \sum_{n=1}^{\infty} f_{ij}^{(n)} \\
+	& = \sum_{n=1}^{\infty} P(X_k \neq j, 1 \leq k \leq n-1, X_n = j | X_0 = i) \\
+	& = \sum_{n=1}^{\infty} P(T_{ij} = n | X_0 = i) = P(T_{ij} < \infty | X_0 = i)
+\end{align*}
+	
+	$f_{ij} := \sum_{n=1}^{\infty} f_{ij}^{(n)}$ 表示从 $i$ 出发经有限步首次到达 $j$ 的概率。同理可解释 $f_{ii}$
+
+\begin{definition}[常返状态]
+	若 $f_{ii} = 1$，则称 $i$ 为常返。否则，称 $i$ 为非常返（或暂留，瞬时的）。
+
+\end{definition}
+\begin{remark}
+
+	吸收状态 $i$ 满足 $f_{ii} = f_{ii}^{(1)} = 1$
+\end{remark}
+
+下面分析各状态的性质，以及如何根据转移矩阵 $P$ 来判断其常返性，不可约性等。
+\begin{theorem}
+	对任意 $i, j \in S$, $n \geq 1$，有：
+\begin{enumerate}\label{4.4}
+    \item[(a)] $p_{ij}^{(n)} = \sum_{m=1}^{n} f_{ij}^{(m)} p_{ij}^{(n-m)}$（注意，$p_{ij}^{(0)} \equiv 1$）；
+    \item[(b)] $f_{ij}^{(n)} = \sum_{k \neq j} p_{ik} f_{kj}^{(n-1)} I_{\{n > 1\}} + p_{ij} I_{\{n=1\}}$；
+    \item[(c)] $i \rightarrow j \Longleftrightarrow f_{ij} > 0$; $i \leftrightarrow j \Longleftrightarrow f_{ij} f_{ji} > 0$。
+\end{enumerate}
+
+\end{theorem}
+\begin{remark}
+	由 (a) 可知 $p_{ij}^{(n)} \geq f_{ij}^{(n)}$
+\end{remark}
+\begin{proof}
+	\begin{enumerate}
+		\item[(a)] 证明用的是首次进入方法。即依照首次进入状态 $j$ 的时刻进行分解（即下面的第二个等式）：
+		\begin{align*}
+		p_{ij}^{(n)} &= P(X_n = j | X_0 = i) = P(X_n = j, T_{ij} \leq n | X_0 = i) \\
+		&= \sum_{m=1}^{n} P(T_{ij} = m, X_n = j | X_0 = i) \\
+		&= \sum_{m=1}^{n} P(T_{ij} = m | X_0 = i) P(X_n = j | X_0 = i, T_{ij} = m) \\
+		&= \sum_{m=1}^{n} f_{ij}^{(m)} P(X_n = j | X_0 = i, X_1 \neq j, \ldots, X_{m-1} \neq j, X_m = j) \\
+		&= \sum_{m=1}^{n} f_{ij}^{(m)} p_{ij}^{(n-m)}.
+		\end{align*}
+		\item[(b)] 当 $n = 1$ 时，由 $f_{ij}^{(1)} = p_{ij}$，结论显然成立。对 $n \geq 2$，因为
+		\[
+		\{T_{ij} = n\} = \{X_1 \neq j, \ldots, X_{n-1} \neq j, X_n = j\}
+		\]
+		\[
+		= \bigcup_{k \neq j} \{X_1 = k, X_2 \neq j, \ldots, X_{n-1} \neq j, X_n = j\}.
+		\]
+		\begin{align*}
+		f_{ij}^{(n)} &= P(T_{ij} = n | X_0 = i) \\
+		&= \sum_{k \neq j} P(X_1 = k, X_2 \neq j, \ldots, X_{n-1} \neq j, X_n = j | X_0 = i) \\
+		&= \sum_{k \neq j} p_{ik} \cdot P(X_2 \neq j, \ldots, X_{n-1} \neq j, X_n = j | X_0 = i, X_1 = k) \\
+		&= \sum_{k \neq j} p_{ik} f_{kj}^{(n-1)}.
+		\end{align*}
+		（马氏性与齐次性）
+		\item[(c)] 由 (a) 知 $p_{ij}^{(n)} \geq f_{ij}^{(n)} (\forall i \in S, n \geq 1)$。当 $f_{ij} > 0$ 时，有 $i \rightarrow j$。另一方面，若 $i \rightarrow j$，则有 $n \geq 1$ 使得 $p_{ij}^{(n)} > 0$。当 $n = 1$ 时，知 $f_{ij}^{(1)} = p_{ij}^{(1)} > 0$，从而 $f_{ij} > 0$。当 $n \geq 2$ 时，由 (a) 知，
+		\[
+		p_{ij}^{(n)} = \sum_{m=1}^{n} f_{ij}^{(m)} p_{ij}^{(n-m)} > 0.
+		\]
+		故有 $1 \leq m \leq n$ 使得 $f_{ij}^{(m)} > 0$，从而 $f_{ij} > 0$。
+	\end{enumerate}
+\end{proof}
+
+下面有一个有意思的结论，务必要记下来
+\begin{proposition}
+	\begin{align*}
+	f_{ij}^{(k)} &= P(X_k \neq j, 1 \leq k \leq n-1, X_n = j | X_0 = i) \\
+	&= \sum_{i_k \neq j, 1 \leq k \leq n-1} p_{ii_1} p_{i_1 i_2} \cdots p_{i_{n-1} j} \\
+	&= \sum_{i_{n-1} \neq j} \sum_{i_{n-2} \neq j} \cdots \sum_{i_1 \neq j} p_{ii_1} p_{i_1 i_2} \cdots p_{i_{n-1} j} \\
+	&= \sum_{i_{n-1} \neq j} \left( \sum_{i_{n-2} \neq j} \cdots \left( \sum_{i_2 \neq j} \left( \sum_{i_1 \neq j} p_{ii_1} p_{i_1 i_2} \right) p_{i_2 i_3} \right) \cdots p_{i_{n-2} i_{n-1}} \right) p_{i_{n-1} j} \\
+	&= \sum_{i_1 \neq j} p_{i_1 i_1} \left( \sum_{i_2 \neq j} \cdots \sum_{i_{n-3} \neq j} \left( \sum_{i_{n-2} \neq j} \left( \sum_{i_{n-1} \neq j} p_{i_{n-2} i_{n-1}} p_{i_{n-1} j} \right) \right) \right).
+	\end{align*}
+	
+	
+	
+	\end{proposition}
+	用矩阵表示：对任意的 $k \geq 2$，
+	\[
+f_{ij}^{(k)} = 
+\begin{pmatrix}
+p_{i1} & p_{i2} & \cdots & p_{i,j-1} & p_{i,j+1} & \cdots & p_{in}
+\end{pmatrix}
+\begin{pmatrix}
+p_{11} & p_{12} & \cdots & p_{1,j-1} & p_{1,j+1} & \cdots & p_{1n} \\
+p_{21} & p_{22} & \cdots & p_{2,j-1} & p_{2,j+1} & \cdots & p_{2n} \\
+\vdots & \vdots & \ddots & \vdots & \vdots & \ddots & \vdots \\
+p_{j-1,1} & p_{j-1,2} & \cdots & p_{j-1,j-1} & p_{j-1,j+1} & \cdots & p_{j-1,n} \\
+p_{j+1,1} & p_{j+1,2} & \cdots & p_{j+1,j-1} & p_{j+1,j+1} & \cdots & p_{j+1,n} \\
+\vdots & \vdots & \ddots & \vdots & \vdots & \ddots & \vdots \\
+p_{n1} & p_{n2} & \cdots & p_{n,j-1} & p_{n,j+1} & \cdots & p_{nn}
+\end{pmatrix}
+^{k-2}
+\begin{pmatrix}
+p_{1j} \\
+p_{2j} \\
+\vdots \\
+p_{j-1,j} \\
+p_{j+1,j} \\
+\vdots \\
+p_{nj}
+\end{pmatrix}
+\]
+\begin{remark}
+	左边行向量是转移矩阵的第 $i$ 行去掉第 $j$ 个元素，右边列向量是转移矩阵的第 $j$ 列去掉第 $i$ 个元素，中间的矩阵是转移矩阵去掉第 $j$ 行和第 $j$ 列。
+\end{remark}
+
+
+\begin{example}
+	\[
+\mathbf{P} = \begin{pmatrix}
+\frac{2}{3} & \frac{3}{12} & \frac{1}{12} \\
+0 & \frac{4}{5} & \frac{1}{5} \\
+0 & 0 & 1
+\end{pmatrix}
+\]
+
+求 $f_{13}^{(3)}$。
+\end{example}
+\begin{proof}
+	\begin{align*}
+		f_{13}^{(3)} &= \left( \begin{array}{cc}
+		\frac{2}{3} & \frac{3}{12}
+		\end{array} \right)
+		\left( \begin{array}{ccc}
+		\frac{2}{3} & \frac{3}{12}  \\
+		0 & \frac{4}{5} 
+		\end{array} \right)
+		\left( \begin{array}{c}
+		\frac{1}{12} \\
+		\frac{1}{5}
+		\end{array} \right) \\
+		&= \frac{149}{1350}
+		\end{align*}
+\end{proof}
+\begin{theorem}
+	\begin{enumerate}
+		\item[(1)] $\sum_{n=0}^{\infty} p_{ii}^{(n)} = \frac{1}{1 - f_{ii}}$
+		\item[(2)] $i$ 常返 $\Longleftrightarrow \sum_{n=0}^{\infty} p_{ii}^{(n)} = +\infty$
+		\item[(3)] $i$ 非常返 $\Longleftrightarrow \sum_{n=0}^{\infty} p_{ii}^{(n)} = \frac{1}{1 - f_{ii}} < \infty$
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	(1,2,3) 引进母函数：
+\[
+P_{ij}(s) \triangleq \sum_{n=0}^{\infty} s^n p_{ij}^{(n)}, \quad F_{ij}(s) \triangleq \sum_{n=1}^{\infty} s^n f_{ij}^{(n)}, \quad s \in (0, 1).
+\]
+于是有：
+\begin{align*}
+\sum_{n=1}^{\infty} p_{ij}^{(n)} s^n &= \sum_{n=1}^{\infty} \left[ \sum_{m=1}^{n} f_{ij}^{(m)} p_{ij}^{(n-m)} \right] s^n = \sum_{m=1}^{\infty} \left[ f_{ij}^{(m)} s^m \sum_{n=m}^{\infty} p_{ij}^{(n-m)} s^{n-m} \right], \\
+P_{ij}(s) - \delta_{ij} &= P_{ij}(s) F_{ij}(s).
+\end{align*}
+这样有：$F_{ii}(s) = 1 - \frac{1}{P_{ii}(s)}$。任取 $N > 1$，则有
+\[
+\sum_{n=0}^{N} p_{ii}^{(n)} s^n < P_{ii}(s) < \sum_{n=0}^{\infty} p_{ii}^{(n)},
+\]
+令 $s \uparrow 1$，在令 $N \rightarrow \infty$ 由单调收敛定理可知 $P_{ii}(s) \rightarrow \sum_{n=0}^{\infty} p_{ii}^{(n)}$，令 $f_{ii} = \lim_{s \uparrow 1} F_{ii}(s)$，及 $\sum_{n=0}^{\infty} p_{ii}^{(n)} = \lim_{s \uparrow 1} P_{ii}(s)$ 可得：若 $f_{ii} = 1$，则有 $\sum_{n=1}^{\infty} p_{ii}^{(n)} = \infty$。故 (1)(2)(3) 得证。
+
+\end{proof}
+\begin{corollary}
+	若 $j$ 为非常返状态，则对任意的 $i \in S$，
+\[
+\sum_{n=1}^{\infty} p_{ij}^{(n)} < \infty, \quad \lim_{n \to \infty} p_{ij}^{(n)} = 0.
+\]
+\end{corollary}
+\begin{proof}
+	对给定的 $N$，
+\begin{align*}
+\sum_{n=1}^{N} p_{ij}^{(n)} &= \sum_{n=1}^{N} \sum_{l=1}^{n} f_{ij}^{(l)} p_{ij}^{(n-l)} \\
+&= \sum_{l=1}^{N} \sum_{n=l}^{N} f_{ij}^{(l)} p_{ij}^{(n-l)} \\
+&= \sum_{l=1}^{N} f_{ij}^{(l)} \sum_{m=0}^{N-l} p_{ij}^{(m)} \\
+&\leq \sum_{l=1}^{N} f_{ij}^{(l)} \sum_{n=0}^{N} p_{ij}^{(n)}.
+\end{align*}
+
+令 $N \to \infty$，
+\[
+\sum_{n=1}^{\infty} p_{ij}^{(n)} \leq \sum_{l=1}^{\infty} f_{ij}^{(l)} \left( 1 + \sum_{n=1}^{\infty} p_{ij}^{(n)} \right) \leq 1 + \sum_{n=1}^{\infty} p_{ij}^{(n)} < \infty.
+\]
+由于 $p_{ij}^{(n)} \geq 0$，故 $\lim_{n \to \infty} p_{ij}^{(n)} = 0$。
+
+\end{proof}
+\begin{corollary}
+	若 $j$ 为常返状态，则当 $i \rightarrow j$ 时，
+	\[
+	\sum_{n=1}^{\infty} p_{ij}^{(n)} = \infty.
+	\]
+\end{corollary}
+\begin{proof}
+	由于 $i \rightarrow j$，故存在 $m > 0$ 使得 $p_{ij}^{(m)} > 0$，故
+\[
+p_{ij}^{(m+n)} = \sum_{k \in S} p_{ik}^{(m)} p_{kj}^{(n)} \geq p_{ij}^{(m)} p_{jj}^{(n)}
+\]
+故 $\sum_{n=1}^{\infty} p_{ij}^{(m+n)} \geq p_{ij}^{(m)} \sum_{n=1}^{\infty} p_{jj}^{(n)} = \infty$。
+\end{proof}
+
+\[
+I_n(i) := 
+\begin{cases} 
+1 & X_n = i \\
+0 & X_n \neq i 
+\end{cases}
+\]
+
+\[
+S(i) := \sum_{n=0}^{\infty} I_n(i)
+\]
+
+则可证明
+\begin{align*}
+E(S(i) | X_0 = i) &= E\left[\sum_{n=0}^{\infty} I_n(i) | X_0 = i\right] \\
+&= \sum_{n=0}^{\infty} E[I_n(i) | X_0 = i] \\
+&= \sum_{n=0}^{\infty} p_{ii}^{(n)}.
+\end{align*}
+
+即由 $i$ 出发回到 $i$ 的平均次数。
+
+\[
+g_{ij} := P(\text{有无穷多个} n \geq 1 \text{使得} X_n = j | X_0 = i)
+\]
+
+\begin{theorem}
+	对一切的 $i, j$
+\begin{enumerate}
+    \item[(i)] $g_{ii} = \lim_{n \to \infty} (f_{ii})^n$, $g_{ij} = f_{ij} g_{jj}$.
+    \item[(ii)] 设 $i$ 为常返态，$i \rightarrow j$，则 $g_{ij} = f_{ij} = 1$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+	记 $g_{ij}(m) = P(\text{至少有 } m \text{ 个 } n \geq 1 \text{ 使得 } X_n = j | X_0 = i)$。显然 $g_{ij}(1) = f_{ij}$，且
+\[
+\{\{ \text{有无穷多个 } n \ge 1 \text{ 使得 } X_n = j \} = \bigcap_{m=1}^{\infty} {\{ \text{至少有 } m \text{ 个 } n \ge 1 \text{ 使得 } X_n = j \}}.
+\]
+故 $g_{ij}(m) \downarrow g_{ij}$
+
+\[
+g_{ij}(m+1) = P(\text{至少有 } m+1 \text{ 个 } n \ge 1 \text{ 使得 } X_n = j | X_0 = i)
+\]
+\[
+= \sum_{k=1}^{\infty} P(T_{ij} = k, \text{至少有 } m+1 \text{ 个 } n \ge 1 \text{ 使得 } X_n = j | X_0 = i)
+\]
+\[
+= \sum_{k=1}^{\infty} P(X_k = j, X_v \neq j, 0 < v < k, \text{至少有 } m \text{ 个 } n \ge k+1 \text{ 使得 } X_n = j | X_0 = i)
+\]
+\[
+= \sum_{k=1}^{\infty} P(X_k = j, X_v \neq j, 0 < v < k | X_0 = i) \cdot P(\text{至少有 } m \text{ 个 } n \ge k+1 \text{ 使得 } X_n = j | X_k = j, X_v \neq j, 0 < v < k, X_k = j)
+\]
+\[
+= \sum_{k=1}^{\infty} f_{ij}^{(k)} P(\text{至少有 } m \text{ 个 } n \ge 1 \text{ 使得 } X_n = j | X_0 = i)
+\]
+\[
+= \sum_{k=1}^{\infty} f_{ij}^{(k)} g_{ij}(m) = f_{ij} g_{ij}(m)
+\]
+
+令 $m \to \infty$，则有 $g_{ij} = f_{ij} g_{ij}$
+
+由 $g_{ij}(m+1) = f_{ij} g_{ij}(m)$ 可知有
+\[
+g_{ij}(m+1) = f_{ij} g_{ij}(m) = \cdots (f_{ij})^{m+1}.
+\]
+故(i) $g_{ii} = \lim_{n \to \infty} g_{ii}(n) = \lim_{n \to \infty} (f_{ii})^n$，$g_{ij} = f_{ij} g_{ij}$.
+\end{proof}
+\begin{theorem}
+	设 $i$ 为常返态，$i \rightarrow j$，则 $g_{ij} = f_{ij} g_{ii} = 1$.
+
+\end{theorem}
+\begin{proof}
+	对任意的 $m \geq 1$ 以及 $l \in S$
+\begin{align*}
+g_{il} &= P(\text{有无穷多个} n \geq 1 \text{使得} X_n = l | X_0 = i) \\
+&= P(X_m \in S, \text{有无穷多个} n \geq 1 \text{使得} X_n = l | X_0 = i) \\
+&= \sum_k P(X_m = k; \text{有无穷多个} n \geq 1 \text{使得} X_n = l | X_0 = i) \\
+&= \sum_k P(X_m = k; \text{有无穷多个} n \geq m+1 \text{使得} X_n = l | X_0 = i) \\
+&= \sum_k P(X_m = k) P(\text{有无穷多个} n \geq m+1 \text{使得} X_n = l | X_m = k, X_0 = i) \\
+&= \sum_k p_{ik}^{(m)} P(\text{有无穷多个} n \geq m+1 \text{使得} X_n = l | X_m = k, X_0 = i) \\
+&= \sum_k p_{ik}^{(m)} g_{kl}
+\end{align*}
+
+由于 $i$ 常返，
+\[
+0 = 1 - g_{ii} = \sum_k p_{ik}^{(m)} (1 - g_{kl}).
+\]
+从而对一切 $m \geq 1$ 以及 $k \in S$, $p_{ik}^{(m)} (1 - g_{kl}) = 0$.
+若 $i \rightarrow j$，则存在 $m \geq 1$ 使得 $p_{ij}^{(m)} > 0$，此时有 $g_{ij} = 1$，但 $f_{ij} \geq g_{ij}$.
+
+\end{proof}
+\begin{theorem}
+	设 $i$ 常返，若 $i \rightarrow j$，则 $g_{ij} = f_{ij} = f_{ii} = 1$，$j \leftrightarrow i$，并且 $j$ 也是常返的。
+\end{theorem}
+\begin{proof}
+	设 $n, m$ 使得 $p_{ij}^{(m)} p_{ji}^{(n)} > 0$。对任意的 $s \geq 1$，
+\[
+p_{ij}^{(m+s+n)} \geq p_{ij}^{(n)} p_{ii}^{(s)} p_{ij}^{(m)}.
+\]
+两边对 $s$ 求和得
+\[
+\sum_{s=1}^{\infty} p_{ij}^{(m+s+n)} \geq p_{ij}^{(n)} p_{ij}^{(m)} \sum_{s=1}^{\infty} p_{ii}^{(s)} = \infty.
+\]
+故由 (2) 可知状态 $j$ 常返。
+\end{proof}
+\begin{example}
+	考虑直线上无限制的随机游动，状态空间为 $\mathcal{S} = \{0, \pm 1, \pm 2, \cdots\}$，转移概率为 $p_{i,i+1} = 1 - p, p_{i,i-1} = p, i \in \mathcal{S} (0 < p < 1)$。对于状态 $0$，可知 $p_{00}^{(2n+1)} = 0, n = 1, 2, \cdots$，即从 $0$ 出发奇数次不可能返回到 $0$。而
+\[
+p_{00}^{(2n)} = \binom{2n}{n} p^n (1-p)^n = \frac{(2n)!}{n! n!} [p(1-p)]^n
+\]
+即经过偶数次回到 $0$ 当且仅当它向左、右移动距离相同。
+
+由 Stirling 公式知，当 $n$ 充分大时，$n! \sim n^{n+\frac{1}{2}} e^{-n} \sqrt{2\pi}$，则 $p_{00}^{(2n)} \sim \frac{[4p(1-p)]^n}{\sqrt{\pi n}}$。而 $p(1-p) \leq \frac{1}{4}$ 且 $p(1-p) = \frac{1}{4} \iff p = \frac{1}{2}$。于是 $p = \frac{1}{2}$ 时，$\sum_{n=0}^{\infty} p_{ii}^{(n)} = \infty$，否则 $\sum_{n=0}^{\infty} p_{ii}^{(n)} < \infty$，即当 $p \neq \frac{1}{2}$ 时状态 $0$ 是非常返状态，$p = \frac{1}{2}$ 时是常返状态。显然，过程的各个状态都是相通的，故以此可得其他状态的常返性。（请读者自己考虑它们的周期是什么？）
+\end{example}
+\begin{definition}[正常返状态]
+设 $i$ 常返，若
+\[
+\mu_i := \sum_{n=1}^{\infty} n f_{ii}^{(n)} = \sum_{n=1}^{\infty} n P(T_{ii} = n | X_0 = i) < \infty,
+\]
+则称 $i$ 为正常返的；否则称之为零常返的
+\end{definition}
+
+\textit{明显：} $E[T_{ii} | X_0 = i] = \mu_i$ 为从 $i$ 出发回到 $i$ 的平均时间。
+\begin{definition}[遍历性]
+	若状态 $i$ 是正常返且非周期的，则称它是遍历的。
+\end{definition}
+\begin{example}
+	记 $\mathcal{S} = \{1, 2, 3, 4\}$.
+
+\[
+\mathbf{P} = \left(
+\begin{array}{cccc}
+\frac{1}{2} & \frac{1}{2} & 0 & 0  \\
+1 & 0 & 0 & 0 \\
+0 & \frac{1}{3} & \frac{2}{3} & 0 \\
+\frac{1}{2} & 0 & \frac{1}{2} & 0
+\end{array}
+\right)
+\]
+
+判断状态 1, 2, 3, 4 是常返性还是非常性。若是常返，进一步判断是正常返还是零常返？
+\end{example}
+\begin{proof}
+	$f_{444}^{(n)} = 0, f_{444} = 0 \ \ \ \forall n \geq 1$；
+
+	 $f_{33}^{(1)} = \frac{2}{3}, f_{33}^{(n)} = 0, f_{33} = f_{33}^{(1)} = \frac{2}{3} \forall n \geq 2$；
+
+	因此：
+	3 和 4 非常返。
+
+
+	$f_{11}^{(1)} = \frac{1}{2}, f_{11}^{(2)} = p_{12} p_{21} = \frac{1}{2}, f_{11}^{(n)} = 0, \forall n \geq 3;$
+	$f_{11} = \sum_{n=1}^{\infty} f_{11}^{(n)} = 1.$
+	
+	 $f_{222}^{(1)} = 0, f_{222}^{(2)} = p_{21} p_{12} = \frac{1}{2}, f_{22}^{(3)} = p_{21} p_{11} p_{12} = \frac{1}{2} \cdot \frac{1}{2}, \cdots, f_{22}^{(n+1)} = \frac{1}{2^n}, \forall n \geq 1; f_{22} = \sum_{n=1}^{\infty} f_{22}^{(n)} = 1.$
+	
+	因此：$\mu_1 = 1 \cdot \frac{1}{2} + 2 \cdot \frac{1}{2} = \frac{3}{2}; \mu_2 = \sum_{n=1}^{\infty} n f_{22}^{(n)} = \sum_{n=2}^{\infty} n \cdot \frac{1}{2^{n-1}} = 3.$
+	
+	于是：1 和 2 均正常返，3 和 4 非常返。
+\end{proof}
+\begin{theorem}
+	设 $P$ 不可约，周期 $d > 1$，则有
+\begin{enumerate}
+    \item[(a)] 对任给定的 $i, j \in S$，若 $p_{ij}^{(m)} > 0, p_{ij}^{(n)} > 0$，则有 $d|(n-m)$。同时存在唯一的 $r$，使得只要 $p_{ij}^{(n)} > 0$ 就有 $n = kd + r$。
+    \item[(b)] 状态空间 $S$ 可分成 $d$ 个不相交的集合的并：
+    \[
+    S = G_1 \cup G_2 \cup \cdots \cup G_d,
+    \]
+    其中，从任一 $G_m$ 中的状态出发，下一步到达 $G_{m+1(\mod d)}$ 中某状态的概率大于 $0$；
+    \item[(c)] 链 $P^d$ 是非周期的，且 $\sum_{k \in G_m} p_{ik}^{(d)} = 1 \ \ \ \forall i \in G_m$。且将 $P^d$ 限制在 $G_m$ 上时，构成一个不可约非周期的子链。
+\end{enumerate}
+
+\end{theorem}
+\begin{proof}
+	(a) 由 $j \rightarrow i$，存在 $k \geq 1$ 使得 $p_{ij}^{(k)} > 0$，于是有
+	\[
+	p_{ii}^{(n+k)} \geq p_{ij}^{(n)} p_{ji}^{(k)} > 0, \quad p_{ii}^{(m+k)} \geq p_{ij}^{(m)} p_{ji}^{(k)} > 0
+	\]
+	故 $d\mid(n+k)$ 且 $d\mid(m+k)$，于是有 $d\mid(n-m)$。因此存在唯一的 $r$，使得 $n = k_1 d + r$，$m = k_2 d + r$。
+	
+	(b) 先固定 $i \in S$，令
+	\begin{align*}
+	G_1 &\triangleq \{k : \exists n,\ p_{ik}^{(nd+1)} > 0\}, \\
+	G_2 &\triangleq \{k_2 : \exists k_1 \in G_1 \text{ 使得 } p_{k_1 k_2} > 0\}, \\
+	&\quad \vdots \\
+	G_m &\triangleq \{k_m : \exists k_{m-1} \in G_{m-1} \text{ 使得 } p_{k_{m-1} k_m} > 0\} \quad (m = 2, \ldots, d).
+	\end{align*}
+	对任意的 $k_1 \in G_1$，由 $\sum_{j \in S} p_{k_1,j} = 1$ 知存在 $k_2 \in S$ 使得 $p_{k_1 k_2} > 0$，故 $G_2 \neq \emptyset$。依次类推，$G_m \neq \emptyset$ ($m = 2, \ldots, d$)。
+	
+	由 (a) 知 $G_1, \ldots, G_d$ 互不相交。若存在 $j \in G_{d_1} \cap G_{d_2}$，则有
+	\[
+	p_{ij}^{(nd+d_1)} > 0, \quad p_{ij}^{(md+d_2)} > 0
+	\]
+	因此 $d\mid(d_2 - d_1)$，故 $G_{d_1} = G_{d_2}$。
+	
+	由 $P$ 不可约知 $G_1 \cup \cdots \cup G_d = S$（即 $i \rightarrow i_1 \rightarrow \cdots \rightarrow i_n \rightarrow j$）。事实上，任取 $j \in S$，存在 $m$ 使得 $p_{ij}^{(m)} > 0$。设 $m = kd + r$，则 $j \in G_r$。
+	
+	(c) 由定理 \ref{3.7}知 $P^d$ 是非周期的。令 $\widetilde{P} := P^d$ 为一步转移矩阵。对任意 $j \in S$，存在 $N$ 使得当 $n \geq N$ 时 $p_{ij}^{(nd)} > 0$。取
+	\[
+	\widetilde{p}_{ij}^{(N)} := p_{ij}^{(Nd)} > 0, \quad \widetilde{p}_{ij}^{(N+1)} := p_{ij}^{((N+1)d)} > 0
+	\]
+	其中 $\widetilde{p}_{ik} := p_{ik}^{(d)}$。由于 $(N, N+1) = 1$，故 $\widetilde{P}$ 非周期。
+	
+	由 (b) 知 $\sum_{k \in G_m} p_{jk}^{(d)} = 1$（$\forall j \in G_m$, $G_m \in \{G_1, \ldots, G_d\}$）。因此
+	\[
+	P^d|_{G_m} := \left(p_{ij}^{(d)}\right)_{i,j \in G_m}
+	\]
+	为随机矩阵。对任意 $j, k \in G_m$，由不可约性存在 $l \in \mathbb{N}$ 使得 $p_{jk}^{(l d)} > 0$，即在 $P^d|_{G_m}$ 中 $l$ 步可达，故 $P^d|_{G_m}$ 不可约。
+	\end{proof}
+	\begin{remark}
+		(c)将周期矩阵 $P^d$ 限制在 $G_m$ 上时，构成一个不可约非周期的子链。
+	\end{remark}
+
+	\begin{example}
+		记 $\mathcal{S} = \{1, 2, 3, 4, 5, 6\}$.
+
+\[
+\mathbf{P} = \begin{pmatrix}
+0 & 0 & \frac{1}{2} & 0 & \frac{1}{2} & 0 \\
+\frac{1}{3} & 0 & 0 & \frac{1}{3} & 0 & \frac{1}{3} \\
+0 & 1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 & 0 \\
+0 & 0 & \frac{3}{4} & 0 & \frac{1}{4} & 0
+\end{pmatrix}
+\]
+	\end{example}
+	\begin{proof}
+		取初始状态1, 则有
+\[
+G_1 := \{3, 5\}.
+\]
+\[
+G_2 := \{2\}.
+\]
+\[
+G_3 := \{1, 4, 6\}.
+\]
+
+
+	\end{proof}
+
+
+\begin{example}
+	\[
+\mathbf{P}^{(3)} = \begin{pmatrix}
+\frac{1}{3} & 0 & 0 & \frac{1}{3} & 0 & \frac{1}{3} \\
+0 & 1 & 0 & 0 & 0 & 0 \\
+0 & 0 & \frac{7}{12} & 0 & \frac{5}{12} & 0 \\
+\frac{1}{3} & 0 & 0 & \frac{1}{3} & 0 & \frac{1}{3} \\
+0 & 0 & \frac{7}{12} & 0 & \frac{5}{12} & 0 \\
+\frac{1}{3} & 0 & 0 & \frac{1}{3} & 0 & \frac{1}{3}
+\end{pmatrix}
+\]
+\end{example}
+
+\begin{proof}
+	\[
+P^{(3)}|_{G_1} = \begin{pmatrix}
+\frac{7}{12} & \frac{5}{12} \\
+\frac{7}{12} & \frac{5}{12}
+\end{pmatrix}
+\]
+\[
+P^{(3)}|_{G_2} = \begin{pmatrix}
+1
+\end{pmatrix}
+\]
+\[
+P^{(3)}|_{G_3} = \begin{pmatrix}
+\frac{1}{3} & \frac{1}{3} & \frac{1}{3} \\
+\frac{1}{3} & \frac{1}{3} & \frac{1}{3} \\
+\frac{1}{3} & \frac{1}{3} & \frac{1}{3}
+\end{pmatrix}
+\]
+\end{proof}
+
+
+\section{不变分布}
+若知极限 $\lim_{n \to \infty} p_{ij}^{(n)} = \pi_j$ 存在且不依赖于 $i$，则由
+\[
+P^{n+1} = P^n P \quad (p_{ij}^{(n+1)} = \sum_{l \in S} p_{il}^{(n)} p_{lj})
+\]
+及 Fatou 引理知：
+\[
+\pi_j \geq \sum_i \pi_i p_{ij} \quad \forall j \in S \text{且} \sum_j \pi_j \leq 1.
+\]
+
+从而设存在一状态 $k \in S$ 使得 $\pi_k > \sum_i \pi_i p_{ik}$。
+\[
+\sum_j \pi_j > \sum_j \sum_i \pi_i p_{ij} = \sum_i \pi_i \sum_j p_{ij} = \sum_i \pi_i,
+\]
+矛盾。
+
+故
+\[
+\pi_j = \sum_i \pi_i p_{ij} \quad \forall j \in S.
+\]
+
+记 $\pi := (\pi_i, i \in S)$，则有 $\pi = \pi P$.
+
+\begin{definition}
+	称 $v = \{v_i, i \in \mathcal{S}\}$ 为 $P$ 的不变测度，如果 $0 \leq v_i < \infty (i \in \mathcal{S})$ 且 $v = vP, v \neq 0$.
+\[
+v_j = \sum_i v_i p_{ij} \quad \forall j \in \mathcal{S}.
+\]
+\end{definition}
+\begin{definition}[不变分布]
+	若 $\{\pi_i, i \in \mathcal{S}\}$ 为 $\mathcal{S}$ 上的概率分布，且它满足对任意的 $j \in \mathcal{S}$ 有 $\pi_j = \sum_i \pi_i p_{ij}$，则称 $\{\pi_i, i \in \mathcal{S}\}$ 为 $P$ (或该马氏链) 的不变分布或平稳分布.
+\end{definition}
+
+回顾 $p_{ij}^{(n)} = P(X_n = j | X_0 = i)$ 与 $P(X_n = j)$
+\[
+\pi_i(n) = P(X_n = i), i \in \mathcal{S},
+\]
+\[
+\pi(n) = (\pi_i(n), i \in \mathcal{S}).
+\]
+即 $\pi(n)$ 表示 $n$ 时刻 $X_n$ 的概率分布，称 $\pi(0) := (\pi_i(0), i \in \mathcal{S})$ 为马氏链 $\{X_n, n = 0, 1, \ldots\}$ 的初始分布.
+\[
+\pi(n+1) = \pi(n)P,
+\]
+\[
+\pi(n) = \pi(0)P^n,
+\]
+
+设 $\pi := (\pi_i, i \in \mathcal{S})$ 为不变分布，即 $\pi = \pi P$。
+
+若令马氏链的初始分布 $\pi(0) := \pi$。会怎样？则有递归关系：
+\[
+\pi = \pi P = \pi P \cdot P = \pi \cdot P^2 = \ldots = \pi P^n.
+\]
+即 $\pi(0) = \pi(0) P^n = \pi(n)$。即马氏链任意时刻的分布都为初始分布。
+
+现在考虑
+\begin{equation*}
+	e_{ji}^{(n)} = P(X_n = i, X_m \neq j, 0 < m < n | X_0 = j) \tag{5.2}
+\end{equation*}
+	
+	\[
+	e_{ji} := \sum_{n=1}^{\infty} e_{ji}^{(n)}.
+	\]
+\begin{theorem}
+	若 $j$ 常返，则有：$V := (v_i := e_{ji}, i \in \mathcal{S})$ 为不变测度，且
+\[
+e_{jj} = \sum_{n=1}^{\infty} f_{jj}^{(n)} = 1.
+\]
+\end{theorem}
+\begin{remark}
+	\[
+e_{jj}^{(n)} = f_{jj}^{(n)}.
+\]
+\end{remark}
+\begin{proof}
+	由定义知
+	\[
+	e_{ji}^{(n)} = P(X_n = i, X_m \neq j, 0 < m < n | X_0 = j) \quad e_{ji}^{(1)} = p_{ji}. \tag{5.3}
+	\]
+		
+		\begin{align*}
+		e_{ji}^{(n+1)} &= P(X_{n+1} = i, X_v \neq j, 0 < v < n + 1 | X_0 = j) \\
+		&= \sum_{k \neq j} P(X_{n+1} = i, X_n = k, X_v \neq j, 0 < v < n | X_0 = j) \\
+		&= \sum_{k \neq j} P(X_n = k, X_v \neq j, 0 < v < n | X_0 = j) p_{ki} \\
+		&= \sum_{k \neq j} e_{jk}^{(n)} p_{ki}.
+		\end{align*}
+		
+		\begin{align*}
+		e_{ji} &= \sum_{n=1}^{\infty} e_{ji}^{(n)} \\
+		&= \sum_{n=2}^{\infty} \sum_{k \neq j} e_{jk}^{(n-1)} p_{ki} + p_{ji} \\
+		&= \sum_{k \neq j} \sum_{n=1}^{\infty} e_{jk}^{(n)} p_{ki} + p_{ji} \\
+		&= \sum_{k \neq j} e_{jk} p_{ki} + p_{ji}
+		\end{align*}
+		
+		由于 $e_{jj}^{(n)} = f_{jj}^{(n)}$，故 $e_{jj} = \sum_{n=1}^{\infty} f_{jj}^{(n)} = f_{jj} = 1 > 0$。
+		
+		令 $v := (v_i := e_{ji}, i \in \mathcal{S})$。下证 $v$ 为不变测度。由上式可知 $e_{ji} := \sum_k e_{jk} p_{ki}$ 即 $v_i := \sum_k v_k p_{ki}$。同时迭代可知
+		\[
+		e_{ji} = \sum_{k \in \mathcal{S}} e_{jk} p_{ki} = \sum_{k \in \mathcal{S}} \left( \sum_{s \in \mathcal{S}} e_{js} p_{sk} \right) p_{ki} = \sum_{s \in \mathcal{S}} e_{js} \sum_{k \in \mathcal{S}} p_{sk} p_{ki} = \sum_{s \in \mathcal{S}} e_{js} p_{si}^{(2)}.
+		\]
+		且由 $e_{ii} = 1 > 0$ 可知 $\{e_{ii}, i \in \mathcal{S}\}$ 非负且不全为 0。
+		
+		\begin{align*}
+		e_{ji} &= \sum_{k \in \mathcal{S}} e_{jk} p_{ki} = \sum_{k \in \mathcal{S}} \left( \sum_{s \in \mathcal{S}} e_{js} p_{sk} \right) p_{ki} = \sum_{s \in \mathcal{S}} e_{js} \sum_{k \in \mathcal{S}} p_{sk} p_{ki} = \sum_{s \in \mathcal{S}} e_{js} p_{si}^{(2)} \\
+		&= \sum_{s \in \mathcal{S}} e_{js} p_{si}^{(n)}
+		\end{align*}
+		
+		且由 $e_{ii} > 0$ 可知 $\{e_{ii}, i \in \mathcal{S}\}$ 非负且不全为 0。下证 $v_i = e_{ji} < \infty$。
+		
+		若 $j$ 不可达状态 $i$，则有 $v_i := e_{ji} = 0$。
+		
+		若 $j \rightarrow i$，则由常返可知，$i \leftrightarrow j$。故存在 $n \geq 1$ 使得 $p_{ij}^{(n)} > 0$。
+		
+		故 $1 = v_i = e_{ji} = \sum_{k \in \mathcal{S}} e_{jk} p_{ki}^{(n)} \geq e_{ji} p_{ij}^{(n)}$。
+		
+		因此，$e_{ji} \leq \frac{1}{p_{ij}^{(n)}} < \infty$。
+		
+\end{proof}
+\begin{lemma}
+	设马氏链有不变测度 $V = (v_i, i \in \mathcal{S})$。若 $v_i > 0$，$i \rightarrow j$，则 $v_j > 0$。特别地，若链不可约，则 $v_j > 0$, $j \in \mathcal{S}$。
+
+\end{lemma}
+\begin{proof}
+	由于 $v_i > 0$，$i \rightarrow j$，则存在 $n \geq 1$ 使得 $p_{ij}^{(n)} > 0$。
+
+由 $v_j = \sum_k v_k p_{kj}^{(n)} \geq v_i p_{ij}^{(n)} > 0$.
+
+由于不变测度不恒为 0，至少存在 $v_i > 0$。由于该链不可约，则对任意的 $j \in \mathcal{S}$ 有 $i \rightarrow j$。故 $v_j > 0$。
+
+\end{proof}
+\begin{lemma}
+	设链常返不可约，则不计一个常数因子，不变测度唯一。
+\end{lemma}
+\begin{proof}
+
+	证明可见何声武《随机过程引论》定理5.3.
+
+	即证明任取 $\mu := (\mu_i, i \in \mathcal{S})$ 为另一不变测度。则有对任意的 $i \in \mathcal{S}$ 有 $\mu_i = \mu_j e_{ji}$.
+
+即 $(\mu_i, i \in \mathcal{S})$ 与 $(e_{ji}, i \in \mathcal{S})$ 只差一个常数。
+\end{proof}
+\begin{lemma}
+	设 $V = (v_i, i \in \mathcal{S})$ 为马氏链 $\{X_n\}$ 的平稳分布，$v_j > 0$ 则 $j$ 为常返态。
+\end{lemma}
+\begin{proof}
+	反证法：设 $j$ 为非常返态。由推论4.6可知对任意的 $i \in \mathcal{S}$ 有 $\lim_{n \to \infty} p_{ij}^{(n)} = 0$。
+
+由于 $v_j = \sum_{i \in \mathcal{S}} v_i p_{ij}^{(n)}$，令 $n \to \infty$，由控制收敛定理可知 $v_j = 0$。矛盾。
+\end{proof}
+\begin{lemma}
+	\[
+\sum_{i \in \mathcal{S}} e_{ji} = 
+\begin{cases} 
+\mu_j := E[T_{ij} | X_0 = j] & \text{若 } j \text{为常返态} \\
+\infty & \text{若 } j \text{为非常返态}
+\end{cases}
+\]
+
+\end{lemma}
+\begin{proof}
+	对任意的 $n \geq 1$ 以及 $i, j \in \mathcal{S}$。
+
+\begin{align*}
+\sum_{i \in \mathcal{S}} e_{ji}^{(n)} &= \sum_{i \in \mathcal{S}} P(X_n = i, X_v \neq j, 0 < v < n | X_0 = j) \\
+&= P(X_v \neq j, 0 < v < n | X_0 = j) \\
+&= P(T_{ij} \geq n | X_0 = j) \\
+&= P(T_{ij} = \infty | X_0 = j) + \sum_{v=n}^{\infty} P(T_{ij} = v | X_0 = j) \\
+&= (1 - f_{jj}) + \sum_{v=n}^{\infty} f_{jj}^{(v)}.
+\end{align*}
+\end{proof}
+\begin{lemma}
+	\[
+\sum_{i \in \mathcal{S}} e_{ji} = 
+\begin{cases} 
+\mu_j := E[T_{ij} | X_0 = j] & \text{若 } j \text{为常返态} \\
+\infty & \text{若 } j \text{为非常返态}
+\end{cases}
+\]
+\end{lemma}
+\begin{proof}
+	\begin{align*}
+		\sum_{i \in \mathcal{S}} e_{ji} &= \sum_{i \in \mathcal{S}} \sum_{n=1}^{\infty} e_{ji}^{(n)} = \sum_{n=1}^{\infty} \left[ (1 - f_{jj}) + \sum_{v=n}^{\infty} f_{jj}^{(v)} \right].
+		\end{align*}
+		
+		故若 $j$ 为非常返态，$f_{jj} < 1$，则 $\sum_{i \in \mathcal{S}} e_{ji} = \infty$。
+		
+		若 $j$ 为常返态，$f_{jj} = 1$，
+		
+		则 $\sum_{i \in \mathcal{S}} e_{ji} = \sum_{n=1}^{\infty} \sum_{v=n}^{\infty} f_{jj}^{(v)} = \sum_{v=1}^{\infty} v f_{jj}^{(v)} = \mu_j$.
+		
+		从上述结论可知若 $j$ 是正常返的，则若令 $\nu_i := \frac{e_{ji}}{\mu_j}$。则有
+		\[
+		\sum_{i \in \mathcal{S}} \nu_i = \sum_{i \in \mathcal{S}} \frac{e_{ji}}{\mu_j} = 1,
+		\]
+		且由 $e_{ji} = \sum_{k \in \mathcal{S}} e_{jk} p_{ki}$，可知 $\nu_i = \sum_{k \in \mathcal{S}} \nu_k p_{ki}$。即 $\nu := (\nu_i, i \in \mathcal{S})$ 为平稳分布。
+\end{proof}
+
+设 $P = (P_1, P_2, \ldots, P_m)$ 是马氏链的一步转移概率矩阵，$P_j$ 是 $P$ 的第 $j$ 列，设 $\pi := (\pi_1, \pi_2, \ldots, \pi_m)$ 为平稳分布。则方程组
+\[
+\pi = \pi P, \quad \sum_{j=1}^{m} \pi_j = 1 \tag{5.1}
+\]
+和
+\[
+(\pi_1, \pi_2, \ldots, \pi_{m-1}) = \pi(P_1, P_2, \ldots, P_{m-1}), \quad \sum_{j=1}^{m} \pi_j = 1 \tag{5.2}
+\]
+等价。实际上，
+\[
+\pi = \pi P \text{ 即为 } (\pi_1, \pi_2, \ldots, \pi_{m-1}, \pi_m) = \pi(P_1, P_2, \ldots, P_{m-1}, P_m).
 \]
 
 \end{document}
