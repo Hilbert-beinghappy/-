@@ -8,3 +8,5 @@
 \contentsline {subsection}{\numberline {1.6.1}质点在常返等价类中的转移}{25}{subsection.1.6.1}%
 \contentsline {subsection}{\numberline {1.6.2}不可约马氏链的极限定理}{29}{subsection.1.6.2}%
 \contentsline {subsection}{\numberline {1.6.3}一般情况下马氏链的极限定理}{30}{subsection.1.6.3}%
+\contentsline {chapter}{\numberline {2}鞅论}{37}{chapter.2}%
+\contentsline {section}{\numberline {2.1}离散时间鞅}{37}{section.2.1}%

@@ -2493,4 +2493,69 @@ f_{01} = \frac{3}{5}, \frac{1}{\mu_1} = \pi'_1 = \frac{4}{9}. \text{ 由 } \lim_
     \item 状态有限的马氏链必有平稳(不变)分布。
 \end{enumerate}
 \end{theorem}
+\chapter{鞅论}
+\section{离散时间鞅}
+\begin{example}
+	在赌局中，某人根据前面各次赌博结果决定下次赌博的金额。设本金为 $X_0$，记第 $n$ 次赌博后本金记为 $X_n$。设 $\{Y_n, n \geq 1\}$ 为独立同分布的随机变量序列，
+\[
+P(Y_n = 1) = P(Y_n = -1) = \frac{1}{2},
+\]
+表示每次赌博的结果。
+
+\end{example}
+\begin{proof}
+	令 $\{Y_n, n = 1, 2, \cdots\}$，是一列独立同分布的随机变量，表示每次赌博的结果
+	\[
+	P\{Y_n = 1\} = P\{Y_n = -1\} = \frac{1}{2}
+	\]
+	这里 $\{Y_n = 1\}$ ($\{Y_n = -1\}$) 表示赌博者在第 $n$ 次赌博时的赢(输)。如果赌博者采用的赌博策略(即所下赌注)依赖于前面的赌博结果，那么他的赌博可以用下面的随机变量序列
+	\[
+	b_n = b_n(Y_1, \cdots, Y_{n-1}), \quad n = 2, 3, \cdots
+	\]
+	描述，其中 $b_n < \infty$ 是第 $n$ 次的赌注，若赌赢则获利 $b_n$，否则输掉 $b_n$。
+	
+	设 $X_0$ 是该赌博者的初始赌资，则
+	\[
+	X_n = X_0 + \sum_{i=1}^{n} b_i Y_i 
+	\]
+	是他在第 $n$ 次赌博后的赌资。可以断言
+	\[
+	E[X_{n+1} | Y_1, \cdots, Y_n] = X_n.
+	\]
+	事实上，由上式我们可以得到
+	\[
+	X_{n+1} = X_n + b_{n+1} Y_{n+1},
+	\]
+	因此
+	\begin{align*}
+	E[X_{n+1} | Y_1, \cdots, Y_n] &= E[X_n | Y_1, \cdots, Y_n] + E[b_{n+1} Y_{n+1} | Y_1, \cdots, Y_n] \\
+	&= X_n + b_{n+1} E[Y_{n+1} | Y_1, \cdots, Y_n] \quad (\text{因为 } X_n \text{ 与 } b_{n+1} \text{ 由 } Y_1, \cdots, Y_n \text{ 确定}) \\
+	&= X_n + b_{n+1} E[Y_{n+1}] \quad (\text{因为} \{Y_n\} \text{ 是独立随机变量序列}) \\
+	&= X_n \quad (\text{因为 } E[Y_{n+1}] = 0, \ \forall n \geq 0).
+	\end{align*}
+	
+	这证明了，如果每次赌博的输赢机会是均等的，并且赌博策略是依赖于前面的赌博结果，则赌博是“公平的”。因此任何赌博者都不可能将公平的赌博通过改变赌博策略使得赌博变成有利于自己的赌博。
+	
+
+	
+\end{proof}
+\begin{definition}[鞅]
+	称 $(X_n)_{n \geq 0}$ 关于 $(Y_n)_{n \geq 0}$ 为鞅, 若 $\forall n \in \mathbb{N}$,
+\begin{itemize}
+    \item $X_n$ 可积;
+    \item $E(X_{n+1} | Y_0, Y_1, \cdots, Y_n) = X_n \ a.s.$
+\end{itemize}
+\end{definition}
+
+\begin{remark}
+	由 $E(X_{n+1} | Y_0, Y_1, \cdots, Y_n) = X_n$ 可知，$X_n$ 为 $Y_0, Y_1, \cdots, Y_n$ 的函数。
+\end{remark}
+\begin{definition}[上鞅]
+	称 $(X_n)_{n \geq 0}$ 关于 $(Y_n)_{n \geq 0}$ 上鞅, 若 $\forall n \in \mathbb{N}$,
+\begin{itemize}
+    \item $E(X_n^-) < \infty$; 其中 $x^- := -\min\{x, 0\}$
+    \item $E(X_{n+1} | Y_0, Y_1, \cdots, Y_n) \leq X_n \ a.s.$
+    \item $X_n$ 为 $Y_0, Y_1, \cdots, Y_n$ 的函数
+\end{itemize}
+\end{definition}
 \end{document}

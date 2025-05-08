@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  8 MAY 2025 11:59
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  8 MAY 2025 16:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1627,7 +1627,15 @@ Missing character: There is no 个 ("4E2A) in font cmr10!
 
 [35]
 
-[36] (./随机过程.aux)
+[36]
+Chapter 2.
+
+
+[37
+
+]
+
+[38] (./随机过程.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2022/08/05>
@@ -1637,18 +1645,18 @@ L3 programming layer <2022/08/05>
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `随机过程.out' has not changed.
-(rerunfilecheck)             Checksum: 70092523613DABE8D34C98467ACEC00F;1447.
+(rerunfilecheck)             Checksum: EAF76CFFBA5709B58534E118E839EF64;1636.
 Package logreq Info: Writing requests to '随机过程.run.xml'.
 \openout1 = `随机过程.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 48198 strings out of 473832
- 1054699 string characters out of 5729481
- 2047382 words of memory out of 5000000
- 70452 multiletter control sequences out of 15000+600000
+ 48237 strings out of 473832
+ 1056940 string characters out of 5729481
+ 2047605 words of memory out of 5000000
+ 70491 multiletter control sequences out of 15000+600000
  565275 words of font info for 111 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  103i,15n,130p,689b,1346s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on 随机过程.pdf (38 pages).
+Output written on 随机过程.pdf (40 pages).
