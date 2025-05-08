@@ -2558,4 +2558,47 @@ P(Y_n = 1) = P(Y_n = -1) = \frac{1}{2},
     \item $X_n$ 为 $Y_0, Y_1, \cdots, Y_n$ 的函数
 \end{itemize}
 \end{definition}
+\begin{definition}[下鞅]
+	称 $(X_n)_{n \geq 0}$ 关于 $(Y_n)_{n \geq 0}$ 下鞅, 若 $\forall n \in \mathbb{N}$,
+\begin{itemize}
+    \item $E(X_n^+) < \infty$; 其中 $x^+ := \max\{x, 0\}$
+    \item $E(X_{n+1} | Y_0, Y_1, \cdots, Y_n) \geq X_n \ a.s.$
+    \item $X_n$ 为 $Y_0, Y_1, \cdots, Y_n$ 的函数
+\end{itemize}
+\end{definition}
+\begin{theorem}\label{1.5}
+	\begin{enumerate}
+		\item 若 $X, Y$ 均可积，$\alpha, \beta$ 为常数，则
+		\[
+		E[\alpha X + \beta Y|\mathscr{F}_0] = \alpha E[X|\mathscr{F}_0] + \beta E[Y|\mathscr{F}_0]; \text{ a.e.}
+		\]
+		\item $E[1|\mathscr{F}_0] = 1; \text{ a.e.}$
+		\item 当 $X \geq 0$ 时，则 $E[X|\mathscr{F}_0] \geq 0$ a.e. \\
+		$(X \geq Y \implies E[X|\mathscr{F}_0] \geq E[Y|\mathscr{F}_0] \text{ a.e.});$
+		\item $|E[X|\mathscr{F}_0]| \leq E[|X||\mathscr{F}_0]. \text{ a.e.}$
+		\item $E[E[X|\mathscr{F}_0]] = E[X]. \text{ a.e.}$
+	\end{enumerate}
+\end{theorem}
+\begin{theorem}\label{1.6}
+	\begin{enumerate}
+		\item 若 $Y$ 为 $\mathscr{F}_0$ 可测，且 $X, XY$ 可积，则
+		\[
+		E[XY|\mathscr{F}_0] = Y E[X|\mathscr{F}_0] \text{ a.e.};
+		\]
+		\item 若 $\mathscr{F}_1 \subset \mathscr{F}_2 \subset \mathscr{F}$，则有
+		\[
+		E[E[X|\mathscr{F}_2]|\mathscr{F}_1] = E[X|\mathscr{F}_1] = E[E[X|\mathscr{F}_1]|\mathscr{F}_2] \text{ a.e.}
+		\]
+		\item 若 $X$ 可积，$\sigma(X)$ 与 $\mathscr{F}_0$ 独立，则 $E[X|\mathscr{F}_0] = E[X]$ a.e.; \\
+		特别，当 $X, Y$ 相互独立时，$E[X|Y] = E[X]$ a.e..
+	\end{enumerate}
+\end{theorem}
+
+本节假定所有 r.v. 均定义在同一个概率空间 $(\Omega, \mathcal{F}, P)$ 上. 
+$\mathbb{N} :=$ 非负整数全体
+
+\begin{definition}[$\sigma$-代数流]
+	称 $\mathcal{F}$ 的子 $\sigma$-域序列 $(\mathcal{F}_n, n \in \mathbb{N})$ 为一个流，若 $\mathcal{F}_n \subseteq \mathcal{F}_{n+1}$. \\
+记 $\mathcal{F}_\infty = \bigvee_{n \geq 0} \mathcal{F}_n = \sigma(\bigcup_n \mathcal{F}_n)$
+\end{definition}
 \end{document}
