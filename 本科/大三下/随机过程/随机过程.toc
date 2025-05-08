@@ -4,3 +4,7 @@
 \contentsline {section}{\numberline {1.3}状态的分类及性质}{10}{section.1.3}%
 \contentsline {section}{\numberline {1.4}常返性}{12}{section.1.4}%
 \contentsline {section}{\numberline {1.5}不变分布}{21}{section.1.5}%
+\contentsline {section}{\numberline {1.6}状态空间的分解}{25}{section.1.6}%
+\contentsline {subsection}{\numberline {1.6.1}质点在常返等价类中的转移}{25}{subsection.1.6.1}%
+\contentsline {subsection}{\numberline {1.6.2}不可约马氏链的极限定理}{29}{subsection.1.6.2}%
+\contentsline {subsection}{\numberline {1.6.3}一般情况下马氏链的极限定理}{30}{subsection.1.6.3}%

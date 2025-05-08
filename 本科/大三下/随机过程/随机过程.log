@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  7 MAY 2025 20:36
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  8 MAY 2025 11:59
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1310,33 +1310,64 @@ File: pgflibraryarrows.meta.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfarrowlength=\dimen363
 \pgfarrowwidth=\dimen364
 \pgfarrowlinewidth=\dimen365
-)
+) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryautomata.code.tex
+File: tikzlibraryautomata.code.tex 2023-01-15 v3.1.10 (3.1.10)
+ (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryshapes.multipart.code.tex
+File: tikzlibraryshapes.multipart.code.tex 2023-01-15 v3.1.10 (3.1.10)
+ (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibraryshapes.multipart.code.tex
+File: pgflibraryshapes.multipart.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfnodepartlowerbox=\box141
+\pgfnodeparttwobox=\box142
+\pgfnodepartthreebox=\box143
+\pgfnodepartfourbox=\box144
+\pgfnodeparttwentybox=\box145
+\pgfnodepartnineteenbox=\box146
+\pgfnodeparteighteenbox=\box147
+\pgfnodepartseventeenbox=\box148
+\pgfnodepartsixteenbox=\box149
+\pgfnodepartfifteenbox=\box150
+\pgfnodepartfourteenbox=\box151
+\pgfnodepartthirteenbox=\box152
+\pgfnodeparttwelvebox=\box153
+\pgfnodepartelevenbox=\box154
+\pgfnodeparttenbox=\box155
+\pgfnodepartninebox=\box156
+\pgfnodeparteightbox=\box157
+\pgfnodepartsevenbox=\box158
+\pgfnodepartsixbox=\box159
+\pgfnodepartfivebox=\box160
+))) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryarrows.code.tex
+File: tikzlibraryarrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
+ (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.code.tex
+File: pgflibraryarrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\arrowsize=\dimen366
+))
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... none found.
  (./随机过程.aux)
 \openout1 = `随机过程.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-Package hyperref Info: Link coloring ON on input line 31.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+Package hyperref Info: Link coloring ON on input line 32.
  (./随机过程.out) (./随机过程.out)
 \@outlinefile=\write7
 \openout7 = `随机过程.out'.
@@ -1383,8 +1414,8 @@ Package caption Info: End \AtBeginDocument code.
 (/usr/local/texlive/2025/texmf-dist/tex/latex/footmisc/footmisc.sty
 Package: footmisc 2024/12/24 v6.0g a miscellany of footnote facilities
 \FN@temptoken=\toks49
-\footnotemargin=\dimen366
-\@outputbox@depth=\dimen367
+\footnotemargin=\dimen367
+\@outputbox@depth=\dimen368
 Package footmisc Info: Declaring symbol style bringhurst on input line 699.
 Package footmisc Info: Declaring symbol style chicago on input line 707.
 Package footmisc Info: Declaring symbol style wiley on input line 716.
@@ -1407,10 +1438,10 @@ Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file '随机过程.bbl' not found.
 
 No file 随机过程.bbl.
-Package biblatex Info: Reference section=0 on input line 31.
-Package biblatex Info: Reference segment=0 on input line 31.
+Package biblatex Info: Reference section=0 on input line 32.
+Package biblatex Info: Reference segment=0 on input line 32.
 \c@lstlisting=\count568
-Package hyperref Info: Option `pageanchor' set `false' on input line 33.
+Package hyperref Info: Option `pageanchor' set `false' on input line 34.
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: xetex
 * paper: a4paper
@@ -1446,25 +1477,25 @@ Package hyperref Info: Option `pageanchor' set `false' on input line 33.
 File: ./figure/cover.jpg Graphic file (type bmp)
 <./figure/cover.jpg>
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
-(Font)              scaled to size 24.88pt on input line 33.
-LaTeX Font Info:    Trying to load font information for U+rsfs on input line 33.
+(Font)              scaled to size 24.88pt on input line 34.
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 34.
 (/usr/local/texlive/2025/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 33.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 34.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 33.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 34.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+esint on input line 33.
+LaTeX Font Info:    Trying to load font information for U+esint on input line 34.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/esint/uesint.fd
 File: uesint.fd 
 )
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
-(Font)              scaled to size 14.4pt on input line 33.
+(Font)              scaled to size 14.4pt on input line 34.
 
 
 [1
@@ -1473,7 +1504,7 @@ LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
 
 ]
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
-(Font)              scaled to size 17.28pt on input line 36.
+(Font)              scaled to size 17.28pt on input line 37.
  (./随机过程.toc)
 \tf@toc=\write8
 \openout8 = `随机过程.toc'.
@@ -1487,15 +1518,15 @@ LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
 ]
 Chapter 1.
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/it' will be
-(Font)              scaled to size 10.0pt on input line 48.
+(Font)              scaled to size 10.0pt on input line 49.
 
 LaTeX Font Warning: Font shape `TU/STKaiti(0)/m/it' undefined
-(Font)              using `TU/STKaiti(0)/m/n' instead on input line 48.
+(Font)              using `TU/STKaiti(0)/m/n' instead on input line 49.
 
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 63.
+(Font)              scaled to size 7.0pt on input line 64.
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
-(Font)              scaled to size 5.0pt on input line 63.
+(Font)              scaled to size 5.0pt on input line 64.
 
 
 [1
@@ -1504,11 +1535,11 @@ LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
 ]
 
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
-(Font)              scaled to size 9.0pt on input line 175.
+(Font)              scaled to size 9.0pt on input line 176.
 [2]
 
 [3]
-Overfull \hbox (1.3457pt too wide) in paragraph at lines 276--277
+Overfull \hbox (1.3457pt too wide) in paragraph at lines 277--278
 []\TU/texgyretermes(0)/m/n/10 (3) \TU/STFangsong(0)/m/n/10 用 增 补 变 量 的 方 法：|  只 举 特 殊 情 形 证 明，|  其 余 类 似。|  证 明 $\OML/cmm/m/it/10 P\OT1/cmr/m/n/10 ((\OML/cmm/m/it/10 X[]; X[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 2 \OML/cmm/m/it/10 C\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 i; X[] \OMS/cmsy/m/n/10 2 \OML/cmm/m/it/10 A\OT1/cmr/m/n/10 ) = \OML/cmm/m/it/10 P\OT1/cmr/m/n/10 ((\OML/cmm/m/it/10 X[]; X[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 2
  []
 
@@ -1538,7 +1569,7 @@ Missing character: There is no 。 ("3002) in font cmr10!
 [13]
 
 [14]
-Overfull \hbox (41.68912pt too wide) detected at line 1031
+Overfull \hbox (41.68912pt too wide) detected at line 1032
 \OML/cmm/m/it/10 f[] \OT1/cmr/m/n/10 = [] [][] []
  []
 
@@ -1547,7 +1578,7 @@ Overfull \hbox (41.68912pt too wide) detected at line 1031
 [15]
 
 [16]
-Overfull \hbox (15.8844pt too wide) detected at line 1174
+Overfull \hbox (15.8844pt too wide) detected at line 1175
 \OT1/cmr/m/n/10 = [] \OML/cmm/m/it/10 P\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 j; X[] \OMS/cmsy/m/n/10 6\OT1/cmr/m/n/10 = \OML/cmm/m/it/10 j; \OT1/cmr/m/n/10 0 \OML/cmm/m/it/10 < v < k\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 i\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ^^A \OML/cmm/m/it/10 P\OT1/cmr/m/n/10 ([]\OML/cmm/m/it/10 m[]n \OMS/cmsy/m/n/10 ^^U \OML/cmm/m/it/10 k \OT1/cmr/m/n/10 + 1[]\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 j\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 j; X[] \OMS/cmsy/m/n/10 6\OT1/cmr/m/n/10 = \OML/cmm/m/it/10 j; \OT1/cmr/m/n/10 0 \OML/cmm/m/it/10 < v < k; X[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 j\OT1/cmr/m/n/10 )
  []
 
@@ -1567,7 +1598,36 @@ Overfull \hbox (15.8844pt too wide) detected at line 1174
 
 [23]
 
-[24] (./随机过程.aux)
+[24]
+LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
+(Font)              scaled to size 12.0pt on input line 1691.
+
+
+[25]
+
+[26]
+Missing character: There is no 个 ("4E2A) in font cmr10!
+
+
+[27]
+
+[28]
+
+[29]
+
+[30]
+
+[31]
+
+[32]
+
+[33]
+
+[34]
+
+[35]
+
+[36] (./随机过程.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2022/08/05>
@@ -1577,18 +1637,18 @@ L3 programming layer <2022/08/05>
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `随机过程.out' has not changed.
-(rerunfilecheck)             Checksum: BFDC6794BE257252A1F98FC932BB1097;747.
+(rerunfilecheck)             Checksum: 70092523613DABE8D34C98467ACEC00F;1447.
 Package logreq Info: Writing requests to '随机过程.run.xml'.
 \openout1 = `随机过程.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 46903 strings out of 473832
- 1012668 string characters out of 5729481
- 2006343 words of memory out of 5000000
- 69175 multiletter control sequences out of 15000+600000
- 565259 words of font info for 109 fonts, out of 8000000 for 9000
+ 48198 strings out of 473832
+ 1054699 string characters out of 5729481
+ 2047382 words of memory out of 5000000
+ 70452 multiletter control sequences out of 15000+600000
+ 565275 words of font info for 111 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  103i,15n,130p,689b,1346s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on 随机过程.pdf (26 pages).
+Output written on 随机过程.pdf (38 pages).

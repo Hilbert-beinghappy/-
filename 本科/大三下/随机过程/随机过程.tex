@@ -5,6 +5,7 @@
 \usepackage{mathtools}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta, positioning}
+\usetikzlibrary{automata, positioning, arrows}
 \title{随机过程}
 
 
@@ -1067,7 +1068,7 @@ p_{nj}
 		\item[(2)] $i$ 常返 $\Longleftrightarrow \sum_{n=0}^{\infty} p_{ii}^{(n)} = +\infty$
 		\item[(3)] $i$ 非常返 $\Longleftrightarrow \sum_{n=0}^{\infty} p_{ii}^{(n)} = \frac{1}{1 - f_{ii}} < \infty$
 	\end{enumerate}
-\end{theorem}
+\end{theorem}\label{4.5}
 \begin{proof}
 	(1,2,3) 引进母函数：
 \[
@@ -1609,4 +1610,887 @@ e_{jj}^{(n)} = f_{jj}^{(n)}.
 \pi = \pi P \text{ 即为 } (\pi_1, \pi_2, \ldots, \pi_{m-1}, \pi_m) = \pi(P_1, P_2, \ldots, P_{m-1}, P_m).
 \]
 
+
+\begin{example}
+	记 $\mathcal{S} = \{1, 2, 3\}$.
+
+\[
+\mathbf{P} = \begin{pmatrix}
+0 & \frac{1}{2} & \frac{1}{2} \\
+0 & \frac{1}{4} & \frac{3}{4} \\
+1 & 0 & 0
+\end{pmatrix}
+\]
+
+求平稳分布。
+\end{example}
+\begin{proof}
+	\begin{align*}
+		&\begin{cases}
+		(\pi_1, \pi_2, \pi_3) \mathbf{P} = (\pi_1, \pi_2, \pi_3) \\
+		\pi_1 + \pi_2 + \pi_3 = 1 \\
+		\pi_i \geq 0. \quad (i = 1, 2, 3)
+		\end{cases} \\
+		&\begin{cases}
+		\pi_3 = \pi_1, \\
+		\frac{1}{4} \pi_2 + \frac{1}{2} \pi_1 = \pi_2 \\
+		\pi_1 + \pi_2 + \pi_3 = 1 \\
+		\pi_i \geq 0.
+		\end{cases}
+		\end{align*}
+		
+		解得 $\pi_1 = \frac{3}{8}$, $\pi_2 = \frac{1}{4}$, $\pi_3 = \frac{3}{8}$.
+\end{proof}
+\begin{example}
+	记 $\mathcal{S} = \{0, 1, 2, 3, 4\}$.
+
+\[
+\mathbf{P} = \begin{pmatrix}
+\frac{1}{2} & \frac{1}{2} & 0 & 0 & 0 \\
+\frac{1}{2} & \frac{1}{2} & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 0 & 1 \\
+0 & 0 & \frac{1}{2} & 0 & \frac{1}{2}
+\end{pmatrix}
+\]
+
+求平稳分布。
+\end{example}
+\begin{proof}
+	\[
+\mathbf{P} = \begin{pmatrix}
+\frac{1}{2} & \frac{1}{2} & 0 & 0 & 0 \\
+\frac{1}{2} & \frac{1}{2} & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 0 & 1 \\
+0 & 0 & \frac{1}{2} & 0 & \frac{1}{2}
+\end{pmatrix}
+\]
+\[
+\begin{cases}
+\pi_0 = \frac{1}{2} \pi_0 + \frac{1}{2} \pi_1 \\
+\pi_2 = \frac{1}{2} \pi_4 \\
+\pi_3 = \pi_2 \\
+\pi_4 = \pi_3 + \frac{1}{2} \pi_4 \\
+\pi_0 + \pi_1 + \pi_2 + \pi_3 + \pi_4 = 1 \\
+\pi_i \geq 0, \, i = 0, 1, 2, 3, 4
+\end{cases}
+\]
+
+解得 $\pi = (\pi_0, \pi_0, \frac{1}{4} - \frac{1}{2} \pi_0, \frac{1}{4} - \frac{1}{2} \pi_0, \frac{1}{2} - \pi_0)$
+
+\begin{align*}
+	&\begin{cases}
+	0 \leq \pi_0 \leq 1 \\
+	0 \leq \frac{1}{4} - \frac{1}{2} \pi_0 \leq 1,
+	\end{cases} \\
+	\text{其中} \quad & 0 \leq \pi_0 \leq \frac{1}{2}.
+	\end{align*}
+\end{proof}
+\section{状态空间的分解}
+\subsection{质点在常返等价类中的转移}
+\begin{theorem}
+	设 $i$ 为常返状态，则
+\[
+\lim_{n \to \infty} p_{ii}^{(nd(i))} = \frac{d(i)}{\mu_i}
+\]
+\end{theorem}
+\begin{theorem}
+	设 $i$ 是常返状态，则
+	\begin{enumerate}
+		\item $i$ 是零常返的充分必要条件是 $\lim_{n \to \infty} p_{ii}^{(n)} = 0$;
+		\item 当 $i$ 是零常返，$i \rightarrow j$ 时，$j$ 也是零常返的；
+		\item 若 $i$ 是正常返，$i \rightarrow j$ 时，$j$ 也是正常返的。
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	(1) 设 $i$ 为零常返态，则 $\lim_{n \to \infty} p_{ii}^{(nd(i))} = 0$。由周期的定义可知，当 $n$ 不能被 $d(i)$ 整除时，$p_{ii}^{(n)} = 0$。故有 $\lim_{n \to \infty} p_{ii}^{(n)} = 0$。
+
+反之，若 $\lim_{n \to \infty} p_{ii}^{(n)} = 0$。下用反证法证明。假设 $i$ 是正常返态，由此可知 $\lim_{n \to \infty} p_{ii}^{(nd(i))} > 0$，故 $i$ 是零常返态。
+
+(2) 设 $i \leftrightarrow j$，取 $m_0, n_0$ 使得 $p_{ij}^{(n_0)} > 0, p_{ji}^{(m_0)} > 0$。则有：
+\[
+p_{ii}^{(n + m_0 + n_0)} \geq p_{ij}^{(n_0)} p_{ji}^{(n)} p_{ii}^{(m_0)}, \quad n \geq 1.
+\]
+由 $p_{ii}^{(n)} \to 0$，可知 $p_{ii}^{(n)} \leq \frac{1}{p_{ij}^{(n_0)} p_{ji}^{(m_0)}} p_{ii}^{(n + m_0 + n_0)} \to 0$
+
+由此及(1)：若 $i$ 零常返，则有 $j$ 亦零常返。由(2)和定理\ref{4.5}知(3)成立。
+
+\end{proof}
+
+\begin{theorem}[Lebesgue 控制收敛定理]
+	若 $\{f_n, n \geq 1\}$ 为可测函数序列，$|f_n| \leq Y$，$Y$ 可积，且对任意的 $x$ $\lim_n f_n(x) = f(x)$ 存在，则
+\[
+\lim_n \mu(f_n) = \mu(f).
+\]
+\end{theorem}
+\begin{example}
+	如果 $j$ 不是正常返，则对任意状态 $i$，$p_{ij}^{(n)} \to 0, \, n \to \infty$。
+
+\end{example}
+\begin{proof}
+	若 $j$ 非常返，由定理\ref{4.5}(2) 可知 $p_{ij}^{(n)} \to 0$。对零常返 $j$，由定理\ref{4.5}(2) 可知 $p_{ij}^{(n)} \to 0$。对任意的 $i$，
+\begin{align*}
+p_{ij}^{(n)} &= \sum_{k=1}^{n} f_{ij}^{(k)} p_{ij}^{(n-k)} \\
+&= \sum_{k=1}^{\infty} f_{ij}^{(k)} p_{ij}^{(n-k)} I_{\{k \leq n\}}.
+\end{align*}
+由 $\sum_{k=1}^{\infty} f_{ij}^{(k)} \leq 1$。由控制收敛定理可知，令 $n \to \infty$ 可知结论成立。（令 $g_n(k) := p_{ij}^{(n-k)} I_{\{k \leq n\}}$。则对任意的 $k \in \mathcal{S}$ 有，$\lim_{n \to \infty} g_n(k) = 0$。且 $|g_n(k)| \leq 1$）
+\end{proof}
+
+
+\begin{definition}[闭集]
+	设 $\mathcal{S}$ 是马氏链 $\{X_n\}$ 的状态空间，$i \in \mathcal{S}$。和 $j$ 互通的状态记为
+\begin{enumerate}
+    \item[(a)]
+    \[
+    C(i) := \{i\} \cup \{j \in \mathcal{S}, j \leftrightarrow i\}.
+    \]
+    若 $i$ 不与别的状态互通，则 $C(i) = \{i\}$。称 $C(i)$ 是一个等价类；
+    \item[(b)]  集合 $C \subseteq \mathcal{S}$ 称为闭的，如果
+    \[
+    p_{ij} = 0 \quad \forall i \in C, j \notin C.
+    \]
+    即 $\sum_{k \in C} p_{ik} = 1 \quad \forall i \in C$。闭集 $C$ 称为不可约的，若 $C$ 中的任意两个状态均是互通的。闭集 $A$ 称为极小的，若 $A$ 的任意真子集不是闭集。
+\end{enumerate}
+\end{definition}
+\begin{theorem}
+	集合 $C \subseteq \mathcal{S}$ 为闭的充要条件是对任意的 $i \in C$ 及 $j \notin C$，$n \geq 1$，都有 $p_{ij}^{(n)} = 0$。
+\end{theorem}
+\begin{proof}
+	下证必要性。若 $C$ 为闭集，当 $n = 1$ 时成立。
+
+设当 $n = l$ 时成立。即对任意 $i \in C, j \notin C$，有 $p_{ij}^{(l)} = 0$。
+
+则对任意 $i \in C, j \notin C$
+\begin{align*}
+p_{ij}^{(l+1)} &= \sum_{k \in C} p_{ik}^{(l)} p_{kj} + \sum_{k \notin C} p_{ik}^{(l)} p_{kj} \\
+&= \sum_{k \in C} p_{ik}^{(l)} \cdot 0 + \sum_{k \notin C} 0 \cdot p_{kj} = 0.
+\end{align*}
+\end{proof}
+\begin{theorem}
+	集合 $C \subseteq \mathcal{S}$ 为闭的充要条件是对任意的 $i \in C$ 及 $j \notin C, n \geq 1$，都有 $p_{ij}^{(n)} = 0$.
+\end{theorem}
+\begin{remark}
+	集合 $C \subseteq \mathcal{S}$ 为闭充要条件是对任意的 $i \in C$ 有，$\sum_{j \in C} p_{ij}^{(n)} = 1$。整个马氏链也是一个闭集。
+\end{remark}
+\begin{lemma}
+	设 $C$ 为闭集，只考虑 $C$ 上的 $m$ 步转移子矩阵 $P_C^{(m)} := (p_{ij}^{(m)}), i, j \in C$。则它为随机矩阵。
+\end{lemma}
+\begin{example}
+	\[
+\mathbf{P} = \begin{pmatrix}
+\frac{1}{2} & 0 & \frac{1}{2} & 0 & 0 & 0 \\
+0 & \frac{1}{4} & 0 & \frac{3}{4} & 0 & 0 \\
+0 & 0 & \frac{1}{3} & 0 & \frac{2}{3} & 0 \\
+\frac{1}{4} & \frac{1}{4} & 0 & \frac{1}{4} & 0 & 0 \\
+\frac{1}{3} & 0 & \frac{1}{3} & 0 & \frac{1}{3} & 0
+\end{pmatrix}
+\]
+
+求极小闭集。
+\end{example}
+\begin{proof}
+	\(\{1, 3, 5\} \text{是极小闭集。}\)
+\end{proof}
+
+\begin{theorem}
+	设 \( C \) 是一个等价类，则
+\begin{enumerate}
+    \item 不同等价类互不相交。
+    \item \( C \) 中的状态有相同的类型：或都是正常返的，或都是零常返的，或都是非常返的。在任何情况下，\( C \) 中的状态有相同的周期。
+    \item 所有常返状态构成一个闭集。同时常返等价类是闭集：质点不能走出常返等价类。
+    \item 零常返等价类含有无穷个状态。
+    \item 非常返等价类如果是闭集，则含有无穷个状态。
+    \item 设 \( T \) 非常返状态全体。若 \( T \) 为闭集，则必含有无穷个状态。
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+	设 \( C \) 和 \( C_1 \) 都是等价类，如果有 \( i \in C \cap C_1 \)，由互通的传递性可知 \( i \) 和 \( C \cup C_1 \) 中的所有状态互通，于是 \( C \) 和 \( C_1 \) 中的任意状态互通。故 \( C = C_1 \)。
+
+(2) 显然。
+
+(3) 假设 \( C \) 为常返等价类或者所有常返态构成的集合。如果存在 \( i \in C, j \notin C \) 且 \( i \rightarrow j \) 则可知 \( j \longleftrightarrow i \) 与 \( j \notin C \) 矛盾。
+
+(4,5) 同时证明：假设 \( C \) 为非常返的或零常返等价类。反证法，由 \( C \) 为闭集可知 \( \sum_{j \in C} p_{ij}^{(n)} = 1 \)。则对 \( \forall i, j \in C \) 有 \( \lim_{n \to \infty} p_{ij}^{(n)} = 0 \)。不妨假设 \( C \) 中有有限个点 \( (N 个) \)。故令 \( n \to \infty \)，
+\[
+1 = \lim_{n \to \infty} \sum_{j=1}^N p_{ij}^{(n)} = \sum_{j=1}^N \lim_{n \to \infty} p_{ij}^{(n)} = 0,
+\]
+矛盾。
+\end{proof}
+\begin{theorem}
+	设 \( C \neq \emptyset \)，则它可以分成若干个互不相交的闭集 \(\{C_n\}\)，使得 \( C = C_1 \cup C_2 \cup \cdots \)，且有
+\begin{enumerate}
+    \item \( C_n \) 中任意两个状态互通；
+    \item \( C_h \cap C_l = \emptyset \) (\( h \neq l \))。
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+	因 \( C \neq \emptyset \)，任取 \( i_1 \in C \)，令 \( C_1 = \{i : i \longleftrightarrow i_1 \in C\} \)。
+
+若 \( C - C_1 \neq \emptyset \)，再任取 \( i_2 \in C - C_1 \)，令 \( C_2 = \{i : i \longleftrightarrow i_2 \in C - C_1\} \)，\ldots
+
+若 \( C - \bigcup_{l=1}^n C_l \neq \emptyset \)，取 \( i_{n+1} \in C - \bigcup_{l=1}^n C_l \)，令 \( C_{n+1} = \{i : i \longleftrightarrow i_{n+1} \in C - \bigcup_{l=1}^n C_l\} \)，\ldots
+\end{proof}
+利用等价关系可将 \( S \) 分解：
+\[
+S = \bigcup_{j=1}^{m} C_j \cup T, \quad m \leq \infty,
+\]
+其中 \( C_j \) 为常返状态构成的不可约闭集，\( T \) 为非常返状态集。
+
+\begin{remark}
+	对任意的 \( k \in T \)，
+\begin{enumerate}
+    \item \( k \) 可能转移到 \( C_l \) 中，然后永远在 \( C_l \) 中。
+    \item \( T \) 若为有限集，\( T \) 一定非闭集，并且 \( T \) 中的任意质点一定走出 \( T \) 进入某闭集 \( C_l \)。
+\end{enumerate}
+\end{remark}
+\begin{example}
+	记 \( S = \{1,2,3,4,5\} \)。
+
+\[
+\mathbf{P} = \left(
+\begin{array}{ccccc}
+\frac{1}{2} & \frac{1}{2} & 0 & 0 & 0 \\
+\frac{1}{4} & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 \\
+0 & 0 & \frac{1}{2} & 0 & \frac{1}{2} \\
+0 & 0 & 0 & 1 & 0 \\
+\end{array}
+\right)
+\]
+\end{example}
+\begin{proof}
+	\{1,2\} 和 \{3,4,5\} 均为等价类。
+
+故 \{1,2\} 和 \{3,4,5\} 均为正常返等价类。如果不是则由这两个闭，可推出有无穷多个状态
+\end{proof}
+\begin{example}
+	记 \( S = \{1,2,3,4,5\} \)。
+
+\[
+\mathbf{P} = \left(
+\begin{array}{ccccc}
+0.6 & 0.1 & 0 & 0.3 & 0 \\
+0.2 & 0.5 & 0.1 & 0.2 & 0 \\
+0.2 & 0.2 & 0.4 & 0.1 & 0.1 \\
+0 & 0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 0 & 1 \\
+\end{array}
+\right)
+\]
+\end{example}
+\begin{proof}
+	故 \{1,2,3\}、\{4\}、\{5\} 均为等价类。
+
+故 \{1,2,3\} 为非常返等价类、\{4\}、\{5\} 为正常返等价类。
+\end{proof}
+
+\begin{remark}
+	因为常返等价类 \( C \) 是一个不可约闭集，故令 \( P_C := (p_{ij})_{i,j \in C} \) 时，\( C \) 在 \( P_C \) 下为一个子马氏链。
+\end{remark}
+
+\begin{theorem}
+	设常返等价类 \( C \) 有周期 \( d > 1 \)。取定 \( C \) 中的状态 \( i \)，对于 \( j \in C \)，
+\begin{enumerate}
+    \item 有唯一的 \( r \in \{1,2,\cdots,d\} \)，使得只要 \( p_{ij}^{(n)} > 0 \)，则有 \( n = kd + r \)；
+    \item 对于 (1) 中的 \( r \)，存在 \( N_j \) 使得 \( n > N_j \) 时，\( p_{ij}^{(nd+r)} > 0 \)；
+    \item \( f_{ij} = \sum_{n=0}^{\infty} f_{ij}^{(nd+r)} = 1 \)。
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+	(1) 由 \( i \longleftrightarrow j \)，可知必存在 \( n \) 使得 \( p_{ij}^{(n)} > 0 \)。显然存在 \( k \) 及 \( r \) 使得 \( n = kd + r \)。下证对于满足 \( p_{ij}^{(n)} > 0 \) 的 \( r \) 是唯一的。现假设 \( n, m \) 使得 \( p_{ij}^{(n)} p_{ij}^{(m)} > 0 \)，及 \( l \) 使得 \( p_{jl}^{(l)} > 0 \)。则
+\[
+p_{il}^{(n+l)} \geq p_{ij}^{(n)} p_{jl}^{(l)} > 0,
+\]
+\[
+p_{il}^{(m+l)} \geq p_{ij}^{(m)} p_{jl}^{(l)} > 0,
+\]
+由于 \( d \mid n+l \)，\( d \mid m+l \)，故 \( d \mid (m+l) - (n+l) \)，即 \( d \mid (m-n) \)。故 \( n, m \) 跟 \( d \) 相除有相同的余数。
+
+(2)任取 \( N \) 使得 \( p_{ij}^{(Nd+r)} > 0 \)。由定理 \ref{3.7} 可知，存在 \( M_j \) 使得 \( \forall m > M_j \) 时，\( p_{ij}^{(md)} > 0 \)。当 \( n > N + M_j \) 时，\( n - N > M_j \)，故
+\[
+p_{ij}^{(nd+r)} \geq p_{ij}^{(Nd+r)} p_{ij}^{(nd-Nd)} = p_{ij}^{(Nd+r)} p_{ij}^{(md)} > 0.
+\]
+即 \( N_j := N + M_j \)。
+
+(3)由于 \( f_{ij}^{(n)} \) 是质点 \( i \) 出发第 \( n \) 步首次到达 \( j \) 的概率，故 \( f_{ij}^{(n)} \leq p_{ij}^{(n)} \)。于是只要 \( n \) 使得 \( f_{ij}^{(n)} > 0 \) 就有 \( p_{ij}^{(n)} > 0 \)，从而 \( n = kd + r \)。由定理 \ref{4.5}(4) 可知
+\[
+f_{ij} = \sum_{n=1}^{\infty} f_{ij}^{(n)} = \sum_{n=0}^{\infty} f_{ij}^{(nd+r)} = 1.
+\]
+\end{proof}
+\begin{theorem}
+	设常返等价类 \( C \) 有周期 \( d > 1 \)。
+\begin{enumerate}
+    \item[(a)] \( C \) 可分成 \( d \) 个不相交的集合的并：
+    \[
+    C = G_1 \bigcup G_2 \bigcup \cdots \bigcup G_d,
+    \]
+    其中，从任一 \( G_m \) 中的状态出发，下一步到达 \( G_{m+1(\bmod d)} \) 中某状态的概率大于 0；
+    \item[(b)] \( P^d \) 限制在 \( C \) 是非周期的，且 \( \sum_{k \in G_m} p_{ik}^{(d)} = 1 \ \forall i \in G_m \)。且将 \( P^d \) 限制在 \( G_m \) 上时，构成一个不可约非周期的子链。
+\end{enumerate}
+\end{theorem}
+\begin{theorem}
+	常返等价类是极小闭集。
+\end{theorem}
+\subsection{不可约马氏链的极限定理}
+\begin{example}
+	设Markov链 \(\{X_n, n = 0, 1, \ldots\}\) 状态空间为 \( S := \{1, 2\} \)，其转移矩阵为
+
+\[
+\mathbf{P} = \left(
+\begin{array}{cc}
+1-p & p \\
+q & 1-q
+\end{array}
+\right), \quad 0 < p, q < 1
+\]
+
+现在考虑 \(\mathbf{P}^{(n)}\) 当 \(n \to \infty\) 时的情况。
+
+\end{example}
+\begin{proof}
+	由 \(\mathbf{P}^{(n)} = \mathbf{P}^n\) 知，只需计算 \(\mathbf{P}\) 的 \(n\) 重乘积的极限。求 \(\mathbf{P}\) 所对应的特征根：\(|\lambda \mathbf{I} - \mathbf{P}| = 0\) 可得 \(\lambda_1 = 1\) 以及 \(\lambda_2 = 1 - p - q\)。解得 \(\lambda_1 = 1\) 是特征向量为 \((1, 1)^T\)，\(\lambda_2 = 1 - p - q\) 时特征向量为 \((-p, q)^T\)。故令
+
+\[
+\mathbf{Q} = \left(
+\begin{array}{cc}
+1 & -p \\
+1 & q
+\end{array}
+\right), \quad
+\mathbf{D} = \left(
+\begin{array}{cc}
+1 & 0 \\
+0 & 1 - p - q
+\end{array}
+\right)
+\]
+
+则
+
+\[
+\mathbf{Q}^{-1} = \left(
+\begin{array}{cc}
+\frac{q}{p+q} & \frac{p}{p+q} \\
+-\frac{1}{p+q} & \frac{1}{p+q}
+\end{array}
+\right), \quad
+\mathbf{P} = \mathbf{Q} \mathbf{D} \mathbf{Q}^{-1}
+\]
+
+从而
+
+\[
+\mathbf{P}^n = (\mathbf{Q} \mathbf{D} \mathbf{Q}^{-1})^n = \mathbf{Q} \left(
+\begin{array}{cc}
+1 & 0 \\
+0 & 1 - p - q
+\end{array}
+\right)^n \mathbf{Q}^{-1}
+\]
+
+\[
+= \left(
+\begin{array}{cc}
+\frac{q + p(1-p-q)^n}{p+q} & \frac{p - p(1-p-q)^n}{p+q} \\
+\frac{q - q(1-p-q)^n}{p+q} & \frac{p + q(1-p-q)^n}{p+q}
+\end{array}
+\right)
+\]
+
+由于 \(|1 - p - q| < 1\)，(6.1)式的极限为
+
+\[
+\lim_{n \to \infty} \mathbf{P}^n = \left(
+\begin{array}{cc}
+\frac{q}{p+q} & \frac{p}{p+q} \\
+\frac{q}{p+q} & \frac{p}{p+q}
+\end{array}
+\right)
+\]
+
+可见此Markov链的\(n\)步转移概率有一个稳定的极限。
+\end{proof}
+\begin{theorem}[不可约马氏链的极限定理]	\label{6.25}
+	设 \( P \) 不可约，则下述断言等价：
+\begin{enumerate}
+    \item \( P \) 是正常返（不可约假设下，一个状态正常返则所有状态正常返!）；
+    \item \( P \) 有平稳分布，进而平稳分布唯一：对一切 \( j \)，\( \pi_j = \frac{1}{\mu_j} \)（此处，\( \mu_j = E[T_{jj} | X_0 = j] \)）；
+    \item 若 \( P \) 还是非周期的，则 (1) 和 (2) 又都分别等价于 \( \lim_{n \to \infty} p_{ij}^{(n)} = \frac{1}{\mu_j} > 0 \)（不依于 \( i \)）
+\end{enumerate}
+\end{theorem}
+
+我们回到之前那一题
+\begin{example}
+	设Markov链 \(\{X_n, n = 0, 1, \ldots\}\) 状态空间为 \( S := \{1, 2\} \)，其转移矩阵为
+
+\[
+\mathbf{P} = \left(
+\begin{array}{cc}
+1-p & p \\
+q & 1-q
+\end{array}
+\right), \quad 0 < p, q < 1
+\]
+
+现在考虑 \(\mathbf{P}^{(n)}\) 当 \(n \to \infty\) 时的情况。
+
+\end{example}
+\begin{proof}
+	\begin{equation}
+		\begin{cases}
+		(\pi_1, \pi_2) \mathbf{P} = (\pi_1, \pi_2) \\
+		\pi_1 + \pi_2 = 1 \\
+		\pi_i \geq 0. \ (i = 1, 2)
+		\end{cases}
+		\end{equation}
+		
+		解得 \(\pi_1 = \frac{q}{q+p}\), \(\pi_2 = \frac{p}{q+p}\)。
+		
+		故该马氏链平稳分布存在，且马氏链不可约非周期。由不可约马氏链极限定理\ref{6.25}可知
+		
+		\[
+		\lim_{n \to \infty} \mathbf{P}^n = \left(
+		\begin{array}{cc}
+		\pi_1 & \pi_2 \\
+		\pi_1 & \pi_2
+		\end{array}
+		\right) = \left(
+		\begin{array}{cc}
+		\frac{q}{p+q} & \frac{p}{p+q} \\
+		\frac{q}{p+q} & \frac{p}{p+q}
+		\end{array}
+		\right)
+		\]
+	
+\end{proof}
+\begin{example}
+	设马氏链的状态是 \( S = \{1, 2\} \)，转移矩阵是
+
+\[
+\mathbf{P} = \left(
+\begin{array}{cc}
+\frac{3}{4} & \frac{1}{4} \\
+\frac{5}{8} & \frac{3}{8}
+\end{array}
+\right)
+\]
+
+(1) 计算不变分布 \(\pi\) 和极限 \(\lim_{n \to \infty} \mathbf{P}^n\)；
+(2) 计算状态 1, 2 的期望返回时间 \(\mu_1, \mu_2\)。
+
+\end{example}
+\begin{proof}
+	\[
+\begin{cases}
+(\pi_1, \pi_2) \mathbf{P} = (\pi_1, \pi_2) \\
+\pi_1 + \pi_2 = 1 \\
+\pi_i \geq 0. \ (i = 1, 2)
+\end{cases}
+\]
+
+\(\pi_1 = \frac{5}{7}\) 以及 \(\pi_2 = \frac{2}{7}\)。
+
+(2) 由于该马氏链为不可约非周期马氏链，且平稳分布存在唯一。故该马氏链为正常返链。由不可约马氏链极限定理\ref{6.25}可知
+\[
+\lim_{n \to \infty} p_{11}^{(n)} = \lim_{n \to \infty} p_{21}^{(n)} = \frac{5}{7},
+\]
+\[
+\lim_{n \to \infty} p_{12}^{(n)} = \lim_{n \to \infty} p_{22}^{(n)} = \frac{2}{7}.
+\]
+
+(3) 由(2)分析以及不可约马氏链极限定理\ref{6.25}可知 \(\mu_1 = \frac{1}{\pi_1} = \frac{7}{5}\), \(\mu_2 = \frac{1}{\pi_2} = \frac{7}{2}\).
+\end{proof}
+\subsection{一般情况下马氏链的极限定理}
+\begin{definition}[本质状态]
+	称状态 \( i \) 为本质的，若 \( i \to j \) 时必有 \( j \to i \)。否则称为非本质。
+\end{definition}
+\begin{theorem}
+	常返状态是本质状态。
+\end{theorem}
+\begin{example}
+	\begin{equation*}
+		S = \{0, 1, 2, 3, 4\}
+		\end{equation*}
+		
+		\[
+		\mathbf{P} = \left(
+		\begin{array}{ccccc}
+		\frac{1}{3} & \frac{2}{3} & 0 & 0 & 0 \\
+		0 & \frac{1}{2} & \frac{1}{2} & 0 & 0 \\
+		\frac{3}{4} & \frac{1}{4} & 0 & 0 & 0 \\
+		\frac{1}{3} & 0 & 0 & \frac{1}{3} & \frac{1}{3} \\
+		0 & 0 & 0 & 0 & 1
+		\end{array}
+		\right)
+		\]
+		
+	
+\end{example}
+\begin{proof}
+	0, 1, 2 是常返态，4 是常返态，3 非常返态。0, 1, 2 是本质态，4 是本质态；3 非本质态。
+\end{proof}
+\begin{lemma}
+	设 \( C \) 为某个常返等价类。
+
+记 \(\widetilde{\mathbf{P}} = (\widetilde{p}_{ij})_{i,j \in C} := \mathbf{P}_C\)，其中 \(i,j \in C\) 时 \(\widetilde{p}_{ij} = p_{ij}\)。\(i, j \in C\) 时，记 \(\widetilde{f}_{ij}^{(n)} = \widetilde{\mathbf{P}}(T_{ij} = n | X_0 = i)\)，其中 \(T_{ij} = n\) 为在 \(\widetilde{\mathbf{P}}\) 下状态 \(i\) 到达状态 \(j\) 的首达时间，即说明 \(\widetilde{f}_{ij}^{(n)}\) 为在子马氏链 \(C\) 中状态 \(i\) 经过 \(n\) 步首次到达状态 \(j\) 的概率。则 \(\widetilde{f}_{ij}^{(n)} = f_{ij}^{(n)}\)，平均返回时间 \(\widetilde{\mu}_i = \mu_i\)。
+\end{lemma}
+\begin{proof}
+	用数学归纳法：当 \(n = 1\) 时，
+\[
+\widetilde{f}_{ij}^{(1)} = \widetilde{p}_{ij} = p_{ij} = f_{ij}^{(1)}.
+\]
+假设当 \(n = k\) 时，有 \(\widetilde{f}_{ij}^{(k)} = f_{ij}^{(k)}\)。则当 \(n = k + 1\) 时，
+\begin{align*}
+\widetilde{f}_{ij}^{(k+1)} &= \sum_{x \in C, x \neq j} \widetilde{p}_{ix} \widetilde{f}_{xj}^{(k)} \\
+&= \sum_{x \in C, x \neq j} p_{ix} f_{xj}^{(k)} + \sum_{x \notin C, x \neq j} p_{ix} f_{xj}^{(k)} \\
+&= f_{ij}^{(k+1)}.
+\end{align*}
+
+\end{proof}
+\begin{lemma}
+	设 \(\{a_n, n \geq 0\}\) 为一个不全为零的非负数列，且满足条件
+\[
+\lim_{n \to \infty} \frac{a_n}{\sum_{m=0}^n a_m} = 0,
+\]
+\(\{b_n, n \geq 0\}\) 为一个收敛数列，则
+\[
+\lim_{n \to \infty} \frac{\sum_{m=0}^n a_m b_{n-m}}{\sum_{m=0}^n a_m} = \lim_{n \to \infty} b_n.
+\]
+\end{lemma}
+
+约定 \(\mu_j = \begin{cases} 
+	\mu_j & \text{常返} \\
+	\infty & \text{非常返}
+	\end{cases}\)
+
+\begin{theorem}\label{6.30}
+
+
+
+		\begin{enumerate}
+			\item 如果 \(j\) 非常返，则对一切 \(i \in S\)，有 \(\lim_{n \to \infty} p_{ij}^{(n)} = 0\)。
+			\item 如果 \(j\) 常返，其周期为 \(d(j)\)，则对一切 \(i \in S\) 和 \(1 \leq r \leq d(j)\)，有
+			\[
+			\lim_{n \to \infty} p_{ij}^{(nd(j)+r)} = \frac{d(j)}{\mu_j} \sum_{m=0}^{\infty} f_{ij}^{(md(j)+r)}.
+			\]
+		\end{enumerate}
+		
+		特别地，
+		
+		\begin{enumerate}
+			\item[a] \(j\) 为零常返时 \(\lim_{n \to \infty} p_{ij}^{(n)} = 0\)。
+			\item[b]	 \(j\) 为本质状态（或 \(i\) 为常返态），若 \(i \notin C(j)\)，则对任意的 \(n\) 有 \(p_{ij}^{(n)} = 0\)，则 \(\lim_{n \to \infty} p_{ij}^{(n)} = 0\)。
+			\item[c] 若 \(i \in C(j)\) 且 \(j\) 属于 \(C(i)\) 周期性分解中第 \(r\) 个子集（即若 \(p_{ij}^{(m)} > 0\) 有 \(m = nd(j) + r\)），则
+		\[
+		\lim_{n \to \infty} p_{ij}^{(nd(j)+r)} = \frac{d(j)}{\mu_j}.
+		\]
+		否则 \(p_{ij}^{(n)} = 0\)，当 \(n \neq md + r\)。
+		\end{enumerate}
+\end{theorem}
+\begin{corollary}
+	设 \( j \) 为非周期状态。对任意的 \( i \in S \),
+
+\[
+\lim_{n \to \infty} p_{ij}^{(n)} = \frac{f_{ij}}{\mu_j},
+\]
+
+其中当 \( j \) 为非常返时，\( \mu_j := \infty \)。
+\end{corollary}
+\begin{example}
+	设有6个车站, 车站中间的公路连接情况如图所示.
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[
+        station/.style={circle, draw, minimum size=1cm},
+        >=stealth
+    ]
+    
+    % 定义车站位置
+    \node[station] (A) at (0,0) {1};
+    \node[station] (B) at (3,0) {2};
+    \node[station] (C) at (4.5,2) {3};
+    \node[station] (D) at (3,4) {4};
+    \node[station] (E) at (0,4) {5};
+    \node[station] (F) at (-1.5,2) {6};
+    
+    % 连接公路
+    \draw (A) -- (B);
+    \draw (B) -- (C);
+    \draw (C) -- (D);
+    \draw (A) -- (F);
+	\draw (F) -- (E);
+	\draw (B) -- (F);
+	\draw (C) -- (D);
+	\draw (D) -- (E);
+	\draw (E) -- (F);
+	\draw (F) -- (D);
+    \end{tikzpicture}
+\end{figure}
+
+汽车每天可以从一个站驶向与之直接相临的车站，并在夜晚到达车站留宿，次日凌晨重复相同的活动。设每天凌晨汽车开往临近的任何一个车站都是等可能的，试说明很长时间后，各站每晚留宿的汽车比例趋于稳定。求出这个比例以便正确地设置各站的服务规模。
+
+
+\end{example}
+\begin{proof}
+	以 $\{X_n, n = 0, 1, \ldots\}$ 记第 $n$ 天某辆汽车留宿的车站号，这是一个 Markov 链，转移概率矩阵为
+
+\[
+P = \begin{pmatrix}
+0 & \frac{1}{2} & 0 & 0 & 0 & \frac{1}{2} \\
+\frac{1}{3} & 0 & \frac{1}{3} & 0 & 0 & \frac{1}{3} \\
+0 & \frac{1}{2} & 0 & \frac{1}{2} & 0 & 0 \\
+0 & 0 & \frac{1}{3} & 0 & \frac{1}{3} & \frac{1}{3} \\
+0 & 0 & 0 & \frac{1}{2} & 0 & \frac{1}{2} \\
+\frac{1}{4} & \frac{1}{4} & 0 & \frac{1}{4} & \frac{1}{4} & 0
+\end{pmatrix}
+\]
+
+解方程
+\[
+\begin{cases}
+\pi P = \pi \\
+\sum_{i=1}^{6} \pi_i = 1
+\end{cases}
+\]
+
+其中 $\pi = (\pi_1, \pi_2, \pi_3, \pi_4, \pi_5, \pi_6)$，可得 $\pi = \left(\frac{1}{8}, \frac{3}{16}, \frac{1}{8}, \frac{3}{16}, \frac{1}{8}, \frac{1}{4}\right)$。故无论开始汽车从哪一个车站出发在很长时间后他在任一个车站留宿的概率都是固定的，所有的汽车也将以一个稳定的比例在各车站留宿。
+\end{proof}
+\begin{example}
+	设甲袋中有 $k$ 个白球和 1 个黑球，乙袋中有 $k+1$ 个白球，每次从两袋中各任取一球，交换后放入对方的袋中。证明经过 $n$ 次交换后，黑球仍在甲袋中的概率 $p_n$ 满足 $\lim_{n \to \infty} p_n = \frac{1}{2}$。
+\end{example}
+\begin{proof}
+	以 $X_n$ 表示第 $n$ 次取球后甲袋中的黑球数，则 $\{X_n, n = 0, 1, 2, \cdots\}$ 是状态空间为 $S = \{0, 1\}$ 的时齐 Markov 链，一步转移概率矩阵为
+
+\[
+P = \begin{pmatrix}
+\frac{k}{k+1} & \frac{1}{k+1} \\
+\frac{1}{k+1} & \frac{k}{k+1}
+\end{pmatrix}
+\]
+
+则它的平稳分布满足
+\[
+\begin{cases}
+\pi_0 = \frac{k}{k+1} \pi_0 + \frac{1}{k+1} \pi_1 \\
+\pi_1 = \frac{1}{k+1} \pi_0 + \frac{k}{k+1} \pi_1
+\end{cases}
+\]
+且有 $\pi_0 + \pi_1 = 1$，
+
+求解得 $\pi = (\pi_0, \pi_1) = \left(\frac{1}{2}, \frac{1}{2}\right)$。故
+\[
+\lim_{n \to \infty} P^n = \begin{pmatrix}
+\frac{1}{2} & \frac{1}{2} \\
+\frac{1}{2} & \frac{1}{2}
+\end{pmatrix}
+\]
+由于初始分布 $\pi(0) = (0, 1)$，
+\[
+\lim_{n \to \infty} \pi(0) P^n = \pi(0) \begin{pmatrix}
+\frac{1}{2} & \frac{1}{2} \\
+\frac{1}{2} & \frac{1}{2}
+\end{pmatrix} = \left(\frac{1}{2}, \frac{1}{2}\right)
+\]
+故经过 $n$ 次交换后，黑球仍在甲袋中的概率 $p_n$ 满足
+\[
+\lim_{n \to \infty} p_n = \lim_{n \to \infty} P\{X_n = 1\} = \pi_1 = \frac{1}{2}
+\]
+
+\end{proof}
+如果把关于 $n$ 的逐点极限改为平均极限，则结果十分简洁，并有下列结果：
+\begin{theorem}
+	对一切 $i, j \in S$，有
+\[
+\lim_{n \to \infty} \frac{1}{n} \sum_{m=1}^{n} p_{ij}^{(m)} = \frac{f_j}{\mu_j}.
+\]
+其中当 $j$ 非常返时 $\mu_j := \infty$。
+
+\end{theorem}
+\begin{proof}
+	当 $j$ 为非常返时，由 $\lim_{n \to \infty} p_{ij}^{(n)} = 0$，
+
+故 $\lim_{n \to \infty} \frac{1}{n} \sum_{m=1}^{n} p_{ij}^{(m)} = \lim_{n \to \infty} p_{ij}^{(n)} = 0$ 且 $\mu_j = \infty$ (约定)，则上述结论明显成立。
+
+\end{proof}
+
+下面考虑 $j$ 为常返的情形。为此，需一个数学分析中的结论。
+\begin{lemma}
+	设有正整数 $d$ 和数列 $\{a_n : n \geq 1\}$ 满足
+\[
+\lim_{n \to \infty} a_{nd+r} = b_r \quad 1 \leq r \leq d.
+\]
+则有：
+\[
+\lim_{n \to \infty} \frac{1}{n} \sum_{m=1}^{n} a_m = \frac{1}{d} \sum_{m=1}^{d} b_m.
+\] 
+\end{lemma}
+
+当 $j$ 为常返时，令 $d = d(j)$，由定理 \ref{6.30} (b) 得：
+\[
+\lim_{n \to \infty} p_{ij}^{(nd+r)} = \frac{d}{\mu_j} \sum_{m=0}^{\infty} f_{ij}^{(md+r)} \quad 1 \leq r \leq d.
+\]
+
+现再由引理 得：
+\[
+\lim_{n \to \infty} \frac{1}{n} \sum_{m=1}^{n} p_{ij}^{(m)} = \frac{1}{d} \sum_{r=1}^{d} \left[ \lim_{n \to \infty} p_{ij}^{(nd+r)} \right]
+\]
+\[
+= \frac{1}{d} \sum_{r=1}^{d} \left[ \frac{d}{\mu_j} \sum_{m=0}^{\infty} f_{ij}^{(md+r)} \right]
+\]
+\[
+= \frac{1}{\mu_j} \sum_{r=1}^{d} \sum_{m=0}^{\infty} f_{ij}^{(md+r)}
+\]
+\[
+= \frac{1}{\mu_j} f_{ij}.
+\]
+\begin{theorem}
+	对任意的 $j \in S$，$\{f_{ij}, i \in S\}$ 是线性方程组
+\[
+z_i = \sum_{k \neq j} p_{ik} z_k + p_{ij}, \quad i \in S,
+\]
+即
+\[
+f_{ij} = \sum_{k \neq j} p_{ik} f_{kj} + p_{ij}, \quad i \in S,
+\]
+的解.（见《随机过程引论》何声武 49 页）
+
+\end{theorem}
+\begin{theorem}
+	设 $j, k \in S$ 属于同一常返类，则对任意的 $i \in T$ ($T$ 表示非常返状态全体) 有 $f_{ij} = f_{ik}$.（见《随机过程引论》何声武 50 页）
+
+\end{theorem}
+\begin{example}
+	记 $S = \{0, 1, 2, 3, 4, 5\}$.
+
+\[
+\mathbf{P} = \begin{pmatrix}
+1/6 & 1/6 & 1/6 & 1/6 & 1/6 & 1/6 \\
+0 & 1/4 & 1/4 & 1/2 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 1 \\
+0 & 0 & 0 & 0 & 1/3 & 2/3
+\end{pmatrix}
+\]
+
+求 $f_{ij}$ 以及 $\lim_{n \to \infty} \frac{1}{n} \sum_{\nu=1}^{n} p_{ij}^{(\nu)}$.
+
+\end{example}
+
+\begin{proof}
+	\[
+\mathbf{P}|_{G_1} = \begin{pmatrix}
+1/4 & 1/4 & 1/2 \\
+1 & 0 & 0 \\
+0 & 1 & 0
+\end{pmatrix}
+\]
+
+\[
+\mathbf{P}|_{G_2} = \begin{pmatrix}
+0 & 1 \\
+1/3 & 2/3
+\end{pmatrix}
+\]
+
+$G_1 := \{1, 2, 3\}$, $G_2 := \{4, 5\}$ 为正常返等价类. $\{0\}$ 为非常返等价类. 记 $(\pi'_1, \pi'_2, \pi'_3)$ 以及 $(\pi'_4, \pi'_5)$ 为在 $\mathbf{P}|_{G_1}$ 和 $\mathbf{P}|_{G_2}$ 上得到平稳分布. 则
+\[
+\begin{cases}
+(\pi'_1, \pi'_2, \pi'_3) \mathbf{P}|_{G_1} = (\pi'_1, \pi'_2, \pi'_3) \\
+\pi'_1 + \pi'_2 + \pi'_3 = 1 \\
+\pi'_i \geq 0. \quad (i = 1, 2, 3)
+\end{cases}
+\]
+解得 $\pi'_1 = \frac{4}{9}, \pi'_2 = \frac{1}{3}, \pi'_3 = \frac{2}{9}$.
+
+记 $(\pi'_1, \pi'_2, \pi'_3)$ 以及 $(\pi'_4, \pi'_5)$ 为在 $\mathbf{P}|_{G_1}$ 和 $\mathbf{P}|_{G_2}$ 上得到平稳分布. 则
+\[
+\begin{cases}
+(\pi'_4, \pi'_5) \mathbf{P}|_{G_2} = (\pi'_4, \pi'_5) \\
+\pi'_4 + \pi'_5 = 1 \\
+\pi'_i \geq 0. \quad (i = 4, 5)
+\end{cases}
+\]
+解得 $\pi'_4 = \frac{1}{4}, \pi'_5 = \frac{3}{4}$. 猜猜 $f_{ij}$ 取多少???
+
+\[
+(\mathbf{f}_{ij})_{i,j \in S} = \begin{pmatrix}
+* & * & * & * & * & * \\
+0 & 1 & 1 & 1 & 0 & 0 \\
+0 & 1 & 1 & 1 & 0 & 0 \\
+0 & 1 & 1 & 1 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 & 1 \\
+0 & 0 & 0 & 0 & 1 & 1
+\end{pmatrix}
+\]
+
+\[
+f_{00} = \frac{1}{6}.
+\]
+\[
+f_{01} = p_{00} f_{01} + p_{02} f_{21} + p_{03} f_{31} + p_{04} f_{41} + p_{05} f_{51} + p_{01} = \frac{1}{6} f_{01} + \frac{1}{2}. \text{ 解得 } f_{01} = \frac{3}{5}.
+\]
+\[
+f_{04} = p_{00} f_{04} + p_{01} f_{14} + p_{02} f_{24} + p_{03} f_{34} + p_{05} f_{54} + p_{04} = \frac{1}{6} f_{04} + \frac{1}{3}. \text{ 解得 } f_{04} = \frac{2}{5}.
+\]
+则
+\[
+(\mathbf{f}_{ij})_{i,j \in S} = \begin{pmatrix}
+1/6 & 3/5 & 3/5 & 3/5 & 2/5 & 2/5 \\
+0 & 1 & 1 & 1 & 0 & 0 \\
+0 & 1 & 1 & 1 & 0 & 0 \\
+0 & 1 & 1 & 1 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 & 1 \\
+0 & 0 & 0 & 0 & 1 & 1
+\end{pmatrix}
+\]
+
+\[
+f_{01} = \frac{3}{5}, \frac{1}{\mu_1} = \pi'_1 = \frac{4}{9}. \text{ 由 } \lim_{n \to \infty} \frac{1}{n} \sum_{\nu=1}^{n} p_{ij}^{(\nu)} = \frac{f_{ij}}{\mu_j} \text{ 则}
+\]
+\[
+\left( \lim_{n \to \infty} \frac{1}{n} \sum_{\nu=1}^{n} \mathbf{p}_{ij}^{(\nu)} \right)_{i,j \in S} = \begin{pmatrix}
+0 & 4/15 & 1/5 & 2/15 & 1/10 & 3/10 \\
+0 & 4/9 & 1/3 & 2/9 & 0 & 0 \\
+0 & 4/9 & 1/3 & 2/9 & 0 & 0 \\
+0 & 4/9 & 1/3 & 2/9 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1/4 & 3/4 \\
+0 & 0 & 0 & 0 & 1/4 & 3/4
+\end{pmatrix}
+\]
+
+\end{proof}
+
+\begin{remark}
+	\begin{itemize}
+		\item 有限不可约马氏链的状态都是常返状态。
+		\item 有限状态马氏链没有零常返态。
+		\item 不可约的有限马氏链的状态都是正常返状态。
+		\item 有限马氏链必存在正常返态。
+	\end{itemize}
+\end{remark}
+\begin{theorem}
+	存在平稳分布的充要条件是存在正常返类。若正常返类记为 $D_1, D_2, \ldots$，则平稳分布具有下列形式：
+\[
+\pi_i = 
+\begin{cases} 
+\lambda_n \frac{1}{\mu_i} & i \in D_n \\
+0 & i \notin \bigcup_n D_n 
+\end{cases}
+\]
+其中 $\sum_n \lambda_n = 1$，且对任意的 $n$，$\lambda_n \geq 0$
+
+\end{theorem}
+\begin{theorem}
+	设 $C_+$ 是马氏链 $\{X_n\}$ 的所有正常返状态。
+
+\begin{enumerate}
+    \item $\{X_n\}$ 平稳(不变)分布存在的充分必要条件是 $C_+$ 非空；
+    \item $\{X_n\}$ 有唯一的平稳(不变)分布的充分必要条件是 $C_+$ 是等价类；
+    \item 状态有限的马氏链必有平稳(不变)分布。
+\end{enumerate}
+\end{theorem}
 \end{document}
