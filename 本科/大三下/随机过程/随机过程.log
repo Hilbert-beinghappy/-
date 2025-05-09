@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  8 MAY 2025 16:51
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  9 MAY 2025 17:15
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1635,7 +1635,26 @@ Chapter 2.
 
 ]
 
-[38] (./随机过程.aux)
+[38]
+Overfull \hbox (30.27425pt too wide) detected at line 2691
+\OML/cmm/m/it/10 E\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 M[]\OMS/cmsy/m/n/10 jF[]\OT1/cmr/m/n/10 ] = \OML/cmm/m/it/10 E\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 M[]\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 X[]\OT1/cmr/m/n/10 ] = \OML/cmm/m/it/10 E [] \OT1/cmr/m/n/10 = []\OML/cmm/m/it/10 E\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 X[]\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 X[]\OT1/cmr/m/n/10 ] = [](\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 + []) = [] = \OML/cmm/m/it/10 M[]:[]
+ []
+
+
+
+[39]
+
+[40]
+
+[41]
+
+[42]
+
+[43]
+
+[44]
+
+[45] (./随机过程.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2022/08/05>
@@ -1645,18 +1664,18 @@ L3 programming layer <2022/08/05>
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `随机过程.out' has not changed.
-(rerunfilecheck)             Checksum: EAF76CFFBA5709B58534E118E839EF64;1636.
+(rerunfilecheck)             Checksum: 691DBED47BD8893FC9178B6E22C5200F;2178.
 Package logreq Info: Writing requests to '随机过程.run.xml'.
 \openout1 = `随机过程.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 48247 strings out of 473832
- 1057086 string characters out of 5729481
- 2047695 words of memory out of 5000000
- 70501 multiletter control sequences out of 15000+600000
+ 48336 strings out of 473832
+ 1059960 string characters out of 5729481
+ 2052284 words of memory out of 5000000
+ 70590 multiletter control sequences out of 15000+600000
  565275 words of font info for 111 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  103i,15n,130p,689b,1346s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on 随机过程.pdf (40 pages).
+Output written on 随机过程.pdf (47 pages).

@@ -10,3 +10,7 @@
 \contentsline {subsection}{\numberline {1.6.3}一般情况下马氏链的极限定理}{30}{subsection.1.6.3}%
 \contentsline {chapter}{\numberline {2}鞅论}{37}{chapter.2}%
 \contentsline {section}{\numberline {2.1}离散时间鞅}{37}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}条件期望的性质}{38}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}鞅的性质}{40}{subsection.2.1.2}%
+\contentsline {section}{\numberline {2.2}停时和鞅的停时定理}{42}{section.2.2}%
+\contentsline {section}{\numberline {2.3}鞅收敛定理}{44}{section.2.3}%

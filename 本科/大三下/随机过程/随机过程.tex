@@ -2566,6 +2566,7 @@ P(Y_n = 1) = P(Y_n = -1) = \frac{1}{2},
     \item $X_n$ 为 $Y_0, Y_1, \cdots, Y_n$ 的函数
 \end{itemize}
 \end{definition}
+\subsection{条件期望的性质}
 \begin{theorem}\label{1.5}
 	\begin{enumerate}
 		\item 若 $X, Y$ 均可积，$\alpha, \beta$ 为常数，则
@@ -2601,4 +2602,421 @@ $\mathbb{N} :=$ 非负整数全体
 	称 $\mathcal{F}$ 的子 $\sigma$-域序列 $(\mathcal{F}_n, n \in \mathbb{N})$ 为一个流，若 $\mathcal{F}_n \subseteq \mathcal{F}_{n+1}$. \\
 记 $\mathcal{F}_\infty = \bigvee_{n \geq 0} \mathcal{F}_n = \sigma(\bigcup_n \mathcal{F}_n)$
 \end{definition}
+\begin{definition}
+	随机过程 $X = (X_n)_{n \geq 0}$ 为 $(\mathcal{F}_n, n \in \mathbb{N})$ 适应的，若 $\forall n$，$X_n$ 为 $\mathcal{F}_n$ 可测的。（回忆可测的定义？$\forall$ 实数 $a$，$\{\omega | X_n(\omega) \leq a\} \in \mathcal{F}_n$）
+\end{definition}
+\begin{definition}
+	一个 $(\mathcal{F}_n, n \in \mathbb{N})$-适应的随机序列 $X = (X_n)_{n \geq 0}$ 称为 $(\mathcal{F}_n)_{n \in \mathbb{N}}$-鞅，若 $\forall n \in \mathbb{N}$，
+\begin{itemize}
+    \item $E[|X_n|] < \infty;$
+    \item $E(X_{n+1}|\mathcal{F}_n) = X_n \text{ a.s.}$
+\end{itemize}
+\end{definition}
+\begin{definition}
+	一个 $(\mathcal{F}_n, n \in \mathbb{N})$-适应的随机序列 $X = (X_n)_{n \geq 0}$ 称为 $(\mathcal{F}_n)_{n \in \mathbb{N}}$-上鞅（下鞅），若 $\forall n \in \mathbb{N}$，
+\begin{itemize}
+    \item $E[X_n] < \infty; (E[X_n^+] < \infty)$
+    \item $E(X_{n+1}|\mathcal{F}_n) \leq X_n, (\geq X_n) \text{ a.s.}$
+\end{itemize}
+
+\end{definition}
+\begin{remark}
+	当 $\{X_n\}$ 分别为 $(\mathcal{F}_n)_{n \in \mathbb{N}}$-鞅、上鞅、下鞅时，$\forall m > n$ 有
+\begin{itemize}
+    \item $E(X_m|\mathcal{F}_n) = X_n (\leq X_m, \geq X_n) \text{ a.s.}$
+    \item $E(X_m) = E(X_n) (\leq E(X_n), \geq E(X_n))$
+\end{itemize}
+\end{remark}
+\begin{remark}
+	若 $X = \{X_n, n \geq 0\}$ 为 $(\mathcal{F}_n)_{n \in \mathbb{N}}$-上鞅（下鞅），则 $-X := \{-X_n, n \geq 0\}$ 为 $(\mathcal{F}_n)_{n \in \mathbb{N}}$-下鞅（上鞅）
+\end{remark}
+
+\begin{example}
+	设 $X_1, X_2, \ldots$ 是一族零均值独立随机变量序列，且 $E[|X_i|] < \infty$，令 $S_0 = 0$，$S_n = \sum_{k=1}^n X_k$，则 $\{S_n\}$ 是关于 $\sigma$-代数流 $\{\mathcal{F}_n\}$ 的鞅，其中 $\mathcal{F}_n := \sigma(X_1, X_2, \cdots, X_n)$. 另外，若 $X_n (n = 1, 2, \cdots)$ 均值为 $\mu \neq 0$，则 $\{M_n = S_n - n\mu\}$ 是 $(\text{关于} \{\mathcal{F}_n\})$ 的鞅。
+
+\end{example}
+\begin{proof}
+	当 $E[X_n] = 0, (n = 1, 2, \cdots)$ 时，
+\begin{itemize}
+    \item $S_n$ 是 $X_1, \ldots, X_n$ 的函数，故 $S_n$ 关于 $\mathcal{F}_n$ 可测的，故 $\{S_n\}$ 关于 $\{\mathcal{F}_n\}$ 适应
+    \item $E[|S_n|] \leq \sum_{i=1}^n E[|X_i|] < \infty$,
+\end{itemize}
+
+\[
+E[S_{n+1}|\mathcal{F}_n] = E[X_1 + X_2 + \cdots + X_n + X_{n+1}|\mathcal{F}_n]
+\]
+\[
+= E[X_1 + \cdots + X_n|\mathcal{F}_n] + E[X_{n+1}|\mathcal{F}_n]
+\]
+\[
+= S_n + E[X_{n+1}] = S_n
+\]
+
+从而 $\{S_n\}$ 是一个关于 $\{\mathcal{F}_n\}$ 的鞅。
+\end{proof}
+\begin{example}
+	在例 1.3 中设 $E[X_k] = \mu \neq 0, E[|X_k|] < \infty, (k = 1, 2, \cdots)$，则有 $E[|S_n|] < \infty$，
+\[
+E[S_{n+1}|\mathcal{F}_n] = E\left[\sum_{i=1}^n X_i + X_{n+1}|\mathcal{F}_n\right] = S_n + \mu
+\]
+显然，若 $\mu > 0 (\mu < 0)$，则 $\{S_n\}$ 是一关于 $\{\mathcal{F}_n\}$ 的下鞅（上鞅）。
+\end{example}
+\begin{example}[Polya 坛子抽样模型]
+	 考虑一个装有红、黄两色球的坛子. 假设最初坛子中装有红、黄两色球各一个，每次都按如下规则有放回地随机抽取：如果拿出的是红色的球，则放回的同时再加入一个同色的球；如果拿出是黄色的球也采取同样的方法. 以 $X_n$ 表示第 $n$ 次抽取后坛子中的红球数，则 $X_0 = 1$，且 $\{X_n\}$ 是一个非时齐的 Markov 链，转移概率为
+\[
+P\{X_{n+1} = k+1 | X_n = k\} = \frac{k}{n+2}
+\]
+\[
+P\{X_{n+1} = k | X_n = k\} = \frac{n+2-k}{n+2}
+\]
+
+\end{example}
+\begin{proof}
+	显然，若 $\mu > 0 (\mu < 0)$，则 $\{S_n\}$ 是一关于 $\{\mathcal{F}_n\}$ 的下鞅（上鞅）.
+
+令 $M_n$ 表示第 $n$ 次抽取后红球所占的比例，则 $M_n = \frac{X_n}{n+2}$，并且 $\{M_n\}$ 是一个关于 $\{\mathcal{F}_n\}$ 的鞅，其中 $\mathcal{F}_n = \sigma(X_1, \cdots, X_n)$. 这是因为
+\[
+E[X_{n+1}|X_n = k] = \frac{(k+1)k}{n+2} + \frac{k(n+2-k)}{n+2} = k + \frac{k}{n+2}
+\]
+\[
+E[X_{n+1}|X_n] = X_n + \frac{X_n}{n+2} \text{ a.e.}
+\]
+
+\begin{itemize}
+    \item 对任意的 $n$，$X_n$ 关于 $\mathcal{F}_n$ 可测，故 $M_n$ 关于 $\mathcal{F}_n$ 可测. 因此 $\{M_n\}$ 关于 $\{\mathcal{F}_n\}$ 适应.
+    \item $E[|M_n|] \leq 1$.
+    \item 由于 $\{X_n\}$ 是一个 Markov 链，所以
+    \[
+    E[M_{n+1}|\mathcal{F}_n] = E[M_{n+1}|X_n] = E\left[\frac{X_{n+1}}{n+1+2}|X_n\right] = \frac{1}{n+3}E[X_{n+1}|X_n] = \frac{1}{n+3}(X_n + \frac{X_n}{n+2}) = \frac{X_n}{n+2} = M_n. \text{ a.e.}
+    \]
+\end{itemize}
+
+本例研究的模型是 Polya 首次引入的，它适用于描述群体增值和传染病的传播等现象.
+\end{proof}
+\begin{example}
+	设 $\xi$ 为一个可积随机变量，令 $X_n := E[\xi|\mathcal{F}_n]$，则 $\{X_n\}$ 为 $\{\mathcal{F}_n\}_{n \in \mathbb{N}}$-鞅.
+\end{example}
+\begin{proof}
+	\begin{itemize}
+		\item 显然由条件期望的性质可知，$X_n = E[\xi|\mathcal{F}_n]$ 关于 $\mathcal{F}_n$ 可测. 故 $\{X_n\}$ 关于 $\{\mathcal{F}_n\}$ 适应.
+		\item $E[|X_n|] = E[|E[\xi|\mathcal{F}_n]|] \leq E[E[|\xi||\mathcal{F}_n]] = E[|\xi|] < \infty$.
+		\item $E[X_{n+1}|\mathcal{F}_n] = E[E[\xi|\mathcal{F}_{n+1}]|\mathcal{F}_n] = E[\xi|\mathcal{F}_n] = X_n.$ a.e.
+	\end{itemize}
+\end{proof}
+\begin{example}
+	设 $(\xi_n)$ 为 $\mathcal{F}_n$-适应可积随机变量序列，若对任意的 $n \geq 0$，$\xi_{n+1}$ 与 $\mathcal{F}_n$ 独立。若对任意的 $n \geq 1$，$E(\xi_n) = 0 (< 0, \geq 0)$，令 $X_n := \sum_{i=0}^n \xi_i$，则 $\{X_n, n \geq 0\}$ 为 $\{\mathcal{F}_n\}$ 鞅（上，下鞅）.
+\end{example}
+\begin{proof}
+	证鞅的情形
+\begin{itemize}
+    \item 对给定的 $n$，由于每个 $\xi_i$ 关于 $\mathcal{F}_i$ 可测，且当 $i \leq n$ 时，$\mathcal{F}_i \subset \mathcal{F}_n$. 故 $X_n := \sum_{i=0}^n \xi_i$ 关于 $\mathcal{F}_n$ 可测.
+    \item $E[|X_n|] = E[\left|\sum_{i=0}^n \xi_i\right|] \leq \sum_{i=1}^n E[|\xi_i|] < \infty$.
+    \item $E[X_{n+1}|\mathcal{F}_n] = E[X_n + \xi_{n+1}|\mathcal{F}_n] = X_n + E[\xi_{n+1}|\mathcal{F}_n] = X_n.$ a.e.
+\end{itemize}
+\end{proof}
+
+
+设 $\{Y_n, n \geq 0\}$ 是马尔可夫链，具有转移概率矩阵 $P = (p_{ij})$，$f$ 满足 $f(i) \geq 0$，且 $f(i) = \sum_{j \in S} p_{ij} f(j)$，$|f(i)| < M, i \in S$。令 $X_n = f(Y_n)$，则 $\{X_n, n \geq 0\}$ 关于 $\{Y_n, n \geq 0\}$ 是鞅。
+
+$\mathcal{F}_n := \sigma(Y_i, 0 \leq i \leq n)$。$X_n$ 是 $Y_n$ 的函数，故 $X_n$ 关于 $\mathcal{F}_n$ 可测的，故 $\{X_n\}$ 关于 $\{\mathcal{F}_n\}$ 适应
+\[
+E[|X_n|] < \infty,
+\]
+
+\begin{align*}
+E[X_{n+1}|Y_0, Y_1, \ldots, Y_n] &= E[f(Y_{n+1})|Y_0, Y_1, \ldots, Y_n] \\
+&= E(f(Y_{n+1})|Y_n) \\
+&= \sum_{j \in S} f(j) P(Y_{n+1} = j|Y_n) \\
+&= \sum_{j \in S} f(j) P_{Y_n j} = f(Y_n) = X_n.
+\end{align*}
+
+\subsection{鞅的性质}
+\begin{definition}
+	对随机过程 $(X_n)_{n \geq 0}$，令
+\[
+\mathbb{F}^0(X) = (\mathcal{F}^0_n(X), n \geq 0), \mathcal{F}^0_n(X) = \sigma(X_0, X_1, \cdots, X_n), n \geq 0.
+\]
+$\mathbb{F}^0(X)$ 为 $X$ 的自然流，即使得 $X$ 适应的最小流。
+\end{definition}
+\begin{definition}
+	简称随机过程 $(X_n)_{n \geq 0}$ 为鞅（上鞅，下鞅），若 $(X_n)_{n \geq 0}$ 为 $(\mathcal{F}^0_n)_{n \in \mathbb{N}}$-鞅（上鞅，下鞅）。
+\end{definition}
+\begin{theorem}
+	设 $X = \{X_n, n \geq 0\}, Y = \{Y_n, n \geq 0\}$ 为两个 $\{\mathcal{F}_n\}$ 鞅（上鞅），则 $X + Y = \{X_n + Y_n, n \geq 0\}$ 为 $\{\mathcal{F}_n\}$ 鞅（上鞅），$X \wedge Y = \{X_n \wedge Y_n, n \geq 0\}$ 为 $\{\mathcal{F}_n\}$ 上鞅。
+\end{theorem}
+\begin{proof}
+	假设 $X = \{X_n, n \geq 0\}, Y = \{Y_n, n \geq 0\}$ 为两个 $\{\mathcal{F}_n\}$ 上鞅，只证 $X \wedge Y = \{X_n \wedge Y_n, n \geq 0\}$ 为 $\{\mathcal{F}_n\}$ 上鞅. 对任意的 $n$，
+\begin{itemize}
+    \item $(X_n \wedge Y_n)^- := \max\{-(X_n \wedge Y_n), 0\} = \max\{(-X_n) \vee (-Y_n), 0\}$
+    \item $\leq \max\{(-X_n), 0\} + \max\{(-Y_n), 0\} = X_n^- + Y_n^-$
+\end{itemize}
+故 $E[(X_n \wedge Y_n)^-] \leq E[X_n^-] + E[Y_n^-] < \infty$，
+
+对任意的 $n$，
+\begin{itemize}
+    \item $X_n \wedge Y_n = \frac{X_n + Y_n - |X_n - Y_n|}{2}$，故 $X_n \wedge Y_n$ 关于 $\mathcal{F}_n$ 可测，即 $X \wedge Y$ 关于 $\{\mathcal{F}_n\}$ 适应.
+    \item $E[X_{n+1} \wedge Y_{n+1}|\mathcal{F}_n] \leq E[X_{n+1}|\mathcal{F}_n] \wedge E[Y_{n+1}|\mathcal{F}_n] \leq X_n \wedge Y_n$ a.e.
+\end{itemize}
+\end{proof}
+\begin{theorem}
+	设 $X = \{X_n, n \geq 0\}, Y = \{Y_n, n \geq 0\}$ 为两个 $\{\mathcal{F}_n\}$ 上鞅，$a, b$ 为两个正数，则 $\{aX_n + bY_n, n \geq 0\}$ 为 $\{\mathcal{F}_n\}$ 上鞅。
+\end{theorem}
+\begin{theorem}
+	设 $f$ 为 $(a, b) \subset (-\infty, +\infty)$ 上的连续有限凸函数，$X$ 为取值 $(a, b)$ 的可积随机变量，则有
+\[
+f(E[X]) \leq E[f(X)]. 
+\]
+\end{theorem}
+\begin{theorem}
+	若 $X$ 及 $f(X)$ 为可积随机变量，$f(x)$ 为 $\mathbb{R}$ 上的有限连续凸函数，则
+	\[
+	f(E[X|\mathscr{F}_0]) \leq E[f(X)|\mathscr{F}_0] 
+	\]
+	\[
+	(E[X])^2 \leq E[X^2]. (E[X|\mathscr{F}_0])^2 \leq E[X^2|\mathscr{F}_0].
+	\]
+\end{theorem}
+\begin{definition}
+	设 $f$ 为定义在区间 $I$ 上的函数，若对 $I$ 上的任意两点 $x_1, x_2$ 和任意的实数 $\lambda \in (0, 1)$，总有 $f(\lambda x_1 + (1-\lambda)x_2) \leq \lambda f(x_1) + (1-\lambda)f(x_2)$ 则称为 $I$ 上的凸函数。
+
+
+\end{definition}
+判定方法可利用定义法以及函数的二阶导数 
+
+对于实数集上的凸函数，一般的判别方法是求它的二阶导数，如果其二阶导数在区间上非负，就为凸函数。
+\begin{theorem}
+	若 $X = \{X_n, n \geq 0\}$ 为 $\{\mathcal{F}_n\}_{n \in \mathbb{N}}$-鞅（下鞅），$f$ 为 $\mathbb{R}$ 上的连续凸（凸增）函数。若 $f(X_n)$ 可积 $(\forall n \geq 0)$，则 $\{f(X_n), n \geq 0\}$ 为 $\{\mathcal{F}_n\}_{n \in \mathbb{N}}$-下鞅。
+
+\end{theorem}
+\begin{proof}
+	只证下鞅的情形：
+\begin{itemize}
+    \item 由 $\{X_n\}$ 为下鞅，$f(X_n)$ 关于 $\mathcal{F}_n$ 可测，故 $\{f(X_n)\}$ 关于 $\{\mathcal{F}_n\}$ 适应.
+    \item $E[|f(X_n)|] < \infty$.
+    \item 由于 $f$ 凸增函数，$f(X_n) \leq f(E[X_{n+1}|\mathcal{F}_n]) \leq E[f(X_{n+1})|\mathcal{F}_n]$ a.e.
+\end{itemize}
+\end{proof}
+\begin{corollary}
+	设 $X = \{X_n, n \geq 0\}$ 为 $\{\mathcal{F}_n\}_{n \in \mathbb{N}}$-下鞅，$X \vee a := \{X_n \vee a, n \geq 0\}$ 为 $\{\mathcal{F}_n\}_{n \in \mathbb{N}}$-下鞅. 特别地 $a = 0$ 时，$X^+ := \{X_n^+, n \geq 0\}$ 为 $\{\mathcal{F}_n\}_{n \in \mathbb{N}}$-下鞅.
+
+\end{corollary}
+\begin{proof}
+	任取 $0 \leq \lambda \leq 1$，$x, y$，则可知
+\[
+\lambda (x \vee a) + (1 - \lambda)(y \vee a) = (\lambda x \vee a) + [(1 - \lambda)y \vee (1 - \lambda)a]
+\]
+\[
+\geq [ \lambda x + (1 - \lambda)y] \vee a
+\]
+综合可知 $x \vee a$ 为一个凸函数.
+\end{proof}
+\begin{definition}
+	若 $X = \{X_n, n \geq 0\}$ 为 $\{\mathcal{F}_n\}_{n \in \mathbb{N}}$-鞅（上，下鞅），若 $X_n \in L^p(\Omega, \mathcal{F}, P) (p \geq 1)$，则称 $X = \{X_n, n \geq 0\}$ 为 $\{\mathcal{F}_n\}_{n \in \mathbb{N}}$-$L^p$ 鞅（上，下鞅）。若 $X = \{X_n, n \geq 0\}$ 满足 $\sup_n E[|X_n|^p] < \infty$，则称为 $\{\mathcal{F}_n\}_{n \in \mathbb{N}}$-$L^p$ 有界鞅（上，下鞅）。
+\end{definition}
+\begin{corollary}
+	设 $X = \{X_n, n \geq 0\}$ 为 $\{\mathcal{F}_n\}_{n \in \mathbb{N}}$-$L^p$ 鞅，$|X|^p := \{|X_n|^p, n \geq 0\}$ 为下鞅。
+
+\end{corollary}
+\begin{proof}
+	当 $p = 1$ 时，任取 $x, y$ 以及 $0 \leq \lambda \leq 1$ 可知，
+\[
+|\lambda x + (1 - \lambda)y| \leq \lambda |x| + (1 - \lambda)|y|, \text{ 故此时为凸函数.}
+\]
+当 $p > 1$ 时，求二阶导数，可知任意点二阶导数非负，故仍为凸函数.
+\end{proof}
+\begin{definition}
+	随机序列 $X = \{X_n, n \geq 0\}$ 称为 $\{\mathcal{F}_n\}_{n \in \mathbb{N}}$-可料的，如果 $X_0$ 为 $\mathcal{F}_0$-可测，且对任意的 $n \geq 1$，$X_n$ 为 $\mathcal{F}_{n-1}$ 可测的. 
+$A = \{A_n, n \geq 0\}$ 称为增序列，如果对任意的 $n \geq 0$，$0 \leq A_n \leq A_{n+1}$ a.s.. 定义 $A_\infty := \lim_{n \to \infty} A_n$，增序列 $\{A_n\}$ 称为可积的，若 $E[A_\infty] < \infty$.
+
+\end{definition}
+\begin{theorem}
+	设 $X = \{X_n, n \geq 0\}$ 为一 $\{\mathcal{F}_n\}_{n \in \mathbb{N}}$ 下鞅，则 $X$ 可唯一的分解为 $X_n = M_n + A_n$，其中 $\{M_n, n \geq 0\}$ 为一 $\{\mathcal{F}_n\}_{n \in \mathbb{N}}$ 鞅，$\{A_n, n \geq 0\}$ 为一 $\{\mathcal{F}_n\}_{n \in \mathbb{N}}$ 可料增过程，且 $A_0 = 0$，称为 $X$ 的 \textit{Doob}-分解.
+\end{theorem}
+
+\section{停时和鞅的停时定理}
+N := 非负整数全体, $\overline{\mathbb{N}} := \mathbb{N} \cup \{\infty\}$, 本节假定所有r.v. 均定义在同一个带流的概率空间$(\Omega, \mathcal{F}, (\mathcal{F}_n), P)$上.
+\begin{definition}
+	在$\mathbb{N}$中取值的随机变量$T$叫做$\mathcal{F}_n$-停时(或可选时), 若对任意的$n \geq 0$有$\{\omega | T(\omega) = n\} \in \mathcal{F}_n$或等价的$\{\omega | T(\omega) \leq n\} \in \mathcal{F}_n$.
+\end{definition}
+\begin{lemma}
+	设$T$是取值于$\{0, 1, 2, \cdots, \infty\}$的随机变量，则下述三者等价
+\begin{enumerate}
+    \item 对任意的$n$, $\{T = n\} \in \mathcal{F}_n$;
+    \item 对任意的$n$, $\{T \leq n\} \in \mathcal{F}_n$;
+    \item 对任意的$n$, $\{T > n\} \in \mathcal{F}_n$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+	只要注意到如下等式，即可证明(1),(2),(3)的等价性。
+
+\begin{align*}
+\{T \leq n\} &= \bigcup_{k=0}^{n} \{T = k\} \\
+\{T > n\} &= \Omega - \{T \leq n\} \\
+\{T = n\} &= \{T \leq n\} - \{T \leq n-1\}
+\end{align*}
+\end{proof}
+
+
+由定义我们知道事件$\{T = n\}$或$\{T \neq n\}$都应该由$n$时刻及其之前的信息完全确定，而不需要也无法借助将来的情况。仍然回到公平博弈的例子，赌博者决定何时停止赌博只能以他已经赌过的结果为依据，而不能说，如果我下一次要输我现在就停止赌博，这是对停止时刻$T$的第一个要求：它必须是一个停时。
+
+显然$T = n$是停时。
+
+对任意的$k$
+\[
+\{T = k\} = 
+\begin{cases} 
+\Omega & \text{若 } n = k \\
+\emptyset & \text{若 } n \neq k 
+\end{cases}
+\]
+则$T$为停时。
+
+\begin{example}[首达时]
+	$\{X_n, n \geq 0\}$是一个随机变量序列，$A$是一个事件集，令
+\[
+T(A) = \inf\{n, X_n \in A\}, \text{并约定 } T(\emptyset) = \inf\{n, X_n \in \emptyset\} = \infty,
+\]
+可见$T(A)$是$\{X_n, n \geq 0\}$首次进入$A$(即发生了$A$中所含事件)的时刻，称$T(A)$是$\{X_n, n \geq 0\}$到集合$A$的首达时，可以证明$T(A)$是关于$\{X_n, n \geq 0\}$的停时。事实上
+\[
+\{T(A) = n\} = \{X_0 \notin A, X_1 \notin A, \cdots, X_{n-1} \notin A, X_n \in A\}
+\]
+显然$\{T(A) = n\}$完全由$X_0, X_1, \cdots, X_n$决定，从而$T(A)$是关于$\{\mathcal{F}_n\}$的停时，其中$\mathcal{F}_n := \sigma(X_0, X_1, \ldots, X_n)$。
+\end{example}
+\begin{example}
+	设$\{X_n, n \geq 0\}$为关于$\{\mathcal{F}_n\}$适应的随机变量序列，$B \in \mathbb{B}(\mathbb{R})$，$S$为停时，令$A := \{m: m \geq S(\omega), X_m(\omega) \in B\}$
+
+\[
+T(\omega) = 
+\begin{cases} 
+\inf\{m: m \geq S(\omega), X_m(\omega) \in B\} & \text{若} A \neq \emptyset \\
+\infty & \text{若} A = \emptyset 
+\end{cases}
+\]
+
+则$T$为$\{\mathcal{F}_n\}$停时。
+\end{example}
+\begin{proof}
+	当$S = k < n = T$时，即$\bigcap\limits_{k \leq m < n} \{X_m \in B^c\} \cap \{X_n \in B\} \in \mathcal{F}_n$。故把$S$的所有可能性都考虑，
+
+\[
+\{T = n\} = \bigcup_{k=0}^{n} \left[ \{S = k\} \bigcap_{k \leq m < n} \{X_m \in B^c\} \cap \{X_n \in B\} \right] \subseteq \mathcal{F}_n
+\]
+\end{proof}
+设$T$为$\{\mathcal{F}_n\}$-停时，令$\mathcal{F}_T := \{A \in \mathcal{F}_\infty | \forall n \geq 0, A \cap \{T \leq n\} \in \mathcal{F}_n\}$称为$T$前事件$\sigma$-域。
+
+显然$\mathcal{F}_T := \{A \in \mathcal{F}_\infty | \forall n \geq 0, A \cap \{T = n\} \in \mathcal{F}_n\}$。
+
+$\mathcal{F}_T$为$\sigma$-代数。且当$T = t$时，$\mathcal{F}_T = \mathcal{F}_t$。
+\begin{theorem}
+	设$S, T$为$\{\mathcal{F}_n\}$停时，$(S_k)$为$\{\mathcal{F}_n\}$停时列。
+\begin{enumerate}
+    \item $\bigwedge_k S_k, \bigvee_k S_k$为$\{\mathcal{F}_n\}$停时。
+    \item $S \leq T$，则有$\mathcal{F}_S \subset \mathcal{F}_T$。
+\end{enumerate}
+其中$\bigwedge_k S_k := \min_k \{S_k\}, \bigvee_k S_k := \max_k \{S_k\}$。
+\end{theorem}
+\begin{theorem}
+	设$S, T$为$\{\mathcal{F}_n\}$停时，$(S_k)$为$\{\mathcal{F}_n\}$停时列。
+\begin{enumerate}
+    \item $\bigwedge_k S_k, \bigvee_k S_k$为$\{\mathcal{F}_n\}$停时。
+    \item $S \leq T$，则有$\mathcal{F}_S \subset \mathcal{F}_T$。
+\end{enumerate}
+
+\end{theorem}
+\begin{proof}
+	\begin{enumerate}
+		\item 对任意的$n$，$\{\bigwedge_k S_k > n\} = \bigcap_k \{S_k > n\} \in \mathcal{F}_n$，$\{\bigvee_k S_k \leq n\} = \bigcap_k \{S_k \leq n\} \in \mathcal{F}_n$。
+		\item 对任意的$A \in \mathcal{F}_S$，则$A \in \mathcal{F}_\infty$，
+		\[
+		A \cap \{T \leq n\} = A \cap \{S \leq n\} \cap \{T \leq n\} \in \mathcal{F}_n
+		\]
+		故$A \in \mathcal{F}_T$。
+	\end{enumerate}
+\end{proof}
+\begin{theorem}
+	设$\{X_n, n \geq 0\}$为一$\{\mathcal{F}_n\}_{n \in \mathbb{N}}$鞅（上鞅，下鞅），$S, T$为两个$\{\mathcal{F}_n\}_{n \in \mathbb{N}}$有界停时，且$S \leq T$，则$E[X_T \mid \mathcal{F}_S] = X_S (\leq X_S, \geq X_S)$ a.e.
+\end{theorem}
+\begin{theorem}
+	设$\{X_n, n \geq 0\}$为一$\{\mathcal{F}_n\}_{n \in \mathbb{N}}$鞅，$T$为$\{\mathcal{F}_n\}_{n \in \mathbb{N}}$停时，且满足
+\begin{enumerate}
+    \item $P(T < \infty) = 1$；
+    \item $E[|X_T|] < \infty$；
+    \item $\lim_{n \to \infty} E[|X_n I_{\{T > n\}}|] = 0$。
+\end{enumerate}
+则$E[X_T] = EX_0$。
+\end{theorem}
+\begin{example}
+	质点在$\{0, 1, 2, \ldots, N\}$上作带吸收壁的随机游动：当质点移动到状态$0, N$时就永远停留在该位置，即$p_{00} = 1, p_{NN} = 1$。质点到达某个状态后，下次向右移动一步的概率是$\frac{1}{2}$，向左移动一步的概率是$\frac{1}{2}$。$X_0 = a$表示初始状态，$X_n$表示质点在时间$n$的状态。假设初始状态与每次移动相互独立。则$\{X_n\}$是马氏链，且是一个$\{\mathcal{F}_n\}$鞅。令$T = \min\{j: X_j = 0 \text{ 或 } X_j = N\}$，则$T$是一个$\{\mathcal{F}_n\}$停时，其中$\mathcal{F}_n := \sigma(X_0, X_1, \ldots, X_n)$。求$P(X_T = N | X_0 = a)$。
+\end{example}
+\begin{proof}
+	\begin{itemize}
+		\item 对任意的$n$，显然$X_n$关于$\mathcal{F}_n$可测。
+		\item $E[|X_n|] \leq N < \infty$。
+	\end{itemize}
+	\[
+	E[X_{n+1} | \mathcal{F}_n] = E[X_{n+1} | X_n] = 
+	\begin{cases} 
+	\frac{1}{2}(X_n + 1) + \frac{1}{2}(X_n - 1) = X_n & \text{if } X_n \neq 0, N \\
+	X_n & \text{if } X_n = 0, N 
+	\end{cases}
+	\]
+	
+	由于$A := \{1, 2, \ldots, N-1\}$为非常返等价类，$C := \{0, N\}$为常返状态全体。由马氏链结论可知$A$中的状态一定走出$A$进入$C$中，故$P(T < \infty) = 1$。$E[|X_T|] \leq N$。由于$T < \infty$ a.e. 故$I_{\{T > n\}} \rightarrow 0$ (as $n \rightarrow \infty$)。且$|X_n I_{\{T > n\}}| \leq N$，由控制收敛定理可知$\lim_{n \to \infty} E[|X_n I_{\{T > n\}}|] = 0$。
+	
+	由停止定理可知$E(X_T) = E(X_0) = a$。此时$X_T$只取$N, 0$两个值，有$E(X_T) = N \cdot P(X_T = N | X_0 = a) + 0 \cdot P(X_T = 0 | X_0 = a)$，故$P(X_T = N | X_0 = a) = \frac{E(X_T)}{N} = \frac{a}{N}$。
+\end{proof}
+\begin{theorem}
+	设$\{X_n, n \geq 0\}$为一$\{\mathcal{F}_n\}_{n \in \mathbb{N}}$鞅（下鞅），$m \geq 0$。则对任意的$\lambda > 0$有
+\begin{enumerate}
+    \item $\lambda P(\sup_{0 \leq n \leq m} X_n \geq \lambda) \leq E[X_m I_{\{\max_{0 \leq n \leq m} X_n \geq \lambda\}}] \leq E[X_m^+]$
+    \item $\lambda P(\inf_{0 \leq n \leq m} X_n \leq -\lambda) \leq E[|X_m|] + E[|X_0|]$
+    \item 若$p \geq 1$且$X$为$L^p$鞅，则有
+    \[
+    P(\max_{0 \leq n \leq m} |X_n| \geq \lambda) \leq \lambda^{-p} E[|X_m|^p].
+    \]
+    \item 若$p > 1$，$q$为其共轭指数$(\frac{1}{p} + \frac{1}{q} = 1)$，则有
+    \[
+    E(\max_{0 \leq n \leq m} |X_n|^p) \leq q^p E[|X_m|^p]
+    \]
+\end{enumerate}
+\end{theorem}
+\section{鞅收敛定理}
+T = $\mathbb{R}_+ := [0, \infty)$. 本节假定所有r.v. 均定义在同一个带流的概率空间 $(\Omega, \mathcal{F}, P)$ 上.
+\begin{definition}
+	称 $\mathcal{F}$ 的子 $\sigma$-域序列 $\{\mathcal{F}_t, t \in \mathbb{R}_+\}$ 为一个流，若 $\forall 0 \leq s < t$ 有 $\mathcal{F}_s \subseteq \mathcal{F}_t$. 记 $\mathcal{F}_\infty = \bigvee_{t \geq 0} \mathcal{F}_t$,
+\[
+\mathcal{F}_{t^+} = \bigcap_{s > t} \mathcal{F}_s, t \geq 0, \mathcal{F}_{t^-} = \bigvee_{s < t} \mathcal{F}_s = \sigma(\bigcup_{s < t} \mathcal{F}_s), t \geq 0.
+\]
+一个流 $\{\mathcal{F}_t, t \in \mathbb{R}_+\}$ 称为右连续的，若 $\forall t \geq 0$ 有 $\mathcal{F}_t = \mathcal{F}_{t^+}$.
+\end{definition}
+\begin{definition}
+	设 $X = (X(t, \cdot), t \in \mathbb{R}_+)$ 为随机过程，对每个固定的 $t$，$X(t, \cdot)$ 为一个随机变量；而对每个固定的 $\omega \in \Omega$，$X(\cdot, \omega)$ 是关于 $t \in T$ 的映射，称 $X(\cdot, \omega)$ 为样本轨道（或样本函数，一个实现）。若 $X$ 的全部轨道是连续的（右连续的，左连续的），则称 $X$ 为连续（右连续，左连续）过程。如果 $X$ 的全部轨道是右连续并有左极限的。（简称右连左极）。
+\end{definition}
+\begin{theorem}
+	设 $(X_t, t \geq 0)$ 为一 $(\mathcal{F}_t)_{t \in \mathbb{R}_+}$ 右连续下鞅。则对任意的 $\lambda > 0$，$s_0 \leq t_0 \in T$ 有
+\begin{enumerate}
+    \item $\lambda P(\sup_{s_0 \leq t \leq t_0} X_t \geq \lambda) \leq E[X_{t_0} I_{\{\sup_{s_0 \leq t \leq t_0} X_t \geq \lambda\}}] \leq E[X_{t_0}^+]$
+    \item $\lambda P(\sup_{s_0 \leq t \leq t_0} X_t > \lambda) \leq E[X_{t_0} I_{\{\sup_{s_0 \leq t \leq t_0} X_t > \lambda\}}] \leq E[X_{t_0}^+]$
+    \item $\lambda P(\inf_{s_0 \leq t \leq t_0} X_t \leq -\lambda) \leq E[|X_{t_0}|] + E[|X_{s_0}|]$
+    \item $\lambda P(\inf_{s_0 \leq t \leq t_0} X_t < -\lambda) \leq E[|X_{t_0}|] + E[|X_{s_0}|]$
+    \item 若 $p \geq 1$ 且 $X$ 为 $L^p$ 鞅，则有
+    \[
+    P(\sup_{0 \leq t \leq u} |X_t| \geq \lambda) \leq \lambda^{-p} E[|X_u|^p].
+    \]
+    \item 若 $p > 1$，$q$ 为其共轭指数，则有
+    \[
+    E(\sup_{0 \leq t \leq u} |X_t|^p) \leq q^p E[|X_u|^p].
+    \]
+\end{enumerate}
+\end{theorem}
+\begin{definition}
+	两个定义在同一个概率空间上具有同一个状态空间的随机过程$X, X'$称为互为修正，如果对任意的$t \in T$，$X_t = X'_t$ a.s. 即对任意的$t \in T$，$P(X_t = X'_t) = 1$。
+\end{definition}
+\begin{definition}
+	设$X := (X(t, \omega), t \geq 0), Y := (Y(t, \omega), t \geq 0)$为两个随机过程，称$X, Y$无区别，若对几乎所有的$\omega$，轨道$X(\cdot, \omega), Y(\cdot, \omega)$一致。即$P(X(t, \omega) = Y(t, \omega), \forall t \in T) = 1$。
+\end{definition}
+\begin{theorem}
+	设$(X_t, t \geq 0)$为一$(\mathcal{F}_t)_{t \in \mathbb{R}_+}$下鞅，则$X$存在右连左极修正的充分必要条件是：$E[X_t]$作为$t$的函数在$\mathbb{R}_+$上右连续。特别的，一切鞅存在右连左极的修正。
+\end{theorem}
 \end{document}
+
