@@ -3018,5 +3018,528 @@ T = $\mathbb{R}_+ := [0, \infty)$. 本节假定所有r.v. 均定义在同一个�
 \begin{theorem}
 	设$(X_t, t \geq 0)$为一$(\mathcal{F}_t)_{t \in \mathbb{R}_+}$下鞅，则$X$存在右连左极修正的充分必要条件是：$E[X_t]$作为$t$的函数在$\mathbb{R}_+$上右连续。特别的，一切鞅存在右连左极的修正。
 \end{theorem}
+\chapter{布朗运动}
+\section{布朗运动定义}
+我们从讨论简单的随机游动开始。设有一个粒子在直线上随机游动，在每个单位时间内等可能地向左或向右移动一个单位的长度。现在加速这个过程，在越来越小的时间间隔中走越来越小的步子。若能以正确的方式趋于极限，我们就得到Brown运动。详细地说就是令此过程每隔$\Delta t$时间等概率地向左或向右移动$\Delta x$的距离，如果以$X(t)$记时刻$t$粒子的位置，则
+\begin{equation}\label{eq:1.1}
+X(t) = \Delta x (X_1 + \cdots + X_{[t/\Delta t]})
+\end{equation}
+其中$[t/\Delta t]$表示$t/\Delta t$的整数部分，其中
+\[
+X_i = \begin{cases} 
++1, & \text{如果第$i$步向右} \\
+-1, & \text{如果第$i$步向左}
+\end{cases}
+\]
+且假设诸$X_i$相互独立
+\[
+P\{X_i = 1\} = P\{X_i = -1\} = \frac{1}{2}
+\]
+由于$E[X_i] = 0$，$Var[X_i] = E[X_i^2] = 1$及\ref{eq:1.1}，我们有$E[X(t)] = 0$，$Var[X(t)] = (\Delta x)^2[t/\Delta t]$。现在要令$\Delta x$和$\Delta t$趋于零，并使得极限有意义。如果取$\Delta x = \Delta t$，令$\Delta t \to 0$，则$Var[X(t)] \to 0$，从而$X(t) = 0$，a.s.如果取$\Delta t = (\Delta x)^3$，则$Var[X(t)] \to \infty$，这是不合理的。因为粒子的运动是连续的，不可能在很短时间内远离出发点。因此，我们作下面的假设：$\Delta x = \sigma \sqrt{\Delta t}$，$\sigma$为某个正常数，从上面的讨论可见，当$\Delta t \to 0$时，$E[X(t)] = 0$，$Var[X(t)] \to \sigma^2 t$。
+
+下面来看这一极限过程的一些直观性质。由式(1.1)及中心极限定理可得：
+\begin{enumerate}
+    \item $X(t)$服从均值为0，方差为$\sigma^2 t$的正态分布。此外，由于随机游动的值在不相重叠的时间区间中的变化是独立的，所以有
+    \item $\{X(t), t \geq 0\}$有独立增量。又因为随机游动在任一时间区间中的位置变化的分布只依赖于区间的长度，可见
+    \item $\{X(t), t \geq 0\}$有平稳增量。
+\end{enumerate}
+
+本节假设 $\mathcal{T} := [0, \infty)$,
+\begin{definition}
+	如果对任何 $t_1, t_2, \cdots t_n \in \mathcal{T}, t_1 < t_2 < \cdots < t_n$ 随机变量 $X(t_2) - X(t_1), \cdots, X(t_n) - X(t_{n-1})$ 是相互独立的，则称 $X(t)$ 为\textbf{独立增量过程}。如果对任何 $t_1, t_2$，有 $X(t_1 + h) - X(t_1) \overset{d}{=} X(t_2 + h) - X(t_2)$，则称 $\{X(t), t \in \mathcal{T}\}$ 为是\textbf{平稳增量过程}。兼有独立增量和平稳增量的过程称为\textbf{平稳独立增量的过程}。
+\end{definition}
+
+本节假定所有r.v. 均定义在同一个概率空间 $(\Omega, \mathcal{F}, P)$ 上。
+\begin{definition}
+	若一个随机过程 $\{X(t), t \geq 0\}$ 满足
+\begin{enumerate}
+    \item $X(t)$ 是独立增量过程；
+    \item $\forall s, t > 0$, $X(t+s) - X(s) \sim N(0, \sigma^2 t)$；其中 $\sigma$ 为给定的常数.
+    \item $X(t)$ 关于 $t$ 是连续函数. 则称其为布朗运动.
+\end{enumerate}
+\end{definition}
+\begin{remark}
+	若 $\sigma = 1$，$\{X(t), t \geq 0\}$ 为标准布朗运动。即 $X(0) = 0$，$X(t+s) - X(s) \sim N(0, t)$.
+\end{remark}
+本章讨论标准布朗运动，即 $\{B(t), t \geq 0\}$。则在t时刻$B(t) = B(t) - B(0)$的概率密度函数为
+\[
+f(x,t) = \frac{1}{\sqrt{2\pi t}} \mathbf{e}^{-\frac{x^2}{2t}}.
+\]
+
+\begin{example}
+	设 $\{B(t), t \geq 0\}$ 为标准布朗运动，$B(0) = 0$。求
+\begin{enumerate}
+    \item $P(B(2) \leq 0)$
+    \item $P(B(t) \leq 0; t = 0, 1, 2)$
+\end{enumerate}
+
+\end{example}
+
+\begin{proof}
+	(1) $P(B(2) \leq 0) = \frac{1}{2}$.
+
+(2).
+\begin{align*}
+P(B(t) \leq 0; t = 0, 1, 2) &= P\{B(1) \leq 0, B(2) \leq 0\} \\
+&= P\{B(1) \leq 0, B(1) + (B(2) - B(1)) \leq 0\} \\
+&= P\{B(1) \leq 0, B(2) - B(1) \leq -B(1)\} \\
+&= E\left[\mathbf{1}_{(-\infty,0]}(B(1)) \mathbf{1}_{(-\infty,-B(1))}(B(2) - B(1))\right] \\
+&= E\left[E\left[\mathbf{1}_{(-\infty,0]}(B(1)) \mathbf{1}_{(-\infty,-B(1))}(B(2) - B(1)) \mid B(1)\right]\right] \\
+&= E\left[\mathbf{1}_{(-\infty,0]}(B(1)) E\left[\mathbf{1}_{(-\infty,-B(1))}(B(2) - B(1)) \mid B(1)\right]\right] \\
+&= E\left[\mathbf{1}_{(-\infty,0]}(B(1)) P(B(2) - B(1) \leq -x) \bigg|_{x = B(1)}\right] \\
+&= \int_{-\infty}^{+\infty} \mathbf{1}_{(-\infty,0)}(x) P\{B(2) - B(1) \leq -x\} f(x) dx
+\end{align*}
+其中 $f(x)$ 为标准正态的密度函数，$\Phi(x)$ 为标准正态的分布函数。
+
+\begin{align*}
+P\{B(1) \leq 0, B(2) \leq 0\} &= P\{B(1) \leq 0, B(1) + (B(2) - B(1)) \leq 0\} \\
+&= P\{B(1) \leq 0, B(2) - B(1) \leq -B(1)\} \\
+&= \int_{-\infty}^{0} P\{B(2) - B(1) \leq -x\} f(x) dx \\
+&= \int_{-\infty}^{0} \Phi(-x) f(x) dx \\
+&= \int_{0}^{\infty} \Phi(x) f(-x) dx = \int_{0}^{\infty} \Phi(x) f(x) dx \\
+&= \int_{0}^{\infty} \Phi(x) d\Phi(x) = \int_{\frac{1}{2}}^{1} y dy = \frac{3}{8}.
+\end{align*}
+其中 $f(x)$ 为标准正态的密度函数。
+\end{proof}
+\begin{theorem}
+	设 $(\Omega, \mathcal{F}, P)$ 为概率空间，$\mathcal{G}$ 为 $\mathcal{F}$ 的一个子 $\sigma$ 代数；$(S, \mathcal{S})$ 和 $(E, \mathcal{E})$ 为可测空间，$X$ 为一 $\mathcal{G}$ 可测 $S$ 值随机元，$Y$ 为一 $E$ 值随机元。假定 $Y$ 和 $\mathcal{G}$ 独立。令 $g(x, y)$ 为 $S \times E$ 上的 $S \times \mathcal{E}$ 可测函数，使得 $E[|g(X, Y)|] < \infty$，则 $E[g(X, Y) \mid \mathcal{G}] = E[g(x, Y) \mid_{x = X}]$。
+\end{theorem}
+设 $X = (X_1, X_2, \cdots, X_n)$ 有联合密度 $f_X(x_1, x_2, \cdots, x_n)$，$n$ 元可测函数 $y = (y_1, \cdots, y_n)$，其中 $y_i(x_1, \cdots, x_n), i = 1, \cdots, n$ 满足：
+\begin{itemize}
+    \item 除 $\mathbb{R}^n$ 中的 $L$-零测集 $N$ 外，存在至多可数个两两不交的可求积区域 $\{D_{x^k}\}_{k \geq 1}$，使 $\mathbb{R}^n - N = \sum_{k=1}^{\infty} D_{x^k}$，
+    \item 对一切 $k$，函数 $y$ 把 $D_{x^k}$ 中的点一对一地映射到可求积区域 $D_{y^k}$ 上，
+    \item 在每一个 $D_{x^k}$ 上，$y$ 的逆映射为 $x^{(k)} = (x_1^{(k)}, \cdots, x_n^{(k)})$，其中 $x_i^{(k)} = x_i^{(k)}(y_1, \cdots, y_n), i = 1, \cdots, n$ 是 $D_{y^k}$ 上的连续函数，且有连续的偏导数，函数行列式 $J_k(y_1, \cdots, y_n) = \frac{D(x_1, \cdots, x_n)}{D(y_1, \cdots, y_n)} \neq 0$。
+\end{itemize}
+若 $\eta = (\eta_1, \cdots, \eta_n)$，其中 $\eta_i = y_i(X_1, \cdots, X_n), i = 1, \cdots, n$，则 $\eta$ 是连续型随机变量，其密度函数为
+\[
+f_{\eta}(y_1, \cdots, y_n) = \sum_{k=1}^{\infty} |_{D_{y^k}}(y_1, \cdots, y_n) f_X(x_1^{(k)}(y_1, \cdots, y_n), \cdots, x_n^{(k)}(y_1, \cdots, y_n)) |J_k|
+\]
+\begin{theorem}
+	设 $B(0) = 0$，$\{B(t), t \geq 0\}$ 为标准布朗运动。令 $x_0 = 0, t_0 = 0$，则当 $B(0) = 0$ 时，$\forall 0 < t_1 < t_2 < \cdots < t_n$，$(B(t_1), B(t_2), \ldots, B(t_n))$ 的联合密度函数为
+\begin{align*}
+f_{B(t_1), \ldots, B(t_n)}(x_1, x_2, \ldots, x_n; t_1, t_2, \ldots, t_n) &= \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi(t_i - t_{i-1})}} \exp\left\{-\frac{(x_i - x_{i-1})^2}{2(t_i - t_{i-1})}\right\} \\
+&= \prod_{i=1}^{n} p(x_i - x_{i-1}, t_i - t_{i-1})
+\end{align*}
+
+即对任意的 $F_k \in \mathcal{B}(\mathbb{R}), k = 1, 2, \ldots, n$，
+\[
+P^X(B(t_1) \in F_1, B(t_2) \in F_2, \ldots, B(t_n) \in F_n) = \int_{F_1} p(t_1, x_1) \int_{F_2} p(t_2 - t_1, x_2 - x_1) \cdots \int_{F_n} p(t_n - t_{n-1}, x_n - x_{n-1}) dx_1 dx_2 \ldots dx_n.
+\]
+\end{theorem}
+\begin{proof}
+	令 $Y_1 = B(t_1)$, $Y_i = B(t_i) - B(t_{i-1})$，则有 $B(t_i) = \sum_{k=1}^{i} Y_k$。
+令 $y_1 = x_1, y_i = x_i - x_{i-1}$，则 $x_i = \sum_{k=1}^{i} y_k$。故 $Y_i$ 独立同分布，服从 $N(0, t_i - t_{i-1})$。
+
+\[
+f_{Y_1, Y_2, \ldots, Y_n}(y_1, y_2, \ldots, y_n) = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi(t_i - t_{i-1})}} \exp\left(-\frac{y_i^2}{2(t_i - t_{i-1})}\right)。
+\]
+故对应的雅克比行列式为
+\[
+J = \left| \frac{\partial y}{\partial x} \right| = \begin{vmatrix}
+1 & 0 & 0 & \cdots & 0 & 0 \\
+-1 & 1 & 0 & \cdots & 0 & 0 \\
+0 & -1 & 1 & \cdots & 0 & 0 \\
+\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+0 & 0 & 0 & \cdots & 1 & 0 \\
+0 & 0 & 0 & \cdots & -1 & 1 \\
+\end{vmatrix}
+\]
+
+\[
+f_{Y_1, Y_2, \ldots, Y_n}(y_1, y_2, \ldots, y_n) = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi(t_i - t_{i-1})}} \exp\left(-\frac{y_i^2}{2(t_i - t_{i-1})}\right)。
+\]
+故对应的雅克比行列式为
+\[
+J = \begin{bmatrix}
+1 & 0 & 0 & \cdots & 0 & 0 \\
+-1 & 1 & 0 & \cdots & 0 & 0 \\
+0 & -1 & 1 & \cdots & 0 & 0 \\
+\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+0 & 0 & 0 & \cdots & 1 & 0 \\
+0 & 0 & 0 & \cdots & -1 & 1 \\
+\end{bmatrix}
+\]
+
+\[
+f(x_1, x_2, \ldots, x_n) = \frac{1}{\sqrt{2\pi t_1}} \exp\left(-\frac{x_1^2}{2t_1}\right) \cdot \prod_{i=2}^{n} \frac{1}{\sqrt{2\pi(t_i - t_{i-1})}} \exp\left(-\frac{(x_i - x_{i-1})^2}{2(t_i - t_{i-1})}\right)
+\]
+\end{proof}
+
+设 $B(0) = 0$，$\{B(t), t \geq 0\}$ 为标准布朗运动。则当 $B(0) = 0$ 时，$\forall 0 < t_1 < t_2$，$(B(t_1), B(t_2))$ 的联合密度函数为
+\begin{align*}
+f_{B(t_1), B(t_2)}(x_1, x_2) &= \frac{1}{\sqrt{2\pi t_1}} \exp\left(-\frac{x_1^2}{2t_1}\right) \cdot \frac{1}{\sqrt{2\pi(t_2 - t_1)}} \exp\left(-\frac{(x_2 - x_1)^2}{2(t_2 - t_1)}\right)
+\end{align*}
+
+\begin{remark}
+
+	在 $B(t_1) = x_1$ 条件下，$B(t_2)$ 条件概率密度为
+\[
+f(x_2 \mid x_1, t_2 - t_1) = \frac{1}{\sqrt{2\pi(t_2 - t_1)}} \exp\left\{-\frac{(x_2 - x_1)^2}{2(t_2 - t_1)}\right\}
+\]
+故在 $B(t_1) = x_1$ 条件下 $B(t_1 + t)$ 条件概率密度为
+\[
+f(x \mid x_1, t) = \frac{1}{\sqrt{2\pi t}} \exp\left\{-\frac{(x - x_1)^2}{2t}\right\}
+\]
+\[
+P(B(t + t_0) > x_0 \mid B(t_0) = x_0) = P(B(t + t_0) \leq x_0 \mid B(t_0) = x_0) = \frac{1}{2}.
+\]
+即在给定初始条件 $B(t_0) = x_0$ 下，$\forall t > 0$，$t_0 + t$ 时刻高或低于初始时刻概率相等均为 $1/2$。
+\end{remark}
+
+\begin{enumerate}
+    \item 若 $X \sim N(\mu, \sigma^2)$，则 $Z = \frac{X - \mu}{\sigma} \sim N(0, 1)$，即 $X = \mu + \sigma Z$。
+    \item 若 $X = (X_1, X_2, \ldots, X_n)' \sim N(\bar{\mu}, \Sigma)$，其中 $\bar{\mu} = (\mu_1, \ldots, \mu_n)'$，$\Sigma$ 为 $n \times n$ 正定阵。则存在 $n \times n$ 矩阵 $A$ 使得 $\Sigma = AA'$ 且 $|A| \neq 0$，$X = \bar{\mu} + AZ$，其中 $Z = (Z_1, Z_2, \ldots, Z_n)'$ 为 $n$ 维独立标准正态分布。记 $\bar{x} = (x_1, x_2, \ldots, x_n)'$，则 $X$ 的概率密度函数为
+    \[
+    f_X(\bar{x}) = \frac{1}{(2\pi)^{\frac{n}{2}} |\Sigma|^{\frac{1}{2}}} \exp\left\{-\frac{1}{2}(\bar{x} - \bar{\mu})' \Sigma^{-1} (\bar{x} - \bar{\mu})\right\}
+    \]
+\end{enumerate}
+
+\begin{example}
+	取 $\mu = \begin{pmatrix} 0, 0 \end{pmatrix}'$，
+\[
+\Sigma = \begin{pmatrix} 1 & \rho \\ \rho & 1 \end{pmatrix}
+\]
+$X = (X_1, X_2) \sim N(\mu, \Sigma)$，给出其密度函数。
+\end{example}
+\begin{proof}
+	令 $\mathbf{X} = A\mathbf{Z}$，其中 $\mathbf{Z} = (Z_1, Z_2)$，$Z_1, Z_2$ 相互独立服从标准正态分布
+\[
+A = \begin{pmatrix} 1 & 0 \\ \rho & \sqrt{1-\rho^2} \end{pmatrix}
+\]
+满足 $\Sigma = AA^T$。
+
+\begin{align*}
+\begin{cases}
+x_1 = z_1 \\
+x_2 = \rho z_1 + \sqrt{1-\rho^2} z_2
+\end{cases}
+\end{align*}
+则可得逆变换
+\begin{align*}
+\begin{cases}
+z_1 = x_1 \\
+z_2 = \frac{x_2 - \rho x_1}{\sqrt{1-\rho^2}}
+\end{cases}
+\end{align*}
+
+\[
+\left| \frac{\partial z_1}{\partial x} \frac{\partial z_1}{\partial y} \right| = \begin{vmatrix} 1 & 0 \\ 0 & \frac{1}{\sqrt{1-\rho^2}} \end{vmatrix}
+\]
+
+$\mathbf{Z}$ 的概率密度函数为 $f_{\mathbf{Z}}(z_1, z_2) = \frac{1}{2\pi} \mathbf{e}^{-\frac{1}{2}(z_1^2 + z_2^2)}$，
+
+则 $\mathbf{X}$ 的密度函数为 $f_{\mathbf{Z}}(z_1, z_2) = \frac{1}{2\pi\sqrt{1-\rho^2}} \mathbf{e}^{-\frac{1}{2(1-\rho^2)}(x_1^2 - 2\rho x_1 x_2 + x_2^2)}$。
+\end{proof}
+
+若随机向量 $(X_1, \cdots, X_n)$ 的分布函数为 $F(x_1, \cdots, x_n)$，与随机变量相仿，类似地定义它的特性函数
+\[
+\psi(t_1, \cdots, t_n) = E\left[e^{i \sum_{k=1}^{n} t_k X_k}\right] = \int_{-\infty}^{\infty} \cdots \int_{-\infty}^{\infty} e^{i(t_1 x_1 + \cdots + t_n x_n)} dF(x_1, \cdots, x_n)
+\]
+若 $\mathbf{X}$ 服从多元正态分布 $\mathcal{N}(\boldsymbol{\mu}, \boldsymbol{\Sigma})$，则特征函数为
+\[
+\psi_{\mathbf{X}}(\mathbf{t}) = \exp\left\{i \mathbf{t}' \boldsymbol{\mu} - \frac{1}{2} \mathbf{t}' \boldsymbol{\Sigma} \mathbf{t}\right\}
+\]
+
+\begin{theorem}
+	若 $\{X(t_i), i = 1, \ldots, n\}$ 为多元正态分布当且仅当对任意的实数 $\alpha_k (k = 1, 2, \ldots, n)$，随机变量 $Y := \sum_{k=1}^{n} \alpha_k X(t_k)$ 为一维的正态分布。
+\end{theorem}
+\begin{proof}
+	充分性：设 $\{X(t_i), i = 1, \ldots, n\}$ 的任意线性组合为一维正态分布。则 $\{X(t_i), i = 1, \ldots, n\}$ 的联合特征函数为 $\psi(\alpha_1, \cdots, \alpha_n)$
+\begin{align*}
+\psi(\alpha_1, \cdots, \alpha_n) &= E\left[e^{i \sum_{k=1}^{n} \alpha_k X(t_k)}\right] = E\left[e^{iY}\right] \\
+&= \mathbf{e}^{iE\left[\sum_{k=1}^{n} \alpha_k X(t_k)\right] - \frac{1}{2} E\left[\sum_{k=1}^{n} \alpha_k (X(t_k) - E(X(t_k)))(X(t_j) - E(X(t_j)))\right]} \\
+&= \mathbf{e}^{i \sum_{k=1}^{n} \alpha_k E[X(t_k)] - \frac{1}{2} \sum_{k,j} \alpha_k \alpha_j E[(X(t_k) - E(X(t_k)))(X(t_j) - E(X(t_j)))]}
+\end{align*}
+
+故 $\psi(\alpha_1, \cdots, \alpha_n)$ 为多元正态分布的特征函数，故 $\{X(t_i), i = 1, \ldots, n\}$ 为多元正态分布。
+
+必要性：设 $\{X(t_i), i = 1, \ldots, n\}$ 为多元正态分布则其联合特征函数为
+\begin{align*}
+\psi(\lambda_1, \cdots, \lambda_n) &= E\left[\mathbf{e}^{i \sum_{k=1}^{n} \lambda_k X(t_k)}\right] \\
+&= \mathbf{e}^{i \sum_{k=1}^{n} \lambda_k \mu_k - \frac{1}{2} \sum_{k,j} \lambda_k \lambda_j \sigma_{kj}}
+\end{align*}
+其中 $\mu_k = E[X(t_k)]$，$\sigma_{kj} = E[(X(t_k) - E(X(t_k)))(X(t_j) - E(X(t_j)))]$。取 $\lambda_k = \lambda \alpha_k$，则 $Y := \sum_{k} \alpha_k X(t_k)$ 有特征函数
+\begin{align*}
+\psi(\lambda) &= E\left[\mathbf{e}^{i \lambda Y}\right] \\
+&= E\left[\mathbf{e}^{i \sum_{k=1}^{n} \lambda \alpha_k X(t_k)}\right] \\
+&= \mathbf{e}^{i \sum_{k=1}^{n} \lambda \alpha_k \mu_k - \frac{1}{2} \lambda^2 \sum_{k,j} \alpha_k \alpha_j \sigma_{kj}} \\
+&= \mathbf{e}^{i \lambda EY - \frac{1}{2} \lambda^2 E[Y - EY]^2}
+\end{align*}
+故其特征函数为一元正态分布的分布函数，故 $Y$ 为一元正态分布。
+\end{proof}
+\begin{definition}
+	若 $\{X(t), t \in \mathcal{T}\}$，$\forall t \in \mathcal{T} (i = 1, 2, \ldots, n)$ $(X(t_1), X(t_2), \ldots X(t_n))$ 联合分布为 $n$ 维正态分布，则称 $\{X(t), t \in \mathcal{T}\}$ 为正态过程。
+\end{definition}
+\begin{theorem}\label{th:5.9}
+	若 $\{X(t), t \in \mathcal{T}\}$ 为正态过程当且仅当任意有限个随机变量的线性组合都是一维的正态分布，即对任意的 $t_1, t_2 \ldots t_n \in \mathcal{T} (n \geq 1)$，实数 $\alpha_k$，随机变量 $\sum_{k=1}^{n} \alpha_k X(t_k)$ 为一维的正态分布。
+
+\end{theorem}
+\begin{theorem}
+	若 $\{X(t), t \in \mathcal{T}\}$ 为正态过程，则
+\begin{enumerate}
+    \item $\{X(t), t \in \mathcal{T}\}$ 中的随机变量相互独立（即任意有限个相互独立），当且仅当 $\forall s \neq t (s, t \in \mathcal{T})$，
+    \[
+    \sigma(s, t) := E[(X(t) - E[X(t)])(X(s) - E[X(s)])] = 0
+    \]
+    \item $\{X(t), t \in \mathcal{T}\}$ 中的任意一个 $X(t_0)$ 与 $\{X(t), t \neq t_0\}$ 相互独立，当且仅当 $\forall t \neq t_0 (t \in \mathcal{T})$，
+    \[
+    \sigma(t_0, t) = 0
+    \]
+\end{enumerate}
+\end{theorem}
+\begin{theorem}\label{th:5.11}
+	设 $B(0) = 0$，$\{B(t), t \geq 0\}$ 为标准布朗运动。$(B(t_1), B(t_2), \ldots, B(t_n))$ 其中 $t_1 < t_2 < \ldots < t_n$ 是均值向量为0，协方差矩阵满足 $Cov(B(s), B(t)) = \min\{t, s\}$ 的正态分布。
+\end{theorem}
+\begin{proof}
+	任取实数 $\alpha_k$，
+\begin{align*}
+\sum_{k} \alpha_k B(t_k) &= \alpha_n B(t_n) + \alpha_{n-1} B(t_{n-1}) + \ldots + \alpha_1 B(t_1) \\
+&= \alpha_n (B(t_n) - B(t_{n-1})) + (\alpha_n + \alpha_{n-1})(B(t_{n-1}) - B(t_{n-2})) \\
+&\quad + \ldots + (\alpha_n + \alpha_{n-1} + \ldots + \alpha_2)(B(t_2) - B(t_1)) \\
+&\quad + (\alpha_n + \alpha_{n-1} + \ldots + \alpha_1)B(t_1),
+\end{align*}
+由于 $B(t_i) - B(t_{i-1})$ 与 $B(t_j) - B(t_{j-1}) (i \neq j)$ 相互独立，可知 $\sum_{k} \alpha_k B(t_k)$ 为一维正态分布。
+
+当 $s < t$ 时
+\begin{align*}
+Cov(B(s), B(t)) &= E[B(s)B(t)] - E[B(s)]E[B(t)] \\
+&= E[B(s)(B(t) - B(s) + B(s))] \\
+&= E[B^2(s)] + E[(B(t) - B(s))B(s)] \\
+&= s
+\end{align*}
+\end{proof}
+\begin{example}
+	设 $B(0) = 0$，$\{B(t), t \geq 0\}$ 为标准布朗运动。求 $B(1) + B(2) + B(3) + B(4)$ 的分布。
+\end{example}
+\begin{proof}
+	\[
+X = (B(1), B(2), B(3), B(4))'
+\]
+$X$ 是多元正态分布，均值向量为 $(0, 0, 0, 0)$ 和协方差矩阵，
+\[
+E(XX') = \sum = \begin{pmatrix}
+1 & 1 & 1 & 1 \\
+1 & 2 & 2 & 2 \\
+1 & 2 & 3 & 3 \\
+1 & 2 & 3 & 4
+\end{pmatrix}
+\]
+$A = (1, 1, 1, 1)$，则 $AX = B(1) + B(2) + B(3) + B(4)$，均值向量为0，方差为 $E(AXX'A') = AE(XX')A' = 30$。
+
+故 $B(1) + B(2) + B(3) + B(4)$ 均值为0，方差为30。故 $B(1) + B(2) + B(3) + B(4) \sim N(0, 30)$。
+\end{proof}
+
+\begin{theorem}
+	设 $\{B(t), t \geq 0\}$ 为正态过程，轨道连续，$B(0) = 0$，$\forall s, t > 0$ 有 $E[B(t)] = 0$，$E[B(t)B(s)] = t \wedge s$ 则当且仅当 $\{B(t), t \geq 0\}$ 为标准布朗运动。
+\end{theorem}
+\begin{proof}
+	充分性：由定理 \ref{th:5.9}, \ref{th:5.11} 知，$\{B(t), t \geq 0\}$ 为正态过程，故 $E[B(t)] = 0$，
+\begin{align*}
+E[B(s)B(t)] &= E[B(s)(B(t) - B(s) + B(s))] \\
+&= E[B^2(s)] + E[(B(t) - B(s))B(s)] \\
+&= s
+\end{align*}
+
+必要性：设 $\{B(t), t \geq 0\}$ 为正态过程，设 $s < t$，$E[B(t) - B(s)] = 0$。
+\begin{align*}
+E[B(t) - B(s)]^2 &= E[B^2(t)] + E[B^2(s)] - 2E[B(t)B(s)] \\
+&= t + s - 2(t \wedge s) = t - s
+\end{align*}
+由于 $B(t) - B(s)$ 为正态分布，故 $B(t) - B(s) \sim N(0, t - s)$。对任意的 $s_1 < t_1 \leq s_2 < t_2$，
+\begin{align*}
+Cov(B(t_1) - B(s_1), B(t_2) - B(s_2)) &= E[(B(t_1) - B(s_1))(B(t_2) - B(s_2))] \\
+&= E[B(t_1)B(t_2)] - E[B(t_1)B(s_2)] - E[B(s_1)B(t_2)] + E[B(s_1)B(s_2)] \\
+&= t_1 - t_1 - s_1 + s_1 = 0
+\end{align*}
+故 $B(t_1) - B(s_1)$ 与 $B(t_2) - B(s_2)$ 相互独立。
+\end{proof}
+\begin{theorem}
+	设 $\{B(t), t \geq 0\}$ 为标准布朗运动。
+\begin{enumerate}
+    \item 对任意的 $\tau > 0$，$\{B(t + \tau) - B(\tau), t \geq 0\}$
+    \item 对任意的 $\lambda > 0$，$\left\{\frac{1}{\sqrt{\lambda}} B(\lambda t), t \geq 0\right\}$
+    \item $\left\{tB\left(\frac{1}{t}\right), t \geq 0\right\}$ 其中 $tB\left(\frac{1}{t}\right)|_{t=0} := 0$
+    \item 对任意的 $t_0 > 0$，$\{B(t_0 - s) - B(t_0), 0 \leq s \leq t_0\}$；
+\end{enumerate}
+仍为标准布朗运动。
+\end{theorem}
+\begin{theorem}
+	对任意的 $a \geq 0$，过程 $X = \{X(t) = B(t + a) - B(a), t \geq 0\}$ 是标准布朗运动与 $\sigma$-代数 $\mathcal{F}_a^B = \sigma(B(t), 0 \leq t \leq a)$ 独立。
+\end{theorem}
+\begin{theorem}
+	\[
+\mathcal{F}_t := \sigma(B(u), u \leq t). \text{ 则}
+\]
+\begin{enumerate}
+    \item $\{B(t), t \geq 0\}$ 为 $\{\mathcal{F}_t\}$ 鞅；
+    \item $\{B^2(t) - t, t \geq 0\}$ 为 $\{\mathcal{F}_t\}$ 鞅；
+    \item $\left\{e^{\lambda B(t) - \frac{1}{2} \lambda^2 t}, t \geq 0\right\}$ 为 $\{\mathcal{F}_t\}$ 鞅；
+    \item $\left\{e^{i \lambda B(t) + \frac{1}{2} \lambda^2 t}, t \geq 0\right\}$ 为 $\{\mathcal{F}_t\}$ 鞅；
+\end{enumerate}
+\end{theorem}
+\begin{definition}
+	设有概率空间 $(\Omega, \mathcal{F}, P)$ 上的以 $(E, \mathcal{E})$ 为状态空间的随机过程 $\xi = \{\xi_t, t \in T\}$ 及其 $\sigma$-代数流 $\{\mathcal{F}_t, t \in T\}$ 满足 $\mathcal{F}_s \subset \mathcal{F}_t$。设 $\xi$ 对 $\{\mathcal{F}_t, t \in T\}$ 是适应的。此时称 $(\Omega, \mathcal{F}, P, \xi, \mathcal{F}_t)$ 是一个 $\{\mathcal{F}_t, t \in T\}$-Markov过程，若对任意的 $s < t \in T, B \in \mathcal{E}$ 有 $P(\xi_t \in B | \mathcal{F}_s) = P(\xi_t \in B | \xi_s)$。特别的当 $\mathcal{F}_t = \sigma(\xi_s, s \leq t)$，则称 $\xi$ 为 $(\Omega, \mathcal{F}, P)$ 上的马氏过程。
+\end{definition}
+\begin{definition}
+	设有概率空间 $(\Omega, \mathcal{F}, P)$ 上的以 $(E, \mathcal{E})$ 为状态空间的随机过程 $\xi = \{\xi_t, t \in T\}$ 及其 $\sigma$-代数流 $\{\mathcal{F}_t, t \in T\}$ 满足 $\mathcal{F}_s \subset \mathcal{F}_t$。设 $\xi$ 对 $\{\mathcal{F}_t, t \in T\}$ 是适应的。此时称 $(\Omega, \mathcal{F}, P, \xi, \mathcal{F}_t)$ 是一个 $\{\mathcal{F}_t, t \in T\}$-Markov过程，若对任意的 $s < t \in T, B \in \mathcal{E}$ 有 $P(\xi_t \in B | \mathcal{F}_s) = P(\xi_t \in B | \xi_s)$。特别的当 $\mathcal{F}_t = \sigma(\xi_s, s \leq t)$，则称 $\xi$ 为 $(\Omega, \mathcal{F}, P)$ 上的马氏过程。
+\end{definition}
+\begin{theorem}
+	$\{B(t), t \geq 0\}$ 为 $(\Omega, \mathcal{F}, P)$ 上的马氏过程。
+\end{theorem}
+\begin{theorem}
+	设 $(\Omega, \mathcal{F}, P)$ 为概率空间，$\mathcal{G}$ 为 $\mathcal{F}$ 的一个子 $\sigma$ 代数；$(S, \mathcal{S})$ 和 $(E, \mathcal{E})$ 为可测空间，$X$ 为一 $\mathcal{G}$ 可测 $S$ 值随机元，$Y$ 为一 $E$ 值随机元。假定 $Y$ 和 $\mathcal{G}$ 独立。令 $g(x, y)$ 为 $S \times E$ 上的 $S \mathcal{S} \times \mathcal{E}$ 可测函数，使得 $E[|g(X, Y)|] < \infty$，则 $E[g(X, Y) | \mathcal{G}] = E[g(x, Y)|_{x=x}$。
+\end{theorem}
+\begin{theorem}
+	($\Omega, \mathcal{F}, \{\mathcal{F}_t\}, P$) 上 $R^d$ 适应过程若具有独立增量性，则 $X = (X_t, t \geq 0)$ 为马氏过程.
+\end{theorem}
+\begin{proof}
+	对任意的 $B \in \mathcal{B}(R^d)$, $s < t$, 令 $A := \{(x, y) | x, y \in R^d, x + y \in B\}$.
+
+\begin{align*}
+P(X_t \in B | \mathcal{F}_s) &= P((X_t - X_s, X_s) \in A | \mathcal{F}_s) \\
+&= P((X_t - X_s, y) \in A)_{y = X_s}
+\end{align*}
+
+\begin{align*}
+P(X_t \in B | X_s) &= P((X_t - X_s, X_s) \in A | X_s) \\
+&= P((X_t - X_s, y) \in A)_{y = X_s}
+\end{align*}
+
+故可知
+
+\[ P(X_t \in B | \mathcal{F}_s) = P(X_t \in B | X_s). \]
+
+\end{proof}
+\begin{definition}
+	马氏过程 $\{X_t, t \geq 0\}$ 称为具有强马氏性，若对任意的 $t \in T$ 以及 $A \in \mathcal{B}(\mathbb{R})$ 以及 $\{\mathcal{F}_t\}$ 停时 $\tau$ 有
+\[ P(\{X_{t+\tau} \in A\} \cap \{\tau < \infty\} | \mathcal{F}_\tau) = P(\{X_{t+\tau} \in A\} \cap \{\tau < \infty\} | X_\tau). \]
+
+\end{definition}
+
+令 $\mathcal{F}_{t+} := \bigcap_{u > t} \mathcal{F}_u$.\\
+$\mathcal{F}_{\tau+} := \{B \in \sigma(\bigcup_n \mathcal{F}_n) | \forall t > 0, B \cap \{\tau \leq t\} \in \mathcal{F}_{t+}\}$.
+
+\begin{theorem}
+	令 $\mathcal{F}_{t+} := \bigcap_{u > t} \mathcal{F}_u$. 标准布朗运动 $\{B(t), t \geq 0\}$ 为 $\{\mathcal{F}_{t+}\}$ 的强马氏过程，即对任意的 $\{\mathcal{F}_{t+}\}$ 停时 $\tau$ 以及有界可测函数 $f$ 以及非负 $t$
+\[ E_x[f(B(\tau + t)) | \mathcal{F}_{\tau+}] = E_{B(\tau)}[f(B(t)) | \{\tau < \infty\}]. \]
+
+\end{theorem}
+\begin{remark}
+	去任意的 $A \in \mathcal{B}(\mathbb{R})$，把上述定理中的 $f(x) := I_A(x)$，则有
+\[ P(\{X_{t+\tau} \in A\} \cap \{\tau < \infty\} | \mathcal{F}_\tau) = P(\{X_{t+\tau} \in A\} \cap \{\tau < \infty\} | X_\tau). \]
+
+\end{remark}
+
+\begin{theorem}
+	标准布朗运动 $(B(t))$ 为 $\{\mathcal{F}_t\}$ 的强马氏过程。即对任意的 $\{\mathcal{F}_t\}$ 停时 $\tau$ 以及有界可测函数 $f$ 以及非负 $t$
+\[ E_x[f(B(\tau + t)) I_{\{\tau < \infty\}} | \mathcal{F}_\tau] = E_{B(\tau)}[f(B(t)) I_{\{\tau < \infty\}}] \]
+\end{theorem}
+\begin{theorem}
+	设 $B = \{B(t), t \geq 0\}$ 是一个标准布朗运动，若 $\tau < \infty \text{ a.s.}$ 为 $\{\mathcal{F}_{t+}\}$ 停时，$\{B'(t) := B(t + \tau) - B(\tau) | t \geq 0\}$ 仍为一个布朗运动且与 $\mathcal{F}_\tau$ 独立。
+
+\end{theorem}
+\begin{theorem}
+	标准布朗运动 $\{B(t), t \geq 0\}$ 及 $\{\mathcal{F}_t\}$ 停时 $\tau$，其中 $\mathcal{F}_t := \sigma(B(u), u \leq t)$. 则 $\bar{B}(t) := B(t \wedge \tau) - (B(t) - B(t \wedge \tau)), t \geq 0$ 与 $B(t)$ 有相同的分布.
+\end{theorem}
+\begin{proof}
+	假设 $\tau < \infty$，令 $B^\tau(t) := B(\tau \wedge t)$ 以及 $B'(t) = B(\tau + t) - B(\tau)$。则由定理1.30可知，$\{B'(t), t \geq 0\}$ 为标准布朗运动，且与 $\mathcal{F}_\tau$ 相互独立。由于 $B^r := \{B^r(t), t \geq 0\}$ 关于 $\mathcal{F}_\tau$ 可测，故 $\{B'(t), t \geq 0\}$ 与 $(\tau, B^\tau)$ 相互独立。由于 $-B'$ 与 $B'$ 同分布，故 $(\tau, B^\tau, B')$ 与 $(\tau, B^\tau, -B')$ 同分布。由于
+\begin{align*}
+B(t) &= B(t \wedge \tau) + (B(t) - B(t \wedge \tau)) \\
+\tilde{B}(t) &= B(t \wedge \tau) - (B(t) - B(t \wedge \tau))
+\end{align*}
+故 $B(t)$ 与 $\tilde{B}(t)$ 同分布。
+\end{proof}
+\section{首中时和最大时}
+令 $M_t := \max_{0 \leq u \leq t} B(u)$, $T_a := \inf\{t, t > 0, B(t) = a\}$. $\tilde{B}(t) := B(t \wedge T_a) - (B(t) - B(t \wedge T_a))$
+\begin{theorem}
+	设 $B = \{B(t), t \geq 0\}$ 是一个标准布朗运动，对任意的 $a > 0$ 以及 $x \leq a$
+\begin{enumerate}
+    \item $P(M_t \geq a, B(t) < x) = P(B(t) \geq 2a - x)$;
+    \item $M_t$ 与 $|B(t)|$ 同分布，且
+    \[
+    P(M_t \geq a) = 2P(B(t) \geq a) = 2 \int_{\frac{a}{\sqrt{t}}}^{\infty} \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}} dx = 2(1 - \Phi(\frac{a}{\sqrt{t}}))
+    \]
+    \item $P(T_a \leq t) = P(M_t \geq a) = 2(1 - \Phi(\frac{a}{\sqrt{t}}))$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+	（1）\begin{align*}
+		P(M_t \geq a, B(t) \leq x) &= P(T_a \leq t, B(t) \leq x) \\
+		&= P(T_a \leq t, \tilde{B}(t) \leq x) \\
+		&= P(T_a \leq t, 2a - B(t) \leq x) \\
+		&= P(T_a \leq t, B(t) \geq 2a - x) \\
+		&= P(B(t) \geq 2a - x)
+		\end{align*}
+	
+	（2）\begin{align*}
+		P(M_t \geq a) &= P(M_t \geq a, B(t) \geq a) + P(M_t \geq a, B(t) < a) \\
+		&= P(B(t) \geq a) + P(B(t) \geq 2a - a) \\
+		&= 2P(B(t) \geq a) \\
+		&= P(|B(t)| \geq a)
+		\end{align*}
+		
+		\text{标准化} $\frac{B(t)}{\sqrt{t}} \sim N(0, 1)$，故
+		\begin{align*}
+		2P(B(t) \geq a) &= 2P\left(\frac{B(t)}{\sqrt{t}} \geq \frac{a}{\sqrt{t}}\right) = 2 \int_{\frac{a}{\sqrt{t}}}^{\infty} \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}} dx
+		\end{align*}
+
+	（3）\begin{align*}
+		P(T_a \leq t) &= P(M_t \geq a) \\
+		&= 2P(B(t) \geq a)
+		\end{align*}
+\end{proof}
+\begin{theorem}
+	设 $B = \{B(t), t \geq 0\}$ 是一个标准布朗运动，$\forall a < 0$，则有
+\[ P\left(\min_{0 \leq s \leq t} B(s) \leq a\right) = 2P(B(t) \geq -a) = 2P(B(t) \leq a). \]
+
+\end{theorem}
+\begin{proof}
+	令 $m(t) = \min_{0 \leq s \leq t} B(s)$，$-\min_{0 \leq s \leq t} B(s) = \max_{0 \leq s \leq t} (-B(s))$.
+
+\begin{align*}
+P(m(t) \leq a) &= P(-\max_{0 \leq s \leq t} (-B(s)) \leq a) \\
+&= P(\max_{0 \leq s \leq t} (-B(s)) \geq -a) \\
+&= P(\max_{0 \leq s \leq t} B(s) \geq -a) \\
+&= 2P(B(t) \geq -a)
+\end{align*}
+\end{proof}
+
+\begin{theorem}
+	$B = \{B(t), t \geq 0\}$ 是一个标准布朗运动，$\forall a$，
+\[ P(T_a \leq t) = 2 \int_{\frac{|a|}{\sqrt{t}}}^{\infty} \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}} dx = 2(1 - \Phi(\frac{|a|}{\sqrt{t}})) \]
+
+\end{theorem}
+\begin{proof}
+	当 $a < 0$ 时，
+\begin{align*}
+P(T_a \leq t) &= P\left(\min_{0 \leq s \leq t} B(s) \leq a\right) = 2P(B(t) \geq -a) \\
+&= 2P\left(\frac{B(t)}{\sqrt{t}} \geq -\frac{a}{\sqrt{t}}\right) \\
+&= 2(1 - \Phi(\frac{|a|}{\sqrt{t}}))
+\end{align*}
+
+当 $a \geq 0$ 时，$P(T_a \leq t) = 2(1 - \Phi(\frac{a}{\sqrt{t}}))$。
+
+\end{proof}
+
+\begin{remark}
+	\begin{enumerate}
+		\item $P(T_a < \infty) = 1$;
+		\item $E[T_a] = \infty$.
+	\end{enumerate}
+\end{remark}
+
+\begin{example}
+	若 $\varphi(x)$ 为非负可测函数，$X$ 为非负随机变量，又 $\Phi(x) = \int_0^x \varphi(t) dt$，则
+\[ E[\Phi(X)] = \int_0^\infty \varphi(t) P(X > t) dt. \]
+\end{example}
+\begin{proof}
+	若用 $F(x)$ 记 $X$ 的分布函数，则有
+\begin{align*}
+E[\Phi(X)] &= \int_0^\infty \Phi(x) dF(x) \\
+&= \int_0^\infty \int_0^x \varphi(t) dt dF(x) \\
+&= \int_0^\infty \varphi(t) \left( \int_t^\infty dF(x) \right) dt \\
+&= \int_0^\infty \varphi(t) P(X > t) dt.
+\end{align*}
+\end{proof}
 \end{document}
 

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  9 MAY 2025 17:15
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  10 MAY 2025 20:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1654,7 +1654,48 @@ Overfull \hbox (30.27425pt too wide) detected at line 2691
 
 [44]
 
-[45] (./随机过程.aux)
+[45]
+Chapter 3.
+
+LaTeX Font Warning: Font shape `TU/STKaiti(0)/b/n' undefined
+(Font)              using `TU/STKaiti(0)/m/n' instead on input line 3049.
+
+
+
+[46
+
+]
+Overfull \hbox (19.75917pt too wide) in paragraph at lines 3107--3109
+[]\TU/STSong(0)/m/n/10 设 $\OML/cmm/m/it/10 X \OT1/cmr/m/n/10 = (\OML/cmm/m/it/10 X[]; X[]; []  ; X[]\OT1/cmr/m/n/10 )$ \TU/STSong(0)/m/n/10 有 联 合 密 度 $\OML/cmm/m/it/10 f[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x[]; x[]; []  ; x[]\OT1/cmr/m/n/10 )$\TU/STSong(0)/m/n/10 ，| $\OML/cmm/m/it/10 n$ \TU/STSong(0)/m/n/10 元 可 测 函 数 $\OML/cmm/m/it/10 y \OT1/cmr/m/n/10 = (\OML/cmm/m/it/10 y[]; []  ; y[]\OT1/cmr/m/n/10 )$\TU/STSong(0)/m/n/10 ，|  其 中 $\OML/cmm/m/it/10 y[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x[]; []  ; x[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; i \OT1/cmr/m/n/10 =
+ []
+
+
+Overfull \hbox (83.5378pt too wide) detected at line 3127
+\OML/cmm/m/it/10 P[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 B\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 2 \OML/cmm/m/it/10 F[]; B\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 2 \OML/cmm/m/it/10 F[]; [] ; B\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 2 \OML/cmm/m/it/10 F[]\OT1/cmr/m/n/10 ) = [][] \OML/cmm/m/it/10 p\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]; x[]\OT1/cmr/m/n/10 ) [][] \OML/cmm/m/it/10 p\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[] \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 t[]; x[] \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 x[]\OT1/cmr/m/n/10 ) [] [][] \OML/cmm/m/it/10 p\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[] \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 t[]; x[] \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 x[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 dx[]dx[] [] dx[]:
+ []
+
+
+
+[47]
+Missing character: There is no 。 ("3002) in font cmr10!
+Missing character: There is no 。 ("3002) in font cmr10!
+
+
+[48]
+
+[49]
+
+[50]
+
+[51]
+
+[52]
+
+[53]
+
+[54]
+
+[55] (./随机过程.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2022/08/05>
@@ -1664,18 +1705,18 @@ L3 programming layer <2022/08/05>
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `随机过程.out' has not changed.
-(rerunfilecheck)             Checksum: 691DBED47BD8893FC9178B6E22C5200F;2178.
+(rerunfilecheck)             Checksum: 275864F1B10D2B7D98122E96633C0F72;2524.
 Package logreq Info: Writing requests to '随机过程.run.xml'.
 \openout1 = `随机过程.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 48336 strings out of 473832
- 1059960 string characters out of 5729481
- 2052284 words of memory out of 5000000
- 70590 multiletter control sequences out of 15000+600000
- 565275 words of font info for 111 fonts, out of 8000000 for 9000
+ 48413 strings out of 473832
+ 1061225 string characters out of 5729481
+ 2052802 words of memory out of 5000000
+ 70661 multiletter control sequences out of 15000+600000
+ 567105 words of font info for 117 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 103i,15n,130p,689b,1346s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 103i,16n,130p,689b,1346s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on 随机过程.pdf (47 pages).
+Output written on 随机过程.pdf (57 pages).

@@ -14,3 +14,6 @@
 \contentsline {subsection}{\numberline {2.1.2}鞅的性质}{40}{subsection.2.1.2}%
 \contentsline {section}{\numberline {2.2}停时和鞅的停时定理}{42}{section.2.2}%
 \contentsline {section}{\numberline {2.3}鞅收敛定理}{44}{section.2.3}%
+\contentsline {chapter}{\numberline {3}布朗运动}{46}{chapter.3}%
+\contentsline {section}{\numberline {3.1}布朗运动定义}{46}{section.3.1}%
+\contentsline {section}{\numberline {3.2}首中时和最大时}{53}{section.3.2}%
