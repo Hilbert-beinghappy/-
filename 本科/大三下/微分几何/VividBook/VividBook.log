@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  4 MAY 2025 00:12
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  10 MAY 2025 21:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1667,10 +1667,6 @@ Missing character: There is no 线 ("7EBF) in font cmr7!
 [55]
 Chapter 5.
 
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 3864.
-
-
 
 [56
 
@@ -1685,17 +1681,23 @@ L3 programming layer <2022/08/05>
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package rerunfilecheck Info: File `VividBook.out' has not changed.
-(rerunfilecheck)             Checksum: 374C437E9BB70F1E687F4831963EB974;5373.
+
+Package rerunfilecheck Warning: File `VividBook.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `VividBook.out':
+(rerunfilecheck)             Before: 374C437E9BB70F1E687F4831963EB974;5373
+(rerunfilecheck)             After:  482AA52591EDF5C8FA882D47C9A2A91F;5358.
 Package logreq Info: Writing requests to 'VividBook.run.xml'.
 \openout1 = `VividBook.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 47075 strings out of 473832
- 1028891 string characters out of 5729481
- 2011545 words of memory out of 5000000
- 69343 multiletter control sequences out of 15000+600000
+ 47072 strings out of 473832
+ 1028829 string characters out of 5729481
+ 2011547 words of memory out of 5000000
+ 69340 multiletter control sequences out of 15000+600000
  567105 words of font info for 117 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  103i,21n,130p,694b,1452s stack positions out of 10000i,1000n,20000p,200000b,200000s
