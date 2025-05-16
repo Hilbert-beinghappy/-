@@ -1,0 +1,402 @@
+\documentclass[lang=cn,10pt,thmcnt=section]{elegantbook}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{esint}
+\usepackage{mathtools}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+\usetikzlibrary{automata, positioning, arrows}
+\title{微分几何应试版教材}
+
+
+
+\author{Huang}
+\date{\today}
+
+
+
+
+\setcounter{tocdepth}{3}
+
+
+\cover{cover.jpg}
+
+% 本文档命令
+\usepackage{array}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+
+% 修改标题页的橙色带
+% \definecolor{customcolor}{RGB}{32,178,170}
+% \colorlet{coverlinecolor}{customcolor}
+
+\begin{document}
+	
+	\maketitle
+	\frontmatter
+	
+	\tableofcontents
+	
+	\mainmatter
+	\chapter{曲线论}
+	\section{求弧长参数/弧长}
+	求弧长参数，三步走
+	\begin{enumerate}
+		\item 求$\overrightarrow{r} '$
+		\item 求$\left\lvert \overrightarrow{r} '\right\rvert $
+		\item 求积分$\int \left\lvert \overrightarrow{r} '\right\rvert \,dt $
+	\end{enumerate}
+
+	\begin{example}
+		将圆柱螺线 $\vec{r} = (a\cos t, a\sin t, bt)$ 化为弧长参数
+	\end{example}
+	\begin{proof}
+		三步走
+	\begin{enumerate}
+		\item \textbf{求导数 $\overrightarrow{r} '$}：\\
+		对参数 $t$ 求导得：
+		\[
+			\vec{r}\,'(t) = \left( -a\sin t,\ a\cos t,\ b \right)
+		\]
+		
+		\item \textbf{求模长 $\left\lvert \overrightarrow{r} '\right\rvert $}：\\
+		计算导数的模：
+		\[
+			\left\lvert \vec{r}\,'(t) \right\rvert = \sqrt{(-a\sin t)^2 + (a\cos t)^2 + b^2} = \sqrt{a^2(\sin^2 t + \cos^2 t) + b^2} = \sqrt{a^2 + b^2}
+		\]
+		
+		\item \textbf{求弧长参数 $s$}：\\
+		积分模长得到弧长：
+		\[
+			s(t) = \int_{0}^{t} \left\lvert \vec{r}\,'(\tau) \right\rvert \,d\tau = \int_{0}^{t} \sqrt{a^2 + b^2} \,d\tau = \sqrt{a^2 + b^2} \cdot t
+		\]
+		解得 $t = \dfrac{s}{\sqrt{a^2 + b^2}}$，代入原参数方程得：
+		\[
+			\vec{r}(s) = \left( a\cos\left(\dfrac{s}{\sqrt{a^2 + b^2}}\right),\ a\sin\left(\dfrac{s}{\sqrt{a^2 + b^2}}\right),\ \dfrac{bs}{\sqrt{a^2 + b^2}} \right)
+		\]
+	\end{enumerate}
+	\end{proof}
+	\begin{example}
+		求双曲螺线 $\vec{r} = (a\cosh t, a\sinh t, at)$ 的弧长参数表示。
+	\end{example}
+	\begin{proof}
+		三步走
+		\begin{enumerate}
+		\item \textbf{求导数 $\overrightarrow{r} '$}：\\
+		对参数 $t$ 求导得：
+		\[
+			\vec{r}\,'(t) = \left( a\sinh t,\ a\cosh t,\ a \right)
+		\]
+		
+		\item \textbf{求模长 $\left\lvert \overrightarrow{r} '\right\rvert $}：\\
+		利用双曲恒等式 $\cosh^2 t - \sinh^2 t = 1$：
+		\[
+			\left\lvert \vec{r}\,'(t) \right\rvert = \sqrt{a^2\sinh^2 t + a^2\cosh^2 t + a^2} = a\sqrt{2\cosh^2 t} = a\sqrt{2} \cosh t
+		\]
+		
+		\item \textbf{求弧长参数 $s$}：\\
+		积分模长得到弧长：
+		\[
+			s(t) = \int_{0}^{t} a\sqrt{2} \cosh \tau \,d\tau = a\sqrt{2} \sinh t
+		\]
+		反解得 $t = \sinh^{-1}\left(\dfrac{s}{a\sqrt{2}}\right)$，代入原方程得弧长参数化表示：
+		\[
+			\vec{r}(s) = \left( \sqrt{a^2 + \dfrac{s^2}{2}},\ \dfrac{s}{\sqrt{2}},\ a \sinh^{-1}\left(\dfrac{s}{a\sqrt{2}}\right) \right)
+		\]
+	\end{enumerate}
+	\end{proof}
+	\begin{example}
+		求旋轮线 $\vec{r} = (a(t - \sin t), a(1 - \cos t))$ 在 $0 \leq t \leq 2\pi$ 时的弧长。
+	\end{example}
+	\begin{proof}
+	三步走：
+	\begin{enumerate}
+		\item \textbf{求导数 $\overrightarrow{r} '$}：\\
+		对参数 $t$ 求导得：
+		\[
+			\vec{r}\,'(t) = \left( a(1 - \cos t),\ a\sin t \right)
+		\]
+		
+		\item \textbf{求模长 $\left\lvert \overrightarrow{r} '\right\rvert $}：\\
+		利用三角恒等式 $1 - \cos t = 2\sin^2(t/2)$：
+		\[
+			\left\lvert \vec{r}\,'(t) \right\rvert = a\sqrt{(1 - \cos t)^2 + \sin^2 t} = 2a \sin(t/2)
+		\]
+		
+		\item \textbf{求总弧长}：\\
+		积分模长得总弧长：
+		\[
+			L = \int_{0}^{2\pi} 2a \sin(t/2) \,dt = \left[ -4a \cos(t/2) \right]_{0}^{2\pi} = 8a
+		\]
+	\end{enumerate}
+\end{proof}
+
+\section{切平面和法平面}
+切线方程的坐标表示：
+\[
+\frac{x - x(t_0)}{x'(t_0)} = \frac{y - y(t_0)}{y'(t_0)} = \frac{z - z(t_0)}{z'(t_0)}
+\]
+
+法平面方程的坐标表示：
+\[
+[x - x(t_0)] x'(t_0) + [y - y(t_0)] y'(t_0) + [z - z(t_0)] z'(t_0) = 0
+\]
+
+
+\begin{example}
+	求圆柱螺线 $\vec{r}(t) = \{a\cos t, a\sin t, bt\}$ 在 $t = \frac{\pi}{3}$ 处的切线方程
+\end{example}
+\begin{proof}
+	三步走：
+	\begin{enumerate}
+		\item \textbf{求导向量}：
+		\[
+			\vec{r}\,'(t) = \{-a\sin t,\ a\cos t,\ b\}
+		\]
+		
+		\item \textbf{求 $t = \frac{\pi}{3}$ 处的点和切向量}：
+		\[
+			\vec{r}\left(\frac{\pi}{3}\right) = \left(\frac{a}{2},\ \frac{a\sqrt{3}}{2},\ \frac{b\pi}{3}\right), \quad 
+			\vec{r}\,'\left(\frac{\pi}{3}\right) = \left(-\frac{a\sqrt{3}}{2},\ \frac{a}{2},\ b\right)
+		\]
+		
+		\item \textbf{写切线方程}：
+		\[
+			\frac{x - \frac{a}{2}}{-\frac{a\sqrt{3}}{2}} = \frac{y - \frac{a\sqrt{3}}{2}}{\frac{a}{2}} = \frac{z - \frac{b\pi}{3}}{b}
+		\]
+	\end{enumerate}
+\end{proof}
+\begin{example}
+	对于圆柱螺线 $x = \cos t, y = \sin t, z = t$，求它在 $(1, 0, 0)$ 时的切线与法平面。
+\end{example}
+\begin{proof}
+	三步走：
+	\begin{enumerate}
+		\item \textbf{确定参数 $t$}：\\
+		由 $x=1$ 得 $\cos t=1 \Rightarrow t=0$，对应点 $(1,0,0)$
+		
+		\item \textbf{求导向量}：
+		\[
+			\vec{r}\,'(t) = \{-\sin t,\ \cos t,\ 1\} \quad \Rightarrow \quad 
+			\vec{r}\,'(0) = (0,1,1)
+		\]
+		
+		\item \textbf{切线方程}：
+		\[
+			\frac{x-1}{0} = \frac{y}{1} = \frac{z}{1} \quad \text{或} \quad 
+			\begin{cases} 
+				x = 1 \\ 
+				y = z 
+			\end{cases}
+		\]
+		
+		\item \textbf{法平面方程}：\\
+		法向量为 $\vec{r}\,'(0) = (0,1,1)$，方程为：
+		\[
+			0(x-1) + 1(y-0) + 1(z-0) = 0 \quad \Rightarrow \quad y + z = 0
+		\]
+	\end{enumerate}
+\end{proof}
+\begin{example}
+	求三次挠曲线 $\vec{r} = \{at, bt^2, ct^3\}$ 在 $t_0$ 时的切线和法平面。
+\end{example}
+\begin{proof}
+	三步走：
+	\begin{enumerate}
+		\item \textbf{求导向量}：
+		\[
+			\vec{r}\,'(t) = \{a, 2bt, 3ct^2\}
+		\]
+		
+		\item \textbf{求 $t_0$ 处的点和切向量}：
+		\[
+			\vec{r}(t_0) = \{at_0, bt_0^2, ct_0^3\}, \quad 
+			\vec{r}\,'(t_0) = \{a, 2bt_0, 3ct_0^2\}
+		\]
+		
+		\item \textbf{切线方程}：
+		\[
+			\frac{x - at_0}{a} = \frac{y - bt_0^2}{2bt_0} = \frac{z - ct_0^3}{3ct_0^2}
+		\]
+		
+		\item \textbf{法平面方程}：
+		\[
+			a(x - at_0) + 2bt_0(y - bt_0^2) + 3ct_0^2(z - ct_0^3) = 0
+		\]
+	\end{enumerate}
+\end{proof}
+\section{主法线、副法线、密切平面、从切平面}
+\begin{definition}[Frenet 标架]
+    设 $r$ 为正则曲线，$s$ 为弧长参数。
+    \begin{itemize}
+        \item 记 $T(s) = r'(s)$（自动为单位向量）
+        \item 注意到 $|T(s)|^2 = 1 \Rightarrow T(s)' \cdot T(s) = 0$
+        \item 若 $r'(s) \neq 0$，则令 $N(s) = \frac{T'(s)}{|T'(s)|}$，最后令 $B(s) = T(s) \times N(s)$。
+    \end{itemize}
+    在 $r'(s) \neq \vec{0}$ 的地方总是可以定义以下坐标系 $\{r(s); T(s), N(s), B(s)\}$，称其为曲线 $r$ 的 Frenet 标架。
+\end{definition}
+\begin{definition}[主法线]
+    设正则曲线 $r(s)$ 的 Frenet 标架为 $\{r(s); T(s), N(s), B(s)\}$，则：
+    \begin{itemize}
+        \item 向量 $N(s) = \frac{T'(s)}{|T'(s)|}$ 称为曲线在 $s$ 处的主法线向量。
+        \item 主法线方向是曲线弯曲方向的正交单位化结果。
+    \end{itemize}
+\end{definition}
+
+\begin{definition}[副法线]
+    在 Frenet 标架中：
+    \begin{itemize}
+        \item 向量 $B(s) = T(s) \times N(s)$ 称为曲线在 $s$ 处的副法线向量。
+        \item 副法线方向由右手法则确定，且 $B(s)$ 始终垂直于密切平面。
+    \end{itemize}
+\end{definition}
+
+\begin{definition}[密切平面]
+    在 Frenet 标架 $\{r(s); T(s), N(s), B(s)\}$ 中：
+    \begin{itemize}
+        \item 由切向量 $T(s)$ 和主法线向量 $N(s)$ 张成的平面称为密切平面。
+        \item 密切平面方程为：$(X - r(s)) \cdot B(s) = 0$，即所有与副法线正交的点构成的平面。
+    \end{itemize}
+\end{definition}
+\begin{definition}[从切平面]
+    对于 Frenet 标架 $\{r(s); T(s), N(s), B(s)\}$：
+    \begin{itemize}
+        \item 由切向量 $T(s)$ 和副法线向量 $B(s)$ 张成的平面称为从切平面（亦称矫正平面）。
+        \item 从切平面方程为：$(X - r(s)) \cdot N(s) = 0$，即所有与主法线正交的点构成的平面。
+    \end{itemize}
+\end{definition}
+\begin{definition}[法平面]
+    \begin{itemize}
+        \item 由主法线 $N(s)$ 和副法线 $B(s)$ 张成的平面称为法平面。
+        \item 法平面方程为：$(X - r(s)) \cdot T(s) = 0$，即所有与切线正交的点构成的平面。
+    \end{itemize}
+\end{definition}
+
+\begin{example}
+	求 $\vec{r}(t) = \{\cos t, \sin t, t\}$ 在 $(1, 0, 0)$ 处的法平面、副法线、密切平面、主法线及从切平面。
+\end{example}
+\begin{proof}
+	
+	
+	\begin{enumerate}
+		\item \textbf{确定参数 $t$ 值}  
+		由 $\cos t = 1$ 且 $\sin t = 0$，得 $t = 0$，对应点 $(1, 0, 0)$。
+		
+		\item \textbf{计算 Frenet 标架}：
+		\begin{enumerate}
+			\item \textbf{切向量 $\vec{T}$}：
+			\[
+				\vec{r}\,'(t) = \{-\sin t, \cos t, 1\} \quad \Rightarrow \quad 
+				\vec{r}\,'(0) = \{0, 1, 1\}
+			\]
+			单位化得：
+			\[
+				\vec{T} = \frac{\vec{r}\,'(0)}{\|\vec{r}\,'(0)\|} = \left\{0, \frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}\right\}
+			\]
+			
+			\item \textbf{主法线 $\vec{N}$}：
+			计算二阶导数：
+			\[
+				\vec{r}\,''(t) = \{-\cos t, -\sin t, 0\} \quad \Rightarrow \quad 
+				\vec{r}\,''(0) = \{-1, 0, 0\}
+			\]
+			单位化得主法线方向：
+			\[
+				\vec{N} = \frac{\vec{r}\,''(0)}{\|\vec{r}\,''(0)\|} = \{-1, 0, 0\}
+			\]
+			
+			\item \textbf{副法线 $\vec{B}$}：
+			\[
+				\vec{B} = \vec{T} \times \vec{N} = \begin{vmatrix}
+					\mathbf{i} & \mathbf{j} & \mathbf{k} \\
+					0 & \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} \\
+					-1 & 0 & 0
+				\end{vmatrix} = \left\{0, -\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}\right\}
+			\]
+		\end{enumerate}
+		
+		\item \textbf{几何对象方程}：
+		\begin{enumerate}
+			\item \textbf{切线方程}：\\
+			方向向量 $\vec{r}\,'(0) = \{0, 1, 1\}$，过点 $(1, 0, 0)$：
+			\[
+				\frac{x-1}{0} = \frac{y}{1} = \frac{z}{1} \quad \text{或} \quad 
+				\begin{cases} 
+					x = 1 \\ 
+					y = z 
+				\end{cases}
+			\]
+			
+			\item \textbf{法平面方程}：\\
+			法向量为 $\vec{r}\,'(0)$，方程为：
+			\[
+				0(x-1) + 1(y-0) + 1(z-0) = 0 \quad \Rightarrow \quad y + z = 0
+			\]
+			
+			\item \textbf{主法线方程}：\\
+			方向向量 $\vec{N} = \{-1, 0, 0\}$，过点 $(1, 0, 0)$：
+			\[
+				\frac{x-1}{-1} = \frac{y}{0} = \frac{z}{0} \quad \text{或} \quad 
+				\begin{cases} 
+					y = 0 \\ 
+					z = 0 
+				\end{cases}
+			\]
+			
+			\item \textbf{副法线方程}：\\
+			方向向量 $\vec{B} = \left\{0, -\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}\right\}$，过点 $(1, 0, 0)$：
+			\[
+				x = 1, \quad \frac{y}{-\frac{1}{\sqrt{2}}} = \frac{z}{\frac{1}{\sqrt{2}}}
+			\]
+			
+			\item \textbf{密切平面方程}：\\
+			法向量为 $\vec{B}$，方程为：
+			\[
+				0(x-1) -\frac{1}{\sqrt{2}}(y-0) + \frac{1}{\sqrt{2}}(z-0) = 0 \quad \Rightarrow \quad z = y
+			\]
+			
+			\item \textbf{从切平面方程}：\\
+			法向量为 $\vec{N}$，方程为：
+			\[
+				-1(x-1) + 0(y-0) + 0(z-0) = 0 \quad \Rightarrow \quad x = 1
+			\]
+		\end{enumerate}
+	\end{enumerate}
+\end{proof}
+\section{曲率挠率}
+\begin{definition}[曲率]
+    我们称 $k(s) = |T'(s)| = |r''(s)|$ 为曲线的曲率。
+\end{definition}
+\begin{definition}[挠率]
+    \[
+    \tau(s) = -B'(s) \cdot N(s)
+    \]
+\end{definition}
+对于一般参数$t$
+\begin{align*}
+    k(t) &= k(s) = T'(s) \cdot N(s) \\
+     &= \frac{|r' \times r''|}{|r'|^3}.
+\end{align*}
+\begin{align*}
+    \tau(t) &= \tau(s) = -B'(s) \cdot N(s)\\
+    &= \frac{[r', r'', r''']}{|r' \times r''|^2}.
+\end{align*} 
+
+\begin{example}
+	求 $\vec{r} = \{a(3t - t^3), 3at^2, a(3t + t^3)\}$ 的曲率和挠率。
+\end{example}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
+
