@@ -12,3 +12,4 @@
 \contentsline {section}{\numberline {2.6}主方向}{13}{section.2.6}%
 \contentsline {section}{\numberline {2.7}主曲率、高斯曲率、平均曲率}{14}{section.2.7}%
 \contentsline {section}{\numberline {2.8}可展曲面}{17}{section.2.8}%
+\contentsline {section}{\numberline {2.9}曲面论基本定理、一些符号}{18}{section.2.9}%

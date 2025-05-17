@@ -1471,5 +1471,201 @@ r(u,v) = a(u) + v b(u).
 		所以不是可展曲面。
 	\end{enumerate}
 	\end{proof}
+
+\section{曲面论基本定理、一些符号}
+\begin{align*}
+    &\text{高斯符号:} \quad u \quad v \quad du \quad dv \quad \vec{r_0} \quad \vec{r_1} \quad \vec{r_2} \quad \vec{r_{uv}} \quad \vec{r_{uv}}' \\
+    &\text{张量符号:} \quad u^1 \quad u^2 \quad du^1 \quad du^2 \quad \vec{r}^1 \quad \vec{r}^2 \quad (\vec{r}^1)' \quad (\vec{r}^2)' \quad \vec{r_{12}} \quad \vec{r_{22}}' \\
+\end{align*}
+
+\begin{align*}
+    &\text{(高斯符号)} \quad E = \vec{r}_u \cdot \vec{r}_u \quad F = \vec{r}_u \cdot \vec{r}_v \quad G = \vec{r}_v \cdot \vec{r}_v \\
+    &\quad \quad \quad \quad \quad L = \vec{r}_{uu} \cdot \vec{n} \quad M = \vec{r}_{uv} \cdot \vec{n} \quad N = \vec{r}_{vv} \cdot \vec{n} \\
+    &\text{(张量符号)} \quad g_{11} = \vec{r}_1 \cdot \vec{r}_1 \quad g_{12} = \vec{r}_1 \cdot \vec{r}_2 \quad g_{22} = \vec{r}_2 \cdot \vec{r}_2 \\
+    &\quad \quad \quad \quad \quad L_{11} = \vec{r}_{11} \cdot \vec{n} \quad L_{12} = \vec{r}_{12} \cdot \vec{n} \quad L_{22} = \vec{r}_{22} \cdot \vec{n} \\
+\end{align*}
+
+\begin{align*}
+    &\text{(高斯符号)} 
+    \begin{vmatrix}
+        E & F \\
+        F & G
+    \end{vmatrix} = EG - F^2 \quad
+    \begin{vmatrix}
+        E & F \\
+        F & G
+    \end{vmatrix}^{-1} \quad
+     k = \frac{LN - M^2}{EG - F^2} \\
+    &\text{(张量符号)} 
+    g = \begin{vmatrix}
+        g_{11} & g_{12} \\
+        g_{21} & g_{22}
+    \end{vmatrix} \quad
+    (g^{ij}) = \frac{1}{g} \begin{vmatrix}
+        g_{22} & -g_{12} \\
+        -g_{21} & g_{11}
+    \end{vmatrix} \quad
+    k = \frac{L_{11}L_{22} - L_{12}L_{21}}{g}
+\end{align*}
+\begin{align*}
+    &\text{高斯符号} 
+    I = E \, du^2 + 2F \, du \, dv + G \, dv^2 \quad
+    II = L \, du^2 + 2M \, du \, dv + N \, dv^2 \\
+    &\text{张量符号} 
+    I = \sum_{i,j} g_{ij} \, du^i \, dv^j \quad (i,j = 1,2) \quad
+    II = \sum_{i,j} L_{ij} \, du^i \, dv^j \quad (i,j = 1,2)
+\end{align*}
+\[
+\Gamma_{ij}^k = \sum_{l} g^{kl} [ij,l]= \sum_{l} \frac{1}{2} g^{kl} \left( \frac{\partial g_{il}}{\partial u^j} + \frac{\partial g_{jl}}{\partial u^i} - \frac{\partial g_{ij}}{\partial u^l} \right), \quad i,j,k=1,2.
+\]
+
+\[
+\Gamma_{ij}^k \text{ 用 } E, F, G \text{ 表示:}
+\]
+
+\[
+\Gamma_{11}^1 = \frac{GE_u - F(2F_u - E_v)}{2(EG - F^2)}, \quad \Gamma_{11}^2 = \frac{E(2F_u - E_v) - FE_u}{2(EG - F^2)}
+\]
+
+\[
+\Gamma_{12}^1 = \frac{E_v - F G_u}{2(EG - F^2)}, \quad \Gamma_{12}^2 = \frac{E G_u - F E_v}{2(EG + F^2)}
+\]
+
+\[
+\Gamma_{22}^1 = \frac{G(2F_v - G_u) - F G_v}{2(EG - F^2)}, \quad \Gamma_{22}^2 = \frac{E G_v + F(2F_v - G_u)}{2(EG - F^2)}
+\]
+\begin{example}
+	$\Gamma_{11}^1 $
+\end{example}
+\begin{proof}
+	由 Christoffel 符号的定义：
+	\[
+	\Gamma_{ij}^k = \sum_{l=1}^2 \frac{1}{2} g^{kl} \left( \frac{\partial g_{il}}{\partial u^j} + \frac{\partial g_{jl}}{\partial u^i} - \frac{\partial g_{ij}}{\partial u^l} \right)
+	\]
+	对于二维曲面，第一基本形式为
+	\[
+	(g_{ij}) = \begin{pmatrix}
+	E & F \\
+	F & G
+	\end{pmatrix}
+	\]
+	其逆矩阵为
+	\[
+	(g^{ij}) = \frac{1}{EG - F^2}
+	\begin{pmatrix}
+	G & -F \\
+	-F & E
+	\end{pmatrix}
+	\]
+	我们要求 $\Gamma_{11}^1$，即 $i=1, j=1, k=1$，代入得
+	\[
+	\Gamma_{11}^1 = \sum_{l=1}^2 \frac{1}{2} g^{1l} \left( \frac{\partial g_{1l}}{\partial u^1} + \frac{\partial g_{1l}}{\partial u^1} - \frac{\partial g_{11}}{\partial u^l} \right)
+	\]
+	\[
+	= \frac{1}{2} \left[
+	g^{11} \left( 2\frac{\partial g_{11}}{\partial u^1} - \frac{\partial g_{11}}{\partial u^1} \right)
+	+ g^{12} \left( 2\frac{\partial g_{12}}{\partial u^1} - \frac{\partial g_{11}}{\partial u^2} \right)
+	\right]
+	\]
+	注意 $g_{11}=E,\,g_{12}=F,\,u^1=u,\,u^2=v$，所以
+	\[
+	\Gamma_{11}^1 = \frac{1}{2} \left[
+	g^{11} E_u
+	+ g^{12} (2F_u - E_v)
+	\right]
+	\]
+	其中 $E_u = \frac{\partial E}{\partial u}$，$F_u = \frac{\partial F}{\partial u}$，$E_v = \frac{\partial E}{\partial v}$。
+	
+	再代入 $g^{11} = \frac{G}{EG-F^2}$，$g^{12} = -\frac{F}{EG-F^2}$，得
+	\[
+	\Gamma_{11}^1 = \frac{1}{2(EG-F^2)} \left[
+	G E_u - F (2F_u - E_v)
+	\right]
+	\]
+	即
+	\[
+	\boxed{
+	\Gamma_{11}^1 = \frac{G E_u - F (2F_u - E_v)}{2(EG-F^2)}
+	}
+	\]
+\end{proof}
+\begin{example}
+	平面上取极坐标时，第一基本形式为 $ds^2 = d\rho^2 + \rho^2 d\theta^2$，试计算第二类克里斯托费尔符号 $\Gamma_{ij}^k$
+\end{example}
+\begin{proof}
+	极坐标下，第一基本形式为
+	\[
+	ds^2 = d\rho^2 + \rho^2 d\theta^2
+	\]
+	即
+	\[
+	E = 1, \quad F = 0, \quad G = \rho^2
+	\]
+	记 $u^1 = \rho,\, u^2 = \theta$。
+	
+	计算各个分量的偏导数：
+	\[
+	E_\rho = 0,\quad E_\theta = 0,\quad F_\rho = 0,\quad F_\theta = 0,\quad G_\rho = 2\rho,\quad G_\theta = 0
+	\]
+	
+	第一基本形式的逆矩阵为
+	\[
+	(g^{ij}) = \frac{1}{EG - F^2}
+	\begin{pmatrix}
+	G & -F \\
+	-F & E
+	\end{pmatrix}
+	= \frac{1}{\rho^2}
+	\begin{pmatrix}
+	\rho^2 & 0 \\
+	0 & 1
+	\end{pmatrix}
+	= \begin{pmatrix}
+	1 & 0 \\
+	0 & \frac{1}{\rho^2}
+	\end{pmatrix}
+	\]
+	
+	下面分别计算各个 $\Gamma_{ij}^k$：
+	
+	\textbf{1.} $\Gamma_{11}^1$：
+	\[
+	\Gamma_{11}^1 = \frac{G E_\rho - F (2F_\rho - E_\theta)}{2(EG - F^2)} = \frac{\rho^2 \cdot 0 - 0 \cdot (0 - 0)}{2\rho^2} = 0
+	\]
+	
+	\textbf{2.} $\Gamma_{11}^2$：
+	\[
+	\Gamma_{11}^2 = \frac{E(2F_\rho - E_\theta) - F E_\rho}{2(EG - F^2)} = \frac{1 \cdot (0 - 0) - 0 \cdot 0}{2\rho^2} = 0
+	\]
+	
+	\textbf{3.} $\Gamma_{12}^1$：
+	\[
+	\Gamma_{12}^1 = \frac{E_\theta - F G_\rho}{2(EG - F^2)} = \frac{0 - 0 \cdot 2\rho}{2\rho^2} = 0
+	\]
+	
+	\textbf{4.} $\Gamma_{12}^2$：
+	\[
+	\Gamma_{12}^2 = \frac{E G_\rho - F E_\theta}{2(EG - F^2)} = \frac{1 \cdot 2\rho - 0 \cdot 0}{2\rho^2} = \frac{2\rho}{2\rho^2} = \frac{1}{\rho}
+	\]
+	
+	\textbf{5.} $\Gamma_{22}^1$：
+	\[
+	\Gamma_{22}^1 = \frac{G(2F_\theta - G_\rho) - F G_\theta}{2(EG - F^2)} = \frac{\rho^2 (0 - 2\rho) - 0 \cdot 0}{2\rho^2} = \frac{-2\rho^3}{2\rho^2} = -\rho
+	\]
+	
+	\textbf{6.} $\Gamma_{22}^2$：
+	\[
+	\Gamma_{22}^2 = \frac{E G_\theta + F(2F_\theta - G_\rho)}{2(EG - F^2)} = \frac{1 \cdot 0 + 0 \cdot (0 - 2\rho)}{2\rho^2} = 0
+	\]
+	
+	\textbf{综上，极坐标下非零的克里斯托费尔符号为：}
+	\[
+	\boxed{
+	\Gamma_{12}^2 = \Gamma_{21}^2 = \frac{1}{\rho}, \qquad
+	\Gamma_{22}^1 = -\rho
+	}
+	\]
+	其余分量均为零。
+\end{proof}
 \end{document}
 
