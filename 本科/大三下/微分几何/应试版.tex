@@ -384,19 +384,1092 @@
 \begin{example}
 	求 $\vec{r} = \{a(3t - t^3), 3at^2, a(3t + t^3)\}$ 的曲率和挠率。
 \end{example}
+\begin{proof}
+	\begin{enumerate}
+		\item \textbf{计算导数}：
+		\begin{align*}
+			\vec{r}\,'(t) &= \{a(3 - 3t^2),\ 6at,\ a(3 + 3t^2)\} \\
+			\vec{r}\,''(t) &= \{-6at,\ 6a,\ 6at\} \\
+			\vec{r}\,'''(t) &= \{-6a,\ 0,\ 6a\}
+		\end{align*}
+		
+		\item \textbf{计算叉乘 $\vec{r}\,' \times \vec{r}\,''$}：
+		\[
+			\vec{r}\,' \times \vec{r}\,'' = \begin{vmatrix}
+				\mathbf{i} & \mathbf{j} & \mathbf{k} \\
+				a(3-3t^2) & 6at & a(3+3t^2) \\
+				-6at & 6a & 6at
+			\end{vmatrix} = \left(18a^2(t^2-1),\ -36a^2t,\ 18a^2(1+t^2)\right)
+		\]
+		模长为：
+		\[
+			|\vec{r}\,' \times \vec{r}\,''| = 18a^2\sqrt{2}(t^2 + 1)
+		\]
+		
+		\item \textbf{计算曲率}：
+		\[
+			k(t) = \frac{|\vec{r}\,' \times \vec{r}\,''|}{|\vec{r}\,'|^3} = \frac{18a^2\sqrt{2}(t^2+1)}{\left(3a\sqrt{2}(t^2+1)\right)^3} = \frac{1}{3a(t^2+1)^2}
+		\]
+		
+		\item \textbf{计算三重标量积}：
+		\[
+			[\vec{r}\,', \vec{r}\,'', \vec{r}\,'''] = \begin{vmatrix}
+				a(3-3t^2) & 6at & a(3+3t^2) \\
+				-6at & 6a & 6at \\
+				-6a & 0 & 6a
+			\end{vmatrix} = 216a^3
+		\]
+		
+		\item \textbf{计算挠率}：
+		\[
+			\tau(t) = \frac{[\vec{r}\,', \vec{r}\,'', \vec{r}\,''']}{|\vec{r}\,' \times \vec{r}\,''|^2} = \frac{216a^3}{\left(18a^2\sqrt{2}(t^2+1)\right)^2} = \frac{1}{3a(t^2+1)^2}
+		\]
+	\end{enumerate}
+		
+
+\end{proof}
+
+\chapter{曲面论}
+
+\section{切平面和法线}
+
+  \textbf{u-曲线：} 令 $v = v_0$，
+    $$
+    r(u, v_0) = \big(x(u, v_0), y(u, v_0), z(u, v_0)\big).
+    $$
+    只有 $u$ 作为参数，是曲面上的曲线。
+    其对应的切向量为
+    $$
+    \left. r'(u) \right|_{u_0} = r_u(u_0, v_0).
+    $$
+    
+    \textbf{v-曲线：} 令 $u = u_0$，
+    $$
+    r(u_0, v) = \big(x(u_0, v), \ldots \big)
+    $$
+    其对应的切向量为
+    $$
+    \left. r'(v) \right|_{v_0} = r_v(u_0, v_0).
+    $$
+    \begin{definition}[切平面]
+        设 $p \in S$ 为曲面上一点。
+        
+        定义 $T_p S$ 为所有经过 $p$ 且在 $S$ 上的曲线在 $p$ 点处的切向量构成的集合。
+        
+        称为曲面 $S$ 在 $p$ 点处的切平面（切空间）。
+        
+        $$
+        T_p S = \left\{ \text{所有过 } p \text{ 且在曲面 } S \text{ 上的曲线在 } p \text{ 点处的切向量} \right\}
+        $$
+\end{definition}
+\begin{proposition}
+    $T_p S$ 是由 $\operatorname{Span}\{ r_u|_{(u_0,v_0)}, r_v|_{(u_0,v_0)} \}$ 张成的线性空间。  
+因此，$T_p S$ 是一个线性空间。  
+\[ 0 \iff (u_0, v_0) \iff P. \]
+\end{proposition}
+\begin{definition}[法向量与正则曲面片]
+    我们称单位法向量
+\[
+\mathbf{n} = \frac{r_u \times r_v}{\lVert r_u \times r_v \rVert}
+\]
+为曲面片在参数域上的\textbf{定向法向量}。
+
+对于正则曲面片，若其参数化满足 $r_u \times r_v \neq \mathbf{0}$，则可在每一点定义法向量。  
+严格来说，$\mathbf{n}$ 和 $-\mathbf{n}$ 均可作为法向量方向，对应两种不同的定向方式（称为分法 (2)）。
+\end{definition}
+
+\begin{example}
+	设曲面 $\vec{r} = \vec{r}(u,v) = \{u+v, u-v, uv\}$，求点 $(1,2)$ 处的单位法向量、切平面方程、法线方程 
+\end{example}
+\begin{proof}
+	\begin{enumerate}
+		\item \textbf{计算偏导数}：
+		\[
+			\vec{r}_u = \left.\frac{\partial \vec{r}}{\partial u}\right|_{(1,2)} = \{1, 1, 2\}, \quad 
+			\vec{r}_v = \left.\frac{\partial \vec{r}}{\partial v}\right|_{(1,2)} = \{1, -1, 1\}
+		\]
+		
+		\item \textbf{求法向量}：
+		\[
+			\vec{n} = \vec{r}_u \times \vec{r}_v = \begin{vmatrix}
+				\mathbf{i} & \mathbf{j} & \mathbf{k} \\
+				1 & 1 & 2 \\
+				1 & -1 & 1
+			\end{vmatrix} = \{3, 1, -2\}
+		\]
+		模长 $|\vec{n}| = \sqrt{3^2 + 1^2 + (-2)^2} = \sqrt{14}$，单位法向量：
+		\[
+			\vec{n}_0 = \left\{\frac{3}{\sqrt{14}}, \frac{1}{\sqrt{14}}, -\frac{2}{\sqrt{14}}\right\}
+		\]
+		
+		\item \textbf{切平面方程}：\\
+		点 $\vec{r}(1,2) = (3, -1, 2)$，法向量 $\vec{n}$：
+		\[
+			3(x-3) + 1(y+1) - 2(z-2) = 0 \quad \Rightarrow \quad 3x + y - 2z = 4
+		\]
+		
+		\item \textbf{法线方程}：
+		\[
+			\frac{x-3}{3} = \frac{y+1}{1} = \frac{z-2}{-2}
+		\]
+	\end{enumerate}
+\end{proof}
+\begin{example}
+	求球面 $\vec{r} = ( \theta, \varphi ) = \{a\cos\theta\cos\varphi, a\cos\theta\sin\varphi, a\sin\theta \}$ 上任意点的切平面和法线方程。
+\end{example}
+\begin{proof}
+	\begin{enumerate}
+		\item \textbf{计算偏导数}：
+		\[
+			\vec{r}_\theta = \{-a\sin\theta\cos\varphi, -a\sin\theta\sin\varphi, a\cos\theta\}
+		\]
+		\[
+			\vec{r}_\varphi = \{-a\cos\theta\sin\varphi, a\cos\theta\cos\varphi, 0\}
+		\]
+		
+		\item \textbf{求法向量}：
+		\[
+			\vec{n} = \vec{r}_\theta \times \vec{r}_\varphi = -a^2\cos\theta \cdot \{a\cos\theta\cos\varphi, a\cos\theta\sin\varphi, a\sin\theta\}
+		\]
+		单位法向量：
+		\[
+			\vec{n}_0 = -\frac{\vec{r}}{a} \quad \text{（指向球心）}
+		\]
+		
+		\item \textbf{切平面方程}：
+		\[
+			\cos\theta\cos\varphi \cdot x + \cos\theta\sin\varphi \cdot y + \sin\theta \cdot z = a
+		\]
+		
+		\item \textbf{法线方程}：
+		\[
+			\frac{x - a\cos\theta\cos\varphi}{\cos\theta\cos\varphi} = \frac{y - a\cos\theta\sin\varphi}{\cos\theta\sin\varphi} = \frac{z - a\sin\theta}{\sin\theta}
+		\]
+	\end{enumerate}
+\end{proof}
+\section{曲面的第一基本形式}
+\begin{definition}[第一基本形式]
+    设正则曲面片 \( r: D \to \mathbb{E}^3 \)，对任意点 \( p \in S \)，其切空间 \( T_pS \) 由基向量 \(\{r_u, r_v\}\) 张成。定义第一基本形式 \( I \) 为：
+\[
+I = E \, du \otimes du + 2F \, du \otimes dv + G \, dv \otimes dv,
+\]
+其中系数由基向量的内积确定：
+\[
+E = r_u \cdot r_u, \quad F = r_u \cdot r_v, \quad G = r_v \cdot r_v.
+\]
+对应的度量张量矩阵为：
+\[
+(g_{ij}) = \begin{pmatrix}
+E & F \\
+F & G
+\end{pmatrix}.
+\]
+\end{definition}
+\subsection*{第一基本形式的公式}
+设切向量 \(\alpha = a_1 r_u + b_1 r_v\) 和 \(\beta = a_2 r_u + b_2 r_v\)，则：
+\[
+I(\alpha, \beta) = (a_1 \quad b_1) \begin{pmatrix}
+E & F \\
+F & G
+\end{pmatrix} \begin{pmatrix}
+a_2 \\
+b_2
+\end{pmatrix} = E a_1 a_2 + F(a_1 b_2 + b_1 a_2) + G b_1 b_2.
+\]
+
+\subsection*{第一基本形式的几何意义}
+
+（一）曲面上的曲线长度
+
+设曲面上的曲线为 $r(t) = r(u(t), v(t))$，其中 $t \in [a, b]$。
+
+在点 $p$ 处，参数 $t$ 对应于 $t_0$。
+
+曲线在点 $p$ 处的切向量为：
+
+$$
+\left. \frac{d}{dt} \right|_{t_0} r(t) = u_t \cdot r_u + v_t \cdot r_v \in T_p S
+$$
+
+曲线在点 $p$ 处的长度元素为：
+
+$$
+\left| \left. \frac{d}{dt} \right|_{t_0} r(t) \right| = \sqrt{E (u_t)^2 + 2 F (u_t)(v_t) + G (v_t)^2} = \sqrt{I \left( \frac{d}{dt} \gamma(t), \frac{d}{dt} \gamma(t) \right)}
+$$
+\begin{definition}[曲线长度]
+    设曲面上的曲线为 $r(t) = r(u(t), v(t))$。
+
+    曲线的长度 $l$ 定义为：
+    
+    $$
+    l = \int_{a}^{b} |r'(t)| dt = \int_{a}^{b} \sqrt{I\left(\frac{dr}{dt}, \frac{dr}{dt}\right)} dt
+    $$
+    
+    其中，$I$ 表示第一基本形式。
+    
+\end{definition}
+\begin{example}
+	计算 $S = \vec{r}(u,v) = \{a\cos u, a\sin u, v\}$ ($a > 0$) 上曲线 $u = t, v = t, t \in [0,1]$ 的长度。
+\end{example}
+\begin{proof}
+	\begin{enumerate}
+		\item \textbf{确定曲线参数方程}：\\
+		将 $u = t$ 和 $v = t$ 代入曲面方程，得曲线：
+		\[
+			\vec{r}(t) = \{a\cos t,\ a\sin t,\ t\}, \quad t \in [0,1]
+		\]
+		
+		\item \textbf{计算第一基本形式}：
+		\begin{itemize}
+			\item 曲面偏导数：
+			\[
+				\vec{r}_u = \{-a\sin u,\ a\cos u,\ 0\}, \quad 
+				\vec{r}_v = \{0,\ 0,\ 1\}
+			\]
+			\item 第一基本量：
+			\[
+				E = \vec{r}_u \cdot \vec{r}_u = a^2, \quad 
+				F = \vec{r}_u \cdot \vec{r}_v = 0, \quad 
+				G = \vec{r}_v \cdot \vec{r}_v = 1
+			\]
+			\[
+				\text{第一基本形式：} \quad ds^2 = a^2 du^2 + dv^2
+			\]
+		\end{itemize}
+		
+		\item \textbf{计算弧长微分}：\\
+		曲线参数变化率 $\frac{du}{dt} = 1$, $\frac{dv}{dt} = 1$，代入第一基本形式：
+		\[
+			ds = \sqrt{E\left(\frac{du}{dt}\right)^2 + 2F\frac{du}{dt}\frac{dv}{dt} + G\left(\frac{dv}{dt}\right)^2} \, dt = \sqrt{a^2 \cdot 1 + 1 \cdot 1} \, dt = \sqrt{a^2 + 1} \, dt
+		\]
+		
+		\item \textbf{积分求总长}：
+		\[
+			l = \int_{0}^{1} \sqrt{a^2 + 1} \, dt = \sqrt{a^2 + 1} \cdot \int_{0}^{1} dt = \boxed{\sqrt{a^2 + 1}}
+		\]
+	\end{enumerate}
+\end{proof}
+(二)曲面上区域的面积
+
+曲面的面积元素 $d\sigma$ 定义为：
+
+$$
+d\sigma = |r_u \times r_v| du dv
+$$
+
+展开为：
+
+$$
+d\sigma = |r_u \times r_v| (\Delta u) (\Delta v)
+$$
+
+进一步化简为：
+
+$$
+d\sigma = \sqrt{|r_u|^2 |r_v|^2 - (r_u \cdot r_v)^2} (\Delta u) (\Delta v)
+$$
+
+即：
+
+$$
+d\sigma = \sqrt{EG - F^2} du dv
+$$
+
+其中，$E = |r_u|^2$，$F = r_u \cdot r_v$，$G = |r_v|^2$。
+
+\begin{definition}[曲面面积]
+    曲面的面积 $A(r(D))$ 定义为：
+
+    $$
+    A(r(D)) = \iint\limits_{D} \sqrt{EG - F^2} du dv
+    $$
+
+    其中，$D \subset \mathbb{R}^2$。
+\end{definition}
+\begin{example}
+	求球面 $\vec{r}(\varphi, \theta) = a \{\cos\varphi \cos\theta, \cos\varphi \sin\theta, \sin\varphi\}$ 的面积。
+
+\end{example}
+\begin{proof}
+	\begin{enumerate}
+		\item \textbf{计算偏导数}：
+		\[
+			\vec{r}_\varphi = \{-a\sin\varphi \cos\theta,\ -a\sin\varphi \sin\theta,\ a\cos\varphi\}
+		\]
+		\[
+			\vec{r}_\theta = \{-a\cos\varphi \sin\theta,\ a\cos\varphi \cos\theta,\ 0\}
+		\]
+		
+		\item \textbf{计算第一基本量}：
+		\[
+			E = \vec{r}_\varphi \cdot \vec{r}_\varphi = a^2, \quad 
+			F = \vec{r}_\varphi \cdot \vec{r}_\theta = 0, \quad 
+			G = \vec{r}_\theta \cdot \vec{r}_\theta = a^2\cos^2\varphi
+		\]
+		
+		\item \textbf{计算面积元}：
+		\[
+			\sqrt{EG - F^2} = a^2\cos\varphi
+		\]
+		
+		\item \textbf{确定参数范围}：\\
+		标准球面参数域 $\varphi \in [-\frac{\pi}{2}, \frac{\pi}{2}],\ \theta \in [0, 2\pi]$
+		
+		\item \textbf{积分求面积}：
+		\[
+			A = \int_{0}^{2\pi} \int_{-\frac{\pi}{2}}^{\frac{\pi}{2}} a^2\cos\varphi \, d\varphi d\theta = 2\pi a^2 \cdot 2 = \boxed{4\pi a^2}
+		\]
+	\end{enumerate}
+\end{proof}
+\begin{example}
+	计算圆柱面 $S: \vec{r}(u,v) = \{a\cos u, a\sin u, v\}$ ($a > 0$) 上由曲线 $u=1, v=0, u-v=0$ 所围成曲面的面积。
+
+\end{example}
+\begin{proof}
+	\begin{enumerate}
+		\item \textbf{确定参数区域 $D$}：\\
+		曲线 $u=1$, $v=0$, $u-v=0$ 在参数平面内围成三角形区域：
+		\[
+			D = \{(u,v) \mid 0 \leq u \leq 1,\ 0 \leq v \leq u\}
+		\]
+		
+		\item \textbf{计算第一基本量}：
+		\[
+			\vec{r}_u = \{-a\sin u,\ a\cos u,\ 0\}, \quad 
+			\vec{r}_v = \{0,\ 0,\ 1\}
+		\]
+		\[
+			E = a^2, \quad F = 0, \quad G = 1 \quad \Rightarrow \quad \sqrt{EG - F^2} = a
+		\]
+		
+		\item \textbf{积分求面积}：
+		\[
+			A = \iint\limits_{D} a \, du dv = a \int_{0}^{1} \int_{0}^{u} dv du = a \int_{0}^{1} u \, du = \boxed{\frac{a}{2}}
+		\]
+	\end{enumerate}
+\end{proof}
+\section{第二基本形式}
+\begin{definition}[ 第二基本形式]
+    $$
+II = L \, du \otimes du + M \, du \otimes dv + M \, dv \otimes du + N \, dv \otimes dv
+$$
+
+其中，
+
+$$
+II \sim \begin{pmatrix} L & M \\ M & N \end{pmatrix}
+$$
+
+也是 $T_p S$ 上的一个张量积，线性、对称，但不一定正定。
+
+其中：
+
+\begin{align*}
+L &= r_{uu} \cdot n = (r_u \cdot n)_u - r_u \cdot n_u \\
+M &= r_{uv} \cdot n = -r_u \cdot n_v = -r_v \cdot n_u \\
+N &= r_{vv} \cdot n = -r_v \cdot n_v
+\end{align*}
+\end{definition}
+\begin{example}
+	计算悬链面 $\vec{r} = \{\cosh u \cos v, \cosh u \sin v, u\}$ 的第一、第二类基本量。
+\end{example}
+\begin{proof}
+
+	
+	\begin{enumerate}
+		\item \textbf{第一类基本量}：
+		\begin{enumerate}
+			\item \textbf{计算偏导数}：
+			\[
+				\vec{r}_u = \{\sinh u \cos v,\ \sinh u \sin v,\ 1\}, \quad 
+				\vec{r}_v = \{-\cosh u \sin v,\ \cosh u \cos v,\ 0\}
+			\]
+			
+			\item \textbf{计算第一基本量}：
+			\[
+				E = \vec{r}_u \cdot \vec{r}_u = \cosh^2 u, \quad 
+				F = \vec{r}_u \cdot \vec{r}_v = 0, \quad 
+				G = \vec{r}_v \cdot \vec{r}_v = \cosh^2 u
+			\]
+		\end{enumerate}
+		
+		\item \textbf{第二类基本量}：
+		\begin{enumerate}
+			\item \textbf{计算二阶偏导数}：
+			\[
+				\vec{r}_{uu} = \{\cosh u \cos v,\ \cosh u \sin v,\ 0\}
+			\]
+			\[
+				\vec{r}_{uv} = \{-\sinh u \sin v,\ \sinh u \cos v,\ 0\}
+			\]
+			\[
+				\vec{r}_{vv} = \{-\cosh u \cos v,\ -\cosh u \sin v,\ 0\}
+			\]
+			
+			\item \textbf{计算单位法向量}：
+			\[
+				\vec{n} = \frac{\vec{r}_u \times \vec{r}_v}{|\vec{r}_u \times \vec{r}_v|} = \left\{ -\frac{\cos v}{\cosh u},\ -\frac{\sin v}{\cosh u},\ \tanh u \right\}
+			\]
+			
+			\item \textbf{计算第二基本量}：
+			\[
+				L = \vec{r}_{uu} \cdot \vec{n} = -1, \quad 
+				M = \vec{r}_{uv} \cdot \vec{n} = 0, \quad 
+				N = \vec{r}_{vv} \cdot \vec{n} = 1
+			\]
+		\end{enumerate}
+	\end{enumerate}
+	
+\end{proof}
+\section{法曲率的计算}
+\begin{proposition}[法曲率的一般公式]
 
 
+	若 $v$ 非单位向量，则 $\frac{v}{|v|}$ 为单位向量。
+	
+	定义
+	\[
+	k_n(v) \equiv k_n\left(\frac{v}{|v|}\right) = II\left(\frac{v}{|v|}, \frac{v}{|v|}\right)
+	\]
+	\[
+	= \frac{1}{|v|^2} II(v,v) = \frac{II(v,v)}{I(v,v)}
+	\]
+	上述称为法曲率的一般公式。
+\end{proposition}
+\begin{example}
+	计算椭圆抛物面 $z = \frac{1}{2}(ax^2 + by^2)$ ($a, b > 0$) 在点 $(0,0,0)$ 处沿任一方向 $\frac{dx}{dy}$ 的法曲率
+\end{example}
+\begin{proof}
+	
+	\begin{enumerate}
+		\item \textbf{参数化曲面}：\\
+		将椭圆抛物面表示为 $\vec{r}(x,y) = \left(x,\ y,\ \frac{1}{2}(ax^2 + by^2)\right)$
+		
+		\item \textbf{计算一阶偏导数}：
+		\[
+			\vec{r}_x = \left(1,\ 0,\ ax\right), \quad 
+			\vec{r}_y = \left(0,\ 1,\ by\right)
+		\]
+		在点 $(0,0,0)$ 处：
+		\[
+			\vec{r}_x = (1,0,0), \quad 
+			\vec{r}_y = (0,1,0)
+		\]
+		
+		\item \textbf{第一类基本量}：
+		\[
+			E = \vec{r}_x \cdot \vec{r}_x = 1, \quad 
+			F = \vec{r}_x \cdot \vec{r}_y = 0, \quad 
+			G = \vec{r}_y \cdot \vec{r}_y = 1
+		\]
+		
+		\item \textbf{计算单位法向量}：
+		\[
+			\vec{n} = \frac{\vec{r}_x \times \vec{r}_y}{|\vec{r}_x \times \vec{r}_y|} = (0,0,1)
+		\]
+		
+		\item \textbf{计算二阶偏导数}：
+		\[
+			\vec{r}_{xx} = (0,0,a), \quad 
+			\vec{r}_{xy} = (0,0,0), \quad 
+			\vec{r}_{yy} = (0,0,b)
+		\]
+		
+		\item \textbf{第二类基本量}：
+		\[
+			L = \vec{r}_{xx} \cdot \vec{n} = a, \quad 
+			M = \vec{r}_{xy} \cdot \vec{n} = 0, \quad 
+			N = \vec{r}_{yy} \cdot \vec{n} = b
+		\]
+		
+		\item \textbf{法曲率公式}：\\
+		设方向比为 $k = \frac{dx}{dy}$，则方向向量为 $(k, 1)$，法曲率为：
+		\[
+			k_n = \frac{Lk^2 + N}{k^2 + 1} = \frac{a k^2 + b}{k^2 + 1}
+		\]
+	\end{enumerate}
+	
+\end{proof}
+\section{曲面的渐进方向}
+\begin{itemize}
+    \item 我们称 \( V \in T_pS \) 是一个渐近方向，若 \( k_n(v) = \frac{II(v, v)}{I(v,v)} = 0 \)。
+
+    若 \( r(s) = r(u(s), v(s)) \) 的切方向 \( r'(s) \) 是渐近方向，则 称\( r(s) \) 为曲面上的一条渐近线。此时 \( k_n(r'(s)) \equiv 0 \)。  
+\end{itemize}
+
+渐近线方程
+
+\[ k_n(r'(s)) \equiv 0 \iff II(r'(s), r'(s)) \equiv 0. \]
+
+\[
+\Leftrightarrow L\left( \frac{du}{ds} \right)^2 + 2M\left( \frac{du}{ds} \right) \left( \frac{dv}{ds} \right) + N\left( \frac{dv}{ds} \right)^2 = 0
+\]
+
+\[
+\Leftrightarrow L\left( \frac{du}{dv} \right)^2 + 2M\left( \frac{du}{dv} \right) + N = 0.
+\]
+
+将 \( u \) 视为 \( v \) 的函数：
+\[
+\frac{du}{dv} = \frac{du/ds}{dv/ds}
+\]
+
+方程有解的必要条件是判别式 \( \Delta \geq 0 \)：
+\[
+\Delta \geq 0 \iff \det II\leq 0 \iff K \leq 0.
+\]
+
+解得 \( u = f(v) + C \)，于是可以讨论曲线 \( u = f(v) + C \)：
+\[
+F(u,v) = C
+\]
+
+\begin{example}
+	求双曲抛物面 $\vec{r}(u,v) = \{2(u+v), u-v, 2uv\}$ 在点 $(0,0,0)$ 的渐近方向。
+\end{example}
+\begin{proof}
+	\begin{enumerate}
+		\item \textbf{二阶偏导数计算}：
+		\[
+			\vec{r}_{uu} = (0,0,0), \quad 
+			\vec{r}_{uv} = (0,0,2), \quad 
+			\vec{r}_{vv} = (0,0,0)
+		\]
+		
+		\item \textbf{单位法向量}：
+		\[
+			\vec{n} = \frac{\vec{r}_u \times \vec{r}_v}{|\vec{r}_u \times \vec{r}_v|} = (0,0,-1)
+		\]
+		
+		\item \textbf{第二基本量}：
+		\[
+			L = \vec{r}_{uu} \cdot \vec{n} = 0, \quad 
+			M = \vec{r}_{uv} \cdot \vec{n} = -2, \quad 
+			N = \vec{r}_{vv} \cdot \vec{n} = 0
+		\]
+		
+		\item \textbf{渐近方向方程}：
+		\[
+			0 \cdot (du)^2 + 2(-2) du dv + 0 \cdot (dv)^2 = 0 \quad \Rightarrow \quad du \cdot dv = 0
+		\]
+		解得渐近方向为 $\boxed{du=0}$ 或 $\boxed{dv=0}$，对应直母线方向。
+	\end{enumerate}
+\end{proof}
+
+\begin{example}
+	试求圆柱面 $S: \vec{r}(u,v) = \{a\cos u, a\sin u, v\}$ ($a > 0$) 上的渐近线。
+\end{example}
+\begin{proof}
+	\begin{enumerate}
+		\item \textbf{二阶偏导数计算}：
+		\[
+			\vec{r}_{uu} = (-a\cos u, -a\sin u, 0), \quad 
+			\vec{r}_{uv} = (0,0,0), \quad 
+			\vec{r}_{vv} = (0,0,0)
+		\]
+		
+		\item \textbf{单位法向量}：
+		\[
+			\vec{n} = (\cos u, \sin u, 0)
+		\]
+		
+		\item \textbf{第二基本量}：
+		\[
+			L = \vec{r}_{uu} \cdot \vec{n} = -a, \quad 
+			M = 0, \quad 
+			N = 0
+		\]
+		
+		\item \textbf{渐近线方程}：
+		\[
+			-a (du)^2 = 0 \quad \Rightarrow \quad du = 0
+		\]
+		解得渐近线为 $\boxed{u = \text{常数}}$，即圆柱面的直母线。
+	\end{enumerate}
+\end{proof}
+\begin{example}
+	曲面 $z = xy^2$ 的渐近线。
+\end{example}
+\begin{proof}
+	\begin{enumerate}
+		\item \textbf{参数化与二阶偏导数}：
+		\[
+			\vec{r}(x,y) = (x, y, xy^2), \quad 
+			\vec{r}_{xx} = (0,0,0), \quad 
+			\vec{r}_{xy} = (0,0,2y), \quad 
+			\vec{r}_{yy} = (0,0,2x)
+		\]
+		
+		\item \textbf{单位法向量}：
+		\[
+			\vec{n} = \frac{(-y^2, -2xy, 1)}{\sqrt{y^4 + 4x^2y^2 + 1}}
+		\]
+		
+		\item \textbf{第二基本量}：
+		\[
+			L = 0, \quad 
+			M = \frac{2y}{\sqrt{D}}, \quad 
+			N = \frac{2x}{\sqrt{D}} \quad (D = y^4 + 4x^2y^2 + 1)
+		\]
+		
+		\item \textbf{渐近线方程}：
+		\[
+			4y dx dy + 2x (dy)^2 = 0 \quad \Rightarrow \quad 2 dy (2y dx + x dy) = 0
+		\]
+		解得渐近线为：
+		\[
+			\boxed{y = C} \quad \text{或} \quad \boxed{x = Cy^{-1/2}} \quad (C \text{为常数})
+		\]
+	\end{enumerate}
+\end{proof}
+\section{主方向}
+\begin{definition}
+	设 $(d) du:dv$ 为曲面 $S: \vec{r} = \vec{r}(u,v)$ 在 $P(u,v)$ 点的一个方向，则 $(d)$ 为主方向当且仅当
+	\[
+	\begin{vmatrix}
+	du^2 & -du \, dv & dv^2 \\
+	E & F & G \\
+	L & M & N
+	\end{vmatrix}
+	= 0 
+	\]
+\end{definition}
+\begin{example}
+	计算双曲抛物面 $\vec{r} = \{a(u+v), b(u-v), 2uv\}$ 在点 $(0,0,0)$ 处的主方向。
+\end{example}
+\begin{proof}
+    \begin{enumerate}
+        \item \textbf{计算一阶偏导：}
+        \[
+            \vec{r}_u = (a, b, 2v), \quad \vec{r}_v = (a, -b, 2u)
+        \]
+        在 $(u,v) = (0,0)$ 处：
+        \[
+            \vec{r}_u = (a, b, 0), \quad \vec{r}_v = (a, -b, 0)
+        \]
+        
+        \item \textbf{计算第一基本量：}
+        \[
+            E = \vec{r}_u \cdot \vec{r}_u = a^2 + b^2
+        \]
+        \[
+            F = \vec{r}_u \cdot \vec{r}_v = a^2 - b^2
+        \]
+        \[
+            G = \vec{r}_v \cdot \vec{r}_v = a^2 + b^2
+        \]
+        
+        \item \textbf{计算单位法向量：}
+        \[
+            \vec{n} = \frac{\vec{r}_u \times \vec{r}_v}{|\vec{r}_u \times \vec{r}_v|} = \frac{(0, 0, -2ab)}{2|ab|} = (0, 0, -1)
+        \]
+        
+        \item \textbf{计算二阶偏导：}
+        \[
+            \vec{r}_{uu} = (0, 0, 0), \quad \vec{r}_{uv} = (0, 0, 2), \quad \vec{r}_{vv} = (0, 0, 0)
+        \]
+        
+        \item \textbf{计算第二基本量：}
+        \[
+            L = \vec{r}_{uu} \cdot \vec{n} = 0
+        \]
+        \[
+            M = \vec{r}_{uv} \cdot \vec{n} = 2 \cdot (-1) = -2
+        \]
+        \[
+            N = \vec{r}_{vv} \cdot \vec{n} = 0
+        \]
+        
+        \item \textbf{主方向判别式：}
+        设主方向为 $du:dv = k:1$，代入主方向判别式：
+        \[
+        \begin{vmatrix}
+        k^2 & -k & 1 \\
+        E & F & G \\
+        L & M & N
+        \end{vmatrix}
+        = 0
+        \]
+        即
+        \[
+        \begin{vmatrix}
+        k^2 & -k & 1 \\
+        a^2+b^2 & a^2-b^2 & a^2+b^2 \\
+        0 & -2 & 0
+        \end{vmatrix}
+        = 0
+        \]
+        展开行列式（按第三行）：
+        \[
+        0 \cdot \begin{vmatrix} -k & 1 \\ a^2-b^2 & a^2+b^2 \end{vmatrix}
+        - (-2) \cdot \begin{vmatrix} k^2 & 1 \\ a^2+b^2 & a^2+b^2 \end{vmatrix}
+        + 0 \cdot \begin{vmatrix} k^2 & -k \\ a^2+b^2 & a^2-b^2 \end{vmatrix}
+        \]
+        只剩中间项：
+        \[
+        2 \cdot \left[ k^2(a^2+b^2) - 1(a^2+b^2) \right] = 2(a^2+b^2)(k^2 - 1) = 0
+        \]
+        所以 $k^2 = 1$，即 $k = \pm 1$。
+        
+        \item 
+        主方向为 $du:dv = 1:1$ 和 $du:dv = -1:1$，即沿 $u = v$ 和 $u = -v$ 方向。
+        \[
+        \boxed{du:dv = 1:1 \quad \text{和} \quad du:dv = -1:1}
+        \]
+    \end{enumerate}
+\end{proof}
 
 
+\section{主曲率、高斯曲率、平均曲率}
+\begin{definition}[主曲率]
+    我们称 $W$ 的曲线在两个特征值（可以相等）$k_1, k_2$ 处的方向为曲面在该点的主曲率。
+\end{definition}
+\begin{theorem}
+	曲面 $S: \vec{r} = \vec{r}(u,v)$ 在点 $P(u,v)$ 处的主曲率 $k_n$ 满足
+\[
+\begin{vmatrix}
+L - k_n E & M - k_n F \\
+M + k_n F & N - k_n G
+\end{vmatrix}
+= 0
+\]
+（$EG - F^2$）$k_n^2$ + $(LG - 2MF + NE)k_n$ + $(LN - M^2) = 0$ （一元二次方程）
+\end{theorem}
+\begin{definition}[中曲率和高斯曲率]
+    \begin{itemize}
+        \item \textbf{高斯曲率}（$K$）：
+        \[
+        K = k_1 \cdot k_2 = \frac{LN - M^2}{EG - F^2}
+        \]
+        其中$k_1$和$k_2$是主曲率，$E,F,G$是第一基本形式的系数，$L,M,N$是第二基本形式的系数。
+    
+        \item \textbf{中曲率}（$H$）：
+        \[
+        H = \frac{1}{2}(k_1 + k_2) = \frac{LG + NE - 2MF}{2(EG - F^2)}
+        \]
+    \end{itemize}
 
+    两者完全决定了曲面在一点处的弯曲
+\end{definition}
+\begin{example}
+	计算曲面 $\vec{r}(u,v) = \{u+v, u^2-v^2, u-v\}$ 在点 $(0,0)$ 处的曲率。
+\end{example}
+\begin{proof}
+    \begin{enumerate}
+        \item \textbf{计算一阶偏导：}
+        \[
+        \vec{r}_u = (1, 2u, 1), \quad \vec{r}_v = (1, -2v, -1)
+        \]
+        在 $(u,v) = (0,0)$ 处：
+        \[
+        \vec{r}_u = (1, 0, 1), \quad \vec{r}_v = (1, 0, -1)
+        \]
 
+        \item \textbf{计算第一基本形式系数：}
+        \[
+        E = \vec{r}_u \cdot \vec{r}_u = 1^2 + 0^2 + 1^2 = 2
+        \]
+        \[
+        F = \vec{r}_u \cdot \vec{r}_v = 1 \times 1 + 0 \times 0 + 1 \times (-1) = 0
+        \]
+        \[
+        G = \vec{r}_v \cdot \vec{r}_v = 1^2 + 0^2 + (-1)^2 = 2
+        \]
 
+        \item \textbf{计算单位法向量：}
+        \[
+        \vec{n} = \frac{\vec{r}_u \times \vec{r}_v}{|\vec{r}_u \times \vec{r}_v|} = \frac{(0, 2, 0)}{2} = (0, 1, 0)
+        \]
 
+        \item \textbf{计算二阶偏导：}
+        \[
+        \vec{r}_{uu} = (0, 2, 0), \quad \vec{r}_{uv} = (0, 0, 0), \quad \vec{r}_{vv} = (0, -2, 0)
+        \]
 
+        \item \textbf{计算第二基本形式系数：}
+        \[
+        L = \vec{r}_{uu} \cdot \vec{n} = (0, 2, 0) \cdot (0, 1, 0) = 2
+        \]
+        \[
+        M = \vec{r}_{uv} \cdot \vec{n} = (0, 0, 0) \cdot (0, 1, 0) = 0
+        \]
+        \[
+        N = \vec{r}_{vv} \cdot \vec{n} = (0, -2, 0) \cdot (0, 1, 0) = -2
+        \]
 
+        \item \textbf{代入主曲率判别式：}
+        \[
+        (EG - F^2)k_n^2 + (LG - 2MF + NE)k_n + (LN - M^2) = 0
+        \]
+        代入 $E=2, F=0, G=2, L=2, M=0, N=-2$ 得
+        \[
+        (2 \times 2 - 0^2)k_n^2 + (2 \times 2 - 2 \times 0 \times 0 + (-2) \times 2)k_n + (2 \times -2 - 0^2) = 0
+        \]
+        \[
+        4k_n^2 + (4 - 4)k_n - 4 = 0
+        \]
+        \[
+        4k_n^2 - 4 = 0
+        \]
+        \[
+        k_n^2 = 1 \implies k_n = \pm 1
+        \]
 
+        \item \textbf{高斯曲率与平均曲率：}
+        \[
+        K = \frac{LN - M^2}{EG - F^2} = \frac{2 \times (-2) - 0^2}{2 \times 2 - 0^2} = \frac{-4}{4} = -1
+        \]
+        \[
+        H = \frac{LG + NE - 2MF}{2(EG - F^2)} = \frac{2 \times 2 + (-2) \times 2 - 0}{2 \times 4} = \frac{4 - 4}{8} = 0
+        \]
 
+        \item 
+        \[
+        \boxed{
+            \begin{aligned}
+                &\text{主曲率：} \quad k_1 = 1,\quad k_2 = -1 \\\\
+                &\text{高斯曲率：} \quad K = -1 \\\\
+                &\text{平均曲率：} \quad H = 0
+            \end{aligned}
+        }
+        \]
+    \end{enumerate}
+\end{proof}
+\begin{example}
+	计算正螺面 $S: \vec{r}(u,v) = \{u\cos v, u\sin v, v\}$ 的高斯曲率和平均曲率。
+\end{example}
+\begin{proof}
+    \begin{enumerate}
+        \item \textbf{计算一阶偏导：}
+        \[
+        \vec{r}_u = (\cos v,\, \sin v,\, 0), \quad \vec{r}_v = (-u\sin v,\, u\cos v,\, 1)
+        \]
 
+        \item \textbf{计算第一基本形式系数：}
+        \[
+        E = \vec{r}_u \cdot \vec{r}_u = \cos^2 v + \sin^2 v = 1
+        \]
+        \[
+        F = \vec{r}_u \cdot \vec{r}_v = \cos v \cdot (-u\sin v) + \sin v \cdot (u\cos v) + 0 \cdot 1 = 0
+        \]
+        \[
+        G = \vec{r}_v \cdot \vec{r}_v = (-u\sin v)^2 + (u\cos v)^2 + 1^2 = u^2(\sin^2 v + \cos^2 v) + 1 = u^2 + 1
+        \]
 
+        \item \textbf{计算单位法向量：}
+        \[
+        \vec{n} = \frac{\vec{r}_u \times \vec{r}_v}{|\vec{r}_u \times \vec{r}_v|}
+        \]
+        先计算叉积：
+        \[
+        \vec{r}_u \times \vec{r}_v =
+        \begin{vmatrix}
+        \mathbf{i} & \mathbf{j} & \mathbf{k} \\
+        \cos v & \sin v & 0 \\
+        -u\sin v & u\cos v & 1
+        \end{vmatrix}
+        = \left( \sin v,\, -\cos v,\, u \right)
+        \]
+        其模长为
+        \[
+        |\vec{r}_u \times \vec{r}_v| = \sqrt{\sin^2 v + \cos^2 v + u^2} = \sqrt{1 + u^2}
+        \]
+        所以
+        \[
+        \vec{n} = \left( \frac{\sin v}{\sqrt{1+u^2}},\, -\frac{\cos v}{\sqrt{1+u^2}},\, \frac{u}{\sqrt{1+u^2}} \right)
+        \]
+
+        \item \textbf{计算二阶偏导：}
+        \[
+        \vec{r}_{uu} = (0,\, 0,\, 0)
+        \]
+        \[
+        \vec{r}_{uv} = (-\sin v,\, \cos v,\, 0)
+        \]
+        \[
+        \vec{r}_{vv} = (-u\cos v,\, -u\sin v,\, 0)
+        \]
+
+        \item \textbf{计算第二基本形式系数：}
+        \[
+        L = \vec{r}_{uu} \cdot \vec{n} = 0
+        \]
+        \[
+        M = \vec{r}_{uv} \cdot \vec{n} = (-\sin v,\, \cos v,\, 0) \cdot \left( \frac{\sin v}{\sqrt{1+u^2}},\, -\frac{\cos v}{\sqrt{1+u^2}},\, \frac{u}{\sqrt{1+u^2}} \right)
+        \]
+        \[
+        = -\frac{\sin^2 v}{\sqrt{1+u^2}} - \frac{\cos^2 v}{\sqrt{1+u^2}} = -\frac{1}{\sqrt{1+u^2}}
+        \]
+        \[
+        N = \vec{r}_{vv} \cdot \vec{n} = (-u\cos v,\, -u\sin v,\, 0) \cdot \left( \frac{\sin v}{\sqrt{1+u^2}},\, -\frac{\cos v}{\sqrt{1+u^2}},\, \frac{u}{\sqrt{1+u^2}} \right)
+        \]
+        \[
+        = -u\cos v \cdot \frac{\sin v}{\sqrt{1+u^2}} + (-u\sin v) \cdot \left(-\frac{\cos v}{\sqrt{1+u^2}}\right)
+        \]
+        \[
+        = -\frac{u\sin v\cos v}{\sqrt{1+u^2}} + \frac{u\sin v\cos v}{\sqrt{1+u^2}} = 0
+        \]
+
+        \item \textbf{高斯曲率与平均曲率公式：}
+        \[
+        K = \frac{LN - M^2}{EG - F^2}
+        \]
+        \[
+        H = \frac{LG + NE - 2MF}{2(EG - F^2)}
+        \]
+        代入 $E=1, F=0, G=u^2+1, L=0, M=-\frac{1}{\sqrt{1+u^2}}, N=0$ 得
+        \[
+        EG - F^2 = 1 \cdot (u^2+1) - 0 = u^2+1
+        \]
+        \[
+        K = \frac{0 \cdot 0 - \left(-\frac{1}{\sqrt{1+u^2}}\right)^2}{u^2+1} = -\frac{1}{(u^2+1)^2}
+        \]
+        \[
+        H = \frac{0 \cdot (u^2+1) + 0 \cdot 1 - 0}{2(u^2+1)} = 0
+        \]
+
+        \item \textbf{结论：}
+        \[
+        \boxed{
+            \begin{aligned}
+                &\text{高斯曲率：} \quad K = -\frac{1}{(u^2+1)^2} \\\\
+                &\text{平均曲率：} \quad H = 0
+            \end{aligned}
+        }
+        \]
+    \end{enumerate}
+\end{proof}
+\section{可展曲面}
+\begin{definition}[直纹面]
+    称由单参数直线族给出的曲面为直纹面，换而言之，直纹面一定有以下参数表达。
+\[
+r(u,v) = a(u) + v b(u).
+\]
+\end{definition}
+\begin{definition}[可展曲面]
+    $K=0$ 的直纹面称为可展曲面。
+\end{definition}
+\begin{proposition}
+    直纹面可展 $\Leftrightarrow [a'(u), b(u), b'(u)] \equiv 0$.
+\end{proposition}
+
+\begin{example}
+	证明 $\vec{r} = \{u^2 + \frac{1}{3}v, 2u^3 + uv, u^4 + \frac{2}{3}u^2v\}$ 是可展曲面。
+\end{example}
+\begin{proof}
+
+	\textbf{方法一：高斯曲率法}
+	
+	\begin{enumerate}
+		\item \textbf{写为直纹面形式}：
+		\[
+		a(u) = \left(u^2,\, 2u^3,\, u^4\right),\quad b(u) = \left(\frac{1}{3},\, u,\, \frac{2}{3}u^2\right)
+		\]
+		\item \textbf{计算一阶偏导}：
+		\[
+		\vec{r}_u = (2u,\, 6u^2 + v,\, 4u^3 + \frac{4}{3}uv)
+		\]
+		\[
+		\vec{r}_v = \left(\frac{1}{3},\, u,\, \frac{2}{3}u^2\right) = b(u)
+		\]
+		\item \textbf{计算二阶偏导}：
+		\[
+		\vec{r}_{uu} = (2,\, 12u,\, 12u^2 + \frac{4}{3}v)
+		\]
+		\[
+		\vec{r}_{uv} = (0,\, 1,\, \frac{4}{3}u)
+		\]
+		\[
+		\vec{r}_{vv} = (0,\, 0,\, 0)
+		\]
+		\item \textbf{计算法向量}：
+		\[
+		\vec{n} = \vec{r}_u \times \vec{r}_v
+		\]
+		\item \textbf{计算 $E, F, G, L, M, N$，代入高斯曲率公式}，可验证 $K \equiv 0$。
+	\end{enumerate}
+	
+	\textbf{方法二：混合积法}
+	
+	\begin{enumerate}
+		\item $a(u) = (u^2,\, 2u^3,\, u^4)$，$b(u) = \left(\frac{1}{3},\, u,\, \frac{2}{3}u^2\right)$
+		\item $a'(u) = (2u,\, 6u^2,\, 4u^3)$，$b'(u) = (0,\, 1,\, \frac{4}{3}u)$
+		\item 计算混合积
+		\[
+		[a'(u), b(u), b'(u)] = \det
+		\begin{pmatrix}
+		2u & \frac{1}{3} & 0 \\
+		6u^2 & u & 1 \\
+		4u^3 & \frac{2}{3}u^2 & \frac{4}{3}u
+		\end{pmatrix}
+		\]
+		展开可得 $[a'(u), b(u), b'(u)] \equiv 0$，所以是可展曲面。
+	\end{enumerate}
+	\end{proof}
+\begin{example}
+	证明 $\vec{r} = \{\cos v - (u+v)\sin v, \sin v + (u+v)\cos v, u + 2v\}$ 是可展曲面。
+\end{example}
+\begin{proof}
+	\textbf{方法一：高斯曲率法}
+	
+	\begin{enumerate}
+		\item \textbf{写为直纹面形式}：
+		\[
+		a(u) = \{-u\sin v,\, u\cos v,\, u\},\quad b(u) = \{\cos v - v\sin v,\, \sin v + v\cos v,\, 2v\}
+		\]
+		但更直接地，视为 $a(u) = (0,0,u)$，$b(u) = (\cos v - v\sin v,\, \sin v + v\cos v,\, 2v)$，参数交换也可。
+		\item \textbf{计算 $K$，可验证 $K \equiv 0$}。
+	\end{enumerate}
+	
+	\textbf{方法二：混合积法}
+	
+	\begin{enumerate}
+		\item $a(u) = (0,0,u)$，$b(u) = (\cos v - v\sin v,\, \sin v + v\cos v,\, 2v)$
+		\item $a'(u) = (0,0,1)$，$b'(u) = (-\sin v - v\cos v,\, \cos v - v\sin v,\, 2)$
+		\item 计算混合积
+		\[
+		[a'(u), b(u), b'(u)] = \det
+		\begin{pmatrix}
+		0 & \cos v - v\sin v & -\sin v - v\cos v \\
+		0 & \sin v + v\cos v & \cos v - v\sin v \\
+		1 & 2v & 2
+		\end{pmatrix}
+		\]
+		展开可得 $[a'(u), b(u), b'(u)] \equiv 0$，所以是可展曲面。
+	\end{enumerate}
+	\end{proof}
+\begin{example}
+	证明正螺面 $\vec{r} = \{v\cos u, v\sin u, au + b\}$ 不是可展曲面。
+
+\end{example}
+\begin{proof}
+	\textbf{方法一：高斯曲率法}
+	
+	\begin{enumerate}
+		\item \textbf{写为直纹面形式}：
+		\[
+		a(u) = (0, 0, au + b),\quad b(u) = (\cos u, \sin u, 0)
+		\]
+		\item \textbf{计算 $K$，可得 $K \not\equiv 0$，不是可展曲面。}
+	\end{enumerate}
+	
+	\textbf{方法二：混合积法}
+	
+	\begin{enumerate}
+		\item $a(u) = (0, 0, au + b)$，$b(u) = (\cos u, \sin u, 0)$
+		\item $a'(u) = (0, 0, a)$，$b'(u) = (-\sin u, \cos u, 0)$
+		\item 计算混合积
+		\[
+		[a'(u), b(u), b'(u)] = \det
+		\begin{pmatrix}
+		0 & \cos u & -\sin u \\
+		0 & \sin u & \cos u \\
+		a & 0 & 0
+		\end{pmatrix}
+		= a(\cos^2 u + \sin^2 u) = a \neq 0
+		\]
+		所以不是可展曲面。
+	\end{enumerate}
+	\end{proof}
 \end{document}
 
