@@ -3541,5 +3541,438 @@ E[\Phi(X)] &= \int_0^\infty \Phi(x) dF(x) \\
 &= \int_0^\infty \varphi(t) P(X > t) dt.
 \end{align*}
 \end{proof}
+
+\subsection{布朗运动的轨道性质}
+\begin{definition}
+	若$g$为实函数，则$g$在$[a,b]$上的变差定义为
+\[
+V_g([a,b]) = \sup_{\Delta} S^{\Delta}([a,b]),
+\]
+其中
+\[
+S^{\Delta}([a,b]) := \sum_{i=1}^{n} |g(t_i^n) - g(t_{i-1}^n)|,
+\]
+其中$\Delta := \{a = t_0^n < t_1^n < \cdots < t_n^n = b\}$. $|\Delta| := \sup_{1 \leq i \leq n} |t_i^n - t_{i-1}^n|$.
+\end{definition}
+若$\Delta'$为$\Delta$的加细，即若$t \in \Delta$有$t_i \in \Delta'$，则由三角不等式$S^{\Delta}([a,b]) \leq S^{\Delta'}([a,b])$. 故$V_g([a,b]) = \lim_{|\Delta| \to 0} S^{\Delta}([a,b])$.
+\begin{definition}
+	若$g$为实函数，则$g$在$[a,b]$上的变差定义为
+\[
+V_g([a,b]) = \sup_{\Delta} \sum_{i=1}^{n} |g(t_i^n) - g(t_{i-1}^n)|,
+\]
+其中$a = t_0^n < t_1^n < \cdots < t_n^n = b$表示$[a,b]$上的一种划分.
+
+若$g$为定义在$[0, \infty)$上的函数，则定义函数$g$的变差函数为关于$t$的实函数，$V_g(t) := V_g([0,t])$.
+\end{definition}
+\begin{definition}
+	若$g$为定义在$[0, \infty)$上的函数，称$g$是有限变差的，若对任意的$t$有$V_g(t) < \infty$. 称$g$是有界变差的，若$\sup_{t} V_g(t) < \infty$.
+\end{definition}
+
+\begin{example}
+	\begin{enumerate}
+		\item 若$g(t)$为单调增函数，则$V_g(t) = g(t) - g(0)$
+		\item 若$g(t)$为单调减函数，则$V_g(t) = g(0) - g(t)$
+		\item 若$g(t)$可微且有连续导数$g'(t)$，且$g(t) = \int_0^t g'(s) \, ds$且$\int_0^t |g'(s)| \, ds < \infty$，则$V_g(t) = \int_0^t |g'(s)| \, ds$.
+	\end{enumerate}
+\end{example}
+\begin{proof}
+	(1)$\text{记} 0 = t_0^n < t_1^n < \ldots < t_n^n = t, $
+
+		$S^n[0,t] = \sum_{i=1}^n |g(t_i^n) - g(t_{i-1}^n)| = \sum_{i=1}^n (g(t_i^n) - g(t_{i-1}^n)) = g(t) - g(0). \text{ 故 } V_g(t) = g(t) - g(0)$
+
+	(3)\begin{align*}
+		&\text{记} 0 = t_0^n < t_1^n < \ldots < t_n^n = t, \text{有中值定理可知} \int_{t_{i-1}}^{t_i} g'(s) ds = g'(\xi_i)(t_i - t_{i-1}), \xi_i \in (t_{i-1}, t_i). \\
+		&\text{故} \left| \int_{t_{i-1}}^{t_i} g'(s) ds \right| = |g'(\xi_i)|(t_i - t_{i-1}). \text{ 且} \\
+		&V_g(t) = \lim_{|\Delta| \to 0} \sum_{i=1}^n |(g(t_i^n) - g(t_{i-1}^n))| \\
+		&= \lim_{|\Delta| \to 0} \sum_{i=1}^n \left| \int_{t_{i-1}}^{t_i} g'(s) ds \right| \\
+		&= \lim_{|\Delta| \to 0} \sum_{i=1}^n |g'(\xi_i)|(t_i - t_{i-1}) \\
+		&= \int_0^t |g'(s)| ds
+		\end{align*}
+\end{proof}
+\begin{definition}
+	若 \( g \) 为定义在 \([0, \infty)\) 上的函数，则 \( g \) 在 \([0, t]\) 上的平方变差定义为
+\[
+|g|(t) = \lim_{|\Delta|\to 0} \sum_{i=1}^n (g(t_i^n) - g(t_{i-1}^n))^2,
+\]
+其中 \(\Delta := \{0 = t_0^n < t_1^n < \ldots < t_n^n = t\}\) 表示 \([0, t]\) 上的任意一种划分序列，\(|\Delta| := \max_{1 \leq i \leq n} (t_i^n - t_{i-1}^n)\)。
+\end{definition}
+
+\begin{definition}
+	实值过程 \( X \) 称为有限平方变差的，若存在一个随机过程 \(\langle X, X \rangle\) 使得对任意的 \( t \) 和 \([0, t]\) 上的任意的分割 \(\Delta := \{0 = t_0^n < t_1^n < \ldots < t_n^n = t\}\)，当
+\[
+\lim_{|\Delta|\to 0} \sum_{i=1}^n (X(t_i^n) - X(t_{i-1}^n))^2 = \langle X, X \rangle_t.
+\]
+（在依概率收敛意义下）此时，称 \(\langle X, X \rangle\) 为 \( X \) 的平方变差过程。
+\end{definition}
+\begin{theorem}
+	设 \([a, b]\) 上的任意的分割 \(\Delta := \{a = t_0^n < t_1^n < \ldots < t_n^n = b\}\)，则
+\[
+\lim_{|\Delta|\to 0} \sum_{i=1}^n (B(t_i^n) - B(t_{i-1}^n))^2 = b - a
+\]
+在 \(L^2\) 收敛意义下。
+\end{theorem}
+\begin{proof}
+	\begin{align*}
+		&E\left[\left(\sum_{k=1}^n (B(t_k^n) - B(t_{k-1}^n))^2 - (b-a)^2\right)\right] \\
+		&= \text{Var}\left[\sum_{i=1}^n (B(t_i^n) - B(t_{i-1}^n))^2\right] \\
+		&= \sum_{i=1}^n \text{Var}\left[(B(t_i^n) - B(t_{i-1}^n))^2\right] \\
+		&= \sum_{i=1}^n E\left[B(t_i^n) - B(t_{i-1}^n)\right]^4 - \left(E\left[B(t_i^n) - B(t_{i-1}^n)\right]^2\right)^2 \\
+		&= \sum_{i=1}^n \left[3(t_i^n - t_{i-1}^n)^2 - (t_i^n - t_{i-1}^n)^2\right] \\
+		&= 2\sum_{i=1}^n (t_i^n - t_{i-1}^n)^2\\
+		&\leq 2 \max_j |t_j^n - t_{j-1}^n| \sum_{i=1}^n |t_i^n - t_{i-1}^n| \\
+		&= 2 \max_j |t_j^n - t_{j-1}^n| (b-a) \to 0
+	\end{align*}
+\end{proof}
+\begin{remark}
+
+	由于 \(L^2\) 收敛可推出依概率收敛，故 \(\langle B, B \rangle_t = t\).
+\end{remark}
+\begin{corollary}
+	在任意有限区间 \([a, b]\) 上，布朗运动轨道几乎处处无穷变差，即 \(V_B([a,b]) = \infty a.s.\)
+\end{corollary}
+\begin{proof}
+	由于
+\[
+\lim_{|\Delta|\to 0} E\left[\left(\sum_{k} (B(t_k^n) - B(t_{k-1}^n))^2 - (b-a)^2\right)^2\right] = 0
+\]
+由于 \(L^2\) 收敛可以推出依概率收敛，故可以得到下列几乎处处收敛。即存在 \(\Omega_0 \subseteq \Omega, P(\Omega_0) = 1\)，存在分割 \(\Delta^n\) 使得 \(|\Delta^n| \to 0\)。且对任意的 \(\omega \in \Omega_0\) 有
+\[
+\lim_{n\to\infty} \sum_{t_i^n \in \Delta^n} (B(t_i^n) - B(t_{i-1}^n))^2 = b - a \ a.e..
+\]
+若 \(\{B(t)\}\) 在 \([a, b]\) 上的全变差 \(V_B[a, b] < \infty\)，则有
+\[
+\sum_i (B(t_i^n) - B(t_{i-1}^n))^2 \leq \sup_i |B(t_i^n) - B(t_{i-1}^n)| V_B[a, b]
+\]
+由于轨道连续，则在 \([a, b]\) 上一致连续，则 \(\sup_i |B(t_i^n) - B(t_{i-1}^n)| \to 0\) (\(\exists m \to \infty\) 时，\(\max (t_i^n - t_{i-1}^n) \to 0\))。故
+\[
+\sum_i (B(t_i^n) - B(t_{i-1}^n))^2 \to 0.
+\]
+矛盾即 \(V_B[a, b] = \infty\).
+\end{proof}
+
+作为\( t \)的函数，Brown运动的几乎所有路径\( B(t) \)都具有下面性质：
+
+\begin{enumerate}
+    \item 是\( t \)的连续函数；
+    \item 在任何区间（无论区间多小）上都不是单调的；
+    \item 在任何点都不是可微的；
+    \item 在任何区间（无论区间多小）上都是无限变差的；
+    \item 对任意\( t \)，在\( [0, t] \)上的二次变差等于\( t \)。
+\end{enumerate}
+
+\section{lto积分}
+\begin{theorem}
+	\begin{enumerate}
+		\item[(a)] 若 \( F(x) \) 为 \( \mathbb{R} \) 上的右连续不减有界函数，则在 \( (\mathbb{R}, \mathscr{B}) \) 必存在唯一的有限测度 \( \mu \)，使得：
+		\[
+		\mu((a,b]) = F(b) - F(a), \quad -\infty \leq a < b < +\infty.
+		\]
+		\item[(b)] 若 \( F(x) \) 为 \( \mathbb{R} \) 上的右连续不减的实值函数，则必存在 \( (\mathbb{R}, \mathscr{B}) \) 上唯一的 \( \sigma \) 有限的测度 \( \mu \) 使得
+		\[
+		\mu((a,b]) = F(b) - F(a), \quad -\infty \leq a < b < +\infty.
+		\]
+	\end{enumerate}
+\end{theorem}
+问题 \(\int_0^t f(s) dB(s)\)?
+\begin{definition}
+	设 \( B(t) \) 是一维布朗运动，定义 \( \mathcal{F}_t := \sigma(B(u), u \leq t) \)。即 \( \mathcal{F}_t \) 是包含所有形如
+\[
+\{\omega | B(t_1, \omega) \in F_1, \cdots, B(t_k, \omega) \in F_k\}
+\]
+的集合的最小 \(\sigma\)-代数。\( t_j \leq t, F_j \in \mathcal{B}(\mathbb{R}) \)。
+\end{definition}
+\begin{definition}
+	设 \( \mathcal{V} = \mathcal{V}(\mathcal{S}, T) := \{f(t, \omega) : [0, \infty) \times \Omega \rightarrow \mathbb{R}\} \) 且其中 \( f \) 满足：
+\begin{enumerate}
+    \item[(a)] \( (t, \omega) \rightarrow f(t, \omega) \) 是 \( \mathcal{B}(\mathbb{R}) \times \mathcal{F} \)，其中 \( \mathcal{B}(\mathbb{R}) \) 是 \([0, \infty)\) 上的 Borel \(\sigma\)-代数；
+    \item[(b)] \( f(t, \omega) \) 是 \( \mathcal{F}_t \) 适应的；
+    \item[(c)] \( E\left[\int_{\mathcal{S}} f(t, \omega)^2 dt\right] < \infty \)。
+\end{enumerate}
+\end{definition}
+\begin{definition}
+	称 \( \phi \in \mathcal{V} \) 为一个简单过程，若
+\[
+\phi(t, \omega) = \sum_J \theta_j(\omega) I_{[t_j, t_{j+1})}(t).
+\]
+其中 \( \theta_j(\cdot) \) 为 \( \mathcal{F}_{t_j} \) 可测的，\( \mathcal{S} = t_0 < t_1 < \cdots t_n = T \)。定义 \( \phi \) 的随机积分如下：
+\[
+\int_{\mathcal{S}}^T \phi(t, \omega) dB(t, \omega) = \sum_J \theta_j(\omega) [B(t_{j+1}, \omega) - B(t_j, \omega)].
+\]
+\end{definition}
+\begin{lemma}[lto等距]
+	如果 \(\phi \in \mathcal{V}\) 为一个简单过程，则
+\[
+E\left[\left(\int_s^T \phi(t, \omega) dB(t, \omega)\right)^2\right] = E\left[\int_s^T \phi^2(t, \omega) dt\right]
+\]
+\end{lemma}
+\begin{proof}
+	记 \(\Delta B_j = B(t_{j+1}) - B(t_j)\), \(\phi(t, \omega) = \sum_j \theta_j(\omega) I_{[t_j, t_{j+1})}(t)\).
+
+\begin{align*}
+E\left[\left(\int_s^T \phi(t, \omega) dB(t, \omega)\right)^2\right] &= E\left[\left(\sum_j \theta_j(\omega) (B(t_{j+1}) - B(t_j))\right)^2\right] \\
+&= E\left[\sum_{i,j} \theta_i \theta_j (B(t_{i+1}) - B(t_i))(B(t_{j+1}) - B(t_j))\right] \\
+&= \sum_{i,j} E\left[\theta_i \theta_j (B(t_{i+1}) - B(t_i))(B(t_{j+1}) - B(t_j))\right]
+\end{align*}
+
+当 \(j > i\)
+\begin{align*}
+&E\left[\theta_i \theta_j (B(t_{i+1}) - B(t_i))(B(t_{j+1}) - B(t_j))\right] \\
+&= E\left[E\left[\theta_i \theta_j (B(t_{i+1}) - B(t_i))(B(t_{j+1}) - B(t_j)) \mid \mathcal{F}_{t_i}\right]\right] \\
+&= E\left[\theta_i \theta_j E\left[(B(t_{j+1}) - B(t_j)) \mid \mathcal{F}_{t_i}\right] E[B(t_{i+1}) - B(t_i) \mid \mathcal{F}_{t_i}]\right] \\
+&= 0
+\end{align*}
+
+\begin{align*}
+E\left[\sum_j \theta_j^2 (B(t_{j+1}) - B(t_j))^2\right] &= \sum_j E\left[E\left[\theta_j^2 (B(t_{j+1}) - B(t_j))^2 \mid \mathcal{F}_{t_j}\right]\right] \\
+&= \sum_j E\left[\theta_j^2 E\left[(B(t_{j+1}) - B(t_j))^2 \mid \mathcal{F}_{t_j}\right]\right] \\
+&= \sum_j E\left[\theta_j^2 E\left[(B(t_{j+1}) - B(t_j))^2\right]\right] \\
+&= \sum_j E\left[\theta_j^2 (t_{j+1} - t_j)\right] \\
+&= E\left[\int_s^T \phi^2 dt\right]
+\end{align*}
+
+\end{proof}
+\begin{theorem}
+	设 \( X = \{X(t), t \geq 0\} \in \mathcal{V} \)，则存在简单过程 \(\{X^m\} \subset \mathcal{V}\) 使得
+\[
+\lim_{m \to \infty} E\left[\int_s^T |X^m(t) - X(t)|^2 dt\right] = 0.
+\]
+\end{theorem}
+\begin{definition}
+	设 \( f \in \mathcal{V}(\mathcal{S}, T) \)，则 \( f \) 的 Itô 积分定义为
+\[
+\int_s^T f(t, \omega) dB(t, \omega) = \lim_{n \to \infty} \int_s^T \phi_n(t, \omega) dB(t, \omega)
+\]
+在 \( L^2 \) 中的极限，其中 \( \phi_n \) 为简单过程，满足：
+\[
+E\left[\int_s^T \left(f(t, \omega) - \phi_n(t, \omega)\right)^2 dt\right] \to 0, \text{当} n \to \infty.
+\]
+\end{definition}
+
+\begin{remark}
+
+	\begin{align*}
+		&E\left[\left(\int_s^T \phi_n(t, \omega) dB(t, \omega) - \int_s^T \phi_m(t, \omega) dB(t, \omega)\right)^2\right] \\
+		&= E\left[\left(\int_s^T (\phi_n - \phi_m) dB(t, \omega)\right)^2\right] \\
+		&= E\left[\int_s^T (\phi_n - \phi_m)^2 dt\right] \\
+		&\leq E\left[\int_s^T (\phi_n - f)^2 dt\right] + E\left[\int_s^T (\phi_m - f)^2 dt\right] \\
+		&\to 0.
+		\end{align*}
+		
+		故 \(\left\{\int_s^T \phi_n(t, \omega) dB(t, \omega)\right\}\) 存在极限。
+\end{remark}
+\subsection{lto积分性质}
+
+\begin{theorem}
+	设 \( f, g \in \mathcal{V}(0, T) \)，\( 0 \leq S < U < T \)。
+
+\begin{enumerate}
+    \item[(a)] \(\int_S^T f(t, \omega) dB(t, \omega) = \int_S^U f(t, \omega) dB(t, \omega) + \int_U^T f(t, \omega) dB(t, \omega) \text{ a.s.}\)
+    \item[(b)] 对任意的常数 \( c \)，\(\int_S^T (cf(t, \omega) + g(t, \omega)) dB(t, \omega) = c \int_S^T f(t, \omega) dB(t, \omega) + \int_S^T g(t, \omega) dB(t, \omega) \text{ a.s.}\)
+    \item[(c)] \(E\left[\int_S^T f(t, \omega) dB(t, \omega)\right] = 0\)
+    \item[(d)] \(\int_S^T f(t, \omega) dB(t, \omega)\) 为 \(\mathcal{F}_T\) 可测的。
+\end{enumerate}
+\end{theorem}
+
+\begin{remark}
+	Ito积分不具有单调性。
+
+反例 \(\int_0^1 1 dB(t) = B(1)\), \(\int_0^1 2 dB(t) = 2B(1)\).
+\end{remark}
+
+\begin{example}
+	求 \(E\left(\int_0^1 e^{B(t)} dB(t)\right)\), \(E\left(\left[\int_0^1 e^{B(t)} dB(t)\right]^2\right)\) 
+
+\end{example}
+\begin{proof}
+	由于 \(e^x\) 连续, 故有定义。因此，\(e^{B(t)}\) 关于 \(\mathcal{B}(\mathbb{R}) \times \mathcal{F}\) 可测。故 \(E\left(\int_0^1 e^{B(t)} dB(t)\right) = 0\)。
+
+\begin{align*}
+E[e^{2B(t)}] &= \int_{-\infty}^{+\infty} \frac{1}{\sqrt{2\pi t}} e^{-\frac{x^2}{2t}} e^{2x} dx \\
+&= \int_{-\infty}^{+\infty} \frac{1}{\sqrt{2\pi t}} e^{-\frac{(x-2t)^2}{2t}} e^{2t} dx \\
+&= e^{2t}.
+\end{align*}
+
+\begin{align*}
+E\left(\left[\int_0^1 e^{B(t)} dB(t)\right]^2\right) &= E\left(\int_0^1 e^{2B(t)} dt\right) \\
+&= \int_0^1 E[e^{2B(t)}] dt \\
+&= \int_0^1 e^{2t} dt = \frac{1}{2}(e^2 - 1)
+\end{align*}
+\end{proof}
+\begin{example}
+	求 \(E\left(\int_0^1 B(t) dB(t)\right)\), \(E\left(\left[\int_0^1 B(t) dB(t)\right]^2\right)\)
+\end{example}
+\begin{proof}
+	由于 \(B(t)\) 关于 \(\mathcal{B}(\mathbb{R}) \times \mathcal{F}\) 可测。故 \(E\left(\int_0^1 B(t) dB(t)\right) = 0\)。
+
+\begin{align*}
+E\left[\int_0^1 B(t) dB(t)\right]^2 &= E\left[\int_0^1 B^2(t) dt\right] \\
+&= \int_0^1 E[B^2(t)] dt \\
+&= \int_0^1 t dt = \frac{1}{2}.
+\end{align*}
+\end{proof}
+\begin{theorem}
+	设 \( f \in \mathcal{V}(0, T) \)，则存在 \(\int_0^t f(s, \omega) dB(s, \omega), 0 \leq t \leq T\) 的一个连续修正，即存在一个关于 \((\Omega, \mathcal{F}, P)\) 上的 \( t \) 连续的随机过程 \( J_t \) 使得
+\[
+P[J_t = \int_0^t f dB] = 1, \forall 0 \leq t \leq T.
+\]
+\end{theorem}
+\begin{example}
+	设 \( B(0) = 0 \)，\( B = \{B(t), t \geq 0\} \) 是一个标准布朗运动，则
+\[
+\int_0^t B(s) dB(s) = \frac{1}{2} B^2(t) - \frac{1}{2} t.
+\]
+\end{example}
+\begin{proof}
+    (1) 构造简单过程: \(\phi_n(s) := \sum_j B(t_j) I_{[t_j^n, t_{j+1}^n)}(s) \rightarrow B(s)\),
+
+    \begin{align*}
+    E\left[\int_0^t (\phi_n(s) - B(s))^2 ds\right] &= E\left[\sum_j \int_{t_j^n}^{t_{j+1}^n} (\phi_n(s) - B(s))^2 ds\right] \\
+    &= E\left[\sum_j \int_{t_j^n}^{t_{j+1}^n} (B(t_j^n) - B(s))^2 ds\right] \\
+    &= \sum_j \int_{t_j^n}^{t_{j+1}^n} E[(B(t_j^n) - B(s))^2] ds \\
+    &= \sum_j \int_{t_j^n}^{t_{j+1}^n} (s - t_j^n) ds \\
+    &= \sum_j \frac{1}{2}(t_{j+1}^n - t_j^n)^2 \rightarrow 0, \text{当} |\Delta^n| := \max_j (t_{j+1}^n - t_j^n) \rightarrow 0
+    \end{align*}
+
+    (2) 求简单过程 Ito 积分:
+    \begin{align*}
+    \int_0^t \phi_n(t) dB(t) = \sum_j B(t_j^n) [B(t_{j+1}^n) - B(t_j^n)].
+    \end{align*}
+
+    (3) 取极限: 
+    \begin{align*}
+    \int_0^t \phi_n(t) dB(t) = \sum_j B(t_j^n) [B(t_{j+1}^n) - B(t_j^n)] \rightarrow \frac{1}{2} B^2(t) - \frac{1}{2} t.
+    \end{align*}
+
+    \begin{align*}
+    B^2(t_{j+1}^n) - B^2(t_j^n) &= [B(t_{j+1}^n) - B(t_j^n)]^2 + 2B(t_j^n) [B(t_{j+1}^n) - B(t_j^n)] \\
+    B^2(t) &= \sum_{j=1}^{n-1} [B^2(t_{j+1}^n) - B^2(t_j^n)] \\
+    &= \sum_{j=1}^{n-1} [B(t_{j+1}^n) - B(t_j^n)]^2 + 2B(t_j^n) [B(t_{j+1}^n) - B(t_j^n)]
+    \end{align*}
+
+    即 
+    \begin{align*}
+    \sum_{j=1}^{n-1} B(t_j^n) [B(t_{j+1}^n) - B(t_j^n)] = \frac{1}{2} B^2(t) - \frac{1}{2} \sum_{j=1}^{n-1} [B(t_{j+1}^n) - B(t_j^n)]^2
+    \end{align*}
+\end{proof}
+\begin{definition}
+	设 \( \{B(t)\} \) 是 \( (\Omega, \mathcal{F}, P) \) 上的一维布朗运动，一个 1 维 Itô 过程是 \( (\Omega, \mathcal{F}, P) \) 上具有如下形式的随机过程 \( X(t) \):
+\[
+X(t) := X(0) + \int_0^t u(s, \omega) ds + \int_0^t v(s, \omega) dB(s, \omega).
+\]
+其中 \( v \in \mathcal{W} \):
+\begin{itemize}
+    \item \( (t, \omega) \rightarrow v(t, \omega) \) 是 \( \mathcal{B}(\mathbb{R}) \times \mathcal{F} \)，其中 \( \mathcal{B}(\mathbb{R}) \) 是 \([0, \infty)\) 上的 Borel \(\sigma\)-代数；
+    \item \( v(t, \omega) \) 是 \( \mathcal{F}_t \) 适应的；
+    \item \( P\left[\int_0^t v^2(s, \omega) ds < \infty, \forall t \geq 0\right] = 1 \).
+\end{itemize}
+\( X(t) \) 的微分形式:
+\[
+dX(s) = u(s, \omega) ds + v(s, \omega) dB(s, \omega).
+\]
+
+\( u \) 满足:
+\begin{itemize}
+    \item \( (t, \omega) \rightarrow u(t, \omega) \) 是 \( \mathcal{B}(\mathbb{R}) \times \mathcal{F} \)，其中 \( \mathcal{B}(\mathbb{R}) \) 是 \([0, \infty)\) 上的 Borel \(\sigma\)-代数；
+    \item \( u(t, \omega) \) 是 \( \mathcal{F}_t \) 适应的；
+    \item \( P\left[\int_0^t |u(s, \omega)| ds < \infty, \forall t \geq 0\right] = 1 \).
+\end{itemize}
+\end{definition}
+
+\begin{theorem}
+	设 \( X(t) \) 为一个一维的 Ito 过程:
+	\begin{align*}
+	X(t) := X(0) + \int_0^t u(s) ds + \int_0^t v(s) dB(s).
+	\end{align*}
+	其中 \(g(t, x) \in C^2([0, \infty) \times \mathbb{R})\)，即 \(g\) 为 \([0, \infty) \times \mathbb{R}\) 上的二阶连续可微函数，则 \(Y(t) := g(t, X(t))\) 也为 Ito 过程，且有
+	\begin{align*}
+	dY(t) &= \frac{\partial g}{\partial t}(t, X(t)) dt + \frac{\partial g}{\partial x}(t, X(t)) dX(t) + \frac{1}{2} \frac{\partial^2 g}{\partial x^2}(t, X(t)) (dX(t))^2 \\
+	&\text{其中 } dt \cdot dt = 0,\, dt \cdot dB(t) = 0,\, dB(t) \cdot dt = 0,\, dB(t) \cdot dB(t) = dt. \\
+	\end{align*}
+	故
+	\begin{align*}
+	dY(t) = \left[ \frac{\partial g}{\partial t}(t, X(t)) + u(t) \frac{\partial g}{\partial x}(t, X(t)) + \frac{1}{2} v^2(t) \frac{\partial^2 g}{\partial x^2}(t, X(t))\right] dt + v(t) \frac{\partial g}{\partial x}(t, X(t)) dB(t).
+	\end{align*}
+\end{theorem}
+
+\begin{remark}
+
+	$X(t) := X(0) + \int_0^t u(s) ds + \int_0^t v(s) dB(s),$
+
+则 \( dX(t) := u(t) dt + v(t) dB(t) \).
+
+\(g(t, x) \in C^2([0, \infty) \times \mathbb{R}), \) 令 \( Y(t) := g(t, X(t)), \) 则
+\begin{align*}
+dY(t) &= \frac{\partial g}{\partial t}(t, X(t)) dt + \frac{\partial g}{\partial x}(t, X(t)) dX(t) + \frac{1}{2} \frac{\partial^2 g}{\partial x^2}(t, X(t)) (dX(t))^2 \\
+&= \frac{\partial g}{\partial t}(t, X(t)) dt + \frac{\partial g}{\partial x}(t, X(t)) (u(t) dt + v(t) dB(t)) \\
+&\quad + \frac{1}{2} \frac{\partial^2 g}{\partial x^2}(t, X(t)) (u(t) dt + v(t) dB(t))(u(t) dt + v(t) dB(t)) \\
+&= \frac{\partial g}{\partial t}(t, X(t)) dt + \frac{\partial g}{\partial x}(t, X(t)) (u(t) dt + v(t) dB(t)) \\
+&\quad + \frac{1}{2} \frac{\partial^2 g}{\partial x^2}(t, X(t)) (v^2(t) dt)\\
+&= \frac{\partial g}{\partial t}(t, X(t)) + u(t) \frac{\partial g}{\partial x}(t, X(t)) + \frac{1}{2} v^2(t) \frac{\partial^2 g}{\partial x^2}(t, X(t)) dt \\
+&\quad + v(t) \frac{\partial g}{\partial x} dB(t).
+\end{align*}
+\end{remark}
+
+\begin{example}
+	求 \( I := \int_0^t B(s) dB(s) \).
+\end{example}
+\begin{proof}
+	取 \( f(x) = x^2 \)，则 \( f'(x) = 2x \)，\( f''(x) = 2 \)。
+
+	由 Itô 公式，
+	\begin{align*}
+	dB^2(t) &= f'(B(t))\, dB(t) + \frac{1}{2} f''(B(t)) (dB(t))^2 \\
+			&= 2B(t)\, dB(t) + 1\, dt
+	\end{align*}
+	
+	两边从 0 积分到 t，得
+	\begin{align*}
+	B^2(t) - B^2(0) &= 2 \int_0^t B(s)\, dB(s) + \int_0^t 1\, ds \\
+	B^2(t) &= 2 \int_0^t B(s)\, dB(s) + t
+	\end{align*}
+	
+	因此，
+	\begin{align*}
+	\int_0^t B(s)\, dB(s) = \frac{1}{2} B^2(t) - \frac{1}{2} t
+	\end{align*}
+\end{proof}
+\begin{example}
+	设 \( f(x) = \sin x \)，\( Y(t) = f(B(t)) \)，求 \( dY(t) \)。
+\end{example}
+\begin{proof}
+	\[
+	f(x) = \sin x,\quad f'(x) = \cos x,\quad f''(x) = -\sin x.
+	\]
+	故
+	\[
+	d(\sin(B(t))) = \cos(B(t))\, dB(t) - \frac{1}{2} \sin(B(t))\, (dB(t))^2
+	\]
+	\[
+	= \cos(B(t))\, dB(t) - \frac{1}{2} \sin(B(t))\, dt
+	\]
+	
+	但不会有这种情况：
+\end{proof}
+\begin{example}
+	设 \( B(t) \) 是一维布朗运动，对下列 \( Y(t) \) 给出其微分和积分形式。
+\[
+Y(t) = e^{\frac{1}{2} }\cos(B(t))
+\]
+\end{example}
+\begin{proof}
+$$	\text{取}   f(t, x) = e^{\frac{1}{2}} \cos x, \frac{\partial f}{\partial t} = \frac{1}{2} e^{\frac{1}{2}} \cos x, \frac{\partial f}{\partial x} = - e^{\frac{1}{2}} \sin x,
+\frac{\partial^2 f}{\partial x^2} = - e^{\frac{1}{2}} \cos x. \text{取} X(t) = B(t).$$
+
+
+\[
+dY(t) = \frac{1}{2} e^{\frac{1}{2}} \cos B(t) dt - (e^{\frac{1}{2}} \sin B(t) dB(t) - \frac{1}{2} e^{\frac{1}{2}} \cos B(t) (dB(t))^2
+\]
+\[
+= \frac{1}{2} e^{\frac{1}{2}} \cos B(t) dt - (e^{\frac{1}{2}} \sin B(t) dB(t) - \frac{1}{2} e^{\frac{1}{2}} \cos B(t) dt
+\]
+\[
+= - e^{\frac{1}{2}} \sin B(t) dB(t)
+\]
+\end{proof}
 \end{document}
+
 
