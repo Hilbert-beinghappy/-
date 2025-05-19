@@ -37,8 +37,1119 @@
 	\tableofcontents
 	
 	\mainmatter
-	\chapter{离散时间马尔可夫链}
-	\section{马氏链及其转移概率}
+	\chapter{预备知识}
+	\section{$\sigma$代数}
+	集合 \(\mathbb{R}\) 表示实数集，\(\mathbb{Q}\) 表示有理数集，\(\mathbb{Z}\) 表示整数集，\(\mathbb{N}\) 表示自然数集，下标 \(+\) 表示非负元素全体，如 \(\mathbb{R}_+\) 表示非负实数集，其他类似。
+
+	用 \(\Omega\) 表示抽象空间，其上的任一元素用 \(\omega\) 表示。
+
+集类：\(\Omega\) 中子集构成的集合，以后用花体字母 \(\mathscr{A}, \mathscr{B}, \mathscr{C}\) 来表示。例 \(\Omega := \{1,2\}\)。则 \(\Omega\) 有不同的集合类。比如：
+\[
+\mathscr{A} := \{\{1\},\{2\}\} \text{ 为一个集类。} \quad
+\mathscr{B} := \{\{1\},\{2\},\{1,2\}\}, \quad
+\mathscr{C} := \{\{1\},\{2\},\{1,2\},\emptyset\} \text{ 均为一个集类。}
+\]
+
+\(2^\Omega\) 表示 \(\Omega\) 中的所有子集构成的集类，称为幂集，\(\Omega\) 的一个子集类是指 \(2^\Omega\) 的一个子集。
+
+如：\(\Omega := \{1,2\}\)，则 \(2^\Omega := \{\{1\},\{2\},\{1,2\},\emptyset\}\)。
+
+我们说一个子集类对集合的某种运算封闭，是指此子集类中的集合经过此种运算后得到的集合还在此子集类内。
+
+集合常见运算：
+\begin{itemize}
+    \item 余运算：\(A^c\)
+    \item 交：\(A \cap B\)
+    \item 并：\(A \cup B\)
+    \item 可列并：\(\bigcup_{j=1}^{\infty} A_j\)
+\end{itemize}
+
+例 \(\Omega := \{1,2\}\)。\(\mathscr{A} := \{\{1\},\{2\}\}\)（余运算封闭，交与并不封闭）
+
+\(\mathscr{A} := \{\{1\},\{2\},\{1,2\},\emptyset\}\)（余运算、交与并均封闭）
+
+\begin{definition}
+	\(\Omega\) 中的非空子集类 \(\mathscr{A}\) 称为代数，若：
+\begin{enumerate}
+    \item 若 \(A \in \mathscr{A}\)，则 \(A^c \in \mathscr{A}\);
+    \item 若 \(A \in \mathscr{A}\)，\(B \in \mathscr{A}\)，则 \(A \cup B \in \mathscr{A}\)。
+\end{enumerate}
+\end{definition}
+\begin{theorem}
+	设 \(\mathscr{A}\) 是代数，则
+\begin{enumerate}
+    \item \(\Omega \in \mathscr{A}\)，\(\emptyset \in \mathscr{A}\);
+    \item 若 \(A, B \in \mathscr{A}\)，则 \(A \cap B \in \mathscr{A}\);
+    \item 若 \(A_j \in \mathscr{A}\)，\(1 \leq j \leq n\)，则 \(\bigcup_{j=1}^{n} A_j \in \mathscr{A}\)，\(\bigcap_{j=1}^{n} A_j \in \mathscr{A}\)。
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+	\quad 用代数的定义。由 \(\mathscr{A}\) 非空。任取 \(A \in \mathscr{A}\)，则 \(A^c \in \mathscr{A}\)。\(\Omega = A \cup A^c \in \mathscr{A}\)，故 \(\emptyset = \Omega^c \in \mathscr{A}\)。
+
+另一方面，任取 \(A, B \in \mathscr{A}\)，则 \(A^c, B^c \in \mathscr{A}\)。则 \(A \cap B = (A^c \cup B^c)^c\)。
+
+有归纳法，若 \(A_j \in \mathscr{A}\)，\(1 \leq j \leq n\)，则 \(\bigcup_{j=1}^{n} A_j \in \mathscr{A}\)，\(\bigcap_{j=1}^{n} A_j \in \mathscr{A}\)。
+\end{proof}
+\begin{definition}
+	设 \(\{A_n, n \geq 1\}\) 为一集合序列。令
+\[
+\limsup_{n \to \infty} A_n = \bigcap_{n=1}^{\infty} \bigcup_{k=n}^{\infty} A_k; \qquad \liminf_{n \to \infty} A_n = \bigcup_{n=1}^{\infty} \bigcap_{k=n}^{\infty} A_k
+\]
+分别称其为 \(\{A_n\}\) 的上极限和下极限（上极限有时也记为 \(\{A_n, i.o.\}\)）显然有
+\[
+\limsup_{n \to \infty} A_n = \{w | w \text{ 属于无穷多个 } A_n\} = \{w | \forall n \in \mathbb{N}, \exists k \geq n, \text{ 使 } w \in A_k\}
+\]
+\[
+\liminf_{n \to \infty} A_n = \{w | w \text{ 至多不属于有限多个 } A_n\} = \{w | \exists n \in \mathbb{N}, \forall k \geq n, \text{ 有 } w \in A_k\}
+\]
+从而恒有 \(\liminf_{n \to \infty} A_n \subseteq \limsup_{n \to \infty} A_n\)。
+\end{definition}
+
+若 \(\liminf_{n \to \infty} A_n = \limsup_{n \to \infty} A_n\)，则称 \(\{A_n\}\) 的极限存在，并用 \(\lim_{n \to \infty} A_n\) 表示，即令 \(\lim_{n \to \infty} A_n = \liminf_{n \to \infty} A_n = \limsup_{n \to \infty} A_n\)。
+
+特别地，若对每个 \(n\)，有 \(A_n \subset A_{n+1}\)（相应地，\(A_n \supset A_{n+1}\)），则称 \(\{A_n\}\) 为单调增（相应地，单调降）。对单调增或单调降序列 \(\{A_n\}\)，我们分别令 \(A = \bigcup_n A_n\) 或 \(A = \bigcap_n A_n\)，称 \(A\) 为 \(\{A_n\}\) 的极限，通常记为 \(A_n \uparrow A\) 或 \(A_n \downarrow A\)。
+
+\begin{definition}[\(\sigma\)-代数]
+	\(\Omega\) 中的非空子集类 \(\mathscr{F}\) 称为是 \(\sigma\)-代数，若：
+\begin{enumerate}
+    \item 若 \(A \in \mathscr{F}\)，则 \(A^c \in \mathscr{F}\);
+    \item 若 \(A_n \in \mathscr{F}\)，\(n \geq 1\)，则 \(\bigcup_{n=1}^{\infty} A_n \in \mathscr{F}\)。此时称 \((\Omega, \mathscr{F})\) 为可测空间。
+\end{enumerate}
+\end{definition}
+
+\begin{enumerate}
+    \item \(2^\Omega\) 是 \(\sigma\)-代数；（想想为什么？）
+    \item \(\{\emptyset, \Omega, A, A^c\}\) 也是一个 \(\sigma\)-代数。
+\end{enumerate}
+
+\begin{proposition}
+	设 \(I\) 为指标集（\(I\) 有限或无限），对任意的 \(i\)，\(\mathscr{F}_i\) 为 \(\sigma\)-代数，则 \(\bigcap_{i \in I} \mathscr{F}_i\) 为 \(\sigma\)-代数。（自行验证）
+\end{proposition}
+\begin{proof}
+	\(\emptyset \in \bigcap_{i \in I} \mathscr{F}_i\)，故 \(\bigcap_{i \in I} \mathscr{F}_i\) 非空。
+
+若 \(A \in \bigcap_{i \in I} \mathscr{F}_i\)，则对任意的 \(i \in I\)，\(A \in \mathscr{F}_i\)，故 \(A^c \in \mathscr{F}_i\)。因此，\(A^c \in \bigcap_{i \in I} \mathscr{F}_i\)。
+
+若对任意的 \(n\)，\(A_n \in \bigcap_{i \in I} \mathscr{F}_i\)，则 \(\bigcup_{n} A_n \in \mathscr{F}_i\)。因此，\(\bigcup_{n} A_n \in \bigcap_{i \in I} \mathscr{F}_i\)。
+\end{proof}
+\begin{theorem}
+	设 \(\mathscr{C} \subseteq 2^\Omega\) 为一非空集类，则存在 \(\sigma\)-代数 \(\mathscr{F}_0\)，使得
+\begin{enumerate}
+    \item \(\mathscr{C} \subseteq \mathscr{F}_0\)。
+    \item 若 \(\mathscr{F}\) 为 \(\sigma\)-代数且 \(\mathscr{C} \subseteq \mathscr{F}\)。则 \(\mathscr{F}_0 \subseteq \mathscr{F}\)。即 \(\mathscr{F}_0\) 为包含 \(\mathscr{C}\) 的最小 \(\sigma\)-代数，称为由 \(\mathscr{C}\) 生成的 \(\sigma\)-代数，记为 \(\sigma(\mathscr{C})\)。
+\end{enumerate}
+（思考如何证明存在这样的最小 \(\sigma\)-代数）。
+\end{theorem}
+\begin{proof}
+	设 \(C(\mathscr{C})\) 是包含 \(\mathscr{C}\) 的 \(\sigma\)-代数全体构成的集类，则 \(2^\Omega \in C(\mathscr{C})\)，所以 \(C(\mathscr{C})\) 是非空的。又因为任意个包含 \(\mathscr{C}\) 的 \(\sigma\)-代数的交仍是一个包含 \(\mathscr{C}\) 的 \(\sigma\)-代数（按 \(\sigma\)-代数的定义逐条验证），所以若取
+\[
+\mathscr{F}_0 = \bigcap_{\mathscr{B} \in C(\mathscr{C})} \mathscr{B},
+\]
+则 \(\mathscr{F}_0\) 就是所要求的。
+\end{proof}
+\begin{definition}
+	\begin{enumerate}
+		\item 数直线 \(\mathbb{R}\) 上由开集全体产生的 \(\sigma\)-代数称为直线上的 Borel 代数，记为 \(\mathscr{B}\)。\(\mathscr{B}\) 中的集称为一维 Borel 集。也等于 \(\mathcal{H} = \{(-\infty, a) | a \in \mathbb{R}\}\) 生成的 \(\sigma\)-代数称为直线 \(\mathbb{R}\) 上的伯雷尔代数，记为 \(\mathcal{B}(\mathbb{R})\)
+		\item 若存在子集列 \(\{A_n\}\)，使得 \(\sigma(\{A_n\}) = \mathscr{A}\)，则称 \(\mathscr{A}\) 是可列生成的。
+	\end{enumerate}
+\end{definition}
+\begin{theorem}
+	设 \(\mathbb{R} = (-\infty, +\infty)\) 表示数直线，则下列集类生成相同的 \(\sigma\)-代数。
+\begin{enumerate}
+    \item \(\{(a, b] : a, b \in \mathbb{R}\}\);
+    \item \(\{(a, b) : a, b \in \mathbb{R}\}\);
+    \item \(\{[a, b] : a, b \in \mathbb{R}\}\);
+    \item \(\{(-\infty, b], b \in \mathbb{R}\}\);
+    \item \(\{(r_1, r_2) : r_1, r_2 \text{ 为有理数}\}\);
+    \item \(\{G : G \text{ 为 } \mathbb{R} \text{ 中的开集}\}\);
+    \item \(\{F : F \text{ 为 } \mathbb{R} \text{ 中闭集}\}\)。
+\end{enumerate}
+\end{theorem}
+
+为什么？
+
+因为代表元素可以互相表示。
+
+\((a, b) = \bigcup_{n=1}^{\infty} \left(a, b - \frac{1}{n}\right]\)
+
+\begin{definition}
+	设 \(\Omega\) 为一空间，\(\mathscr{G} \subset 2^\Omega\) 为某个集合类，\(\mathscr{G}\) 上广义实值（可取 \(\pm \infty\)）函数 \(\mu\) 称为集函数。
+\end{definition}
+
+若对每个 \(A \in \mathscr{G}\)，\(|\mu(A)| < \infty\)，称 \(\mu\) 为有限的；
+
+若对任意 \(A, B \in \mathscr{G}\)，\(A \cap B = \emptyset\)，且 \(A \cup B \in \mathscr{G}\)，都有 \(\mu(A \cup B) = \mu(A) + \mu(B)\)，则称 \(\mu\) 在 \(\mathscr{G}\) 上为有限可加的。
+
+备注记号：假设 \(\{A_\alpha\}\) 为集合序列，且 \(A_i \cap A_j = \emptyset\) (\(i \neq j\))，则 \(\sum_\alpha A_\alpha := \bigcup_\alpha A_\alpha\)
+
+若对任意 \(\{A_n, n \geq 1\} \subset \mathscr{G}\)，\(A_i \cap A_j = \emptyset\)，\(i \neq j\)，且 \(\sum_{i=1}^{\infty} A_i \in \mathscr{G}\)，则 \(\mu\left(\sum_{i=1}^{\infty} A_i\right) = \sum_{i=1}^{\infty} \mu(A_i)\)，则称 \(\mu\) 在 \(\mathscr{G}\) 上为 \(\sigma\) 可加的或可列可加的。
+
+\begin{definition}
+	设 \((\Omega, \mathscr{F})\) 为一可测空间，\(\mathscr{F}\) 上集函数 \(\mu\) 称为测度或正测度，若它满足：
+\begin{enumerate}
+    \item \(\mu(\emptyset) = 0\);
+    \item \(\mu\) 为非负的，即 \(\mu(A) \geq 0\)，\(\forall A \in \mathscr{F}\);
+    \item \(\mu\) 为可列可加的。
+\end{enumerate}
+
+若存在 \(\{A_n, n \geq 1\} \in \mathscr{F}\)，使 \(\Omega = \bigcup_n A_n\)，且对每个 \(n\)，\(\mu(A_n) < \infty\)，称 \(\mu\) 为在 \(\mathscr{F}\) 上为 \(\sigma\) 有限的，简称为 \(\sigma\) 有限的。
+
+\end{definition}
+\begin{definition}
+	设 \((\Omega, \mathscr{F})\) 是可测空间，\(P(\cdot)\) 是定义在 \(\mathscr{F}\) 上的实值函数。如果
+	\begin{enumerate}
+		\item \(P(\Omega) = 1\);
+		\item \(\forall A \in \mathscr{F}, 0 \leq P(A) \leq 1\);
+		\item 对两两互不相容事件 \(A_1, A_2, \cdots\)，（即当 \(i \neq j\) 时，\(A_i \cap A_j = \emptyset\)）有
+		\[
+		P\left(\bigcup_{i=1}^{\infty} A_i\right) = \sum_{i=1}^{\infty} P(A_i)
+		\]
+	\end{enumerate}
+	则称 \(P\) 是 \((\Omega, \mathscr{F})\) 上的概率，\((\Omega, \mathscr{F}, P)\) 称为概率空间，\(\mathscr{F}\) 中的元素称为事件，\(P(A)\) 称为事件 \(A\) 的概率。
+
+\end{definition}
+\begin{theorem}
+	若 \(\mu\) 为 \((\Omega, \mathscr{F})\) 上的测度，则
+\begin{enumerate}
+    \item \(\mu\) 是单调的，即当 \(A \subset B\)，必有 \(\mu(A) \leq \mu(B)\);
+    \item \(\mu\) 是有限次可加的：若 \(A \subset \bigcup_{m=1}^{n} A_m\)，则 \(\mu(A) \leq \sum_{m=1}^{n} \mu(A_m)\);
+    \item \(\mu\) 是（从下连续）：对每个递增序列 \(\{A_n\}\)，便有 \(\lim_{n \to \infty} \mu(A_n) = \mu\left(\bigcup_{n} A_n\right)\)。
+    \item 若 \(\mu\) 是（从上连续）的：对每个递减序列 \(\{A_n\}\)，且存在 \(n_0\)，使 \(\mu(A_{n_0}) < \infty\)，便有 \(\lim_{n \to \infty} \downarrow \mu(A_n) = \mu\left(\bigcap_{n} A_n\right)\)。
+    \item 若 \(\mu\) 是有限测度，则有半可列可加性：若 \(A \subset \bigcup_{m=1}^{\infty} A_m\)，则 \(\mu(A) \leq \sum_{m=1}^{\infty} \mu(A_m)\);
+\end{enumerate}
+\end{theorem}
+
+\begin{definition}
+	设 \((\Omega, \mathscr{F}, \mu)\) 为测度空间。
+
+设 \(\mu\) 为 \(\sigma\) 代数 \(\mathscr{F}\) 上的测度，
+\[
+\mathscr{L} = \{A : A \in \mathscr{F}, \mu(A) = 0\},
+\]
+\[
+\mathscr{N} = \{N \in 2^\Omega : \exists A \in \mathscr{L}, \text{使 } N \subset A\}
+\]
+称 \(\mathscr{N}\) 中元素为 \(\mu\) 可略集。若 \(\mathscr{N} \subseteq \mathscr{F}\)，则称 \(\mu\) 在 \(\mathscr{F}\) 上为完备的。（什么意义呢？）
+
+\end{definition}
+当 \((\Omega, \mathscr{F}, \mu)\) 为概率空间，\(\mathscr{N}\) 中的元素简称为“可略集”。由此定义可见，完备性的要求与 \(\mathscr{F}\) 及测度 \(\mu\) 都是有关的。
+
+\begin{theorem}[完备化扩张]
+	若 \((\Omega, \mathscr{F}, \mu)\) 为测度空间，\(\mathscr{N}\) 为 \(\mu\) 可略集全体，则
+\begin{enumerate}
+    \item \(\overline{\mathscr{F}} = \{A \cup N : A \in \mathscr{F}, N \in \mathscr{N}\}\) 为 \(\sigma\) 代数，\(\overline{\mathscr{F}} \supset \mathscr{F}\);
+    \item 在 \(\overline{\mathscr{F}}\) 上，令 \(\overline{\mu}(A \cup N) = \mu(A)\)，则 \(\overline{\mu}\) 是 \(\overline{\mathscr{F}}\) 上的测度，\(\overline{\mu}|_{\mathscr{F}} = \mu\)，当 \(\mu\) 为概率测度时 \(\overline{\mu}\) 亦然。
+    \item \((\Omega, \overline{\mathscr{F}}, \overline{\mu})\) 是完备测度空间，即 \(\overline{\mu}\) 在 \(\overline{\mathscr{F}}\) 上是完备的。
+\end{enumerate}
+\end{theorem}
+
+\begin{definition}
+	设 \(f\) 为 \(\Omega_1\) 到 \(\Omega_2\) 的映照（即对每个 \(\omega_1 \in \Omega_1\)，\(f(\omega_1)\) 在 \(\Omega\) 中式唯一确定的），对 \(A_2 \subseteq \Omega_2\)，
+\[
+f^{-1}(A_2) = \{\omega_1 \in \Omega_1 : f(\omega_1) \in A_2\}
+\]
+称为 \(A_2\) 的原象。对 \(2^{\Omega_2}\) 的子类 \(\mathscr{A}_2\)，
+\[
+f^{-1}(\mathscr{A}_2) = \{f^{-1}(A_2) : A_2 \in \mathscr{A}_2\}
+\]
+称为 \(\mathscr{A}_2\) 的原象。
+\end{definition}
+\begin{theorem}\label{th:1.1.6}
+	设 \(f\) 为 \(\Omega_1\) 到 \(\Omega_2\) 的任一映照，则有
+\begin{enumerate}
+    \item \(f^{-1}(\emptyset) = \emptyset\)，\(f^{-1}(\Omega_2) = \Omega_1\)，\((f^{-1}(A))^c = f^{-1}(A^c)\);
+    \item \(f^{-1}(\bigcup_\alpha A_\alpha) = \bigcup_\alpha f^{-1}(A_\alpha)\)，\(f^{-1}(\bigcap_\alpha A_\alpha) = \bigcap_\alpha f^{-1}(A_\alpha)\);
+    \item \(\sum_\alpha f^{-1}(A_\alpha) = f^{-1}(\sum_\alpha A_\alpha)\)。
+\end{enumerate}
+
+\(2^{\Omega_2}\) 的子类 \(\mathscr{A}_2\)，
+\[
+f^{-1}(\mathscr{A}_2) = \{f^{-1}(A_2) : A_2 \in \mathscr{A}_2\}
+\]
+称为 \(\mathscr{A}_2\) 的原象。
+\end{theorem}
+\begin{theorem}
+	由定理 \ref{th:1.1.6} 可知，\(f^{-1}\) 与集合的并、交、余集、差、对称差等运算都是可交换的，而且也不限于可列运算。由此推出，\(\Omega_2\) 上任一 \(\sigma\)-代数 \(\mathscr{G}\) 的原象 \(f^{-1}(\mathscr{G})\) 是 \(\Omega_1\) 的 \(\sigma\) 代数。
+\end{theorem}
+
+\begin{proof}
+	以证明可列并封闭为例：
+ 
+设 \(\{B_n\} \subset f^{-1}(\mathscr{G})\)。则对任意的 \(n\)，存在 \(A_n \in \mathscr{G}\)，使得 \(B_n = f^{-1}(A_n)\)。则 \(\bigcup_{n=1}^{\infty} B_n = \bigcup_{n=1}^{\infty} f^{-1}(A_n) = f^{-1}(\bigcup_{n=1}^{\infty} A_n) \in f^{-1}(\mathscr{G})\)。
+\end{proof}
+\begin{definition}
+	设 \((\Omega_1, \mathscr{F}_1)\)，\((\Omega_2, \mathscr{F}_2)\) 为可测空间，\(f\) 为 \(\Omega_1\) 到 \(\Omega_2\) 的映照。若 \(f^{-1}(\mathscr{F}_2) \subset \mathscr{F}_1\)（即 \(f^{-1}(A) \in \mathscr{F}_1, \forall A \in \mathscr{F}_2\)），则称 \(f\) 为 \((\Omega_1, \mathscr{F}_1)\) 到 \((\Omega_2, \mathscr{F}_2)\) 的可测映照，记为 \(f \in \mathscr{F}_1/\mathscr{F}_2\) 或 \(f \in \mathscr{F}_1\)，或称 \(f\) 为 \(\mathscr{F}_1\) 可测的。并记 \(\sigma(f) = f^{-1}(\mathscr{F}_2)\)，称为由 \(f\) 生成的 \(\sigma\) 代数。
+\end{definition}
+
+由于我们以后常常会遇到取值包括 \(\pm \infty\) 的函数，因此将上述定义推广一下会带来许多方便。即：将 \(\{-\infty\}, \{+\infty\}\) 也称为 Borel 集。因此我们以后将这两个集合和 \(\mathcal{B}(\mathbb{R})\) 共同产生的二代数也称为（扩张）Borel 代数并以 \(\mathcal{B}(\overline{\mathbb{R}})\) 表示之，即：\(\mathcal{B}(\overline{\mathbb{R}}) := \sigma(\mathcal{B}(\mathbb{R}), \{-\infty\}, \{+\infty\})\)。
+
+\begin{definition}
+	由 \((\Omega, \mathscr{F})\) 到 \((\mathbb{R}, \mathcal{B}(\mathbb{R}))\)（或 \((\overline{\mathbb{R}}, \mathcal{B}(\overline{\mathbb{R}}))\)）的可测映照称为可测函数。特别，当 \((\Omega, \mathscr{F})\) 为概率可测空间时，\((\Omega, \mathscr{F})\) 到 \((\mathbb{R}, \mathcal{B}(\mathbb{R}))\)（或 \((\overline{\mathbb{R}}, \mathcal{B}(\overline{\mathbb{R}}))\)）可测映照 \(X\) 称为（实值）随机变量（或广义实值随机变量），也记为 \(X \in \mathscr{F}\)。
+\end{definition}
+
+\begin{example}
+	\begin{enumerate}
+		\item 若 \((\Omega_1, \mathscr{F}_1) = (\Omega_1, 2^{\Omega_1})\)，则 \((\Omega_1, \mathscr{F}_1)\) 到 \((\Omega_2, \mathscr{F}_2)\) 到的任一映照都是可测的。任取 \(B \in \mathscr{F}_2\)，可知 \(f^{-1}(B) \in 2^{\Omega_1}\)，因此 \(f^{-1}(\mathscr{F}_2) \subseteq 2^{\Omega_1} = \mathscr{F}_1\)。故可测。	
+	\item 若 \((\Omega_1, \mathscr{F}_1) = (\Omega_1, \{\emptyset, \Omega_1\})\)，则 \((\Omega_1, \mathscr{F}_1)\) 到 \((\mathbb{R}, \mathcal{B}(\mathbb{R}))\) 的可测映照 \(f\) 在 \(\Omega_1\) 上只取同一个值。
+\end{enumerate}
+\end{example}
+设 \(f\) 不为常值函数，则存在 \(\omega_1, \omega_2 \in \Omega_1\)，使得 \(f(\omega_1) = a_1 < a_2 = f(\omega_2)\)。则 \(\omega_1 \in f^{-1}((-\infty, \frac{a_1 + a_2}{2}))\)。由于 \(f\) 可测，则 \(f^{-1}(-\infty, \frac{a_1 + a_2}{2}) = \Omega_1\)。但 \(\omega_2 \notin f^{-1}((-\infty, \frac{a_1 + a_2}{2})) = \Omega_1\)。
+
+\begin{theorem}
+	若 \(E = \{r_n\}\) 为 \(\mathbb{R}\) 中稠密集，则 \(X\) 为随机变量的充要条件是对每个 \(r_n \in E\)，\(\{\omega : X(\omega) \leq r_n\} \in \mathscr{F}\)。
+\end{theorem}
+\begin{example}
+	设 \((\Omega, \mathscr{F})\) 为可测空间，\(A \in \mathscr{F}\)，则
+\[
+f(x) := I_A(x) = 
+\begin{cases} 
+1 & x \in A; \\
+0 & x \notin A.
+\end{cases}
+\]
+为可测函数。因为
+\[
+\{\omega | f \leq a\} = 
+\begin{cases} 
+\emptyset & a < 0; \\
+A^c, & 0 \leq a < 1; \\
+\Omega, & a \geq 1.
+\end{cases}
+\]
+
+\end{example}
+\begin{theorem}\label{th:1.1.9}
+	设 \((\Omega, \mathcal{F})\) 为可测空间，\(f, g, \{f_n, n \geq 1\}\) 为可测函数，\(c\) 是常数。假定下面出现的所有运算均有意义。则 \(f + g, cf, f^{-1}, fg, \sup_{n \geq 1} f_n, \inf_{n \geq 1} f_n,\underline{\lim_{n \to \infty}}  f_n, \overline{\lim_{n \to \infty}} f_n\)，均是可测函数。
+\end{theorem}
+
+\begin{theorem}
+	设 \((\Omega_i, \mathscr{F}_i), i = 1, 2, 3\)，为可测空间。若 \(g \in \mathscr{F}_1/\mathscr{F}_2\)，\(f \in \mathscr{F}_2/\mathscr{F}_3\)，则 \(f \circ g \in \mathscr{F}_1/\mathscr{F}_3\)，其中 \(f \circ g(\omega_1) \triangleq f(g(\omega_1))\)。
+\end{theorem}
+\begin{proof}
+	由复合映照的定义，对任意 \(A \in \mathscr{F}_3\)，有 \(f^{-1}(A) \in \mathscr{F}_2\)，
+\[
+(f \circ g)^{-1}(A) = \{\omega_1 : f(g(\omega_1)) \in A\}
+= \{\omega_1 : g(\omega_1) \in f^{-1}(A)\}
+= g^{-1}(f^{-1}(A)) \in \mathscr{F}_1
+\]
+故 \(f \circ g \in \mathscr{F}_1/\mathscr{F}_3\)。
+\end{proof}
+\begin{theorem}
+	对 \(\Omega\) 的子集类 \(\mathscr{C}\)，若以 \(\mathscr{C} \cap A \triangleq \{B \cap A : B \in \mathscr{C}\}\)，则
+	\[
+	\sigma_\Omega(\mathscr{C}) \cap A = \sigma_A(\mathscr{C} \cap A),
+	\]
+	这里，\(\sigma_A(\mathscr{C} \cap A)\) 表示以 \(A\) 为全集，且由 \(\mathscr{C} \cap A\) 生成的 \(\sigma\)-代数。当然，\(\sigma_\Omega(\mathscr{C}) = \sigma(\mathscr{C})\)。\\
+	\(\sigma_\Omega(\mathscr{C}) \cap A := \{B \cap A \mid B \in \sigma_\Omega(\mathscr{C})\}\)。
+\end{theorem}
+
+设 \(\{f_\lambda : \lambda \in \Lambda\}\) 是 \(\Omega \rightarrow \Omega'\) 的映射族，\(\mathcal{F}'\) 是 \(\Omega'\) 上的 \(\sigma\)-代数，那么 \(\Omega\) 上存在唯一一个使得映射 \(\{f_\lambda : \lambda \in \Lambda\}\) 都可测的最小 \(\sigma\)-代数 \(\mathcal{F}\)，即
+\begin{enumerate}
+    \item 每个 \(f_\lambda\) 是可测映射；
+    \item 如果 \(\Omega\) 上另外一个 \(\sigma\)-代数 \(\mathcal{F}_1\) 使得每个 \(f_\lambda\) 都可测，那么 \(\mathcal{F} \subset \mathcal{F}_1\)。事实上，不难验证 \(\mathcal{F} = \sigma(\bigcup_{\lambda \in \Lambda} f_\lambda^{-1}(\mathcal{F}'))\)，记为 \(\sigma(\{f_\lambda : \lambda \in \Lambda\})\)。
+\end{enumerate}
+\section{积分}
+在本节中，设测度空间 \((\Omega, \mathscr{F}, \mu)\) 固定，\(\mu\) 是有限测度。
+\begin{definition}
+	若 \(f(\omega) = \sum_{i=1}^{n} a_i I_{A_i}(\omega)\)，则称 \(f\) 为阶梯函数，其中 \(a_i \in \mathbb{R}, a_i \neq a_j\)。称 \(\sum_i a_i \mu(A_i)\) 为 \(f\) 关于 \(\mu\) 的积分，记为：\(\mu(f)\)
+\end{definition}
+\begin{remark}
+	当 \(f\) 为广义实值随机变量且不会同时取 \(+\infty\) 及 \(-\infty\) 时，若约定 \(0 \cdot (\pm \infty) = 0\)，则仍可如上规定 \(\mu(f)\)。
+\end{remark}
+\begin{proposition}
+	记 \(\mathscr{E}_+\) 表示非负阶梯型函数全体，
+\[
+\mathscr{G}_+ = \{f = \lim_n \uparrow f_n : f_n \in \mathscr{E}_+, n \geq 1\}.
+\]
+对 \(f \in \mathscr{G}_+\)，若 \(f = \lim_n \uparrow f_n, f_n \in \mathscr{E}_+, n \geq 1\)，令
+\[
+\mu(f) \triangleq \lim_n \mu(f_n), \tag{1.2.1}\label{eq:1.2.1}
+\]
+则
+\begin{enumerate}
+    \item \(\mathscr{G}_+\) 为 \((\Omega, \mathscr{F})\) 上非负可测函数全体；
+    \item 由 \ref{eq:1.2.1} 式规定的 \(\mu[f]\) 是完全确定的；
+\end{enumerate}
+\end{proposition}
+\begin{definition}
+	广义实值可测函数 \(f\)，若 \(\mu[f^+] < \infty\), \(\mu[f^-] < \infty\)，则称 \(f\) 为可积的，且以 \(\mu(f) = \mu(f^+) - \mu(f^-)\) 表示 \(f\) 对 \(\mu\) 的积分，记为 \(\int f d\mu\)。
+
+较为一般地，若 \(\mu(f^+), \mu(f^-)\) 中至少有一个取有限值，则称 \(f\) 积分存在的，用 \(\mu(f) = \mu[f^+] - \mu[f^-]\) 表示 \(f\) 关于 \(\mu\) 的积分或期望。
+\end{definition}
+\begin{definition}
+	实值可测函数 \(f\)，关于定义在 \((a, b]\) 区间上的单调函数 \(g\) 的 Riemann-Stieltjes 积分定义为
+\[
+\int_a^b f \, dg = \int_{(a,b]} f(t) \, dg(t) := \lim_{\delta \to 0} \sum_{i=1}^n f(\xi_i^n) (g(t_i^n) - g(t_{i-1}^n)).
+\]
+其中 \(\{a = t_0^n < t_1^n \cdots < t_n^n = b\}\)，\(|\delta| := \sup_{1 \leq i \leq n} |t_i^n - t_{i-1}^n|\)。
+\end{definition}
+
+\begin{definition}
+	若 \(g\) 为有限变差函数，则由实变函数可知 \(g(t) = a(t) - b(t)\) 其中 \(a(t) = V_g(t)\)，\(b(t) = V_g(t) - g(t)\) 均为单调增函数。若 \(\int_0^t |f(s)| da(s) = \int_0^t |f(s)| dV_g(s) := \int_0^t |f(s)| |dg(s)| < \infty\)。则 \(f\) 关于 \(g\) 的 Stieltjes 积分定义为
+\[
+\int_{(0,t]} f(s) \, dg(s) := \int_{(0,t]} f(s) da(s) - \int_{(0,t]} f(s) db(s).
+\]
+\end{definition}
+
+\begin{remark}
+	记号说明：\(\int_a^b f(s) \, dg(s) = \int_{(a,b]} f(s) \, dg(s)\)。
+
+\[
+\int_{(0,t)} dg(s) = g(t_-) - g(0).
+\]
+\end{remark}
+\begin{theorem}[Protter]
+	若给定区间 \([a, b]\)，定义划分 \(\Delta := \{a = t_0^n < t_1^n \ldots < t_n^n = b\}\)。\(\delta_n := \sup_{1 \leq i \leq n} |t_i^n - t_{i-1}^n|\).\(\delta_n = \max_i (t_i^n - t_{i-1}^n)\)。若 \(\lim_{\delta_n \to 0} \sum_{i=1}^{n} f(t_{i-1}^n) [g(t_i^n) - g(t_{i-1}^n)]\) 对任意的连续函数 \(f\) 存在，则 \(g\) 一定为 \([a, b]\) 上的有限变差函数
+\end{theorem}
+故若 \(g\) 为无穷变差函数，则积分不存在。
+
+\begin{theorem}
+	设 \(f\) 为可测函数，\(A \in \mathscr{F}\)，若 \(f\) 积分存在，则记
+\[
+\int_A f \, d\mu = \mu[f I_A].
+\]
+\(\varphi(A) = \int_A f \, d\mu \, (A \in \mathscr{F})\)，看作 \(A \in \mathscr{F}\) 的函数时，称为 \(f\) 关于测度 \(\mu\) 的不定积分。
+\end{theorem}
+\begin{theorem}[单调收敛定理]
+	\begin{enumerate}
+		\item 若 \(f_n \uparrow f\) a.e.，且对某个 \(n_0\) 使 \(\mu(f_{n_0}) > -\infty\)，则 \(\lim_n \mu(f_n) = \mu(f)\);
+		\item 若 \(f_n \downarrow f\) a.e.，且对某个 \(n_0\) 使 \(\mu(f_{n_0}) < +\infty\)，则 \(\lim_n \mu(f_n) = \mu(f)\)。
+	\end{enumerate}
+\end{theorem}
+\begin{theorem}[Lebesgue 控制收敛定理]
+	若 \(\{f_n, n \geq 1\}\) 为可测函数序列，\(|f_n| \leq Y\)，\(Y\) 可积，且 \(\lim_n f_n = f\) 存在，则
+\[
+\lim_n \mu(f_n) = \mu(f).
+\]
+\end{theorem}
+\begin{theorem}[Fatou 引理]
+	设 \(\{f_n, n \geq 1\}\) 为可测函数序列，\(Y, Z\) 均为可积可测函数，则
+\begin{enumerate}
+    \item 若 \(f_n \geq Z (n \geq n_0)\)，则
+    \[
+    \mu\left[\lim_n f_n\right] \leq \lim_n \mu(f_n). \tag{1.2.2}
+    \]
+    \item 若 \(f_n \leq Y, n \geq n_0\)，则
+    \[
+    \mu\left[\lim_n f_n\right] \geq \lim_n \mu(f_n). \tag{1.2.3}
+    \]
+\end{enumerate}
+
+设 \(\lambda\) 是 \([0, 1]\) 上 Lebesgue 测度。定义 \(f_{2n-1} := 1_{[0, \frac{1}{2})}, f_{2n} := 1_{(\frac{1}{2}, 1]}\)
+\end{theorem}
+\begin{theorem}
+	设 \(f, g\) 积分存在
+\begin{enumerate}
+    \item \(\forall \alpha \in \mathbb{R}\)，\(\alpha f\) 的积分存在，且 \(\mu(\alpha f) = \alpha \mu(f)\);
+    \item 若 \(f + g\) 处处有定义，且 \(\mu(f) + \mu(g)\) 有意义，则 \(f + g\) 的积分存在，且有 \(\mu(f + g) = \mu(f) + \mu(g)\);
+    \item \(|\mu(f)| \leq \mu(|f|)\);
+    \item 若 \(N\) 为一零测集，则 \(\mu(f I_N) = 0\);
+    \item 若 \(f \leq g\), a.e.，则 \(\mu(f) \leq \mu(g)\);
+    \item 若 \(f\) 为非负实值可测函数，则 \(f = 0\), a.e. 等价于 \(\mu(f) = 0\);
+    \item 若 \(f\) 可积，\(\forall \varepsilon > 0\), 存在 \(\delta > 0\)，s.t. \(\forall A \in \mathcal{F}\)，只需 \(\mu(A) \leq \delta\) 就有 \(|\int_A f \, d\mu| \leq \int_A |f| \, d\mu \leq \varepsilon\)。
+\end{enumerate}
+\end{theorem}
+\begin{theorem}[变量代换]
+	若 \((\Omega, \mathscr{F}, \mu)\) 为测度空间，\(Y\) 为 \((\Omega, \mathscr{F})\) 到可测空间 \((E, \mathscr{E})\) 的可测映照，\(\mu Y^{-1}\) 为 \(Y\) 在 \((E, \mathscr{E})\) 上的导出测度，又 \(f\) 是 \((E, \mathscr{E})\) 上的可测函数，则下列两端任一端存在（有限）必可推出另一端也存在（有限），且有：
+\[
+\int_E f(x) \mu Y^{-1}(dx) = \int_\Omega f(Y(\omega)) \mu(d\omega). \tag{1.2.4}
+\]
+其中任取 \(A \in \mathscr{E}\)，\(\mu Y^{-1}(A) := \mu(Y^{-1}(A))\)。
+
+且
+\[
+\int_A f(x) \mu Y^{-1}(dx) = \int_{Y^{-1}(A)} f(Y(\omega)) \mu(d\omega), \forall A \in \mathscr{E} \tag{1.2.5}
+\]
+\end{theorem}
+\section{随机变量的收敛性}
+令 \(\mathcal{L}^p(\Omega), p \geq 1\) 表示所有使得 \(E[|X|^p] < \infty\) 的随机变量（等价类）全体，简记为 \(\mathcal{L}^p\)。
+\begin{definition}
+	\begin{enumerate}
+		\item 设 \(\{X_n, n \geq 1\}\) 是随机变量序列，若存在随机变量 \(X\) 使得
+		\[
+		P\{\omega \in \Omega : X(\omega) = \lim_{n \to \infty} X_n(\omega)\} = 1
+		\]
+		则称随机变量序列 \(\{X_n, n \geq 1\}\) 几乎必然收敛（或以概率 1 收敛）于 \(X\)，记为 \(X_n \rightarrow X, a.s.\) 或 \(X_n \xrightarrow X\)。
+		\item 设 \(\{X_n, n \geq 1\}\) 是随机变量序列，若存在随机变量 \(X\) 使得 \(\forall \varepsilon > 0\)，有
+		\[
+		\lim_{n \to \infty} P\{|X_n - X| \geq \varepsilon\} = 0
+		\]
+		则称随机变量序列 \(\{X_n, n \geq 1\}\) 依概率收敛于 \(X\)，记为 \(X_n \overset{P}{\rightarrow} X\)。
+		\item 设随机变量序列 \(\{X_n\} \subset \mathcal{L}^p, p \geq 1, X \in \mathcal{L}^p\)，若有
+		\[
+		\lim_{n \to \infty} E[|X_n - X|^p] = 0
+		\]
+		则称随机变量序列 \(\{X_n, n \geq 1\}\) p次平均收敛于 \(X\)，或称 \(\{X_n\}\) 在 \(\mathcal{L}^p\) 中强收敛于 \(X\)。当 \(p = 2\) 时，称为均方收敛。
+		\item 设 \(\{F_n(x)\}\) 是分布函数列，如果存在一个单调不减函数 \(F(x)\)，使得在 \(F(x)\) 的所有连续点 \(x\) 上均有
+		\[
+		\lim_{n \to \infty} F_n(x) = F(x)
+		\]
+		则称 \(\{F_n(x)\}\) 弱收敛于 \(F(x)\)，记为 \(F_n(x) \overset{W}{\rightarrow} F(x)\)。
+	
+		设随机变量 \(X_n, X\) 的分布函数分别为 \(F_n(x)\) 及 \(F(x)\)，若
+		\[
+		F_n(x) \overset{W}{\rightarrow} F(x)
+		\]
+		则称 \(\{X_n\}\) 依分布收敛于 \(X\)，记为 \(X_n \overset{L}{\rightarrow} X\)。
+	\end{enumerate}
+\end{definition}
+\begin{theorem}
+	\begin{enumerate}
+		\item 随机变量序列 \(X_n \xrightarrow X\) 的充分必要条件是 \(\forall \varepsilon > 0\),
+		\[
+		\lim_{n \to \infty} P\left\{\sup_{m \geq n} |X_m - X| \geq \varepsilon\right\} = 0
+		\]
+		\item 随机变量序列 \(X_n \overset{P}{\rightarrow} X\) 的充分必要条件是 \(\{X_n\}\) 的任意子序列都包含几乎必然收敛于 \(X\) 的子序列。
+	\end{enumerate}
+\end{theorem}
+
+随机变量序列的这4种收敛性之间的关系可以总结为下面的关系图：
+
+几乎必然收敛 \(\Longrightarrow\) 依概率收敛 \(\Longrightarrow\) 依分布收敛；
+
+\(p\)次平均收敛 \(\Longrightarrow\) 依概率收敛 \(\Longrightarrow\) 依分布收敛。
+
+\begin{remark}
+	几乎必然收敛与\(p\)阶矩收敛之间没有蕴含关系。
+\end{remark}
+
+
+
+\section{随机变量和分布函数}
+
+\begin{definition}
+	设 $(\Omega, \mathcal{F}, P)$ 是（完备的）概率空间，$X$ 是定义在 $\Omega$ 上取值于实数集 $\mathbb{R}$ 的函数，如果对任意实数 $x \in \mathbb{R}$，$\{\omega : X(\omega) \leq x\} \in \mathcal{F}$，则称 $X(\omega)$ 是 $\mathcal{F}$ 上的随机变量，简称为随机变量。
+
+\[
+F(x) = P(\omega : X(\omega) \leq x), \quad -\infty < x < \infty
+\]
+
+称为随机变量 $X$ 的分布函数。
+
+如果存在函数 $f(x)$，满足
+\[
+F(x) = \int_{-\infty}^{x} f(t) \, dt
+\]
+则称 $f(x)$ 为随机变量 $X$ 或其分布函数 $F(x)$ 的分布密度。如果 $X$ 具有分布密度，则称 $X$ 为连续型随机变量；
+
+如果 $X$ 最多以正概率取可数多个值，则称 $X$ 为离散型随机变量。
+
+\end{definition}
+\begin{definition}
+	两个随机变量 $X$ 与 $Y$，如果满足 $P(\omega \in \Omega : X(\omega) \neq Y(\omega)) = 0$，则称它们是等价的。
+\end{definition}
+
+\begin{remark}
+
+	对于两个等价的随机变量，我们视为同一。
+	
+\end{remark}
+\begin{theorem}
+	下列命题等价：
+\begin{enumerate}
+    \item $X$ 是随机变量；
+    \item $\{\omega : X(\omega) \geq a\} \in \mathcal{F}, \quad \forall \, a \in \mathbb{R}$；
+    \item $\{\omega : X(\omega) > a\} \in \mathcal{F}, \quad \forall \, a \in \mathbb{R}$；
+    \item $\{\omega : X(\omega) < a\} \in \mathcal{F}, \quad \forall \, a \in \mathbb{R}$。
+\end{enumerate}
+\end{theorem}
+\begin{remark}
+	
+	习惯上将 $\{\omega : X(\omega) \geq a\}$ 记为 $\{X \geq a\}$
+\end{remark}
+
+
+
+\begin{theorem}
+	\begin{enumerate}
+		\item 若 $X, Y$ 是随机变量，则 $\{X < Y\}, \{X \leq Y\}, \{X = Y\}$ 及 $\{X \neq Y\}$ 都属于 $\mathcal{F}$；
+		\item 若 $X, Y$ 是随机变量，则 $X \pm Y$ 与 $XY$ 亦然；
+		\item 若 $\{X_n\}$ 是随机变量序列，则 $\sup_n X_n, \inf_n X_n, \limsup_{n \to \infty} X_n$ 和 $\liminf_{n \to \infty} X_n$ 都是随机变量。
+	\end{enumerate}
+	
+	映射 $X : \Omega \to \mathbb{R}^d$，表示为 $\mathbf{X} = (X_1, \cdots, X_d)$，若对所有的 $k, 1 \leq k \leq d$，$X_k$ 都是随机变量，则称 $\mathbf{X}$ 为随机向量。
+	
+\end{theorem}
+
+常用的两种类型随机变量：
+
+\begin{enumerate}
+    \item 离散型随机变量 $X$ 的概率分布用分布列描述：
+    \[
+    p_k = P(X = x_k), \quad k = 1, 2, \ldots
+    \]
+    其分布函数 $F(x) = \sum_{x_k \leq x} p_k$.
+
+    \item 连续型随机变量 $X$ 的概率分布用概率密度 $f(x)$ 描述，其分布函数
+    \[
+    F(x) = \int_{-\infty}^{x} f(t) \, dt.
+    \]
+
+    \item 对于随机向量 $X = (X_1, \cdots, X_d)$，它的（$d$维）分布函数（或联合分布函数）定义为
+    \[
+    F(x_1, \cdots, x_d) = P(X_1 \leq x_1, \cdots, X_d \leq x_d)
+    \]
+    这里 $d$ 为正整数，$x_k \in \mathbb{R}, k = 1, 2, \ldots, d$.
+\end{enumerate}
+\begin{theorem}
+	若 $F(x_1, \cdots, x_d)$ 是联合分布函数，则
+\begin{enumerate}
+    \item $F(x_1, \cdots, x_d)$ 对每个变量都是单调的；
+    \item $F(x_1, \cdots, x_d)$ 对每个变量都是右连续的；
+    \item 对 $i = 1, 2, \cdots, d$
+    \[
+    \lim_{x_i \to -\infty} F(x_1, \cdots, x_i, \cdots, x_d) = 0,
+    \]
+    \[
+    \lim_{x_1, x_2, \cdots, x_d \to \infty} F(x_1, x_2, \cdots, x_d) = 1.
+    \]
+\end{enumerate}
+\end{theorem}
+\begin{remark}
+	
+	如果 $f(x_1, \cdots, x_d) = \frac{\partial^d F}{\partial x_1 \cdots \partial x_d}$ 对所有的 $(x_1, \cdots, x_d) \in \mathbb{R}^d$ 存在，则称函数 $f(x_1, \cdots, x_d)$ 为 $F(x_1, \cdots, x_d)$ 或 $X = (X_1, \cdots, X_d)$ 的联合密度函数，并且
+\[
+F(x_1, \cdots, x_d) = \int_{-\infty}^{x_1} \cdots \int_{-\infty}^{x_d} f(t_1, \cdots, t_d) \, dt_d \cdots dt_1
+\]
+设 $F(x_1, \cdots, x_d)$ 为 $X_1, \cdots, X_d$ 的联合分布函数，$1 \leq k_1 < \cdots < k_n \leq d$，则 $X_1, \cdots, X_d$ 的边际分布 $F_{k_1, \cdots, k_n}(x_{k_1}, \cdots, x_{k_n})$ 定义为
+\[
+F_{k_1, \cdots, k_n}(x_{k_1}, \cdots, x_{k_n}) = F(\infty, \cdots, \infty, x_{k_1}, \infty, \cdots, \infty, x_{k_2}, \infty, \cdots, \infty, x_{k_n}, \infty, \cdots, \infty)
+\]
+\end{remark}
+
+\section{分布函数及其生成的测度}
+
+\begin{theorem}\label{th:1.5.1}
+	若 $F(x)$ 为有限实值随机变量 $X$ 的分布函数，则
+\begin{enumerate}
+    \item $F(x)$ 是不减的；
+    \item $F(x)$ 是右连续的；
+    \item $\lim_{x \to -\infty} F(x) = 0$, $\lim_{x \to +\infty} F(x) = 1$.
+\end{enumerate}
+\end{theorem}
+
+\begin{theorem}\label{th:1.5.2}
+	\begin{enumerate}
+		\item[(a)]若 $F(x)$ 为 $\mathbb{R}$ 上的右连续不减有界函数，则在 $(\mathbb{R}, \mathcal{B})$ 必存在唯一的有限测度 $\mu$，使得：
+		\[
+		\mu((a, b]) = F(b) - F(a), \quad -\infty \leq a < b < +\infty.
+		\]
+		\item[(b)] 若 $F(x)$ 为 $\mathbb{R}$ 上的右连续不减的实值函数，则必存在在 $(\mathbb{R}, \mathcal{B})$ 上唯一的 $\sigma$ 有限的测度 $\mu$ 使得
+		\[
+		\mu((a, b]) = F(b) - F(a), \quad -\infty \leq a < b < +\infty.
+		\]
+	\end{enumerate}
+\end{theorem}
+\begin{theorem}
+	若 $F(x)$ 为 $\mathbb{R}$ 上满足定理 \ref{th:1.5.1}(1)-(3) 的函数，则必存在概率空间 $(\Omega, \mathcal{F}, P)$ 及其上的随机变量 $X$，使得
+\[
+P(X \leq x) = F(x).
+\]
+\end{theorem}
+\begin{definition}
+	若 $F$ 为 $\mathbb{R}$ 上有限右连续不减函数，则由 $F$ 在 $(\mathbb{R}, \mathcal{B}(\mathbb{R}))$ 上按定理 \ref{th:1.5.2}(b) (即 $\mu((a, b]) = F(b) - F(a), -\infty \leq a < b < +\infty$.) 生成的 $\sigma$ 有限完备测度 $\mu$ 称为由 $F$ 生成的 Lebesgue-Stieltjes 测度，简称为 L-S 测度. 特别，当 $F(t) = t$ (或同样的 $f(t) = t + c$)，由此产生的完备化测度称为 Lebesgue 测度. 由 $\mathcal{B}$ 按 Lebesgue 测度扩张的完备 $\sigma$ 代数 $\mathcal{B}(\bar{\mathbb{R}})$ 中的集合都称为 Lebesgue 可测集.
+\end{definition}
+
+\section{数字特征、矩母函数与特征函数}
+\subsection{数字特征}
+\begin{definition}
+	\begin{enumerate}
+		\item 取值为 $\{s_k\}$ 的离散型随机变量 $X$ 的数学期望（简称为期望）$E[X]$ 定义为
+		\[
+		E[X] = \sum_k s_k p_k = \sum_k s_k P(X = s_k)
+		\]
+		如果 $\sum |s_k| p_k < \infty$.
+		\item 连续型随机变量 $X$ 的数学期望 $E[X]$ 定义为
+		\[
+		E[X] = \int_{-\infty}^{\infty} x dF(x) = \int_{-\infty}^{\infty} x f(x) dx
+		\]
+	\end{enumerate}
+	
+	如果 $\int_{-\infty}^{\infty} |x| dF(x) < \infty$，这里 $F(x)$ 是 $X$ 的分布函数，$f(x)$ 是其密度函数。
+	
+	利用 Riemann–Stieltjes 积分，我们可以对离散型随机变量和连续型随机变量的期望给出一个统一的表达式：
+	\[
+	E[X] = \int_{-\infty}^{+\infty} x dF(x)
+	\]
+	
+	\begin{enumerate}
+		\setcounter{enumi}{2}
+		\item 设 $X$ 为任一随机变量，对正整数 $k$，称 $m_k = E[X^k]$ 为 $X$ 的 $k$ 阶原点矩。数学期望是一阶原点矩。
+		\item 设 $X$ 为任一随机变量，对正整数 $k$，称 $c_k = E[X - E[X]]^k$ 为 $X$ 的 $k$ 阶中心矩。方差是二阶中心矩。
+	\end{enumerate}
+\end{definition}
+
+\subsection{矩母函数}
+\begin{definition}
+	若随机变量 $X$ 的分布函数为 $F_X(x)$，则称
+\[
+\phi_X(t) = E[e^{tX}] = \int_{\Omega} e^{tX(\omega)} P(d\omega) = \int_{-\infty}^{\infty} e^{tx} dF_X(x)
+\]
+为 $X$ 的矩母函数。
+\end{definition}
+\begin{remark}
+	
+	$X$ 的各阶矩与矩母函数的关系（假设对 $\phi(t)$ 求导时，求导运算与求期望运算可以交换次序）
+	\begin{align*}
+		\phi'(t) &= E(X e^{tX}) \\
+		\phi''(t) &= E(X^2 e^{tX}) \\
+		&\vdots \\
+		\phi^{(n)}(t) &= E(X^n e^{tX})
+	\end{align*}
+
+令 $t = 0$，得到 $\phi^{(n)}(0) = E[X^n], \, n \geq 1$. 当矩母函数存在时，它唯一地决定分布，因此我们能够用矩母函数刻画随机变量的概率分布. 但有时随机变量的矩母函数不一定存在，在这种情况下，更方便的是特征函数。
+\end{remark}
+
+
+\subsection{特征函数}
+
+\begin{definition}
+	若随机变量 $X$ 的分布函数为 $F_X(x)$，则称
+\[
+\psi_X(t) = E[e^{itX}] = \int_{\Omega} e^{itX(\omega)} P(d\omega) = \int_{-\infty}^{\infty} e^{itx} dF_X(x)
+\]
+为 $X$ 的特征函数。如果 $F_X$ 有密度 $f(x)$，则 $\psi_X(t)$ 就是 $f(x)$ 的 Fourier 变换
+\[
+\psi_X(t) = \int_{-\infty}^{\infty} e^{itx} f(x) dx
+\]
+\end{definition}
+
+\section{独立性与条件期望}
+\subsection{独立性}
+\begin{definition}
+	\begin{enumerate}
+		\item 设 $A, B$ 为两个事件，若 $P(A \cap B) = P(A)P(B)$，则称 $A$ 与 $B$ 独立. 更一般地，设 $A_1, A_2, \cdots, A_n$ 为 $n$ 个事件，如果对任何 $m \leq n$ 及 $1 \leq k_1 < k_2 < \cdots < k_m \leq n$，有
+		\[
+		P\left(\bigcap_{j=1}^{m} A_{k_j}\right) = \prod_{j=1}^{m} P(A_{k_j})
+		\]
+		则称 $A_1, A_2, \cdots, A_n$ 相互独立. $A_1, A_2, \cdots, A_n$ 两两独立不一定相互独立.
+		\item 设 $\{A_i, i \in I\}$ 是一族事件，若对 $I$ 的任意有限子集 $\{i_1, \cdots, i_k\} \neq \emptyset$ 有
+		\[
+		P\left(\bigcap_{j=1}^{k} A_{i_j}\right) = \prod_{j=1}^{k} P(A_{i_j})\tag{1.7.1}
+		\]
+		则称 $\{A_i, i \in I\}$ 是相互独立的.
+		\item 设 $\{A_i, i \in I\}$ 是一族事件类，如果对 $I$ 的任意有限子集 $\{i_1, \cdots, i_k\} \neq \emptyset$，任意 $A_i \in A_i$，有(1.7.1)式成立，则称 $\{A_i, i \in I\}$ 是独立事件类.
+		\item 设 $\{X_i, i \in I\}$ 是 $\Omega$ 上一族随机变量，如果 $\sigma$ 代数 $\{X_i, i \in I\}$ 是独立事件类，则称 $\{X_i, i \in I\}$ 相互独立.
+	\end{enumerate}
+	
+\end{definition}
+容易证明随机变量 $X_1, \cdots, X_n$ 独立的充分必要条件是它们的联合分布函数可以分解为
+	\[
+	F(x_1, \cdots, x_n) = F_{X_1}(x_1) \cdots F_{X_n}(x_n)
+	\]
+
+\begin{theorem}
+	设 $\{X_t, t \in T\}$ 为独立随机变量族，$\{T_\alpha, \alpha \in J\}$ 为 $T$ 的互不相交子集，$\{f_\alpha(X_t, t \in T_\alpha), \alpha \in J\}$ 为 Borel 函数族，则 $\{Y_\alpha = f_\alpha(X_t, t \in T_\alpha), \alpha \in J\}$ 为独立随机变量。
+
+\end{theorem}
+
+\subsection{条件期望}
+设 $B$ 是一个事件，且 $P(B) > 0$. 则事件 $B$ 发生的条件下
+
+事件 $A$ 发生的条件概率为
+\[
+P(A|B) = \frac{P(A \cap B)}{P(B)}
+\]
+
+（全概率公式）设 $\{B_n\}$ 是 $\Omega$ 的一个分割，且使得 $P(B_n) > 0$, $\forall n$. 如果 $A \in \mathcal{F}$，则
+\[
+P(A) = \sum_n P(B_n)P(A|B_n)
+\]
+
+（Bayes公式）设 $\{B_n\}$ 是 $\Omega$ 的一个分割，且使得 $P(B_n) > 0$, $\forall n$. 如果 $P(A) > 0$，则
+\[
+P(B_k|A) = \frac{P(B_k)P(A|B_k)}{\sum_n P(B_n)P(A|B_n)}, \quad n \geq 1
+\]
+如果 $X$ 与 $Y$ 是离散型随机变量，对一切使得 $P\{Y = y\} > 0$ 的 $y$，给定 $Y = y$ 时，$X$ 的条件概率定义为：
+\[
+P\{X = x|Y = y\} = \frac{P\{X = x, Y = y\}}{P\{Y = y\}}
+\]
+$X$ 的条件分布定义为：
+\[
+F(x|y) = P\{X \leq x|Y = y\}
+\]
+$X$ 的条件期望定义为：
+\[
+E[X|Y = y] = \int x dF(x|y) = \sum_x x P\{X = x|Y = y\}
+\]
+如果 $X$ 与 $Y$ 有联合概率密度函数 $f(x, y)$，则对一切使得 $f_Y(y) > 0$ 的 $y$，给定 $Y = y$ 时，$X$ 的条件概率密度函数定义为：
+\[
+f(x|y) = \frac{f(x, y)}{f_Y(y)}
+\]
+$X$ 的条件分布定义为：
+\[
+F(x|y) = P\{X \leq x|Y = y\} = \int_{-\infty}^{x} f(z|y) dz
+\]
+$X$ 的条件期望定义为：
+\[
+E[X|Y = y] = \int x dF(x|y) = \int x f(x|y) dx
+\]
+我们以 $E[X|Y]$ 表示随机变量 $Y$ 的函数，它在 $Y = y$ 时，取值为 $E[X|Y = y]$. 条件期望的一个重要性质是对一切随机变量 $X$ 和 $Y$，当期望存在时，有
+\[
+E[X] = E[E[X|Y]] = \int E[X|Y = y] dF_Y(y) \quad \tag{1.7.2}\label{eq:1.7.2}
+\]
+当 $Y$ 为一个离散随机变量时，\ref{eq:1.7.2} 式为
+\[
+E[X] = \sum_y E[X|Y = y] P\{Y = y\}
+\]
+当 $Y$ 为一个连续随机变量时，\ref{eq:1.7.2}式为
+\[
+E[X] = \int_{-\infty}^{+\infty} E[X|Y = y] f(y) dy
+\]
+
+\begin{example}[随机个随机变量之和]
+	设 $X_1, X_2, \cdots$ 是一列与 $X$ 独立同分布的随机变量；设 $N$ 为一非负整值随机变量，且与序列 $X_1, X_2, \cdots$ 独立. 求 $Y = \sum_{i=1}^{N} X_i$ 的均值和方差。
+\end{example}
+\begin{proof}
+	首先在对 $N$ 取条件的情况下来计算 $Y = \sum_{i=1}^{N} X_i$ 的矩母函数，即
+\[
+E[\exp\{t \sum_{i=1}^{N} X_i\}|N = n] = E[\exp\{t \sum_{i=1}^{N} X_i\}] = (\phi_X(t))^n
+\]
+其中 $\phi_X(t)$ 是随机变量 $X$ 的矩母函数，因此
+\[
+E[\exp\{t \sum_{i=1}^{N} X_i\}|N] = (\phi_X(t))^N
+\]
+从而
+\[
+\phi_Y(t) = E[\exp\{t \sum_{i=1}^{N} X_i\}] = E[(\phi_X(t))^N]
+\]
+
+现在对 $\phi_Y(t)$ 求导得
+\[
+\phi_Y'(t) = E[N(\phi_X(t))^{N-1} \phi_X'(t)]
+\]
+再求一次导数得
+\[
+\phi_Y''(t) = E[N(N-1)(\phi_X(t))^{N-2} (\phi_X'(t))^2 + N(\phi_X(t))^{N-1} \phi_X''(t)]
+\]
+计算在 $t = 0$ 点的值，得
+\[
+E[Y] = E[N E[X]] = E[N] E[X] 
+\]
+及
+\[
+E[Y^2] = E[N(N-1)(E[X])^2 + N E[X^2]] = E[N] \text{Var}[X] + E[N^2] (E[X])^2
+\]
+因此有
+\[
+\text{Var}[Y] = E[Y^2] - (E[Y])^2 = E[N] \text{Var}[X] + (E[X])^2 \text{Var}[N] 
+\]
+\end{proof}
+
+\begin{definition}
+	线性空间 $\mathcal{H}$ 上的一个共轭双线性函数 $(\cdot, \cdot) : \mathcal{H} \times \mathcal{H} \rightarrow K$ 称为一个内积，若
+\begin{enumerate}
+    \item $(x, y) = \overline{(y, x)} \ \forall x, y \in \mathcal{H}$;
+    \item $(x, x) \geq 0, \forall x \in \mathcal{H}$ 且 $(x, x) = 0 \Leftrightarrow x = 0$.
+\end{enumerate}
+完备的内积空间称为Hilbert空间。
+\end{definition}
+
+\begin{definition}
+	内积空间 $\mathcal{H}$ 上的两个元素 $x, y$ 称为正交的，若 $(x, y) = 0$，记为 $x \perp y$。
+
+设 $M$ 是 $\mathcal{H}$ 上的一个非空子集，$x \in \mathcal{H}$。若 $\forall y \in M$ 都有 $x \perp y$ 则称 $x$ 与 $M$ 正交，记为 $x \perp M$。
+
+记 $\{x \in \mathcal{H} | x \perp M\}$ 为 $M$ 的正交补空间，记为 $M^\perp$。
+\end{definition}
+\begin{theorem}
+	设 $f \in L^2(\Omega, \mathcal{F}, P)$，$g \in L^2(\Omega, \mathcal{G}, P)$，则下列条件等价：
+\begin{enumerate}
+    \item $g = E[f|\mathcal{G}]$;
+    \item $\forall h \in L^2(\Omega, \mathcal{G}, P)$，$\int f h dP = \int g h dP$;
+    \item $\forall h \in L^\infty(\Omega, \mathcal{G}, P)$，$\int f h dP = \int g h dP$;
+    \item $\forall A \in \mathcal{G}$，$\int_A f dP = \int_A g dP$;
+\end{enumerate}
+\end{theorem}
+\begin{theorem}
+	$f \rightarrow E[f|\mathcal{G}]$ 可唯一扩充为 $L^1(\Omega, \mathcal{F}, P)$ 到 $L^1(\Omega, \mathcal{G}, P)$ 的连续线性映射。
+
+\end{theorem}
+\begin{theorem}
+	设 $f \in L^1(\Omega, \mathcal{F}, P)$，$g \in L^1(\Omega, \mathcal{G}, P)$，则下列条件等价：
+\begin{enumerate}
+    \item $g = E[f|\mathcal{G}]$;
+    \item $\forall A \in \mathcal{G}$，$\int_A f dP = \int_A g dP$;
+    \item $\forall h \in L^\infty(\Omega, \mathcal{G}, P)$，$\int f h dP = \int g h dP$;
+\end{enumerate}
+\end{theorem}
+\begin{definition}
+	设 $X$ 是随机变量且 $E[|X|] < \infty$. 若对每个子 $\sigma$-代数 $\mathcal{G} \subset \mathcal{F}$，存在唯一的 $(L^1$ 意义下唯一的) 随机变量 $X^*$，有 $E[|X^*|] < \infty$，使得 $X^*$ 是 $\mathcal{G}$ 可测随机变量（即对任何 $a \in \mathbb{R}$，有 $\{X^* \leq a\} \in \mathcal{G}$），且
+\[
+E[X^* I_B] = E[X I_B], \quad \forall B \in \mathcal{G}
+\]
+则称随机变量 $X^*$ 为 $X$ 在给定 $\mathcal{G}$ 下的条件期望，记为 $X^* = E[X|\mathcal{G}]$，即
+\[
+\int_B E[X|\mathcal{G}] dP = \int_B X dP, \quad \forall B \in \mathcal{G}
+\]
+特别地，当 $\mathcal{G} = \sigma(Y)$ 时，则记 $E(X|Y)$ 为 $E[X|Y]$ 并称为 $X$ 关于 $Y$ 的条件期望。
+\end{definition}
+\begin{theorem}
+	条件期望有如下基本性质：
+\begin{enumerate}
+    \item 设 $\sigma$-代数 $\mathcal{G} \subset \mathcal{F}$，则 $E[E[X|\mathcal{G}]] = E[X]$.
+    \item 若 $X$ 是 $\mathcal{G}$ 可测，则 $E[X|\mathcal{G}] = X$, a.s.
+    \item 设 $\mathcal{G} = \{\emptyset, \Omega\}$，则 $E[X|\mathcal{G}] = E[X]$, a.s.
+    \item $E[X|\mathcal{G}] = E[X^+|\mathcal{G}] - E[X^-|\mathcal{G}]$, a.s.
+    \item 若 $X \leq Y$, a.s.，则 $E[X|\mathcal{G}] \leq E[Y|\mathcal{G}]$, a.s.
+    \item 若 $a, b$ 为常数，$X, Y, aX + bY$ 的期望存在，则 $E[aX + bY|\mathcal{G}] = aE[X|\mathcal{G}] + bE[Y|\mathcal{G}]$, a.s.
+\end{enumerate}
+如果右端和式有意义。
+\begin{enumerate}
+    \setcounter{enumi}{6}
+    \item $|E[X|\mathcal{G}]| \leq E[|X||\mathcal{G}]$, a.s.
+    \item 设 $0 \leq X_n \uparrow X$, a.s.，$E[X_n|\mathcal{G}] \uparrow E[X|\mathcal{G}]$, a.s.
+    \item 设 $X$ 及 $XY$ 的期望存在，且 $Y$ 为 $\mathcal{G}$ 可测，则 $E[XY|\mathcal{G}] = Y E[X|\mathcal{G}]$, a.s.
+\end{enumerate}
+\begin{enumerate}
+    \setcounter{enumi}{9}
+    \item 若 $X$ 与 $\mathcal{G}$ 相互独立（即 $\sigma(X)$ 与 $\mathcal{G}$ 相互独立），则有 $E[X|\mathcal{G}] = E[X]$, a.s.
+    \item 若 $\mathcal{G}_1, \mathcal{G}_2$ 是两个子 $\sigma$-代数，使得 $\mathcal{G}_1 \subset \mathcal{G}_2 \subset \mathcal{F}$，则 $E[E[X|\mathcal{G}_2]|\mathcal{G}_1] = E[X|\mathcal{G}_1]$, a.s.
+    \item 若 $X, Y$ 是两个独立的随机变量，函数 $g(x, y)$ 使得 $E[|g(X, Y)|] < +\infty$，则有
+    \[
+    E[g(X, Y)|Y] = E[g(X, y)|y] \cdot \cdot \cdot, \quad \text{a.s.}
+    \]
+\end{enumerate}
+这里 $E[g(X, y)|y]$ 的意义是，先将 $y$ 视为常数，求得数学期望 $E[g(X, y)]$ 后再将随机变量 $Y$ 代入到的位置。
+\end{theorem}
+\begin{definition}
+	设 $\mathcal{G} \subset \mathcal{F}$，$A \in \mathcal{F}$，则称 $E[I_A|\mathcal{G}]$ 为 $A$ 关于 $\mathcal{G}$ 的条件概率，记为 $P(A|\mathcal{G})$。
+\end{definition}
+
+\section{随机过程的基本概念}
+\begin{definition}
+	随机过程是概率空间 $(\Omega, \mathcal{F}, P)$ 上的一族随机变量 $\{X(t), t \in T\}$，其中 $t$ 是参数，它属于某个指标集 $T$，可称为参数集。
+\end{definition}
+\begin{remark}
+	\begin{itemize}
+		\item 当 $T = \{0, 1, 2, \cdots\}$ 时称之为随机序列或时间序列。
+		\item 随机过程 $\{X(t), \omega\}, t \in T, \omega \in \Omega$ 决定定义在 $T \times \Omega$ 上的二元函数。
+	\end{itemize}
+	
+\end{remark}
+随机过程的分类：
+	\begin{enumerate}
+		\item $X(t)$ 表示系统在时刻 $t$ 所处的状态。
+		\item $X(t)$ 的所有可能状态构成的集合为状态空间，记为 $S$。
+		\item 依据状态空间可分为连续状态和离散状态；
+		\item 依据参数集，可分为离散参数过程和连续参数过程。
+	\end{enumerate}
+	例如：$X(t)$ 表示时刻一个队列中排队的人数，则 $S = \{0, 1, 2, \cdots\}$；$X(t)$ 表示时刻某只股票的价格，则 $S = [0, \infty)$。
+	
+\begin{remark}
+	一般如果不作说明都认为状态空间是实数集 $\mathbb{R}$ 的子集。
+
+\end{remark}
+\begin{example}[随机游动]
+	一个醉汉在路上行走，以概率 $p$ 前进一步，以概率 $1-p$ 后退一步（假定其步长相等），以 $X(t)$ 记他在路上的位置，则 $X(t)$ 就是线上的随机游动。
+
+\end{example}
+\begin{example}[Brown运动]
+	英国植物学家Brown注意到悬浮在液面上的微小粒子不断进行无规则的运动，这种运动后来称为Brown运动。它是分子大量随机碰撞的结果。若以 $X(t), Y(t)$ 为粒子在平面坐标上的位置，则它又平面上的Brown运动。
+\end{example}
+\begin{example}[排队模型]
+	顾客来到服务站要求服务。当服务站中的服务员都忙碌，即服务员都在为别的顾客服务时，来到的顾客就要排队等候。顾客的到来、每个顾客所需的服务时间都是随机的，所以如果用 $X(t)$ 表示时刻的队长，用 $Y(t)$ 表示时刻到来的顾客所需的等待时间，则 $\{X(t), t \in T\}, \{Y(t), t \in T\}$ 都是随机过程
+\end{example}
+
+\section{有限维分布与 Kolmogorov 定理}
+
+设 $(\Omega, \mathcal{F}, P)$ 是概率空间，$X = \{X_t, t \geq 0\}$ 是其上的以 $(E, \mathcal{E})$ 为状态空间的随机过程，用 $\mathcal{F}_t$ 表示 $T$ 的有序的有限子集全体，即
+\[
+\mathcal{F}_T := \{(t_1, \cdots, t_n) : n \geq 1, t_1, \cdots, t_n \in T\},
+\]
+$\mathcal{N}_T = (t_1, \cdots, t_n) \in \mathcal{F}_T$，记乘积空间 $E^n$ 为 $E^T$，定义 $X_T$ 为下列映射
+\[
+\omega \longmapsto (X_{t_1}(\omega), \cdots, X_{t_n}(\omega)),
+\]
+则 $X_T$ 是 $\Omega$ 到 $E^T$ 的可测映射。用 $\mu_T$ 表示空间 $(E^T, \mathcal{E}^T)$ 上由 $X_T$ 诱导的测度 $P \circ X_T^{-1}$，即 $P$ 在 $X_T$ 下的像测度。
+
+即对任何 $A_1, \cdots, A_n \in \mathcal{E}$，
+\[
+\mu_{t_1, \cdots, t_n}(A_1 \times \cdots \times A_n) = P(X_{t_1} \in A_1, \cdots, X_{t_n} \in A_n).
+\]
+用记 $D_X = \{\mu_T : t \in \mathcal{F}_T\}$，它称为随机过程 $X$ 的有限维分布族。
+
+给定随机过程 $X$，其有限维分布族由过程唯一决定且满足下面的性质：
+
+分布族的性质：
+\begin{enumerate}
+    \item 对称性：
+    对 $(1, 2, \cdots, n)$ 的任一排列 $\sigma = (\sigma_1, \cdots, \sigma_n) = (j_1, j_2, \cdots, j_n)$，有
+    \[
+    \mu_{t_1, \cdots, t_n}(F_{j_1}, \cdots, F_{j_n}) = \mu_{t_{\sigma_1}, \cdots, t_{\sigma_n}}(F_1, \cdots, F_n).
+    \]
+    \item 相容性：
+    对于 $m < n$，有
+    \[
+    \mu_{t_1, \cdots, t_m}(F_1, \cdots, F_m, \mathbb{R}^n, \cdots, \mathbb{R}^n) = \mu_{t_1, \cdots, t_n}(F_1, \cdots, F_m).
+    \]
+\end{enumerate}
+\begin{theorem}
+	设分布族 $\{\mu_{t_1, \cdots, t_n}, t_1, \cdots, t_n \in T, n \geq 1\}$ 满足上述的对称性和相容性，则必存在一个概率空间 $(\Omega, \mathcal{F}, P)$ 及上的随机过程 $\{X(t), t \in T\}$，使
+\[
+\mu_{t_1, \cdots, t_n}(F_1, \cdots, F_n) = P(X(t_1) \in F_1, \cdots, X(t_n) \in F_n).
+\]
+\end{theorem}
+\begin{remark}
+	随机过程的有限维分布函数族是随机过程概率特征的完整描述，它是证明随机过程存在性的有力工具。但是在实际问题中，要知道随机过程的全部有限维分布是不可能的，因此，人们想到了用随机过程的某些数字特征来刻画随机过程。
+\end{remark}
+
+\begin{definition}
+	设 $\{X(t), t \in T\}$ 是一随机过程。
+\begin{enumerate}
+    \item 称 $X(t)$ 的期望 $\mu_X(t) = E[X(t)]$ 为过程的均值函数（如果存在的话）。
+    \item 如果 $\forall t \in T, E[X^2(t)]$ 存在，则称随机过程 $\{X(t), t \in T\}$ 为二阶矩过程。
+\end{enumerate}
+\end{definition}
+函数 $\gamma(t_1, t_2) = E[(X(t_1) - \mu_X(t_1))(X(t_2) - \mu_X(t_2))], \ t_1, t_2 \in T$ 为过程的协方差函数；称 $Var[X(t)] = \gamma(t, t)$ 为过程的方差函数。
+
+\section{随机过程的基本类型}
+\subsection{平稳过程}
+\begin{definition}
+	称 $\mathcal{F}$ 的子 $\sigma$-域序列 $\{F_t, t \in \mathbb{R}_+\}$ 为一个流，若 $\forall 0 \leq s < t$ 有 $F_s \subseteq F_t$。记 $F_\infty = \bigvee_{t \geq 0} F_t$，
+\[
+F_t = \bigcap_{s > t} F_s, \quad t \geq 0, \quad F_\infty = \bigvee_{s < t} F_s = \sigma\left(\bigcup_{s < t} F_s\right), \quad t \geq 0.
+\]
+一个流 $\{F_t, t \in \mathbb{R}_+\}$ 称为右连续的，若 $\forall t \geq 0$ 有 $F_t = F_{t+}$。
+\end{definition}
+\begin{definition}
+	如果随机过程 $\{X(t), t \in T\}$ 对任意的 $t_1, \cdots, t_n \in T$ 和任意的 $h$ (使得 $t_n + h \in T$) 有，
+	\[
+	(X(t_1 + h), \cdots, X(t_n + h)) \overset{d}{=} (X(t_1), \cdots, X(t_n))
+	\]
+	具有相同的联合分布，记为
+	\[
+	(X(t_1 + h), \cdots, X(t_n + h)) \overset{d}{=} (X(t_1), \cdots, X(t_n))
+	\]
+	则称 $\{X(t), t \in T\}$ 为严平稳的。
+	
+	当参数 $t$ 仅取整数值 $0, \pm 1, \pm 2, \cdots$ 或 $0, 1, 2, \cdots$ 时，称平稳过程为平稳序列。
+\end{definition}
+\subsection{独立增量过程}
+\begin{definition}
+	设 $X = \{X(t, \cdot), t \in \mathbb{R}_+\}$ 为随机过程，对每个固定的 $t$，$X(t, \cdot)$ 为一个随机变量；而对每个固定的 $\omega \in \Omega$，$X(\cdot, \omega)$ 是关于 $t \in T$ 的映射，称 $X(\cdot, \omega)$ 为样本轨道（或样本函数，一个实现）。若 $X$ 的全部轨道是连续的（右连续的，左连续的），则称 $X$ 为连续（右连续，左连续）过程。如果 $X$ 的全部轨道是右连续并有左极限的（简称右连左极）。
+\end{definition}
+\begin{definition}
+	随机过程 $X = \{X_t, t \geq 0\}$ 为 $(\mathcal{F}_t, t \in \mathbb{R}_+)$ 适应的，若 $\forall t$，$X_t$ 为 $\mathcal{F}_t$ 可测的。
+\end{definition}
+
+\begin{definition}
+	在带流的概率空间 $(\Omega, \mathcal{F}, \{\mathcal{F}_t\}, P)$ 上的适应过程 $X = \{X_t, t \geq 0\}$ 称为具有独立增量性，如果对任意的 $t > s \geq 0$，$X_t - X_s$ 与 $\mathcal{F}_s$ 独立。
+
+\end{definition}
+
+\chapter{Poisson过程}
+
+\section{Poisson过程的定义}
+假设 r.v. 定义在 $(\Omega, \mathcal{F}, P)$。
+
+
+\begin{definition}
+	设 $T \subset (-\infty, +\infty)$。若对每个 $t \in T$，$X(t, \cdot)$ 是随机变量，则称随机变量集 $X_T := \{X(t, \cdot) | t \in T\}$ 为随机过程，称 $T$ 为该随机过程的指标集。
+
+用映射表示为：
+\[
+X_T : (t, \omega) \mapsto X(t, \omega).
+\]
+
+对每个固定的 $t$，$X(t, \cdot)$ 为一个随机变量；而对每个固定的 $\omega \in \Omega$，$X(\cdot, \omega)$ 是关于 $t \in T$ 的映射，称 $X(\cdot, \omega)$ 为样本轨道（或样本函数，一个实现）。
+\end{definition}
+
+\begin{definition}
+	若 $\{N(t), t \geq 0\}$ 表示 $[0,t]$ 内某事件发生次数，则称 $\{N(t); t \geq 0\}$ 是计数过程，或称为 $\{N(t)\}$，满足：
+\begin{enumerate}
+    \item 对 $\forall t \geq 0$，$N(t)$ 取非负整数值 $N(t) \in \mathbb{Z} := \{0, 1, \cdots\}$.
+    \item 对 $t > s \geq 0$，$N(t) \geq N(s)$，
+    \item $\{N(t)\}$ 轨道单调不减右连续阶梯函数。
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+	计数过程 $\{N(t), t \geq 0\}$ 称为参数为 $\lambda (\lambda > 0)$ 的 Poisson 过程，如果
+\begin{enumerate}
+    \item $N(0) = 0$;
+    \item 过程有独立增量；
+    \item 对任意的 $s, t \geq 0$，
+    \[
+    P(N(t + s) - N(s) = n) = e^{-\lambda t} \frac{(\lambda t)^n}{n!}, \quad n = 0, 1, 2, \cdots
+    \]
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+	\begin{enumerate}
+		\item Poisson 过程是独立平稳增量的计数过程；
+		\item 由于 $E[N(t)] = \lambda t$，于是可认为 $\lambda$ 是单位时间内发生的事件的平均次数，故一般称 $\lambda$ 是 Poisson 过程的强度或速率。
+	\end{enumerate}
+\end{remark}
+
+\begin{example}[Poisson 过程在排队论中的应用]
+	在随机服务系统中排队现象的研究中，经常用到 Poisson 过程模型，例如，到达电话总机的呼叫数目，到达某服务设施的顾客数，都可以用 Poisson 过程来描述，以某火车站售票处为例，设从早上 8:00 开始，此售票处连续售票，乘客依 10 人/小时的平均速率到达，则从 9:00 到 10:00 这 1 小时内最多有 5 名乘客来此购票的概率是多少？从 10:00-11:00 没有人来买票的概率是多少？
+\end{example}
+\begin{proof}
+	我们用一个 Poisson 过程来描述。设 8:00 为 0 时刻，则 9:00 为 1 时刻，参数 $\lambda = 10$。由 Poisson 过程的平稳性知
+\[
+P(N(2) - N(1) \leq 5) = \sum_{n=0}^{5} e^{-10} \cdot \frac{(10 \cdot 1)^n}{n!},
+\]
+\[
+P(N(3) - N(2) = 0) = e^{-10} \cdot \frac{(10)^0}{0!} = e^{-10}.
+\]
+
+\end{proof}
+为什么实际中有这么多的现象可以用 Poisson 过程来反映呢？其根据是小概率事件原理。我们在概率论的学习中已经知道，Bernoulli试验中，每次试验成功的概率很小而试验的次数很多时，二项分布会逼近 Poisson 分布。这一想法很自然地推广到随机过程情况。比如上面提到的事故发生的例子，在很短的时间内发生事故的概率是很小的，但假如考虑很多个这样很短的时间的连接，事故的发生将会有一个大致稳定的速率，这很类似于 Bernoulli 试验以及二项分布逼近 Poisson 分布时的假定。
+
+Poisson 过程的另一等价定义：
+
+\begin{definition}
+	设 $\{N(t), t \geq 0\}$ 是一个计数过程，若满足
+\begin{enumerate}
+    \item $N(0) = 0$;
+    \item 过程有平稳独立增量；
+    \item 存在 $\lambda > 0$，当 $h \downarrow 0$ 时
+    \[
+    P(N(t + h) - N(t) = 1) = \lambda h + o(h);
+    \]
+    \item 当 $h \downarrow 0$ 时，
+    \[
+    P(N(t + h) - N(t) \geq 2) = o(h).
+    \]
+\end{enumerate}
+则称 $\{N(t), t \geq 0\}$ 为 Poisson 过程。
+
+\end{definition}
+
+事实上，把 $[0, t]$ 划分为 $n$ 个相等的时间区间，则由条件 (4) 可知，当 $n \rightarrow \infty$ 时，在每个小区间内事件发生两次或两次以上的概率趋于 0，因此，事件发生一次的概率
+
+\[
+p \approx \lambda \frac{t}{n} (\text{显然} p \text{ 会很小})，\text{ 事件发生的概率为 } 1 - p \approx 1 - \lambda \frac{t}{n}，
+\]
+这恰好是一次 Bernoulli 试验. 其中事件发生一次即为试验成功，不发生即为失败，再由条件 (2) 给出的平稳独立增量性，$N(t)$ 就相当于 $n$ 次独立 Bernoulli 试验中试验成功的总次数，由 Poisson 分布的二项分布逼近可知 $N(t)$ 将服从参数为 $\lambda t$ 的 Poisson 分布。
+
+Poisson 过程两定义等价的严格的数学证明：
+\begin{theorem}
+	满足上述条件(1)$-$(4)'$的计数过程 $\{N(t), t \geq 0\}$ 是 Poisson 过程，反过来 Poisson 过程一定满足这 4 个条件。
+
+\end{theorem}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\chapter{离散时间马尔可夫链}
+
+\section{马氏链及其转移概率}
 	有一类随机过程，它具备所谓的“无后效性”（Markov 性），
 即要确定过程将来的状态，知道它此刻的情况就足够了，并不需要
 对它以往状况的认识，这类过程称为Markov过程.我们将介绍离散
@@ -46,7 +1157,7 @@
 
 本章假定：$T = \{0, 1, \cdots\}$，$S = \{0, 1, 2, \cdots, N\}$（或者 $S := \mathbb{N}$），所有r.v.均定义在同一个概率空间上。用$i, j$表示$S$中元素。
 \begin{definition}[离散时间马尔可夫链]
-	随机过程$\{X_n, n = 0, 1, 2, \cdots\}$称为\textit{Markov链}，若它只取有限或可列个值（若不另外说明，以非负整数集$\{0, 1, 2, \cdots\}$来表示），并且对任意的$n \geq 0$，及任意状态$i, j, i_0, i_1, \cdots, i_{n-1}$，有
+	随机过程$\{X_n, n = 0, 1, 2, \cdots\}$称为\textit{Markov链}，若它只取有限或可列个值（若无特别说明，通常取非负整数集$\{0, 1, 2, \cdots\}$），并且对任意$n \geq 0$及任意状态$i_0, i_1, \cdots, i_{n-1}, i, j$，有
 \begin{equation}
 P\{X_{n+1} = j | X_0 = i_0, X_1 = i_1, \cdots, X_{n-1} = i_{n-1}, X_n = i\} = P\{X_{n+1} = j | X_n = i\}
 \end{equation}
