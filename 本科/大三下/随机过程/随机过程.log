@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  19 MAY 2025 20:57
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  23 MAY 2025 16:00
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1775,23 +1775,23 @@ Missing character: There is no 个 ("4E2A) in font cmr10!
 [74]
 
 [75]
+
+[76]
+
+[77]
 Chapter 5.
 
 
-[76
+[78
 
 ]
 
-[77]
-Overfull \hbox (30.27425pt too wide) detected at line 5144
+[79]
+Overfull \hbox (30.27425pt too wide) detected at line 5225
 \OML/cmm/m/it/10 E\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 M[]\OMS/cmsy/m/n/10 jF[]\OT1/cmr/m/n/10 ] = \OML/cmm/m/it/10 E\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 M[]\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 X[]\OT1/cmr/m/n/10 ] = \OML/cmm/m/it/10 E [] \OT1/cmr/m/n/10 = []\OML/cmm/m/it/10 E\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 X[]\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 X[]\OT1/cmr/m/n/10 ] = [](\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 + []) = [] = \OML/cmm/m/it/10 M[]:[]
  []
 
 
-
-[78]
-
-[79]
 
 [80]
 
@@ -1812,35 +1812,35 @@ Overfull \hbox (30.27425pt too wide) detected at line 5144
 [88]
 
 [89]
+
+[90]
+
+[91]
 Chapter 6.
 
 LaTeX Font Warning: Font shape `TU/STKaiti(0)/b/n' undefined
-(Font)              using `TU/STKaiti(0)/m/n' instead on input line 5814.
+(Font)              using `TU/STKaiti(0)/m/n' instead on input line 5895.
 
 
 
-[90
+[92
 
 ]
-Overfull \hbox (19.75917pt too wide) in paragraph at lines 5872--5874
+Overfull \hbox (19.75917pt too wide) in paragraph at lines 5953--5955
 []\TU/STSong(0)/m/n/10 设 $\OML/cmm/m/it/10 X \OT1/cmr/m/n/10 = (\OML/cmm/m/it/10 X[]; X[]; []  ; X[]\OT1/cmr/m/n/10 )$ \TU/STSong(0)/m/n/10 有 联 合 密 度 $\OML/cmm/m/it/10 f[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x[]; x[]; []  ; x[]\OT1/cmr/m/n/10 )$\TU/STSong(0)/m/n/10 ，| $\OML/cmm/m/it/10 n$ \TU/STSong(0)/m/n/10 元 可 测 函 数 $\OML/cmm/m/it/10 y \OT1/cmr/m/n/10 = (\OML/cmm/m/it/10 y[]; []  ; y[]\OT1/cmr/m/n/10 )$\TU/STSong(0)/m/n/10 ，|  其 中 $\OML/cmm/m/it/10 y[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x[]; []  ; x[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; i \OT1/cmr/m/n/10 =
  []
 
 
-Overfull \hbox (83.5378pt too wide) detected at line 5892
+Overfull \hbox (83.5378pt too wide) detected at line 5973
 \OML/cmm/m/it/10 P[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 B\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 2 \OML/cmm/m/it/10 F[]; B\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 2 \OML/cmm/m/it/10 F[]; [] ; B\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 2 \OML/cmm/m/it/10 F[]\OT1/cmr/m/n/10 ) = [][] \OML/cmm/m/it/10 p\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]; x[]\OT1/cmr/m/n/10 ) [][] \OML/cmm/m/it/10 p\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[] \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 t[]; x[] \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 x[]\OT1/cmr/m/n/10 ) [] [][] \OML/cmm/m/it/10 p\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[] \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 t[]; x[] \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 x[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 dx[]dx[] [] dx[]:
  []
 
 
 
-[91]
-Missing character: There is no 。 ("3002) in font cmr10!
-Missing character: There is no 。 ("3002) in font cmr10!
-
-
-[92]
-
 [93]
+Missing character: There is no 。 ("3002) in font cmr10!
+Missing character: There is no 。 ("3002) in font cmr10!
+
 
 [94]
 
@@ -1869,19 +1869,23 @@ Missing character: There is no 。 ("3002) in font cmr10!
 [106]
 
 [107]
-Overfull \hbox (51.26645pt too wide) in paragraph at lines 6788--6789
+
+[108]
+
+[109]
+Overfull \hbox (51.26645pt too wide) in paragraph at lines 6869--6870
 []\TU/STFangsong(0)/m/n/10 正 态 随 机 变 量 的 线 性 组 合 仍 然 是 正 态 随 机 变 量，|  且 如 果 $\OML/cmm/m/it/10 X[] \OMS/cmsy/m/n/10 ^^X \OML/cmm/m/it/10 N\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^V[]; ^^[[]\OT1/cmr/m/n/10 )$ \TU/STFangsong(0)/m/n/10 相 互 独 立，|  那 么 $[][] \OML/cmm/m/it/10 a[]X[] \OMS/cmsy/m/n/10 ^^X \OML/cmm/m/it/10 N\OT1/cmr/m/n/10 ([][] \OML/cmm/m/it/10 a[]^^V[]; [][] a[]^^[[]\OT1/cmr/m/n/10 )$\TU/STFangsong(0)/m/n/10 。| 
  []
 
 
 
-[108]
-
-[109]
-
 [110]
 
-[111] (./随机过程.aux)
+[111]
+
+[112]
+
+[113] (./随机过程.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2022/08/05>
@@ -1891,18 +1895,18 @@ L3 programming layer <2022/08/05>
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `随机过程.out' has not changed.
-(rerunfilecheck)             Checksum: 8B0F748DD924DA703FB8E8A23D1321BF;6613.
+(rerunfilecheck)             Checksum: F611AC1576B59E9C75D2D42D0EE2F333;6706.
 Package logreq Info: Writing requests to '随机过程.run.xml'.
 \openout1 = `随机过程.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 48875 strings out of 473832
- 1078506 string characters out of 5729481
- 2057500 words of memory out of 5000000
- 71121 multiletter control sequences out of 15000+600000
- 568882 words of font info for 125 fonts, out of 8000000 for 9000
+ 48892 strings out of 473832
+ 1078965 string characters out of 5729481
+ 2057604 words of memory out of 5000000
+ 71136 multiletter control sequences out of 15000+600000
+ 568898 words of font info for 127 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 103i,17n,130p,842b,1342s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 103i,16n,130p,842b,1426s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on 随机过程.pdf (114 pages).
+Output written on 随机过程.pdf (116 pages).
