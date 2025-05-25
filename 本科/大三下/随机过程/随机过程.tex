@@ -6663,7 +6663,24 @@ P[J_t = \int_0^t f dB] = 1, \forall 0 \leq t \leq T.
 \begin{example}
 	求 \( J = \int_{0}^{1} t^2 \, dB(t) \) 的均值与方差。
 \end{example}
+\begin{proof}
+	\textbf{步骤 1：计算均值}  
 
+由于 Itô 积分是鞅，其均值为零：
+\[
+\mathbb{E}[J] = \mathbb{E}\left[\int_{0}^{1} t^2 \, dB(t)\right] = 0.
+\]
+
+\textbf{步骤 2：计算方差}  
+
+利用 Itô 等距定理（Itô Isometry）：
+\[
+\text{Var}(J) = \mathbb{E}[J^2] = \mathbb{E}\left[\left(\int_{0}^{1} t^2 \, dB(t)\right)^2\right] = \int_{0}^{1} (t^2)^2 \, dt.
+\]
+\[
+\int_{0}^{1} t^4 \, dt = \left. \frac{t^5}{5} \right|_{0}^{1} = \frac{1}{5}.
+\]
+\end{proof}
 \begin{example}
 	设 \( B(0) = 0 \)，\( B = \{B(t), t \geq 0\} \) 是一个标准布朗运动，则
 \[

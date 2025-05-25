@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  25 MAY 2025 21:43
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  25 MAY 2025 22:00
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1873,7 +1873,7 @@ Missing character: There is no 。 ("3002) in font cmr10!
 [108]
 
 [109]
-Overfull \hbox (51.26645pt too wide) in paragraph at lines 6892--6893
+Overfull \hbox (51.26645pt too wide) in paragraph at lines 6909--6910
 []\TU/STFangsong(0)/m/n/10 正 态 随 机 变 量 的 线 性 组 合 仍 然 是 正 态 随 机 变 量，|  且 如 果 $\OML/cmm/m/it/10 X[] \OMS/cmsy/m/n/10 ^^X \OML/cmm/m/it/10 N\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^V[]; ^^[[]\OT1/cmr/m/n/10 )$ \TU/STFangsong(0)/m/n/10 相 互 独 立，|  那 么 $[][] \OML/cmm/m/it/10 a[]X[] \OMS/cmsy/m/n/10 ^^X \OML/cmm/m/it/10 N\OT1/cmr/m/n/10 ([][] \OML/cmm/m/it/10 a[]^^V[]; [][] a[]^^[[]\OT1/cmr/m/n/10 )$\TU/STFangsong(0)/m/n/10 。| 
  []
 
@@ -1903,10 +1903,10 @@ Package logreq Info: Writing requests to '随机过程.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 48890 strings out of 473832
- 1078931 string characters out of 5729481
+ 48889 strings out of 473832
+ 1078914 string characters out of 5729481
  2057604 words of memory out of 5000000
- 71134 multiletter control sequences out of 15000+600000
+ 71133 multiletter control sequences out of 15000+600000
  568898 words of font info for 127 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  103i,16n,130p,842b,1426s stack positions out of 10000i,1000n,20000p,200000b,200000s
