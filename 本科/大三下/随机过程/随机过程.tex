@@ -5470,14 +5470,14 @@ $\mathcal{F}_T$为$\sigma$-代数。且当$T = t$时，$\mathcal{F}_T = \mathcal
 \begin{theorem}
 	设$\{X_n, n \geq 0\}$为一$\{\mathcal{F}_n\}_{n \in \mathbb{N}}$鞅（上鞅，下鞅），$S, T$为两个$\{\mathcal{F}_n\}_{n \in \mathbb{N}}$有界停时，且$S \leq T$，则$E[X_T \mid \mathcal{F}_S] = X_S (\leq X_S, \geq X_S)$ a.e.
 \end{theorem}
-\begin{theorem}
+\begin{theorem}[停止定理]
 	设$\{X_n, n \geq 0\}$为一$\{\mathcal{F}_n\}_{n \in \mathbb{N}}$鞅，$T$为$\{\mathcal{F}_n\}_{n \in \mathbb{N}}$停时，且满足
 \begin{enumerate}
     \item $P(T < \infty) = 1$；
     \item $E[|X_T|] < \infty$；
     \item $\lim_{n \to \infty} E[|X_n I_{\{T > n\}}|] = 0$。
 \end{enumerate}
-则$E[X_T] = EX_0$。
+则$E[X_T] = E[X_0]$。
 \end{theorem}
 \begin{example}
 	质点在$\{0, 1, 2, \ldots, N\}$上作带吸收壁的随机游动：当质点移动到状态$0, N$时就永远停留在该位置，即$p_{00} = 1, p_{NN} = 1$。质点到达某个状态后，下次向右移动一步的概率是$\frac{1}{2}$，向左移动一步的概率是$\frac{1}{2}$。$X_0 = a$表示初始状态，$X_n$表示质点在时间$n$的状态。假设初始状态与每次移动相互独立。则$\{X_n\}$是马氏链，且是一个$\{\mathcal{F}_n\}$鞅。令$T = \min\{j: X_j = 0 \text{ 或 } X_j = N\}$，则$T$是一个$\{\mathcal{F}_n\}$停时，其中$\mathcal{F}_n := \sigma(X_0, X_1, \ldots, X_n)$。求$P(X_T = N | X_0 = a)$。
@@ -6226,9 +6226,7 @@ Cov(B(t_1) - B(s_1), B(t_2) - B(s_2)) &= E[(B(t_1) - B(s_1))(B(t_2) - B(s_2))] \
 \begin{definition}
 	设有概率空间 $(\Omega, \mathcal{F}, P)$ 上的以 $(E, \mathcal{E})$ 为状态空间的随机过程 $\xi = \{\xi_t, t \in T\}$ 及其 $\sigma$-代数流 $\{\mathcal{F}_t, t \in T\}$ 满足 $\mathcal{F}_s \subset \mathcal{F}_t$。设 $\xi$ 对 $\{\mathcal{F}_t, t \in T\}$ 是适应的。此时称 $(\Omega, \mathcal{F}, P, \xi, \mathcal{F}_t)$ 是一个 $\{\mathcal{F}_t, t \in T\}$-Markov过程，若对任意的 $s < t \in T, B \in \mathcal{E}$ 有 $P(\xi_t \in B | \mathcal{F}_s) = P(\xi_t \in B | \xi_s)$。特别的当 $\mathcal{F}_t = \sigma(\xi_s, s \leq t)$，则称 $\xi$ 为 $(\Omega, \mathcal{F}, P)$ 上的马氏过程。
 \end{definition}
-\begin{definition}
-	设有概率空间 $(\Omega, \mathcal{F}, P)$ 上的以 $(E, \mathcal{E})$ 为状态空间的随机过程 $\xi = \{\xi_t, t \in T\}$ 及其 $\sigma$-代数流 $\{\mathcal{F}_t, t \in T\}$ 满足 $\mathcal{F}_s \subset \mathcal{F}_t$。设 $\xi$ 对 $\{\mathcal{F}_t, t \in T\}$ 是适应的。此时称 $(\Omega, \mathcal{F}, P, \xi, \mathcal{F}_t)$ 是一个 $\{\mathcal{F}_t, t \in T\}$-Markov过程，若对任意的 $s < t \in T, B \in \mathcal{E}$ 有 $P(\xi_t \in B | \mathcal{F}_s) = P(\xi_t \in B | \xi_s)$。特别的当 $\mathcal{F}_t = \sigma(\xi_s, s \leq t)$，则称 $\xi$ 为 $(\Omega, \mathcal{F}, P)$ 上的马氏过程。
-\end{definition}
+
 \begin{theorem}
 	$\{B(t), t \geq 0\}$ 为 $(\Omega, \mathcal{F}, P)$ 上的马氏过程。
 \end{theorem}
@@ -6459,7 +6457,7 @@ V_g([a,b]) = \sup_{\Delta} \sum_{i=1}^{n} |g(t_i^n) - g(t_{i-1}^n)|,
 \end{theorem}
 \begin{proof}
 	\begin{align*}
-		&E\left[\left(\sum_{k=1}^n (B(t_k^n) - B(t_{k-1}^n))^2 - (b-a)^2\right)\right] \\
+		&E\left[\left(\sum_{k=1}^n (B(t_k^n) - B(t_{k-1}^n))^2 - (b-a)\right)^2\right] \\
 		&= \text{Var}\left[\sum_{i=1}^n (B(t_i^n) - B(t_{i-1}^n))^2\right] \\
 		&= \sum_{i=1}^n \text{Var}\left[(B(t_i^n) - B(t_{i-1}^n))^2\right] \\
 		&= \sum_{i=1}^n E\left[B(t_i^n) - B(t_{i-1}^n)\right]^4 - \left(E\left[B(t_i^n) - B(t_{i-1}^n)\right]^2\right)^2 \\
@@ -6479,7 +6477,7 @@ V_g([a,b]) = \sup_{\Delta} \sum_{i=1}^{n} |g(t_i^n) - g(t_{i-1}^n)|,
 \begin{proof}
 	由于
 \[
-\lim_{|\Delta|\to 0} E\left[\left(\sum_{k} (B(t_k^n) - B(t_{k-1}^n))^2 - (b-a)^2\right)^2\right] = 0
+\lim_{|\Delta|\to 0} E\left[\left(\sum_{k} (B(t_k^n) - B(t_{k-1}^n))^2 - (b-a)\right)^2\right] = 0
 \]
 由于 \(L^2\) 收敛可以推出依概率收敛，故可以得到下列几乎处处收敛。即存在 \(\Omega_0 \subseteq \Omega, P(\Omega_0) = 1\)，存在分割 \(\Delta^n\) 使得 \(|\Delta^n| \to 0\)。且对任意的 \(\omega \in \Omega_0\) 有
 \[
@@ -6663,6 +6661,10 @@ P[J_t = \int_0^t f dB] = 1, \forall 0 \leq t \leq T.
 \]
 \end{theorem}
 \begin{example}
+	求 \( J = \int_{0}^{1} t^2 \, dB(t) \) 的均值与方差。
+\end{example}
+
+\begin{example}
 	设 \( B(0) = 0 \)，\( B = \{B(t), t \geq 0\} \) 是一个标准布朗运动，则
 \[
 \int_0^t B(s) dB(s) = \frac{1}{2} B^2(t) - \frac{1}{2} t.
@@ -6796,30 +6798,51 @@ dY(t) &= \frac{\partial g}{\partial t}(t, X(t)) dt + \frac{\partial g}{\partial 
 	= \cos(B(t))\, dB(t) - \frac{1}{2} \sin(B(t))\, dt
 	\]
 	
-	但不会有这种情况：
+	会不会有这种情况：
 \end{proof}
 \begin{example}
 	设 \( B(t) \) 是一维布朗运动，对下列 \( Y(t) \) 给出其微分和积分形式。
 \[
-Y(t) = e^{\frac{1}{2} }\cos(B(t))
+Y(t) = e^{\frac{t}{2} }\cos(B(t))
 \]
 \end{example}
 \begin{proof}
-$$	\text{取}   f(t, x) = e^{\frac{1}{2}} \cos x, \frac{\partial f}{\partial t} = \frac{1}{2} e^{\frac{1}{2}} \cos x, \frac{\partial f}{\partial x} = - e^{\frac{1}{2}} \sin x,
-\frac{\partial^2 f}{\partial x^2} = - e^{\frac{1}{2}} \cos x. \text{取} X(t) = B(t).$$
-
-
+	取 $f(t,x) = e^{\frac{t}{2}} \cos x$, $\frac{\partial f}{\partial t} = \frac{1}{2} e^{\frac{t}{2}} \cos x$, $\frac{\partial f}{\partial x} = -e^{\frac{t}{2}} \sin x$, 
+	$\frac{\partial^2 f}{\partial x^2} = -e^{\frac{t}{2}} \cos x$. 取 $X(t) = B(t)$.
+	
+	\begin{align*}
+	dY(t) &= \frac{1}{2} e^{\frac{t}{2}} \cos B(t) dt - \left(e^{\frac{t}{2}} \sin B(t)\right) dB(t) - \frac{1}{2} e^{\frac{t}{2}} \cos B(t) (dB(t))^2 \\
+	&= \frac{1}{2} e^{\frac{t}{2}} \cos B(t) dt - \left(e^{\frac{t}{2}} \sin B(t)\right) dB(t) - \frac{1}{2} e^{\frac{t}{2}} \cos B(t) dt \\
+	&= -e^{\frac{t}{2}} \sin B(t) dB(t)
+	\end{align*}
+\end{proof}
+\begin{example}
+	设 \( dX(t) = X(t) dB(t) + \frac{1}{2} X(t) dt, \) 求 \( X(t) \).
+\end{example}
+\begin{proof}
+	令 \( Y(t) = \ln X(t) \)，对 \( Y(t) \) 应用 Itô 引理。计算偏导数：
 \[
-dY(t) = \frac{1}{2} e^{\frac{1}{2}} \cos B(t) dt - (e^{\frac{1}{2}} \sin B(t) dB(t) - \frac{1}{2} e^{\frac{1}{2}} \cos B(t) (dB(t))^2
+\frac{\partial Y}{\partial x} = \frac{1}{X(t)}, \quad 
+\frac{\partial^2 Y}{\partial x^2} = -\frac{1}{X(t)^2}, \quad 
+\frac{\partial Y}{\partial t} = 0.
 \]
+由 Itô 引理：
 \[
-= \frac{1}{2} e^{\frac{1}{2}} \cos B(t) dt - (e^{\frac{1}{2}} \sin B(t) dB(t) - \frac{1}{2} e^{\frac{1}{2}} \cos B(t) dt
+dY(t) = \frac{1}{X(t)} dX(t) - \frac{1}{2} \frac{1}{X(t)^2} (dX(t))^2.
 \]
+代入 \( dX(t) = X(t)\, dB(t) + \frac{1}{2}X(t)\, dt \) 和 \( (dX(t))^2 = X(t)^2\, dt \)，得：
 \[
-= - e^{\frac{1}{2}} \sin B(t) dB(t)
+dY(t) = \left( dB(t) + \frac{1}{2}dt \right) - \frac{1}{2}dt = dB(t).
+\]
+积分得：
+\[
+Y(t) - Y(0) = \int_0^t dB(s) = B(t) \quad \Rightarrow \quad \ln \frac{X(t)}{X(0)} = B(t).
+\]
+最终解为：
+\[
+X(t) = X(0) e^{B(t)}.
 \]
 \end{proof}
-
 
 \section{作业}
 \begin{example}
