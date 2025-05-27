@@ -3837,26 +3837,34 @@ f(u) = \pm a \log \left( a \cosh \frac{r}{a} + a \sinh \frac{r}{a} \right).
 \begin{enumerate}
     \item $u^1$ 和 $u^2$ 表示，$u \text{和}v$
     \item $g_{ij} \sim I \sim \begin{pmatrix} E & F \\ F & G \end{pmatrix}$, \quad $h_{ij} \sim II \sim \begin{pmatrix} L & M \\ M & N \end{pmatrix}$, \quad $h_{ij} = -r_i \cdot n_j$
-    \item 固定$g^{ij}\sim I^{-1}$
-    \item Einstein 求和记号：若公式中有上下指标成对出现的时候，
+    \item 规定$g^{ij}\sim I^{-1}$
+    \item Einstein 求和记号：若公式中有上下指标成对出现的时候，默认对这个指标求和
     \[
-    \sum_{j=1}^{2} g^{ij} h_{jk} = g^{il} h_{lk} + g^{ik} h_{2k}.
+    g^{ij}h_{jk}=\sum_{j=1}^{2} g^{ij} h_{jk} = g^{i1} h_{1k} + g^{i2} h_{2k}.
     \]但不允许以下情况
     \begin{itemize}
         \item 成对但重复
         \item 不能出现超过两个
     \end{itemize}
-    \item 约定 $h_i^j  g^{jk} h_{ik} = g^{jl} h_{ik} + g^{ik} h_{jk}$. \quad $h^{ij} = h_k^i g^{kj}$
+    \item  约定$h_i^j=  g^{jk} h_{ik} = g^{j1} h_{1k} + g^{j2} h_{2k}$. \quad $h^{ij} = h_k^i g^{kj}$
     \item
     \[
     g^{ij} g_{ij} = \sum_{i,j=1}^{2} g^{ij} g_{ij} = g^{11} g_{11} + g^{12} g_{12} + g^{21} g_{21} + g^{22} g_{22}
     \]
     \[
-    \begin{pmatrix} g_{ij} = \begin{pmatrix} E & F \\ F & G \end{pmatrix} \\ h_{ij} = \begin{pmatrix} L & M \\ M & N \end{pmatrix} \end{pmatrix} \quad h_{11} = L, \quad h_{12} = h_{21} = M, \quad h_{22} = N.
-    \]
-    \[
-    \Rightarrow \frac{1}{EG - F^2} \left( \begin{matrix} EG - F^2 & -F E \\ -F E \end{matrix} \right) = 
-    \]
+	(g_{ij}) = \begin{pmatrix}
+	E & F \\
+	F & G
+	\end{pmatrix}
+	\]
+	其逆矩阵为
+	\[
+	(g^{ij}) = \frac{1}{EG - F^2}
+	\begin{pmatrix}
+	G & -F \\
+	-F & E
+	\end{pmatrix}
+	\]
     \[
     g^{ij} g_{jk} = \delta_k^i = \begin{cases} 0, & i \neq k \\ 1, & i = k \end{cases}
     \]
@@ -3888,7 +3896,7 @@ $\Rightarrow C_k^m = -h_k^m$
 
 $r_{ij} \cdot r_e = \Gamma_{ij}^k g_{ke} \Rightarrow \Gamma_{ij}^k = \Gamma_{lij}$
 
-$\Gamma^{k}_{lij} $是什么？
+$\Gamma_{lij} $是什么？
 
 \[
     \Gamma^{k}_{lij}  = r_{ij} \cdot r_k = (r_i \cdot r_{,l})_j - r_i \cdot r_{lj}
@@ -3915,12 +3923,11 @@ $\Gamma^{k}_{lij} $是什么？
 \]
 
 \begin{proposition}[Weingarten方程（曲面基本方程）]
-    \[
-\sum r_{ij} = \Gamma_{ij}^k r_k + h_{ij} \cdot n
-\]
+
 \[
 \left\{
 \begin{array}{l}
+r_{ij} = \Gamma_{ij}^k r_k + h_{ij} \cdot n   \\
 n_k = - h_k^l r_l \\
 \end{array}
 \right.
@@ -3933,31 +3940,150 @@ n_k = - h_k^l r_l \\
 
 而
 \[
-\Gamma_{ij} = \frac{1}{2} (\partial_i g_{jl} + \partial_j g_{il} - \partial_l g_{ij}).
+\Gamma_{lij} = \frac{1}{2} (\partial_i g_{jl} + \partial_j g_{il} - \partial_l g_{ij}).
 \]
 
 \end{proposition}
 
+\section{曲面基本方程}
+约定：
+\[
+\mathrm{I} \sim g_{ij} \quad , \quad \mathrm{II} \sim h_{ij} \quad , \quad \mathrm{I}^{-1} \sim g^{ij}
+\]
+\[
+h^k_i = g^{kj} h_{ij} \qquad \text{Einstein 求和约定。}
+\]
+\[
+g^{ik} g_{kj} = \delta^i_j \quad , \quad g^{ij} g_{ij} = \sum_{i,j=1}^{2} g^{ij} g_{ij} = g^{11} g_{11} + g^{12} g_{12} + g^{21} g_{21} + g^{22} g_{22}
+\]
+
+\textbf{曲面运动方程}
+\[
+\left\{
+\begin{aligned}
+    r_{ij} &= \Gamma_{ij}^k r_k + h_{ij} n \quad \quad (1) \\
+    n_k &= -h_k^l r_l \quad \quad (2)
+\end{aligned}
+\right.
+\qquad \{r_1, r_2, n\}
+\]
+
+\[
+\Gamma_{ij}^k r_k = \Gamma_{ij}^l r_l \quad \text{指标求和。}
+\]
+
+\[
+\Gamma_{lij} = \frac{1}{2} \left( \partial_i g_{lj} + \partial_j g_{il} - \partial_l g_{ij} \right) \qquad \text{Christoffel 记号。}
+\]
+
+\[
+\Gamma_{ij}^k = g^{kl} \Gamma_{lij}
+\]
+
+\textbf{问题}：任给 $r(u,v) = (x(u,v), y(u,v), z(u,v))$，  
+何时 $r$ 代表一张二维曲面？
+
+\text{必要条件}：$x, y, z \in C^3(D)$，$\Rightarrow r \in C^3(D)$
+
+\[
+r_i \in C^2(D) \iff (r_i)_{jk} \text{存在且}(r_i)_{jk} = (r_i)_{kj}
+\]
 
 
 
+\text{同理还需要}
+\[
+n_{jk} = h_{kj}
+\]
 
+下面计算 $(r_{i})_{jk}$
 
+\begin{align*}
+    \partial_{ijk}&=\partial_{k}r_{ij}=\partial_{k}（\Gamma_{ij}^l r_l + h_{ij} n）\\
+    &= \partial_{k} \Gamma_{ij}^l r_l + \Gamma_{ij}^l r_{lk} + \partial_{k} h_{ij} n + h_{ij} n_{k}\\
+    &=\partial_{k} \Gamma_{ij}^l r_l +\Gamma_{ij}^p（\Gamma_{pk}^l r_l + h_{lk} n）+ \partial_{k} h_{ij} n - h_{ij}h^l_k r_{l}\\
+    &=(\partial_{k} \Gamma_{ij}^l+\Gamma_{ij}^p\Gamma_{pk}^l-h_{ij}h^l_k)r_l+(\partial_{k} h_{ij} n + h_{kl}\Gamma_{ij}^l)n\\
+\end{align*}
 
+若要满足$r_{ijk}=r_{ikj}$，则需要
+\[
+\begin{cases}
+    \partial_{k} \Gamma_{ij}^l+\Gamma_{ij}^p\Gamma_{pk}^l-h_{ij}h^l_k=\partial_{j} \Gamma_{ik}^l+\Gamma_{ik}^p\Gamma_{pj}^l-h_{ik}h^l_j\quad(A)\\
+    \partial_{k} h_{ij} n + h_{lk}\Gamma_{ij}^l= \partial_{j} h_{ik} n + h_{lj}\Gamma_{ik}^l\quad(B_1)
+\end{cases}
+\]
 
+\begin{definition}[Riemann 曲率张量,(1,3)型]
+    \[
+    R_{ijk}^l=\partial_{k} \Gamma_{ik}^l-\partial_{j} \Gamma_{ik}^l+\Gamma_{ij}^p\Gamma_{pk}^l-\Gamma_{ik}^p\Gamma_{pj}^l
+    \]
+    \[
+    (A)\Leftrightarrow R_{ijk}^l=h_{ij}h^l_k-h_{ik}h^l_j\text{Gauss 方程}
+    \]
+\end{definition}
+约定(0,4)型的Riemann 曲率张量
 
+\begin{align*}
+    R_{mijk}&=g^{ml}R_{ijk}^l\\
+    &=g^{ml}(\partial_{k} \Gamma_{ik}^l-\partial_{j} \Gamma_{ik}^l+\Gamma_{ij}^p\Gamma_{pk}^l-\Gamma_{ik}^p\Gamma_{pj}^l)\text{(拉到1号位)}\\
+    &=\partial_k\Gamma_{mij}-\partial_j\Gamma_{mik}+\Gamma_{ij}^l\Gamma_{mlk}-\Gamma_{ik}^l\Gamma_{mlj}-\partial_k g_{ml} \Gamma_{ik}^l+\partial_jg_{ml}\Gamma_{ik}^l\text{(Leibniz)}\\
+\end{align*}
 
+换回指标
 
+\begin{align*}
+    R_{ijkl}&=\partial_l\Gamma_{ijk}-\partial_j\Gamma_{ijl}+\Gamma_{ij}^p\Gamma_{pik}-\Gamma_{jk}^p\Gamma_{pil}\\
+\end{align*}
 
+\begin{align*}
+    \Gamma_{ij}^l(\Gamma_{mlk}-\partial_kg_{ml})&=\Gamma_{ij}^l(\frac{1}{2}(\partial_lg_{km}+\partial_kg_{lm}-\partial_mg_{kl})-\partial_kg_{ml})\\
+    &= -\Gamma_{ij}^l \Gamma_{lkm}
+\end{align*}
 
+注意
+\begin{align*}
+    \partial_l\Gamma_{ijk}-\partial_j\Gamma_{ijl}&=\frac{1}{2}(\partial_l\partial_ig_{jk}+\partial_l\partial_jg_{ik}-\partial_l\partial_kg_{ij})-(\frac{1}{2}(\partial_j\partial_ig_{kl}+\partial_j\partial_kg_{il}-\partial_j\partial_lg_{ik}))\\
+    &=\frac{1}{2}(\partial^2_{ik}g_{jl}+\partial^2_{jl}g_{ik}-\partial^2_{il}g_{jk}-\partial^2_{jk}g_{il})\\
+\end{align*}
+最终公式（Riemann 曲率张量完全由第一基本形式决定）
 
+\begin{align*}
+    R_{ijkl}&=\frac{1}{2}(\partial^2_{ik}g_{jl}+\partial^2_{jl}g_{ik}-\partial^2_{il}g_{jk}-\partial^2_{jk}g_{il})\\
+    &+ \Gamma_{ij}^p\Gamma_{pjl}-\Gamma_{il}^p\Gamma_{pjk}
+\end{align*}
 
+\begin{remark}
+    
+    下标1324-1423
+\end{remark}
 
+\begin{proposition}
+    $R_{ijkl}$满足以下性质
+    \begin{enumerate}
+        \item $R_{ijkl}=-R_{jikl}$ 一二号反对称
+        \item $R_{ijkl}=-R_{ijlk}$ 三四号反对称
+        \item $R_{ijkl}=R_{klij}$ 成对对称
+    \end{enumerate}
+\end{proposition}
+\begin{corollary}
+    \begin{enumerate}
+        \item $ R_{iikl}$=0
+        \item $ R_{ijkk}=0$
+        \item 回到曲面$r:D\rightarrow \mathbb{E}^3,i,j,k,l\in\{1.2\}$只有一个Riemann曲率有意义$R_{1212}$
+    \end{enumerate}
+\end{corollary}
 
-
-
-
-
-
-
+重证高斯绝妙定理
+\begin{theorem}
+高斯曲率完全由曲面的第一基本形式决定
+\end{theorem}
+\begin{proof}
+    回看Gauss方程
+    \[R_{ijk}^l=h_{ij}h^l_k-h_{ik}h^l_j\]
+    下拉l指标
+    \[R_{lijk}=h_{ij}h_{lk}-h_{ik}h_{jl}\]
+    由于只有一个Riemann曲率有意义$R_{1212}$，取$l,i,j,k=1,2,1,2$
+    \[\rightarrow R_{1212}=h^2_{21}-h_{11}h_{22}=-\mathbf{det II}\rightarrow K=\frac{R_{1212}}{EG-F^2}
+    \]
+\end{proof}
 \end{document}

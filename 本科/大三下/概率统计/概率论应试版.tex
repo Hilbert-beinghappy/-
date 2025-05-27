@@ -1,0 +1,101 @@
+\documentclass[lang=cn,10pt,thmcnt=section]{elegantbook}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{esint}
+\usepackage{mathtools}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+\usetikzlibrary{automata, positioning, arrows}
+\title{概率统计应试版}
+
+
+
+\author{Huang}
+\date{\today}
+
+
+
+
+\setcounter{tocdepth}{3}
+
+
+\cover{cover.jpg}
+
+% 本文档命令
+\usepackage{array}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+
+% 修改标题页的橙色带
+% \definecolor{customcolor}{RGB}{32,178,170}
+% \colorlet{coverlinecolor}{customcolor}
+
+\begin{document}
+	
+	\maketitle
+	\frontmatter
+	
+	\tableofcontents
+	
+	\mainmatter
+	\chapter{看前须知}
+	本书内容主要为老师课上内容的整理，旨在帮助同学期末的复习，其中作业的答案由claude-3.7-sonnet生成，如果觉得本书内容还行，请给作者点个star
+	\href{https://github.com/Hilbert-beinghappy/-}{GitHub - Hilbert-beinghappy/-: 本科阶段上过课课程的笔记}。
+
+	\chapter{概率论入门}
+	定义事件 $A = \{x \mid x > 1\}$ 可以看出，事件的本质是集合，故事件之间的关系与集合之间的关系相似。
+
+定义事件 $B = \{x \mid x > 0\}$
+
+
+显然 $A \subseteq B$，从集合的角度看，$A$ 包含于 $B$，从概率论事件的角度看，若 $A$ 发生，则一定导致 $B$ 发生。
+
+
+定义：$A$ 与 $B$ 相等，$A = B \Leftrightarrow A \subseteq B \text{ 且 } B \subseteq A$
+
+$A$ 发生一定导致 $B$ 发生，$B$ 发生一定导致 $A$ 发生，此即概率论意义的事件相等。
+
+\[
+A \cup B : \quad \text{$A$, $B$ 中只要有一个发生，则 } A \cup B \text{ 发生。}
+\]
+
+\[
+\bigcup_{k=1}^{n} A_k : \quad \text{$A_1, \ldots, A_n$ 中只要有一个发生，则 } \bigcup_{k=1}^{n} A_k \text{ 发生。}
+\]
+
+\[
+A \cap B : \quad \text{必须 $A$, $B$ 同时发生，$A \cap B$ 才发生。}
+\]
+
+\[
+\bigcap_{k=1}^{n} A_k : \quad \text{$A_1, \ldots, A_n$ 同时发生，$\bigcap_{k=1}^{n} A_k$ 发生。}
+\]
+
+\[
+A - B : \quad \text{$A$ 发生，$B$ 不发生 时，$(A - B)$ 发生。}
+\]
+以后一般记作 $A \overline{B}$
+
+定义：$A \cap B = \emptyset$，即 $A$, $B$ 不能同时发生，称 $A$, $B$ 互斥。
+
+\[
+AB = \emptyset
+\]
+
+定义全空间 $\Omega$，表示全部元素的集合。
+
+
+若 $A \cup B = \Omega$，$A \cap B = \emptyset$，即 $A$, $B$ 不能同时发生，且 $A$, $B$ 至少有一个得发生，称 $A$, $B$ 为对立事件，记 $B = \overline{A}$。
+
+背：
+\begin{enumerate}
+    \item $A \cup B = B \cup A$, $A \cap B = B \cap A$
+    \item $A \cup (B \cup C) = (A \cup B) \cup C$，$A \cap (B \cap C) = (A \cap B) \cap C$
+    \item $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$
+    \item $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$
+    \item $\overline{A \cup B} = \overline{A} \cap \overline{B}$，$\overline{A \cap B} = \overline{A} \cup \overline{B}$
+\end{enumerate}
+
+
+\end{document}
+
+
