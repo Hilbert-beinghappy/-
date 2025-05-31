@@ -36,7 +36,8 @@
 \contentsline {section}{\numberline {4.4}旋转面}{53}{section.4.4}%
 \contentsline {subsection}{\numberline {4.4.1}常高斯曲率的旋转面}{54}{subsection.4.4.1}%
 \contentsline {subsection}{\numberline {4.4.2}旋转极小曲面}{55}{subsection.4.4.2}%
-\contentsline {chapter}{\numberline {5}曲线论基本定理}{56}{chapter.5}%
+\contentsline {chapter}{\numberline {5}曲面论基本定理}{56}{chapter.5}%
 \contentsline {section}{\numberline {5.1}活动标架法和曲面基本方程}{56}{section.5.1}%
 \contentsline {subsection}{\numberline {5.1.1}活动标架法}{56}{subsection.5.1.1}%
 \contentsline {section}{\numberline {5.2}曲面基本方程}{57}{section.5.2}%
+\contentsline {section}{\numberline {5.3}曲面论基本定理}{61}{section.5.3}%

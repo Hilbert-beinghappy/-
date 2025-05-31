@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  25 MAY 2025 22:00
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  29 MAY 2025 16:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1650,7 +1650,7 @@ Package amsmath Warning: Foreign command \atop;
 [29]
 
 LaTeX Font Warning: Font shape `TU/STFangsong(0)/b/n' undefined
-(Font)              using `TU/STFangsong(0)/m/n' instead on input line 1726.
+(Font)              using `TU/STFangsong(0)/m/n' instead on input line 1727.
 
 
 
@@ -1659,10 +1659,10 @@ LaTeX Font Warning: Font shape `TU/STFangsong(0)/b/n' undefined
 [31]
 Chapter 4.
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/it' will be
-(Font)              scaled to size 10.0pt on input line 1833.
+(Font)              scaled to size 10.0pt on input line 1834.
 
 LaTeX Font Warning: Font shape `TU/STKaiti(0)/m/it' undefined
-(Font)              using `TU/STKaiti(0)/m/n' instead on input line 1833.
+(Font)              using `TU/STKaiti(0)/m/n' instead on input line 1834.
 
 
 
@@ -1673,7 +1673,7 @@ LaTeX Font Warning: Font shape `TU/STKaiti(0)/m/it' undefined
 [33]
 
 [34]
-Overfull \hbox (1.3457pt too wide) in paragraph at lines 2061--2062
+Overfull \hbox (1.3457pt too wide) in paragraph at lines 2062--2063
 []\TU/texgyretermes(0)/m/n/10 (3) \TU/STFangsong(0)/m/n/10 用 增 补 变 量 的 方 法：|  只 举 特 殊 情 形 证 明，|  其 余 类 似。|  证 明 $\OML/cmm/m/it/10 P\OT1/cmr/m/n/10 ((\OML/cmm/m/it/10 X[]; X[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 2 \OML/cmm/m/it/10 C\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 i; X[] \OMS/cmsy/m/n/10 2 \OML/cmm/m/it/10 A\OT1/cmr/m/n/10 ) = \OML/cmm/m/it/10 P\OT1/cmr/m/n/10 ((\OML/cmm/m/it/10 X[]; X[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 2
  []
 
@@ -1703,7 +1703,7 @@ Missing character: There is no 。 ("3002) in font cmr10!
 [44]
 
 [45]
-Overfull \hbox (41.68912pt too wide) detected at line 2816
+Overfull \hbox (41.68912pt too wide) detected at line 2817
 \OML/cmm/m/it/10 f[] \OT1/cmr/m/n/10 = [] [][] []
  []
 
@@ -1712,7 +1712,7 @@ Overfull \hbox (41.68912pt too wide) detected at line 2816
 [46]
 
 [47]
-Overfull \hbox (15.8844pt too wide) detected at line 2959
+Overfull \hbox (15.8844pt too wide) detected at line 2960
 \OT1/cmr/m/n/10 = [] \OML/cmm/m/it/10 P\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 j; X[] \OMS/cmsy/m/n/10 6\OT1/cmr/m/n/10 = \OML/cmm/m/it/10 j; \OT1/cmr/m/n/10 0 \OML/cmm/m/it/10 < v < k\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 i\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ^^A \OML/cmm/m/it/10 P\OT1/cmr/m/n/10 ([]\OML/cmm/m/it/10 m[]n \OMS/cmsy/m/n/10 ^^U \OML/cmm/m/it/10 k \OT1/cmr/m/n/10 + 1[]\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 j\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 j; X[] \OMS/cmsy/m/n/10 6\OT1/cmr/m/n/10 = \OML/cmm/m/it/10 j; \OT1/cmr/m/n/10 0 \OML/cmm/m/it/10 < v < k; X[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 j\OT1/cmr/m/n/10 )
  []
 
@@ -1787,7 +1787,7 @@ Chapter 5.
 ]
 
 [79]
-Overfull \hbox (30.27425pt too wide) detected at line 5225
+Overfull \hbox (30.27425pt too wide) detected at line 5226
 \OML/cmm/m/it/10 E\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 M[]\OMS/cmsy/m/n/10 jF[]\OT1/cmr/m/n/10 ] = \OML/cmm/m/it/10 E\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 M[]\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 X[]\OT1/cmr/m/n/10 ] = \OML/cmm/m/it/10 E [] \OT1/cmr/m/n/10 = []\OML/cmm/m/it/10 E\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 X[]\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 X[]\OT1/cmr/m/n/10 ] = [](\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 + []) = [] = \OML/cmm/m/it/10 M[]:[]
  []
 
@@ -1819,19 +1819,19 @@ Overfull \hbox (30.27425pt too wide) detected at line 5225
 Chapter 6.
 
 LaTeX Font Warning: Font shape `TU/STKaiti(0)/b/n' undefined
-(Font)              using `TU/STKaiti(0)/m/n' instead on input line 5895.
+(Font)              using `TU/STKaiti(0)/m/n' instead on input line 5896.
 
 
 
 [92
 
 ]
-Overfull \hbox (19.75917pt too wide) in paragraph at lines 5953--5955
+Overfull \hbox (19.75917pt too wide) in paragraph at lines 5954--5956
 []\TU/STSong(0)/m/n/10 设 $\OML/cmm/m/it/10 X \OT1/cmr/m/n/10 = (\OML/cmm/m/it/10 X[]; X[]; []  ; X[]\OT1/cmr/m/n/10 )$ \TU/STSong(0)/m/n/10 有 联 合 密 度 $\OML/cmm/m/it/10 f[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x[]; x[]; []  ; x[]\OT1/cmr/m/n/10 )$\TU/STSong(0)/m/n/10 ，| $\OML/cmm/m/it/10 n$ \TU/STSong(0)/m/n/10 元 可 测 函 数 $\OML/cmm/m/it/10 y \OT1/cmr/m/n/10 = (\OML/cmm/m/it/10 y[]; []  ; y[]\OT1/cmr/m/n/10 )$\TU/STSong(0)/m/n/10 ，|  其 中 $\OML/cmm/m/it/10 y[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x[]; []  ; x[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; i \OT1/cmr/m/n/10 =
  []
 
 
-Overfull \hbox (83.5378pt too wide) detected at line 5973
+Overfull \hbox (83.5378pt too wide) detected at line 5974
 \OML/cmm/m/it/10 P[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 B\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 2 \OML/cmm/m/it/10 F[]; B\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 2 \OML/cmm/m/it/10 F[]; [] ; B\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 2 \OML/cmm/m/it/10 F[]\OT1/cmr/m/n/10 ) = [][] \OML/cmm/m/it/10 p\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]; x[]\OT1/cmr/m/n/10 ) [][] \OML/cmm/m/it/10 p\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[] \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 t[]; x[] \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 x[]\OT1/cmr/m/n/10 ) [] [][] \OML/cmm/m/it/10 p\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[] \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 t[]; x[] \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 x[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 dx[]dx[] [] dx[]:
  []
 
@@ -1873,7 +1873,7 @@ Missing character: There is no 。 ("3002) in font cmr10!
 [108]
 
 [109]
-Overfull \hbox (51.26645pt too wide) in paragraph at lines 6909--6910
+Overfull \hbox (51.26645pt too wide) in paragraph at lines 6910--6911
 []\TU/STFangsong(0)/m/n/10 正 态 随 机 变 量 的 线 性 组 合 仍 然 是 正 态 随 机 变 量，|  且 如 果 $\OML/cmm/m/it/10 X[] \OMS/cmsy/m/n/10 ^^X \OML/cmm/m/it/10 N\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^V[]; ^^[[]\OT1/cmr/m/n/10 )$ \TU/STFangsong(0)/m/n/10 相 互 独 立，|  那 么 $[][] \OML/cmm/m/it/10 a[]X[] \OMS/cmsy/m/n/10 ^^X \OML/cmm/m/it/10 N\OT1/cmr/m/n/10 ([][] \OML/cmm/m/it/10 a[]^^V[]; [][] a[]^^[[]\OT1/cmr/m/n/10 )$\TU/STFangsong(0)/m/n/10 。| 
  []
 

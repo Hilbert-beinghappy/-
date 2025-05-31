@@ -1529,10 +1529,7 @@ E\left[\sum_{i=1}^{N(t)} (t - T_i) | N(t) = n\right] = E\left[\sum_{i=1}^{n} (t 
 = nt - E\left[\sum_{i=1}^{n} T_i | N(t) = n\right]
 \]
 
-\end{proof}
-
-\begin{example}
-	记 $U_1, U_2, \cdots, U_n$ 为 $n$ 个独立的服从 $(0,t]$ 上的均匀分布的随机变量，由定理知
+记 $U_1, U_2, \cdots, U_n$ 为 $n$ 个独立的服从 $(0,t]$ 上的均匀分布的随机变量，由定理知
 \[
 E\left[\sum_{i=1}^{n} T_i | N(t) = n\right] = E\left[\sum_{i=1}^{n} U_i\right] = \frac{nt}{2}
 \]
@@ -1547,7 +1544,11 @@ E\left[\sum_{i=1}^{N(t)} (t - T_i)\right] = E\left[E\left[\sum_{i=1}^{N(t)} (t -
 \[
 = \frac{t}{2} E[N(t)] = \frac{\lambda t^2}{2}.
 \]
-\end{example}
+\end{proof}
+
+
+
+
 
 \section{Poisson过程的推广}
 
@@ -2734,7 +2735,7 @@ f_{ij}^{(n)} &= P(X_k \neq j, 1 \leq k \leq n-1, X_n = j | X_0 = i) \\
 \begin{theorem}
 	对任意 $i, j \in S$, $n \geq 1$，有：
 \begin{enumerate}\label{4.4}
-    \item[(a)] $p_{ij}^{(n)} = \sum_{m=1}^{n} f_{ij}^{(m)} p_{ij}^{(n-m)}$（注意，$p_{ij}^{(0)} \equiv 1$）；
+    \item[(a)] $p_{ij}^{(n)} = \sum_{m=1}^{n} f_{ij}^{(m)} p_{jj}^{(n-m)}$（注意，$p_{ij}^{(0)} \equiv 1$）；
     \item[(b)] $f_{ij}^{(n)} = \sum_{k \neq j} p_{ik} f_{kj}^{(n-1)} I_{\{n > 1\}} + p_{ij} I_{\{n=1\}}$；
     \item[(c)] $i \rightarrow j \Longleftrightarrow f_{ij} > 0$; $i \leftrightarrow j \Longleftrightarrow f_{ij} f_{ji} > 0$。
 \end{enumerate}
@@ -3048,7 +3049,7 @@ p_{00}^{(2n)} = \binom{2n}{n} p^n (1-p)^n = \frac{(2n)!}{n! n!} [p(1-p)]^n
 判断状态 1, 2, 3, 4 是常返性还是非常性。若是常返，进一步判断是正常返还是零常返？
 \end{example}
 \begin{proof}
-	$f_{444}^{(n)} = 0, f_{444} = 0 \ \ \ \forall n \geq 1$；
+	$f_{44}^{(n)} = 0, f_{44} = 0 \ \ \ \forall n \geq 1$；
 
 	 $f_{33}^{(1)} = \frac{2}{3}, f_{33}^{(n)} = 0, f_{33} = f_{33}^{(1)} = \frac{2}{3} \forall n \geq 2$；
 

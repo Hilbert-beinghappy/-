@@ -3831,7 +3831,7 @@ f(u) = \pm a \log \left( a \cosh \frac{r}{a} + a \sinh \frac{r}{a} \right).
 \[
 \sim (u \cos v, u \sin v, \operatorname{arccosh} u)
 \]
-\chapter{曲线论基本定理}
+\chapter{曲面论基本定理}
 \section{活动标架法和曲面基本方程}
 我们要约定一些记号。
 \begin{enumerate}
@@ -4009,7 +4009,7 @@ n_{jk} = h_{kj}
 \[
 \begin{cases}
     \partial_{k} \Gamma_{ij}^l+\Gamma_{ij}^p\Gamma_{pk}^l-h_{ij}h^l_k=\partial_{j} \Gamma_{ik}^l+\Gamma_{ik}^p\Gamma_{pj}^l-h_{ik}h^l_j\quad(A)\\
-    \partial_{k} h_{ij} n + h_{lk}\Gamma_{ij}^l= \partial_{j} h_{ik} n + h_{lj}\Gamma_{ik}^l\quad(B_1)
+    \partial_{k} h_{ij} n + h_{lk}\Gamma_{ij}^l= \partial_{j} h_{ik} n + h_{lj}\Gamma_{ik}^l\quad(B_1)\label{B1}
 \end{cases}
 \]
 
@@ -4083,7 +4083,171 @@ n_{jk} = h_{kj}
     下拉l指标
     \[R_{lijk}=h_{ij}h_{lk}-h_{ik}h_{jl}\]
     由于只有一个Riemann曲率有意义$R_{1212}$，取$l,i,j,k=1,2,1,2$
-    \[\rightarrow R_{1212}=h^2_{21}-h_{11}h_{22}=-\mathbf{det II}\rightarrow K=\frac{R_{1212}}{EG-F^2}
+    \[\rightarrow R_{1212}=h^2_{21}-h_{11}h_{22}=-\mathbf{det II}\rightarrow K=-\frac{R_{1212}}{EG-F^2}
     \]
 \end{proof}
+
+
+回看条件$n_{jk}=n_{kj}$对运动方程$n_k=-h_k^l r_l$两边求导:
+\begin{align*}
+    -n_{kj}&=\partial_j h^l_k r_l+h^l_k r_{lj}\\
+    &=(\partial_j h^l_k)r_l+h^p_k \Gamma_{ij}^p r_{pl} + h_{lj} \cdot n )\\
+   &=(\partial_j h^l_k+\Gamma_{ij}^p h^l_p)r_l+h^l_k h_{lj} \cdot n
+\end{align*}
+
+$n_{ij}=n_{ji}\Rightarrow \begin{cases}
+    \partial_j h^l_k+\Gamma_{pj}^l h^p_k=\partial_k h^l_j+\Gamma_{pk}^l h^p_j\quad(B_2)\label{B2}\\
+    h^l_kh_{lj}=h^l_j h_{lk}\quad (C)\label{C}
+\end{cases}$
+
+\begin{proposition}
+    (C)为恒等式
+\end{proposition}
+\begin{proof}
+    
+    \begin{align*}
+        h^l_kh_{lj}&=h_{km}g^{ml}h_{lj}=(\mathbf{ II}\cdot\mathbf{ I}^{-1}\mathbf{ II})_{kj}\\
+        h^l_j h_{lk}&=h_{jm}g^{ml}h_{lk}=(\mathbf{ II}\cdot\mathbf{ I}^{-1}\mathbf{ II})_{kj}\\
+    \end{align*}
+
+    只需要证明$(\mathbf{ II}\cdot\mathbf{ I}^{-1}\mathbf{ II})$对称
+    \[
+    (\mathbf{ II}\cdot\mathbf{ I}^{-1}\mathbf{ II})^T=(\mathbf{ II})^T(\mathbf{ I}^{-1})^T(\mathbf{ II})^T=\mathbf{ II}\cdot\mathbf{ I}^{-1}\cdot\mathbf{ II}
+    \]
+\end{proof}
+
+\begin{proposition}
+    $B_2$\ref{B2}和$B_1$\ref{B1}等价
+\end{proposition}
+\begin{remark}
+    $\operatorname{Alt}_{jk} T_{jk}=T_{jk}-T_{kj}$
+\end{remark}
+\begin{proof}
+    \begin{align*}
+        (B_2) &\iff \operatorname{Alt}_{jk} \left\{ \partial_j h_k^l + h_k^p \Gamma_{pj}^l \right\} = 0 \\
+        &\iff \operatorname{Alt}_{jk} \left\{ g_{lm} (\partial_j h_k^l + h_k^p \Gamma_{pj}^l) \right\} = 0 \\
+        &\iff \operatorname{Alt}_{jk} \left\{ \partial_j h_{mk} - \partial_j g_{lm} h_k^l + h_k^p \Gamma_{mpj} \right\} = 0 \\
+        &\iff \operatorname{Alt}_{jk} \left\{ \partial_j h_{mk} - h_k^l \Gamma_{lmj} \right\} = 0 \\
+        &\iff \operatorname{Alt}_{jk} \left\{ \partial_j h_{mk} - h_{kl} \Gamma^l_{mj} \right\} = 0 \\
+        &\iff B_1
+    \end{align*}
+\end{proof}
+
+\begin{proposition}[曲面结构方程]
+    \[
+\begin{cases} 
+R_{ijkl} = h_{il}h_{jk} - h_{ik}h_{jl} & \text{Gauss 方程} \\
+\partial_{k}h_{ij} + h_{lk}\Gamma_{ij}^{l} = \partial_{j}h_{ik} + h_{lj}\Gamma_{ik}^{l} & \text{Codazzi 方程}
+\end{cases}
+\]
+\end{proposition}
+
+r成为一张正则曲面的必要条件其对应的$\mathbf{ II}$和$\mathbf{ I}$满足上述的结构方程，换而言之，$\mathbf{ II}$和$\mathbf{ I}$不能随意定制
+
+\begin{example}
+    是否存在正则曲面，使其$\mathbf{ II}$为单位矩阵，$\mathbf{ I}$为单位矩阵
+\end{example}
+答案是不存在！
+
+$R_{1212}=0$对$(g_{ij})$求导
+
+由Gauss方程，$R_{1212}=-\mathbf{ II}$
+但$\mathbf{det II}=1$矛盾
+
+\begin{proposition}
+    若 $F=0$，则有如下公式：
+\[
+k = -\frac{1}{\sqrt{EG}}\left\{\left(\frac{(\sqrt{E})_v}{\sqrt{G}}\right)_v + \left(\frac{(\sqrt{G})_u}{\sqrt{E}}\right)_u\right\}.
+\]
+\end{proposition}
+\begin{remark}
+    不需要给$\mathbf{ II}$也可求高斯曲率
+\end{remark}
+
+\begin{proof}
+    \[K=-\frac{R_{1212}}{EG}\]
+
+    \[
+        R_{1212}=\frac{1}{2}(\partial^2_{12}g_{12}+\partial^2_{21}g_{11}-\partial^2_{22}g_{12})+\Gamma_{11}^1\Gamma_{122}+\Gamma_{11}^2\Gamma_{222}-\Gamma_{12}^1\Gamma_{112}-\Gamma_{12}^2\Gamma_{212}
+    \]
+
+    \begin{align*}
+        \Gamma_{122} &= \frac{1}{2} (2\partial_2 g_{12} - \partial_1 g_{22}) = -\frac{1}{2} G_u \\
+        \Gamma_{222} &= \frac{1}{2} \partial_2 g_{22} = \frac{1}{2} G_v \\
+        \Gamma_{112} &= \frac{1}{2} \partial_2 g_{11} = \frac{1}{2} E_v \\
+        \Gamma_{212} &= \frac{1}{2} \partial_1 g_{22} = \frac{1}{2} G_u \\
+        \Gamma_{11}^1 &= g^{11} \Gamma_{111} = \frac{E_u}{2E} \\
+        \Gamma_{11}^2 &= g^{22} \Gamma_{211} = \frac{1}{G} \cdot \left( -\frac{1}{2} \partial_2 g_{11} \right) = -\frac{E_v}{2G} \\
+        \Gamma_{12}^1 &= g^{11} \Gamma_{112} = \frac{1}{E} \cdot \frac{1}{2} \partial_2 g_{11} = \frac{E_v}{2E} \\
+        \Gamma_{12}^2 &= g^{22} \Gamma_{212} = \frac{1}{G} \cdot \frac{1}{2} \partial_1 g_{22} = \frac{G_u}{2G}
+    \end{align*}
+\[
+R_{1212} = \frac{1}{2} (G_{uu} + E_{vv}) - \frac{1}{4} \left( \frac{E_u G_u}{E} + \frac{E_v G_v}{G} + \frac{E_v^2}{E} + \frac{G_u^2}{G} \right)
+\]
+\begin{align*}
+    \left(\frac{(\sqrt{G})_u}{\sqrt{E}}\right)_u 
+    &= \left(\frac{\frac{G_u}{2\sqrt{G}}}{\sqrt{E}}\right)_u 
+    = \left(\frac{G_u}{2\sqrt{EG}}\right)_u \\
+    &= \frac{1}{2} \cdot \frac{G_{uu} \cdot \sqrt{EG} - G_u \cdot (\sqrt{EG})_u}{EG} \\
+    &= \frac{1}{\sqrt{EG}} \left[ \frac{1}{2} G_{uu} - \frac{1}{4} G_u \cdot \frac{(\sqrt{EG})_u}{\frac{1}{2}\sqrt{EG}} \right] \\
+    &= \frac{1}{\sqrt{EG}} \left( \frac{1}{2} G_{uu} - \frac{1}{4} \frac{G_u^2}{G} - \frac{1}{4} \frac{E_u G_u}{E} \right)
+\end{align*}
+和原公式对比即可
+
+\end{proof}
+\section{曲面论基本定理}
+和曲线类似，基本定理分成两个部分
+\begin{theorem}[唯一性定理]
+    设 \( S_1, S_2 \) 是定义在 \( D \subset \mathbb{R}^2 \) 上具有相同参数 \( (u, v) \) 的正则曲面（片），且 \( I \) 和 \( II \) 逐点相等，则两张曲面之间只差一个刚体运动。
+\end{theorem}
+\begin{proof}
+    假定两张曲面的活动标架
+分别 $\{r^{(i)}, r_1^{(i)}, r_2^{(i)}, n^{(i)}\}$
+
+一定存在一个刚体运动使得其在 $(u,v) = (0,0)$ 处对齐。此处存在刚体运动的前提是两组标架给出的两个三棱锥是全等的。因为根据条件E、F、G对应相等，这说明边长和夹角是对应一样的。
+
+定义以下函数：
+\[
+\begin{cases}
+f_{ij} = (r_i^{(1)} - r_i^{(2)}) \cdot (r_j^{(1)} - r_j^{(2)}), \\
+f_k = (r_k^{(1)} - r_k^{(2)}) \cdot (n^{(1)} - n^{(2)}) \\
+f = (n^{(1)} - n^{(2)}) \cdot (n^{(1)} - n^{(2)})
+\end{cases}
+\quad i,j,k \in \{1,2\}
+\]
+
+
+目标：证明 $f_{ij} = f_k = f = 0$。
+
+\[
+\begin{cases}
+r{ij} = \Gamma_{ij}^k r_k + h_{ij} n \\
+h_k = -h^l_k r_l
+\end{cases}
+\]
+(一) 对齐 $\Rightarrow f_{ij}(0,0) = f_k(0,0) = f(0,0) = 0$.
+
+
+(二) 
+\begin{align*}
+\partial_k f_{ij} &= \left( \gamma_{ik}^{(1)} - \gamma_{ik}^{(2)} \right) \cdot \left( r_j^{(1)} - r_j^{(2)} \right) + \left( r_i^{(1)} - r_i^{(2)} \right) \cdot \left( \gamma_{jk}^{(1)} - \gamma_{jk}^{(2)} \right) \\
+&= \Gamma_{ik}^l \left( \gamma_l^{(1)} - \gamma_l^{(2)} \right) \cdot \left( r_j^{(1)} - r_j^{(2)} \right) + h_{ik} \left( n^{(1)} - n^{(2)} \right) \left( r_j^{(1)} - r_j^{(2)} \right) \\
+&\quad + \Gamma_{jk}^l \left( r_i^{(1)} - r_i^{(2)} \right) \cdot \left( \gamma_l^{(1)} - \gamma_l^{(2)} \right) + h_{jk} \left( n^{(1)} - n^{(2)} \right) \left( r_i^{(1)} - r_i^{(2)} \right) \\
+&= \Gamma_{ik}^l f_{jl} + h_{ik} f_j + \Gamma_{jk}^l f_{li} + h_{jk} f_i
+\end{align*}
+
+\begin{align*}
+    \partial_k f &= (r_k^{(1)} - r_k^{(2)}) \cdot (n^{(1)} - n^{(2)}) \\
+    &\quad + (r_k^{(1)} - r_k^{(2)}) \cdot (n_\ell^{(2)} - n_\ell^{(2)}) \\
+    &= \Gamma_{kl}^p (r_p^{(1)} - r_p^{(2)}) \cdot (n^{(1)} - n^{(2)}) \\
+    &\quad + h_{kl} (n^{(1)} - n^{(2)}) \cdot (n^{(1)} - n^{(2)}) \\
+    &\quad - h_{\ell}^p (r_p^{(1)} - r_p^{(2)}) \cdot (r_k^{(1)} - r_k^{(2)}) \\
+    &= \Gamma_{kl}^p f_p + h_{kl} f - h_{\ell}^p f_{pk}.
+\end{align*}
+
+
+
+
+\end{proof}
+
 \end{document}

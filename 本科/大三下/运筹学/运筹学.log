@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  26 MAY 2025 21:58
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  31 MAY 2025 09:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1344,8 +1344,7 @@ File: pgflibraryarrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ))
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... none found.
-
-No file 运筹学.aux.
+ (./运筹学.aux)
 \openout1 = `运筹学.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 32.
@@ -1369,11 +1368,10 @@ LaTeX Font Info:    ... okay on input line 32.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 32.
 LaTeX Font Info:    ... okay on input line 32.
 Package hyperref Info: Link coloring ON on input line 32.
+ (./运筹学.out) (./运筹学.out)
 \@outlinefile=\write7
 \openout7 = `运筹学.out'.
 
-
-Package hyperref Warning: Rerun to get /PageLabels entry.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -1507,8 +1505,7 @@ LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
 ]
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
 (Font)              scaled to size 17.28pt on input line 37.
-
-No file 运筹学.toc.
+ (./运筹学.toc)
 \tf@toc=\write8
 \openout8 = `运筹学.toc'.
 
@@ -1525,6 +1522,14 @@ Chapter 1.
 [1
 
 
+]
+Chapter 2.
+LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
+(Font)              scaled to size 12.0pt on input line 46.
+
+
+[2
+
 ] (./运筹学.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
@@ -1532,35 +1537,24 @@ L3 programming layer <2022/08/05>
  ***********
 
 
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
 Package rerunfilecheck Warning: File `运筹学.out' has changed.
 (rerunfilecheck)                Rerun to get outlines right
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `运筹学.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  9AFD6E25B620B3150084DBAEEAA337AB;87.
-
-Package biblatex Warning: Please (re)run Biber on the file:
-(biblatex)                运筹学
-(biblatex)                and rerun LaTeX afterwards.
-
+(rerunfilecheck)             Before: 9AFD6E25B620B3150084DBAEEAA337AB;87
+(rerunfilecheck)             After:  7EAE26D8343AE799A485835EDE1980C5;423.
 Package logreq Info: Writing requests to '运筹学.run.xml'.
 \openout1 = `运筹学.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 47205 strings out of 473832
- 1016909 string characters out of 5729481
- 2011274 words of memory out of 5000000
- 69492 multiletter control sequences out of 15000+600000
- 564204 words of font info for 90 fonts, out of 8000000 for 9000
+ 47243 strings out of 473832
+ 1018117 string characters out of 5729481
+ 2011616 words of memory out of 5000000
+ 69519 multiletter control sequences out of 15000+600000
+ 564228 words of font info for 93 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  103i,11n,130p,688b,803s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on 运筹学.pdf (3 pages).
+Output written on 运筹学.pdf (4 pages).
