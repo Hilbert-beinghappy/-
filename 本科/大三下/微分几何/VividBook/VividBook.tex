@@ -4241,13 +4241,155 @@ h_k = -h^l_k r_l
     &\quad + (r_k^{(1)} - r_k^{(2)}) \cdot (n_\ell^{(2)} - n_\ell^{(2)}) \\
     &= \Gamma_{kl}^p (r_p^{(1)} - r_p^{(2)}) \cdot (n^{(1)} - n^{(2)}) \\
     &\quad + h_{kl} (n^{(1)} - n^{(2)}) \cdot (n^{(1)} - n^{(2)}) \\
-    &\quad - h_{\ell}^p (r_p^{(1)} - r_p^{(2)}) \cdot (r_k^{(1)} - r_k^{(2)}) \\
+    &\quad - h_{l}^p (r_p^{(1)} - r_p^{(2)}) \cdot (r_k^{(1)} - r_k^{(2)}) \\
     &= \Gamma_{kl}^p f_p + h_{kl} f - h_{\ell}^p f_{pk}.
 \end{align*}
+\begin{align*}
+    \partial_k f &= 2(n^{(1)} - n^{(2)}) (n_k^{(1)} - n_k^{(2)}) \\
+    &= -2h_k^l (n^{(1)} - n^{(2)}) (r_l^{(1)} - r_l^{(2)}) \\
+    &= -2h_k^l f_l.
+\end{align*}
+
+我们得到一个齐次的PDE系统
+\[
+\begin{cases}
+    \partial_k f_{ij} = \Gamma_{ik}^l f_{lj} + \Gamma_{jk}^l f_{il} + h_{ik} f_j + h_{jk} f_i \\
+    \partial_l f_k = \Gamma_{kl}^p f_p + h_{kl} f - h_l^p f_{pk} \\
+    \partial_k f = -2h_k^l f_l
+\end{cases}
+\]
+其解的存在唯一性保证零解是唯一解
+
+故而 $f_{ij} \equiv f_k \equiv f \equiv 0$.
+
+取 $i=j \Rightarrow (r_i^{(1)} - r_i^{(2)})^2 \equiv 0, \forall i \Rightarrow r_i^{(1)} \equiv r_i^{(2)}$.
+
+由 $f \equiv 0 \Rightarrow n^{(1)} \equiv n^{(2)}$.
+
+最后再定义 $h(u,v) = (r^{(1)} - r^{(2)})^2 \equiv 0$.
+
+\begin{enumerate}
+    \item $h(0,0) = 0$,
+    \item $\partial_k h = 2(r^{(1)} - r^{(2)}) \cdot (r_k^{(1)} - r_k^{(2)}) = 0$.
+\end{enumerate}
+
+$\Rightarrow h \equiv 0 \Rightarrow r^{(1)} \equiv r^{(2)}, \forall (u,v) \in D$.
+\end{proof}
+
+\begin{theorem}[存在性定理]
+    设 $D \subset \mathbb{R}^2$ 一区域，其上有两个“带点的矩阵” $g_{ij}(u,v)$ 和 $h_{ij}(u,v)$，$(u,v) \in D$，或理解 $n \times n$ 函数。
+其中 $g_{ij}$ 要求逐点正定、对称、$C^2$。$h_{ij}$ 要求逐点对称、$C^1$。同时，$g_{ij}$ 和 $h_{ij}$ 还要满足 Gauss-Codazzi 方程。
+
+则一定存在 $r \in C^3(D)$，使得 $r$ 是一张正则曲面（片），且对应的第一、第二基本形式就是 $g_{ij}$ 和 $h_{ij}$。
+\end{theorem}
+\begin{proof}
+    设 $r, r_i, r_{ij}, n$ 为待定的向量函数。其满足以下方程组（即运动方程组）：
+\[
+\begin{cases}
+\partial_i r = r_i \\
+\partial_j r_i = \Gamma_{ij}^k r_k + h_{ij} n \\
+\partial_k n = -h_k^\ell r_l
+\end{cases}
+\]
+其中 $\Gamma_{ij}^k$ 由 $g$ 提供）
+
+这是一个齐次线性方程组
+
+在假设：
+\[
+\begin{cases}
+(r)_{ij} = (r)_{ji} \\
+(r_i)_{jk} = (r_i)_{kj} \\
+(n)_{jk} = (n)_{kj}
+\end{cases}
+\Leftrightarrow \text{Gauss-Codazzi 方程}.
+\]
+
+的意义下解是存在唯一的。
+
+故而 $r$ 一定有解，
+
+问题：$r$ 为什么以 $g_{ij}$ 和 $h_{ij}$ 为第一、二基本形式。
+
+我们要求初值满足，$r^0, r_i^0, r_j^0$ 和 $n^0$ 垂直，以及 $n^0 \cdot n^0 = 1$。
+
+首先要验证，$r_1, r_2$ 始终和 $n$ 垂直，以及 $n \cdot n = 1$。
+
+给出辅助函数：
+\[
+\begin{cases}
+f_{ij} = r_i \cdot r_j - g_{ij} \\
+f_k = r_k \cdot n \\
+f = n \cdot n - 1
+\end{cases}
+\]
+\[
+f_{ij}(0) = f_k(0) = f(0).
+\]
+验证 $f_{ij} \equiv f_k \equiv f \equiv 0$。$\rightarrow$ 标架是全局定义的$
+$验证 $r$ 的 I 和 II 就是 $g_{ij}$ 和 $h_{ij}$。
+
+
+
+
+
 
 
 
 
 \end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \end{document}
