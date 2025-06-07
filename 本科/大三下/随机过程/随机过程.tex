@@ -1631,7 +1631,118 @@ m(10) = \int_{0}^{10} \lambda(t) dt = \int_{0}^{5} \frac{1}{2.5} dt + \int_{5}^{
 P(N(10) - N(0) = 1) = e^{-4.5} \frac{(4.5)^1}{1!} = \frac{9}{2} e^{-\frac{9}{2}}.
 \]
 \end{proof}
+\subsection{复合Poisson过程}
+\begin{definition}[复合Poisson过程]
+	称随机过程 $\{X(t), t \geq 0\}$ 为复合泊松过程，如果对于 $t \geq 0$，$X(t)$ 可以表示为
+\[
+X(t) = \sum_{i=1}^{N(t)} Y_i
+\]
+其中 $\{N(t), t \geq 0\}$ 是一个Poisson过程，$Y_i, i = 1, 2, \cdots$ 是一族独立同分布的随机变量，并且与 $\{N(t), t \geq 0\}$ 也是独立的。
+\end{definition}
+
+\begin{remark}
+	复合Poisson过程不一定是计数过程，但是当 $Y_i \equiv c, \quad i = 1, 2, \cdots, c$ 为常数时，可化为泊松过程。
+\end{remark}
+
+\begin{example}
+	保险公司接到的索赔次数服从一个泊松过程 $\{N(t)\}$，每次要求赔付的金额 $Y_i$ 都相互独立，且有同分布 $F$，每次的索赔数额与它发生的时刻无关，则 $[0,t]$ 时间区间内保险公司需要赔付的总金额 $\{X(t)\}$ 就是一个复合泊松过程，其中
+\[
+X(t) = \sum_{i=1}^{N(t)} Y_i
+\]
+\end{example}
+\begin{example}
+	设顾客到达某服务系统的时间 $S_1, S_2, \cdots$ 形成一强度为 $\lambda$ 的Poisson过程，在每个时刻 $S_n, n = 1, 2, \cdots$ 可以同时有多名顾客到达。$Y_n$ 表示在时刻 $S_n$ 到达的顾客人数，假定 $Y_n, n = 1, 2, \cdots$ 相互独立，并且与 $\{S_n\}$ 也独立，则在 $[0,t]$ 时间区间内到达服务系统的顾客总人数也可用一复合Poisson过程来描述。
+\end{example}
+\begin{example}
+	假设顾客按照参数为 $\lambda$ 的Poisson过程进入一个商店，又假设各顾客所消费的金额形成一族独立同分布的随机变量。以 $X(t)$ 记到时间 $t$ 为止顾客在此商店所花费的总额，易知 $\{X(t), t \geq 0\}$ 是一个复合Poisson过程。
+\end{example}
+\begin{theorem}\label{th:3.3.2}
+	设 $\{X(t) = \sum_{i=1}^{N(t)} Y_i, t \geq 0\}$ 是一复合泊松过程，泊松过程 $\{N(t), t \geq 0\}$ 的强度为 $\lambda$，则
+	\begin{enumerate}
+		\item $X(t)$ 有独立增量；
+		\item 若 $E(Y_i^2) < +\infty$，则
+		\[
+		E[X(t)] = \lambda t \cdot EY_1, \quad \text{var}[X(t)] = \lambda t \cdot E(Y_1^2).
+		\]
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	1）令 $0 \leq t_0 < t_1 < t_2 < \cdots < t_n$，则
+\[
+X(t_k) - X(t_{k-1}) = \sum_{i=N(t_{k-1})+1}^{N(t_k)} Y_i, \quad k = 1, 2, \cdots, n
+\]
+由过程过程的独立增量性及各 $Y_i, (i = 1, 2, \cdots, n)$ 之间的独立性不难得出 $X(t)$ 的独立增量性。
+
+（2）利用矩母函数方法，首先有
+\[
+\begin{aligned}
+\phi_t(u) &= E(e^{uX_t}) \\
+&= \sum_{n=0}^{\infty} E[e^{uX_t} | N(t) = n] P(N(t) = n) \\
+&= \sum_{n=0}^{\infty} E[e^{u(Y_1 + \cdots + Y_n)} | N(t) = n] e^{-\lambda t} \frac{(\lambda t)^n}{n!} \\
+&= \sum_{n=0}^{\infty} E[e^{u(Y_1 + \cdots + Y_n)}] e^{-\lambda t} \frac{(\lambda t)^n}{n!} \\
+&= \sum_{n=0}^{\infty} E[e^{uY_1}] \cdots E[e^{uY_n}] e^{-\lambda t} \frac{(\lambda t)^n}{n!} \\
+&= \sum_{n=0}^{\infty} [E(e^{uY_1})]^n e^{-\lambda t} \frac{(\lambda t)^n}{n!} \\
+&= e^{\lambda t [E(e^{uY_1}) - 1]}.
+\end{aligned}
+\]
+
+对上式求导得
+\[
+E[X(t)] = \lambda t EY_1 \quad \text{及} \quad \text{var}(X(t)) = \lambda t E(Y_1^2).
+\]
+\end{proof}
+
+\begin{example}
+	在保险中的索赔模型中，设保险公司接到的索赔要求是强度为每个月两次的泊松过程。每次赔付服从均值为10000元的正态分布，则一年中保险公司平均的赔付额是多少。
+\end{example}
+\begin{proof}
+	由定理 \ref{th:3.3.2}易得
+\[
+E[X(12)] = 2 \times 12 \times 10000 = 240000 \text{（元）}
+\]
+
+\end{proof}
+\begin{example}
+	设顾客以每分钟6人的平均速率进入某商场，这一过程可以用Poisson过程来描述. 又设进入该商场的每位顾客买东西的概率为0.9，且每位顾客是否买东西互不影响，也与进入该商场的顾客数无关，求一天(12小时)在该商场买东西的顾客数的分布与均值.
+\end{example}
+\begin{proof}
+	以 $N_1(t)$ 表示在时间 $(0, t]$ 内进入该商场的顾客数，则 $\{N_1(t), t \geq 0\}$ 是速率为 $\lambda = 6$（人/分钟）的Poisson过程。再以 $N_2(t)$ 表示在时间 $(0, t]$ 内在该商场买东西的顾客数，并设
+	\[
+	Y_i = 
+	\begin{cases} 
+	1, & \text{如果第 } i \text{ 位顾客在该商场买东西} \\
+	0, & \text{如果第 } i \text{ 位顾客在该商场未买东西}
+	\end{cases}
+	\]
+	则 $Y_i$ 独立同分布于 $B(1, 0.9)$，与 $\{N_1(t), t \geq 0\}$ 独立，且
+	\[
+	N_2(t) = \sum_{i=1}^{N_1(t)} Y_i
+	\]
+	易知
+	\[
+	N_2(t) \sim P(5.4t)
+	\]
+	即 $\{N_2(t), t \geq 0\}$ 是速率为 $\lambda = 5.4$（人/分钟）的Poisson过程，$t = 12$ 小时 = 720 分钟，则
+	\[
+	N_2(720) \sim P(3888)
+	\]
+	即一天 (12 小时) 在该商场买东西的平均顾客数为 $E[N_2(720)] = 3888$ 人。
+	
+	
+	
+\end{proof}
+\begin{remark}
+	 若以 $Z_i$ 表示进入该商场的第 $i$ 位顾客在该商场所花的钱数 (单位：元)，且有 $Z_i \sim B(200, 0.5)$，则
+	\[
+	N_3(t) = \sum_{i=1}^{N_1(t)} Z_i
+	\]
+	示在时间 $(0, t]$ 内该商场的营业额，则该商场一天的平均营业额为
+	\[
+	E[N_3] = E[Z_1] E[N_1] = (200 \times 0.5) \times (6 \times 12 \times 60) = 432000 \text{元}
+	\]
+\end{remark}
 \section{作业}
+
 \begin{example}
 	设 \( (0, \mathcal{F}, P) \) 为概率空间，\( A_i \) 是互不相交且并集为全集的集合，\( \mathcal{G} = \sigma(A_i) \)。若 \( P(A_i) > 0 \)，证明：
 \[
@@ -3060,7 +3171,7 @@ p_{00}^{(2n)} = \binom{2n}{n} p^n (1-p)^n = \frac{(2n)!}{n! n!} [p(1-p)]^n
 	$f_{11}^{(1)} = \frac{1}{2}, f_{11}^{(2)} = p_{12} p_{21} = \frac{1}{2}, f_{11}^{(n)} = 0, \forall n \geq 3;$
 	$f_{11} = \sum_{n=1}^{\infty} f_{11}^{(n)} = 1.$
 	
-	 $f_{222}^{(1)} = 0, f_{222}^{(2)} = p_{21} p_{12} = \frac{1}{2}, f_{22}^{(3)} = p_{21} p_{11} p_{12} = \frac{1}{2} \cdot \frac{1}{2}, \cdots, f_{22}^{(n+1)} = \frac{1}{2^n}, \forall n \geq 1; f_{22} = \sum_{n=1}^{\infty} f_{22}^{(n)} = 1.$
+	 $f_{22}^{(1)} = 0, f_{22}^{(2)} = p_{21} p_{12} = \frac{1}{2}, f_{22}^{(3)} = p_{21} p_{11} p_{12} = \frac{1}{2} \cdot \frac{1}{2}, \cdots, f_{22}^{(n+1)} = \frac{1}{2^n}, \forall n \geq 1; f_{22} = \sum_{n=1}^{\infty} f_{22}^{(n)} = 1.$
 	
 	因此：$\mu_1 = 1 \cdot \frac{1}{2} + 2 \cdot \frac{1}{2} = \frac{3}{2}; \mu_2 = \sum_{n=1}^{\infty} n f_{22}^{(n)} = \sum_{n=2}^{\infty} n \cdot \frac{1}{2^{n-1}} = 3.$
 	
@@ -4934,98 +5045,7 @@ p_{52} &= 1 \quad \text{(状态5只能转移到状态2)}
     判断各个状态的常返性和非常性，遍历性。
 \end{example}
 \begin{proof}
-	对于给定的转移矩阵 $\mathbf{P}$：
-\[
-\mathbf{P} = \begin{pmatrix}
-1/2 & 1/2 & 0 & 0 \\
-0 & 1/4 & 3/4 & 0 \\
-1/4 & 0 & 1/2 & 1/4 \\
-1/2 & 0 & 0 & 1/2
-\end{pmatrix}
-\]
-
-我们需要判断状态空间 $S = \{0, 1, 2, 3\}$ 中各个状态的常返性和遍历性。
-
-首先，我们绘制状态转移图以便分析：
-- 状态0可以到达状态0和状态1
-- 状态1可以到达状态1和状态2
-- 状态2可以到达状态0、状态2和状态3
-- 状态3可以到达状态0和状态3
-
-\textbf{步骤1：确定状态的连通性}
-
-从状态转移图可以看出，所有状态都是互通的，即对于任意 $i, j \in S$，存在 $n > 0$ 使得 $p_{ij}^{(n)} > 0$。因此，该马尔可夫链是不可约的。
-
-\textbf{步骤2：判断各状态的周期}
-
-对于状态0：
-- $p_{00} = 1/2 > 0$，说明状态0可以在1步内回到自身
-因此状态0的周期为 $d_0 = 1$。
-
-对于状态1：
-- $p_{11} = 1/4 > 0$，说明状态1可以在1步内回到自身
-因此状态1的周期为 $d_1 = 1$。
-
-对于状态2：
-- $p_{22} = 1/2 > 0$，说明状态2可以在1步内回到自身
-因此状态2的周期为 $d_2 = 1$。
-
-对于状态3：
-- $p_{33} = 1/2 > 0$，说明状态3可以在1步内回到自身
-因此状态3的周期为 $d_3 = 1$。
-
-由于所有状态的周期都为1，所以该马尔可夫链是非周期性的。
-
-\textbf{步骤3：判断各状态的常返性}
-
-对于不可约的马尔可夫链，如果存在一个状态是常返的，那么所有状态都是常返的；如果存在一个状态是非常返的，那么所有状态都是非常返的。
-
-我们可以通过计算状态0的首达概率来判断其常返性。
-
-首达概率 $f_{00}^{(n)}$ 表示从状态0出发，首次在第n步回到状态0的概率。总首达概率 $f_{00} = \sum_{n=1}^{\infty} f_{00}^{(n)}$。
-
-对于不可约的马尔可夫链，状态0是常返的当且仅当 $f_{00} = 1$。
-
-计算 $f_{00}$:
-\begin{align}
-f_{00}^{(1)} &= p_{00} = \frac{1}{2}\\
-f_{00}^{(2)} &= p_{01}p_{10} = \frac{1}{2} \cdot 0 = 0\\
-f_{00}^{(3)} &= p_{01}p_{12}p_{20} = \frac{1}{2} \cdot \frac{3}{4} \cdot \frac{1}{4} = \frac{3}{32}\\
-\end{align}
-
-继续计算更高阶的首达概率，并求和：
-\begin{align}
-f_{00} = \sum_{n=1}^{\infty} f_{00}^{(n)}
-\end{align}
-
-通过求解线性方程组或使用生成函数方法，我们可以证明 $f_{00} = 1$，因此状态0是常返的。
-
-由于马尔可夫链是不可约的，所以所有状态（0,1,2,3）都是常返的。
-
-\textbf{步骤4：判断各状态的遍历性}
-
-对于常返状态，如果其平均回归时间 $\mu_i < \infty$，则称该状态为正常返（或遍历态）；否则称为零常返。
-
-平均回归时间 $\mu_i = \sum_{n=1}^{\infty} n \cdot f_{ii}^{(n)}$。
-
-对于状态0，我们计算其平均回归时间：
-\begin{align}
-\mu_0 &= \sum_{n=1}^{\infty} n \cdot f_{00}^{(n)}\\
-&= 1 \cdot f_{00}^{(1)} + 2 \cdot f_{00}^{(2)} + 3 \cdot f_{00}^{(3)} + \cdots\\
-&= 1 \cdot \frac{1}{2} + 2 \cdot 0 + 3 \cdot \frac{3}{32} + \cdots
-\end{align}
-
-通过详细计算，我们可以证明 $\mu_0 < \infty$，因此状态0是正常返的（遍历的）。
-
-同理，对于状态1,2,3，我们也可以证明它们都是正常返的（遍历的）。
-
-\textbf{总结}：
-对于状态空间 $S = \{0, 1, 2, 3\}$ 上的马尔可夫链：
-1. 所有状态都是常返的
-2. 所有状态都是非周期的
-3. 所有状态都是正常返的（即遍历的）
-
-因此，该马尔可夫链是遍历的，且具有唯一的平稳分布。
+	该马氏链为不可约非周期马氏链，故为遍历链。由其状态有限，其必为正常返链。
 \end{proof}
 
 \chapter{鞅论}
@@ -7159,16 +7179,117 @@ P(B(4) > 0 | B(2) > 0) = \frac{1}{2} + \frac{1}{\pi} \arctan(1) = \frac{1}{2} + 
 		
 		这个结论在多元统计分析、线性模型和随机过程中有广泛的应用。例如，在主成分分析中，我们通过正交变换将原始数据转换为主成分；在卡尔曼滤波中，我们需要计算线性转换后的高斯分布。
 \end{proof}
+\begin{example}
+	设 $B(t)$ 是一维标准布朗运动对下列 $X_t$ 给出其微分和积分形式。
+    \begin{enumerate}
+        \item $X_t = e^{\frac{t}{2}} \sin B(t)$
+        \item $X_t = (B(t) + t) e^{-B(t) - \frac{1}{2}t}$
+    \end{enumerate}
+\end{example}
+\begin{proof}
+	(1) Differential form: Apply Itô's lemma to \( f(t, x) = e^{\frac{t}{2}} \sin x \).
+    \[
+    \frac{\partial f}{\partial t} = \frac{1}{2} e^{\frac{t}{2}} \sin x, \quad
+    \frac{\partial f}{\partial x} = e^{\frac{t}{2}} \cos x, \quad
+    \frac{\partial^2 f}{\partial x^2} = -e^{\frac{t}{2}} \sin x
+    \]
+    Then,
+    \[
+    dX(t) = \left( \frac{\partial f}{\partial t} + \frac{1}{2} \frac{\partial^2 f}{\partial x^2} \right) dt + \frac{\partial f}{\partial x} dB(t) = e^{\frac{t}{2}} \cos B(t)  dB(t).
+    \]
+    Integral form: 
+    \[
+    X(t) = \int_0^t e^{\frac{s}{2}} \cos B(s)  dB(s).
+    \]
+    
+	(2)Differential form: Apply Itô's lemma to \( f(t, x) = (x + t) e^{-x - \frac{1}{2}t} \).
+    \[
+    \frac{\partial f}{\partial t} = e^{-x - \frac{t}{2}} \left(1 - \frac{1}{2}(x + t)\right), \quad
+    \frac{\partial f}{\partial x} = e^{-x - \frac{t}{2}} (1 - x - t), \quad
+    \frac{\partial^2 f}{\partial x^2} = e^{-x - \frac{t}{2}} (x + t - 2)
+    \]
+    Then,
+    \[
+    \frac{\partial f}{\partial t} + \frac{1}{2} \frac{\partial^2 f}{\partial x^2} = 0,
+    \]
+    so
+    \[
+    dX(t) = (1 - B(t) - t) e^{-B(t) - \frac{1}{2}t}  dB(t).
+    \]
+    Integral form: 
+    \[
+    X(t) = \int_0^t (1 - B(s) - s) e^{-B(s) - \frac{1}{2}s}  dB(s).
+    \]
 
+\end{proof}
+\begin{example}
+	用Ito公式证明
+    \[
+    \beta_k(t) = \frac{1}{2} k(k-1) \int_0^t \beta_{k-2}(s) ds,
+    \]
+    并用上述结果求解 $E[B^6(t)]$
+\end{example}
+\begin{proof}
+	Define \( \beta_k(t) = E[B^k(t)] \). Apply Itô's lemma to \( f(x) = x^k \):
+\[
+d(B^k(t)) = k B^{k-1}(t)  dB(t) + \frac{1}{2} k(k-1) B^{k-2}(t)  dt.
+\]
+Integrate and take expectation:
+\[
+\beta_k(t) = \frac{1}{2} k(k-1) \int_0^t \beta_{k-2}(s)  ds.
+\]
 
+For \( E[B^6(t)] \):
+\begin{align*}
+\beta_2(t) &= t, \\
+\beta_4(t) &= 6 \int_0^t s  ds = 3t^2, \\
+\beta_6(t) &= 15 \int_0^t 3s^2  ds = 15t^3.
+\end{align*}
+Thus, \( E[B^6(t)] = 15t^3 \).
+\end{proof}
+\begin{example}
+	设 $B(0) = 0$, $\{B(t), t \geq 0\}$ 为标准布朗运动。求 $B(\frac{1}{2}) - 2B(\frac{3}{4}) + B(1)$ 的分布。
+\end{example}
+\begin{proof}
+	Define \( Y = B\left(\frac{1}{2}\right) - 2B\left(\frac{3}{4}\right) + B(1) \).
+\begin{itemize}
+    \item Mean: \( E[Y] = 0 \).
+    \item Variance:
+    \begin{align*}
+    \text{Var}(Y) &= \min\left(\tfrac{1}{2},\tfrac{1}{2}\right) + 4\min\left(\tfrac{3}{4},\tfrac{3}{4}\right) + \min(1,1) \\
+    &\quad -4\min\left(\tfrac{1}{2},\tfrac{3}{4}\right) + 2\min\left(\tfrac{1}{2},1\right) -4\min\left(\tfrac{3}{4},1\right) \\
+    &= 0.5 + 3 + 1 - 2 + 1 - 3 = 0.5.
+    \end{align*}
+\end{itemize}
+Thus, \( Y \sim \mathcal{N}\left(0, \frac{1}{2}\right) \).
+\end{proof}
 
+\chapter{历年真题}
+\section{20-21随机过程A}
+\begin{example}
+	设离散时间齐次马尔可夫链 $\{X_n, n = 0, 1, 2, \ldots\}$ 的状态空间为 $\{1, 2, 3\}$，对应的转移概率矩阵为
+    \[
+    P = \begin{pmatrix}
+    0.2 & 0.1 & 0.7 \\
+    0.7 & 0.1 & 0.2 \\
+    0.1 & 0.7 & 0.2
+    \end{pmatrix},
+    \]
+    则条件概率 $P(X_2 = 2, X_1 = 3 | X_0 = 1) =？
 
+\end{example}
 
-
-
-
-
-
+\begin{example}
+	设离散时间齐次马尔可夫链 $\{X_n, n = 0, 1, \ldots\}$ 的状态空间为正整数集 $S$，$P^{(n)} = (p_{ij}^{(n)})_{i,j \in S}$ 为 $n$ 步转移概率矩阵，其中 $p_{ij}^{(n)}$ 表示从 $i$ 出发经过 $n$ 步到达 $j$ 的概率。$f_{ii}^{(n)}$ 表示由状态 $i$ 出发经过 $n$ 步首次到达 $i$ 的概率，$f_{ii} := \sum_{n=1}^{\infty} f_{ii}^{(n)}$。对给定的状态 $i$，设 $f_{ii} = \frac{1}{3}$，则 $\sum_{n=0}^{\infty} p_{ii}^{(n)} = ?
+\end{example}
+\begin{example}
+	对强度 $\lambda = 2$ 的时齐的泊松过程 $\{N(t), t \geq 0\}$，设 $N(0) = 0$，则 $P(N(1) \leq 3) = ?
+\end{example}
+\begin{example}
+	设 $\{B(t), t \geq 0\}$ 为一维的标准布朗运动，满足 $B(0) = 0$，则 (1) $B(2)$ 的概率密度函数为 ?；
+	
+	(2) 在给定 $B(2) = 1$ 的情况下，条件期望 $E[(B(4) - B(2))^2 | B(2) = 1] =
+\end{example}
 
 
 

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  1 JUN 2025 21:32
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  7 JUN 2025 11:11
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1304,33 +1304,40 @@ Package: mhsetup 2021/03/18 v1.4 programming setup (MH)
 \l_MT_below_shortintertext_sep=\dimen360
 \xmathstrut@box=\box140
 \xmathstrut@dim=\dimen361
+) (/usr/local/texlive/2025/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen362
+\WF@size=\dimen363
+\c@WF@wrappedlines=\count568
+\WF@box=\box141
+\WF@everypar=\toks49
+Package: wrapfig 2003/01/31  v 3.6
 )
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... none found.
  (./微分几何.aux)
 \openout1 = `微分几何.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-Package hyperref Info: Link coloring ON on input line 30.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+Package hyperref Info: Link coloring ON on input line 31.
  (./微分几何.out) (./微分几何.out)
 \@outlinefile=\write7
 \openout7 = `微分几何.out'.
@@ -1373,12 +1380,13 @@ Package hyperref Info: Link coloring ON on input line 30.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: listings package is loaded.
+Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
 (/usr/local/texlive/2025/texmf-dist/tex/latex/footmisc/footmisc.sty
 Package: footmisc 2024/12/24 v6.0g a miscellany of footnote facilities
-\FN@temptoken=\toks49
-\footnotemargin=\dimen362
-\@outputbox@depth=\dimen363
+\FN@temptoken=\toks50
+\footnotemargin=\dimen364
+\@outputbox@depth=\dimen365
 Package footmisc Info: Declaring symbol style bringhurst on input line 699.
 Package footmisc Info: Declaring symbol style chicago on input line 707.
 Package footmisc Info: Declaring symbol style wiley on input line 716.
@@ -1401,10 +1409,10 @@ Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file '微分几何.bbl' not found.
 
 No file 微分几何.bbl.
-Package biblatex Info: Reference section=0 on input line 30.
-Package biblatex Info: Reference segment=0 on input line 30.
-\c@lstlisting=\count568
-Package hyperref Info: Option `pageanchor' set `false' on input line 32.
+Package biblatex Info: Reference section=0 on input line 31.
+Package biblatex Info: Reference segment=0 on input line 31.
+\c@lstlisting=\count569
+Package hyperref Info: Option `pageanchor' set `false' on input line 33.
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: xetex
 * paper: a4paper
@@ -1440,25 +1448,25 @@ Package hyperref Info: Option `pageanchor' set `false' on input line 32.
 File: ./figure/cover.jpg Graphic file (type bmp)
 <./figure/cover.jpg>
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
-(Font)              scaled to size 24.88pt on input line 32.
-LaTeX Font Info:    Trying to load font information for U+rsfs on input line 32.
+(Font)              scaled to size 24.88pt on input line 33.
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 33.
 (/usr/local/texlive/2025/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 32.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 33.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 32.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 33.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+esint on input line 32.
+LaTeX Font Info:    Trying to load font information for U+esint on input line 33.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/esint/uesint.fd
 File: uesint.fd 
 )
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
-(Font)              scaled to size 14.4pt on input line 32.
+(Font)              scaled to size 14.4pt on input line 33.
 
 
 [1
@@ -1467,7 +1475,7 @@ LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
 
 ]
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
-(Font)              scaled to size 17.28pt on input line 35.
+(Font)              scaled to size 17.28pt on input line 36.
  (./微分几何.toc
 
 [1
@@ -1481,13 +1489,13 @@ LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
 
 
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
-(Font)              scaled to size 9.0pt on input line 37.
+(Font)              scaled to size 9.0pt on input line 38.
 [2]
 Chapter 1.
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 51.
+(Font)              scaled to size 7.0pt on input line 52.
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
-(Font)              scaled to size 5.0pt on input line 51.
+(Font)              scaled to size 5.0pt on input line 52.
 
 
 [1
@@ -1499,7 +1507,7 @@ LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
 
 [3]
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
-(Font)              scaled to size 12.0pt on input line 244.
+(Font)              scaled to size 12.0pt on input line 245.
 
 
 [4]
@@ -1521,7 +1529,7 @@ Chapter 2.
 [10]
 
 LaTeX Font Warning: Font shape `TU/STKaiti(0)/b/n' undefined
-(Font)              using `TU/STKaiti(0)/m/n' instead on input line 713.
+(Font)              using `TU/STKaiti(0)/m/n' instead on input line 714.
 
 
 
@@ -1546,7 +1554,7 @@ Missing character: There is no 。 ("3002) in font cmr10!
 [17]
 
 LaTeX Font Warning: Font shape `TU/STFangsong(0)/b/n' undefined
-(Font)              using `TU/STFangsong(0)/m/n' instead on input line 1216.
+(Font)              using `TU/STFangsong(0)/m/n' instead on input line 1217.
 
 
 
@@ -1579,18 +1587,18 @@ Chapter 3.
 [29]
 
 [30]
-LaTeX Font Info:    Trying to load font information for OMS+texgyretermes(0) on input line 2083.
-LaTeX Font Info:    No file OMStexgyretermes(0).fd. on input line 2083.
+LaTeX Font Info:    Trying to load font information for OMS+texgyretermes(0) on input line 2084.
+LaTeX Font Info:    No file OMStexgyretermes(0).fd. on input line 2084.
 
 
 LaTeX Font Warning: Font shape `OMS/texgyretermes(0)/m/n' undefined
-(Font)              using `OMS/cmsy/m/n' instead on input line 2083.
+(Font)              using `OMS/cmsy/m/n' instead on input line 2084.
 
 
-LaTeX Warning: Command \textcircled invalid in math mode on input line 2083.
+LaTeX Warning: Command \textcircled invalid in math mode on input line 2084.
 
 
-LaTeX Warning: Command \textcircled invalid in math mode on input line 2083.
+LaTeX Warning: Command \textcircled invalid in math mode on input line 2084.
 
 
 
@@ -1629,17 +1637,17 @@ LaTeX Warning: Command \textcircled invalid in math mode on input line 2083.
 [47]
 Chapter 4.
 
-Underfull \hbox (badness 10000) in paragraph at lines 3284--3286
+Underfull \hbox (badness 10000) in paragraph at lines 3285--3287
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3309--3311
+Underfull \hbox (badness 10000) in paragraph at lines 3310--3312
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3312--3316
+Underfull \hbox (badness 10000) in paragraph at lines 3313--3317
 
  []
 
@@ -1739,11 +1747,11 @@ File: figure/例题2.png Graphic file (type bmp)
 [78]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\(' on input line 5345.
+(hyperref)                removing `\(' on input line 5346.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\)' on input line 5345.
+(hyperref)                removing `\)' on input line 5346.
 
 
 
@@ -1763,7 +1771,38 @@ File: figure/测地坐标系.png Graphic file (type bmp)
 
 [83]
 
-[84] (./微分几何.aux)
+[84]
+
+[85]
+File: ./figure/fig1.png Graphic file (type bmp)
+<./figure/fig1.png>
+File: ./figure/fig2.png Graphic file (type bmp)
+<./figure/fig2.png>
+
+
+[86]
+Chapter 7.
+File: ./figure/fig3.png Graphic file (type bmp)
+<./figure/fig3.png>
+File: ./figure/fig4.png Graphic file (type bmp)
+<./figure/fig4.png>
+
+
+[87
+
+]
+File: ./figure/fig5.png Graphic file (type bmp)
+<./figure/fig5.png>
+
+
+[88]
+File: ./figure/fig6.png Graphic file (type bmp)
+<./figure/fig6.png>
+
+
+[89]
+
+[90] (./微分几何.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2022/08/05>
@@ -1772,22 +1811,19 @@ L3 programming layer <2022/08/05>
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `微分几何.out' has not changed.
-(rerunfilecheck)             Checksum: 8B1A9DE2AD7BB945A7A7823CE3BCDF5F;6672.
+(rerunfilecheck)             Checksum: 3F4F693222745EBE0DEDE28BFD095527;7172.
 Package logreq Info: Writing requests to '微分几何.run.xml'.
 \openout1 = `微分几何.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 47380 strings out of 473832
- 1040753 string characters out of 5729481
- 2013202 words of memory out of 5000000
- 69630 multiletter control sequences out of 15000+600000
+ 47540 strings out of 473832
+ 1043682 string characters out of 5729481
+ 2015238 words of memory out of 5000000
+ 69780 multiletter control sequences out of 15000+600000
  573373 words of font info for 144 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  103i,21n,130p,689b,1452s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on 微分几何.pdf (87 pages).
+Output written on 微分几何.pdf (93 pages).

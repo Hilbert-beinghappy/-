@@ -48,3 +48,6 @@
 \contentsline {section}{\numberline {6.4}参数网}{78}{section.6.4}%
 \contentsline {subsection}{\numberline {6.4.1}正交参数网（局部上F=0）}{79}{subsection.6.4.1}%
 \contentsline {subsection}{\numberline {6.4.2}曲率线参数网（局部上 \(F = M = 0\)）}{79}{subsection.6.4.2}%
+\contentsline {chapter}{\numberline {7}曲面的整体性质}{87}{chapter.7}%
+\contentsline {section}{\numberline {7.1}测地三角形的Gauss公式}{87}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Gauss - Bonnet 定理, 局部版本}{90}{section.7.2}%
