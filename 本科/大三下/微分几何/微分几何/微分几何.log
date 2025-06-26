@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  7 JUN 2025 11:11
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  18 JUN 2025 14:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1587,18 +1587,18 @@ Chapter 3.
 [29]
 
 [30]
-LaTeX Font Info:    Trying to load font information for OMS+texgyretermes(0) on input line 2084.
-LaTeX Font Info:    No file OMStexgyretermes(0).fd. on input line 2084.
+LaTeX Font Info:    Trying to load font information for OMS+texgyretermes(0) on input line 2086.
+LaTeX Font Info:    No file OMStexgyretermes(0).fd. on input line 2086.
 
 
 LaTeX Font Warning: Font shape `OMS/texgyretermes(0)/m/n' undefined
-(Font)              using `OMS/cmsy/m/n' instead on input line 2084.
+(Font)              using `OMS/cmsy/m/n' instead on input line 2086.
 
 
-LaTeX Warning: Command \textcircled invalid in math mode on input line 2084.
+LaTeX Warning: Command \textcircled invalid in math mode on input line 2086.
 
 
-LaTeX Warning: Command \textcircled invalid in math mode on input line 2084.
+LaTeX Warning: Command \textcircled invalid in math mode on input line 2086.
 
 
 
@@ -1637,17 +1637,17 @@ LaTeX Warning: Command \textcircled invalid in math mode on input line 2084.
 [47]
 Chapter 4.
 
-Underfull \hbox (badness 10000) in paragraph at lines 3285--3287
+Underfull \hbox (badness 10000) in paragraph at lines 3286--3288
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3310--3312
+Underfull \hbox (badness 10000) in paragraph at lines 3311--3313
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3313--3317
+Underfull \hbox (badness 10000) in paragraph at lines 3314--3318
 
  []
 
@@ -1747,11 +1747,11 @@ File: figure/例题2.png Graphic file (type bmp)
 [78]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\(' on input line 5346.
+(hyperref)                removing `\(' on input line 5348.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\)' on input line 5346.
+(hyperref)                removing `\)' on input line 5348.
 
 
 

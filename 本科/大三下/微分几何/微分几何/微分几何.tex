@@ -1353,6 +1353,8 @@ $$
     \begin{definition}\label{def:closed_curve}
     我们称 $\gamma : [a, b] \rightarrow \mathbb{E}^2$ 为一条正则闭曲线，若其还满足 $\gamma^{(k)}(a) = \gamma^{(k)}(b), k = 1, 2, 3$（当然还有0）。
     我们称其为简单闭曲线，若 $\forall t_1 \neq t_2 \in [a, b]$，有 $\gamma(t_1) \neq \gamma(t_2)$。
+    
+    
     \begin{remark}
         简单闭的几何含义为内部不自闭。
     \end{remark}
@@ -2621,8 +2623,7 @@ $$
 \begin{equation*}
     \begin{aligned}
     &r'(s) = u_s \cdot r_u + v_s \cdot r_v \qquad T(s) = r'(s) = (u_s, v_s) \\
-    &r''(s) = u_{ss} \cdot r_u + v_{ss} \cdot r_v \\
-    &\quad + (u_s)^2 \cdot r_{uu} + 2(u_s)(v_s) \cdot r_{uv} + (v_s)^2 \cdot r_{vv}.
+    &r''(s) = u_{ss} \cdot r_u + v_{ss} \cdot r_v  + (u_s)^2 \cdot r_{uu} + 2(u_s)(v_s) \cdot r_{uv} + (v_s)^2 \cdot r_{vv}.
     \end{aligned}
     \end{equation*}
     
@@ -2639,7 +2640,7 @@ $$
     \end{proposition}
 \begin{definition}[法曲率]
     设 $v$ 为 P 点上的一个单位向量，定义
-\[ k_n(v) = \Pi(v,v) \]
+\[ k_n(v) = II(v,v) \]
 为 $v$ 对应的法曲率。
 \end{definition}
 
@@ -3848,7 +3849,7 @@ f(u) = \pm a \log \left( a \cosh \frac{r}{a} + a \sinh \frac{r}{a} \right).
         \item 成对但重复
         \item 不能出现超过两个
     \end{itemize}
-    \item  约定$h_i^j=  g^{jk} h_{ik} = g^{j1} h_{1k} + g^{j2} h_{2k}$. \quad $h^{ij} = h_k^i g^{kj}$
+    \item  约定$h_i^j=  h_{ik}g^{jk}  = g^{j1} h_{1k} + g^{j2} h_{2k}$. \quad $h^{ij} = h_k^i g^{kj}$
     \item
     \[
     g^{ij} g_{ij} = \sum_{i,j=1}^{2} g^{ij} g_{ij} = g^{11} g_{11} + g^{12} g_{12} + g^{21} g_{21} + g^{22} g_{22}
@@ -3921,7 +3922,7 @@ $\Gamma_{lij} $是什么？
 \]
 
 \[
-\Rightarrow \Gamma^k_{ij} = g^{ik} \Gamma_{l_{ij}}
+\Rightarrow \Gamma^k_{ij} = g^{kl} \Gamma_{l_{ij}}
 \]
 
 \begin{proposition}[Weingarten方程（曲面基本方程）]
@@ -4051,7 +4052,7 @@ n_{jk} = h_{kj}
 
 \begin{align*}
     R_{ijkl}&=\frac{1}{2}(\partial^2_{ik}g_{jl}+\partial^2_{jl}g_{ik}-\partial^2_{il}g_{jk}-\partial^2_{jk}g_{il})\\
-    &+ \Gamma_{ij}^p\Gamma_{pjl}-\Gamma_{il}^p\Gamma_{pjk}
+    &+ \Gamma_{ik}^p\Gamma_{pjl}-\Gamma_{il}^p\Gamma_{pjk}
 \end{align*}
 
 \begin{remark}
@@ -4170,7 +4171,7 @@ k = -\frac{1}{\sqrt{EG}}\left\{\left(\frac{(\sqrt{E})_v}{\sqrt{G}}\right)_v + \l
     \[K=-\frac{R_{1212}}{EG}\]
 
     \[
-        R_{1212}=\frac{1}{2}(\partial^2_{12}g_{12}+\partial^2_{21}g_{11}-\partial^2_{22}g_{12})+\Gamma_{11}^1\Gamma_{122}+\Gamma_{11}^2\Gamma_{222}-\Gamma_{12}^1\Gamma_{112}-\Gamma_{12}^2\Gamma_{212}
+        R_{1212}=\frac{1}{2}(\partial^2_{12}g_{12}+\partial^2_{21}g_{11}-2\partial^2_{22}g_{12})+\Gamma_{11}^1\Gamma_{122}+\Gamma_{11}^2\Gamma_{222}-\Gamma_{12}^1\Gamma_{112}-\Gamma_{12}^2\Gamma_{212}
     \]
 
     \begin{align*}
@@ -4223,10 +4224,11 @@ f = (n^{(1)} - n^{(2)}) \cdot (n^{(1)} - n^{(2)})
 
 \[
 \begin{cases}
-r{ij} = \Gamma_{ij}^k r_k + h_{ij} n \\
+r_{ij} = \Gamma_{ij}^k r_k + h_{ij} n \\
 h_k = -h^l_k r_l
 \end{cases}
 \]
+
 (一) 对齐 $\Rightarrow f_{ij}(0,0) = f_k(0,0) = f(0,0) = 0$.
 
 

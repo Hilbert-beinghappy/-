@@ -1,9 +1,0 @@
-clear,clc
-x=linspace(0,10,1000);
-gx=@(x)(3*x.^2+4*x+6).*sin(x)./(x.^2+8*x+6);
-y=gx(x);%计算函数值
-pp=csape(x,y)%求三次调样插值
-gh=@(x)fnval(pp,x);
-fplot(gh,[0,10]);
-I1=integral(gx,0,10),
-I2=integral(gh,0,10)
