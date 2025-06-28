@@ -11,43 +11,44 @@
 \contentsline {section}{\numberline {2.3}曲率和挠率}{13}{section.2.3}%
 \contentsline {subsection}{\numberline {2.3.1}Frenet 标架}{13}{subsection.2.3.1}%
 \contentsline {subsection}{\numberline {2.3.2}曲率}{13}{subsection.2.3.2}%
-\contentsline {subsection}{\numberline {2.3.3}曲率和挠率的一般形式}{14}{subsection.2.3.3}%
-\contentsline {section}{\numberline {2.4}曲线论基本定理}{17}{section.2.4}%
-\contentsline {subsection}{\numberline {2.4.1}Frenet 公式}{17}{subsection.2.4.1}%
-\contentsline {subsection}{\numberline {2.4.2}唯一性}{18}{subsection.2.4.2}%
-\contentsline {subsection}{\numberline {2.4.3}存在性}{18}{subsection.2.4.3}%
-\contentsline {section}{\numberline {2.5}曲线在一点处的展开}{19}{section.2.5}%
-\contentsline {section}{\numberline {2.6}平面曲线的整体性质}{20}{section.2.6}%
-\contentsline {subsection}{\numberline {2.6.1}等周问题}{20}{subsection.2.6.1}%
-\contentsline {subsection}{\numberline {2.6.2}旋转指标定理}{22}{subsection.2.6.2}%
-\contentsline {subsection}{\numberline {2.6.3}四顶点定理}{23}{subsection.2.6.3}%
-\contentsline {chapter}{\numberline {3}曲面局部性质}{25}{chapter.3}%
-\contentsline {section}{\numberline {3.1}曲面局部性质}{25}{section.3.1}%
-\contentsline {section}{\numberline {3.2}切平面}{27}{section.3.2}%
-\contentsline {section}{\numberline {3.3}第一基本形式：切空间上的内积}{29}{section.3.3}%
-\contentsline {section}{\numberline {3.4}第二基本形式：尝试刻画曲面的弯曲程度}{33}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Gauss 曲率再次尝试刻画弯曲}{36}{section.3.5}%
-\contentsline {section}{\numberline {3.6}法曲率}{38}{section.3.6}%
-\contentsline {section}{\numberline {3.7}Weingarten:最后一块拼图}{39}{section.3.7}%
-\contentsline {chapter}{\numberline {4}特殊曲面}{48}{chapter.4}%
-\contentsline {section}{\numberline {4.1}保长对应}{48}{section.4.1}%
-\contentsline {section}{\numberline {4.2}可展曲面}{49}{section.4.2}%
-\contentsline {section}{\numberline {4.3}极小曲面}{51}{section.4.3}%
-\contentsline {section}{\numberline {4.4}旋转面}{53}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}常高斯曲率的旋转面}{54}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}旋转极小曲面}{55}{subsection.4.4.2}%
-\contentsline {chapter}{\numberline {5}曲面论基本定理}{56}{chapter.5}%
-\contentsline {section}{\numberline {5.1}活动标架法和曲面基本方程}{56}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}活动标架法}{56}{subsection.5.1.1}%
-\contentsline {section}{\numberline {5.2}曲面基本方程}{57}{section.5.2}%
-\contentsline {section}{\numberline {5.3}曲面论基本定理}{61}{section.5.3}%
-\contentsline {chapter}{\numberline {6}曲面上的曲线}{64}{chapter.6}%
-\contentsline {section}{\numberline {6.1}测地曲率和测地挠率}{64}{section.6.1}%
-\contentsline {section}{\numberline {6.2}曲面上的三种曲线}{69}{section.6.2}%
-\contentsline {section}{\numberline {6.3}测地线的性质}{73}{section.6.3}%
-\contentsline {section}{\numberline {6.4}参数网}{78}{section.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}正交参数网（局部上F=0）}{79}{subsection.6.4.1}%
-\contentsline {subsection}{\numberline {6.4.2}曲率线参数网（局部上 \(F = M = 0\)）}{79}{subsection.6.4.2}%
-\contentsline {chapter}{\numberline {7}曲面的整体性质}{87}{chapter.7}%
-\contentsline {section}{\numberline {7.1}测地三角形的Gauss公式}{87}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Gauss - Bonnet 定理, 局部版本}{90}{section.7.2}%
+\contentsline {subsection}{\numberline {2.3.3}曲率和挠率的一般形式}{15}{subsection.2.3.3}%
+\contentsline {section}{\numberline {2.4}曲线论基本定理}{18}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Frenet 公式}{18}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}唯一性}{19}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}存在性}{19}{subsection.2.4.3}%
+\contentsline {section}{\numberline {2.5}曲线在一点处的展开}{20}{section.2.5}%
+\contentsline {section}{\numberline {2.6}平面曲线的整体性质}{21}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}等周问题}{21}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}旋转指标定理}{23}{subsection.2.6.2}%
+\contentsline {subsection}{\numberline {2.6.3}四顶点定理}{25}{subsection.2.6.3}%
+\contentsline {chapter}{\numberline {3}曲面局部性质}{27}{chapter.3}%
+\contentsline {section}{\numberline {3.1}曲面局部性质}{27}{section.3.1}%
+\contentsline {section}{\numberline {3.2}正则曲面与函数图像}{28}{section.3.2}%
+\contentsline {section}{\numberline {3.3}切平面}{30}{section.3.3}%
+\contentsline {section}{\numberline {3.4}第一基本形式：切空间上的内积}{31}{section.3.4}%
+\contentsline {section}{\numberline {3.5}第二基本形式：尝试刻画曲面的弯曲程度}{34}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Gauss 曲率再次尝试刻画弯曲}{37}{section.3.6}%
+\contentsline {section}{\numberline {3.7}法曲率}{38}{section.3.7}%
+\contentsline {section}{\numberline {3.8}Weingarten:最后一块拼图}{39}{section.3.8}%
+\contentsline {chapter}{\numberline {4}特殊曲面}{43}{chapter.4}%
+\contentsline {section}{\numberline {4.1}保长对应}{43}{section.4.1}%
+\contentsline {section}{\numberline {4.2}极小曲面}{46}{section.4.2}%
+\contentsline {section}{\numberline {4.3}旋转面}{47}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}常高斯曲率的旋转曲面}{48}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}旋转极小曲面}{49}{subsection.4.3.2}%
+\contentsline {chapter}{\numberline {5}曲面论基本定理}{51}{chapter.5}%
+\contentsline {section}{\numberline {5.1}活动标架法和曲面基本方程}{51}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}活动标架法与曲面基本方程}{51}{subsection.5.1.1}%
+\contentsline {section}{\numberline {5.2}曲面基本方程}{52}{section.5.2}%
+\contentsline {section}{\numberline {5.3}曲面论基本定理}{55}{section.5.3}%
+\contentsline {chapter}{\numberline {6}曲面上的曲线}{58}{chapter.6}%
+\contentsline {section}{\numberline {6.1}测地曲率和测地挠率}{58}{section.6.1}%
+\contentsline {section}{\numberline {6.2}曲面上的三种曲线}{63}{section.6.2}%
+\contentsline {section}{\numberline {6.3}测地线的性质}{67}{section.6.3}%
+\contentsline {section}{\numberline {6.4}参数网}{72}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}正交参数网（局部上F=0）}{73}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}曲率线参数网（局部上 \(F = M = 0\)）}{73}{subsection.6.4.2}%
+\contentsline {chapter}{\numberline {7}曲面的整体性质}{81}{chapter.7}%
+\contentsline {section}{\numberline {7.1}测地三角形的Gauss公式}{81}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Gauss - Bonnet 定理, 局部版本}{84}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Gauss-Bonnet定理整体性质}{85}{section.7.3}%
