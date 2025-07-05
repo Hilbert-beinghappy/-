@@ -1,0 +1,1164 @@
+% 使用 ExBook 文档类，并传递选项
+\documentclass[padp]{ExBook} 
+\DeclareMathOperator{\cov}{cov}
+
+\begin{document}
+
+% 加载配置  
+\include{config}
+
+% 加载封面
+\maketitle 
+ 
+
+
+
+
+\setcounter{page}{1}
+\tableofcontents 
+    
+\clearpage 
+\section{概率论入门}
+
+\begin{qitems}
+
+    \begin{bbox}
+        \qitem   设 $A, B$ 为随机事件, 且 $P(A) = 0.4$, 又 $P(AB) = P(A\overline{B})$, 求 $P(B)$.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设 $P(A) = \frac{1}{3}, P(B|A) = \frac{1}{2}$, $P(A-B) = \blankline$.
+    \end{bbox}
+    \begin{bbox}
+        \qitem   设 $P(A) = 0.4, P(A \cup B) = 0.7$,
+\begin{enumerate}
+    \item[(1)] 若 $A, B$ 互斥, 则 $P(B) = \blankline$;
+    \item[(2)] 若 $A, B$ 相互独立, 则 $P(B) = \blankline$.
+\end{enumerate}
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设两两相互独立的事件 $A, B, C$ 满足: $ABC = \emptyset, P(A)=P(B)=P(C) < \frac{1}{2}$, 且有 $P(A \cup B \cup C) = \frac{9}{16}$, 则 $P(A) = \blankline$.
+    \end{bbox}
+    \begin{bbox}
+        \qitem   设 $A, B$ 为两个相互独立的随机事件, 且 $A, B$ 都不发生的概率为 $\frac{1}{9}$, $A$ 发生 $B$ 不发生的概率与 $A$ 不发生 $B$ 发生的概率相等, 则 $P(A) = \blankline$.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设 $A, B$ 为随机事件, $P(A)=0.7, P(B)=0.4, P(A-B)=0.5$, 则 $P(A \cup B | \overline{A}) = \blankline$.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设 $P(A) = \frac{1}{3}, P(B|A) = \frac{2}{3}, P(A|B) = \frac{3}{5}$, 则 $P(A \cup B) = \blankline$.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设 $A, B, C$ 为三个事件, $P(A)=P(B)=P(C)=\frac{1}{4}, P(AB)=P(BC)=0, P(AC)=\frac{1}{8}$, 则 $A, B, C$ 都不发生的概率为 \blankline.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设 $X, Y$ 为随机变量, 且 $P\{X \ge 0\} = \frac{1}{2}, P\{Y \ge 0\} = \frac{3}{5}, P\{X \ge 0, Y \ge 0\} = \frac{1}{4}$, 则
+\begin{enumerate}
+    \item[(1)] $P(\min(X,Y) < 0) = \blankline$;
+    \item[(2)] $P(\max(X,Y) \ge 0) = \blankline$.
+\end{enumerate}
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设 $A, B$ 为两个事件;
+\begin{enumerate}
+    \item[(1)] 设 $P(A)>0$. 证明: 若 $P(B|A) = P(B)$, 则 $A, B$ 相互独立;
+    \item[(2)] 设 $0 < P(A) < 1$. 证明: 若 $P(B|A) = P(B|\overline{A})$, 则 $A, B$ 相互独立;
+    \item[(3)] 设 $0 < P(A) < 1$. 证明: 若 $P(B|A) + P(\overline{B}|\overline{A}) = 1$, 则 $A, B$ 相互独立.
+\end{enumerate}
+    \end{bbox}
+    \begin{bbox}
+        \qitem  从学校去车站共经过 5 个红绿灯, 各信号灯之间相互独立, 每个路口遇到红灯的概率为 $\frac{3}{5}$, 求从学校到车站遇到红灯次数不超过一次的概率.
+    \end{bbox}
+     \begin{bbox}
+        \qitem  甲乙两人约定上午 9 点到 10 点之间约会, 两人到达时间差不超过 10 分钟则约会成功, 两人到达时间差超过 10 分钟则约会失败, 求两者约会成功的概率.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设口袋中共有 10 个球, 其中 4 个红球, 6 个白球, 从中取两次, 每次取一球, 取后不放回.
+\begin{enumerate}
+    \item[(1)] 求第二次取到白球的概率;
+    \item[(2)] 已知第二次取到白球, 求第一次也取到白球的概率.
+\end{enumerate}
+    \end{bbox}
+     \begin{bbox}
+        \qitem  设工厂 A 与工厂 B 的次品率分别为 $1\%$ 和 $2\%$. 现从由 A 和 B 生产的产品分别占 $60\%$ 和 $40\%$ 的一批产品中随机抽取一件, 发现是次品, 求该次品是 A 生产的概率.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设 $X$ 服从参数为 $\lambda (\lambda > 0)$ 的泊松分布, $Y$ 在 $0 \sim X$ 中等可能取整数, 求 $P(Y=2)$.
+    \end{bbox}
+   
+\end{qitems}
+\section{一维随机变量}
+\textbf{随机变量与分布函数}
+\vspace{1em}
+
+对于抛硬币试验,
+事件 $A_1 = \{$正面向上$\}$, $A_2 = \{$反面向上$\}$.
+
+定义随机变量 $X$. $X$ 有两个取值 0 和 1.
+令 $P\{X=0\} = P(A_1)$, $P\{X=1\} = P(A_2)$.
+
+\textcolor{red}{随机变量在一定的取值范围里本质上就是随机事件.}
+\textcolor{red}{若在某范围内取不到, 则为不可能事件.}
+\textcolor{red}{若必然取到, 如 $\{-\infty < X < +\infty\}$, 则为必然事件.}
+
+\vspace{1em}
+
+\textbf{定义}: 随机变量的分布函数
+$$ F(x) = P\{X \le x\} = P\{X \in (-\infty, x]\} $$
+注: $P\{X=a\} = P\{X \le a\} - P\{X < a\} = F(a) - F(a-0) = F(a) - \lim_{x\to a^-}F(x)$ \\
+逻辑: A/C 互斥, 即 $P(A \cap C) = 0 \implies P(A)+P(C)=P(A \cup C)$ \quad ($A \cup C = B$)
+
+\vspace{1em}
+\textbf{$F(x)$ 的性质}
+\begin{enumerate}[label=\arabic*.]
+    \item $0 \le F(x) \le 1$
+    \item $F(x) \uparrow$ (单调不减)
+    \item $F(x)$ 右连续
+    \item $F(-\infty)=0, F(+\infty)=1$
+\end{enumerate}
+
+\hrulefill
+\vspace{1em}
+
+\textbf{离散型随机变量}
+\vspace{1em}
+
+对于离散型随机变量 $X$, $X$ 的取值可能是可列个.
+$$ P\{X=x_i\} = p_i $$
+注:
+\begin{enumerate}[label=\arabic*.]
+    \item $p_i \ge 0$
+    \item $\sum_i p_i = 1$
+    \item 对于 $X$ 的分布函数 $F(x) = P\{X \le x\}$ \\
+    $P\{X=a\} = F(a) - F(a-0)$
+\end{enumerate}
+
+\hrulefill
+\vspace{1em}
+
+\textbf{连续型随机变量}
+\vspace{1em}
+
+$X$ 的分布函数为 $F(x)$, $\exists f(x) \ge 0$, $f(x)$ 可积,
+$\forall x$, 有 $F(x) = \int_{-\infty}^{x} f(t)dt$.
+则称 $X$ 为连续型随机变量, 称 $f(x)$ 为 $X$ 的概率密度.
+
+\vspace{1em}
+\textbf{$f(x)$ 的性质}
+\begin{enumerate}[label=\arabic*.]
+    \item $f(x) \ge 0$
+    \item $\int_{-\infty}^{+\infty} f(x)dx = 1$
+    \item $F(x) = \int_{-\infty}^{x} f(t)dt$ 一定连续但不一定可导
+    \item \textcolor{red}{$P\{X=a\} = F(a) - F(a-0) = 0$ (连续型随机变量在任一点处概率为0)}
+    \item \textcolor{red}{若 $F(x)$ 可导, 则 $F'(x)=f(x)$}
+\end{enumerate}
+
+\hrulefill
+\vspace{1em}
+
+\textbf{常见分布}
+\vspace{1em}
+
+\textbf{一. 离散型}
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{0-1 分布}: $X$ 为0或1, 且 $P\{X=1\}=p$. \\
+    $P\{X=0\}=1-p$. ($X \sim (1-p, p)$) \\
+    称 $X$ 服从 0-1 分布, 记 $X \sim B(1,p)$. \\
+    期望 $EX=p$, 方差 $DX=p(1-p)$.
+
+    \item \textbf{二项分布} \\
+    $X$ 的分布律为 $P\{X=k\} = C_n^k p^k (1-p)^{n-k}$.
+    记 $X \sim B(n,p)$. \\
+    (0-1 分布就是 $n=1$ 时的二项分布) \\
+    期望 $EX=np$, 方差 $DX=np(1-p)$.
+
+    \item \textbf{泊松分布} (一旦考到大题, 大概率结合级数) \\
+    $X$ 的分布率为 $P\{X=k\} = \frac{\lambda^k}{k!}e^{-\lambda}$, 记 $X \sim P(\lambda)$. \\
+    期望 $EX=\lambda$, 方差 $DX=\lambda$.
+
+    \item \textbf{几何分布} \\
+    $X$ 的分布率为 $P\{X=k\} = p(1-p)^{k-1}$, 记 $X \sim G(p)$. \\
+    期望 $EX=\frac{1}{p}$, 方差 $DX=\frac{1-p}{p^2}$.
+\end{enumerate}
+
+\vspace{1em}
+\textbf{二. 连续型}
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{均匀分布} \\
+    $f(x) = \begin{cases} \frac{1}{b-a}, & a \le x \le b \\ 0, & \text{其他} \end{cases}$, 记 $X \sim U(a,b)$. \\
+    期望 $EX = \frac{a+b}{2}$, 方差 $DX=\frac{(b-a)^2}{12}$.
+    
+    \item \textbf{指数分布} \\
+    $f(x) = \begin{cases} \lambda e^{-\lambda x}, & x > 0 \\ 0, & \text{其他} \end{cases}$, 记 $X \sim E(\lambda)$. \\
+    期望 $EX = \frac{1}{\lambda}$, 方差 $DX = \frac{1}{\lambda^2}$.
+    
+    \item \textbf{正态分布} \\
+    $f(x) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$, 记 $X \sim N(\mu, \sigma^2)$. \\
+    期望 $EX = \mu$, 方差 $DX = \sigma^2$.
+\end{enumerate}
+
+\hrulefill
+\vspace{1em}
+
+\textbf{正态分布详解}
+\vspace{1em}
+
+\textbf{标准正态分布} \\
+标准正态分布的概率密度为
+$$ \varphi(u) = \frac{1}{\sqrt{2\pi}}e^{-\frac{u^2}{2}} $$
+其分布函数表示为 $\Phi(x) = \int_{-\infty}^{x} \varphi(t)dt$.
+$$ \Phi(x) = P\{X \le x\} $$
+记为: $X \sim N(0,1)$. \\
+\textbf{性质}: 
+\begin{enumerate}[label=\arabic*.]
+    \item $\Phi(0)=\frac{1}{2}$
+    \item $\Phi(-a)=1-\Phi(a)$
+\end{enumerate}
+
+\vspace{1em}
+\textbf{一般正态分布} \\
+若 $X \sim N(\mu, \sigma^2)$, 则
+\begin{enumerate}[label=\arabic*.]
+    \item $P\{X \le \mu\} = \frac{1}{2}$, $P\{X \ge \mu\} = \frac{1}{2}$
+    \item $\frac{X-\mu}{\sigma} \sim N(0,1)$
+    \item $P\{a \le X \le b\} = P\{X \le b\} - P\{X < a\}$ \\
+    $= P\{\frac{X-\mu}{\sigma} \le \frac{b-\mu}{\sigma}\} - P\{\frac{X-\mu}{\sigma} < \frac{a-\mu}{\sigma}\}$ \\
+    $= \Phi(\frac{b-\mu}{\sigma}) - \Phi(\frac{a-\mu}{\sigma})$
+\end{enumerate}
+\clearpage
+
+\begin{qitems}
+
+    \begin{bbox}
+        \qitem  设随机变量 $X$ 的分布函数为
+$$ F(x) = 
+\begin{cases}
+0, & x < -1, \\
+0.3, & -1 \le x < 0, \\
+0.8, & 0 \le x < 1, \\
+1, & x \ge 1,
+\end{cases}
+$$
+求随机变量 $X$ 的分布律.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  对目标进行三次独立射击, 设三次射击中至少命中目标一次的概率为 $\frac{7}{8}$, 则最多命中目标一次的概率为 \blankline.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设一次射击命中率为 $p$, $X$ 表示独立重复对目标进行射击直到命中两次的射击次数, 则 $X$ 的分布律为 \blankline.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  12 件产品中有 8 件正品, 4 件次品, 从中一次性任取两件, 用 $X$ 表示其中次品的个数, 求 $X$ 的分布律, 并求 $X$ 的分布函数.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设 $X \sim B(2, p), Y \sim B(3, p)$, 若 $P\{X \ge 1\} = \frac{5}{9}$, 求 $P\{Y \ge 1\}$.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  甲口袋装有 3 个白球 1 个红球, 乙口袋装有 3 个白球 2 个红球, 从甲口袋取 1 个球放入乙口袋, 再从乙口袋任取 2 个球, 用 $X$ 表示其中的红球数, 求 $X$ 的分布律.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设 $X_1, X_2$ 为两个连续型随机变量, 其密度函数为 $f_1(x), f_2(x)$, 分布函数为 $F_1(x), F_2(x)$, 下列结论正确的是( \quad ).
+        \fourchoices{$f_1(x)+f_2(x)$ 为某随机变量的密度函数}
+        {$f_1(x)f_2(x)$ 为某随机变量的密度函数}
+        {$F_1(x)+F_2(x)$ 为某随机变量的分布函数}
+        {$f_1(x)F_2(x)+f_2(x)F_1(x)$ 为某随机变量的密度函数}
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设 $X$ 为连续型随机变量, $f(x), F(x)$ 分别为其概率密度函数和分布函数, 当 $x<0$ 时, $f(x)=0$; 当 $x>0$ 时, $f(x)+2F(x)=2$, 求 $X$ 服从的分布.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设随机变量 $X$ 的密度函数 $f(x)$ 为偶函数, 其分布函数为 $F(x)$, 则( \quad )
+\fourchoices{$F(x)$ 为偶函数}
+        {$F(-a) = 2F(a)-1$}
+        { $F(-a) = 1 - \int_0^a f(x)dx$}
+        {$F(-a) = \frac{1}{2} - \int_0^a f(x)dx$}
+    \end{bbox}
+    \begin{bbox}
+        \qitem  \begin{enumerate}
+    \item[(1)] 设 $X \sim N(\mu, \sigma^2)$, 方程 $y^2+4y+X=0$ 无实根的概率为 $\frac{1}{2}$, 则 $\mu = \blankline$.
+    \item[(2)] 设 $X \sim N(\mu, \sigma^2)$, 则 $P\{|X-\mu| < 3\sigma\} = \blankline$.
+\end{enumerate}
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设 $X \sim N(\mu, 4^2), Y \sim N(\mu, 5^2)$, 令 $p = P\{X \le \mu-4\}, q = P\{Y \ge \mu+5\}$, 则
+           \fourchoices{对任意实数 $\mu$ 都有 $p=q$}
+        {对任意实数 $\mu$ 都有 $p<q$}
+        {对个别 $\mu$, 才有 $p=q$}
+        {对任意实数 $\mu$ 都有 $p>q$}
+    \end{bbox}
+     \begin{bbox}
+        \qitem  设随机变量 $X \sim E(\lambda) (\lambda > 0)$, 则 $P\{X > \sqrt{D(X)}\} = \blankline$.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设随机变量 $X$ 的概率密度为
+$$ f(x) = ae^{-x^2+2x} \quad (-\infty < x < +\infty), $$
+\begin{enumerate}
+    \item[(1)] 求 $a$;
+    \item[(2)] 求 $P\{X \ge 1\}$.
+\end{enumerate}
+    \end{bbox}
+     \begin{bbox}
+        \qitem  设 $X \sim E(3)$, 求 $P\{X \le 3 | X > 1\}$.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设随机变量 $X$ 的概率密度为
+$$ f(x) = \begin{cases} \frac{1}{2}\cos\frac{x}{2}, & 0 < x < \pi, \\ 0, & \text{其他}, \end{cases} $$
+对 $X$ 重复观察 4 次, 用 $Y$ 表示 4 次观察中出现 $X > \frac{\pi}{3}$ 的次数,
+\begin{enumerate}
+    \item[(1)] 求 $Y$ 的分布;
+    \item[(2)] 求 $E(Y^2)$. \textcolor{red}{(第二问暂时超出了目前的准备, 学...)}
+\end{enumerate}
+    \end{bbox}
+     \begin{bbox}
+        \qitem  设 $X \sim U(0,2)$, 求随机变量 $Y=X^2$ 的概率密度.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设 $X \sim N(0,1)$, 且 $Y=X^2$, 求随机变量 $Y$ 的概率密度.
+    \end{bbox}
+        \begin{bbox}
+        \qitem  设 $X \sim N(0,1)$, 且 $Y=X^2$, 求随机变量 $Y$ 的概率密度.
+    \end{bbox}
+        \begin{bbox}
+        \qitem  设 $X \sim E(2), Y=1-e^{-2X}$, 求 $f_Y(y)$.
+    \end{bbox}
+        \begin{bbox}
+        \qitem   设随机变量 $X \sim E(5), Y=\min\{X, 2\}$, 求 $Y$ 的分布函数.
+    \end{bbox}
+        \begin{bbox}
+        \qitem  设 $X$ 的密度函数为
+$$ f(x) = 
+\begin{cases}
+x, & 0 < x < 1, \\
+2-x, & 1 < x < 2, \\
+0, & \text{其他},
+\end{cases}
+$$
+\begin{enumerate}
+    \item[(1)] 求 $X$ 的分布函数 $F(x)$;
+    \item[(2)] 若 $Y=F(X)$, 求 $F_Y(y)$.
+\end{enumerate}
+    \end{bbox}
+\end{qitems}
+
+\section{二维随机变量}
+\begin{qitems}
+
+    \begin{bbox}
+        \qitem 设二维随机变量 $(X,Y)$ 的联合概率密度为
+        $$ f(x,y) = \begin{cases} axe^{-x(y+1)}, & x>0, y>0, \\ 0, & \text{其他}, \end{cases} \quad (a>0). $$
+        \begin{subqitems}
+            \subqitem 求常数 $a$;
+            \subqitem 求随机变量 $X, Y$ 的边缘密度函数.
+        \end{subqitems}
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设随机变量 $(X,Y)$ 的联合密度为
+        $$ f(x,y) = \begin{cases} 2e^{-(x+2y)}, & x>0, y>0, \\ 0, & \text{其他}. \end{cases} $$
+        求 $P\{Y \ge X\}$.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设区域 $D = \{(x,y) | x^2+y^2 \le 4, y \ge 0\}$. 二维随机变量 $(X,Y)$ 在区域 $D$ 上服从均匀分布, 求 $X$ 的条件密度 $f_{X|Y}(x|y)$.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设 $X \sim \begin{pmatrix} -1 & 0 & 1 \\ \frac{1}{4} & \frac{1}{2} & \frac{1}{4} \end{pmatrix}, Y \sim \begin{pmatrix} 0 & 1 \\ \frac{1}{2} & \frac{1}{2} \end{pmatrix}$, 且 $P\{XY=0\}=1$.
+        \begin{subqitems}
+            \subqitem 求 $(X,Y)$ 的联合分布;
+            \subqitem 判断 $X,Y$ 是否相互独立.
+        \end{subqitems}
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设二维随机变量 $(X,Y)$ 的联合分布律为
+        \begin{center}
+        \begin{tabular}{|c|c|c|}
+        \hline
+        X/Y & 0 & 1 \\
+        \hline
+        0 & 0.3 & $a$ \\
+        \hline
+        1 & $b$ & 0.2 \\
+        \hline
+        \end{tabular}
+        \end{center}
+        已知事件 $\{X+Y=1\}$ 与 $\{X=0\}$ 相互独立, 求常数 $a, b$.
+    \end{bbox}
+    
+    \begin{bbox}
+        \qitem 设二维随机变量 $(X,Y) \sim N(1,1,1,4;0)$, 求 $P\{XY+1 < X+Y\}$.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设随机变量 $X \sim U(0,1)$, 在 $X=x (0<x<1)$下, 随机变量 $Y \sim U(0,x)$.
+        \begin{subqitems}
+            \subqitem 求 $Y$ 的边缘密度;
+            \subqitem 求 $P\{X+Y \le 1\}$.
+        \end{subqitems}
+    \end{bbox}
+    
+    \begin{bbox}
+        \qitem 设随机变量 $X, Y$ 相互独立, 且其边缘分布函数为 $F_X(x), F_Y(y)$.
+        \begin{subqitems}
+            \subqitem 求 $Z=\min(X,Y)$ 的分布函数;
+            \subqitem 求 $Z=\max(X,Y)$ 的分布函数.
+        \end{subqitems}
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设 $X \sim U(0,1), Y \sim E(2)$ 且 $X, Y$ 相互独立, 求 $Z=X+Y$ 的概率密度函数.
+    \end{bbox}
+    
+    \begin{bbox}
+        \qitem 设 $X \sim N(\mu, \sigma^2), Y \sim U(-\pi, \pi)$ 且 $X, Y$ 相互独立, 求 $Z=X+Y$ 的密度函数.
+    \end{bbox}
+    \begin{bbox}
+        \qitem 设随机变量 $X \sim U(0,1)$, 随机变量 $Y$ 的分布律为 $Y \sim \begin{pmatrix} -1 & 1 \\ \frac{1}{4} & \frac{3}{4} \end{pmatrix}$, 又 $Z=X+Y$, 求 $Z$ 的分布函数.
+    \end{bbox}
+\end{qitems}
+\section{随机变量的数值特征}
+\textbf{数学期望}
+\vspace{1em}
+
+\textbf{一、一维随机变量的期望}
+\vspace{0.5em}
+
+\textit{1. 离散型}
+\vspace{0.5em}
+
+先研究离散型一维随机变量.
+$X$ 的分布率如下:
+$$ P\{X=x_i\} = P_i \quad (i=1, \dots, N, \dots) $$
+定义 $E(X)$ 为 $X$ 的数学期望
+$$ EX = \sum_{i=1}^{\infty} x_i P_i $$
+\textcolor{red}{注意这里是无穷, 所以此知识点容易与无穷级数结合, 但通常情况下都是有限项, 要知其中玄妙, 请继续努力学习.}
+
+若 $Y=\varphi(X)$, 则 $EY = \sum_{i=1}^{\infty} \varphi(x_i) \cdot P_i$.
+
+\underline{例}:
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+X & -1 & 0 & 1 \\
+\hline
+P & 1/4 & 1/4 & 1/2 \\
+\hline
+\end{tabular}
+\end{center}
+$EX = -1 \cdot \frac{1}{4} + 1 \cdot \frac{1}{2} = \frac{1}{4}$. \textcolor{red}{就这么个简单道理.}
+
+\vspace{1em}
+\textit{2. 连续型}
+\vspace{0.5em}
+
+再研究一维连续型随机变量.
+设 $X$ 为随机变量, $f(x)$ 为其概率密度.
+设 $E(X)$ 为其数学期望
+$$ \text{则 } EX = \int_{-\infty}^{+\infty} x f(x) dx $$
+对于 $Y=\varphi(X)$, 则 $EY = \int_{-\infty}^{+\infty} \varphi(x) f(x) dx$.
+
+\hrulefill
+\vspace{1em}
+
+\textbf{二、二维随机变量的期望}
+\vspace{0.5em}
+
+\textit{1. 离散型}
+\vspace{0.5em}
+
+再研究二维离散型随机变量.
+$(X,Y)$ 为二维离散型随机变量, 其分布率为 $P\{X=x_i, Y=y_j\} = p_{ij} \quad (i=1,\dots, j=1,\dots)$.
+若 $Z=\varphi(X,Y)$, 定义 $EZ$ 为 $Z$ 的数学期望.
+$$ EZ = \sum_{i=1}^{\infty}\sum_{j=1}^{\infty} \varphi(x_i, y_j) p_{ij} $$
+
+\vspace{1em}
+\textit{2. 连续型}
+\vspace{0.5em}
+
+最后研究二维连续型随机变量 $(X,Y)$.
+其联合概率密度为 $f(x,y)$.
+设 $Z=\varphi(X,Y)$, 则
+$$ EZ = \int_{-\infty}^{+\infty} dx \int_{-\infty}^{+\infty} \varphi(x,y) f(x,y) dy $$
+
+\hrulefill
+\vspace{1em}
+
+\textbf{三、期望的性质}
+\begin{enumerate}[label=(\arabic*), itemsep=3pt]
+    \item 对于常数 $C$, $E(C) = C$.
+    \item $E(kX) = kEX$.
+    \item $E(X+Y) = EX+EY$.
+    \item $E(k_1X_1 + \dots + k_nX_n) = k_1EX_1 + \dots + k_nEX_n$.
+    \item \textcolor{red}{若 $X,Y$ 独立 $\implies E(XY)=EX \cdot EY$. 反之不对!!}
+\end{enumerate}
+\textcolor{red}{期望可理解为估值.}
+
+\hrulefill
+\vspace{1em}
+
+\textbf{方差}
+\vspace{1em}
+
+期望的概念讲完了, 下面来讲方差.
+
+\textbf{定义}: $D(X) = E\{[X-EX]^2\}$
+\textcolor{red}{其实就 X 偏离其期望 EX 的平方的期望值.}
+
+\underline{例}:
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+X & -1 & 0 & 1 \\
+\hline
+P & 1/3 & 1/3 & 1/3 \\
+\hline
+\end{tabular}
+\end{center}
+$EX = -1 \cdot \frac{1}{3} + 0 \cdot \frac{1}{3} + 1 \cdot \frac{1}{3} = 0$.
+X 作为随机变量有可能取到 -1, 0, 1.
+当取到 -1, 0, 1 时, 偏离的绝对值为 $|X-EX|=1, 0, 1$.
+$(X-EX)^2$ 即偏离的数值的平方.
+其期望 $E(X-EX)^2$ 被称为 X 的方差 $DX$.
+
+\vspace{1em}
+\textbf{计算方差的常规方法推导}:
+\textcolor{red}{(如果理解不了也没关系, 不会影响后续的学习)}
+$$ E(X-EX)^2 = E(X^2 - 2X \cdot EX + (EX)^2) $$
+\textcolor{red}{注意 X 是随机变量, 但 EX 只是一个常数.}
+\begin{align*}
+    &= E(X^2) - 2E(X \cdot EX) + E((EX)^2) \\
+    &= EX^2 - 2EX \cdot EX + (EX)^2 \\
+    &= EX^2 - (EX)^2
+\end{align*}
+即 $DX = EX^2 - (EX)^2$.
+\textcolor{red}{背. 公式 $EX^2 = DX + (EX)^2$}.
+
+\vspace{1em}
+\textbf{方差的性质}:
+\begin{enumerate}[label=(\arabic*), itemsep=3pt]
+    \item $(X-EX)^2 \ge 0 \implies E(X-EX)^2 \ge 0 \implies DX \ge 0$. \textcolor{red}{记住}.
+    \item 对于常数 $C$, 它不是随机变量, 故其取值不会波动. $C=E(C)$.
+    $\therefore D(C) = E(C-EC)^2 = E(0) = 0$.
+    \item $D(kX) = k^2 DX$. \\
+    \underline{证明}: $D(kX) = E(kX-E(kX))^2 = E(kX-kEX)^2 = E(k^2(X-EX)^2) = k^2 E(X-EX)^2 = k^2DX$. 证毕.
+    \item $D(aX+b) = a^2 DX$.
+    \item \textcolor{red}{把 c 看作变量, $L(c)=E(X-c)^2$, 此函数最小值的取值点 $c=EX$. 最小值为 $E(X-EX)^2 = DX$.}
+    \item $D(aX+bY) = a^2DX + b^2DY + 2ab\cov(X,Y)$. \\
+    \textcolor{red}{特别地, 当 $X,Y$ 独立, $\cov(X,Y)=0$. $D(aX+bY) = a^2DX+b^2DY$.}
+\end{enumerate}
+
+\hrulefill
+\vspace{1em}
+
+\textbf{协方差和相关系数}
+\vspace{1em}
+
+\textbf{协方差的定义}:
+$X,Y$ 为随机变量, $DX, DY$ 存在.
+定义 $X,Y$ 的协方差
+$$ \cov(X,Y) = E((X-EX)(Y-EY)) $$
+注: $DX = E(X-EX)^2 = E((X-EX)(X-EX))$.
+$\therefore \cov(X,X) = DX$.
+由定义, 显然 $\cov(X,Y) = \cov(Y,X)$.
+
+\vspace{1em}
+\textbf{相关系数的定义}:
+定义 $\rho_{XY}$ 为 $X,Y$ 的相关系数
+$$ \rho_{XY} = \frac{\cov(X,Y)}{\sqrt{DX}\sqrt{DY}} $$
+
+\vspace{1em}
+\textbf{协方差的计算公式}: \textcolor{red}{(背)}
+$$ \cov(X,Y) = E(XY) - EX \cdot EY $$
+\underline{证明}: $\cov(X,Y) = E((X-EX)(Y-EY))$
+\begin{align*}
+    &= E(XY - X \cdot EY - Y \cdot EX + EX \cdot EY) \\
+    &= E(XY) - E(X \cdot EY) - E(Y \cdot EX) + E(EX \cdot EY) \\
+    &= E(XY) - EY \cdot EX - EX \cdot EY + EX \cdot EY \\
+    &= E(XY) - EX \cdot EY. \text{ 证毕.}
+\end{align*}
+\textcolor{red}{再次提醒: EX, EY 只是一个常数.}
+
+\vspace{1em}
+\textbf{协方差的性质}: \textcolor{red}{(背)}
+\begin{enumerate}[label=(\arabic*), itemsep=3pt]
+    \item $\cov(X,X) = DX$.
+    \item $X,Y$ 独立 $\implies \cov(X,Y)=0$. \textcolor{red}{反之不对!!}
+    \item $\cov(X,Y) = \cov(Y,X)$.
+    \item $\cov(kX, Y) = \cov(X, kY) = k\cov(X,Y)$.
+    \item $\cov(X, k_1Y_1+k_2Y_2) = k_1\cov(X,Y_1) + k_2\cov(X,Y_2)$.
+    \item 若 $\rho_{XY}=0 \iff \cov(X,Y)=0$.
+    \item 若 $\rho_{XY}=-1 \iff P\{Y=aX+b\}=1 \quad (a<0)$.
+    \item 若 $\rho_{XY}=1 \iff P\{Y=aX+b\}=1 \quad (a>0)$.
+\end{enumerate}
+
+\clearpage
+
+\begin{qitems}
+
+    \begin{bbox}
+        \qitem 设随机变量 $X$ 服从参数为 $\lambda$ 的泊松分布, 且 $E[(X-1)(X-2)]=1$, 则 $\lambda = \blankline$.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设 $X$ 表示 10 次独立重复射击命中目标的次数, 每次射击命中概率为 0.4, 则 $E(X^2) = \blankline$.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设试验成功的概率为 $\frac{3}{4}$, 失败的概率为 $\frac{1}{4}$, 独立重复该试验直到成功两次为止. 求试验次数的数学期望.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设随机变量 $X$ 的密度函数为
+        $$ f(x) = \begin{cases} 2^{-x}\ln 2, & x>0, \\ 0, & x \le 0. \end{cases} $$
+        对 $X$ 进行独立重复观察 4 次, 用 $Y$ 表示 4 次中出现 $X>3$ 的次数, 求 $E(Y^2)$.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设随机变量 $X \sim E(3)$, 求 $E(X^2+e^{-X})$.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设随机变量 $X$ 的分布函数为 $F(x) = 0.4\Phi(\frac{x-1}{2}) + 0.6\Phi(3x+1)$, 其中 $\Phi(x)$ 为标准正态变量的分布函数, 求 $E(X)$.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设 $X,Y$ 为随机变量, 且 $D(X)=3, D(Y)=2$,
+        \begin{subqitems}
+            \subqitem 若 $X,Y$ 相互独立, 则 $D(3X-2Y) = \blankline$;
+            \subqitem 若 $\rho_{xy} = \frac{1}{2}$, 则 $D(3X-2Y) = \blankline$.
+        \end{subqitems}
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设 $X \sim N(0,1), Y \sim N(0,1)$, 且 $X,Y$ 相互独立, 求 $E(|X-Y|), D(|X-Y|)$.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设二维随机变量 $(X,Y)$ 在区域 $D$ 上服从均匀分布, 其中 $D$ 是以 $(0,1), (1,0), (1,1)$ 为顶点的三角形区域, 且 $U=X+Y$, 求 $E(U)$.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设 $X \sim N(0,1), Y \sim N(0,1)$ 且 $X,Y$ 相互独立, 设 $Z = \sqrt{X^2+Y^2}$, 求 $E(Z), D(Z)$.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 投硬币 $n$ 次, 用 $X,Y$ 分别表示出现正面和反面的次数, 求 $\rho_{XY}$.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设 $X_i \sim N(\mu, \sigma^2) (i=1,2,\dots,n)$ 且 $X_1, X_2, \dots, X_n$ 相互独立, 令
+        $$ \bar{X} = \frac{1}{n}\sum_{i=1}^{n}X_i, \quad Y_i = X_i - \bar{X} \quad (i=1,2,\dots,n), $$
+        求:
+        \begin{subqitems}
+            \subqitem $P\{Y_1+Y_n > 0\}$;
+            \subqitem $E(Y_1), D(Y_1)$;
+            \subqitem $\text{Cov}(Y_1, Y_n)$.
+        \end{subqitems}
+    \end{bbox}
+
+\end{qitems}
+
+\section{大数定律}
+\textbf{切比雪夫不等式}
+\vspace{1em}
+
+设随机变量 $X$. 其期望为 $EX$, 方差为 $DX$. \\
+\textcolor{red}{注意: $DX$ 和 $EX$ 都是常数.}
+
+切比雪夫不等式:
+$$ P\{|X-EX| \ge \epsilon\} \le \frac{DX}{\epsilon^2} \quad \text{或} \quad P\{|X-EX| < \epsilon\} \ge 1-\frac{DX}{\epsilon^2} $$
+
+\textcolor{red}{如何理解这个不等式?} \\
+\textcolor{red}{$X$ 是变量, $X$ 落点位置与 $EX$ 的距离 $|X-EX|$ 大于 $\epsilon$ 的概率小于 $\frac{DX}{\epsilon^2}$.}
+
+\hrulefill
+\vspace{1em}
+
+\textbf{定理 (辛钦大数定律)}
+\vspace{1em}
+
+\textbf{定理}: 设 $X_1, \dots, X_n$ 独立且同分布 (\textcolor{red}{$EX_i, DX_i$ 全都一样}), $EX_i = \mu$, 则对 $\forall \epsilon > 0$,
+$$ \lim_{n\to\infty} P\left\{\left|\frac{1}{n}\sum_{i=1}^{n}X_i - \mu\right| < \epsilon\right\} = 1 $$
+即
+$$ \frac{1}{n}\sum_{i=1}^{n}X_i (\bar{X}) \to \mu \quad (n \to \infty) $$
+
+$E\left(\frac{1}{n}\sum_{i=1}^{n}X_i\right) = E(\bar{X}) = \frac{1}{n}(EX_1 + \dots + EX_n) = \frac{1}{n}n\mu = \mu$.
+
+\textcolor{red}{这个定理想法就是: $\bar{X}$ 为统计量, 样本越大 (即 $n$ 越大), $\bar{X}$ 与其总体的期望 $\mu$ 的距离越小. 这是一个小学生都知道的公理, 现在不过将这一公理用极限的语言描述出来.} \\
+\textcolor{red}{此即辛钦大数定律.}
+
+\hrulefill
+\vspace{1em}
+
+\textbf{定理 (中央极限定理)}
+\vspace{1em}
+
+\textbf{定理}: 设 $X_1, \dots, X_n$ 独立同分布, $EX_i=\mu, DX_i=\sigma^2$.
+对 $\forall x \in \mathbb{R}$:
+$$ \lim_{n\to\infty} P\left\{\frac{\sum_{i=1}^{n}X_i - n\mu}{\sqrt{n}\sigma} \le x\right\} = \Phi(x) $$
+\textcolor{red}{其中 $\Phi(x)$ 是标准正态分布 $N(0,1)$ 的分布函数.}
+
+\vspace{1em}
+\textcolor{red}{
+\textbf{分析}:
+\begin{align*}
+E\left(\sum_{i=1}^{n}X_i\right) &= EX_1 + \dots + EX_n = n\mu \\
+\therefore E\left(\sum_{i=1}^{n}X_i - n\mu\right) &= 0 \\
+D\left(\sum_{i=1}^{n}X_i\right) &= DX_1 + \dots + DX_n = n\sigma^2 \\
+\implies D\left(\sum_{i=1}^{n}X_i - n\mu\right) &= n\sigma^2 \\
+D\left(\frac{\sum_{i=1}^{n}X_i - n\mu}{\sqrt{n}\sigma}\right) &= \frac{1}{n\sigma^2} D\left(\sum_{i=1}^{n}X_i - n\mu\right) = \frac{n\sigma^2}{n\sigma^2} = 1
+\end{align*}
+这个定理的核心意思就是: 只要样本足够大 ($n$ 够大), 只要一个统计量 $\left(\frac{\sum X_i - n\mu}{\sqrt{n}\sigma}\right)$ 的期望为 0, 方差为 1, 则近似看作服从于 $N(0,1)$ 分布 (正态).
+当 $n \to \infty$ (即样本无穷大时), 可看作完全服从于 $N(0,1)$.
+}
+\clearpage
+\begin{qitems}
+
+    \begin{bbox}
+        \qitem 设 $X \sim E(\frac{1}{2})$, 用切比雪夫不等式估计 $P\{-3 < X < 7\}$.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设 $X$ 服从参数为 3 的泊松分布, 用切比雪夫不等式估计 $P\{-5 < X < 11\}$.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设 $E(X)=-1, D(X)=1, E(Y)=3, D(Y)=4$ 且 $\rho_{xy}=\frac{1}{2}$, 用切比雪夫不等式估计 $P\{-3 < X+Y < 7\}$.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设总体 $X \sim E(\lambda) (\lambda>0)$, $(X_1, X_2, \dots, X_n)$ 为来自总体 $X$ 的简单随机样本, 则统计量 $\frac{1}{n}\sum_{i=1}^{n}X_i^2$ 依概率收敛于 \blankline.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设随机变量 $X_1, X_2, \dots, X_n, \dots$ 独立同分布于参数为 $\lambda$ 的指数分布, 则 ( \quad ).
+        \fourchoices
+        {$\lim_{n\to\infty} P\left\{\frac{\lambda\sum_{i=1}^{n}X_i - n}{\sqrt{n}} \le x\right\} = \Phi(x)$}
+        {$\lim_{n\to\infty} P\left\{\frac{\sum_{i=1}^{n}X_i - n}{\sqrt{n\lambda}} \le x\right\} = \Phi(x)$}
+        {$\lim_{n\to\infty} P\left\{\frac{\sum_{i=1}^{n}X_i - \lambda}{\sqrt{n\lambda}} \le x\right\} = \Phi(x)$}
+        {$\lim_{n\to\infty} P\left\{\frac{\sum_{i=1}^{n}X_i - \lambda}{n\lambda} \le x\right\} = \Phi(x)$}
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设随机变量 $X_1, X_2, \dots, X_{25}$ 服从 $E(1)$, 用中心极限定理估计 $P\{\sum_{i=1}^{25}X_i \le 35\}$.
+    \end{bbox}
+    
+    \begin{bbox}
+        \qitem 一生产线生产包装箱, 每箱重量随机, 设平均每箱重量 50 千克, 标准差为 5 千克, 若用载重量为 5 吨的汽车装运, 利用中心极限定理说明每辆车最多装多少箱, 可保证不超载的概率大于 0.977 ($\Phi(2)=0.977$).
+    \end{bbox}
+
+\end{qitems}
+\section{数理统计入门}
+设总体为$X$,
+从总体$X$中取出含$n$个个体的样本$(X_1, \dots, X_n)$
+$n$称为样本容量
+
+若 
+\begin{enumerate}
+    \item $X_1, \dots, X_n$ 相互独立
+    \item $X_1, \dots, X_n$ 的分布与$X$相同
+\end{enumerate}
+则, 称$X_1, \dots, X_n$为来自总体$X$的简单随机样本
+
+定义: \underline{统计量}: 从$X_1, \dots, X_n$为变量构造的, 不含其他变量的函数$g(X_1, \dots, X_n)$称为统计量.
+
+例如: $\frac{1}{n}\sum_{i=1}^{n}X_i (\bar{X})$, $A_2 = \frac{1}{n}\sum_{i=1}^{n}X_i^2$
+
+但是只要包含未知参数, 例如$aX_1+bX_2$, 便不是统计量
+
+常用统计量:
+\begin{enumerate}
+    \item 样本均值 $\bar{X} = \frac{1}{n}\sum_{i=1}^{n}X_i$
+    \item 二阶原点矩: $A_2 = \frac{1}{n}\sum_{i=1}^{n}X_i^2$
+    \item 样本方差 $S^2 = \frac{1}{n-1}\sum_{i=1}^{n}(X_i-\bar{X})^2$ (区别于总体方差$\sigma^2$)
+\end{enumerate}
+
+几个要背的分布
+\begin{enumerate}[label=\arabic*.]
+\item \textbf{$\chi^2$ 分布}
+
+定义: 一组简单随机样本 $X_1, \dots, X_n$ 都服从 $N(0,1)$ 分布,
+则称 $X = X_1^2 + \dots + X_n^2$ 服从 $\chi^2(n)$ 分布,
+其中 $n$ 称为自由度.
+
+性质:
+\begin{enumerate}[label=\arabic*.]
+    \item 若 $X \sim N(0,1)$, 则 $X^2 \sim \chi^2(1)$.
+    \item 若 $X \sim \chi^2(m)$, $Y \sim \chi^2(n)$ 且 $X, Y$ 独立, 则 $X+Y \sim \chi^2(m+n)$.
+    \item 若 $X \sim \chi^2(n)$, 则 $EX=n$, $DX=2n$.
+\end{enumerate}
+
+\item \textbf{$t$ 分布}
+
+若 $X \sim N(0,1)$, $Y \sim \chi^2(n)$ 且 $X, Y$ 独立,
+则称 $T = \frac{X}{\sqrt{Y/n}} \sim t(n)$,
+其中 $n$ 称为自由度.
+
+性质:
+\begin{enumerate}[label=\arabic*.]
+    \item 若 $X \sim t(n)$, 则 $X$ 的概率密度为偶函数.
+    显然 $P(X<0) = \frac{1}{2}$, $P(X>0) = \frac{1}{2}$.
+    \item 若 $X \sim t(n)$, 则 $EX=0$, $DX=\frac{n}{n-2}$.
+\end{enumerate}
+
+\item \textbf{$F$ 分布}
+
+若 $X \sim \chi^2(m)$, $Y \sim \chi^2(n)$ 且 $X, Y$ 独立,
+则 $F = \frac{X/m}{Y/n} \sim F(m,n)$.
+
+\textbf{例:} 若 $X \sim F(m,n)$, 则 $\frac{1}{X} \sim F(n,m)$. \\
+\textbf{证明:}
+$\because X \sim F(m,n)$, $\therefore \exists X_1 \sim \chi^2(m), X_2 \sim \chi^2(n)$
+$X = \frac{X_1/m}{X_2/n}$,
+$\frac{1}{X} = \frac{X_2/n}{X_1/m}$,
+$\therefore \frac{1}{X} \sim F(n,m)$.
+
+\vspace{1em} % 增加一点垂直间距
+
+\textbf{例:} 若 $X \sim t(m)$, 则 $X^2 \sim F(1,m)$. \\
+\textbf{证明:}
+$\because X \sim t(m)$, $\therefore \exists X_1 \sim N(0,1), X_2 \sim \chi^2(m)$.
+$X = \frac{X_1}{\sqrt{X_2/m}}$,
+$X^2 = \frac{X_1^2}{X_2/m} = \frac{X_1^2/1}{X_2/m}$.
+$\because X_1^2 \sim \chi^2(1)$,
+$\therefore X^2 \sim F(1,m)$.
+
+\end{enumerate}
+
+设 $X \sim N(\mu, \sigma^2)$, $X_1, \dots, X_n$ 为来自总体 $X$ 的简单随机样本.
+$\bar{X}, S^2$ 分别为样本均值和样本方差.
+
+\begin{enumerate}[label=\arabic*.]
+    \item $\frac{\bar{X}-\mu}{\sigma/\sqrt{n}} \sim N(0,1)$ \\
+    \textbf{证明:}
+    $E(\bar{X}) = E\left(\frac{1}{n}(X_1+\dots+X_n)\right) = \frac{1}{n}(EX_1+\dots+EX_n) = \frac{1}{n} \cdot n\mu = \mu$
+    
+    $\therefore E(\bar{X}-\mu) = 0$
+    
+    $D(\bar{X}-\mu) = D(\bar{X}) = D\left(\frac{1}{n}(X_1+\dots+X_n)\right) = \frac{1}{n^2}(DX_1+\dots+DX_n) = \frac{1}{n^2} \cdot n\sigma^2 = \frac{1}{n}\sigma^2$
+    
+    $D\left(\frac{\bar{X}-\mu}{\sigma/\sqrt{n}}\right) = \frac{1}{\sigma^2/n} D(\bar{X}-\mu) = \frac{1}{\sigma^2/n} \cdot \frac{\sigma^2}{n} = 1$
+    
+    $\therefore \frac{\bar{X}-\mu}{\sigma/\sqrt{n}} \sim N(0,1)$
+
+    \item $\frac{\bar{X}-\mu}{S/\sqrt{n}} \sim t(n-1)$
+
+    \item $\frac{1}{\sigma^2}\sum_{i=1}^{n}(X_i-\mu)^2 \sim \chi^2(n)$ \\
+    \textbf{证明:} $\frac{X_i-\mu}{\sigma} \sim N(0,1)$
+    
+    $\therefore \sum_{i=1}^{n}\left(\frac{X_i-\mu}{\sigma}\right)^2 = \frac{1}{\sigma^2}\sum_{i=1}^{n}(X_i-\mu)^2 \sim \chi^2(n)$
+
+    \item $\frac{1}{\sigma^2}\sum_{i=1}^{n}(X_i-\bar{X})^2 = \frac{(n-1)S^2}{\sigma^2} \sim \chi^2(n-1)$ \quad ($\star$ 硬背) \\
+    \textbf{证明:} $\frac{1}{\sigma^2}\sum_{i=1}^{n}(X_i-\bar{X})^2 = \frac{n-1}{\sigma^2} \cdot \frac{1}{n-1}\sum_{i=1}^{n}(X_i-\bar{X})^2 = \frac{n-1}{\sigma^2}S^2$ \quad (样本方差的定义)
+
+    \item $\bar{X}$ 与 $S^2$ 独立
+
+    \item $E(S^2) = \sigma^2$ \\
+    \textbf{证明:}
+    $E(S^2) = E\left(\frac{\sigma^2}{n-1} \cdot \frac{n-1}{\sigma^2}S^2\right) = \frac{\sigma^2}{n-1} E\left(\frac{(n-1)S^2}{\sigma^2}\right)$
+    
+    由第4条, $\frac{(n-1)S^2}{\sigma^2} \sim \chi^2(n-1)$,
+    $\therefore E\left(\frac{(n-1)S^2}{\sigma^2}\right) = n-1$
+    
+    $\therefore E(S^2) = \frac{\sigma^2}{n-1}(n-1) = \sigma^2$
+
+\end{enumerate}
+
+
+
+
+\clearpage 
+
+
+
+
+
+
+\begin{qitems}
+
+    \begin{bbox}
+        \qitem 设总体 $X \sim B(n, p)$, $(X_1, X_2, \dots, X_n)$ 为来自总体 $X$ 的简单随机样本, 且
+$\bar{X} = \frac{1}{n}\sum_{i=1}^{n}X_i, S^2 = \frac{1}{n-1}\sum_{i=1}^{n}(X_i-\bar{X})^2$, 记 $T = \bar{X}-S^2$, 求 $E(T)$.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem 设总体 $X \sim N(0, 4)$, 且 $X_1, X_2, X_3, X_4$ 为来自总体的简单随机样本, 且有 $a(X_1-X_2)^2 + b(X_3+X_4)^2 \sim \chi^2(2)$, 求常数 $a, b$.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem   设 $X_1, X_2, \dots, X_n$ 是来自正态总体 $N(\mu, \sigma^2)$ 的简单随机样本, 记
+$S_1^2 = \frac{1}{n-1}\sum_{i=1}^{n}(X_i - \bar{X})^2$, $S_2^2 = \frac{1}{n}\sum_{i=1}^{n}(X_i - \bar{X})^2$,
+$S_3^2 = \frac{1}{n-1}\sum_{i=1}^{n}(X_i - \mu)^2$, $S_4^2 = \frac{1}{n}\sum_{i=1}^{n}(X_i - \mu)^2$,
+则服从自由度为 $n-1$ 的 $t$ 分布的统计量是( \quad ).
+
+\fourchoices{$\frac{\bar{X}-\mu}{S_1/\sqrt{n-1}}$}
+{$\frac{\bar{X}-\mu}{S_2/\sqrt{n-1}}$}
+{$\frac{\bar{X}-\mu}{S_3/\sqrt{n}}$}{$\frac{\bar{X}-\mu}{S_4/\sqrt{n}}$}
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem   设总体 $X \sim N(0, 4)$, 且 $X_1, X_2, X_3, X_4$ 为来自总体的简单随机样本, 求 $U = \frac{X_1-X_2}{\sqrt{X_3^2+X_4^2}}$ 所服从的分布.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem  设总体 $X \sim N(0, 9)$, $X_1, \dots, X_{15}$ 为来自总体 $X$ 的简单随机样本, 则随机变量 $U = \frac{X_1^2+X_2^2+\dots+X_{10}^2}{2(X_{11}^2+X_{12}^2+\dots+X_{15}^2)}$ 服从 \blankline 分布, 自由度为 \blankline.
+    \end{bbox}
+
+    \begin{bbox}
+        \qitem   设总体 $X, Y$ 独立同分布且都服从正态分布 $N(0, 9)$. $X_1, \dots, X_9$ 与 $Y_1, \dots, Y_9$ 是分别来自总体 $X, Y$ 的简单随机样本, 求统计量 $U = \frac{X_1+X_2+\dots+X_9}{\sqrt{Y_1^2+Y_2^2+\dots+Y_9^2}}$ 所服从的分布.
+    \end{bbox}
+    \begin{bbox}
+        \qitem 设 $X \sim t(2)$, 求 $Y = \frac{1}{X^2}$ 所服从的分布.
+    \end{bbox}
+    \begin{bbox}
+        \qitem 8. 设总体 $X \sim N(0, 9)$, $X_1, \dots, X_{15}$ 为来自总体 $X$ 的简单随机样本, 则随机变量 $U = \frac{X_1^2+X_2^2+\dots+X_{10}^2}{2(X_{11}^2+X_{12}^2+\dots+X_{15}^2)}$ 服从 \blankline 分布, 自由度为 \blankline.
+    \end{bbox}
+    \begin{bbox}
+        \qitem 设总体 $X \sim N(0, 9)$, $X_1, X_2, \dots, X_{15}$ 为来自总体 $X$ 的简单随机样本, 求统计量
+$U = \frac{\sum_{i=1}^{10}(-1)^i X_i}{\sqrt{2}\sqrt{X_{11}^2+X_{12}^2+\dots+X_{15}^2}}$
+所服从的分布.
+    \end{bbox}
+    \begin{bbox}
+        \qitem 设总体 $X \sim N(\mu, \sigma^2)$, $X_1, X_2, \dots, X_9$ 为来自总体 $X$ 的简单随机样本, 令 $Y_1 = \frac{1}{6}\sum_{i=1}^{6}X_i$, $Y_2 = \frac{1}{3}\sum_{i=7}^{9}X_i$, $S^2 = \frac{1}{2}\sum_{i=7}^{9}(X_i - Y_2)^2$, 求 $T = \frac{\sqrt{2}(Y_1-Y_2)}{S}$ 所服从的分布.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设总体 $X \sim N(\mu, \sigma^2)$, $(X_1, X_2, \dots, X_n, X_{n+1})$ 为来自总体的简单随机样本, $\bar{X} = \frac{1}{n}\sum_{i=1}^{n}X_i$, $S^2 = \frac{1}{n-1}\sum_{i=1}^{n}(X_i - \bar{X})^2$, 求统计量 $T = \sqrt{\frac{n}{n+1}} \cdot \frac{X_{n+1}-\bar{X}}{S}$ 所服从的分布.
+    \end{bbox}
+    \begin{bbox}
+        \qitem 设 $X \sim N(0,1)$, 对 $0 < a < 1$ 有 $P\{X \ge u_a\} = a$, 又 $Y \sim \chi^2(1)$, 已知 $k > 0$ 且 $P\{Y \ge k^2\} = a$, 求 $k$.
+    \end{bbox}
+    \begin{bbox}
+        \qitem 设随机变量 $X \sim N(0,1)$, 对于 $a \in (0,1)$, 若 $u_a$ 是使得 $P\{X > u_a\} = a$ 成立的数, 求使得 $P\{|X| < x\} = a$ 的 $x$.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设总体 $X \sim N(\mu, \sigma^2)$, $X_1, X_2, \dots, X_n$ 为来自总体的简单随机样本,
+令 $T = \sum_{i=1}^{n}(X_i - \bar{X})^2$, $Y_i = X_i - \bar{X} (i=1, 2, \dots, n)$.
+\begin{subqitems}
+         \subqitem 求 $E(X_1 T)$.
+         \subqitem 求 $\text{Cov}(Y_1, Y_n)$.
+         \subqitem 求 $P\{Y_1+Y_n \le 0\}$.
+ \end{subqitems}
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设总体 $N(\mu, \sigma^2)$, $X_1, X_2, \dots, X_{2n}$ 为来自总体的简单随机样本, $\bar{X} = \frac{1}{2n}\sum_{i=1}^{2n}X_i$,
+$T = \sum_{i=1}^{n}(X_i + X_{n+i} - 2\bar{X})^2$, 求 $E(T), D(T)$.
+    \end{bbox}
+    \begin{bbox}
+        \qitem 设总体 $X \sim N(\mu, \sigma^2)$, 且 $(X_1, X_2, \dots, X_n)$ 为来自总体 $X$ 的简单随机样本, 样本均值 $\bar{X} = \frac{1}{n}\sum_{i=1}^{n}X_i$, 令 $T = \sum_{i=1}^{n}(X_i - \bar{X})^2$, 求 $E(T)$ 及 $D(T)$.
+    \end{bbox}
+    \begin{bbox}
+        \qitem 设总体 $X$ 服从参数为 $\lambda$ 的泊松分布, 且 $(X_1, X_2, \dots, X_n)$ 为来自总体 $X$ 的简单随机样本, 样本均值 $\bar{X} = \frac{1}{n}\sum_{i=1}^{n}X_i$, 令 $S^2 = \frac{1}{n-1}\sum_{i=1}^{n}(X_i - \bar{X})^2$, 求 $E(\bar{X}^2+S^2)$.
+    \end{bbox}
+    \begin{bbox}
+        \qitem 设总体 $X \sim N(\mu_1, \sigma^2), Y \sim N(\mu_2, \sigma^2)$, 又 $(X_1, X_2, \dots, X_m)$ 与 $(Y_1, Y_2, \dots, Y_n)$ 分别为来自总体 $X$ 与 $Y$ 的简单随机样本, 其样本均值分别为 $\bar{X}, \bar{Y}$, 且 $X, Y$ 相互独立, 求:
+$D\left[\sum_{i=1}^{m}(X_i - \bar{X})^2 + \sum_{j=1}^{n}(Y_j - \bar{Y})^2\right]$.
+    \end{bbox}
+    \begin{bbox}
+        \qitem 设总体 $X \sim N(60, 12^2)$, 从总体中抽取容量为 $n$ 的简单随机样本, 问容量 $n$ 至少为多少时, 才能使样本均值大于 54 的概率不小于 0.975. ($\Phi(1.96)=0.975$)
+    \end{bbox}
+\end{qitems}
+
+\section{参数估计}
+ \begin{enumerate}
+    \item \textbf{参数估计的概念}
+    
+    总体 $X$ 的分布函数、概率密度已知, 但其中含有未知参数 $\theta$ (一般只考一个参数的情况).
+    然后, 从总体 $X$ 中取一个简单随机样本 $(X_1, \dots, X_n)$, $(x_1, \dots, x_n)$ 为样本观察值, 利用样本去估计未知参数 $\theta$ 的一系列操作, 称为参数估计.
+    分为:
+    \begin{enumerate}
+        \item 点估计
+        \item 区间估计 
+    \end{enumerate}
+
+    \item \textbf{点估计}
+    
+    \textbf{概念:} 已知总体 $X$ 的分布函数 $F(x; \theta)$ 或概率密度 $f(x; \theta)$, $\theta$ 为未知参数. 再构造一个由样本构成的统计量 $\hat{\theta}(X_1, \dots, X_n)$, 利用样本求出参数的近似值 $\hat{\theta}(x_1, \dots, x_n)$.
+
+    \textbf{常用方法:}
+    \begin{enumerate}
+        \item \textbf{矩估计}
+        \begin{enumerate}[label=\roman*.]
+            \item \textbf{一个参数的情况} \\
+            令 $E\bar{X} = \bar{X}$, (若 $EX$ 中含 $\theta$, 直接解出 $\hat{\theta}$).
+            若 $EX$ 中不含有 $\theta$,
+            则令 $EX^2 = A_2$, ($A_2=\frac{1}{n}\sum X_i^2$, 也是一个已知统计量).
+            
+            \item \textbf{二个参数的情况} \\
+            令
+            $\begin{cases}
+                EX = \bar{X} \\
+                EX^2 = A_2
+            \end{cases}$
+            , 然后解出 $\hat{\theta}_1, \hat{\theta}_2$.
+        \end{enumerate}
+
+        \item \textbf{最大似然估计}
+        \begin{enumerate}[label=\roman*.]
+            \item \textbf{离散型 X} \\
+            令 $L(\theta) = P\{X_1=x_1\} \cdots P\{X_n=x_n\}$.
+            再令 $\frac{d \ln L(\theta)}{d\theta} = 0$, 解出 $\hat{\theta}$.
+            
+            \item \textbf{连续型 X} \\
+            令 $L(\theta) = f(x_1; \theta) \cdots f(x_n; \theta)$.
+            再令 $\frac{d \ln L(\theta)}{d\theta} = 0$, 解出 $\hat{\theta}$.
+        \end{enumerate}
+    
+    \end{enumerate}
+
+    \item \textbf{估计量的评价标准}
+    \begin{enumerate}
+        \item \textbf{无偏性} \\
+        若 $E(\hat{\theta}) = \theta$, 则称 $\hat{\theta}$ 是 $\theta$ 的无偏估计量.
+        
+        \item \textbf{有效性}  \\
+        若 $D(\hat{\theta}_1) < D(\hat{\theta}_2)$,
+        则 $\hat{\theta}_1$ 是比 $\hat{\theta}_2$ 更有效的估计量.
+        
+        \item \textbf{一致性}  \\
+        若 $\forall \epsilon > 0$,
+        $\lim_{n \to \infty} P\{|\hat{\theta} - \theta| < \epsilon\} = 1$ \quad ($\hat{\theta} \xrightarrow{P} \theta \quad (n \to \infty)$)
+        称 $\hat{\theta}$ 为 $\theta$ 的一致估计量.
+    \end{enumerate}
+
+    \item 
+    
+    这一块知识无须冗长的概念叙述, 重点在于拿到题时的操作.
+    做题前只需大概区分一下题类型.
+
+    \textbf{前置:} 设 $X \sim N(\mu, \sigma^2)$, $X_1, \dots, X_n$ 为来自总体 $X$ 的简单随机样本.
+
+    \begin{enumerate}
+        \item 已知 $\sigma^2$, 对 $\mu$ 估计. \\
+        使用统计量 $T = \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \sim N(0,1)$.
+        
+        \item 未知 $\sigma^2$, 对 $\mu$ 估计. \\
+        使用统计量 $T = \frac{\bar{X} - \mu}{S/\sqrt{n}} \sim t(n-1)$.
+        
+        \item $\mu$ 已知, 对 $\sigma^2$ 估计. \\
+        使用统计量 $T = \frac{1}{\sigma^2}\sum_{i=1}^{n}(X_i - \mu)^2 \sim \chi^2(n)$.
+        
+        \item $\mu$ 未知, 对 $\sigma^2$ 估计. \\
+        使用统计量 $T = \frac{(n-1)S^2}{\sigma^2} = \frac{1}{\sigma^2}\sum_{i=1}^{n}(X_i - \bar{X})^2 \sim \chi^2(n-1)$.
+    \end{enumerate}
+\end{enumerate}
+
+\clearpage
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{qitems}
+
+    \begin{bbox}
+        \qitem  设总体 $X$ 的分布律为 $X \sim \begin{pmatrix} 0 & 1 & 2 \\ p & p & 1-2p \end{pmatrix}$ (其中 $0 < p < \frac{1}{2}$ 为未知参数), 且 $(X_1, X_2, X_3, X_4, X_5)$ 为来自总体的简单随机样本, 其观察值为 $(2, 1, 0, 0, 1)$, 求参数 $p$ 的矩估计值.
+    \end{bbox}
+    
+    \begin{bbox}
+        \qitem   设总体 $X$ 的分布律为
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+$X$ & 1 & 2 & 3 \\
+\hline
+$P$ & $\theta$ & $\theta$ & $1-2\theta$ \\
+\hline
+\end{tabular}
+\end{center}
+其中 $\theta \in (0, \frac{1}{2})$ 是未知参数, $(X_1, X_2, X_3, X_4, X_5)$ 为来自总体的简单随机样本, 其观察值为 $(1, 1, 3, 2, 3)$, 求参数 $\theta$ 的最大似然估计值.
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设总体 $X \sim E(\lambda)$ (其中 $\lambda > 0$ 为未知参数), $(X_1, X_2, \dots, X_n)$ 为来自总体 $X$ 的简单随机样本, 求参数 $\lambda$ 的矩估计量. 
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设总体 $X \sim E(\lambda)$ (其中 $\lambda > 0$ 为未知参数), $(X_1, X_2, \dots, X_n)$ 为来自总体 $X$ 的简单随机样本, 求参数 $\lambda$ 的矩估计量.
+    \end{bbox}
+    \begin{bbox}
+        \qitem   设总体 $X \sim N(\mu, \sigma^2)$ (其中 $\mu, \sigma^2$ 为未知参数), $(X_1, X_2, \dots, X_n)$ 为来自总体 $X$ 的简单随机样本, 求参数 $\mu, \sigma^2$ 的矩估计量. 
+    \end{bbox}
+    \begin{bbox}
+        \qitem   设总体 $X \sim U(\theta_1, \theta_2)$, $X_1, X_2, \dots, X_n$ 是来自总体 $X$ 的简单随机样本, 求 $\theta_1, \theta_2$ 的矩估计和最大似然估计.
+    \end{bbox}
+    \begin{bbox}
+        \qitem   设总体 $X$ 的概率密度为 $f(x, \theta) = 
+\begin{cases}
+\frac{6x}{\theta^3}(\theta-x), & 0 < x < \theta \\
+0, & \text{其他}
+\end{cases}
+$, $X_1, X_2, \dots, X_n$ 为来自总体 $X$ 的简单随机样本.
+\begin{enumerate}
+    \item[(1)] 求 $\theta$ 的矩估计量 $\hat{\theta}$;
+    \item[(2)] 求 $D(\hat{\theta})$;
+    \item[(3)] 判断该估计的无偏性.
+\end{enumerate}
+    \end{bbox}
+    \begin{bbox}
+        \qitem   某工程师为了解一台天平的精度, 用该天平对一物体的质量做 $n$ 次测量, 该物体的质量 $\mu$ 是已知的. 设 $n$ 次测量的结果 $X_1, X_2, \dots, X_n$ 相互独立且都服从正态分布 $N(\mu, \sigma^2)$. 该工程师记录的是 $n$ 次测量的绝对误差 $Z_i = |X_i - \mu| \ (i=1, 2, \dots, n)$, 利用 $Z_1, Z_2, \dots, Z_n$ 估计 $\sigma$.
+\begin{enumerate}
+    \item[(1)] 求 $Z_i$ 的概率密度;
+    \item[(2)] 利用一阶矩求 $\sigma$ 的矩估计量;
+\end{enumerate}
+    \end{bbox}
+    \begin{bbox}
+        \qitem    设总体 $X \sim N(0, \sigma^2)$, $(X_1, X_2, \dots, X_n)$ 为来自总体 $X$ 的简单随机样本, 且 $(1+k)n\bar{X}^2 + (1-5k)S^2$ 为参数 $\sigma^2$ 的无偏估计量, 求常数 $k$.
+    \end{bbox}
+    \begin{bbox}
+        \qitem   设 $X \sim U(0, \theta)$ (其中 $\theta > 0$ 为未知参数), $(X_1, X_2, X_3)$ 为来自总体 $X$ 的简单随机样本, 问估计量 $\hat{\theta} = \min\{X_1, X_2, X_3\}$ 是否是参数 $\theta$ 的无偏估计量?
+    \end{bbox}
+    \begin{bbox}
+        \qitem    设总体 $X \sim N(\mu, \sigma^2)$, $(X_1, X_2, \dots, X_n)$ 为来自正态总体 $X$ 的简单随机样本, $T = \bar{X}^2 - \frac{1}{n}S^2$, 其中 $\bar{X} = \frac{1}{n}\sum_{i=1}^{n}X_i, S^2 = \frac{1}{n-1}\sum_{i=1}^{n}(X_i - \bar{X})^2$, 问统计量 $T$ 是否为 $\mu^2$ 的无偏估计量?
+    \end{bbox}
+    \begin{bbox}
+        \qitem    设总体 $X \sim f(x) = 
+\begin{cases}
+2e^{-2(x-\theta)}, & x > \theta \\
+0, & x \le \theta
+\end{cases}
+$, $(X_1, X_2, \dots, X_n)$ 是来自总体的简单随机样本, 求参数 $\theta$ 的矩估计量 $\hat{\theta}$, 讨论该估计量是否具有无偏性和一致性.
+    \end{bbox}
+    \begin{bbox}
+        \qitem   设相互独立的正态分布 $X \sim N(\mu_1, \sigma_1^2), Y \sim N(\mu_2, \sigma_2^2)$, 且 $(X_1, X_2, \dots, X_m)$ 与 $(Y_1, Y_2, \dots, Y_n)$ 分别为来自总体 $X$ 及 $Y$ 的简单随机样本 $(m>1, n>1)$, 又
+$S_1^2 = \frac{1}{m-1}\sum_{i=1}^{m}(X_i - \bar{X})^2, S_2^2 = \frac{1}{n-1}\sum_{j=1}^{n}(Y_j - \bar{Y})^2$,
+对任意常数 $a > 0, b > 0$, 且 $a+b=1, T = aS_1^2 + bS_2^2$, 求使得 $D(T)$ 取最小值时的 $a, b$.
+    \end{bbox}
+    \begin{bbox}
+        \qitem    设总体 $X \sim N(\mu, \sigma^2)$ (其中 $\sigma$ 为已知参数), $(X_1, X_2, \dots, X_n)$ 为来自总体 $X$ 的简单随机样本, 参数 $\mu$ 的置信度为 $1-\alpha$ 的双侧置信区间的长度与 $\sigma$ 的关系为( \quad ).
+        \fourchoices{$\sigma$ 越大, 则置信区间的长度越大}
+{$\sigma$ 越大, 则置信区间的长度越小}
+{置信区间的长度与 $\sigma$ 无关}{置信区间的长度与 $\sigma$ 的关系不确定}
+    \end{bbox}
+    \begin{bbox}
+        \qitem  设 $0.50, 1.25, 0.80, 2.00$ 是来自总体 $X$ 的简单随机样本的观察值. 已知 $Y=\ln X$ 服从正态分布 $N(\mu, 1)$.
+\begin{enumerate}
+    \item[(1)] 求 $X$ 的数学期望 $E(X)$ (记 $E(X)=b$);
+    \item[(2)] 求 $\mu$ 的置信度为 $0.95$ 的置信区间;
+    \item[(3)] 利用上述结果求 $b$ 的置信度为 $0.95$ 的置信区间. ($u_{0.025}=1.96$)
+\end{enumerate} 
+    \end{bbox}
+ 
+\end{qitems}
+\section{假设检验}
+假设检验, 顾名思义分两步, 假设, 再检验这个假设是否被接受.
+
+一般题干中给出假设, 我们要做的就是去检验在既定的显著性水平下, 假设是否被接受.
+
+\textcolor{red}{这个题型本质上还是求`置信区间`, 你所假设的`参数`若入了`置信区间`则假设成立, 否则不成立.}
+
+\begin{qitems}
+
+    \begin{bbox}
+        \qitem  设某次考试考生成绩服从正态分布, 从中随机抽取 36 位考生的成绩, 平均成绩为 66.5 分, 总体均方差为 15 分. 问在显著性水平为 0.05 下, 是否可以认为这次考试全体考生的平均成绩为 70 分? ($t_{0.025} = 1.96$)
+    \end{bbox}
+    
+\end{qitems}
+
+\section{课上重点题}
+$$L(\theta, \mu) = \prod_{i=1}^n \frac{1}{\theta}e^{-\frac{x_i-\mu}{\theta}} = \left(\frac{1}{\theta}\right)^n e^{-\frac{1}{\theta}\sum_{i=1}^n(x_i-\mu)}, \quad \text{其中 } \mu < x_{(1)}$$对数似然函数为：$$\ln L(\theta, \mu) = -n\ln\theta - \frac{1}{\theta}\left(\sum_{i=1}^n x_i - n\mu\right)$$
+\end{document}
