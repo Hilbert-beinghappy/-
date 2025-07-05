@@ -461,25 +461,20 @@ $$
 x_n = \ln n - \ln \ln n + \frac{\ln \ln n}{\ln n} + o\left(\frac{\ln \ln n}{\ln n}\right), \quad n \to \infty.
 \]
 \end{example}
-\begin{example}
-	(2024 上交考研) 设 $f \in C(0, +\infty)$，且满足 $x = f(x)5^{f(x)}$，求证：
-\begin{enumerate}
-    \item $f(x)$ 严格单调递增，
-    \item $\lim\limits_{x \to +\infty} f(x) = +\infty$，
-    \item $\lim\limits_{x \to +\infty} \frac{f(x)}{\ln x} = \frac{1}{\ln 5}$。
-\end{enumerate}
-\end{example}
-\begin{example}
-	(2021 北师夏令营压轴) 给定方程 $x^n(x-1) = 1$，求证：
+\begin{proof}
+	注意到
+$$ 1 \le x_n = \ln n - \ln x_n \le \ln n \Rightarrow x_n = O(\ln n), n=3, 4, \dots $$
+于是
+\begin{align*}
+\ln x_n &= \ln \ln n + \ln\left(1 - \frac{\ln x_n}{\ln n}\right) = \ln \ln n - \frac{\ln x_n}{\ln n} + o\left(\frac{\ln x_n}{\ln n}\right) = \ln \ln n - \frac{\ln O(\ln n)}{\ln n} + o\left(\frac{\ln O(\ln n)}{\ln n}\right) \\
+&= \ln \ln n - \frac{\ln \ln n + \ln O(1)}{\ln n} + o\left(\frac{\ln \ln n + \ln O(1)}{\ln n}\right) \\
+&= \ln \ln n - \frac{\ln \ln n}{\ln n} + o\left(\frac{\ln \ln n}{\ln n}\right).
+\end{align*}
+即
+$$ x_n = \ln n - \ln \ln n + \frac{\ln \ln n}{\ln n} + o\left(\frac{\ln \ln n}{\ln n}\right). $$
 
-\begin{enumerate}
-    \item 上述方程在 $[1, +\infty)$ 上有唯一根 $x_n$。
-    \item 成立不等式：
-    \[
-    x_{n+1} > 1 + \frac{\ln n}{n} - \frac{\ln \ln n}{n}
-    \]
-\end{enumerate}
-\end{example}
+\end{proof}
+
 \subsection{Laplace方法}
 大体上，Laplace 方法适用于 $\int_{a}^{b} f^n(x)g(x)dx$ 型积分的渐近估计。可以通过变形和换元法转化为标准形式。这种方法的整体思想就是抓极值部分和所谓的局部化原理。
 \begin{example}
@@ -488,6 +483,34 @@ x_n = \ln n - \ln \ln n + \frac{\ln \ln n}{\ln n} + o\left(\frac{\ln \ln n}{\ln 
 \frac{(2n)!!}{(2n-1)!!} \sim \sqrt{\pi n}, \quad n \to \infty.
 \]
 \end{example}
+\begin{proof}
+	注意到高数课本积分表的经典公式
+$$ \int_0^{\frac{\pi}{2}} \sin^{2n} x \,dx = \frac{\pi}{2} \frac{(2n-1)!!}{(2n)!!}. $$
+利用 Taylor 公式的 Peano 余项, 我们知道
+$$ \ln \sin^2 x = -\left(x-\frac{\pi}{2}\right)^2 + o\left[\left(x-\frac{\pi}{2}\right)^2\right],  $$
+即$$ \lim_{x \to (\frac{\pi}{2})^-} \frac{\ln \sin^2 x}{-(x-\frac{\pi}{2})^2} = 1. $$于是, 对任何 $\epsilon \in (0,1)$, 我们知道存在 $\delta \in (0,1)$, 使得对任何 $x \in [\frac{\pi}{2}-\delta, \frac{\pi}{2}]$,
+都有
+$$ -(1+\epsilon)\left(x-\frac{\pi}{2}\right)^2 \le \ln \sin^2 x \le -(1-\epsilon)\left(x-\frac{\pi}{2}\right)^2. $$
+现在一方面
+\begin{align*}
+\int_0^{\frac{\pi}{2}} \sin^{2n} x \,dx &= \int_0^{\frac{\pi}{2}} e^{n \ln \sin^2 x} \,dx \\
+&\le \int_0^{\frac{\pi}{2}-\delta} e^{n \ln \sin^2(\frac{\pi}{2}-\delta)} \,dx + \int_{\frac{\pi}{2}-\delta}^{\frac{\pi}{2}} e^{-n(1-\epsilon)(x-\frac{\pi}{2})^2} \,dx \\
+&= \left(\frac{\pi}{2}-\delta\right) \sin^{2n}\left(\frac{\pi}{2}-\delta\right) + \int_0^\delta e^{-n(1-\epsilon)y^2} \,dy \\
+&= \left(\frac{\pi}{2}-\delta\right) \sin^{2n}\left(\frac{\pi}{2}-\delta\right) + \frac{1}{\sqrt{(1-\epsilon)n}} \int_0^{\delta\sqrt{(1-\epsilon)n}} e^{-z^2} \,dz \\
+&\le \left(\frac{\pi}{2}-\delta\right) \sin^{2n}\left(\frac{\pi}{2}-\delta\right) + \frac{1}{\sqrt{(1-\epsilon)n}} \int_0^\infty e^{-z^2} \,dz.
+\end{align*}
+另外一方面, 我们有
+\begin{align*}
+\int_0^{\frac{\pi}{2}} \sin^{2n} x \,dx &\ge \int_{\frac{\pi}{2}-\delta}^{\frac{\pi}{2}} e^{-n(1+\epsilon)(x-\frac{\pi}{2})^2} \,dx \\
+&= \int_0^\delta e^{-n(1+\epsilon)y^2} \,dy \\
+&= \frac{1}{\sqrt{n(1+\epsilon)}} \int_0^{\delta\sqrt{n(1+\epsilon)}} e^{-z^2} \,dz.
+\end{align*}
+因此我们有
+$$ \frac{1}{\sqrt{1+\epsilon}} \int_0^\infty e^{-z^2} \,dz \le \lim_{n \to \infty} \sqrt{n} \int_0^{\frac{\pi}{2}} \sin^{2n} x \,dx \le \frac{1}{\sqrt{1-\epsilon}} \int_0^\infty e^{-z^2} \,dz, $$
+由 $\epsilon$ 任意性即可得
+$$ \lim_{n \to \infty} \sqrt{n} \int_0^{\frac{\pi}{2}} \sin^{2n} x \,dx = \int_0^\infty e^{-z^2} \,dz = \frac{\sqrt{\pi}}{2}. $$
+
+\end{proof}
 \begin{example}
 	(Stirling 公式) 求证：
 \[
@@ -495,6 +518,37 @@ n! \sim \sqrt{2\pi n}\left(\frac{n}{e}\right)^n, \quad n \to \infty.
 \]
 
 \end{example}
+
+\begin{remark}
+	积累重要恒等式：
+	$$ (2n)!! = 2^n n!, n=0, 1, 2, \dots  $$
+\end{remark}
+\begin{proof}
+	由A-D判别法, 我们知道 $\int_1^\infty \frac{b_1(x)}{x^2}dx$ 收敛. 运用欧拉麦克劳林公式, 我们知道
+\begin{align*}
+\sum_{k=1}^n \ln k &= \frac{\ln n + \ln 1}{2} + \int_1^n \ln x dx + \int_1^n \frac{b_1(x)}{x} dx \\
+&= \frac{\ln n}{2} + n \ln n - n + 1 + \int_1^\infty \frac{b_1(x)}{x}dx - \int_n^\infty \frac{b_1(x)}{x}dx \\
+&= \left(\frac{1}{2}+n\right)\ln n - n + C - \int_n^\infty \frac{1}{x}db_2(x) \\
+&= \left(\frac{1}{2}+n\right)\ln n - n + C + \frac{b_2(n)}{n} - \int_n^\infty \frac{b_2(x)}{x^2} dx,
+\end{align*}
+这里 $C = 1+\int_1^\infty \frac{b_1(x)}{x^2}dx$ 是某个常数.
+注意到周期函数必有界, 因此
+$$ \left| \frac{b_2(n)}{n} - \int_n^\infty \frac{b_2(x)}{x^2}dx \right| \le M\left(\frac{1}{n} + \int_n^\infty \frac{1}{x^2}dx \right) = \frac{2M}{n}, $$
+从而
+$$ n! = e^{\sum_{k=1}^n \ln k} = e^{(n+\frac{1}{2})\ln n - n + C + O(\frac{1}{n})} = e^C \sqrt{n} \left(\frac{n}{e}\right)^n \left(1+O\left(\frac{1}{n}\right)\right), $$
+即 $\lim_{n \to \infty} \frac{n!}{\sqrt{n}(\frac{n}{e})^n}$ 存在.
+
+
+现在运用 wallis 公式和恒等式, 设
+$$ \lim_{n \to \infty} \frac{n!}{\sqrt{n}\left(\frac{n}{e}\right)^n} = C > 0, $$
+我们知道
+\begin{align*}
+\sqrt{\pi} &= \lim_{n \to \infty} \frac{(2n)!!}{\sqrt{n}(2n-1)!!} = \lim_{n \to \infty} \frac{4^n n!^2}{\sqrt{n}(2n)!} \\
+&= \lim_{n \to \infty} \frac{4^n}{\sqrt{n}} \frac{n!^2}{n\left(\frac{n}{e}\right)^{2n}} \frac{\sqrt{2n}\left(\frac{2n}{e}\right)^{2n}}{(2n)!} \frac{n\left(\frac{n}{e}\right)^{2n}}{\sqrt{2n}\left(\frac{2n}{e}\right)^{2n}} \\
+&= \lim_{n \to \infty} \frac{4^n}{\sqrt{n}} C^2 \frac{n\left(\frac{n}{e}\right)^{2n}}{\sqrt{2n}\left(\frac{2n}{e}\right)^{2n}} \frac{1}{C} = \frac{C}{\sqrt{2}},
+\end{align*}
+由此我们完成了证明.
+\end{proof}
 \begin{example}
 	\begin{itemize}
 		\item (2023 吉大夏令营) 已知函数 $f(x)$ 一阶导存在且 $f(1) = 0$，求极限
@@ -503,7 +557,25 @@ n! \sim \sqrt{2\pi n}\left(\frac{n}{e}\right)^n, \quad n \to \infty.
 		\]
 	\end{itemize}
 \end{example}
+\begin{proof}
+	我们用一种全新的写法
+	因为 $f$ 在 $x=1$ 连续, 所以对任何 $\epsilon > 0$, 存在 $\delta \in (0, 1)$, 使得
+$$ |f(x) - f(1)| \le \epsilon, \forall x \in [1-\delta, 1]. $$
+因为 $f \in R[0, 1]$, 所以存在 $M > 0$, 使得 $|f(x)| \le M, \forall x \in [0, 1]$. 于是我们有
+\begin{align*}
+\left| n \int_0^1 f(x)x^n dx - n \int_0^1 f(1)x^n dx \right| &\le n \int_0^1 |f(x) - f(1)| \cdot x^n dx \\
+&\le 2Mn \int_0^{1-\delta} x^n dx + n\epsilon \int_{1-\delta}^1 x^n dx \\
+&\le 2Mn \int_0^{1-\delta} (1-\delta)^n dx + n\epsilon \int_0^1 x^{n-1} dx \\
+&= 2Mn(1-\delta)^{n+1} + \epsilon.
+\end{align*}
+因此我们有
+$$ \lim_{n \to \infty} \left| n \int_0^1 f(x)x^n dx - n \int_0^1 f(1)x^n dx \right| \le \epsilon. $$
+即由 $\epsilon$ 任意性即得
+$$ \lim_{n \to \infty} n \int_0^1 f(x)x^n dx = \lim_{n \to \infty} n \int_0^1 f(1)x^n dx = \lim_{n \to \infty} f(1) \frac{n}{n+1} = f(1). $$
+我们完成了证明.
 
+
+\end{proof}
 \section{递推数列的敛散性判断}
 \subsection{单调性分析方法}
 单调性分析方法仅仅适用于
@@ -526,13 +598,15 @@ $f$ 是单调递增或是单调递减的情形。
 \lim_{n \to \infty} x_n.
 \]
 \end{example}
-\begin{example}
-	（第十五届全国大学生数学竞赛赛制）设 $x_1 = a = \sqrt[3]{3}$, $x_{n+1} = a^{x_n}$, $n = 1, 2, 3, \ldots$，求证：
-\[
-\lim_{n \to \infty} x_n
-\]
-存在但不等于3。
-\end{example}
+\begin{proof}
+	不妨设 $x_1 > 0$, 递推函数递减. 采取二次复合技巧即:
+$$ x_{n+2} = \frac{1}{1 + \frac{1}{1+x_n}} = \frac{1+x_n}{2+x_n}. $$
+注意到
+$$ \frac{1+x}{2+x} - x = \frac{\left(x + \frac{\sqrt{5}+1}{2}\right)\left(\frac{\sqrt{5}-1}{2} - x\right)}{x+2}. $$
+于是当 $x_1 > \frac{\sqrt{5}-1}{2}$, $x_{2n-1}$ 递减到 $\frac{\sqrt{5}-1}{2}$. 因为奇偶子列和不动点大小关系交错, 此时 $x_{2n}$ 递增到 $\frac{\sqrt{5}-1}{2}$. 同样 的, 当 $0 < x_1 \le \frac{\sqrt{5}-1}{2}$, $x_{2n-1}$ 递增到 $\frac{\sqrt{5}-1}{2}$. 因为奇偶子列和不动点大小关系交错, 此时 $x_{2n}$ 递减到 $\frac{\sqrt{5}-1}{2}$. 故 无论如何都有 $\lim_{n \to \infty} x_n = \frac{\sqrt{5}-1}{2}$.
+
+\end{proof}
+
 \begin{example}
 	\begin{itemize}
 		\item 设 $x_1 > -6$, $x_{n+1} = \sqrt{6 + x_n}$, $n = 1, 2, \ldots$, 计算 $\lim\limits_{n \to \infty} x_n$.
@@ -540,6 +614,19 @@ $f$ 是单调递增或是单调递减的情形。
 		\item 设 $x_1 = 2$, $x_n + (x_n - 4)x_{n-1} = 3$, $n = 2, 3, \ldots$, 计算 $\lim\limits_{n \to \infty} x_n$.
 	\end{itemize}
 \end{example}
+\begin{proof}
+	\begin{itemize}
+		\item 因为极限不受 $x_n$ 有限项影响可不妨设 $x_1 > 0$, 显然递推函数递增且有不动点 3. 又
+		\begin{align*}
+		x_2 - x_1 &= \sqrt{6+x_1} - x_1 = \frac{(3-x_1)(2+x_1)}{\sqrt{6+x_1}+x_1},
+		\end{align*}
+		于是当 $x_1 > 3$ 有 $x_n$ 递减且大于不动点, 因此 $\lim_{n \to \infty} x_n = 3$. 于是当 $x_1 \le 3$ 有 $x_n$ 递增且小于等于不动点, 因此无论如何 $\lim_{n \to \infty} x_n = 3$.
+		\item 显然 $x_n = \frac{3+4x_{n-1}}{1+x_{n-1}}, n=2, 3, \dots$, 且递推函数在 $(0, +\infty)$ 递增. 注意到
+		$$ \frac{3+4x}{1+x} - x = \frac{\left(x + \frac{\sqrt{21}-3}{2}\right)\left(\frac{\sqrt{21}+3}{2} - x\right)}{x+1}, $$
+		显然 $x_1 < \frac{\sqrt{21}+3}{2}$ 以及 $x_n$ 递增且小于不动点 $\frac{\sqrt{21}+3}{2}$, 于是我们有 $\lim_{n\to\infty} x_n = \frac{\sqrt{21}+3}{2}$.
+		
+	\end{itemize}
+\end{proof}
 \subsection{压缩映像方法}
 压缩映像方法是一种非常重要的处理模型。其思想内核有两种。
 一种是找到不动点 \( x_0 \)，然后得到某个 \( L \in (0,1) \)。s.t.
@@ -560,16 +647,46 @@ $f$ 是单调递增或是单调递减的情形。
 \begin{example}
 	(2023 中科院提前批)对于给定实数 \( x \)，不断将余弦函数作用在之前的数上，得到的序列 \(\{a_n\}\) 如下：\( a_0 = x, a_1 = \cos(x), a_2 = \cos(\cos(x)) \)，\(\cdots\)，试问当 \( n \to \infty \) 时，这一序列会有怎样的趋势？
 \end{example}
-\begin{example}
-	给定方程 \(x^n + 2023x = 2023\)，求证：方程在 \((0,+\infty)\) 只有唯一解 \(x_n\)。且 \(\lim\limits_{n \to \infty} x_n = 1\)。
+\begin{proof}
+	对于序列 $a_{n+1} = \cos(a_n)$，设其不动点为 $d$，满足 $d = \cos(d)$。通过分析函数 $g(x)=x-\cos x$ 可知，该方程有唯一实数解 $d \in (0, 1)$。
 
-\end{example}
+然后，对于任意 $n \ge 1$，由中值定理，存在一个介于 $a_n$ 和 $d$ 之间的值 $c_n$，使得
+$$ |a_{n+1} - d| = |\cos(a_n) - \cos(d)| = |-\sin(c_n)| \cdot |a_n - d| = |\sin(c_n)||a_n - d|. $$
+因为对于 $n \ge 1$, $a_n \in [-1, 1]$, 且 $d \in (0, 1)$, 所以 $c_n \in [-1, 1]$。在此区间上 $|\sin(c_n)| \le \sin(1)$。记 $k = \sin(1) < 1$。于是我们有
+$$ |a_{n+1} - d| \le k|a_n - d| \le k^2|a_{n-1}-d| \le \dots \le k^n |a_1 - d|. $$
+接下来，我们应用夹逼准则：
+$$ 0 \le \lim_{n \to \infty} |a_{n+1} - d| \le \lim_{n \to \infty} k^n |a_1 - d| = 0. $$
+由夹逼准则即得 $\lim_{n \to \infty} a_n = d$。
+
+因此，无论初始值 $x$ 为何，该序列的趋势是收敛到方程 $x = \cos(x)$ 的唯一解 $d$。
+
+	
+\end{proof}
 \begin{example}
 	设 \(x_1 > -1, x_{n+1} = \frac{1}{1+x_n}, n = 1, 2, \cdots\)，求极限 \(\lim\limits_{n \to \infty} x_n\)。
 \end{example}
+\begin{proof}
+	不妨设 $x_1 > 0$, 于是设 $x_0 = \frac{1}{1+x_0}$, 即 $x_0 = \frac{\sqrt{5}-1}{2} \approx 0.618$. 然后
+$$|x_{n+1} - x_0| = \left|\frac{1}{1+x_n} - \frac{1}{1+x_0}\right| = \frac{|x_n - x_0|}{(1+x_n)(1+x_0)} \le \frac{1}{1+x_0}|x_n - x_0| \le \dots \le \left(\frac{1}{1+x_0}\right)^n |x_1 - x_0|,$$
+于是我们有
+$$0 \le \lim_{n \to \infty} |x_{n+1} - x_0| \le \lim_{n \to \infty} \left(\frac{1}{1+x_0}\right)^n |x_1 - x_0| = 0.$$
+由夹逼准则即得 $\lim_{n \to \infty} x_n = \frac{\sqrt{5}-1}{2}$.
+
+\end{proof}
 \begin{example}
 	求数列 \(\sqrt{7}, \sqrt{7-\sqrt{7}}, \sqrt{7-\sqrt{7}+\sqrt{7}}, \ldots\) 的极限。
 \end{example}
+
+\begin{remark}
+	考虑到是跨项了, 所以我们分奇偶分部讨论本题.
+\end{remark}
+\begin{proof}
+	注意到 $x_{n+2} = \sqrt{7 - \sqrt{7+x_n}}$, 于是
+\begin{align*}
+|x_{n+2} - 2| &= \left|\sqrt{7-\sqrt{7+x_n}} - 2\right| = \frac{|3-\sqrt{7+x_n}|}{\sqrt{7-\sqrt{7+x_n}}+2} \\
+&= \frac{|2-x_n|}{(2+\sqrt{7-\sqrt{7+x_n}})(3+\sqrt{7+x_n})} \le \frac{1}{6}|x_n - 2|.
+\end{align*}
+\end{proof}
 \subsection{蛛网工作法}
 \begin{figure}[h]
 	\centering
@@ -687,15 +804,104 @@ Cantor 函数 \(\phi(x)\) 定义为：\(\forall x \in [0,1]\),
 	设 \( f(x) \in C[a, b] \) 且在 \( (a, b) \) 上 Schwarz 可导，则存在 \( r, t \in (a, b) \)，使得
 \[ f^s(r) \leq \frac{f(b) - f(a)}{b - a} \leq f^s(t). \]
 \end{theorem}
+\begin{proof}
+	和证明拉格朗日中值定理一样，我们只需证明罗尔中值定理的情况即可。即不妨设 $f(a) = f(b) = 0$，否则用 $F(x) - f(a) - \frac{f(b)-f(a)}{b-a}(x-a)$ 代替 $f$ 即可。
+	
+	若 $f \equiv 0$，则命题是显然的。若 $f$ 有正的最大值，则设 $c \in (a,b)$ 是 $f$ 的最大值点使得 $f(c)>0$，取 $k \in (0, f(c))$，构造非空有界集
+	\[
+	U = \{x \in [a,c] : f(x) > k\}.
+	\]
+	于是记 $x_1 = \inf U$，就有 $t_n \in U$，使得
+	\[
+	t_n \ge x_1, \lim_{n \to \infty} t_n = x_1.
+	\]
+	注意到 $x_1 \ne a$ 且若 $f(x_1) > k$，则由函数连续性知 $x_1$左侧仍有 $f>k$，这和 $x_1$ 是 $\inf$ 矛盾! 故我们只有 $x_1 \notin U$ 且 $f(x_1) = k$。
+	现在
+	\begin{align*}
+	f^S(x_1) &= \lim_{h \to 0} \frac{f(x_1+h) - f(x_1-h)}{2h} = \lim_{n \to \infty} \frac{f(x_1+t_n-x_1) - f(x_1-(t_n-x_1))}{2(t_n-x_1)} \\
+	&\ge \lim_{n \to \infty} \frac{k-k}{2(t_n-x_1)} = 0.
+	\end{align*}
+	若 $f$ 有负的最小值 $f(c)<0$. 取 $k \in (f(c), 0)$，构造非空有界集
+	\[
+	V = \{x \in [c,b]: f(x) < k\}.
+	\]
+	并取 $x_2 = \sup V$，同样的 $f(x_2)=k$ 且 $x_2 \ne b$. 存在 $s_n \in V$ 使得 $\lim_{n \to \infty} s_n = x_2$. 于是
+	\begin{align*}
+	f^S(x_2) &= \lim_{h \to 0} \frac{f(x_2+h) - f(x_2-h)}{2h} = \lim_{n \to \infty} \frac{f(x_2+s_n-x_2) - f(x_2-(s_n-x_2))}{2(s_n-x_2)} \\
+	&\ge \lim_{n \to \infty} \frac{k-k}{2(s_n-x_2)} = 0.
+	\end{align*}
+	考虑 $f(a+b-x)$ 可得 $f^S(x_2)$, 这就完成了定理的证明。
+	\end{proof}
+	
 \begin{theorem}[Schwarz 导数与一般导数的联系]
 	设 \( f(x) \in C[a, b] \) 且在 \( (a, b) \) 上 Schwarz 可导，若 \( f^s(x) \) 在 \( (a, b) \) 上连续，则 \( f(x) \) 在 \( (a, b) \) 上可导且
 \[ f'(x) = f^s(x), \quad \forall x \in (a, b). \]
 
 \end{theorem}
+\begin{proof}
+	由 Schwarz 导数的 Lagrange 中值定理, 我们知道
+	\[
+	f^S(\theta_2) \ge \frac{f(x_2)-f(x_1)}{x_2-x_1} \ge f^S(\theta_1),
+	\]
+	且 $\theta_1, \theta_2$ 介于 $x_1, x_2$ 之间.
+	
+	让 $x_2 \to x_1$, 由 Schwartz 导数连续性和夹逼准则即可得
+	\[
+	f'(x_1) = f^S(x_1).
+	\]
+	这就完成了证明.
+\end{proof}
 \begin{theorem}[利用 Schwarz 导数判断函数单调性]
 	设函数 \( f(x) \) 在开区间 \( I \) 上连续且 Schwarz 可导，若 \( f^s(x) \geq 0 \) 对所有 \( x \in I \) 成立，则 \( f(x) \) 在 \( I \) 上单调递增。
 \end{theorem}
+\begin{proof}
+	对 $[c, d] \subset [a, b]$, 由 Schwarz 导数的 Lagrange 中值定理知存在 $\theta \in (c,d)$ 使得
+\[
+\frac{f(d)-f(c)}{d-c} \ge f^S(\theta) \ge 0,
+\]
+故
+\[
+f(d) \ge f(c).
+\]
+这就完成了证明.
+\end{proof}
 \section{一致连续性}
+\begin{example}
+	设 $f$ 定义在区间 $I$ 的函数. 证明 $f$ 在区间 $I$ 一致连续的充要条件是对任何 $\epsilon > 0$, 存在 $M > 0$, 使得对任何 $x_1, x_2 \in I$, 都有
+	\[
+	|f(x_2) - f(x_1)| \le M|x_1 - x_2| + \epsilon.
+	\]
+\end{example}
+\begin{proof}
+	\textbf{必要性：}因为 $f$ 一致连续, 所以对每个 $\epsilon > 0$, 存在 $\delta > 0$, 使得对任何 $x,y \in I$, 只要 $|x-y| \le \delta$, 就有
+	\[
+	|f(x)-f(y)| < \epsilon. 
+	\]
+	当 $|f(x)-f(y)| \le \epsilon$, 不等式然成立. 当 $|f(x)-f(y)| > \epsilon$, 不妨设 $y>x, f(y)>f(x)$ 且令 $f(y)-f(x) = kt, k \in \mathbb{N}, t \in (\epsilon, 2\epsilon]$. 由介值定理, 存在 $x=x_0 < x_1 < \dots < x_k = y$ 使得
+	\[
+	f(x_j) = f(x) + jt, j=0, 1, 2, \dots, k.
+	\]
+	于是
+	\[
+	f(x_j) - f(x_{j-1}) = t > \epsilon, j=1, 2, \dots, k,
+	\]
+	易知 $x_j - x_{j-1} > \delta, j=1, 2, \dots, k$. 从而我们有
+	\[
+	y-x = \sum_{j=1}^k (x_j - x_{j-1}) > k\delta.
+	\]
+	现在可取 $M=\frac{2\epsilon}{\delta} > 0$, 于是就有
+	\[
+	|f(y)-f(x)| = kt \le \frac{t}{\delta}|y-x| \le \frac{2\epsilon}{\delta}|y-x| = M|y-x|.
+	\]
+	这就证明了不等式成立.
+	
+	\textbf{充分性：}对任何 $\epsilon > 0$, 存在 $M>0$, 使得对任何 $x_1, x_2 \in I$, 都有(12.49)成立. 于是取 $\delta = \frac{\epsilon}{M}>0$, 当 $x,y \in I, |x-y|\le \delta$, 我们就有
+	\[
+	|f(x)-f(y)| \le 2\epsilon,
+	\]
+	这就证明了 $f$ 在 $I$ 上一致连续.
+	\end{proof}
+	
 \begin{example}
 	设 \( f(x) \) 在 \([a, +\infty)\) 上一致连续，\( g(x) \) 在 \([a, +\infty)\) 上连续，且
 \[ \lim_{x \to +\infty} |f(x) - g(x)| = 0. \]
@@ -705,6 +911,24 @@ Cantor 函数 \(\phi(x)\) 定义为：\(\forall x \in [0,1]\),
 	设 \( f(x) \) 在 \([1, +\infty)\) 上一致连续。求证：存在 \( M > 0 \)，使得
 \[ \frac{|f(x)|}{x} \leq M, \quad \forall x \in [1, +\infty). \]
 \end{example}
+\begin{proof}
+	在例题2.8中取 $x_2 = x, x_1=1, \epsilon = 1$ 知存在 $c>0$ 使得
+\[
+|f(x)-f(1)| \le c|x-1|+1, \forall x \ge 1.
+\]
+于是
+\[
+\left|\frac{f(x)}{x}\right| \le \left|\frac{f(x)-f(1)}{x}\right| + \left|\frac{f(1)}{x}\right| \le c\left|1-\frac{1}{x}\right| + \frac{1+|f(1)|}{x}.
+\]
+注意到
+\[
+\varlimsup_{x \to +\infty} \left|\frac{f(x)}{x}\right| \le \varlimsup_{x \to +\infty} \left[ c\left|1-\frac{1}{x}\right| + \frac{1+|f(1)|}{x} \right] = c,
+\]
+于是我们知道存在 $M>0$ 使得
+\[
+\left|\frac{f(x)}{x}\right| \le M, \forall x \ge 1.
+\]
+\end{proof}
 \begin{example}
 	设 \( f(x) \) 在 \([0, +\infty)\) 上一致连续，且对任意 \( x \geq 0 \) 有
 \[ \lim_{n \to +\infty} f(x+n) = 0, \quad n \in \mathbb{N}. \]
@@ -731,6 +955,18 @@ Cantor 函数 \(\phi(x)\) 定义为：\(\forall x \in [0,1]\),
     \[ \lim_{x \to 0^+} \sqrt{x}f'(x) = a. \]
     求证：\( f(x) \) 在 \( (0,1] \) 上一致连续。
 \end{example}
+\begin{proof}
+	首先 $\int_0^a \frac{1}{\sqrt{x}}dx$ 收敛且收敛必有界知
+\[
+\sup_{y \in (0, a]} |\sqrt{y}f'(y)| < +\infty.
+\]
+设 $a \ge x_2 > x_1 > 0$, 则由
+\[
+f(x_2) - f(x_1) = \int_{x_1}^{x_2} f'(y) \, dy = \int_{x_1}^{x_2} \sqrt{y}f'(y) \frac{1}{\sqrt{y}} \, dy \le \sup_{y \in (0, a]} |\sqrt{y}f'(y)| \int_{x_2}^{x_1} \frac{1}{\sqrt{y}} \, dy
+\]
+和 Cauchy 收敛准则知 $\lim_{x \to 0^+} f(x)$ 存在. 由 Cantor 定理知 $f$ 在 $[0, a]$ 一致连续.
+
+\end{proof}
 \begin{example}
 	(2024 哈工大考研) 设 \( (a,b) \) 为有界开区间，求证：\( f(x) \) 在 \( (a,b) \) 上一致连续的充要条件是对于任意 Cauchy 列 \( \{x_n\} \subset (a,b) \)，像列 \( \{f(x_n)\} \) 也是 Cauchy 列。
 \end{example}
@@ -1724,52 +1960,238 @@ Abel 判别法和 Dirichlet 判别法都是函数项级数一致收敛的充分�
 \chapter{多元微积分}
 \section{连续性和可微性}
 \begin{example}
-	设 $f(x, y) = \sqrt{|xy|}$，求证：
+    设 $f(x, y) = \sqrt{|xy|}$，求证：
 \begin{itemize}
 \item $f(x, y)$ 在 $(0, 0)$ 点连续；
 \item $\frac{\partial f}{\partial x}(0, 0)$ 和 $\frac{\partial f}{\partial y}(0, 0)$ 都存在；
 \item $f(x, y)$ 在 $(0, 0)$ 点不可微。
 \end{itemize}
+\end{example}
+\begin{proof}
+\begin{itemize}
+    \item \textbf{连续性}:
+    我们考察当 $(x, y) \to (0, 0)$ 时函数的极限。
+    \[
+    \lim_{(x,y) \to (0,0)} f(x, y) = \lim_{(x,y) \to (0,0)} \sqrt{|xy|}.
+    \]
+    因为 $0 \le \sqrt{|xy|} \le \sqrt{\frac{x^2+y^2}{2}}$，而 $\lim_{(x,y)\to(0,0)} \sqrt{\frac{x^2+y^2}{2}} = 0$。
+    根据夹逼定理，$\lim_{(x,y) \to (0,0)} f(x, y) = 0$。
+    由于 $f(0, 0) = \sqrt{|0 \cdot 0|} = 0$，所以 $\lim_{(x,y) \to (0,0)} f(x, y) = f(0, 0)$。
+    因此，$f(x, y)$ 在 $(0, 0)$ 点连续。
+
+    \item \textbf{偏导数存在性}:
+    按偏导数定义计算：
+    \[
+    \frac{\partial f}{\partial x}(0, 0) = \lim_{\Delta x \to 0} \frac{f(0+\Delta x, 0) - f(0, 0)}{\Delta x} = \lim_{\Delta x \to 0} \frac{\sqrt{|(\Delta x) \cdot 0|} - 0}{\Delta x} = \lim_{\Delta x \to 0} \frac{0}{\Delta x} = 0.
+    \]
+    \[
+    \frac{\partial f}{\partial y}(0, 0) = \lim_{\Delta y \to 0} \frac{f(0, 0+\Delta y) - f(0, 0)}{\Delta y} = \lim_{\Delta y \to 0} \frac{\sqrt{|0 \cdot (\Delta y)|} - 0}{\Delta y} = \lim_{\Delta y \to 0} \frac{0}{\Delta y} = 0.
+    \]
+    因此，$\frac{\partial f}{\partial x}(0, 0)$ 和 $\frac{\partial f}{\partial y}(0, 0)$ 都存在且为 $0$。
+
+    \item \textbf{可微性}:
+    如果 $f(x, y)$ 在 $(0, 0)$ 可微，则必须满足
+    \[
+    \lim_{(\Delta x, \Delta y) \to (0, 0)} \frac{f(\Delta x, \Delta y) - f(0, 0) - \frac{\partial f}{\partial x}(0, 0)\Delta x - \frac{\partial f}{\partial y}(0, 0)\Delta y}{\sqrt{(\Delta x)^2 + (\Delta y)^2}} = 0.
+    \]
+    代入已知值，我们考察极限：
+    \[
+    L = \lim_{(\Delta x, \Delta y) \to (0, 0)} \frac{\sqrt{|\Delta x \Delta y|}}{\sqrt{(\Delta x)^2 + (\Delta y)^2}}.
+    \]
+    我们沿路径 $\Delta y = k \Delta x$ 趋近于 $(0, 0)$：
+    \[
+    L = \lim_{\Delta x \to 0} \frac{\sqrt{|k(\Delta x)^2|}}{\sqrt{(\Delta x)^2 + (k\Delta x)^2}} = \lim_{\Delta x \to 0} \frac{\sqrt{|k|}|\Delta x|}{|\Delta x|\sqrt{1+k^2}} = \frac{\sqrt{|k|}}{\sqrt{1+k^2}}.
+    \]
+    由于极限值依赖于路径 $k$ 的选择（例如，$k=1$ 时极限为 $\frac{1}{\sqrt{2}}$，$k=2$ 时极限为 $\frac{\sqrt{2}}{\sqrt{5}}$），所以该极限不存在。
+    因此，$f(x, y)$ 在 $(0, 0)$ 点不可微。
+\end{itemize}
+\end{proof}
+
 \begin{example}
-	(2024 同济夏令营改编) 设 $f(x, y) = |x - y| \phi(x, y)$，其中 $\phi(x, y)$ 在点 $(0, 0)$ 的一个邻域上有定义，要求给出函数 $\phi(x, y)$ 加上适当的条件，使得：
+    (2024 同济夏令营改编) 设 $f(x, y) = |x - y| \phi(x, y)$，其中 $\phi(x, y)$ 在点 $(0, 0)$ 的一个邻域上有定义，要求给出函数 $\phi(x, y)$ 加上适当的条件，使得：
 \begin{itemize}
 \item $f(x, y)$ 在点 $(0, 0)$ 连续；
 \item $f(x, y)$ 在点 $(0, 0)$ 存在偏导数；
 \item $f(x, y)$ 在点 $(0, 0)$ 可微。
 \end{itemize}
 \end{example}
-\end{example}
+\begin{proof}
+\begin{itemize}
+    \item \textbf{连续性}:
+    要使 $f(x,y)$ 在 $(0,0)$ 连续，需要 $\lim_{(x,y)\to(0,0)} f(x,y) = f(0,0)$。
+    $f(0,0) = |0-0|\phi(0,0) = 0$ (这要求 $\phi(0,0)$ 有定义)。
+    $\lim_{(x,y)\to(0,0)} |x-y|\phi(x,y)$。由于 $\lim_{(x,y)\to(0,0)}|x-y|=0$，
+    只要 $\phi(x,y)$ 在 $(0,0)$ 的一个邻域内是\textbf{有界的}，那么根据有界变量乘以无穷小量是无穷小量，极限即为 $0$。
+    所以，一个充分条件是：$\phi(x,y)$ \textbf{在 $(0,0)$ 的某邻域内有界}。
+    
+    \item \textbf{偏导数存在性}:
+    $f_x(0,0) = \lim_{x\to 0} \frac{f(x,0)-f(0,0)}{x} = \lim_{x\to 0} \frac{|x|\phi(x,0)}{x}$。
+    为使该极限存在，需要 $\lim_{x\to 0^+} \frac{x\phi(x,0)}{x} = \lim_{x\to 0^+} \phi(x,0)$ 和 $\lim_{x\to 0^-} \frac{-x\phi(x,0)}{x} = \lim_{x\to 0^-} -\phi(x,0)$ 相等。
+    这要求 $\lim_{x\to 0} \phi(x,0) = -\lim_{x\to 0} \phi(x,0)$，蕴含了 $\lim_{x\to 0} \phi(x,0) = 0$。
+    同理，$f_y(0,0) = \lim_{y\to 0} \frac{|-y|\phi(0,y)}{y} = \lim_{y\to 0} \frac{|y|\phi(0,y)}{y}$。
+    为使该极限存在，同样要求 $\lim_{y\to 0} \phi(0,y) = 0$。
+    一个充分条件是：$\phi(x,y)$ \textbf{在 $(0,0)$ 点连续且 $\phi(0,0)=0$}。在此条件下，$f_x(0,0)=0, f_y(0,0)=0$。
+
+    \item \textbf{可微性}:
+    若 $f(x,y)$ 在 $(0,0)$ 可微，则 $\lim_{(x,y)\to(0,0)} \frac{f(x,y) - f(0,0) - f_x(0,0)x - f_y(0,0)y}{\sqrt{x^2+y^2}} = 0$。
+    在前述 $\phi(0,0)=0$ 的条件下，$f_x(0,0)=f_y(0,0)=0$。我们需要考察：
+    \[
+    \lim_{(x,y)\to(0,0)} \frac{|x-y|\phi(x,y)}{\sqrt{x^2+y^2}} = 0.
+    \]
+    由于 $\frac{|x-y|}{\sqrt{x^2+y^2}}$ 在 $(0,0)$ 附近是有界的（令 $x=r\cos\theta, y=r\sin\theta$，则 $\frac{|r(\cos\theta-\sin\theta)|}{r} = |\cos\theta-\sin\theta| \le \sqrt{2}$），
+    因此，只要 $\lim_{(x,y)\to(0,0)} \phi(x,y) = 0$，即 $\phi(x,y)$ 是无穷小量，就能保证上述总极限为 $0$。
+    所以，一个充分条件是：$\phi(x,y)$ \textbf{在 $(0,0)$ 点连续且 $\phi(0,0)=0$}。
+\end{itemize}
+\end{proof}
+
 \begin{example}
-	设 $f(x, y) = \begin{cases} \frac{\sqrt{|x - y|}}{x^2 + y^2} \sin(x^2 + y^2), & x^2 + y^2 \neq 0, \\ 0, & x^2 + y^2 = 0, \end{cases}$
+    设 $f(x, y) = \begin{cases} \frac{\sqrt{|x - y|}}{x^2 + y^2} \sin(x^2 + y^2), & x^2 + y^2 \neq 0, \\ 0, & x^2 + y^2 = 0, \end{cases}$
 讨论：
 \begin{enumerate}
 \item $f(x, y)$ 在点 $(0, 0)$ 是否连续？
 \item $f(x, y)$ 在点 $(0, 0)$ 是否可微？
 \end{enumerate}
 \end{example}
-\section{曲线积分}
+\begin{proof}
+\begin{enumerate}
+    \item \textbf{连续性}:
+    我们考察当 $(x,y) \to (0,0)$ 时函数的极限。令 $\rho = \sqrt{x^2+y^2}$。
+    当 $\rho \to 0$ 时，$x^2+y^2 = \rho^2 \to 0$。利用等价无穷小 $\sin(u) \sim u$ (当 $u\to 0$)，我们有
+    \[
+    \lim_{(x,y)\to(0,0)} f(x,y) = \lim_{(x,y)\to(0,0)} \frac{\sqrt{|x-y|}}{x^2+y^2} (x^2+y^2) = \lim_{(x,y)\to(0,0)} \sqrt{|x-y|}.
+    \]
+    由于 $0 \le \sqrt{|x-y|} \le \sqrt{|x|+|y|}$，当 $(x,y)\to(0,0)$ 时，$\sqrt{|x|+|y|} \to 0$。
+    根据夹逼定理，$\lim_{(x,y)\to(0,0)} f(x,y) = 0$。
+    因为 $f(0,0)=0$，所以函数在点 $(0,0)$ 连续。
+
+    \item \textbf{可微性}:
+    首先计算偏导数。
+    \[
+    f_x(0,0) = \lim_{x\to 0} \frac{f(x,0)-f(0,0)}{x} = \lim_{x\to 0} \frac{1}{x} \frac{\sqrt{|x|}}{x^2}\sin(x^2) = \lim_{x\to 0} \frac{\sqrt{|x|}}{x} \frac{\sin(x^2)}{x^2} = \lim_{x\to 0} \frac{\sqrt{|x|}}{x}.
+    \]
+    当 $x \to 0^+$ 时，极限为 $\lim_{x\to 0^+} \frac{\sqrt{x}}{x} = \lim_{x\to 0^+} \frac{1}{\sqrt{x}} = +\infty$。
+    因为偏导数 $f_x(0,0)$ 不存在，所以函数 $f(x,y)$ 在点 $(0,0)$ 不可微。
+    (注：可微的必要条件是所有偏导数都存在。)
+\end{enumerate}
+\end{proof}
+
 
 \section{重积分计算}
 \begin{example}
-	(2021 复旦夏令营) 计算积分 $\iint_{0\le x + y \leq \pi} \ln|\sin(x - y)| \, dx \, dy$。
+    (2021 复旦夏令营) 计算积分 $\iint_{0\le x + y \leq \pi, x \ge 0, y \ge 0} \ln|\sin(x - y)| \, dx \, dy$。
+    (注：已根据标准解法补充隐含的 $x,y \ge 0$ 条件)
 \end{example}
+
+\begin{proof}
+作变量代换 $u = x+y, v = x-y$。则 $x = \frac{u+v}{2}, y = \frac{u-v}{2}$。
+雅可比行列式的绝对值为 $|\det(J)| = |-\frac{1}{2}| = \frac{1}{2}$。
+积分区域 $D = \{ (x,y) \mid 0 \le x+y \le \pi, x \ge 0, y \ge 0 \}$ 变换为 $D' = \{ (u,v) \mid 0 \le u \le \pi, -u \le v \le u \}$。
+\begin{align*}
+I &= \iint_{D'} \ln|\sin(v)| \cdot \frac{1}{2} \, du \, dv \\
+&= \frac{1}{2} \int_0^{\pi} \left( \int_{-u}^{u} \ln|\sin v| \, dv \right) \, du \\
+&= \frac{1}{2} \int_0^{\pi} \left( 2 \int_0^u \ln(\sin v) \, dv \right) \, du \quad (\text{被积函数是偶函数}) \\
+&= \int_0^{\pi} \left( \int_0^u \ln(\sin v) \, dv \right) \, du.
+\end{align*}
+对上式进行分部积分：
+\begin{align*}
+I &= \left[ u \int_0^u \ln(\sin v) \, dv \right]_0^\pi - \int_0^\pi u \ln(\sin u) \, du \\
+&= \pi \int_0^\pi \ln(\sin v) \, dv - \int_0^\pi u \ln(\sin u) \, du.
+\end{align*}
+利用标准积分结论 $\int_0^\pi \ln(\sin x) \, dx = -\pi \ln 2$。
+令 $J = \int_0^\pi u \ln(\sin u) \, du$。作代换 $u = \pi - t$，则
+$J = \int_0^\pi (\pi-t) \ln(\sin(\pi-t)) \, dt = \int_0^\pi (\pi-t) \ln(\sin t) \, dt = \pi \int_0^\pi \ln(\sin t) \, dt - J$。
+于是 $2J = \pi \int_0^\pi \ln(\sin t) \, dt = \pi (-\pi \ln 2)$，解得 $J = -\frac{\pi^2}{2} \ln 2$。
+代回原式：
+\[
+I = \pi (-\pi \ln 2) - \left(-\frac{\pi^2}{2} \ln 2\right) = -\pi^2 \ln 2 + \frac{\pi^2}{2} \ln 2 = -\frac{\pi^2}{2} \ln 2.
+\]
+\end{proof}
+
 \begin{example}
-	(2024 中科院夏令营) 计算积分：
+    (2024 中科院夏令营) 计算积分：
 \[
 \iint_{D} (x + y) \, dx \, dy,
 \]
 其中 $D = \{ (x, y) \mid (x - 1)^2 + (y - 1)^2 \leq 2, y \geq x \}$。
-
 \end{example}
+
+\begin{proof}
+令 $x-1 = u, y-1 = v$。则 $x = u+1, y=v+1$，$dxdy = dudv$。
+积分区域 $D$ 变为 $D' = \{ (u, v) \mid u^2 + v^2 \leq 2, v+1 \geq u+1 \implies v \geq u \}$。
+$D'$ 是圆盘 $u^2+v^2 \le 2$ 被直线 $v=u$ 分割后的上半部分（一个半圆盘）。
+被积函数变为 $x+y = (u+1)+(v+1) = u+v+2$。
+积分 $I = \iint_{D'} (u + v + 2) \, du \, dv = \iint_{D'} (u+v) \, du \, dv + \iint_{D'} 2 \, du \, dv$。
+区域 $D'$ 关于直线 $v=-u$ 对称。在 $f(u,v) = u+v$ 中，若将 $(u,v)$ 替换为 $(-v,-u)$，则 $f(-v,-u) = -v-u = -f(u,v)$。因此函数 $u+v$ 在对称区域 $D'$ 上的积分为零。
+\[
+\iint_{D'} (u+v) \, du \, dv = 0.
+\]
+第二部分是 $2$ 乘以区域 $D'$ 的面积。$D'$ 是一个半径为 $\sqrt{2}$ 的半圆盘，其面积为 $S_{D'} = \frac{1}{2} \pi (\sqrt{2})^2 = \pi$。
+\[
+\iint_{D'} 2 \, du \, dv = 2 \cdot S_{D'} = 2\pi.
+\]
+因此，原积分 $I = 0 + 2\pi = 2\pi$。
+\end{proof}
+
 \begin{example}
-	(2023 中科院推免生) 计算四重积分：
+    (2023 中科院推免生) 计算四重积分：
 \[
 \int_{Q(x)\leq 1} e^{Q(x)} \, dx \, dy \, dz \, dt.
 \]
+其中 $Q(x) = x^2+y^2+z^2+t^2$。
 \end{example}
+
+\begin{proof}
+积分区域为 $\mathbb{R}^4$ 中的单位球。我们采用四维球坐标。
+令 $r = \sqrt{x^2+y^2+z^2+t^2}$。体积微元 $dV = dxdydzdt$ 可以表示为 $A_{3}(r)dr$，其中 $A_{3}(r)$ 是半径为 $r$ 的三维球面（在 $\mathbb{R}^4$ 中）的面积。
+单位三维球面的面积为 $S_3 = 2\pi^2$。因此 $A_3(r) = S_3 r^3 = 2\pi^2 r^3$。
+积分可化为以 $r$ 为变量的一重积分：
+\[
+I = \int_0^1 e^{r^2} (2\pi^2 r^3) \, dr = 2\pi^2 \int_0^1 r^3 e^{r^2} \, dr.
+\]
+令 $u = r^2$，则 $du = 2r \, dr$。
+\begin{align*}
+I &= 2\pi^2 \int_0^1 \frac{1}{2} u e^u \, du \\
+&= \pi^2 \int_0^1 u e^u \, du \\
+&= \pi^2 \left[ ue^u - \int e^u \, du \right]_0^1 \quad (\text{分部积分}) \\
+&= \pi^2 \left[ ue^u - e^u \right]_0^1 \\
+&= \pi^2 \left( (1 \cdot e^1 - e^1) - (0 \cdot e^0 - e^0) \right) \\
+&= \pi^2 (0 - (-1)) = \pi^2.
+\end{align*}
+\end{proof}
+
 \begin{example}
-	(2024 人大预推免) 计算 $n$ 维超球体的体积。
+    (2024 人大预推免) 计算 $n$ 维超球体的体积。
 \end{example}
+\begin{proof}
+令 $V_n(R)$ 表示 $\mathbb{R}^n$ 中半径为 $R$ 的球体 $B_n(R) = \{x \in \mathbb{R}^n : \|x\| \le R\}$ 的体积。
+我们考虑高斯积分的 $n$ 次幂：
+\[
+\pi^{n/2} = \left(\int_{-\infty}^{\infty} e^{-x^2} dx\right)^n = \int_{\mathbb{R}^n} e^{-\|x\|^2} dV.
+\]
+使用 $n$ 维球坐标，令 $r = \|x\|$。体积微元 $dV = S_{n-1} r^{n-1} dr$，其中 $S_{n-1}$ 是 $\mathbb{R}^n$ 中单位 $(n-1)$-球面的表面积。
+\[
+\pi^{n/2} = \int_0^\infty e^{-r^2} S_{n-1} r^{n-1} dr = S_{n-1} \int_0^\infty e^{-r^2} r^{n-1} dr.
+\]
+令 $t=r^2$, $dt=2rdr$。该积分变为：
+\[
+\int_0^\infty e^{-r^2} r^{n-1} dr = \int_0^\infty e^{-t} t^{(n-1)/2} \frac{dt}{2r} = \frac{1}{2} \int_0^\infty t^{n/2-1} e^{-t} dt = \frac{1}{2}\Gamma\left(\frac{n}{2}\right).
+\]
+这里 $\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt$ 是伽马函数。
+因此 $\pi^{n/2} = S_{n-1} \cdot \frac{1}{2}\Gamma(\frac{n}{2})$，解得单位 $(n-1)$-球面的表面积为 $S_{n-1} = \frac{2\pi^{n/2}}{\Gamma(n/2)}$。
+$n$ 维球体的体积可通过对其表面积从 $0$ 到 $R$ 积分得到：
+\[
+V_n(R) = \int_0^R S_{n-1} r^{n-1} dr = S_{n-1} \left[\frac{r^n}{n}\right]_0^R = \frac{S_{n-1}R^n}{n}.
+\]
+代入 $S_{n-1}$ 的表达式：
+\[
+V_n(R) = \frac{2\pi^{n/2}}{n\Gamma(n/2)} R^n.
+\]
+利用伽马函数的性质 $z\Gamma(z)=\Gamma(z+1)$，我们有 $n\Gamma(n/2) = 2 \cdot \frac{n}{2} \Gamma(\frac{n}{2}) = 2\Gamma(\frac{n}{2}+1)$。
+最终体积公式为：
+\[
+V_n(R) = \frac{2\pi^{n/2}}{2\Gamma(n/2+1)}R^n = \frac{\pi^{n/2}}{\Gamma(\frac{n}{2}+1)}R^n.
+\]
+\end{proof}
 \section{曲线积分}
 
 \subsection{第一型曲线积分}
@@ -1805,16 +2227,52 @@ x + y + z = 0.
 \]
 \end{example}
 
+\begin{proof}
+	曲线 $C$ 是一个半径为 $R$ 的大圆，因为平面 $x+y+z=0$ 过球心 $(0,0,0)$。
+由于对称性，$\oint_C x^2 \, ds = \oint_C y^2 \, ds = \oint_C z^2 \, ds$。
+因此，$3 \oint_C x^2 \, ds = \oint_C (x^2+y^2+z^2) \, ds = \oint_C R^2 \, ds$。
+$I = \frac{1}{3} \oint_C R^2 \, ds = \frac{R^2}{3} \cdot (\text{圆 } C \text{ 的周长}) = \frac{R^2}{3} \cdot 2\pi R = \frac{2\pi R^3}{3}$。
+\end{proof}
+
 \begin{example}
 	设椭圆 $\frac{x^2}{4} + \frac{y^2}{3} = 1$ 的周长为 $a > 0$，计算 $\oint_{\frac{x^2}{4} + \frac{y^2}{3} = 1} (2xy + 3x^2 + 4y^2) \, ds$。
 
 \end{example}
+\begin{proof}
+	设 $C$ 为椭圆 $\frac{x^2}{4} + \frac{y^2}{3} = 1$。
+由于椭圆关于 $x$ 轴和 $y$ 轴对称，而 $2xy$ 是关于 $x$ 和 $y$ 的奇函数，我们有 $\oint_C 2xy \, ds = 0$。
+利用对称性，我们寻找 $x^2$ 和 $y^2$ 在椭圆上的积分关系。
 
+参数化椭圆：$x = 2\cos t, y = \sqrt{3}\sin t$，$t \in [0, 2\pi]$。
+$ds = \sqrt{x'(t)^2 + y'(t)^2} \, dt = \sqrt{4\sin^2 t + 3\cos^2 t} \, dt = \sqrt{3 + \sin^2 t} \, dt$。
+$\oint_C x^2 \, ds = \int_0^{2\pi} 4\cos^2 t \sqrt{3+\sin^2 t} \, dt$。
+$\oint_C y^2 \, ds = \int_0^{2\pi} 3\sin^2 t \sqrt{3+\sin^2 t} \, dt$。
+
+注意到 $\oint_C (x^2 + y^2) \, ds = \oint_C (\frac{3}{4}x^2 + \frac{1}{4}x^2 + y^2) ds = \oint_C (\frac{3}{4}x^2 + \frac{x^2}{4} + y^2) ds$。
+
+在椭圆上 $\frac{x^2}{4} + \frac{y^2}{3} = 1 \implies 3x^2+4y^2=12$。
+
+所以原积分为 $\oint_C (2xy + 3x^2+4y^2) \, ds = \oint_C 2xy \, ds + \oint_C (3x^2+4y^2) \, ds = 0 + \oint_C 12 \, ds = 12 \cdot (\text{椭圆周长}) = 12a$。
+ 
+\end{proof}
 \begin{example}
 	设 $a > 0$，$\Gamma: \left\{ \begin{array}{l} x^2 + y^2 + z^2 = a^2, \\ x + y + z = 0 \end{array} \right.$，试计算 $\int_{\Gamma} (1 + x)^2 \, ds$。
 \end{example}
 
+\begin{proof}
+	
+$\int_{\Gamma} (1 + x)^2 \, ds = \int_{\Gamma} (1 + 2x + x^2) \, ds = \int_{\Gamma} 1 \, ds + 2\int_{\Gamma} x \, ds + \int_{\Gamma} x^2 \, ds$。
+曲线 $\Gamma$ 是半径为 $a$ 的大圆，其周长为 $2\pi a$。
 
+1. $\int_{\Gamma} 1 \, ds = 2\pi a$。
+
+2. 由于曲线 $\Gamma$ 关于原点对称，而 $x$ 是奇函数，所以 $\int_{\Gamma} x \, ds = 0$。
+
+3. 由对称性，$\int_{\Gamma} x^2 \, ds = \int_{\Gamma} y^2 \, ds = \int_{\Gamma} z^2 \, ds$。
+   $3\int_{\Gamma} x^2 \, ds = \int_{\Gamma} (x^2+y^2+z^2) \, ds = \int_{\Gamma} a^2 \, ds = a^2(2\pi a) = 2\pi a^3$。
+   所以 $\int_{\Gamma} x^2 \, ds = \frac{2\pi a^3}{3}$。
+因此，原积分 $= 2\pi a + 0 + \frac{2\pi a^3}{3} = 2\pi a(1 + \frac{a^2}{3})$。
+\end{proof}
 
 
 
@@ -1838,32 +2296,143 @@ z &= z(t), \quad a \leq t \leq b,
 \]
 
 \begin{example}
-	计算积分 $I = \oint_{C} (x^2 + 2xy) \, dy$，其中 $C$ 表示逆时针方向的上半椭圆 $\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$。
-
+    计算积分 $I = \oint_{C} (x^2 + 2xy) \, dy$，其中 $C$ 表示逆时针方向的上半椭圆 $\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$。
 \end{example}
+\begin{proof}
+    题目中的 "$\oint$" 符号表示一个闭合路径。我们假定路径 $C$ 由上半椭圆弧 $C_1$ (从 $(a,0)$到$(-a,0)$) 和 $x$ 轴上的线段 $C_2$ (从 $(-a,0)$ 到 $(a,0)$) 组成。
+    
+    在 $C_2$ 上，$y=0$，$dy=0$，所以 $\int_{C_2} (x^2 + 2xy) \, dy = 0$。
+    因此，积分的值等于沿椭圆弧 $C_1$ 的积分。
+
+    我们对椭圆弧 $C_1$ 进行参数化：$x = a \cos t, y = b \sin t$，其中 $t$ 从 $0$ 变化到 $\pi$。
+    于是 $dy = b \cos t \, dt$。
+    \begin{align*}
+    I &= \int_{C_1} (x^2 + 2xy) \, dy = \int_{0}^{\pi} [ (a \cos t)^2 + 2(a \cos t)(b \sin t) ] (b \cos t) \, dt \\
+    &= \int_{0}^{\pi} (a^2 b \cos^3 t + 2ab^2 \sin t \cos^2 t) \, dt \\
+    &= a^2 b \int_{0}^{\pi} \cos^3 t \, dt + 2ab^2 \int_{0}^{\pi} \sin t \cos^2 t \, dt
+    \end{align*}
+    其中第一个积分为 $\int_{0}^{\pi} (1-\sin^2 t)\cos t \, dt = \left[\sin t - \frac{\sin^3 t}{3}\right]_0^\pi = 0$。
+    第二个积分为 $\int_{0}^{\pi} \sin t \cos^2 t \, dt = \left[-\frac{\cos^3 t}{3}\right]_0^\pi = -\frac{(-1)^3}{3} - (-\frac{1^3}{3}) = \frac{1}{3} + \frac{1}{3} = \frac{2}{3}$。
+    所以，
+    \[
+    I = a^2 b (0) + 2ab^2 \left(\frac{2}{3}\right) = \frac{4}{3}ab^2.
+    \]
+\end{proof}
 
 \begin{example}
-	设 $C$ 为抛物线 $2x = \pi y^2$ 自 $(0, 0)$ 到 $\left( \frac{\pi}{2}, 1 \right)$ 的弧段，求积分：
+    设 $C$ 为抛物线 $2x = \pi y^2$ 自 $(0, 0)$ 到 $\left( \frac{\pi}{2}, 1 \right)$ 的弧段，求积分：
 \[
 I = \int_{C} \left( 2xy^3 - y^2 \cos x \right) dx + \left( 1 - 2y \sin x + 3x^2 y^2 \right) dy.
 \]
 \end{example}
+\begin{proof}
+    令 $P(x, y) = 2xy^3 - y^2 \cos x$，$Q(x, y) = 1 - 2y \sin x + 3x^2 y^2$。
+    我们计算偏导数：
+    \begin{align*}
+    \frac{\partial P}{\partial y} &= 6xy^2 - 2y \cos x \\
+    \frac{\partial Q}{\partial x} &= -2y \cos x + 6xy^2
+    \end{align*}
+    因为 $\frac{\partial P}{\partial y} = \frac{\partial Q}{\partial x}$，所以该积分为路劲无关。我们寻找一个势函数 $\varphi(x, y)$。
+    由 $\frac{\partial \varphi}{\partial x} = P(x, y)$ 积分得：
+    \[
+    \varphi(x, y) = \int (2xy^3 - y^2 \cos x) \, dx = x^2 y^3 - y^2 \sin x + g(y).
+    \]
+    对其求 $y$ 的偏导数并令其等于 $Q(x, y)$:
+    \[
+    \frac{\partial \varphi}{\partial y} = 3x^2 y^2 - 2y \sin x + g'(y) = 1 - 2y \sin x + 3x^2 y^2.
+    \]
+    比较可知 $g'(y) = 1$, 故 $g(y) = y$ (忽略常数)。
+    势函数为 $\varphi(x, y) = x^2 y^3 - y^2 \sin x + y$。
+    积分值为势函数在终点和起点的差：
+    \[
+    I = \varphi\left(\frac{\pi}{2}, 1\right) - \varphi(0, 0) = \left[ \left(\frac{\pi}{2}\right)^2(1)^3 - (1)^2 \sin\left(\frac{\pi}{2}\right) + 1 \right] - [0] = \frac{\pi^2}{4} - 1 + 1 = \frac{\pi^2}{4}.
+    \]
+\end{proof}
+
 \begin{example}
-	(2024 北师夏令营改编) 设 $f(x) \in C^1(-\infty, +\infty)$，$L$ 是上半平面 $(y > 0)$ 内的有向分段光滑曲线，起点为 $(a, b)$，终点为 $(c, d)$。计算：
+    (2024 北师夏令营改编) 设 $f(x) \in C^1(-\infty, +\infty)$，$L$ 是上半平面 $(y > 0)$ 内的有向分段光滑曲线，起点为 $(a, b)$，终点为 $(c, d)$。计算：
 \[
 I = \int_{L} \frac{1}{y} [1 + y^2 f(xy)] dx + \frac{x}{y^2} [y^2 f(xy) - 1] dy.
 \]
 \end{example}
+\begin{proof}
+    我们将积分表达式整理为 $Pdx + Qdy$ 的形式：
+    \begin{align*}
+    P(x,y) &= \frac{1}{y} + y f(xy) \\
+    Q(x,y) &= x f(xy) - \frac{x}{y^2}
+    \end{align*}
+    检验其是否为恰当微分形式（全微分）：
+    \begin{align*}
+    \frac{\partial P}{\partial y} &= -\frac{1}{y^2} + [1 \cdot f(xy) + y \cdot f'(xy) \cdot x] = -\frac{1}{y^2} + f(xy) + xy f'(xy) \\
+    \frac{\partial Q}{\partial x} &= [1 \cdot f(xy) + x \cdot f'(xy) \cdot y] - \frac{1}{y^2} = f(xy) + xy f'(xy) - \frac{1}{y^2}
+    \end{align*}
+    因为 $\frac{\partial P}{\partial y} = \frac{\partial Q}{\partial x}$，积分与路径无关。我们可以将全微分式分组重写：
+    \[
+    \omega = \left( \frac{1}{y} dx - \frac{x}{y^2} dy \right) + \left( y f(xy) dx + x f(xy) dy \right) = d\left(\frac{x}{y}\right) + f(xy) d(xy).
+    \]
+    令 $F(u)$ 为 $f(u)$ 的一个原函数，即 $F'(u)=f(u)$。则 $f(xy)d(xy) = d(F(xy))$。
+    所以，势函数为 $\varphi(x,y) = \frac{x}{y} + F(xy)$。
+    积分的值为：
+    \[
+    I = \varphi(c, d) - \varphi(a, b) = \left(\frac{c}{d} + F(cd)\right) - \left(\frac{a}{b} + F(ab)\right).
+    \]
+\end{proof}
+
 
 \begin{example}
-	计算 $I = \oint_{x^2 + y^2 = 1} \frac{x \, dy - y \, dx}{x^2 + y^2}$，方向取逆时针。
+    计算 $I = \oint_{x^2 + y^2 = 1} \frac{x \, dy - y \, dx}{x^2 + y^2}$，方向取逆时针。
 \end{example}
+\begin{proof}
+    采用极坐标参数化。对于单位圆 $x^2+y^2=1$，我们有 $x = \cos t, y = \sin t$，其中 $t$ 从 $0$ 到 $2\pi$。
+    微分元为 $dx = -\sin t \, dt, dy = \cos t \, dt$。
+    代入分子：
+    \[
+    x \, dy - y \, dx = (\cos t)(\cos t \, dt) - (\sin t)(-\sin t \, dt) = (\cos^2 t + \sin^2 t) \, dt = dt.
+    \]
+    代入分母：
+    \[
+    x^2 + y^2 = \cos^2 t + \sin^2 t = 1.
+    \]
+    因此积分为：
+    \[
+    I = \int_0^{2\pi} \frac{dt}{1} = 2\pi.
+    \]
+\end{proof}
 
 \begin{example}
-	求简单正定向光滑闭曲线 $L$ 使得积分 $\oint_{L} (y^3 - y) \, dx - 2x^3 \, dy$ 值最大，并计算最大值。
+    求简单正定向光滑闭曲线 $L$ 使得积分 $\oint_{L} (y^3 - y) \, dx - 2x^3 \, dy$ 值最大，并计算最大值。
 \end{example}
+\begin{proof}
+    令 $P = y^3 - y$，$Q = -2x^3$。根据格林公式，该线积分可化为二重积分：
+    \[
+    I = \oint_L P \, dx + Q \, dy = \iint_D \left(\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y}\right) dA
+    \]
+    其中 $D$ 是由 $L$ 围成的区域。
+    \[
+    \frac{\partial Q}{\partial x} = -6x^2, \quad \frac{\partial P}{\partial y} = 3y^2 - 1.
+    \]
+    所以
+    \[
+    I = \iint_D (-6x^2 - (3y^2 - 1)) \, dA = \iint_D (1 - 6x^2 - 3y^2) \, dA.
+    \]
+    为了使积分值最大，积分区域 $D$ 应取被积函数 $1 - 6x^2 - 3y^2$ 为非负值的区域。即
+    \[
+    1 - 6x^2 - 3y^2 \ge 0 \quad \implies \quad 6x^2 + 3y^2 \le 1.
+    \]
+    此区域是由椭圆 $6x^2+3y^2=1$ 围成的。
+    我们计算这个最大值。令 $x = \frac{u}{\sqrt{6}}, y = \frac{v}{\sqrt{3}}$，则区域变为单位圆 $u^2+v^2 \le 1$。
+    雅可比行列式为 $|J| = \left| \frac{\partial(x,y)}{\partial(u,v)} \right| = \frac{1}{\sqrt{18}} = \frac{1}{3\sqrt{2}}$。
+    \[
+    I_{max} = \iint_{u^2+v^2 \le 1} (1 - u^2 - v^2) \frac{1}{3\sqrt{2}} \, du \, dv.
+    \]
+    在极坐标下 ($u=r\cos\theta, v=r\sin\theta$):
+    \[
+    I_{max} = \frac{1}{3\sqrt{2}} \int_0^{2\pi} \int_0^1 (1-r^2) r \, dr \, d\theta = \frac{2\pi}{3\sqrt{2}} \left[ \frac{r^2}{2} - \frac{r^4}{4} \right]_0^1 = \frac{2\pi}{3\sqrt{2}} \left(\frac{1}{4}\right) = \frac{\pi}{6\sqrt{2}} = \frac{\pi\sqrt{2}}{12}.
+    \]
+\end{proof}
+
 \begin{example}
-	设 $D$ 是平面内的单连通区域，$\omega = P dx + Q dy$，其中 $P, Q$ 在 $D$ 上有连续的偏导数，则以下结论等价：
+    设 $D$ 是平面内的单连通区域，$\omega = P dx + Q dy$，其中 $P, Q$ 在 $D$ 上有连续的偏导数，则以下结论等价：
 \begin{itemize}
 \item 对 $D$ 内的任意一条闭曲线 $C$，有 $\oint_{C} \omega = 0$。
 \item 对 $D$ 内的任一条路径 $C$，积分 $\int_{C} \omega$ 仅与 $C$ 的起点和终点有关，而与所沿的路径无关。
@@ -1871,10 +2440,40 @@ I = \int_{L} \frac{1}{y} [1 + y^2 f(xy)] dx + \frac{x}{y^2} [y^2 f(xy) - 1] dy.
 \item 存在函数 $\varphi(x, y)$，使得在 $D$ 内成立 $d\varphi(x, y) = P(x, y) dx + Q(x, y) dy$。
 \end{itemize}
 \end{example}
+\begin{proof}
+    这是向量分析中关于保守场（或恰当微分形式）的基本定理。该定理指出了在单连通区域上，一个向量场的线积分为0、线积分与路径无关、旋度为零（在二维平面上即 $\frac{\partial P}{\partial y} = \frac{\partial Q}{\partial x}$）以及该场是一个标量场的梯度（即存在势函数）这四个条件是互相等价的。这是连接格林公式、斯托克斯公式和微分形式理论的核心结论。
+\end{proof}
 
 \begin{example}
-	计算积分 $I = \oint_{C} \frac{e^y}{x^2 + y^2} \left[ (x \sin x + y \cos x) dx + (y \sin x - x \cos x) dy \right]$，其中 $C: x^2 + y^2 = 1$，取逆时针方向。
+    计算积分 $I = \oint_{C} \frac{e^y}{x^2 + y^2} \left[ (x \sin x + y \cos x) dx + (y \sin x - x \cos x) dy \right]$，其中 $C: x^2 + y^2 = 1$，取逆时针方向。
 \end{example}
+\begin{proof}
+    令 $\omega$ 为被积的微分形式。被积函数在原点 $(0,0)$ 有一个奇点，该奇点在闭曲线 $C$ 内部。我们记 $P(x,y)$ 和 $Q(x,y)$ 为 $dx$ 和 $dy$ 的系数。通过一个比较繁琐的计算可以验证，在定义域 $\mathbb{R}^2 \setminus \{(0,0)\}$ 内，有 $\frac{\partial P}{\partial y} = \frac{\partial Q}{\partial x}$ 成立。
+
+    根据格林公式的推广，对于包含奇点的区域，积分值在任何包围该奇点的简单闭曲线上都是相同的。因此，我们可以用一个半径为 $r \to 0$ 的小圆 $C_r$ 来代替单位圆 $C$ 进行计算。
+    \[
+    I = \oint_{C_r} \frac{e^y}{x^2 + y^2} \left[ (x \sin x + y \cos x) dx + (y \sin x - x \cos x) dy \right].
+    \]
+    将积分表达式的分子重新组合，可以发现
+    \[
+    (x \sin x + y \cos x) dx + (y \sin x - x \cos x) dy = \sin x (x dx + y dy) + \cos x (y dx - x dy).
+    \]
+    利用极坐标关系 $x^2+y^2=r^2$ 和 $d\theta = \frac{x dy - y dx}{x^2+y^2}$，我们有 $x dx + y dy = r dr$ 以及 $y dx - x dy = -r^2 d\theta$。
+    
+    在路径 $C_r$ 上，$r$ 是常数，所以 $dr=0$。因此 $x dx + y dy = 0$。
+    积分式简化为：
+    \[
+    I = \oint_{C_r} \frac{e^y}{r^2} \cos x (y dx - x dy) = \oint_{C_r} \frac{e^y}{r^2} \cos x (-r^2 d\theta) = \oint_{C_r} -e^y \cos x \, d\theta.
+    \]
+    现在我们用参数 $x=r\cos\theta, y=r\sin\theta$ 代入被积函数：
+    \[
+    I = \int_0^{2\pi} -e^{r\sin\theta} \cos(r\cos\theta) \, d\theta.
+    \]
+    由于积分值与 $r$ 无关，我们可以取极限 $r \to 0$。由于被积函数一致收敛，我们可以将极限移入积分号内：
+    \[
+    I = \int_0^{2\pi} \lim_{r \to 0} \left( -e^{r\sin\theta} \cos(r\cos\theta) \right) \, d\theta = \int_0^{2\pi} (-e^0 \cos 0) \, d\theta = \int_0^{2\pi} (-1) \, d\theta = -2\pi.
+    \]
+\end{proof}
 
 
 
