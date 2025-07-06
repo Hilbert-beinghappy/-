@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  5 JUL 2025 19:27
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  6 JUL 2025 19:57
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1554,45 +1554,42 @@ LaTeX Font Warning: Font shape `TU/STKaiti(0)/b/n' undefined
 [18]
 
 [19]
+
+[20]
+
+[21]
 Chapter 3.
 
 
-[20
+[22
 
 ]
-
-[21]
-Missing character: There is no ， ("FF0C) in font cmr10!
-
-
-[22]
 
 [23]
-Chapter 4.
 
-
-[24
-
-]
+[24]
 
 [25]
 
 [26]
+Overfull \hbox (3.23398pt too wide) in paragraph at lines 1519--1524
+\TU/STFangsong(0)/m/n/10 由 罗 尔 中 值 定 理\TU/texgyretermes(0)/m/n/10 , \TU/STFangsong(0)/m/n/10 我 们 知 道 存 在 $\OML/cmm/m/it/10 ^^R[]; ^^R[]; ^^R[]$\TU/texgyretermes(0)/m/n/10 , \TU/STFangsong(0)/m/n/10 分 别 位 于 开 区 间 $\OT1/cmr/m/n/10 (0\OML/cmm/m/it/10 ; x\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x; \OT1/cmr/m/n/10 1)\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 (1\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 2)$ \TU/texgyretermes(0)/m/n/10 (\TU/STFangsong(0)/m/n/10 或 $\OML/cmm/m/it/10 x$ \TU/STFangsong(0)/m/n/10 所 在 的 其 他 区 间\TU/texgyretermes(0)/m/n/10 ), \TU/STFangsong(0)/m/n/10 使 得 $\OML/cmm/m/it/10 F[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^R[]\OT1/cmr/m/n/10 ) =
+ []
+
+
 
 [27]
 
 [28]
 
 [29]
-Chapter 5.
+Missing character: There is no ， ("FF0C) in font cmr10!
 
 
-[30
-
-]
+[30]
 
 [31]
-Chapter 6.
+Chapter 4.
 
 
 [32
@@ -1602,38 +1599,62 @@ Chapter 6.
 [33]
 
 [34]
-Overfull \hbox (2.38576pt too wide) in paragraph at lines 1958--1959
+
+[35]
+
+[36]
+
+[37]
+Chapter 5.
+
+
+[38
+
+]
+
+[39]
+Chapter 6.
+
+
+[40
+
+]
+
+[41]
+
+[42]
+Overfull \hbox (2.38576pt too wide) in paragraph at lines 2569--2570
 []\TU/STSong(0)/b/n/10 例 题 \TU/texgyretermes(0)/b/n/10 6.42 []\TU/texgyretermes(0)/m/n/10 (Tauber \TU/STSong(0)/m/n/10 定 理\TU/texgyretermes(0)/m/n/10 ) \TU/STSong(0)/m/n/10 设 级 数 $[][] \OML/cmm/m/it/10 a[]x[]$ \TU/STSong(0)/m/n/10 收 敛 半 径 为 \TU/texgyretermes(0)/m/n/10 1\TU/STSong(0)/m/n/10 ，|  左 极 限 $[][] [][] \OML/cmm/m/it/10 a[]x[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 A$ \TU/STSong(0)/m/n/10 存 在，|  且 $[][] \OML/cmm/m/it/10 na[] \OT1/cmr/m/n/10 =
  []
 
 
 
-[35]
+[43]
 Chapter 7.
 
 
-[36
+[44
 
 ]
-Overfull \hbox (5.02519pt too wide) in paragraph at lines 2062--2066
+Overfull \hbox (5.02519pt too wide) in paragraph at lines 2673--2677
 \TU/STFangsong(0)/m/n/10 由 于 $\OT1/cmr/m/n/10 0 \OMS/cmsy/m/n/10 ^^T [] ^^T []$\TU/STFangsong(0)/m/n/10 ，|  当 $\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x; y\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ! \OT1/cmr/m/n/10 (0\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0)$ \TU/STFangsong(0)/m/n/10 时，| $[] \OMS/cmsy/m/n/10 ! \OT1/cmr/m/n/10 0$\TU/STFangsong(0)/m/n/10 。|  根 据 夹 逼 定 理，| $[][] \OML/cmm/m/it/10 f\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x; y\OT1/cmr/m/n/10 ) =
  []
 
 
 
-[37]
+[45]
 
-[38]
+[46]
 
-[39]
+[47]
 
-[40]
+[48]
 
-[41]
+[49]
 
-[42]
+[50]
 
-[43] (./数分笔试部分.aux)
+[51] (./数分笔试部分.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2022/08/05>
@@ -1642,25 +1663,19 @@ L3 programming layer <2022/08/05>
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-Package rerunfilecheck Warning: File `数分笔试部分.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `数分笔试部分.out':
-(rerunfilecheck)             Before: 75B5E6E0B612FBB5D18FBE84F7A9D09D;9209
-(rerunfilecheck)             After:  C92CA0D939D5D1B045CB019E5686C967;9100.
+Package rerunfilecheck Info: File `数分笔试部分.out' has not changed.
+(rerunfilecheck)             Checksum: C92CA0D939D5D1B045CB019E5686C967;9100.
 Package logreq Info: Writing requests to '数分笔试部分.run.xml'.
 \openout1 = `数分笔试部分.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 46404 strings out of 473832
- 999562 string characters out of 5729481
- 2007379 words of memory out of 5000000
- 68679 multiletter control sequences out of 15000+600000
+ 46407 strings out of 473832
+ 999662 string characters out of 5729481
+ 2006259 words of memory out of 5000000
+ 68682 multiletter control sequences out of 15000+600000
  564340 words of font info for 107 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  103i,18n,130p,691b,1342s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on 数分笔试部分.pdf (46 pages).
+Output written on 数分笔试部分.pdf (54 pages).

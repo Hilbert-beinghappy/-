@@ -991,20 +991,139 @@ f(x_2) - f(x_1) = \int_{x_1}^{x_2} f'(y) \, dy = \int_{x_1}^{x_2} \sqrt{y}f'(y) 
     \[ f(x) = c x, \quad \forall x \in \mathbb{R}. \]
 \end{enumerate}
 \end{example}
+\begin{proof}
+	\begin{enumerate}
+		\item \textbf{Step 1} 注意到 $f(2x) = f(x+x) = f(x) + f(x) = 2f(x)$, 然后
+		\[
+		f(3x) = f(2x+x) = f(2x)+f(x) = 2f(x)+f(x) = 3f(x).
+		\]
+		依次下去可得
+		\[
+		f(nx) = nf(x), \forall n \in \mathbb{N}.
+		\]
+		
+		\noindent\textbf{Step 2} 现在对每个 $r = \frac{p}{q} \in \mathbb{Q}, q \neq 0$, 我们注意到
+		\[
+		rf(x) = f(rx) \iff pf(x) = qf\left(\frac{p}{q}x\right).
+		\]
+		现在反复运用上式, 我们知道
+		\[
+		qf\left(\frac{p}{q}x\right) = f(px) = pf(x).
+		\]
+.
+		\item 对每个无理数 $r$，存在有理数列 $r_n, n=1, 2, \cdots$ 使得 $\lim_{n\to\infty} r_n = r$。我们知道
+		\[
+		f(rx) = \lim_{n\to\infty} f(r_n x) = \lim_{n\to\infty} r_n f(x) = r f(x).
+		\]
+
+	\end{enumerate}
+\end{proof}
 \begin{example}
 	求证：\(\mathbb{R}\) 上既凸又凹的连续函数必为线性函数，即存在常数 \( a, b \in \mathbb{R} \) 使得
 \[ f(x) = a x + b, \quad \forall x \in \mathbb{R}. \]
 \end{example}
+
+\begin{remark}
+	容易由证明知道任何开区间 $(a, b)$ 上的既凸又凹的连续函数也是直线。
+\end{remark}
+
+\begin{proof}
+	注意到
+\[
+f\left(\frac{x+y}{2}\right) = \frac{1}{2}f(x) + \frac{1}{2}f(y).
+\]
+考虑 $g(x) = f(x) - f(0)$, 则运用 $f(x+y)+f(0) = 2f(\frac{x+y}{2})$ 知 $g$ 满足 Cauchy 方程11.7. 于是我们知道
+\[
+f(x) = f(0) + [f(1) - f(0)]x.
+\]
+
+\end{proof}
 \begin{example}
 	设 \( f(x) \) 在 \( (0, +\infty) \) 上连续，且满足函数方程：
 \[ f(xy) = x f(y) + y f(x), \quad \forall x, y \in (0, +\infty). \]
 求证：\( f(x) \) 在 \( (0, +\infty) \) 上可微。
 \end{example}
+\begin{proof}
+	首先
+\[
+f(0) = xf(0), \forall x \in \mathbb{R} \Rightarrow f(0) = 0, \quad f(x) = xf(1) + f(x), \forall x \in \mathbb{R} \Rightarrow f(1) = 0.
+\]
+
+\noindent 现在
+\[
+f(-x) = xf(-1) - f(x), f(x) = -xf(-1) - f(-x) \Rightarrow 2xf(-1)=0 \Rightarrow f(-1)=0.
+\]
+
+\noindent 于是
+\[
+f(-x) = xf(-1) - f(x) = -f(x),
+\]
+
+\noindent 即 $f$ 是奇函数。
+
+\noindent 对 $x, y > 0$, 取 $x=e^s, y=e^t, s, t \in (-\infty, +\infty)$, 我们有
+\[
+\frac{f(e^{s+t})}{e^{s+t}} = \frac{f(e^s)}{e^s} + \frac{f(e^t)}{e^t},
+\]
+
+\noindent 即 $\frac{f(e^x)}{e^x}$ 满足 Cauchy 方程11.7. 因此
+\[
+\frac{f(e^x)}{e^x} = \frac{f(e)}{e}x, \forall x \in \mathbb{R}.
+\]
+
+\noindent 现在可得
+\[
+f(x) = 
+\begin{cases}
+    \frac{f(e)}{e} x \ln x, & x > 0 \\
+    0, & x=0 \\
+    \frac{f(e)}{e} x \ln(-x), & x < 0
+\end{cases}.
+\]
+
+结论显然成立
+\end{proof}
 \begin{example}
 	(2024 中科院夏令营) 证明：在 \( \mathbb{R} \) 上满足函数方程
 \[ f(x+y) = f(x) f(y) \]
 的唯一不恒等于零的连续解是指数函数 \( f(x) = a^x \)，其中 \( a > 0 \) 为常数。
 \end{example}
+\begin{proof}
+		首先，若存在一点 $x_0$ 使得 $f(x_0)=0$，则对任意 $x \in \mathbb{R}$，有 $f(x) = f(x-x_0+x_0) = f(x-x_0)f(x_0)=0$。这导致 $f(x) \equiv 0$，此为平凡解。因我们寻找非平凡解，故可设 $f(x) \neq 0, \forall x \in \mathbb{R}$。
+		
+		于是，对任意 $x \in \mathbb{R}$，$f(x) = f(\frac{x}{2}+\frac{x}{2}) = \left(f(\frac{x}{2})\right)^2 \ge 0$。结合 $f(x) \neq 0$，可知 $f(x) > 0$。
+		在原方程中令 $y=0$，得 $f(x) = f(x)f(0)$。因为 $f(x)>0$，两边消去 $f(x)$ 得 $f(0)=1$。
+		
+		证明过程分三步：
+		\begin{enumerate}
+			\item \textbf{证明对整数成立} \\
+			令 $a = f(1)$。由于 $f(x)>0$，$a>0$。
+			对任意正整数 $n \in \mathbb{N}$，通过归纳法可得 $f(n) = f(1+\dots+1) = (f(1))^n = a^n$。
+			对负整数 $-n$，$1 = f(0) = f(n+(-n)) = f(n)f(-n) = a^n f(-n)$，故 $f(-n) = a^{-n}$。
+			因此，对所有整数 $k \in \mathbb{Z}$，均有 $f(k) = a^k$。
+		
+			\item \textbf{证明对有理数成立} \\
+			设 $x = \frac{p}{q}$ 是任意有理数，其中 $p, q \in \mathbb{Z}, q \neq 0$。
+			根据第1步的结论，我们有：
+			\[
+			a^p = f(p) = f\left(q \cdot \frac{p}{q}\right) = \left(f\left(\frac{p}{q}\right)\right)^q.
+			\]
+			由于 $f(x)>0, a>0$，两边开 $q$ 次方，得 $f(\frac{p}{q}) = (a^p)^{\frac{1}{q}} = a^{\frac{p}{q}}$。
+			因此，对所有有理数 $x \in \mathbb{Q}$，均有 $f(x) = a^x$。
+		
+			\item \textbf{证明对实数成立} \\
+			对任意实数 $x \in \mathbb{R}$，存在一个有理数序列 $\{q_n\}_{n=1}^\infty$ 使得 $\lim_{n\to\infty} q_n = x$。
+			由于函数 $f(x)$ 和指数函数 $g(x)=a^x$ 均是连续函数，我们有：
+			\[
+			f(x) = f\left(\lim_{n\to\infty} q_n\right) = \lim_{n\to\infty} f(q_n).
+			\]
+			根据第2步的结论，$f(q_n) = a^{q_n}$，所以
+			\[
+			f(x) = \lim_{n\to\infty} a^{q_n} = a^{\lim_{n\to\infty} q_n} = a^x.
+			\]
+			这就证明了 $f(x) = a^x$ 对所有 $x \in \mathbb{R}$ 成立，其中 $a=f(1)>0$ 是一个常数。
+		\end{enumerate}
+\end{proof}
 \subsection{迭代法}
 \textbf{基本思想}：通过构造递推关系，将函数方程转化为可求和的形式。
 \begin{example}
@@ -1012,17 +1131,77 @@ f(x_2) - f(x_1) = \int_{x_1}^{x_2} f'(y) \, dy = \int_{x_1}^{x_2} \sqrt{y}f'(y) 
 \[ 2f(2x) = f(x) + x \]
 在 $\mathbb{R}$ 上且满足 $f$ 在 $x=0$ 处连续的所有解。
 \end{example}
+\begin{proof}
+	注意到
+\[
+\frac{1}{2^n}f\left(\frac{x}{2^n}\right) = \frac{1}{2^{n+1}}f\left(\frac{x}{2^{n+1}}\right) + \frac{x}{2^{2n+2}}, \quad n=0, 1, 2, \dots
+\]
+
+\noindent
+于是
+\begin{align*}
+f(x) - \lim_{n\to\infty}\frac{1}{2^{n+1}}f\left(\frac{x}{2^{n+1}}\right) 
+&= \sum_{n=0}^{\infty} \left[ \frac{1}{2^n}f\left(\frac{x}{2^n}\right) - \frac{1}{2^{n+1}}f\left(\frac{x}{2^{n+1}}\right) \right] \\
+&= \sum_{n=0}^{\infty} \frac{x}{2^{2n+2}} = \frac{1}{4}x \cdot \frac{1}{1-\frac{1}{4}} = \frac{x}{3}.
+\end{align*}
+
+\noindent
+因此结合 $f(0)=0$ 知 $f(x) = \frac{x}{3}$.
+\end{proof}
 \begin{example}
 	求函数方程
 \[ f(x+y) - f(x-y) = f(x)f(y) \]
 在 $\mathbb{R}$ 上且满足 $f$ 在 $x=0$ 处连续的所有解。
 \end{example}
+\begin{proof}
+	取 $y=x$, 于是 $f(2x)-f(0)=f^2(x)$, 令 $x=0$ 知 $f(0)=0$. 现在考虑 $f(2x) = f^2(x) \ge 0$, 即 $f$ 是非负函数. 注意到对每个 $n \in \mathbb{N}$, 我们有
+\begin{equation}
+f(x) = f^{2}\left(\frac{x}{2}\right) = f^{2^2}\left(\frac{x}{2^2}\right) = \cdots = f^{2^n}\left(\frac{x}{2^n}\right). 
+\end{equation}
+于是，令 $n \to \infty$ 并结合 $f$ 在 $x=0$ 连续性我们有
+\[
+f(x) = \lim_{n\to\infty} f^{2^n}\left(\frac{x}{2^n}\right) = 0.
+\]
+\end{proof}
 \begin{example}
 	求函数方程 
     \[ f(\log_2 x) = f(\log_3 x) + \log_5 x \]
     在 \( \mathbb{R}^+ \) 上的所有连续解。
 \end{example}
+\begin{proof}
+	取
+\[
+a_1 = x, \ln a_n = \left(\frac{\ln 2}{\ln 3}\right)^{n-1} \ln x, n \in \mathbb{N}.
+\]
 
+\noindent
+现在
+\[
+f\left(\frac{\ln a_n}{\ln 2}\right) = f\left(\frac{\ln a_{n+1}}{\ln 2}\right) + \frac{\ln a_n}{\ln 5}, \quad n = 1, 2, \dots,
+\]
+
+\noindent
+于是
+\begin{align*}
+\sum_{n=1}^{\infty} \left[ f\left(\frac{\ln a_n}{\ln 2}\right) - f\left(\frac{\ln a_{n+1}}{\ln 2}\right) \right] 
+&= \sum_{n=1}^{\infty} \frac{\ln a_n}{\ln 5} \\
+&= \sum_{n=1}^{\infty} \left(\frac{\ln 2}{\ln 3}\right)^{n-1} \frac{\ln x}{\ln 5} \\
+&= \frac{\ln x}{\ln 5} \frac{\ln 3}{\ln 3 - \ln 2}.
+\end{align*}
+
+结合
+\begin{align*}
+\sum_{n=1}^{\infty} \left[ f\left(\frac{\ln a_n}{\ln 2}\right) - f\left(\frac{\ln a_{n+1}}{\ln 2}\right) \right] 
+&= f\left(\frac{\ln a_1}{\ln 2}\right) - \lim_{n\to\infty} f\left(\frac{\ln a_{n+1}}{\ln 2}\right) \\
+&= f\left(\frac{\ln x}{\ln 2}\right) - f(0),
+\end{align*}
+
+\noindent
+我们知道
+\[
+f(x) = f(0) + \frac{x \ln 2 \ln 3}{\ln 5 \ln \frac{3}{2}}.
+\]
+\end{proof}
 \chapter{一元函数微分学}
 \section{微分中值定理}
 \subsection{插值法}
@@ -1051,15 +1230,88 @@ f(x_2) - f(x_1) = \int_{x_1}^{x_2} f'(y) \, dy = \int_{x_1}^{x_2} \sqrt{y}f'(y) 
 \begin{example}
 	设 $f \in D^3[-1, 1]$，$f(-1) = 0$，$f'(0) = 0$，$f(1) = 1$。求证：$\exists \theta \in (-1, 1)$，s.t. $f'''(\theta) = 3$。
 \end{example}
+
+\begin{remark}
+	本题拟和 $f(-1), f(1), f(0), f'(0), 4$ 个条件暗含插值多项式 3 次, 余项应该到 4 阶导, 条件只有 3 阶导, 因此本题是一种新的模型. 即 $f'''(\theta) = p'''(\theta)$ 这种模型.
+
+\end{remark}
+\begin{proof}
+	设
+\[
+p(x) = \frac{(x-0)(x-1)}{(-1-0)(-1-1)}f(-1) + \frac{(x+1)(x-1)}{(0+1)(0-1)}f(0) + \frac{(x+1)(x-0)}{(1+1)(1-0)}f(1) + cx(x+1)(x-1).
+\]
+代入导数条件得 $c = \frac{1}{2}$.
+
+注意到 $F(x) = f(x) - p(x)$ 满足
+\begin{equation}
+F(0) = F(1) = F(-1) = F'(0) = 0. \tag{10.9}
+\end{equation}
+对 $F$ 反复使用罗尔中值定理知存在 $\theta \in (-1, 1)$, 使得 $F'''(\theta)=0$, 直接计算表明
+\begin{equation}
+F'''(\theta) = f'''(\theta) - p'''(\theta) = f'''(\theta) - \frac{1}{2} \cdot 3! = 0
+\end{equation}
+
+\end{proof}
 \begin{example}
 	设 \(f \in C[0, 2] \cap D(0, 2)\) 满足 \(f(0) = f(2) = 0\), \(|f'(x)| \leq M\), \(\forall x \in (0, 2)\)。求证：
 \[ \left| \int_{0}^{2} f(x) \, dx \right| \leq M. \]
 \end{example}
+
+\begin{remark}
+	插 $f(0), f(2)$, 插值多项式 1 次, 余项 2 阶, 导数不够, 属于靠近哪边对哪边插模型.
+\end{remark}
+\begin{proof}
+	当 $x \in [0, 1]$, 由插值定理, 我们有
+\[
+f(x) = f(0) + \frac{f'(\theta(x))}{1!}(x-0) = f'(\theta(x))x,
+\]
+于是
+\[
+|f(x)| \le |f'(\theta(x))| \cdot x \le Mx.
+\]
+当 $x \in [1, 2]$, 由插值定理, 我们有
+\[
+f(x) = f(2) + \frac{f'(\zeta(x))}{1!}(x-2) = f'(\zeta(x))(x-2),
+\]
+于是
+\[
+|f(x)| \le |f'(\zeta(x))| \cdot |x-2| \le M(2-x).
+\]
+结合上式, 我们有
+\begin{align*}
+    \left| \int_0^2 f(x) \,dx \right| &\le \int_0^2 |f(x)| \,dx = \int_0^1 |f(x)| \,dx + \int_1^2 |f(x)| \,dx \\
+    &\le \int_0^1 (Mx) \,dx + \int_1^2 (M(2-x)) \,dx \\
+    &= M.
+\end{align*}
+
+\end{proof}
 \begin{example}
 	设 \( f \in C^3[0,2] \) 满足
 \[ f(0) = f'(0) = 0, \quad \int_{0}^{2} f(x) \, dx = 8 \int_{0}^{1} f(x) \, dx. \]
 证明：存在 \( \theta \in (0,2) \)，使得 \( f''(\theta) = 0 \)。
 \end{example}
+
+\begin{remark}
+	考虑 $F(x) = \int_0^x f(y) \, dy \in C^4[0, 2]$, 初值条件即
+\[
+F(0) = F'(0) = F''(0) = 0, F(2) = 8F(1).
+\]
+这里插点 $F(1), F(2), F(0), F'(0), F''(0)$, 合计 5 个条件, 插值多项式 4 次, 余项 5 阶, 条件不够, 属于模型 $F'''' = p''''$.
+
+\end{remark}
+
+\begin{proof}
+	为确定 $p$, 注意到 0 是 $p$ 的三重零点, 考虑 $p(x) = x^3(ax+b)$, 则
+\[
+F(2) = 8F(1) \Rightarrow p(2) = 8p(1) \Rightarrow a=0,
+\]
+即 $p(x) = F(1)x^3$. 由插值定理10.1, 存在 $\theta \in (0, 2)$, 使得
+\[
+f'''(\theta) = F''''(\theta) = p''''(\theta) = 0.
+\]
+这就完成了证明.
+
+\end{proof}
 下面我们来介绍插值法的积分型余项，这种余项往往蕴含着更多的信息。
 \begin{theorem}[积分型余项]
 	设 \( f(x) \) 是 \([a,b]\) 上的二阶可导函数且 \( f''(x) \in R[a,b] \)，则有：
@@ -1073,35 +1325,277 @@ f(x_2) - f(x_1) = \int_{x_1}^{x_2} f'(y) \, dy = \int_{x_1}^{x_2} \sqrt{y}f'(y) 
 \end{theorem}
 \begin{example}
 	(2021华东师范考研压轴) 设 \( f \in C^2[0,1] \) 满足 \( f(0) = f(1) = 0 \)，证明：
-\[ \int_0^1 \left| \frac{f''(x)}{f(x)} \right| dx \leq 4. \]
+\[ \int_0^1 \left| \frac{f''(x)}{f(x)} \right| dx \geq 4. \]
 \end{example}
+
+\begin{remark}
+	我们指出不等式中的 4 是最佳的. 从下述证明可以看到放缩核心是
+\[
+|k(x, y)| \le k(x, x) \le k\left(\frac{1}{2}, \frac{1}{2}\right) = \frac{1}{4}.
+\]
+因此我们期望 $f''$ 其中在 $x=\frac{1}{2}$ 附近且值为 1. 于是考虑
+\[
+f_n(x) = 
+\begin{cases}
+    \frac{n^3}{8} \left(x - \frac{1}{2}\right)^4 - \frac{3n}{4} \left(x - \frac{1}{2}\right)^2 + \frac{4n-3}{8n}, & x \in \left[\frac{1}{2} - \frac{1}{n}, \frac{1}{2} + \frac{1}{n}\right] \\
+    x, & x \in \left[0, \frac{1}{2} - \frac{1}{n}\right) \\
+    -(x-1), & x \in \left(\frac{1}{2} + \frac{1}{n}, 1\right]
+\end{cases}
+, n \ge 2.
+\]
+由于
+\[
+f_n''(x) \le 0, x \in \left[\frac{1}{2} - \frac{1}{n}, \frac{1}{2} + \frac{1}{n}\right], f_n(x) \ge 0, x \in [0, 1],
+\]
+我们有
+\begin{align*}
+\int_0^1 \frac{|f_n''(x)|}{f_n(x)} \, dx &= -\int_{\frac{1}{2}-\frac{1}{n}}^{\frac{1}{2}+\frac{1}{n}} \frac{f_n''(x)}{f_n(x)} \, dx \quad \overset{\text{积分中值定理}}{=} -\frac{1}{f_n(\xi_n)} \int_{\frac{1}{2}-\frac{1}{n}}^{\frac{1}{2}+\frac{1}{n}} f_n''(x) \, dx \left(\xi_n - \frac{1}{2} < \frac{1}{n}\right) \\
+&= \frac{2}{f_n(\xi_n)} = \frac{2}{n^3(\xi_n - \frac{1}{2})^4 - 3n(\xi_n - \frac{1}{2})^2 + \frac{4n-3}{n}} \to 4, n \to \infty.
+\end{align*}
+\end{remark}
+\begin{proof}
+	事实上, 我们知道
+\[
+f(x) = \int_0^1 f''(y) k(x, y) \, dy.
+\]
+于是利用
+\[
+|k(x, y)| \le |k(x, x)| = x(1-x),
+\]
+就有
+\[
+|f(x)| \le \int_0^1 |k(x,y)| \cdot |f''(y)| \, dy \le x(1-x) \int_0^1 |f''(y)| \, dy \le \frac{1}{4} \int_0^1 |f''(y)| \, dy,
+\]
+从而
+\[
+\int_0^1 \frac{|f''(x)|}{f(x)} \, dx \ge \int_0^1 \frac{|f''(x)|}{\frac{1}{4} \int_0^1 |f''(y)| \, dy} \, dx = 4.
+\]
+这就完成了证明.
+\end{proof}
 \begin{example}
 	设 \( f(x) \in D^2[0, 1] \), \( f(0) = f(1) = 0 \), \( |f''(x)| \leq M \), 求证：
     \[ \int_{0}^{1} f(x) \, dx \leq \frac{M}{12} \]
     
 \end{example}
+\begin{proof}
+    事实上, 对于满足边界条件 $f(0)=f(1)=0$ 的函数, 我们可以利用格林函数将其表示为
+    \[
+    f(x) = \int_0^1 k(x,y) f''(y) \, dy,
+    \]
+    其中核函数(格林函数)为
+    \[
+    k(x,y) = 
+    \begin{cases}
+        y(x-1), & 0 \le y \le x \\
+        x(y-1), & x \le y \le 1
+    \end{cases}
+    .
+    \]
+    于是, 我们对 $f(x)$ 进行积分
+    \[
+    \int_0^1 f(x) \, dx = \int_0^1 \left( \int_0^1 k(x,y) f''(y) \, dy \right) dx.
+    \]
+    通过交换积分次序 (Fubini 定理), 我们得到
+    \[
+    \int_0^1 f(x) \, dx = \int_0^1 f''(y) \left( \int_0^1 k(x,y) \, dx \right) dy.
+    \]
+    我们先计算内层关于 $x$ 的积分:
+    \begin{align*}
+        \int_0^1 k(x,y) \, dx &= \int_0^y x(y-1) \, dx + \int_y^1 y(x-1) \, dx \\
+        &= (y-1) \left[ \frac{x^2}{2} \right]_0^y + y \left[ \frac{x^2}{2} - x \right]_y^1 \\
+        &= (y-1)\frac{y^2}{2} + y \left( (\frac{1}{2} - 1) - (\frac{y^2}{2} - y) \right) \\
+        &= \frac{y^3-y^2}{2} + y \left( -\frac{1}{2} - \frac{y^2}{2} + y \right) \\
+        &= \frac{y^3-y^2}{2} - \frac{y}{2} - \frac{y^3}{2} + y^2 = \frac{y^2-y}{2}.
+    \end{align*}
+    将此结果代回, 就有
+    \[
+    \int_0^1 f(x) \, dx = \int_0^1 f''(y) \frac{y^2-y}{2} \, dy.
+    \]
+    从而, 利用已知条件 $|f''(y)| \le M$,
+    \begin{align*}
+        \left| \int_0^1 f(x) \, dx \right| &= \left| \int_0^1 f''(y) \frac{y^2-y}{2} \, dy \right| \\
+        &\le \int_0^1 |f''(y)| \left| \frac{y^2-y}{2} \right| \, dy \\
+        &\le M \int_0^1 \frac{y-y^2}{2} \, dy \\
+        &= \frac{M}{2} \left[ \frac{y^2}{2} - \frac{y^3}{3} \right]_0^1 = \frac{M}{2} \left( \frac{1}{2} - \frac{1}{3} \right) = \frac{M}{12}.
+    \end{align*}
+    因为 $\int_0^1 f(x) \, dx \le \left|\int_0^1 f(x) \, dx\right|$, 所以原命题成立. 这就完成了证明.
+\end{proof}
 \begin{example}
 	已知 \( f(x) \in C^2[a, b] \), \( f(a) = f(b) = 0 \), 求证：
     \[ |f(x)| \leq \frac{(x - a)(b - x)}{b - a} \int_{a}^{b} |f''(y)| \, dy \]
 \end{example}
+\begin{proof}
+    事实上, 我们知道对于满足边界条件 $f(a)=f(b)=0$ 的函数, 有如下格林函数表示:
+    \[
+    f(x) = \int_a^b k(x,y) f''(y) \, dy,
+    \]
+    其中核函数 $k(x,y)$ 为
+    \[
+    k(x,y) = \frac{1}{b-a}
+    \begin{cases}
+        (y-a)(x-b), & a \le y \le x \\
+        (x-a)(y-b), & x \le y \le b
+    \end{cases}
+    .
+    \]
+    于是利用绝对值不等式,
+    \[
+    |f(x)| = \left| \int_a^b k(x,y) f''(y) \, dy \right| \le \int_a^b |k(x,y)| |f''(y)| \, dy.
+    \]
+    我们来考察核函数 $|k(x,y)|$. 对于固定的 $x \in [a,b]$:
+    \begin{itemize}
+        \item 当 $a \le y \le x$ 时, $y-a \ge 0$, $x-b \le 0$, 故
+        \[ |k(x,y)| = \frac{(y-a)(b-x)}{b-a} \le \frac{(x-a)(b-x)}{b-a}. \]
+        \item 当 $x \le y \le b$ 时, $x-a \ge 0$, $y-b \le 0$, 故
+        \[ |k(x,y)| = \frac{(x-a)(b-y)}{b-a} \le \frac{(x-a)(b-x)}{b-a}. \]
+    \end{itemize}
+    因此, 对所有的 $y \in [a,b]$, 我们有一致的界:
+    \[
+    |k(x,y)| \le \frac{(x-a)(b-x)}{b-a}.
+    \]
+    从而, 将此不等式代入积分, 就有
+    \begin{align*}
+        |f(x)| &\le \int_a^b |k(x,y)| |f''(y)| \, dy \\
+        &\le \int_a^b \frac{(x-a)(b-x)}{b-a} |f''(y)| \, dy \\
+        &= \frac{(x-a)(b-x)}{b-a} \int_a^b |f''(y)| \, dy.
+    \end{align*}
+    这就完成了证明.
+\end{proof}
 \subsection{K值法}
 看例题操作，有手就行
 \begin{example}
 	(2021 天津大学考研) 设函数 \( f(x) \in C[a,b] \cap D^2(a,b) \)，求证：\(\exists \xi \in (a,b)\)，使得
 \[ f(b) - 2f\left(\frac{a+b}{2}\right) + f(a) = \frac{(b-a)^2}{4}f''(\xi). \]
 \end{example}
+\begin{proof}
+    事实上, 记常数 $K$ 满足
+\[
+f(b) - 2f\left(\frac{a+b}{2}\right) + f(a) = \frac{(b-a)^2}{4}K.
+\]
+即
+\[
+K = \frac{4}{(b-a)^2} \left[ f(b) - 2f\left(\frac{a+b}{2}\right) + f(a) \right].
+\]
+然后考虑辅助函数
+\[
+F(x) = f(x) - f(a) - \left( f\left(\frac{a+b}{2}\right) - f(a) \right)\frac{2(x-a)}{b-a} - \frac{K}{2}(x-a)\left(x-\frac{a+b}{2}\right).
+\]
+于是直接计算表明
+\[
+F(a) = 0, \quad F\left(\frac{a+b}{2}\right) = 0, \quad F(b) = 0.
+\]
+由罗尔中值定理, 我们知道存在 $\theta_1 \in \left(a, \frac{a+b}{2}\right)$ 和 $\theta_2 \in \left(\frac{a+b}{2}, b\right)$, 使得 $F'(\theta_1) = F'(\theta_2) = 0$.
+对 $F'(x)$ 再来一次罗尔中值定理, 我们知道存在 $\xi \in (\theta_1, \theta_2) \subset (a,b)$, 使得 $F''(\xi)=0$.
+我们计算 $F''(x)$:
+\[
+F''(x) = f''(x) - K.
+\]
+因此
+\[
+F''(\xi) = f''(\xi) - K = 0,
+\]
+即 $f''(\xi) = K$. 这就证明了结论.
+\end{proof}
 \begin{example}
 	(2024 大连理工考研) 设函数 \( f(x) \) 在 \([0,2]\) 上有二阶连续导数，且 \( f(0) = f(1) = f(2) = 0 \)，求证：\(\forall x \in (0,2)\)，\(\exists c \in (0,2)\)，使得
 \[ f(x) = \frac{1}{6}x(x-1)(x-2)f'''(c). \]
 \end{example}
+\begin{proof}
+    事实上, 对任意给定的 $x \in (0,2)$, 且 $x \neq 1$, 记常数 $K = K(x)$ 满足
+\[
+f(x) = \frac{1}{6}x(x-1)(x-2)K.
+\]
+即
+\[
+K = \frac{6f(x)}{x(x-1)(x-2)}.
+\]
+然后考虑函数
+\[
+F(t) = f(t) - \frac{1}{6}t(t-1)(t-2)K, \quad t \in [0, 2].
+\]
+于是直接计算表明
+\[
+F(0) = 0, \quad F(1) = 0, \quad F(2) = 0, \quad F(x) = 0.
+\]
+由罗尔中值定理, 我们知道存在 $\theta_1, \theta_2, \theta_3$, 分别位于开区间 $(0,x), (x,1), (1,2)$ (或 $x$ 所在的其他区间), 使得 $F'(\theta_1) = F'(\theta_2) = F'(\theta_3) = 0$.
+继续罗尔中值定理, 我们知道存在 $\eta_1 \in (\theta_1, \theta_2), \eta_2 \in (\theta_2, \theta_3)$, 使得 $F''(\eta_1) = F''(\eta_2) = 0$.
+再来一次罗尔中值定理, 我们知道存在 $c \in (\eta_1, \eta_2) \subset (0,2)$, 使得 $F'''(c) = 0$.
+我们计算 $F'''(t)$:
+\[
+F'''(t) = f'''(t) - \frac{1}{6} \frac{d^3}{dt^3}(t^3 - 3t^2 + 2t)K = f'''(t) - K.
+\]
+因此
+\[
+F'''(c) = f'''(c) - K = 0,
+\]
+即 $f'''(c)=K$. 这就证明了结论.
+\end{proof}
 \begin{example}
 	设 $f$ 在 $[a,b]$ 上二阶可微，$f(a) = f(b) = 0$。证明：对每个 $x \in (a,b)$，存在 $\xi \in (a,b)$，使得
     \[ f(x) = \frac{f''(\xi)}{2}(x-a)(x-b). \]
 \end{example}
+\begin{proof}
+    事实上, 对任意给定的 $x \in (a,b)$, 记常数 $K = K(x)$ 满足
+\[
+f(x) = \frac{K}{2}(x-a)(x-b).
+\]
+即
+\[
+K = \frac{2f(x)}{(x-a)(x-b)}.
+\]
+然后考虑函数
+\[
+F(t) = f(t) - \frac{K}{2}(t-a)(t-b), \quad t \in [a, b].
+\]
+于是直接计算表明
+\[
+F(a) = f(a) - 0 = 0,
+\]
+\[
+F(b) = f(b) - 0 = 0,
+\]
+\[
+F(x) = f(x) - \frac{K}{2}(x-a)(x-b) = 0.
+\]
+由罗尔中值定理, 我们知道存在 $\theta_1 \in (a, x)$ 和 $\theta_2 \in (x, b)$, 使得 $F'(\theta_1) = F'(\theta_2) = 0$.
+对 $F'(t)$ 再来一次罗尔中值定理, 我们知道存在 $\xi \in (\theta_1, \theta_2) \subset (a,b)$, 使得 $F''(\xi) = 0$.
+我们计算 $F''(t)$:
+\[
+F''(t) = f''(t) - \frac{K}{2}\frac{d^2}{dt^2}(t^2 - (a+b)t + ab) = f''(t) - K.
+\]
+因此
+\[
+F''(\xi) = f''(\xi) - K = 0,
+\]
+即 $f''(\xi) = K$. 这就证明了结论.
+\end{proof}
 \begin{example}
 	设 $f \in D^3[0,1]$ 满足 $f(0) = -1$, $f'(0) = 0$, $f(1) = 0$。证明对任何 $x \in [0,1]$，存在 $\theta \in (0,1)$，使得
     \[ f(x) = -1 + x^2 + \frac{x^2(x-1)}{6}f'''(\theta). \]
 \end{example}
+\begin{proof}
+	事实上, 记常数 $K=K(x)$ 满足
+\[
+f(x) = -1 + x^2 + \frac{x^2(x-1)}{6}K,
+\]
+即
+\[
+K = \frac{f(x) + 1 - x^2}{\frac{x^2(x-1)}{6}},
+\]
+然后考虑函数
+\[
+F(y) = f(y) - (-1+y^2) - \frac{y^2(y-1)}{6}K, \quad y \in [0, 1].
+\]
+于是直接计算表明
+\begin{equation}
+F(0) = F(1) = F(x) = F'(0) = 0. 
+\end{equation}
+由罗尔中值定理, 我们知道存在 $\theta_1 \in (0, x), \theta_2 \in (x, 1)$, 使得 $F'(\theta_1) = F'(\theta_2) = 0$. 结合(10.8), 继续罗尔中值定理我们知道存在 $\theta_3 \in (0, \theta_1), \theta_4 \in (\theta_1, \theta_2)$, 使得 $F''(\theta_3) = F''(\theta_4) = 0$. 再来一次罗尔中值定理, 我们知道存在 $\theta \in (\theta_3, \theta_4)$, 使得 $F'''(\theta) = 0$. 因此
+\[
+F'''(\theta) = f'''(\theta) - K = 0,
+\]
+这就证明了结论.
+\end{proof}
 \subsection{微分方程法}
 有一类中值定理习题的解决需要我们构造合适的函数，我们可以通过解微分方程来得到。下面我们结合具体的例子来说明。
 \begin{example}
@@ -1122,12 +1616,129 @@ f(x_2) - f(x_1) = \int_{x_1}^{x_2} f'(y) \, dy = \int_{x_1}^{x_2} \sqrt{y}f'(y) 
 \end{example}
 \begin{example}
 	设函数 \( f(x) \in C[-1,2] \cap D(-1,2) \), \( f(-1) = f(2) = -\frac{1}{2} \), \( f\left(\frac{1}{2}\right) = 1 \)。求证：
-    \[ \forall \lambda \in \mathbb{R}, \exists \xi \in (-1,2), \text{ s.t. } f'(\xi) = \lambda \left|f(\xi) - \frac{\xi}{2}\right| + \frac{1}{2}. \]
+    \[ \forall \lambda \in \mathbb{R}, \exists \xi \in (-1,2), \text{ s.t. } f'(\xi) = \lambda \left[f(\xi) - \frac{\xi}{2}\right] + \frac{1}{2}. \]
 \end{example}
 \begin{example}
 	设函数 \( f(x) \in D^2\left[0,\frac{\pi}{4}\right] \), \( f(0) = 0 \), \( f'(0) = 1 \), \( f\left(\frac{\pi}{4}\right) = 1 \)。求证：
     \[ \exists \xi \in \left(0,\frac{\pi}{4}\right), \text{ s.t. } f''(\xi) = 2f(\xi)f'(\xi). \]
 \end{example}
+
+\begin{remark}
+	\begin{enumerate}
+		\item % Example 1
+		\begin{enumerate}[label=\textbf{Step \arabic*}]
+			\item 考虑微分方程 $y' = \frac{2x-y}{x}$，解得 $y = \frac{c}{x} + x$.
+			\item 分离常数 $c$ 得 $c = x(y-x)$，常数变易得构造函数 $C(x) = x(f(x)-x)$.
+		\end{enumerate}
+		\item % Example 2
+		\begin{enumerate}[label=\textbf{Step \arabic*}]
+			\item 考虑微分方程 $y' = 2024y$，解得 $y=ce^{2024x}$.
+			\item 分离常数 $c$ 得 $c = ye^{-2024x}$，常数变易得构造函数 $C(x) = (f(x) - f(0))e^{-2024x}$.
+		\end{enumerate}
+		\item % Example 3
+		\begin{enumerate}[label=\textbf{Step \arabic*}]
+			\item 考虑微分方程 $y' = \frac{y}{b-a}$，解得 $y=ce^{\frac{x}{b-a}}$.
+			\item 分离常数 $c$ 得 $c = ye^{-\frac{x}{b-a}}$，常数变易得构造函数 $C(x) = (f(x)-f(a))e^{-\frac{x}{b-a}}$.
+		\end{enumerate}
+		\item % Example 4
+		\begin{enumerate}[label=\textbf{Step \arabic*}]
+			\item 考虑微分方程 $y' = \frac{xy}{1-u}$，解得 $y = c(1-x)e^{-x}$.
+			\item 分离常数 $c$ 得 $c = \frac{y}{(1-x)e^{-x}}$，常数变易得构造函数 $C(x) = \frac{f(x)}{(1-x)e^{-x}}$.
+		\end{enumerate}
+		\item % Example 5
+		\begin{enumerate}[label=\textbf{Step \arabic*}]
+			\item 考虑微分方程 $y' = \lambda \left[y - \frac{x}{2}\right] + \frac{1}{2}$，解得 $y = ce^{\lambda x} + \frac{x}{2}$.
+			\item 分离常数 $c$ 得 $c = \frac{y - \frac{x}{2}}{e^{\lambda x}}$，常数变易得构造函数 $C(x) = \frac{f(x) - \frac{x}{2}}{e^{\lambda x}}$.
+		\end{enumerate}
+		\item % Example 6
+		\begin{enumerate}[label=\textbf{Step \arabic*}]
+			\item 考虑微分方程 $y'' = 2yy'$，解得 $y' = y^2 + c$.
+			\item 分离常数 $c$ 得 $c = y' - y^2$，常数变易得构造函数 $C(x) = f'(x) - (f(x))^2$.
+		\end{enumerate}
+	\end{enumerate}
+\end{remark}
+
+\begin{proof}
+	\begin{enumerate}[label=\textcolor{blue}{\arabic{enumi}.}, start=1]
+		\item % Example 1
+		由条件 $\lim\limits_{x \to 1} \frac{f(x) - 2}{x - 1} = 5$ 我们知道 $f(1)=2$ 且 $f'(1)=5$.
+		构造函数 $c(x) = x(f(x)-x)$, 我们求导得
+		\[
+		c'(x) = f(x) - 2x + xf'(x).
+		\]
+		注意到
+		\[
+		c(0) = 0(f(0)-0) = 0, \quad c(1) = 1(f(1)-1)=2-1=1, \quad c(2) = 2(f(2)-2)=2(0-2)=-4.
+		\]
+		于是由拉格朗日中值定理得 $\alpha \in (0,1), \beta \in (1,2)$, 使得
+		\[
+		c'(\alpha) = \frac{c(1)-c(0)}{1-0} = 1, \quad c'(\beta) = \frac{c(2)-c(1)}{2-1} = \frac{-4-1}{1} = -5.
+		\]
+		由于 $c'(x)$ 在 $(0,2)$ 上连续, 且 $c'(\beta) < 0 < c'(\alpha)$, 由导数介值定理知存在 $\xi \in (\alpha, \beta) \subset (0,2)$ 使得 $c'(\xi) = 0$.
+		由 $c'(\xi) = f(\xi) - 2\xi + \xi f'(\xi) = 0$ 知
+		\[
+		f'(\xi) = \frac{2\xi - f(\xi)}{\xi}.
+		\]
+		
+		\item % Example 2
+		构造函数 $c(x) = (f(x) - f(0))e^{-2024x}$. 注意到 $c(0) = (f(0)-f(0))e^0 = 0$.
+		若 $f(1) = f(0)$, 则 $c(1)=0$. 由罗尔中值定理, 存在 $\xi \in (0,1)$, 使得 $c'(\xi)=0$.
+		若 $f(1) \neq f(0)$, 不妨设 $f(1)>f(0)$, 则 $c(1) = (f(1)-f(0))e^{-2024} > 0$.
+		我们求导得
+		\[ c'(x) = \left[ f'(x) - 2024(f(x)-f(0)) \right]e^{-2024x}. \]
+		于是 $c'(1) = (f'(1) - 2024(f(1)-f(0)))e^{-2024} = -2024(f(1)-f(0))e^{-2024} < 0$.
+		由于 $c(0)=0$ 且 $c(1)>0$, 函数 $c(x)$ 在 $[0,1]$ 上必有最大值. 又因 $c'(1)<0$, 该最大值点 $\xi$ 必在 $(0,1)$ 内部取得, 故 $c'(\xi)=0$.
+		$f(1)<f(0)$ 的情形同理.
+		由 $c'(\xi)=0$ 即
+		\[
+		f'(\xi) = 2024(f(\xi) - f(0)).
+		\]
+	
+		\item % Example 3
+		构造函数 $c(x) = (f(x)-f(a))e^{-\frac{x}{b-a}}$.
+		该函数在 $[a,b]$ 上连续可导, 故在 $[a,b]$ 上必有最大值和最小值. 设其在 $\eta  \in [a,b]$ 处取得极值.
+		若 $\eta \in (a,b)$, 则 $c'(\eta )=0$.
+		若 $\eta$ 在端点 $a$ 或 $b$ 处取极值, 我们考虑题目所给的 $c \in [a,b]$ 使得 $f'(c)=0$.
+		求导得 $c'(x) = \left(f'(x) - \frac{f(x)-f(a)}{b-a}\right)e^{-\frac{x}{b-a}}$.
+		我们有 $c'(\eta ) = \left(f'(\eta) - \frac{f(\eta)-f(a)}{b-a}\right)e^{-\frac{\eta}{b-a}} = 0$.
+		则 $f'(\eta) = \frac{f(\eta)-f(a)}{b-a}$.
+		
+		
+		\item % Example 4
+		构造函数 $c(x) = (1-x)e^x f(x)$. 注意到
+		\[ c(0) = (1-0)e^0 f(0) = 0, \quad c(1) = (1-1)e^1 f(1) = 0. \]
+		由罗尔中值定理, 存在 $u \in (0,1)$, 使得 $c'(u)=0$. 我们求导得
+		\[ c'(x) = -e^x f(x) + (1-x)e^x f(x) + (1-x)e^x f'(x) = e^x[-xf(x) + (1-x)f'(x)]. \]
+		由 $c'(u)=0$ 知 $-uf(u) + (1-u)f'(u) = 0$, 即
+		\[ f'(u) = \frac{u f(u)}{1-u}. \]
+	
+		\item % Example 5
+		构造函数 $c(x) = \frac{f(x) - \frac{x}{2}}{e^{\lambda x}}$. 注意到
+		\[ c(-1) = \frac{f(-1) - (-\frac{1}{2})}{e^{-\lambda}} = \frac{-\frac{1}{2}+\frac{1}{2}}{e^{-\lambda}} = 0, \]
+		\[ c\left(\frac{1}{2}\right) = \frac{f(\frac{1}{2}) - \frac{1}{4}}{e^{\lambda/2}} = \frac{1 - \frac{1}{4}}{e^{\lambda/2}} = \frac{3}{4e^{\lambda/2}}, \]
+		\[ c(2) = \frac{f(2) - \frac{2}{2}}{e^{2\lambda}} = \frac{-\frac{1}{2}-1}{e^{2\lambda}} = -\frac{3}{2e^{2\lambda}}. \]
+		由于 $c(\frac{1}{2})$ 与 $c(2)$ 异号, 由零点定理知存在 $\theta \in (\frac{1}{2}, 2)$, 使得 $c(\theta)=0$.
+		现在我们有 $c(-1)=c(\theta)=0$. 由罗尔中值定理知存在 $\xi \in (-1, \theta) \subset (-1,2)$, 使 $c'(\xi)=0$.
+		求导得 $c'(x) = \frac{(f'(x)-\frac{1}{2})e^{\lambda x} - (f(x)-\frac{x}{2})\lambda e^{\lambda x}}{e^{2\lambda x}} = \frac{f'(x)-\frac{1}{2} - \lambda(f(x)-\frac{x}{2})}{e^{\lambda x}}$.
+		由 $c'(\xi)=0$ 即
+		\[ f'(\xi) = \lambda\left[f(\xi) - \frac{\xi}{2}\right] + \frac{1}{2}. \]
+	
+		\item % Example 6
+		首先构造函数 $g(x) = \arctan(f(x)) - x$. 注意到
+		\[ g(0) = \arctan(f(0)) - 0 = \arctan(0) - 0 = 0, \]
+		\[ g\left(\frac{\pi}{4}\right) = \arctan\left(f\left(\frac{\pi}{4}\right)\right) - \frac{\pi}{4} = \arctan(1) - \frac{\pi}{4} = 0. \]
+		由罗尔中值定理, 存在 $c \in (0, \frac{\pi}{4})$, 使得 $g'(c)=0$.
+		由 $g'(x) = \frac{f'(x)}{1+f(x)^2}-1$ 得 $g'(c)=\frac{f'(c)}{1+f(c)^2}-1=0$, 即 $f'(c) = 1+f(c)^2$.
+		再构造函数 $C(x) = f'(x) - f(x)^2$. 我们注意到
+		\[ C(0) = f'(0) - f(0)^2 = 1 - 0^2 = 1, \]
+		\[ C(c) = f'(c) - f(c)^2 = (1+f(c)^2) - f(c)^2 = 1. \]
+		于是 $C(0)=C(c)$. 由罗尔中值定理, 存在 $\xi \in (0, c) \subset (0, \frac{\pi}{4})$, 使得 $C'(\xi)=0$.
+		求导得 $C'(x) = f''(x) - 2f(x)f'(x)$.
+		由 $C'(\xi)=0$ 即
+		\[ f''(\xi) = 2f(\xi)f'(\xi). \]
+	\end{enumerate}
+	
+\end{proof}
 \section{函数性态分析}
 \subsection{常用结论}
 \begin{theorem}
