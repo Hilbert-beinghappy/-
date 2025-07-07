@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  7 JUL 2025 21:31
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  7 JUL 2025 21:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1680,28 +1680,33 @@ Chapter 6.
 ]
 
 [60]
+Overfull \hbox (1.07037pt too wide) detected at line 3504
+[]
+ []
+
+
 
 [61]
-Overfull \hbox (2.38576pt too wide) in paragraph at lines 3590--3591
+
+[62]
+Overfull \hbox (2.38576pt too wide) in paragraph at lines 3673--3674
 []\TU/STSong(0)/b/n/10 例 题 \TU/texgyretermes(0)/b/n/10 6.42 []\TU/texgyretermes(0)/m/n/10 (Tauber \TU/STSong(0)/m/n/10 定 理\TU/texgyretermes(0)/m/n/10 ) \TU/STSong(0)/m/n/10 设 级 数 $[][] \OML/cmm/m/it/10 a[]x[]$ \TU/STSong(0)/m/n/10 收 敛 半 径 为 \TU/texgyretermes(0)/m/n/10 1\TU/STSong(0)/m/n/10 ，|  左 极 限 $[][] [][] \OML/cmm/m/it/10 a[]x[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 A$ \TU/STSong(0)/m/n/10 存 在，|  且 $[][] \OML/cmm/m/it/10 na[] \OT1/cmr/m/n/10 =
  []
 
 
 
-[62]
+[63]
 Chapter 7.
 
 
-[63
+[64
 
 ]
-Overfull \hbox (5.02519pt too wide) in paragraph at lines 3694--3698
+Overfull \hbox (5.02519pt too wide) in paragraph at lines 3777--3781
 \TU/STFangsong(0)/m/n/10 由 于 $\OT1/cmr/m/n/10 0 \OMS/cmsy/m/n/10 ^^T [] ^^T []$\TU/STFangsong(0)/m/n/10 ，|  当 $\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x; y\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ! \OT1/cmr/m/n/10 (0\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0)$ \TU/STFangsong(0)/m/n/10 时，| $[] \OMS/cmsy/m/n/10 ! \OT1/cmr/m/n/10 0$\TU/STFangsong(0)/m/n/10 。|  根 据 夹 逼 定 理，| $[][] \OML/cmm/m/it/10 f\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x; y\OT1/cmr/m/n/10 ) =
  []
 
 
-
-[64]
 
 [65]
 
@@ -1713,7 +1718,9 @@ Overfull \hbox (5.02519pt too wide) in paragraph at lines 3694--3698
 
 [69]
 
-[70] (./数分笔试部分.aux)
+[70]
+
+[71] (./数分笔试部分.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2022/08/05>
@@ -1729,12 +1736,12 @@ Package logreq Info: Writing requests to '数分笔试部分.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 46527 strings out of 473832
- 1006736 string characters out of 5729481
+ 46529 strings out of 473832
+ 1006768 string characters out of 5729481
  2004323 words of memory out of 5000000
- 68802 multiletter control sequences out of 15000+600000
+ 68804 multiletter control sequences out of 15000+600000
  564340 words of font info for 107 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  103i,18n,130p,691b,1342s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on 数分笔试部分.pdf (73 pages).
+Output written on 数分笔试部分.pdf (74 pages).

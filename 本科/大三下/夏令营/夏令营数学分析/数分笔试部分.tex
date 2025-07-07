@@ -3348,6 +3348,15 @@ p - \epsilon \le \frac{\ln f(x)}{\ln x} \le p + \epsilon \iff x^{p-\epsilon} \le
 \sum_{n=0}^{\infty} \frac{4n^2 + 4n + 3}{2n+1}x^n.
 \]
 \end{example}
+\begin{proof}
+	我们有
+\begin{align*}
+    \sum_{n=0}^\infty \frac{4n^2+4n+3}{2n+1}x^{2n} &= \sum_{n=0}^\infty (2n+1)x^{2n} + 2\sum_{n=0}^\infty \frac{x^{2n}}{2n+1} \\
+    &= \left(\sum_{n=0}^\infty x^{2n+1}\right)' + \frac{2}{x}\int_0^x \sum_{n=0}^\infty y^{2n} dy \\
+    &= \left(\frac{x}{1-x^2}\right)' + \frac{2}{x}\int_0^x \frac{1}{1-y^2} dy \\
+    &= \frac{1+x^2}{(1-x^2)^2} + \frac{1}{x} \ln\frac{1+x}{1-x}.
+\end{align*}
+\end{proof}
 \begin{example}
 	(2024 人大预推免) 判断
 \[
@@ -3396,18 +3405,66 @@ p - \epsilon \le \frac{\ln f(x)}{\ln x} \le p + \epsilon \iff x^{p-\epsilon} \le
 		\end{enumerate}
 	\end{example}
 \subsection{特殊方法}
+\begin{theorem}[交错级数不等式]
+	设 $a_n$ 递减非负数列, 则对 $m, p \in \mathbb{N}_0$, 必有
+\[
+\left| \sum_{n=m}^{m+p} (-1)^n a_n \right| \le a_m.
+\]
+\end{theorem}
 \begin{example}
 	求证：
 \[
 \sum_{n=1}^{\infty} \frac{1}{(2n-1)^2} = \frac{\pi^2}{8}.
 \]
 \end{example}
+\begin{proof}
+	我们有
+\[
+\sum_{n=1}^\infty \frac{1}{(2n-1)^2} = \sum_{n=1}^\infty \frac{1}{n^2} - \sum_{n=1}^\infty \frac{1}{(2n)^2} = \frac{3}{4} \sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{8}.
+\]
+\end{proof}
 \begin{example}
 	设 $f \in C^1[0,1]$, $f(x) \geq 0$，证明下述级数收敛且求值
 \[
 \sum_{n=1}^{\infty} (-1)^{n-1} \int_0^1 x^n f(x) dx.
 \]
 \end{example}
+
+\begin{remark}
+	为了有换序
+\[
+\sum_{n=1}^\infty \int f_n(x) \, dx = \int \sum_{n=1}^\infty f_n(x) \, dx,
+\]
+
+\noindent
+我们只需要
+\[
+\lim_{m\to\infty} \sum_{n=1}^m \int f_n(x) \, dx = \lim_{m\to\infty} \int \sum_{n=1}^m f_n(x) \, dx = \int \sum_{n=1}^\infty f_n(x) \, dx,
+\]
+
+\noindent
+即需要证明
+\[
+\lim_{m\to\infty} \int \sum_{n=m+1}^\infty f_n(x) \, dx = 0.
+\]
+
+\end{remark}
+\begin{proof}
+	显然 $\displaystyle\int_0^1 x^n f(x) \, dx$ 递减且
+\[
+0 \le \int_0^1 x^n f(x) \, dx \le \max f \cdot \int_0^1 x^n dx \to 0, n \to \infty,
+\]
+
+\noindent
+故由交错级数判别法知 $\displaystyle\sum_{n=1}^\infty (-1)^{n-1} \int_0^1 x^n f(x) \, dx$ 收敛. 故
+\[
+\sum_{n=1}^\infty (-1)^{n-1} \int_0^1 x^n f(x) \, dx = -\int_0^1 \sum_{n=1}^\infty (-x)^n f(x) \, dx = \int_0^1 \frac{xf(x)}{1+x} dx,
+\]
+这里换序来自
+\[
+\left| \int_0^1 \sum_{n=m}^\infty (-x)^n f(x) \, dx \right| \stackrel{\text{交错级数不等式}}{\le} \int_0^1 x^m f(x) \, dx \to 0, m \to \infty.
+\]
+\end{proof}
 \begin{example}
 	计算
 \[
@@ -3417,9 +3474,35 @@ p - \epsilon \le \frac{\ln f(x)}{\ln x} \le p + \epsilon \iff x^{p-\epsilon} \le
 \begin{example}
 	计算
 \[
-\sum_{n=1}^{\infty} \left( \ln 2 - \frac{1}{n+1} - \frac{1}{n+2} - \cdots - \frac{1}{2n} \right).
+\sum_{n=1}^{\infty} \left( \ln 2 - \frac{1}{n+1} - \frac{1}{n+2} - \cdots - \frac{1}{2n} \right)\frac{1}{n}.
 \]          
 \end{example}
+\begin{proof}
+	注意到
+\begin{align*}
+    \sum_{j=1}^n \frac{1}{n+j} &= \sum_{j=1}^{2n} \frac{1}{j} - \sum_{j=1}^n \frac{1}{j} = \sum_{j=1}^n \frac{1}{2j} + \sum_{j=1}^n \frac{1}{2j-1} - \sum_{j=1}^n \frac{1}{j} \\
+    &= \sum_{j=1}^n \frac{1}{2j-1} - \sum_{j=1}^n \frac{1}{2j}.
+\end{align*}
+
+\noindent
+于是有经典恒等式
+\[
+\sum_{j=1}^n \frac{1}{n+j} = \sum_{j=1}^{2n} \frac{(-1)^{j-1}}{j}.
+\]
+
+\noindent
+于是我们有
+\begin{align*}
+    \sum_{n=1}^\infty n \left( \ln 2 - \frac{1}{n+1} - \frac{1}{n+2} - \cdots - \frac{1}{2n} \right) 
+    &= \sum_{n=1}^\infty \frac{1}{n} \left( \ln 2 - \sum_{j=n+1}^{2n} \frac{(-1)^{j-1}}{j} \right) = \sum_{n=1}^\infty \frac{1}{n} \left( \ln 2 - \int_0^1 \sum_{j=0}^{2n-1} (-x)^j dx \right) \\
+    &= \sum_{n=1}^\infty \frac{1}{n} \left( \ln 2 - \int_0^1 \frac{1-x^{2n}}{1+x} dx \right) = \sum_{n=1}^\infty \frac{1}{n} \int_0^1 \frac{x^{2n}}{1+x} dx \\
+    &= \int_0^1 \frac{1}{1+x} \sum_{n=1}^\infty \frac{x^{2n}}{n} dx = -\int_0^1 \frac{\ln(1-x^2)}{1+x} dx \\
+    &= -\int_0^1 \frac{\ln(1-x)}{1+x} dx - \int_0^1 \frac{\ln(1+x)}{1+x} dx = -\int_0^1 \frac{\ln x}{2-x} dx - \frac{\ln^2 2}{2} \\
+    &= -2\int_0^{1/2} \frac{\ln x + \ln 2}{2-2x} dx - \frac{\ln^2 2}{2} \\
+	&= -\int_0^{1/2} \frac{\ln x}{1-x} dx - \ln 2 \int_0^{1/2} \frac{1}{1-x} dx - \frac{\ln^2 2}{2} \\
+    &= \frac{\pi^2}{12} + \frac{\ln^2 2}{2} - \ln^2 2 - \frac{\ln^2 2}{2} = \frac{\pi^2}{12} - \ln^2 2,
+\end{align*}
+\end{proof}
 \section{敛散性判断}
 \subsection{数项级数}
 \begin{example}
