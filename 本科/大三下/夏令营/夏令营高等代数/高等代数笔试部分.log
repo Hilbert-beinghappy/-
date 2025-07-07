@@ -1,10 +1,10 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  7 JUL 2025 21:31
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  6 JUL 2025 20:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**数分笔试部分
-(./数分笔试部分.tex
+**高等代数笔试部分
+(./高等代数笔试部分.tex
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
 (./elegantbook.cls
@@ -1307,8 +1307,9 @@ Package: mhsetup 2021/03/18 v1.4 programming setup (MH)
 )
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... none found.
- (./数分笔试部分.aux)
-\openout1 = `数分笔试部分.aux'.
+
+No file 高等代数笔试部分.aux.
+\openout1 = `高等代数笔试部分.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
 LaTeX Font Info:    ... okay on input line 30.
@@ -1331,10 +1332,11 @@ LaTeX Font Info:    ... okay on input line 30.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 30.
 LaTeX Font Info:    ... okay on input line 30.
 Package hyperref Info: Link coloring ON on input line 30.
- (./数分笔试部分.out) (./数分笔试部分.out)
 \@outlinefile=\write7
-\openout7 = `数分笔试部分.out'.
+\openout7 = `高等代数笔试部分.out'.
 
+
+Package hyperref Warning: Rerun to get /PageLabels entry.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -1395,12 +1397,12 @@ Package biblatex Info: XeTeX detected.
 (biblatex)             Assuming input encoding 'utf8'.
 Package biblatex Info: Automatic encoding selection.
 (biblatex)             Assuming data encoding 'utf8'.
-\openout5 = `数分笔试部分.bcf'.
+\openout5 = `高等代数笔试部分.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file '数分笔试部分.bbl' not found.
+Package biblatex Info: ... file '高等代数笔试部分.bbl' not found.
 
-No file 数分笔试部分.bbl.
+No file 高等代数笔试部分.bbl.
 Package biblatex Info: Reference section=0 on input line 30.
 Package biblatex Info: Reference segment=0 on input line 30.
 \c@lstlisting=\count568
@@ -1468,273 +1470,66 @@ LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
 ]
 LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
 (Font)              scaled to size 17.28pt on input line 35.
- (./数分笔试部分.toc
+
+No file 高等代数笔试部分.toc.
+\tf@toc=\write8
+\openout8 = `高等代数笔试部分.toc'.
+
+
 
 [1
 
 
 
-])
-\tf@toc=\write8
-\openout8 = `数分笔试部分.toc'.
-
-
-
-LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
-(Font)              scaled to size 9.0pt on input line 37.
-[2]
+]
 Chapter 1.
-LaTeX Font Info:    Font shape `TU/texgyretermes(0)/b/n' will be
-(Font)              scaled to size 12.0pt on input line 40.
-LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 86.
-LaTeX Font Info:    Font shape `TU/texgyretermes(0)/m/n' will be
-(Font)              scaled to size 5.0pt on input line 86.
 
 
 [1
 
 
 ]
-
-[2]
-
-[3]
-
-[4]
-
-[5]
-Missing character: There is no 。 ("3002) in font cmr10!
-Missing character: There is no 。 ("3002) in font cmr10!
-
-
-[6]
-Missing character: There is no 。 ("3002) in font cmr10!
-
-
-[7]
-
-[8]
-
-[9]
-
-[10]
-
-[11]
-File: figure/1.PNG Graphic file (type bmp)
-<figure/1.PNG>
-
-
-[12]
-
-[13]
 Chapter 2.
 
 
-[14
+[2
 
-]
-
-[15]
-
-LaTeX Font Warning: Font shape `TU/STFangsong(0)/b/n' undefined
-(Font)              using `TU/STFangsong(0)/m/n' instead on input line 876.
-
-
-
-[16]
-
-[17]
-
-LaTeX Font Warning: Font shape `TU/STKaiti(0)/b/n' undefined
-(Font)              using `TU/STKaiti(0)/m/n' instead on input line 983.
-
-
-
-[18]
-
-[19]
-
-[20]
-
-[21]
-Chapter 3.
-
-
-[22
-
-]
-
-[23]
-
-[24]
-
-[25]
-
-[26]
-Overfull \hbox (3.23398pt too wide) in paragraph at lines 1519--1524
-\TU/STFangsong(0)/m/n/10 由 罗 尔 中 值 定 理\TU/texgyretermes(0)/m/n/10 , \TU/STFangsong(0)/m/n/10 我 们 知 道 存 在 $\OML/cmm/m/it/10 ^^R[]; ^^R[]; ^^R[]$\TU/texgyretermes(0)/m/n/10 , \TU/STFangsong(0)/m/n/10 分 别 位 于 开 区 间 $\OT1/cmr/m/n/10 (0\OML/cmm/m/it/10 ; x\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x; \OT1/cmr/m/n/10 1)\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 (1\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 2)$ \TU/texgyretermes(0)/m/n/10 (\TU/STFangsong(0)/m/n/10 或 $\OML/cmm/m/it/10 x$ \TU/STFangsong(0)/m/n/10 所 在 的 其 他 区 间\TU/texgyretermes(0)/m/n/10 ), \TU/STFangsong(0)/m/n/10 使 得 $\OML/cmm/m/it/10 F[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^R[]\OT1/cmr/m/n/10 ) =
- []
-
-
-
-[27]
-
-[28]
-
-[29]
-
-[30]
-
-[31]
-Missing character: There is no ， ("FF0C) in font cmr10!
-
-
-[32]
-
-[33]
-
-[34]
-
-[35]
-
-[36]
-Chapter 4.
-
-
-[37
-
-]
-
-[38]
-
-[39]
-
-[40]
-
-[41]
-
-[42]
-Missing character: There is no 换 ("6362) in font cmr7!
-Missing character: There is no 序 ("5E8F) in font cmr7!
-Missing character: There is no 换 ("6362) in font cmr7!
-Missing character: There is no 序 ("5E8F) in font cmr7!
-Missing character: There is no 倒 ("5012) in font cmr7!
-Missing character: There is no 代 ("4EE3) in font cmr7!
-Missing character: There is no 换 ("6362) in font cmr7!
-Missing character: There is no 倒 ("5012) in font cmr7!
-Missing character: There is no 代 ("4EE3) in font cmr7!
-Missing character: There is no 换 ("6362) in font cmr7!
-
-
-[43]
-
-[44]
-
-[45]
-
-[46]
-
-[47]
-
-[48]
-
-[49]
-
-[50]
-
-[51]
-
-[52]
-Chapter 5.
-
-Overfull \hbox (26.46407pt too wide) detected at line 3012
-[]
- []
-
-
-
-[53
-
-]
-
-[54]
-Overfull \hbox (8.41878pt too wide) in paragraph at lines 3112--3113
-[]\TU/STFangsong(0)/m/n/10 函 数 $\OML/cmm/m/it/10 h\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )$ \TU/STFangsong(0)/m/n/10 的 变 上 限 积 分 $\OML/cmm/m/it/10 H\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 A\OT1/cmr/m/n/10 ) = [][] \OML/cmm/m/it/10 h\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ) \OML/cmm/m/it/10 dx \OT1/cmr/m/n/10 = [][] \OML/cmm/m/it/10 xf\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ) \OML/cmm/m/it/10 dx$ \TU/STFangsong(0)/m/n/10 有 界。|  这 是 因 为 根 据 题 设，|  广 义 积 分 $[][] \OML/cmm/m/it/10 xf\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 dx$
- []
-
-
-
-[55]
-
-[56]
-
-[57]
-
-[58]
-Chapter 6.
-
-
-[59
-
-]
-
-[60]
-
-[61]
-Overfull \hbox (2.38576pt too wide) in paragraph at lines 3590--3591
-[]\TU/STSong(0)/b/n/10 例 题 \TU/texgyretermes(0)/b/n/10 6.42 []\TU/texgyretermes(0)/m/n/10 (Tauber \TU/STSong(0)/m/n/10 定 理\TU/texgyretermes(0)/m/n/10 ) \TU/STSong(0)/m/n/10 设 级 数 $[][] \OML/cmm/m/it/10 a[]x[]$ \TU/STSong(0)/m/n/10 收 敛 半 径 为 \TU/texgyretermes(0)/m/n/10 1\TU/STSong(0)/m/n/10 ，|  左 极 限 $[][] [][] \OML/cmm/m/it/10 a[]x[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 A$ \TU/STSong(0)/m/n/10 存 在，|  且 $[][] \OML/cmm/m/it/10 na[] \OT1/cmr/m/n/10 =
- []
-
-
-
-[62]
-Chapter 7.
-
-
-[63
-
-]
-Overfull \hbox (5.02519pt too wide) in paragraph at lines 3694--3698
-\TU/STFangsong(0)/m/n/10 由 于 $\OT1/cmr/m/n/10 0 \OMS/cmsy/m/n/10 ^^T [] ^^T []$\TU/STFangsong(0)/m/n/10 ，|  当 $\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x; y\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ! \OT1/cmr/m/n/10 (0\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0)$ \TU/STFangsong(0)/m/n/10 时，| $[] \OMS/cmsy/m/n/10 ! \OT1/cmr/m/n/10 0$\TU/STFangsong(0)/m/n/10 。|  根 据 夹 逼 定 理，| $[][] \OML/cmm/m/it/10 f\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x; y\OT1/cmr/m/n/10 ) =
- []
-
-
-
-[64]
-
-[65]
-
-[66]
-
-[67]
-
-[68]
-
-[69]
-
-[70] (./数分笔试部分.aux)
+] (./高等代数笔试部分.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2022/08/05>
  ***********
 
 
-LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+LaTeX Warning: There were undefined references.
 
-Package rerunfilecheck Info: File `数分笔试部分.out' has not changed.
-(rerunfilecheck)             Checksum: CC9D07730453FE36AB776A9F22502019;9164.
-Package logreq Info: Writing requests to '数分笔试部分.run.xml'.
-\openout1 = `数分笔试部分.run.xml'.
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `高等代数笔试部分.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `高等代数笔试部分.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  836455CB69DF166D99FE19FAEAFC11F8;3422.
+
+Package biblatex Warning: Please (re)run Biber on the file:
+(biblatex)                高等代数笔试部分
+(biblatex)                and rerun LaTeX afterwards.
+
+Package logreq Info: Writing requests to '高等代数笔试部分.run.xml'.
+\openout1 = `高等代数笔试部分.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 46527 strings out of 473832
- 1006736 string characters out of 5729481
- 2004323 words of memory out of 5000000
- 68802 multiletter control sequences out of 15000+600000
- 564340 words of font info for 107 fonts, out of 8000000 for 9000
+ 45772 strings out of 473832
+ 971945 string characters out of 5729481
+ 1965087 words of memory out of 5000000
+ 68079 multiletter control sequences out of 15000+600000
+ 564204 words of font info for 90 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 103i,18n,130p,691b,1342s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 103i,11n,130p,693b,803s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on 数分笔试部分.pdf (73 pages).
+Output written on 高等代数笔试部分.pdf (4 pages).
