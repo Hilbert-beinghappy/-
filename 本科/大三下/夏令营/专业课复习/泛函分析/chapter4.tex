@@ -1,0 +1,695 @@
+\chapter{$L^p$ 空间}
+
+设 $(\Omega, \mathcal{M}, \mu)$ 表示一个测度空间，即 $\Omega$ 是一个集合，并且
+
+(i) $\mathcal{M}$ 是 $\Omega$ 中的一个 $\sigma$-代数，即 $\mathcal{M}$ 是 $\Omega$ 的子集的一个集合，满足：
+\begin{itemize}
+    \item[ (a)] $\emptyset \in \mathcal{M}$，
+    \item[ (b)] $A \in \mathcal{M} \implies A^c \in \mathcal{M}$，
+    \item[ (c)] 每当 $A_n \in \mathcal{M} \quad \forall n$ 时，$\cup_{n=1}^\infty A_n \in \mathcal{M}$，
+\end{itemize}
+
+(ii) $\mu$ 是一个测度，即 $\mu: \mathcal{M} \to [0, \infty]$ 满足
+\begin{itemize}
+    \item[ (a)] $\mu(\emptyset) = 0$，
+    \item[ (b)] 每当 $(A_n)$ 是 $\mathcal{M}$ 中可数个不交成员的族时，$\mu\left(\bigcup_{n=1}^\infty A_n\right) = \sum_{n=1}^\infty \mu(A_n)$。
+\end{itemize}
+$\mathcal{M}$ 的成员被称为\textit{可测集}。有时我们用 $|A|$ 代替 $\mu(A)$。我们还假设——尽管这不是必需的——
+
+(iii) $\Omega$ 是\textit{$\sigma$-有限的}，即存在 $\mathcal{M}$ 中的一个可数族 $(\Omega_n)$，使得 $\Omega = \cup_{n=1}^\infty \Omega_n$ 且 $\mu(\Omega_n) < \infty \quad \forall n$。
+
+具有性质 $\mu(E)=0$ 的集合 $E \in \mathcal{M}$ 被称为\textit{零测集}。如果一个性质在 $\Omega$ 上除一个零测集外处处成立，我们说该性质\textit{几乎处处}（a.e.）成立（或对\textit{几乎所有} $x \in \Omega$ 成立）。
+
+我们假设读者熟悉\textbf{可测函数}和\textbf{可积函数} $f: \Omega \to \mathbb{R}$ 的概念；参见，例如，H. L. Royden [1], G. B. Folland [2], A. Knapp [1], D. L. Cohn [1], A. Friedman [3], W. Rudin [2], P. Halmos [1], E. Hewitt–K. Stromberg [1], R. Wheeden–A. Zygmund [1], J. Neveu [1], P. Malliavin [1], A. J. Weir [1], A. Kolmogorov–S. Fomin [1], I. Fonseca–G. Leoni [1]。我们用 $L^1(\Omega, \mu)$，或简称 $L^1(\Omega)$（或仅 $L^1$），表示从 $\Omega$ 到 $\mathbb{R}$ 的可积函数空间。
+
+我们通常用 $\int f$ 代替 $\int_\Omega f \,d\mu$，并且我们也使用记号
+\[ \|f\|_{L^1} = \|f\|_1 = \int_\Omega |f| \,d\mu = \int |f|. \]
+像往常一样，我们等同几乎处处相等的两个函数。我们回顾以下基本事实。
+
+\section{一些每个人都必须知道的积分结果}
+
+\begin{theorem}[单调收敛定理, Beppo Levi]\label{theorem4.1}
+设 $(f_n)$ 是 $L^1$ 中的一个函数序列，满足
+\begin{itemize}
+    \item[(a)] 在 $\Omega$ 上几乎处处有 $f_1 \le f_2 \le \cdots \le f_n \le f_{n+1} \le \cdots$，
+    \item[(b)] $\sup_n \int f_n < \infty$。
+\end{itemize}
+那么 $f_n(x)$ 在 $\Omega$ 上几乎处处收敛到一个有限极限，我们记为 $f(x)$；函数 $f$ 属于 $L^1$ 且 $\|f_n - f\|_1 \to 0$。
+\end{theorem}
+
+\begin{theorem}[控制收敛定理, Lebesgue]\label{theorem4.2}
+设 $(f_n)$ 是 $L^1$ 中的一个函数序列，满足
+\begin{itemize}
+    \item[(a)] 在 $\Omega$ 上几乎处处有 $f_n(x) \to f(x)$，
+    \item[(b)] 存在一个函数 $g \in L^1$，使得对所有 $n$，在 $\Omega$ 上几乎处处有 $|f_n(x)| \le g(x)$。
+\end{itemize}
+那么 $f \in L^1$ 且 $\|f_n - f\|_1 \to 0$。
+\end{theorem}
+
+\begin{lemma}[Fatou 引理]\label{lemma4.1}
+设 $(f_n)$ 是 $L^1$ 中的一个函数序列，满足
+\begin{itemize}
+    \item[(a)] 对所有 $n$，几乎处处有 $f_n \ge 0$。
+    \item[(b)] $\sup_n \int f_n < \infty$。
+\end{itemize}
+对几乎所有 $x \in \Omega$，我们设 $f(x) = \liminf_{n\to\infty} f_n(x) \le +\infty$。那么 $f \in L^1$ 且
+\[ \int f \le \liminf_{n\to\infty} \int f_n. \]
+\end{lemma}
+
+一个基本的例子是 $\Omega = \mathbb{R}^N$，$\mathcal{M}$ 由勒贝格可测集构成，$\mu$ 是 $\mathbb{R}^N$ 上的勒贝格测度。
+
+\textbf{注记.} 我们用 $C_c(\mathbb{R}^N)$ 表示 $\mathbb{R}^N$ 上所有具有紧支集的连续函数空间，即
+\[ C_c(\mathbb{R}^N) = \{f \in C(\mathbb{R}^N); f(x)=0 \quad \forall x \in \mathbb{R}^N \setminus K, \text{ 其中 } K \text{ 是紧集}\}. \]
+
+\begin{theorem}[稠密性]\label{theorem4.3}
+空间 $C_c(\mathbb{R}^N)$ 在 $L^1(\mathbb{R}^N)$ 中是稠密的；即
+\[ \forall f \in L^1(\mathbb{R}^N) \quad \forall \varepsilon > 0 \quad \exists \varphi \in C_c(\mathbb{R}^N) \text{ 使得 } \|f - \varphi\|_1 \le \varepsilon. \]
+\end{theorem}
+
+设 $(\Omega_1, \mathcal{M}_1, \mu_1)$ 和 $(\Omega_2, \mathcal{M}_2, \mu_2)$ 是两个 $\sigma$-有限的测度空间。可以在笛卡尔积 $\Omega = \Omega_1 \times \Omega_2$ 上以标准方式定义测度空间 $(\Omega, \mathcal{M}, \mu)$ 的结构。
+
+\begin{theorem}[Tonelli]\label{theorem4.4}
+设 $F(x, y): \Omega_1 \times \Omega_2 \to \mathbb{R}$ 是一个可测函数，满足
+\begin{itemize}
+    \item[(a)] 对几乎处处的 $x \in \Omega_1$，$\int_{\Omega_2} |F(x, y)| d\mu_2 < \infty$，
+\end{itemize}
+且
+\begin{itemize}
+    \item[(b)] $\int_{\Omega_1} d\mu_1 \int_{\Omega_2} |F(x,y)| d\mu_2 < \infty$。
+\end{itemize}
+则 $F \in L^1(\Omega_1 \times \Omega_2)$。
+\end{theorem}
+
+\begin{theorem}[Fubini]\label{theorem4.5}
+假设 $F \in L^1(\Omega_1 \times \Omega_2)$。那么对几乎处处的 $x \in \Omega_1$，$F(x, y) \in L^1_y(\Omega_2)$ 且 $\int_{\Omega_2} F(x, y) d\mu_2 \in L^1_x(\Omega_1)$。类似地，对几乎处处的 $y \in \Omega_2$，$F(x, y) \in L^1_x(\Omega_1)$ 且 $\int_{\Omega_1} F(x, y) d\mu_1 \in L^1_y(\Omega_2)$。此外，我们有
+\[ \int_{\Omega_1} d\mu_1 \int_{\Omega_2} F(x,y) d\mu_2 = \int_{\Omega_2} d\mu_2 \int_{\Omega_1} F(x, y) d\mu_1 = \iint_{\Omega_1 \times \Omega_2} F(x,y) d\mu_1 d\mu_2. \]
+\end{theorem}
+
+\section{$L^p$ 空间的定义和基本性质}
+
+\begin{definition}
+设 $p \in \mathbb{R}$ 且 $1 < p < \infty$；我们定义
+\[ L^p(\Omega) = \{f: \Omega \to \mathbb{R}; f \text{ 是可测的且 } |f|^p \in L^1(\Omega)\} \]
+其范数为
+\[ \|f\|_{L^p} = \|f\|_p = \left[ \int_\Omega |f(x)|^p d\mu \right]^{1/p}. \]
+我们稍后将验证 $\| \cdot \|_p$ 是一个范数。
+\end{definition}
+
+\begin{definition}
+我们定义
+\[ L^\infty(\Omega) = \{f: \Omega \to \mathbb{R}; f \text{ 是可测的且存在一个常数 } C \text{ 使得在 } \Omega \text{上几乎处处 } |f(x)| \le C \} \]
+其范数为
+\[ \|f\|_{L^\infty} = \|f\|_\infty = \inf\{C; \text{在 } \Omega \text{ 上几乎处处 } |f(x)| \le C \}. \]
+\end{definition}
+下面的注记意味着 $\| \cdot \|_\infty$ 是一个范数。
+\begin{remark}
+如果 $f \in L^\infty$ 那么我们有
+\[ |f(x)| \le \|f\|_\infty \quad \text{在 } \Omega \text{ 上几乎处处}. \]
+事实上，存在一个序列 $C_n$ 使得 $C_n \to \|f\|_\infty$ 并且对每个 $n$，在 $\Omega$ 上几乎处处有 $|f(x)| \le C_n$。因此 $|f(x)| \le C_n$ 对所有 $n$ 和所有 $x \in \Omega \setminus E_n$ 成立，其中 $|E_n|=0$。令 $E = \cup_{n=1}^\infty E_n$，那么 $|E|=0$ 且
+\[ |f(x)| \le C_n \quad \forall n, \quad \forall x \in \Omega \setminus E; \]
+由此得出 $|f(x)| \le \|f\|_\infty \quad \forall x \in \Omega \setminus E$。
+\end{remark}
+
+\textbf{注记.} 设 $1 \le p \le \infty$; 我们用 $p'$ 表示共轭指数，
+\[ \frac{1}{p} + \frac{1}{p'} = 1. \]
+
+\begin{theorem}[Hölder 不等式]\label{theorem4.6}
+假设 $f \in L^p$ 且 $g \in L^{p'}$，其中 $1 \le p \le \infty$。那么 $fg \in L^1$ 并且
+\begin{equation}\label{eq:holder}
+\int |fg| \le \|f\|_p \|g\|_{p'}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+当 $p=1$ 或 $p=\infty$ 时结论是显然的；因此我们假设 $1 < p < \infty$。我们回顾杨氏不等式：\footnote{有时使用形式 $ab \le \varepsilon a^p + C_\varepsilon b^{p'}$，其中 $C_\varepsilon = \varepsilon^{-1/(p-1)}$，也很方便。}
+\begin{equation}\label{eq:young}
+ab \le \frac{a^p}{p} + \frac{b^{p'}}{p'} \quad \forall a \ge 0, \forall b \ge 0.
+\end{equation}
+不等式 (\ref{eq:young}) 是函数 $t \mapsto \log t$ 在 $(0, \infty)$ 上凹性的直接推论：
+\[ \log\left(\frac{1}{p}a^p + \frac{1}{p'}b^{p'}\right) \ge \frac{1}{p}\log a^p + \frac{1}{p'}\log b^{p'} = \log ab. \]
+我们有
+\[ |f(x)g(x)| \le \frac{1}{p}|f(x)|^p + \frac{1}{p'}|g(x)|^{p'} \quad \text{a.e. } x \in \Omega. \]
+由此得出 $fg \in L^1$ 且
+\begin{equation}\label{eq:holder_proof_1}
+\int |fg| \le \frac{1}{p}\|f\|_p^p + \frac{1}{p'}\|g\|_{p'}^{p'}.
+\end{equation}
+在 (\ref{eq:holder_proof_1}) 中用 $\lambda f$ ($\lambda > 0$) 替换 $f$ 得到
+\begin{equation}\label{eq:holder_proof_2}
+\int |fg| \le \frac{\lambda^{p-1}}{p}\|f\|_p^p + \frac{1}{\lambda p'}\|g\|_{p'}^{p'}.
+\end{equation}
+选择 $\lambda = \|f\|_p^{-1} \|g\|_{p'}^{p'/p}$ 以最小化 (\ref{eq:holder_proof_2}) 的右边，我们得到 (\ref{eq:holder})。
+\end{proof}
+
+\begin{remark}
+记住 Hölder 不等式的以下扩展很有用。假设 $f_1, f_2, \dots, f_k$ 是函数，使得
+\[ f_i \in L^{p_i}, \quad 1 \le i \le k \text{ 且 } \frac{1}{p_1} + \frac{1}{p_2} + \dots + \frac{1}{p_k} \le 1. \]
+那么乘积 $f = f_1 f_2 \cdots f_k$ 属于 $L^p$ 且
+\[ \|f\|_p \le \|f_1\|_{p_1} \|f_2\|_{p_2} \cdots \|f_k\|_{p_k}. \]
+特别地，如果 $f \in L^p \cap L^q$ 且 $1 \le p \le q \le \infty$，那么 $f \in L^r$ 对所有 $p \le r \le q$ 成立，并且下面的“插值不等式”成立：
+\[ \|f\|_r \le \|f\|_p^\alpha \|f\|_q^{1-\alpha}, \quad \text{其中 } \frac{1}{r} = \frac{\alpha}{p} + \frac{1-\alpha}{q}, \quad 0 \le \alpha \le 1; \]
+见练习 4.4。
+\end{remark}
+
+\begin{theorem}\label{theorem4.7}
+$L^p$ 是一个向量空间，且 $\| \cdot \|_p$ 对任意 $1 \le p \le \infty$ 都是一个范数。
+\end{theorem}
+\begin{proof}
+$p=1$ 和 $p=\infty$ 的情况是清楚的。因此我们假设 $1 < p < \infty$。设 $f, g \in L^p$。我们有
+\[ |f(x)+g(x)|^p \le (|f(x)|+|g(x)|)^p \le 2^p(|f(x)|^p + |g(x)|^p). \]
+因此，$f+g \in L^p$。另一方面，
+\[ \|f+g\|_p^p = \int |f+g|^p = \int |f+g|^{p-1}|f+g| \le \int |f+g|^{p-1}|f| + \int |f+g|^{p-1}|g|. \]
+但 $|f+g|^{p-1} \in L^{p'}$，通过 Hölder 不等式我们得到
+\[ \|f+g\|_p^p \le \|f+g\|_p^{p/p'} (\|f\|_p + \|g\|_p), \]
+即 $\|f+g\|_p \le \|f\|_p + \|g\|_p$。
+\end{proof}
+
+\begin{theorem}[Fischer-Riesz]\label{theorem4.8}
+$L^p$ 对任意 $1 \le p \le \infty$ 都是一个 Banach 空间。
+\end{theorem}
+\begin{proof}
+我们区分 $p=\infty$ 和 $1 \le p < \infty$ 的情况。
+
+\textbf{情况 1: $p=\infty$。} 设 $(f_n)$ 是 $L^\infty$ 中的一个柯西序列。给定任意整数 $k \ge 1$，存在一个整数 $N_k$ 使得对 $m, n \ge N_k$，$\|f_m - f_n\|_\infty \le \frac{1}{k}$。因此存在一个零测集 $E_k$ 使得
+\begin{equation}\label{eq:fischer_riesz_p_inf}
+|f_m(x) - f_n(x)| \le \frac{1}{k} \quad \forall x \in \Omega \setminus E_k, \quad \forall m, n \ge N_k.
+\end{equation}
+然后我们令 $E = \cup_k E_k$——这是一个零测集——我们看到对所有 $x \in \Omega \setminus E$，序列 $(f_n(x))$ 是柯西序列（在 $\mathbb{R}$ 中）。因此 $f_n(x) \to f(x)$ 对所有 $x \in \Omega \setminus E$。在 (\ref{eq:fischer_riesz_p_inf}) 中令 $m \to \infty$ 我们得到
+\[ |f(x) - f_n(x)| \le \frac{1}{k} \quad \text{对所有 } x \in \Omega \setminus E, \quad \forall n \ge N_k. \]
+我们得出 $f \in L^\infty$ 并且 $\|f - f_n\|_\infty \le \frac{1}{k} \quad \forall n \ge N_k$；因此 $f_n \to f$ 在 $L^\infty$ 中。
+
+\textbf{情况 2: $1 \le p < \infty$。} 设 $(f_n)$ 是 $L^p$ 中的一个柯西序列。为了得出序列在 $L^p$ 中收敛，提取一个子序列 $(f_{n_k})$ 使得
+\[ \|f_{n_{k+1}} - f_{n_k}\|_p \le \frac{1}{2^k} \quad \forall k \ge 1. \]
+[一个人可以这样进行：选择 $n_1$ 使得 $\|f_m - f_n\|_p \le \frac{1}{2}$ 对所有 $m, n \ge n_1$；然后选择 $n_2 \ge n_1$ 使得 $\|f_m - f_n\|_p \le \frac{1}{2^2}$ 对所有 $m, n \ge n_2$ 等等。] 我们断言 $f_{n_k}$ 在 $L^p$ 中收敛。为了简化符号，我们写 $f_k$ 代替 $f_{n_k}$，所以我们有
+\begin{equation}\label{eq:fischer_riesz_p_finite}
+\|f_{k+1} - f_k\|_p \le \frac{1}{2^k} \quad \forall k \ge 1.
+\end{equation}
+令
+\[ g_n(x) = \sum_{k=1}^n |f_{k+1}(x) - f_k(x)|, \]
+那么
+\[ \|g_n\|_p \le 1. \]
+作为单调收敛定理的一个推论，$g_n(x)$ 在 $\Omega$ 上几乎处处收敛到一个有限极限，且 $g \in L^p$。另一方面，对 $m \ge n \ge 2$ 我们有
+\[ |f_m(x) - f_n(x)| \le |f_m(x) - f_{m-1}(x)| + \dots + |f_{n+1}(x) - f_n(x)| \le g(x) - g_{n-1}(x). \]
+由此得出，在 $\Omega$ 上几乎处处，$f_n(x)$ 是柯西序列并收敛到一个有限极限，记为 $f(x)$。
+我们在 $\Omega$ 上几乎处处有，
+\begin{equation}\label{eq:fischer_riesz_p_finite_2}
+|f(x) - f_n(x)| \le g(x) \quad \text{对 } n \ge 2,
+\end{equation}
+特别地 $f \in L^p$。最后，通过控制收敛我们得到 $\|f_n - f\|_p \to 0$，因为 $|f_n(x) - f(x)|^p \to 0$ 几乎处处且 $|f_n - f|^p \le g^p \in L^1$。
+\end{proof}
+
+\begin{theorem}\label{theorem4.9}
+设 $(f_n)$ 是 $L^p$ 中的一个序列，且 $f \in L^p$ 使得 $\|f_n - f\|_p \to 0$。
+那么存在一个子序列 $(f_{n_k})$ 和一个函数 $h \in L^p$ 使得
+\begin{itemize}
+    \item[(a)] 在 $\Omega$ 上几乎处处有 $f_{n_k}(x) \to f(x)$，
+    \item[(b)] 在 $\Omega$ 上几乎处处有 $|f_{n_k}(x)| \le h(x) \quad \forall k$。
+\end{itemize}
+\end{theorem}
+\begin{proof}
+当 $p=\infty$ 时结论是显然的。因此我们假设 $1 \le p < \infty$。由于 $(f_n)$ 是一个柯西序列，我们可以回到定理 \ref{theorem4.8} 的证明并考虑一个子序列 $(f_{n_k})$——记为 $(g_k)$——满足 $\|g_{k+1} - g_k\|_p \le 1/2^k$。我们已经看到 $g_k(x)$ 几乎处处收敛到一个极限，该极限必须与 $f(x)$ 几乎处处相等。此外，我们有 $|g_k(x) - f(x)| \le G(x)$，其中 $G(x) = \sum_{j=k}^\infty |g_{j+1}(x) - g_j(x)|$。因此 $|g_k(x)| \le |f(x)| + G(x) = h(x)$。
+\end{proof}
+
+\section{自反性, $L^p$ 的对偶}
+
+我们将分别考虑以下三种情况：
+\begin{itemize}
+    \item[(A)] $1 < p < \infty$,
+    \item[(B)] $p=1$,
+    \item[(C)] $p=\infty$.
+\end{itemize}
+
+\textbf{A. 研究 $1 < p < \infty$ 时的 $L^p(\Omega)$}
+
+这是最“有利”的情况；$L^p$ 是自反的、可分的，并且 $L^p$ 的对偶是 $L^{p'}$。
+
+\begin{theorem}\label{theorem4.10}
+$L^p$ 对任意 $1 < p < \infty$ 都是自反的。
+\end{theorem}
+
+证明包括三个步骤：
+\textbf{步骤 1 (Clarkson 不等式的第一部分).} 设 $2 \le p < \infty$。我们断言
+\begin{equation}\label{eq:clarkson1}
+\left\| \frac{f+g}{2} \right\|_p^p + \left\| \frac{f-g}{2} \right\|_p^p \le \frac{1}{2}(\|f\|_p^p + \|g\|_p^p) \quad \forall f, g \in L^p.
+\end{equation}
+(\ref{eq:clarkson1}) 的证明。显然，只需对 $\mathbb{R}$ 中的点证明不等式：
+\[ \left| \frac{a+b}{2} \right|^p + \left| \frac{a-b}{2} \right|^p \le \frac{1}{2}(|a|^p + |b|^p) \quad \forall a, b \in \mathbb{R}. \]
+我们首先注意到
+\[ \alpha^p + \beta^p \le (\alpha^2 + \beta^2)^{p/2} \quad \forall \alpha, \beta \ge 0 \]
+（通过齐次性，假设 $\beta=1$ 并观察函数 $(x^2+1)^{p/2} - x^p - 1$ 在 $[0, \infty)$ 上是增加的）。选择 $\alpha = |\frac{a+b}{2}|$ 和 $\beta=|\frac{a-b}{2}|$，我们得到
+\[ \left| \frac{a+b}{2} \right|^p + \left| \frac{a-b}{2} \right|^p \le \left( \left| \frac{a+b}{2} \right|^2 + \left| \frac{a-b}{2} \right|^2 \right)^{p/2} = \left( \frac{a^2+b^2}{2} \right)^{p/2} \le \frac{1}{2}(|a|^p + |b|^p) \]
+(最后一个不等式源于函数 $x \mapsto |x|^{p/2}$ 的凸性，因为 $p \ge 2$)。
+
+\textbf{步骤 2:} $L^p$ 对 $2 \le p < \infty$ 是一致凸的。事实上，设 $\varepsilon > 0$ 并设 $f, g \in L^p$ 满足 $\|f\|_p \le 1$, $\|g\|_p \le 1$ 且 $\|f-g\|_p > \varepsilon$。我们从 (\ref{eq:clarkson1}) 中推断出
+\[ \left\| \frac{f+g}{2} \right\|_p^p < 1 - \left(\frac{\varepsilon}{2}\right)^p \]
+因此 $\|f+g/2\|_p < 1-\delta$ 其中 $\delta = 1 - [1 - (\varepsilon/2)^p]^{1/p} > 0$。因此，$L^p$ 是一致凸的，并根据定理 \ref{theorem3.31} 是自反的。
+
+\textbf{步骤 3:} $L^p$ 对 $1 < p \le 2$ 是自反的。
+\begin{proof}
+设 $1 < p < \infty$。考虑算子 $T: L^p \to (L^{p'})^*$ 定义如下：设 $u \in L^p$ 是固定的；映射 $f \mapsto \int uf$ 是 $L^{p'}$ 上的连续线性泛函，因此定义了 $(L^{p'})^*$ 中的一个元素，记为 $Tu$，使得
+\[ \langle Tu, f \rangle = \int uf \quad \forall f \in L^{p'}. \]
+我们断言
+\begin{equation}\label{eq:lp_iso}
+\|Tu\|_{(L^{p'})^*} = \|u\|_p \quad \forall u \in L^p.
+\end{equation}
+确实，由 Hölder 不等式，我们有
+\[ |\langle Tu, f \rangle| \le \|u\|_p \|f\|_{p'} \quad \forall f \in L^{p'} \]
+因此 $\|Tu\|_{(L^{p'})^*} \le \|u\|_p$。另一方面，设
+\[ f_0(x) = |u(x)|^{p-2}u(x) \quad (f_0(x)=0 \text{ if } u(x)=0). \]
+显然我们有
+\[ f_0 \in L^{p'}, \quad \|f_0\|_{p'}^{p'} = \|u\|_p^p \text{ 且 } \langle Tu, f_0 \rangle = \|u\|_p^p; \]
+因此
+\begin{equation}\label{eq:lp_iso_2}
+\|Tu\|_{(L^{p'})^*} \ge \frac{\langle Tu, f_0 \rangle}{\|f_0\|_{p'}} = \|u\|_p.
+\end{equation}
+因此，我们已经证明了 $T$ 是从 $L^p$ 到 $(L^{p'})^*$ 的一个等距，这意味着 $T(L^p)$ 是 $(L^{p'})^*$ 的一个闭合子空间（因为 $L^p$ 是一个 Banach 空间）。
+假设现在 $1 < p \le 2$。由于 $L^{p'}$ 是自反的（根据步骤 2），可以得出 $(L^{p'})^*$ 也是自反的（推论 \ref{corollary3.21}）。因此，通过命题 \ref{prop3.20}，$T(L^p)$ 是自反的，结果是 $L^p$ 也是自反的。
+\end{proof}
+\begin{remark}
+事实上，$L^p$ 对 $1 < p \le 2$ 也是一致凸的。这是 Clarkson 第二不等式的一个推论，它对 $1 < p \le 2$ 成立：
+\[ \left\| \frac{f+g}{2} \right\|_{p'}^{p'} + \left\| \frac{f-g}{2} \right\|_{p'}^{p'} \le \left(\frac{1}{2}\|f\|_p^p + \frac{1}{2}\|g\|_p^p\right)^{1/(p-1)} \quad \forall f, g \in L^p. \]
+这个不等式比 Clarkson 的第一个不等式更难证明（见，例如，问题 20 或 E. Hewitt–K. Stromberg [1]）。显然，它意味着 $L^p$ 对 $1 < p \le 2$ 是一致凸的；对于另一种方法，见 C. Morawetz [1] (练习 4.12) 或 J. Diestel [1]。
+\end{remark}
+
+\begin{theorem}[Riesz 表示定理]\label{theorem4.11}
+设 $1 < p < \infty$ 并设 $\phi \in (L^p)^*$。那么存在一个唯一的函数 $u \in L^{p'}$ 使得
+\[ \langle \phi, f \rangle = \int uf \quad \forall f \in L^p. \]
+此外，
+\[ \|u\|_{p'} = \|\phi\|_{(L^p)^*}. \]
+\end{theorem}
+\begin{remark}
+定理 \ref{theorem4.11} 非常重要。它说每个在 $L^p$（$1 < p < \infty$）上的连续线性泛函都可以“具体地”表示为一个积分。映射 $\phi \mapsto u$ 是一个线性满射等距，允许我们将“抽象”空间 $(L^p)^*$ 与 $L^{p'}$ 等同起来。
+接下来，我们将系统地进行这种等同
+\[ (L^p)^* = L^{p'}. \]
+\end{remark}
+
+\begin{proof}
+我们考虑算子 $T: L^{p'} \to (L^p)^*$ 定义为 $\langle T(u, f) \rangle = \int uf \quad \forall u \in L^{p'}, \forall f \in L^p$。在定理 \ref{theorem4.10}（步骤 3）的证明中，论证表明
+\[ \|Tu\|_{(L^p)^*} = \|u\|_{p'} \quad \forall u \in L^{p'}. \]
+我们断言 $T$ 是满射的。确实，设 $E=T(L^{p'})$。由于 $E$ 是一个闭子空间，足以证明 $E$ 在 $(L^p)^*$ 中是稠密的。设 $h \in (L^p)^{**}$ 满足 $\langle h, Tu \rangle = 0 \quad \forall u \in L^{p'}$。由于 $L^p$ 是自反的，$h \in L^p$ 并且满足 $\int uh = 0 \quad \forall u \in L^{p'}$。选择 $u = |h|^{p-2}h$，我们看到 $h=0$。
+\end{proof}
+
+\begin{theorem}\label{theorem4.12}
+空间 $C_c(\mathbb{R}^N)$ 在 $L^p(\mathbb{R}^N)$ 中是稠密的，对任意 $1 \le p < \infty$。
+\end{theorem}
+
+\textbf{注记.} 截断算子 $T_n: \mathbb{R} \to \mathbb{R}$ 定义为
+\[ T_n r = \begin{cases} r & \text{如果 } |r| \le n, \\ \frac{nr}{|r|} & \text{如果 } |r| > n. \end{cases} \]
+给定一个集合 $E \subset \Omega$，我们定义其特征函数\footnote{不要与第一章介绍的示性函数 $I_E$ 混淆。} $\chi_E$ 为
+\[ \chi_E(x) = \begin{cases} 1 & \text{如果 } x \in E, \\ 0 & \text{如果 } x \in \Omega \setminus E. \end{cases} \]
+
+\begin{definition}
+如果由可数个成员 $(E_n)$ 生成的 $\sigma$-代数（即，包含 $(E_n)$ 的最小 $\sigma$-代数）与 $\mathcal{M}$ 重合，则称测度空间 $\Omega$ 是可分的。
+\end{definition}
+
+\begin{theorem}\label{theorem4.13}
+假设 $\Omega$ 是一个可分的测度空间。那么 $L^p(\Omega)$ 对任意 $1 \le p < \infty$ 是可分的。
+\end{theorem}
+
+\textbf{B. $L^1(\Omega)$ 的研究}
+我们从 $L^1(\Omega)$ 的对偶空间的描述开始。
+
+\begin{theorem}[Riesz 表示定理]\label{theorem4.14}
+设 $\phi \in (L^1)^*$。那么存在一个唯一的函数 $u \in L^\infty$ 使得
+\[ \langle \phi, f \rangle = \int uf \quad \forall f \in L^1. \]
+此外，
+\[ \|u\|_\infty = \|\phi\|_{(L^1)^*}. \]
+\end{theorem}
+\begin{remark}
+定理 \ref{theorem4.14} 断言 $L^1$ 上的每个连续线性泛函都可以“具体地”表示为一个积分。映射 $\phi \mapsto u$ 是一个线性满射等距，允许我们将“抽象”空间 $(L^1)^*$ 与 $L^\infty$ 等同起来。接下来，我们将系统地进行这种等同
+\[ (L^1)^* = L^\infty. \]
+\end{remark}
+
+\textbf{C. $L^\infty(\Omega)$ 的研究}
+我们已经知道（定理 \ref{theorem4.14}）$L^\infty = (L^1)^*$。作为一个对偶空间，$L^\infty$ 具有一些不错的性质。我们有以下内容：
+\begin{itemize}
+    \item[(i)] 闭单位球 $B_{L^\infty}$ 在弱*拓扑 $\sigma(L^\infty, L^1)$ 中是紧的（根据定理 \ref{theorem3.16}）。
+    \item[(ii)] 如果 $\Omega$ 是 $\mathbb{R}^N$ 的一个可测子集，且 $(f_n)$ 是 $L^\infty(\Omega)$ 中的一个有界序列，那么存在一个子序列 $(f_{n_k})$ 和一个函数 $f \in L^\infty(\Omega)$ 使得 $f_{n_k} \to f$ 在弱*拓扑 $\sigma(L^\infty, L^1)$ 中（这是推论 \ref{corollary3.30} 和定理 \ref{theorem4.13} 的一个推论）。
+\end{itemize}
+然而，$L^\infty(\Omega)$ 不是自反的，除非在 $\Omega$ 由有限个原子组成的平凡情况下；否则 $L^1(\Omega)$ 将是自反的（推论 \ref{corollary3.21}），而我们知道事实并非如此（注记 6）。结果是，对偶空间 $(L^\infty)^*$ 包含 $L^1$（因为 $L^\infty = (L^1)^*$) 并且 $(L^\infty)^*$ 严格大于 $L^1$。换句话说，存在不能表示为
+\[ \langle \phi, f \rangle = \int uf \quad \forall f \in L^\infty \text{ 和某个 } u \in L^1 \]
+的 $L^\infty$ 上的连续线性泛函。
+
+下表总结了当 $\Omega$ 是 $\mathbb{R}^N$ 的可测子集时空间 $L^p(\Omega)$ 的主要性质：
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+ & \textbf{自反} & \textbf{可分} & \textbf{对偶空间} \\
+\hline
+$L^p$ with $1<p<\infty$ & 是 & 是 & $L^{p'}$ \\
+\hline
+$L^1$ & 否 & 是 & $L^\infty$ \\
+\hline
+$L^\infty$ & 否 & 否 & 严格大于 $L^1$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{卷积与正则化}
+
+我们首先定义函数 $f \in L^1(\mathbb{R}^N)$ 与函数 $g \in L^p(\mathbb{R}^N)$ 的卷积。
+
+\begin{theorem}[Young]\label{theorem4.15}
+设 $f \in L^1(\mathbb{R}^N)$ 且设 $g \in L^p(\mathbb{R}^N)$，其中 $1 \le p \le \infty$。
+那么对几乎所有的 $x \in \mathbb{R}^N$，函数 $y \mapsto f(x-y)g(y)$ 在 $\mathbb{R}^N$ 上是可积的，并且我们定义
+\[ (f \star g)(x) = \int_{\mathbb{R}^N} f(x-y)g(y)dy. \]
+此外，$f \star g \in L^p(\mathbb{R}^N)$ 且
+\[ \|f \star g\|_p \le \|f\|_1 \|g\|_p. \]
+\end{theorem}
+
+\begin{proof}
+当 $p=\infty$ 时，结论是显然的。我们考虑两种情况：
+(i) $p=1$,
+(ii) $1 < p < \infty$.
+
+\textbf{情况 (i): $p=1$。} 设 $F(x, y) = f(x-y)g(y)$。
+对几乎所有的 $y \in \mathbb{R}^N$ 我们有
+\[ \int |F(x,y)|dx = |g(y)| \int |f(x-y)|dx = |g(y)| \|f\|_1 < \infty \]
+并且，
+\[ \int dy \int |F(x,y)|dx = \|g\|_1 \|f\|_1 < \infty. \]
+我们从 Tonelli 定理（定理 \ref{theorem4.4}）推断出 $F \in L^1(\mathbb{R}^N \times \mathbb{R}^N)$。应用 Fubini 定理（定理 \ref{theorem4.5}），我们看到
+\[ \int |F(x,y)|dy < \infty \quad \text{对几乎所有 } x \in \mathbb{R}^N \]
+并且，
+\[ \int dx \int |F(x,y)|dy = \int dy \int |F(x,y)|dx = \|f\|_1 \|g\|_1. \]
+这恰好是定理 \ref{theorem4.15} 在 $p=1$ 时的结论。
+
+\textbf{情况 (ii): $1 < p < \infty$。} 通过情况 (i) 我们知道对几乎所有固定的 $x \in \mathbb{R}^N$，函数 $y \mapsto |f(x-y)| |g(y)|^p$ 是可积的，即，
+\[ |f(x-y)|^{1/p} |g(y)| \in L^p_y(\mathbb{R}^N). \]
+由于 $|f(x-y)|^{1/p'} \in L^{p'}_y(\mathbb{R}^N)$，我们从 Hölder 不等式推断出
+\[ \int |f(x-y)g(y)|dy \le \|f(x-\cdot)\|_1^{1/p'} \left( \int |f(x-y)||g(y)|^p dy \right)^{1/p}, \]
+也就是说，
+\[ |(f \star g)(x)| \le \|f\|_1^{1/p'} (|f| \star |g|^p)(x)^{1/p}. \]
+我们通过情况 (i) 得出，如果 $g \in L^p(\mathbb{R}^N)$ 那么 $f \star g \in L^p(\mathbb{R}^N)$ 且
+\[ \|f \star g\|_p^p \le \|f\|_1^{p/p'} \| |f| \star |g|^p \|_1 = \|f\|_1^{p/p'} \|f\|_1 \|g\|_p^p, \]
+即，
+\[ \|f \star g\|_p \le \|f\|_1 \|g\|_p. \]
+\end{proof}
+\textbf{注记.} 给定一个函数 $f$，我们记 $\check{f}(x) = f(-x)$。
+
+\begin{proposition}\label{proposition4.16}
+设 $f \in L^1(\mathbb{R}^N)$, $g \in L^p(\mathbb{R}^N)$ 且 $h \in L^{p'}(\mathbb{R}^N)$。那么我们有
+\[ \int (f \star g)h = \int g(\check{f} \star h). \]
+\end{proposition}
+
+\begin{proof}
+函数 $F(x,y) = f(x-y)g(y)h(x)$ 属于 $L^1(\mathbb{R}^N \times \mathbb{R}^N)$，因为
+\[ \iint |F(x,y)|dx dy = \int |g(y)|dy \int |f(x-y)||h(x)|dx < \infty \]
+通过定理 \ref{theorem4.15} 和 Hölder 不等式。因此我们有
+\[ \int (f \star g)(x) h(x) dx = \iint F(x,y) dy dx = \int dy \int F(x,y) dx = \int g(y) (\check{f} \star h)(y) dy. \]
+\end{proof}
+
+\textbf{支集与卷积.} 函数的支集（support）的概念是标准的：supp $f$ 是使 $f$ 不为零的最大开集的补集；换句话说，supp $f$ 是集合 $\{x; f(x) \ne 0\}$ 的闭包。当处理等价类时，这个概念是不够的，就像在空间 $L^p$ 中一样。当 $f_1=f_2$ a.e. 时，我们需要一个定义，它能确保 supp $f_1$ = supp $f_2$（或者在一个零测集上不同）。读者会轻易地确信，通常的定义没有意义；例如，如果 $f = \chi_Q$ 在 $\mathbb{R}$ 上，我们有 $f=0$ a.e. 但 supp $f = \bar{Q}$。为此，我们引入适当的概念。
+
+\begin{proposition}[以及支集的定义]\label{proposition4.17}
+设 $f: \mathbb{R}^N \to \mathbb{R}$ 是任意函数。考虑 $\mathbb{R}^N$ 中所有开集 $\omega$ 的族 $(\omega_i)_{i \in I}$，使得对每个 $i \in I$, $f=0$ 在 $\omega_i$ 上几乎处处成立。设 $\omega = \cup_{i \in I} \omega_i$。那么 $f=0$ 在 $\omega$ 上几乎处处成立。
+\end{proposition}
+
+\textbf{定义.} \textit{supp $f$} 是 $\mathbb{R}^N$ 中 $\omega$ 的补集。
+
+\begin{remark}
+(a) 假设 $f_1 = f_2$ 在 $\mathbb{R}^N$ 上几乎处处成立；显然我们有 supp $f_1$ = supp $f_2$。因此我们可以在不说它在等价类中定义的情况下，谈论 $L^p$ 中函数的支集。
+(b) 如果 $f$ 是 $\mathbb{R}^N$ 上的连续函数，则很容易检验支集的新定义与通常的定义一致。
+\end{remark}
+
+\begin{proof}[命题 \ref{proposition4.17} 的证明]
+由于我们可能要恢复可数情况，集合 $I$ 不一定是可数的这一事实并不清楚。在 $\omega$ 上有一个可数的开集族 $(O_n)$，使得每个开集 $O_n$ 是某个 $\omega_i$ 的子集，并且 $\omega = \cup_n O_n$。写 $\omega_i = \cup_{n \in A_i} O_n$ 并且 $\omega = \cup_{i \in I} \omega_i = \cup_{n \in B} O_n$，其中 $B = \cup_{i \in I} A_i$。由于 $f=0$ 在每个 $O_n$ 上几乎处处成立，其中 $n \in B$，我们得出 $f=0$ 在 $\omega$ 上几乎处处成立。
+\end{proof}
+
+\begin{proposition}\label{proposition4.18}
+设 $f \in L^1(\mathbb{R}^N)$ 且 $g \in L^p(\mathbb{R}^N)$，其中 $1 \le p \le \infty$。那么
+\[ \mathrm{supp}(f \star g) \subset \overline{\mathrm{supp}\,f + \mathrm{supp}\,g}. \]
+\end{proposition}
+
+\begin{proof}
+固定 $x \in \mathbb{R}^N$，使得函数 $y \mapsto f(x-y)g(y)$ 是可积的（见定理 \ref{theorem4.15}）。我们有
+\[ (f \star g)(x) = \int f(x-y)g(y)dy = \int_{(x-\mathrm{supp}\,f) \cap \mathrm{supp}\,g} f(x-y)g(y)dy. \]
+如果 $x \notin \overline{\mathrm{supp}\,f + \mathrm{supp}\,g}$，则 $(x-\mathrm{supp}\,f) \cap \mathrm{supp}\,g = \emptyset$ 并且因此 $(f \star g)(x) = 0$。因此 $(f \star g)(x) = 0$ 在 $(\overline{\mathrm{supp}\,f + \mathrm{supp}\,g})^c$ 上几乎处处成立。特别地，
+\[ (f \star g)(x) = 0 \quad \text{a.e. on } \mathrm{Int}[(\overline{\mathrm{supp}\,f + \mathrm{supp}\,g})^c] \]
+因此
+\[ \mathrm{supp}(f \star g) \subset \overline{\mathrm{supp}\,f + \mathrm{supp}\,g}. \]
+\end{proof}
+
+\begin{remark}
+10. 如果 $f$ 和 $g$ 都有紧支集，那么 $f \star g$ 也有紧支集。然而，如果它们中只有一个有紧支集，$f \star g$ 不一定有紧支集。
+\end{remark}
+
+\begin{definition}
+设 $\Omega \subset \mathbb{R}^N$ 是一个开集，设 $1 \le p \le \infty$。我们说函数 $f: \Omega \to \mathbb{R}$ 属于 $L^p_{loc}(\Omega)$，如果对每个紧集 $K \subset \Omega$，$f\chi_K \in L^p(\Omega)$。
+注意如果 $f \in L^p(\Omega)$，那么 $f \in L^p_{loc}(\Omega)$。
+\end{definition}
+
+\begin{proposition}\label{proposition4.19}
+设 $f \in C_c(\mathbb{R}^N)$ 且 $g \in L^1_{loc}(\mathbb{R}^N)$。那么 $(f \star g)(x)$ 对每个 $x \in \mathbb{R}^N$ 都有定义，并且 $(f \star g) \in C(\mathbb{R}^N)$。
+\end{proposition}
+
+\begin{proof}
+注意到对每个 $x \in \mathbb{R}^N$，函数 $y \mapsto f(x-y)g(y)$ 是可积的，并且因此 $(f \star g)(x)$ 对每个 $x \in \mathbb{R}^N$ 都有定义。
+设 $x_n \to x$ 且设 $K$ 是 $\mathbb{R}^N$ 中的一个紧集，使得 $(x_n-\mathrm{supp}\,f) \subset K$ $\forall n$。我们有 $f(x_n - y) = 0$ $\forall n, \forall y \notin K$。我们从 $f$ 的一致连续性推断出
+\[ |f(x_n - y) - f(x-y)| \le \varepsilon_n \chi_K(y) \quad \forall n, \quad \forall y \in \mathbb{R}^N \]
+其中 $\varepsilon_n \to 0$。我们得出结论
+\[ |(f \star g)(x_n) - (f \star g)(x)| \le \varepsilon_n \int_K |g(y)|dy \to 0. \]
+\end{proof}
+
+\textbf{注记.} 设 $\Omega \subset \mathbb{R}^N$ 是一个开集。
+$C(\Omega)$ 是 $\Omega$ 上连续函数的空间。
+$C^k(\Omega)$ 是 $\Omega$ 上 $k$ 次连续可微函数的空间（$k \ge 1$ 是一个整数）。
+$C^\infty(\Omega) = \cap_k C^k(\Omega)$。
+$C_c(\Omega)$ 是 $\Omega$ 上具有紧支集的连续函数的空间，即在某个紧集 $K \subset \Omega$ 之外为零。
+$C_c^k(\Omega) = C^k(\Omega) \cap C_c(\Omega)$。
+$C_c^\infty(\Omega) = C^\infty(\Omega) \cap C_c(\Omega)$。
+（一些作者用 $\mathcal{D}(\Omega)$ 或 $C_0^\infty(\Omega)$ 代替 $C_c^\infty(\Omega)$）。
+如果 $f \in C^1(\Omega)$，其梯度定义为
+\[ \nabla f = \left( \frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \dots, \frac{\partial f}{\partial x_N} \right). \]
+如果 $f \in C^k(\Omega)$ 且 $\alpha = (\alpha_1, \alpha_2, \dots, \alpha_N)$ 是一个长度为 $|\alpha| = \alpha_1 + \dots + \alpha_N$ 的多重指标，小于 $k$，我们写
+\[ D^\alpha f = \frac{\partial^{|\alpha|} f}{\partial x_1^{\alpha_1} \partial x_2^{\alpha_2} \cdots \partial x_N^{\alpha_N}}. \]
+
+\begin{proposition}\label{proposition4.20}
+设 $f \in C_c^k(\mathbb{R}^N)$ ($k \ge 1$) 且设 $g \in L^1_{loc}(\mathbb{R}^N)$。那么 $f \star g \in C^k(\mathbb{R}^N)$ 且
+\[ D^\alpha(f \star g) = (D^\alpha f) \star g \quad \forall \alpha \text{ with } |\alpha| \le k. \]
+特别地，如果 $f \in C_c^\infty(\mathbb{R}^N)$ 且 $g \in L^1_{loc}(\mathbb{R}^N)$，那么 $f \star g \in C^\infty(\mathbb{R}^N)$。
+\end{proposition}
+
+\begin{proof}
+通过归纳法，只需考虑 $k=1$ 的情况。给定 $x \in \mathbb{R}^N$，我们声称 $f \star g$ 在 $x$ 处可微，并且
+\[ \nabla(f \star g)(x) = (\nabla f) \star g(x). \]
+设 $h \in \mathbb{R}^N$ 且 $|h| < 1$。我们有，对所有 $y \in \mathbb{R}^N$，
+\[ f(x+h-y) - f(x-y) - h \cdot \nabla f(x-y) = \int_0^1 [h \cdot \nabla f(x+sh-y) - h \cdot \nabla f(x-y)] ds \]
+\[ = \int_0^1 [h \cdot \nabla f(x+sh-y) - h \cdot \nabla f(x-y)] ds \le |h| \varepsilon(|h|) \]
+其中 $\varepsilon(|h|) \to 0$ 当 $|h| \to 0$ 时（因为 $\nabla f$ 在 $\mathbb{R}^N$ 上是一致连续的）。
+设 $K$ 是 $\mathbb{R}^N$ 中的一个紧集，使得对所有 $x$ 和 $|h|<1$, supp $f(x+h-\cdot) \subset K$。我们有
+\[ f(x+h-y) - f(x-y) - h \cdot \nabla f(x-y) = 0 \quad \forall y \notin K, \quad \forall h \in B(0,1) \]
+因此
+\[ |f(x+h-y) - f(x-y) - h \cdot \nabla f(x-y)| \le |h|\varepsilon(|h|)\chi_K(y) \quad \forall y \in \mathbb{R}^N, \forall h \in B(0,1). \]
+我们得出结论，对 $h \in B(0,1)$，
+\[ |(f \star g)(x+h) - (f \star g)(x) - h \cdot (\nabla f \star g)(x)| \le |h|\varepsilon(|h|) \int_K |g(y)| dy. \]
+由此可见，$f \star g$ 在 $x$ 处可微且 $\nabla(f \star g)(x) = (\nabla f) \star g(x)$。
+\end{proof}
+
+\subsection*{柔化子}
+
+\begin{definition}
+\textbf{柔化子序列}是指 $\mathbb{R}^N$ 上的函数序列 $(\rho_n)_{n \ge 1}$，满足
+\[ \rho_n \in C_c^\infty(\mathbb{R}^N), \quad \mathrm{supp}\,\rho_n \subset B(0, 1/n), \quad \int \rho_n = 1, \quad \rho_n \ge 0 \text{ on } \mathbb{R}^N. \]
+\end{definition}
+
+在下文中，我们将系统地使用符号 $(\rho_n)$ 来表示一个柔化子序列。
+很容易从一个函数 $\rho \in C_c^\infty(\mathbb{R}^N)$，$\rho \ge 0$ 且 $\rho$ 不恒等于零来构造一个柔化子序列——例如函数
+\[ \rho(x) = \begin{cases} e^{1/(|x|^2-1)} & \text{如果 } |x| < 1, \\ 0 & \text{如果 } |x| \ge 1. \end{cases} \]
+我们通过令 $\rho_n(x) = C n^N \rho(nx)$ 得到一个柔化子序列，其中 $C=1/\int \rho$。
+
+\begin{proposition}\label{proposition4.21}
+假设 $f \in C(\mathbb{R}^N)$。那么 $(\rho_n \star f) \to f$ 在 $\mathbb{R}^N$ 的紧集上一致收敛。
+\end{proposition}
+
+\begin{proof}
+设 $K \subset \mathbb{R}^N$ 是一个固定的紧集。给定 $\varepsilon > 0$，存在 $\delta > 0$（依赖于 $K$ 和 $\varepsilon$），使得
+\[ |f(x-y)-f(x)| < \varepsilon \quad \forall x \in K, \quad \forall y \in B(0, \delta). \]
+我们有，对 $x \in K$，
+\[ (\rho_n \star f)(x) - f(x) = \int [f(x-y)-f(x)] \rho_n(y) dy = \int_{B(0,1/n)} [f(x-y)-f(x)] \rho_n(y) dy. \]
+对 $n > 1/\delta$ 和 $x \in K$，我们得到
+\[ |(\rho_n \star f)(x) - f(x)| \le \varepsilon \int \rho_n = \varepsilon. \]
+\end{proof}
+
+\begin{theorem}\label{theorem4.22}
+假设 $f \in L^p(\mathbb{R}^N)$，其中 $1 \le p < \infty$。那么 $(\rho_n \star f) \to f$ 在 $L^p(\mathbb{R}^N)$ 中。
+\end{theorem}
+\begin{proof}
+给定 $\varepsilon > 0$，找一个函数 $f_1 \in C_c(\mathbb{R}^N)$ 使得 $\|f - f_1\|_p < \varepsilon$ (见定理 \ref{theorem4.12})。根据命题 \ref{proposition4.21} 我们知道 $(\rho_n \star f_1) \to f_1$ 在 $\mathbb{R}^N$ 的每个紧集上一致收敛。另一方面，我们有 (通过命题 \ref{proposition4.18})
+\[ \mathrm{supp}(\rho_n \star f_1) \subset \overline{B(0, 1/n) + \mathrm{supp}\,f_1}, \]
+这是一个紧集。由此得出
+\[ \|\rho_n \star f_1 - f_1\|_p \to 0 \quad \text{当 } n \to \infty. \]
+最后，我们写
+\[ (\rho_n \star f) - f = [\rho_n \star (f - f_1)] + [(\rho_n \star f_1) - f_1] + [f_1 - f] \]
+因此
+\[ \|\rho_n \star f - f\|_p \le 2\|f-f_1\|_p + \|\rho_n \star f_1 - f_1\|_p \]
+(通过定理 \ref{theorem4.15})。
+我们得出
+\[ \limsup_{n\to\infty} \|\rho_n \star f - f\|_p \le 2\varepsilon \quad \forall \varepsilon > 0 \]
+因此 $\lim_{n\to\infty} \|\rho_n \star f - f\|_p = 0$。
+\end{proof}
+
+\begin{corollary}\label{corollary4.23}
+设 $\Omega \subset \mathbb{R}^N$ 是一个开集。那么 $C_c^\infty(\Omega)$ 在 $L^p(\Omega)$ 中是稠密的，对任意 $1 \le p < \infty$。
+\end{corollary}
+\footnote{通过卷积进行正则化的技术最初由 Leray 和 Friedrichs 引入。}
+
+\begin{proof}
+给定 $f \in L^p(\Omega)$ 我们设
+\[ \tilde{f}(x) = \begin{cases} f(x) & \text{如果 } x \in \Omega, \\ 0 & \text{如果 } x \in \mathbb{R}^N \setminus \Omega, \end{cases} \]
+所以 $\tilde{f} \in L^p(\mathbb{R}^N)$。
+设 $(K_n)$ 是 $\mathbb{R}^N$ 中的一个紧集序列，使得
+\[ \bigcup_{n=1}^\infty K_n = \Omega \quad \text{且} \quad \mathrm{dist}(K_n, \Omega^c) \ge 2/n \quad \forall n. \]
+[我们可以选择，例如，$K_n = \{x \in \mathbb{R}^N; |x| \le n \text{ and } \mathrm{dist}(x, \Omega^c) \ge 2/n\}$。]
+设 $g_n = \chi_{K_n} \tilde{f}$ 且 $f_n = \rho_n \star g_n$，所以
+\[ \mathrm{supp}\,f_n \subset \overline{B(0,1/n) + K_n} \subset \Omega. \]
+由此得出 $f_n \in C_c^\infty(\Omega)$。另一方面，我们有
+\[ \|f_n - f\|_{L^p(\Omega)} \le \|f_n - \tilde{f}\|_{L^p(\mathbb{R}^N)} \le \|(\rho_n \star g_n) - g_n\|_{L^p(\mathbb{R}^N)} + \|g_n - \tilde{f}\|_{L^p(\mathbb{R}^N)}. \]
+最后，注意 $\|g_n - \tilde{f}\|_{L^p(\mathbb{R}^N)} \to 0$ 通过控制收敛，并且 $\|(\rho_n \star g_n) - g_n\|_{L^p(\mathbb{R}^N)} \to 0$ 通过定理 \ref{theorem4.22}。我们得出结论 $\|f_n - f\|_{L^p(\Omega)} \to 0$。
+\end{proof}
+
+\begin{corollary}\label{corollary4.24}
+设 $\Omega \subset \mathbb{R}^N$ 是一个开集，设 $u \in L^1_{loc}(\Omega)$ 使得
+\[ \int u \varphi = 0 \quad \forall \varphi \in C_c^\infty(\Omega). \]
+那么 $u=0$ 在 $\Omega$ 上几乎处处成立。
+\end{corollary}
+\begin{proof}
+设 $g \in L^\infty(\mathbb{R}^N)$ 是一个支集为紧集且包含在 $\Omega$ 中的函数。
+设 $g_n = \rho_n \star g$，使得对足够大的 $n$，$\mathrm{supp}\,g_n$ 是紧集且包含在 $\Omega$ 中。因此我们有
+\begin{equation}\label{eq:4.24_1_temp}
+\int u g_n = 0 \quad \forall n. \tag{19}
+\end{equation}
+由于 $g_n \to g$ 在 $L^1(\mathbb{R}^N)$ 中（通过定理 \ref{theorem4.22}），存在一个子序列——仍然记为 $g_n$——使得 $g_n \to g$ 在 $\mathbb{R}^N$ 上几乎处处成立（见定理 \ref{theorem4.9}）。此外，我们有 $\|g_n\|_{L^\infty(\mathbb{R}^N)} \le \|g\|_{L^\infty(\mathbb{R}^N)}$。在 (19) 式中取极限（通过控制收敛），我们得到
+\begin{equation}\label{eq:4.24_2_temp}
+\int u g = 0. \tag{20}
+\end{equation}
+设 $K$ 是包含在 $\Omega$ 中的一个紧集。我们选择函数 $g$ 如下
+\[ g = \begin{cases} \mathrm{sign}\,u & \text{在 } K \text{上}, \\ 0 & \text{在 } \mathbb{R}^N \setminus K \text{上}. \end{cases} \]
+我们从 (20) 式推断出 $\int_K |u| = 0$，因此 $u=0$ 在 $K$ 上几乎处处成立。由于这对任何紧集 $K \subset \Omega$ 都成立，我们得出 $u=0$ 在 $\Omega$ 上几乎处处成立。
+\end{proof}
+
+\section{$L^p$ 中强紧性的判据}
+
+能够判断 $L^p(\Omega)$ 中的一个函数族是否在 $L^p(\Omega)$ 的强拓扑下有紧闭包是很重要的。我们回顾 Ascoli-Arzelà 定理，它回答了在 $C(K)$ 空间中的同样问题，其中 $K$ 是紧度量空间。
+
+\begin{theorem}[Ascoli-Arzelà]\label{theorem4.25}
+设 $K$ 是一个紧度量空间，设 $\mathcal{H}$ 是 $C(K)$ 的一个有界子集。假设 $\mathcal{H}$ 是等度连续的，即
+\begin{equation}\label{eq:ascoli_arzelà}
+\forall \varepsilon > 0 \quad \exists \delta > 0 \text{ 使得 } d(x_1, x_2) < \delta \implies |f(x_1) - f(x_2)| < \varepsilon \quad \forall f \in \mathcal{H}. \tag{21}
+\end{equation}
+那么 $\mathcal{H}$ 在 $C(K)$ 中有紧闭包。
+\end{theorem}
+[关于 Ascoli-Arzelà 定理的证明，见，例如，W. Rudin [1], [2], A. Knapp [1], J. R. Munkres [1], A. Friedman [3], L. C. Royden [1], J. Dixmier [1], G. B. Folland [2], K. Yosida [1]]。
+
+\textbf{注记 (平移算子).} 我们设 $(\tau_h f)(x) = f(x+h)$，其中 $x \in \mathbb{R}^N, h \in \mathbb{R}^N$。
+
+下面的定理及其推论是 Ascoli-Arzelà 定理的 "$L^p$ 版本"。
+
+\begin{theorem}[Kolmogorov-M. Riesz-Fréchet]\label{theorem4.26}
+设 $\mathcal{F}$ 是 $L^p(\mathbb{R}^N)$ 中的一个有界集，其中 $1 \le p < \infty$。假设
+\begin{equation}\label{eq:kolmogorov_riesz_frechet}
+\lim_{|h| \to 0} \|\tau_h f - f\|_p = 0 \quad \text{在 } f \in \mathcal{F} \text{ 中一致}. \tag{22}
+\end{equation}
+i.e., $\forall \varepsilon > 0 \quad \exists \delta > 0$ 使得 $\forall f \in \mathcal{F}, \forall h \in \mathbb{R}^N$ with $|h| < \delta, \|\tau_h f - f\|_p < \varepsilon$.
+那么，$\mathcal{F}|_\Omega$ 在 $L^p(\Omega)$ 中对任何有限测度的可测集 $\Omega \subset \mathbb{R}^N$ 都有紧闭包。
+[这里 $\mathcal{F}|_\Omega$ 表示 $\mathcal{F}$ 中函数在 $\Omega$ 上的限制。]
+\footnote{假设 (22) 应与 (21) 进行比较。它是一个"积分"等度连续性假设。}
+\end{theorem}
+\begin{proof}
+证明包括四个步骤：
+\textbf{步骤 1:} 我们断言
+\begin{equation}\label{eq:step1_proof_4.26}
+\| \rho_n \star f - f \|_p \le \varepsilon \quad \forall f \in \mathcal{F}, \quad \forall n > 1/\delta. \tag{23}
+\end{equation}
+确实，我们有
+\[ (\rho_n \star f)(x) - f(x) = \int [f(x-y)-f(x)] \rho_n(y)dy = \int [(\tau_{-y}f)(x) - f(x)]\rho_n(y)dy. \]
+由 Hölder 不等式。因此我们得到
+\[ \int |(\rho_n \star f)(x) - f(x)|^p dx \le \int \left[ \int |f(x-y)-f(x)|^p \rho_n(y)dy \right]^{1/p} dx \le \int_{B(0,1/n)} \rho_n(y) \left[ \int |f(x-y)-f(x)|^p dx \right] dy \le \varepsilon^p, \]
+只要 $1/n < \delta$。
+
+\textbf{步骤 2:} 我们断言
+\begin{equation}\label{eq:step2_proof_4.26_1}
+\|\rho_n \star f\|_{L^\infty(\mathbb{R}^N)} \le C_n \|f\|_{L^p(\mathbb{R}^N)} \quad \forall f \in \mathcal{F}, \tag{24}
+\end{equation}
+以及
+\begin{equation}\label{eq:step2_proof_4.26_2}
+|(\rho_n \star f)(x_1) - (\rho_n \star f)(x_2)| \le C_n \|f\|_p |x_1 - x_2| \quad \forall f \in \mathcal{F}, \forall x_1, x_2 \in \mathbb{R}^N, \tag{25}
+\end{equation}
+其中 $C_n$ 只依赖于 $n$。
+不等式 (\ref{eq:step2_proof_4.26_1}) 从 Hölder 不等式得出，其中 $C_n = \|\rho_n\|_{p'}$。另一方面，我们有 $\nabla(\rho_n \star f) = (\nabla \rho_n) \star f$ 并且因此
+\[ \|\nabla(\rho_n \star f)\|_{L^\infty(\mathbb{R}^N)} \le \|\nabla \rho_n\|_{p'} \|f\|_p. \]
+因此我们得到 (\ref{eq:step2_proof_4.26_2})，其中 $C_n = \|\nabla \rho_n\|_{p'}$。
+
+\textbf{步骤 3:} 给定 $\varepsilon > 0$ 和一个有限测度的 $\Omega \subset \mathbb{R}^N$，存在一个有界可测集 $\omega \subset \Omega$，使得
+\begin{equation}\label{eq:step3_proof_4.26}
+\|f\|_{L^p(\Omega \setminus \omega)} < \varepsilon \quad \forall f \in \mathcal{F}. \tag{26}
+\end{equation}
+的确，我们写
+\[ \|f\|_{L^p(\Omega \setminus \omega)} \le \|f - \rho_n \star f\|_{L^p(\mathbb{R}^N)} + \|\rho_n \star f\|_{L^p(\Omega \setminus \omega)}. \]
+鉴于 (24) 选择 $\omega$ 使得 $|\Omega \setminus \omega|$ 足够小。
+
+\textbf{步骤 4: 结论。} 由于 $L^p(\Omega)$ 是完备的，只需证明（见，例如，A. Knapp [1] 或 J. R. Munkres [1], 定理 7.3）$\mathcal{F}|_\Omega$ 是\textbf{完全有界}的，即，给定任何 $\varepsilon>0$，存在 $\mathcal{F}|_\Omega$ 的一个有限覆盖，由半径为 $\varepsilon$ 的球构成。给定 $\varepsilon>0$ 我们固定 $n > 1/\delta$。
+一个有界可测集 $\omega \subset \Omega$ 使得 (26) 成立。族 $\mathcal{H} = \{(\rho_n \star f)|_\omega : f \in \mathcal{F}\}$ 满足 Ascoli-Arzelà 定理的所有假设（通过步骤 2）。因此 $\mathcal{H}$ 在 $C(\bar{\omega})$ 中有紧闭包；因此 $\mathcal{H}$ 在 $L^p(\omega)$ 中也有紧闭包。因此我们可以用有限个半径为 $\varepsilon$ 的球覆盖 $\mathcal{H}$，比如
+\[ \mathcal{H} \subset \cup_i B(g_i, \varepsilon) \text{ with } g_i \in L^p(\omega). \]
+考虑函数 $\tilde{g}_i: \Omega \to \mathbb{R}$ 定义为
+\[ \tilde{g}_i = \begin{cases} g_i & \text{在 } \omega \text{上}, \\ 0 & \text{在 } \Omega \setminus \omega \text{上}. \end{cases} \]
+以及 $L^p(\Omega)$ 中的球 $B(\tilde{g}_i, 3\varepsilon)$。
+我们声称它们覆盖了 $\mathcal{F}|_\Omega$。确实，给定 $f \in \mathcal{F}$，存在某个 $i$ 使得
+\[ \|\rho_n \star f - g_i\|_{L^p(\omega)} < \varepsilon. \]
+由于
+\[ \|f - \tilde{g}_i\|_{L^p(\Omega)}^p = \int_\omega |f-g_i|^p + \int_{\Omega \setminus \omega} |f|^p, \]
+我们有，通过 (26)，
+\[ \|f - \tilde{g}_i\|_{L^p(\Omega)} \le \|f-g_i\|_{L^p(\omega)} + \|f\|_{L^p(\Omega \setminus \omega)} \le \|f - \rho_n \star f\|_{L^p(\omega)} + \|\rho_n \star f - g_i\|_{L^p(\omega)} + \|f\|_{L^p(\Omega \setminus \omega)} < 3\varepsilon. \]
+我们得出结论，$\mathcal{F}|_\Omega$ 在 $L^p(\Omega)$ 中有紧闭包。
+\end{proof}
+
+\begin{remark}
+11. 当试图证明 $L^p(\Omega)$ 中的一个族 $\mathcal{F}$ 在 $L^p(\Omega)$ 中有紧闭包时，其中 $\Omega$ 有界，通常方便将函数全部扩展到 $\mathbb{R}^N$，然后在 $\mathbb{R}^N$ 上应用定理 \ref{theorem4.26} 并考虑对 $\Omega$ 的限制。
+\end{remark}
+
+\begin{remark}
+12. 在定理 \ref{theorem4.26} 的假设下，我们不能得出 $\mathcal{F}$ 本身在 $L^p(\mathbb{R}^N)$ 中有紧闭包（构造一个例子，或见练习 4.33）。需要一个额外的假设；我们现在描述它。
+\end{remark}
+
+\begin{corollary}\label{corollary4.27}
+设 $\mathcal{F}$ 是 $L^p(\mathbb{R}^N)$ 中的一个有界集，其中 $1 \le p < \infty$。假设 (22) 成立并且
+\begin{equation}\label{eq:corollary_4.27}
+\forall \varepsilon > 0 \quad \exists \Omega \subset \mathbb{R}^N, \text{有界, 可测使得} \quad \|f\|_{L^p(\mathbb{R}^N \setminus \Omega)} < \varepsilon \quad \forall f \in \mathcal{F}. \tag{27}
+\end{equation}
+那么 $\mathcal{F}$ 在 $L^p(\mathbb{R}^N)$ 中有紧闭包。
+\end{corollary}
+
+\begin{proof}
+给定 $\varepsilon > 0$ 我们固定一个有界可测集 $\Omega$ 使得 (27) 成立。通过定理 \ref{theorem4.26} 我们知道 $\mathcal{F}|_\Omega$ 在 $L^p(\Omega)$ 中有紧闭包。因此我们可以用有限个半径为 $\varepsilon$ 的球覆盖 $\mathcal{F}|_\Omega$，比如
+\[ \mathcal{F}|_\Omega \subset \cup_i B(g_i, \varepsilon) \text{ with } g_i \in L^p(\Omega). \]
+设
+\[ \tilde{g}_i(x) = \begin{cases} g_i(x) & \text{在 } \Omega \text{中}, \\ 0 & \text{在 } \mathbb{R}^N \setminus \Omega \text{上}. \end{cases} \]
+很明显 $\mathcal{F}$ 被 $L^p(\mathbb{R}^N)$ 中的球 $B(\tilde{g}_i, 2\varepsilon)$ 覆盖。
+\end{proof}
+
+\begin{remark}
+13. 推论 \ref{corollary4.27} 的逆命题也成立（见练习 4.34）。因此我们对 $L^p(\mathbb{R}^N)$ 中紧集的完整刻画。
+我们以定理 \ref{theorem4.26} 的一个有用应用来结束。
+\end{remark}
+
+\begin{corollary}\label{corollary4.28}
+设 $G$ 是 $L^1(\mathbb{R}^N)$ 中的一个固定函数，设
+\[ \mathcal{F} = \{G \star B \mid B \text{ 是 } L^p(\mathbb{R}^N) \text{ 中的有界集}\}, \]
+其中 $1 \le p < \infty$。那么 $\mathcal{F}|_\Omega$ 在 $L^p(\Omega)$ 中对任何有限测度的可测集 $\Omega$ 都有紧闭包。
+\end{corollary}
+
+\begin{proof}
+显然 $\mathcal{F}$ 在 $L^p(\mathbb{R}^N)$ 中是有界的。另一方面，如果我们写 $f=G\star u$ 其中 $u \in B$ 我们有
+\[ \|\tau_h f - f\|_p = \|(\tau_h G - G) \star u\|_p \le \|\tau_h G - G\|_1 \|u\|_p \le C \|\tau_h G - G\|_1, \]
+并且当我们用以下引理帮助时，我们得出结论。
+\end{proof}
+
+\begin{lemma}\label{lemma4.3}
+设 $G \in L^q(\mathbb{R}^N)$，其中 $1 \le q < \infty$。那么
+\[ \lim_{h \to 0} \|\tau_h G - G\|_q = 0. \]
+\end{lemma}
+\begin{proof}
+给定 $\varepsilon > 0$，存在（通过定理 \ref{theorem4.12}）一个函数 $G_1 \in C_c(\mathbb{R}^N)$ 使得 $\|G-G_1\|_q < \varepsilon$。
+我们写
+\[ \|\tau_h G - G\|_q \le \|\tau_h G - \tau_h G_1\|_q + \|\tau_h G_1 - G_1\|_q + \|G_1 - G\|_q \le 2\varepsilon + \|\tau_h G_1 - G_1\|_q. \]
+由于 $\lim_{h \to 0} \|\tau_h G_1 - G_1\|_q = 0$ 我们看到
+\[ \limsup_{h\to 0} \|\tau_h G - G\|_q \le 2\varepsilon \quad \forall \varepsilon > 0. \]
+\end{proof}

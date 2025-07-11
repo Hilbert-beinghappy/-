@@ -1,0 +1,462 @@
+\chapter{紧算子。自伴紧算子的谱分解}
+
+\section{定义、基本性质、伴随算子}
+
+在本章中，除非另有说明，\(E\) 和 \(F\) 表示两个巴拿赫空间。
+
+\begin{definition}
+一个有界算子 \(T \in \mathcal{L}(E, F)\) 被称为是\textbf{紧的}，如果 \(T(B_E)\) 在 \(F\) 中有紧闭包（在强拓扑下）。
+\end{definition}
+
+所有从 \(E\) 到 \(F\) 的紧算子的集合用 \(K(E, F)\) 表示。为简单起见，我们记 \(K(E) = K(E, E)\)。
+
+\begin{theorem}\label{theorem:6.1}
+集合 \(K(E, F)\) 是 \(\mathcal{L}(E, F)\) 的一个闭线性子空间（在与范数 \(\|\cdot\|_{\mathcal{L}(E, F)}\) 相关的拓扑下）。
+\end{theorem}
+
+\begin{proof}
+两个紧算子的和是紧算子是显然的。假设 \((T_n)\) 是 \(K(E, F)\) 中的一个算子序列，并且 \(T\) 是一个有界算子，使得 \(\|T_n - T\|_{\mathcal{L}(E, F)} \to 0\)。我们断言 \(T\) 是一个紧算子。由于 \(F\) 是完备的，为了证明 \(T(B_E)\) 是预紧的，我们只需证明对于每个 \(\varepsilon > 0\)，存在一个用半径为 \(\varepsilon\) 的球对 \(T(B_E)\) 的有限覆盖（参见，例如，J. R. Munkres [1]，第 7.3 节）。固定一个整数 \(n\)，使得 \(\|T_n - T\|_{\mathcal{L}(E, F)} < \varepsilon/2\)。由于 \(T_n(B_E)\) 有紧闭包，存在一个半径为 \(\varepsilon/2\) 的球对 \(T_n(B_E)\) 的有限覆盖，记为 \(T_n(B_E) \subset \bigcup_{i \in I} B(f_i, \varepsilon/2)\)。由此可知 \(T(B_E) \subset \bigcup_{i \in I} B(f_i, \varepsilon)\)。
+\end{proof}
+
+\begin{definition}
+一个算子 \(T \in \mathcal{L}(E, F)\) 被称为是\textbf{有限秩}的，如果它的值域 \(R(T)\) 是有限维的。
+\end{definition}
+
+显然，任何有限秩算子都是紧的，因此我们有以下推论。
+
+\begin{corollary}\label{corollary:6.2}
+设 \((T_n)\) 是一个有限秩算子序列，并设 \(T \in \mathcal{L}(E, F)\) 使得 \(\|T_n - T\|_{\mathcal{L}(E, F)} \to 0\)。那么 \(T \in K(E, F)\)。
+\end{corollary}
+
+\begin{remark}\label{remark:6.1}
+著名的“逼近问题”（由巴拿赫、格罗滕迪克提出）询问推论 \ref{corollary:6.2} 的逆命题是否成立：给定一个紧算子 \(T\)，是否总存在一个有限秩算子序列 \((T_n)\) 使得 \(\|T_n - T\|_{\mathcal{L}(E, F)} \to 0\)? 这个问题在很长一段时间内都是开放的，直到 1972 年 P. Enflo [1] 发现了一个反例。最初的构造非常复杂，后来又发现了更简单的例子，例如，如果 \(F\) 是 \(l^p\) 的某个闭子空间（对于任何 \(1 < p < \infty, p \ne 2\)）。感兴趣的读者可以在 J. Lindenstrauss-L. Tzafriri [2] 的详细讨论中找到逼近问题的介绍。请注意，在一些特殊情况下，这个问题的答案是肯定的——例如，如果 \(F\) 是一个\textbf{希尔伯特空间}。事实上，设 \(K = \overline{T(B_E)}\)。给定 \(\varepsilon > 0\)，存在一个用半径为 \(\varepsilon\) 的球对 \(K\) 的有限覆盖，即 \(K \subset \bigcup_{i \in I} B(f_i, \varepsilon)\)。设 \(G\) 表示由 \(f_i\) 张成的向量空间，并设 \(P_G\) 是到 \(G\) 上的投影，因此 \(T_\varepsilon = P_G T\) 是有限秩的。我们断言 \(\|T_\varepsilon - T\|_{\mathcal{L}(E, F)} < 2\varepsilon\)。对于每个 \(x \in B_E\)，存在某个 \(i_0 \in I\) 使得
+\begin{equation}\label{eq:6.1}
+\|Tx - f_{i_0}\| < \varepsilon.
+\end{equation}
+因此，
+\[
+\|P_G Tx - P_G f_{i_0}\| < \varepsilon,
+\]
+也就是说，
+\begin{equation}\label{eq:6.2}
+\|P_G Tx - f_{i_0}\| < \varepsilon.
+\end{equation}
+结合 \eqref{eq:6.1} 和 \eqref{eq:6.2}，我们得到
+\[
+\|P_G Tx - Tx\| < 2\varepsilon \quad \forall x \in B_E,
+\]
+也就是说，
+\[
+\|T_\varepsilon - T\|_{\mathcal{L}(E, F)} < 2\varepsilon.
+\]
+[更一般地，我们可以看到，如果 \(F\) 有一个 Schauder 基，那么对于每个在 \(E\) 和 \(F\) 之间的紧算子，逼近问题的答案是肯定的。]
+
+在与逼近问题相关的方面，让我们提一个在非线性分析中非常有用的技术，用有限秩映射来逼近一个连续映射（线性的或非线性的）。设 \(X\) 是一个拓扑空间，设 \(F\) 是一个巴拿赫空间，并设 \(T: X \to F\) 是一个连续映射，使得 \(\overline{T(X)}\) 在 \(F\) 中是紧的。我们断言对于每个 \(\varepsilon > 0\)，存在一个有限秩的连续映射 \(T_\varepsilon: X \to F\) 使得
+\begin{equation}\label{eq:6.3}
+\|T_\varepsilon(x) - T(x)\| < \varepsilon \quad \forall x \in X.
+\end{equation}
+事实上，由于 \(K = \overline{T(X)}\) 是紧的，存在一个对 \(K\) 的有限覆盖，即 \(K \subset \bigcup_{i \in I} B(f_i, \varepsilon/2)\)。设
+\[
+T_\varepsilon(x) = \frac{\sum_{i \in I} q_i(x) f_i}{\sum_{i \in I} q_i(x)} \quad \text{其中 } q_i(x) = \max\{\varepsilon - \|Tx - f_i\|, 0\};
+\]
+显然 \(T_\varepsilon\) 满足 \eqref{eq:6.3}。
+
+这个近似的性质非常有用，例如，可以用来从 Brouwer 不动点定理（见，例如，K. Deimling [1], A. Granas-J. Dugundji [1], J. Franklin [1] 和练习 6.26）推导出 Schauder 不动点定理。一个类似但更精巧的构造被 Lomonosov 在一个令人惊讶的证明中用来证明非平凡不变子空间的存在性，该证明适用于一大类线性算子（见，例如，C. Pearcy [1], N. Akhiezer-I. Glazman [1], A. Granas-J. Dugundji [1] 和问题 42）。另一个基于 Schauder 不动点定理的简单证明得出的重要结果是 Krein-Rutman 定理（见定理 \ref{theorem:6.13} 和问题 41）。
+\end{remark}
+
+\begin{proposition}\label{proposition:6.3}
+设 \(E, F, G\) 是三个巴拿赫空间。设 \(T \in \mathcal{L}(E, F)\) 且 \(S \in \mathcal{L}(F, G)\)。如果 \(T \in K(E, F)\) [或 \(S \in K(F, G)\)]，那么 \(S \circ T \in K(E, G)\)。
+\end{proposition}
+\begin{proof}
+证明是显然的。
+\end{proof}
+
+\begin{theorem}[Schauder]\label{theorem:6.4}
+如果 \(T \in K(E, F)\)，那么 \(T^* \in K(F^*, E^*)\)。反之亦然。
+\end{theorem}
+\begin{proof}
+我们需要证明 \(T^*(B_{F^*})\) 在 \(E^*\) 中有紧闭包。设 \((v_n)\) 是 \(B_{F^*}\) 中的一个序列。设 \(K = \overline{T(B_E)}\)；这是一个紧度量空间。考虑由
+\[
+\mathcal{H} = \{\varphi_n: x \in K \mapsto \langle v_n, x \rangle; n=1, 2, \ldots\}
+\]
+定义的集合 \(\mathcal{H} \subset C(K)\)。
+Arzelà-Ascoli 定理（定理 4.25）的假设是满足的。因此，存在一个子序列，记为 \(\varphi_{n_k}\)，它在 \(K\) 上一致收敛到一个连续函数 \(\varphi \in C(K)\)。特别地，我们有
+\[
+\sup_{u \in B_E} |\langle v_{n_k}, Tu \rangle - \varphi(Tu)| \to 0 \quad \text{当 } k \to \infty.
+\]
+因此
+\[
+\sup_{u \in B_E} |\langle v_{n_k} - v_{n_l}, Tu \rangle| \to 0 \quad \text{当 } k,l \to \infty,
+\]
+即 \(\|T^*v_{n_k} - T^*v_{n_l}\|_{E^*} \to 0\)。因此 \(T^*v_{n_k}\) 在 \(E^*\) 中收敛。
+反过来，假设 \(T^* \in K(F^*, E^*)\)。我们已经从第一部分知道 \(T^{**} \in K(E^{**}, F^{**})\)。特别地，\(T^{**}(B_{E^{**}})\) 在 \(F^{**}\) 中有紧闭包。但 \(T(B_E) = T^{**}(B_E)\) 并且 \(F\) 在 \(F^{**}\) 中是闭的。因此 \(T(B_E)\) 在 \(F\) 中有紧闭包。
+\end{proof}
+
+\begin{remark}\label{remark:6.2}
+设 \(E\) 和 \(F\) 是两个巴拿赫空间，并设 \(T \in K(E, F)\)。如果 \((u_n)\) 在 \(E\) 中弱收敛于 \(u\)，则 \((Tu_n)\) 在 \(F\) 中强收敛于 \(Tu\)。如果 \(E\) 是自反的，则反之亦然（见练习 6.7）。
+\end{remark}
+
+\section{Riesz-Fredholm 理论}
+
+我们从一些有用的预备结果开始。
+
+\begin{lemma}[Riesz 引理]\label{lemma:6.1}
+设 \(E\) 是一个赋范线性空间，设 \(M \subset E\) 是一个闭线性子空间，使得 \(M \ne E\)。那么
+\[
+\forall \varepsilon > 0 \quad \exists u \in E \text{ 使得 } \|u\| = 1 \text{ 且 } \mathrm{dist}(u, M) \ge 1 - \varepsilon.
+\]
+\end{lemma}
+\begin{proof}
+取 \(v \in E\) 且 \(v \notin M\)。由于 \(M\) 是闭的，则
+\[
+d = \mathrm{dist}(v, M) > 0.
+\]
+选择任意 \(m_0 \in M\) 使得
+\[
+d \le \|v - m_0\| \le d / (1 - \varepsilon).
+\]
+那么
+\[
+u = \frac{v - m_0}{\|v - m_0\|}
+\]
+满足所需性质。事实上，对于任意 \(m \in M\)，我们有
+\[
+\|u - m\| = \left\| \frac{v - m_0}{\|v - m_0\|} - m \right\| = \frac{\|v - m_0 - \|v - m_0\|m\|}{\|v - m_0\|} \ge \frac{d}{\|v - m_0\|} \ge 1 - \varepsilon,
+\]
+因为 \(m_0 + \|v - m_0\|m \in M\)。
+\end{proof}
+
+\begin{remark}\label{remark:6.3}
+如果 \(M\) 是有限维的（或者更一般地，如果 \(M\) 是自反的），我们甚至可以选择 \(\varepsilon = 0\)（见练习 1.17）。但对于一般情况这是不成立的。
+\end{remark}
+
+\begin{theorem}[Riesz]\label{theorem:6.5}
+设 \(E\) 是一个赋范线性空间，其单位球 \(B_E\) 是紧的。那么 \(E\) 是有限维的。
+\end{theorem}
+\begin{proof}
+通过反证法，假设 \(E\) 是无限维的。那么我们可以构造一个无限维子空间序列 \((E_n)\) 使得 \(E_{n-1} \subsetneq E_n\) 且 \(\dim E_n = n\)。根据 Riesz 引理（引理 \ref{lemma:6.1}），存在一个序列 \((u_n)\) 使得 \(u_n \in E_n\)，\(\|u_n\| = 1\) 且 \(\mathrm{dist}(u_n, E_{n-1}) \ge 1/2\)。特别地，对于 \(m < n\)，\(\|u_n - u_m\| \ge 1/2\)。因此 \((u_n)\) 没有收敛子序列，这与 \(B_E\) 是紧的这一事实相矛盾。
+\end{proof}
+
+\begin{theorem}[Fredholm 二择一]\label{theorem:6.6}
+设 \(T \in K(E)\)。那么
+\begin{itemize}
+    \item[(a)] \(N(I-T)\) 是有限维的。
+    \item[(b)] \(R(I-T)\) 是闭的，并且更精确地 \(R(I-T) = N(I-T^*)^\perp\)。
+    \item[(c)] \(N(I-T) = \{0\} \iff R(I-T) = E\)。
+    \item[(d)] \(\dim N(I-T) = \dim N(I-T^*)\)。
+\end{itemize}
+\end{theorem}
+
+\begin{remark}\label{remark:6.4}
+Fredholm 二择一处理方程 \(u-Tu=f\) 的可解性。它表明
+\begin{itemize}
+    \item 要么对于每个 \(f \in E\)，方程 \(u-Tu=f\) 有唯一解，
+    \item 要么齐次方程 \(u-Tu=0\) 有 \(n\) 个线性无关的解，在这种情况下，非齐次方程 \(u-Tu=f\) 可解当且仅当 \(f\) 满足 \(n\) 个正交性条件，即
+\end{itemize}
+\[
+f \in N(I-T^*)^\perp.
+\]
+\end{remark}
+
+\begin{remark}\label{remark:6.5}
+性质 (c) 在有限维空间中是熟悉的。如果 \(\dim E < \infty\)，一个从 \(E\) 到其自身的线性算子是单射的（一对一）当且仅当它是满射的（映上）。然而，在无限维空间中，一个有界算子可能是单射的但非满射，或者满射的但非单射。例如 \(l^2\) 上的右移算子（见注记 6）。因此，对于 \(T \in K(E)\) 的算子 \(I-T\) 的这一性质是显著的。
+\end{remark}
+
+\begin{proof}
+(a) 设 \(E_1 = N(I-T)\)。那么 \(B_{E_1} \subset T(B_E)\) 并且因此 \(B_{E_1}\) 是紧的。根据定理 \ref{theorem:6.5}，\(E_1\) 必须是有限维的。
+
+(b) 设 \(f_n = u_n - Tu_n \to f\)。我们需要证明 \(f \in R(I-T)\)。设 \(d_n = \mathrm{dist}(u_n, N(I-T))\)。由于 \(N(I-T)\) 是有限维的，存在 \(v_n \in N(I-T)\) 使得 \(d_n = \|u_n - v_n\|\)。我们有
+\begin{equation}\label{eq:6.4}
+f_n = (u_n - v_n) - T(u_n - v_n).
+\end{equation}
+我们断言 \(\|u_n - v_n\|\) 保持有界。如果不是，则存在一个子序列使得 \(\|u_n - v_n\| \to \infty\)。设 \(w_n = (u_n - v_n) / \|u_n - v_n\|\)。从 \eqref{eq:6.4} 我们看到 \(w_n - Tw_n \to 0\)。为简单起见，选择一个进一步的子序列，我们不妨假设 \(Tw_n \to z\)。因此 \(w_n \to z\) 且 \(z \in N(I-T)\)，所以 \(\mathrm{dist}(w_n, N(I-T)) \to 0\)。另一方面，
+\[
+\mathrm{dist}(w_n, N(I-T)) = \frac{\mathrm{dist}(u_n, N(I-T))}{\|u_n - v_n\|} = 1
+\]
+（因为 \(v_n \in N(I-T)\)）；一个矛盾。
+因此 \(\|u_n-v_n\|\) 是有界的，并且由于 \(T\) 是一个紧算子，\((u_n-v_n)\) 的一个子序列收敛到一个极限 \(\ell\)。从 \eqref{eq:6.4} 我们推断 \(u_{n_k}-v_{n_k} \to f + \ell\)。设 \(g=f+\ell\)，我们有 \(g-Tg=f\)，即 \(f \in R(I-T)\)。这就完成了算子 \(I-T\) 的值域是闭的这一部分的证明。我们现在应用定理 2.19 并推断
+\[
+R(I-T) = N(I-T^*)^\perp, \quad R(I-T^*) = N(I-T)^\perp.
+\]
+
+(c) 我们首先证明 \(\implies\) 的部分。通过反证法，假设
+\[
+E_1 = R(I-T) \ne E.
+\]
+那么 \(E_1\) 是一个巴拿赫空间并且 \(T(E_1) \subset E_1\)。因此 \(T|_{E_1} \in K(E_1)\) 并且 \(E_2 = (I-T)(E_1)\) 是 \(E_1\) 的一个闭子空间。此外，\(E_2 \ne E_1\) (因为 \(I-T\) 在 \(E\) 上是单射的)。设 \(E_n = (I-T)^n(E)\)。我们得到一个严格递减的闭子空间序列 \((u_n)\) 使得 \(u_n \in E_n\), \(\|u_n\|=1\) 且 \(\mathrm{dist}(u_n, E_{n+1}) \ge 1/2\)。我们有
+\[
+Tu_n - Tu_m = -(u_n - Tu_n) + (u_m - Tu_m) + (u_n-u_m).
+\]
+注意如果 \(n>m\)，那么 \(E_n \subset E_{n+1} \subset E_m\)，因此
+\[
+-(u_n-Tu_n) + (u_m-Tu_m) \in E_{m+1}.
+\]
+由此可知 \(\|Tu_n - Tu_m\| \ge \mathrm{dist}(u_n, E_{m+1}) \ge 1/2\)。这是不可能的，因为 \(T\) 是紧的。
+反过来，假设 \(R(I-T)=E\)。根据推论 2.18 我们知道 \(N(I-T^*) = R(I-T)^\perp = \{0\}\)。由于 \(K(E,E^*)\) 是紧的，我们可以应用前面的步骤来推断 \(R(I-T^*) = E^*\)。使用推论 2.18，我们再次得出结论 \(N(I-T)=R(I-T^*)^\perp=\{0\}\)。
+
+(d) 设 \(d=\dim N(I-T)\) 和 \(d^*=\dim N(I-T^*)\)。我们将首先证明 \(d \le d^*\)。假设不是，即 \(d>d^*\)。由于 \(N(I-T)\) 是有限维的，它在 \(E\) 中有一个补（见第 2.4 节，例 2.4）。另一方面，\(R(I-T)=N(I-T^*)^\perp\) 有余维数 \(d^*\)（见第 2.4 节，例 2），因此它有一个维数为 \(d^*\) 的补，记为 \(F\)。由于 \(d<d^*\)，存在一个线性映射 \(A:N(I-T) \to F\) 它是单射的但非满射的。设 \(S=T+\Lambda \circ P\)。那么 \(S \in K(E)\)，因为 \(\Lambda \circ P\) 是有限秩的。我们断言 \(N(I-S) = \{0\}\)。事实上，如果
+\[
+0 = u - Su = (u-Tu) - (\Lambda \circ Pu),
+\]
+那么
+\[
+u-Tu=0 \quad \text{且} \quad \Lambda \circ Pu = 0,
+\]
+即 \(u \in N(I-T)\) 且 \(\Lambda u = 0\)。因此 \(u=0\)。应用 (c) 到算子 \(S\)，我们得到 \(R(I-S)=E\)。这是荒谬的，因为存在一些 \(f \in F\) 使得 \(f \notin R(\Lambda)\)，并且方程 \(u-Su=f\) 没有解。
+因此我们已经证明了 \(d \le d^*\)。应用这个结果于 \(T^*\)，我们得到
+\[
+\dim N(I-T^{**}) \le \dim N(I-T^*) \le \dim N(I-T).
+\]
+但 \(N(I-T^{**}) \supset N(I-T)\)，因此 \(d=d^*\)。
+\end{proof}
+
+\section{紧算子的谱}
+这里有一些重要的定义。
+
+\begin{definition}
+设 \(T \in \mathcal{L}(E)\)。
+\textbf{预解集}，记为 \(\rho(T)\)，定义为
+\[
+\rho(T) = \{\lambda \in \mathbb{R}; (T - \lambda I) \text{ 是从 } E \text{ 到 } E \text{ 的双射}\}.
+\]
+\textbf{谱}，记为 \(\sigma(T)\)，是预解集的补集，即 \(\sigma(T) = \mathbb{R} \setminus \rho(T)\)。
+一个实数 \(\lambda\) 被称为 \(T\) 的\textbf{特征值}，如果
+\[
+N(T - \lambda I) \ne \{0\};
+\]
+对应的非零向量空间被称为\textbf{特征空间}。所有特征值的集合用 \(EV(T)\) 表示。
+\end{definition}
+1. 记住如果 \(\lambda \in \rho(T)\)，那么 \((T - \lambda I)^{-1} \in \mathcal{L}(E)\) 是有用的（见推论 2.7）。
+2. 很明显 \(EV(T) \subset \sigma(T)\)。一般来说，这个包含关系可以是严格的：可能存在一些 \(\lambda\) 使得
+\[
+N(T - \lambda I) = \{0\} \quad \text{但} \quad R(T - \lambda I) \ne E
+\]
+（这样的 \(\lambda\) 属于谱但不属于特征值）。例如，在 \(E = l^2\) 上考虑右移算子 \(T=(u_1, u_2, \ldots)\) 定义为 \(Tu=(0, u_1, u_2, \ldots)\)。那么 \(0 \in \sigma(T)\) 但 \(0 \notin EV(T)\)。事实上，在这种情况下 \(EV(T) = \emptyset\)，而 \(\sigma(T) = [-1, +1]\)（见练习 6.18）。这当然可能发生，在有限维或无限维空间中，\(\sigma(T)=\emptyset\)。例如，\(l^2\) 中绕 \(\pi/2\) 的旋转，或者更一般地 \(l^2\) 上的算子 \(T = (-u_2, u_1, -u_4, u_3, \ldots)\)。如果我们研究复数域上的向量空间，情况就完全不同了；众所周知的有限维复数域上的特征值和谱的研究结果（它们是特征多项式的根）以及无限维复数域上的一个非平凡结果断言 \(\sigma(T)\) 总是非空的（见第 11.4 节）。然而，\(EV(T)=\emptyset\) 仍然可能发生（例如 \(E=l^2\) 的情况）。
+
+\begin{proposition}\label{proposition:6.7}
+有界算子 \(T\) 的谱 \(\sigma(T)\) 是紧的，且
+\[
+\sigma(T) \subset [- \|T\|, + \|T\|].
+\]
+\end{proposition}
+
+\begin{proof}
+设 \(\lambda \in \mathbb{R}\) 使得 \(|\lambda| > \|T\|\)。我们将证明 \(T-\lambda I\) 是双射的，这意味着 \(\sigma(T) \subset [-\|T\|, +\|T\|]\)。给定 \(f \in E\)，方程 \(Tu-\lambda u = f\) 有唯一解 \(u = \lambda^{-1}(Tu-f)\)，因为它可以通过收缩映射原理（定理 5.7）求解。
+我们现在证明 \(\rho(T)\) 是开集。设 \(\lambda_0 \in \rho(T)\)。给定 \(\lambda \in \mathbb{R}\) (靠近 \(\lambda_0\)) 并且 \(f \in E\)，我们尝试求解
+\begin{equation}\label{eq:6.5}
+Tu - \lambda u = f,
+\end{equation}
+即
+\[
+Tu - \lambda_0 u = f + (\lambda - \lambda_0)u,
+\]
+也就是说，
+\begin{equation}\label{eq:6.6}
+u = (T - \lambda_0 I)^{-1}[f + (\lambda - \lambda_0)u].
+\end{equation}
+再一次应用收缩映射原理，我们看到只要
+\[
+|\lambda - \lambda_0| \|(T - \lambda_0 I)^{-1}\| < 1,
+\]
+方程 \eqref{eq:6.6} 就有解。
+\end{proof}
+
+\begin{theorem}\label{theorem:6.8}
+设 \(T \in K(E)\) 且 \(\dim E = \infty\)，则我们有：
+\begin{itemize}
+    \item[(a)] \(0 \in \sigma(T)\)。
+    \item[(b)] \(\sigma(T) \setminus \{0\} = EV(T) \setminus \{0\}\)。
+    \item[(c)] 以下情况之一成立：
+    \begin{itemize}
+        \item \(\sigma(T) = \{0\}\)。
+        \item \(\sigma(T)\) 是一个有限集。
+        \item \(\sigma(T)\) 是一个收敛到 0 的序列。
+    \end{itemize}
+\end{itemize}
+\end{theorem}
+
+\begin{proof}
+(a) 假设不是，即 \(0 \notin \sigma(T)\)。那么 \(T\) 是双射的，并且 \(I = T \circ T^{-1}\) 是紧的。因此 \(B_E\) 是紧的，并且 \(\dim E < \infty\) (根据定理 \ref{theorem:6.5})；一个矛盾。
+
+(b) 设 \(\lambda \in \sigma(T)\) 且 \(\lambda \ne 0\)。我们需要证明 \(\lambda\) 是一个特征值。假设不是，那么 \(N(T - \lambda I) = \{0\}\)。因此根据定理 \ref{theorem:6.6}(c)，我们知道 \(R(T - \lambda I) = E\) 并且 \(\lambda \in \rho(T)\)；一个矛盾。
+
+为了证明的其余部分，我们将使用以下引理。
+\end{proof}
+
+\begin{lemma}\label{lemma:6.2}
+设 \(T \in K(E)\) 并且设 \((\lambda_n)_{n \ge 1}\) 是一个不同的实数序列，使得
+\[
+\lambda_n \to \lambda
+\]
+且
+\[
+\lambda_n \in \sigma(T) \setminus \{0\} \quad \forall n.
+\]
+那么 \(\lambda = 0\)。
+换句话说，\(\sigma(T)\setminus\{0\}\) 的所有点都是孤立点。
+\end{lemma}
+
+\begin{proof}
+我们知道 \(\lambda_n \in EV(T)\)；设 \(e_n \ne 0\) 使得 \((T - \lambda_n I)e_n = 0\)。令 \(E_n\) 是由 \(\{e_1, e_2, \ldots, e_n\}\) 张成的空间。我们断言，对于所有 \(n\)，向量 \(e_1, e_2, \ldots, e_n\) 是线性无关的。证明通过归纳法进行。假设它对 \(n\) 成立，并假设 \(e_{n+1} = \sum_{i=1}^n \alpha_i e_i\)。那么
+\[
+Te_{n+1} = \sum_{i=1}^n \alpha_i \lambda_i e_i = \sum_{i=1}^n \alpha_i \lambda_{n+1} e_i.
+\]
+由此可知 \(\alpha_i(\lambda_i - \lambda_{n+1}) = 0\) 对于 \(i=1, 2, \ldots, n\)，因此 \(\alpha_i=0\) 对于 \(i=1, 2, \ldots, n\)；一个矛盾。因此我们已经证明了 \(E_n \subsetneq E_{n+1}\) 对于所有 \(n\)。
+应用 Riesz 引理（引理 \ref{lemma:6.1}），我们可以构造一个序列 \((u_n)\) 使得 \(u_n \in E_n\)，\(\|u_n\|=1\) 且 \(\mathrm{dist}(u_n, E_{n-1}) \ge 1/2\) 对于所有 \(n \ge 2\)。对于 \(2 \le m < n\)，我们有
+\[
+\frac{Tu_n}{\lambda_n} - \frac{Tu_m}{\lambda_m} = u_n - \left( \frac{Tu_m}{\lambda_m} - u_n + u_m \right).
+\]
+我们有
+\[
+E_{m-1} \subset E_{n-1} \subset E_n.
+\]
+另一方面，很明显 \((T - \lambda_n I)E_n \subset E_{n-1}\)。因此我们有
+\[
+\left\| \frac{Tu_n}{\lambda_n} - \frac{Tu_m}{\lambda_m} \right\| = \left\| u_n - \frac{1}{\lambda_n}(Tu_n - \lambda_n u_n) - \frac{Tu_m}{\lambda_m} \right\| \ge \mathrm{dist}(u_n, E_{n-1}) \ge 1/2.
+\]
+如果 \(\lambda_n \to \lambda\) 且 \(\lambda \ne 0\)，我们有一个矛盾，因为 \((Tu_n)\) 有一个收敛的子序列。
+\end{proof}
+
+\begin{proof}[定理 \ref{theorem:6.8} 的证明结束]
+对于每个整数 \(n \ge 1\)，集合
+\[
+\sigma(T) \cap \{\lambda \in \mathbb{R}; |\lambda| \ge 1/n\}
+\]
+是有限的或空的（如果它有无限多个不同的点，那么会有一个子序列收敛到一个 \(\lambda\) 且 \(|\lambda| \ge 1/n\)——因为 \(\sigma(T)\) 是紧的——这与引理 \ref{lemma:6.2} 相矛盾）。因此 \(\sigma(T) \setminus \{0\}\) 有无限多个点，我们可以按递减顺序排列它们。
+\end{proof}
+
+\begin{remark}\label{remark:6.7}
+给定任何收敛到 0 的序列 \((\alpha_n)\)，存在一个紧算子 \(T\) 使得 \(\sigma(T) = (\alpha_n) \cup \{0\}\)。在 \(l^2\) 中，定义乘法算子 \(T\) 为 \((Tu)_n = \alpha_n u_n\)，其中 \(u = (u_1, u_2, \ldots, u_n, \ldots)\)。那么 \(T\) 是紧的，因为它是一系列有限秩算子 \(T_n\) 的极限，其中 \((T_n u)_i = \alpha_i u_i\) 当 \(i \le n\) 时，\(0\) 当 \(i > n\) 时。更准确地说，\(\|T_n-T\| \to 0\)。那么我们看到 \(\alpha_i\) 可能属于也可能不属于 \(EV(T)\)。如果 \(\alpha_i\) 在序列中出现有限次，则 \(\alpha_i \in EV(T)\)，相应的特征空间 \(N(T)\) 是有限维或无限维的。
+\end{remark}
+
+\section{自伴紧算子的谱分解}
+
+在接下来的内容中，我们假设 \(E=H\) 是一个希尔伯特空间，并且 \(T \in \mathcal{L}(H)\)。通过将 \(H^*\) 和 \(H\) 等同起来，我们可以将 \(T^*\) 视为从 \(H\) 到 \(H\) 的有界算子。
+
+\begin{definition}
+一个有界算子 \(T \in \mathcal{L}(H)\) 被称为是\textbf{自伴的}，如果 \(T^*=T\)，即
+\[
+(Tu, v) = (u, Tv) \quad \forall u, v \in H.
+\]
+\end{definition}
+
+\begin{proposition}\label{proposition:6.9}
+设 \(T \in \mathcal{L}(H)\) 是一个自伴算子。设
+\[
+m = \inf_{u \in H, \|u\|=1} (Tu, u) \quad \text{和} \quad M = \sup_{u \in H, \|u\|=1} (Tu, u).
+\]
+那么 \(\sigma(T) \subset [m, M]\)，并且 \(m \in \sigma(T)\) 且 \(M \in \sigma(T)\)。此外，\(\|T\| = \max\{|m|, |M|\}\)。
+\end{proposition}
+
+\begin{proof}
+设 \(\lambda > M\)；我们将证明 \(\lambda \in \rho(T)\)。我们有
+\[
+(Tu, u) \le M \|u\|^2 \quad \forall u \in H,
+\]
+因此
+\[
+(\lambda u - Tu, u) \ge (\lambda - M)\|u\|^2 = \alpha \|u\|^2 \quad \forall u \in H, \text{其中 } \alpha > 0.
+\]
+应用 Lax-Milgram 定理（推论 5.8），我们推断 \(\lambda I - T\) 是双射的，因此 \(\lambda \in \rho(T)\)。类似地，任何 \(\lambda < m\) 都属于 \(\rho(T)\)。因此 \(\sigma(T) \subset [m, M]\)。
+我们现在证明 \(M \in \sigma(T)\) ( \(m \in \sigma(T)\) 的证明是类似的)。定义双线性形式 \(a(u,v) = (Mu - Tu, v)\) 是对称的并且满足
+\[
+a(v,v) \ge 0 \quad \forall v \in H.
+\]
+因此它满足 Cauchy-Schwarz 不等式
+\[
+|a(u,v)| \le a(u,u)^{1/2} a(v,v)^{1/2} \quad \forall u, v \in H,
+\]
+即
+\[
+|(Mu - Tu, v)| \le (Mu - Tu, u)^{1/2} (Mv - Tv, v)^{1/2} \quad \forall u, v \in H.
+\]
+由此可知
+\begin{equation}\label{eq:6.7}
+|Mu - Tu| \le C (Mu - Tu, u)^{1/2} \quad \forall u \in H.
+\end{equation}
+根据 \(M\) 的定义，存在一个序列 \((u_n)\) 使得 \(\|u_n\|=1\) 并且 \((Tu_n, u_n) \to M\)。从 \eqref{eq:6.7} 可知 \(\|Mu_n - Tu_n\| \to 0\)，因此 \(M \in \sigma(T)\) (因为如果 \(M \in \rho(T)\)，那么 \(\| (MI-T)^{-1}(Mu_n - Tu_n) \to 0\)，这是不可能的)。最后，我们证明 \(\|T\| = \mu\)，其中 \(\mu = \max\{|m|, |M|\}\)。写出 \(u, v \in H\)，
+\[
+(T(u+v), u+v) = (Tu, u) + (Tv, v) + 2(Tu, v),
+\]
+\[
+(T(u-v), u-v) = (Tu, u) + (Tv, v) - 2(Tu, v),
+\]
+因此
+\[
+4(Tu, v) = (T(u+v), u+v) - (T(u-v), u-v)
+\]
+\[
+\le M\|u+v\|^2 - m\|u-v\|^2,
+\]
+因此
+\[
+4(Tu, v) \le \mu(\|u+v\|^2 + \|u-v\|^2) = 2\mu(\|u\|^2 + \|v\|^2).
+\]
+用 \(\alpha v\) 替换 \(v\) 得到
+\[
+4|\alpha (Tu, v)| \le 2\mu \left( \|u\|^2 + |\alpha|^2 \|v\|^2 \right).
+\]
+接下来我们最小化右侧，即选择 \(\alpha = \|u\|/\|v\|\)，然后我们得到
+\[
+|(Tu, v)| \le \mu \|u\| \|v\| \quad \forall u, v \in H, \text{ 所以 } \|T\| \le \mu.
+\]
+另一方面，很明显 \(|(Tu, u)| \le \|T\| \|u\|^2\)，所以 \(|m| \le \|T\|\) 和 \(|M| \le \|T\|\)，因此 \(\mu \le \|T\|\)。
+\end{proof}
+
+\begin{corollary}\label{corollary:6.10}
+设 \(T \in \mathcal{L}(H)\) 是一个自伴算子，使得 \(\sigma(T)=\{0\}\)。那么 \(T=0\)。
+\end{corollary}
+
+我们最后的陈述是一个基本结果。它断言每个紧自伴算子都可以在某个合适的基上对角化。
+
+\begin{theorem}\label{theorem:6.11}
+设 \(H\) 是一个可分的希尔伯特空间，设 \(T \in \mathcal{L}(H)\) 是一个紧自伴算子。那么存在一个由 \(T\) 的特征向量组成的希尔伯特基。
+\end{theorem}
+
+\begin{proof}
+设 \((\lambda_n)_{n \ge 1}\) 是 \(T\) 的（不同的）非零特征值的序列。设
+\[
+\lambda_0 = 0, \quad E_0 = N(T), \quad \text{且} \quad E_n = N(T - \lambda_n I).
+\]
+回顾
+\[
+0 \le \dim E_0 \le \infty \quad \text{和} \quad 0 < \dim E_n < \infty.
+\]
+我们断言 \(H\) 是 \(E_n\), \(n=0, 1, 2, \ldots\) 的希尔伯特和（在第 5.4 节的意义上）。
+(i) 空间 \((E_n)_{n \ge 0}\) 是相互正交的。事实上，如果 \(u \in E_m\) 且 \(v \in E_n\) 且 \(m \ne n\)，则
+\[
+Tu = \lambda_m u \quad \text{和} \quad Tv = \lambda_n v,
+\]
+所以
+\[
+(Tu, v) = \lambda_m(u, v) = (u, Tv) = \lambda_n(u,v).
+\]
+因此
+\[
+(u,v) = 0.
+\]
+(ii) 设 \(F\) 是由 \((E_n)_{n \ge 0}\) 张成的向量空间。我们将证明 \(F\) 在 \(H\) 中是稠密的。
+很明显 \(T(F) \subset F\)。由此可知 \(T(F^\perp) \subset F^\perp\)，我们有
+\[
+(Tu, v) = (u, Tv) = 0 \quad \forall u \in F^\perp.
+\]
+设 \(T_0\) 是 \(T\) 到 \(F^\perp\) 的限制。这个算子 \(T_0\) 是一个在 \(F^\perp\) 上的自伴紧算子。我们断言 \(\sigma(T_0)=\{0\}\)。假设不是；那么 \(0 \ne \lambda\) 属于 \(\sigma(T_0)\)。因此 \(\lambda \in EV(T_0)\)，也就是说，存在某个 \(u \in F^\perp\)，\(u \ne 0\) 使得 \(T_0 u = \lambda u\)。因此，\(\lambda\) 是 \(T\) 的特征值之一，比如 \(\lambda=\lambda_n\) 对于某个 \(n \ge 1\)。因此 \(u \in E_n\)。但 \(u \in F^\perp \cap E_n\)，这意味着 \(u=0\)，一个矛盾。应用推论 \ref{corollary:6.10}，我们推断 \(T_0\) 在 \(F^\perp\) 上为零。这意味着 \(F^\perp \subset N(T)\) 并且因此 \(F^\perp \subset F\)。这意味着 \(F^\perp = \{0\}\)，因此 \(F\) 在 \(H\) 中是稠密的。
+
+最后，我们在每个子空间 \((E_n)_{n \ge 0}\) 中选择一个希尔伯特基（对于 \(E_0\) 存在这样的基是根据定理 5.11；对于其他的 \(E_n\), \(n \ge 1\)，这是显然的，因为它们是有限维的）。这些基的并集显然是 \(H\) 的一个由 \(T\) 的特征向量组成的希尔伯特基。
+\end{proof}
+
+\begin{remark}\label{remark:6.8}
+设 \(T\) 是一个紧自伴算子。根据前面的分析，我们可以将 \(H\) 中的任何元素 \(u\) 写成
+\[
+u = \sum_{n=0}^\infty u_n \quad \text{其中 } u_n \in E_n.
+\]
+那么 \(Tu = \sum_{n=1}^\infty \lambda_n u_n\)。给定一个整数 \(k \ge 1\)，设
+\[
+T_k u = \sum_{n=1}^k \lambda_n u_n.
+\]
+显然，\(T_k\) 是一个有限秩算子并且
+\[
+\|T_k - T\| \le \sup_{n \ge k+1} |\lambda_n| \to 0 \quad \text{当 } k \to \infty.
+\]
+回想一下，事实上，在希尔伯特空间中，每个紧算子——不一定是自伴的——都是有限秩算子序列的极限（见注记 \ref{remark:6.1}）。
+\end{remark}

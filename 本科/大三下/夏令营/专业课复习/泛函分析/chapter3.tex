@@ -1,0 +1,623 @@
+\chapter{弱拓扑、自反空间、可分空间、一致凸性}
+
+\section{使一族映射连续的最粗拓扑}
+
+我们通过回顾拓扑学中一个著名的概念来开始本章。假设 $X$ 是一个集合（没有任何结构），而 $(Y_i)_{i \in I}$ 是一族拓扑空间。我们给定一族映射 $(\varphi_i)_{i \in I}$，使得对于每个 $i \in I$，$\varphi_i$ 都将 $X$ 映入 $Y_i$。我们考虑以下问题：
+
+\textbf{问题 1.} 在 $X$ 上构造一个拓扑，使得所有映射 $(\varphi_i)_{i \in I}$ 都连续。如果可能，找到一个最经济的拓扑 $\mathcal{T}$，即它拥有\textit{最少的开集}。
+
+注意，如果我们为 $X$ 配备离散拓扑（即 $X$ 的每个子集都是开集），那么每个映射 $\varphi_i$ 都是连续的；当然，这个拓扑远非"最经济的"；事实上，它是最昂贵的！我们将看到，总存在一个（唯一的）"最经济的"拓扑 $\mathcal{T}$，使得每个映射 $\varphi_i$ 都连续。它被称为与映射族 $(\varphi_i)_{i \in I}$ 相关联的\textit{最粗拓扑}或\textit{最弱拓扑}（有时也称为\textit{初相拓扑}）。
+
+如果 $\omega_i \subset Y_i$ 是任意开集，那么 $\varphi_i^{-1}(\omega_i)$ \textit{必然}是 $\mathcal{T}$ 中的开集。当 $\omega_i$ 取遍 $Y_i$ 的所有开集，并且 $i$ 取遍 $I$ 时，我们得到 $X$ 的一族子集，其中每一个\textit{必须}在拓扑 $\mathcal{T}$ 中是开集。我们用 $(\mathcal{U}_\lambda)_{\lambda \in \Lambda}$ 来表示这个集族。当然，这个集族不一定是一个拓扑。因此，我们引出以下问题：
+
+\textbf{问题 2.} 给定一个集合 $X$ 和 $X$ 的一个子集族 $(\mathcal{U}_\lambda)_{\lambda \in \Lambda}$，在 $X$ 上构造一个最经济的拓扑 $\mathcal{T}$，使得对所有 $\lambda \in \Lambda$，$\mathcal{U}_\lambda$ 都是开集。
+
+换句话说，我们必须找到 $X$ 的子集的最经济的族 $\mathcal{F}$，它在有限交 $\cap_{\text{finite}}$ 和任意并 $\cup_{\text{arbitrary}}$ 下是稳定的\footnote{意为 $\mathcal{F}$ 中有限个集合的交和任意个集合的并都属于 $\mathcal{F}$。}，并且具有性质 $\mathcal{U}_\lambda \in \mathcal{F}$ 对所有 $\lambda \in \Lambda$ 成立。构造如下。首先，考虑 $(\mathcal{U}_\lambda)_{\lambda \in \Lambda}$ 中集合的有限交，即 $\cap_{\lambda \in \Gamma} \mathcal{U}_\lambda$，其中 $\Gamma \subset \Lambda$ 是有限的。这样我们得到了一个新的子集族，称为 $\mathcal{B}$，它包含了 $(\mathcal{U}_\lambda)_{\lambda \in \Lambda}$ 并且在 $\cap_{\text{finite}}$ 下是稳定的。然而，它不一定在 $\cup_{\text{arbitrary}}$ 下稳定。因此，我们接下来考虑通过取 $\mathcal{B}$ 中元素的任意并得到的族 $\mathcal{F}$。很明显 $\mathcal{F}$ 在 $\cup_{\text{arbitrary}}$ 下是稳定的。但 $\mathcal{F}$ 是否在 $\cap_{\text{finite}}$ 下稳定并不清楚；但我们确实有以下结果：
+
+\begin{lemma}\label{lemma3.1}
+族 $\mathcal{F}$ 在 $\cap_{\text{finite}}$ 下是稳定的。
+\end{lemma}
+
+引理 \ref{lemma3.1} 的证明——一个集合论中有趣的练习——留给读者；参见，例如，G. Folland [2]。现在很明显，上述构造给出了具有所需性质的最经济的拓扑。
+
+\begin{remark}\label{remark3.1}
+在构造 $\mathcal{T}$ 的过程中，不能颠倒运算的顺序。从 $\cup_{\text{arbitrary}}$ 开始，然后再取 $\cap_{\text{finite}}$ 也是很自然的。其结果是一个在 $\cup_{\text{arbitrary}}$ 下稳定但在 $\cap_{\text{finite}}$ 下不稳定的族。人们将不得不再次考虑 $\cup_{\text{arbitrary}}$，然后过程才会稳定下来。
+\end{remark}
+
+总结我们的讨论，我们发现拓扑 $\mathcal{T}$ 的开集是通过首先考虑形如 $\varphi_i^{-1}(\omega_i)$ 的集合的 $\cap_{\text{finite}}$，然后取 $\cup_{\text{arbitrary}}$ 得到的。由此可见，对于每个 $x \in X$，我们通过考虑形如 $\cap_{\text{finite}} \varphi_i^{-1}(V_i)$ 的集合，来获得 $x$ 的一个邻域基，其中 $V_i$ 是 $Y_i$ 中 $\varphi_i(x)$ 的一个邻域。回想一下，在拓扑空间中，点 $x$ 的一个\textit{邻域基}是 $x$ 的一个邻域族，使得 $x$ 的每个邻域都包含该基中的一个邻域。
+
+接下来，我们为 $X$ 配备与映射族 $(\varphi_i)_{i \in I}$ 相关联的最弱拓扑 $\mathcal{T}$。以下是拓扑 $\mathcal{T}$ 的两个简单性质。
+
+\begin{proposition}\label{prop3.1}
+设 $(x_n)$ 是 $X$ 中的一个序列。那么 $x_n \to x$（在 $\mathcal{T}$ 中）当且仅当对每个 $i \in I$，$\varphi_i(x_n) \to \varphi_i(x)$。
+\end{proposition}
+
+\begin{proof}
+如果 $x_n \to x$，那么对每个 $i$，$\varphi_i(x_n) \to \varphi_i(x)$，因为每个 $\varphi_i$ 对 $\mathcal{T}$ 都是连续的。反之，设 $U$ 是 $x$ 的一个邻域。根据前面的讨论，我们总可以假设 $U$ 的形式为 $U = \cap_{j \in J} \varphi_j^{-1}(V_j)$，其中 $J \subset I$ 是有限的。对每个 $j \in J$，存在某个整数 $N_j$ 使得当 $n \ge N_j$ 时，$\varphi_j(x_n) \in V_j$。可以得出，当 $n \ge N = \max_{j \in J} N_j$ 时，$x_n \in U$。
+\end{proof}
+
+\begin{proposition}\label{prop3.2}
+设 $Z$ 是一个拓扑空间，$\psi$ 是一个从 $Z$ 到 $X$ 的映射。那么 $\psi$ 是连续的当且仅当对每个 $i \in I$，$\varphi_i \circ \psi$ 是从 $Z$ 到 $Y_i$ 的连续映射。
+\end{proposition}
+
+\begin{proof}
+如果 $\psi$ 是连续的，那么对每个 $i \in I$，$\varphi_i \circ \psi$ 也是连续的。反之，我们必须证明对 $X$ 中的每个开集 $U$，$\psi^{-1}(U)$ 在 $Z$ 中是开集。但我们知道 $U$ 的形式为 $U = \cup_{\text{arbitrary}} \cap_{\text{finite}} \varphi_i^{-1}(\omega_i)$，其中 $\omega_i$ 在 $Y_i$ 中是开集。因此
+\[
+\psi^{-1}(U) = \bigcup_{\text{arbitrary}} \bigcap_{\text{finite}} \psi^{-1}[\varphi_i^{-1}(\omega_i)] = \bigcup_{\text{arbitrary}} \bigcap_{\text{finite}} (\varphi_i \circ \psi)^{-1}(\omega_i),
+\]
+它在 $Z$ 中是开集，因为每个映射 $\varphi_i \circ \psi$ 都是连续的。
+\end{proof}
+
+\section{弱拓扑 $\sigma(E, E^*)$ 的定义与基本性质}
+
+设 $E$ 是一个 Banach 空间，$f \in E^*$。我们用 $\varphi_f : E \to \mathbb{R}$ 表示线性泛函 $\varphi_f(x) = \langle f, x \rangle$。当 $f$ 遍历 $E^*$ 时，我们得到一族从 $E$ 到 $\mathbb{R}$ 的映射 $(\varphi_f)_{f \in E^*}$。我们现在忽略 $E$ 上通常的拓扑（与 $\| \cdot \|$ 相关联的），并在集合 $E$ 上定义一个新的拓扑如下：
+
+\begin{definition}\label{def_weak_topology}
+$E$ 上的\textbf{弱拓扑} $\sigma(E, E^*)$ 是与映射族 $(\varphi_f)_{f \in E^*}$ 相关联的最粗拓扑（在 3.1 节的意义下，其中 $X=E$, $Y_i=\mathbb{R}$ 对每个 $i$ 成立, 且 $I=E^*$）。
+\end{definition}
+
+注意，每个映射 $\varphi_f$ 对于通常拓扑都是连续的，因此\textit{弱拓扑比通常拓扑更弱}。
+
+\begin{proposition}\label{prop3.3}
+弱拓扑 $\sigma(E, E^*)$ 是 Hausdorff 的。
+\end{proposition}
+
+\begin{proof}
+给定 $x_1, x_2 \in E$ 且 $x_1 \neq x_2$，我们必须找到弱拓扑 $\sigma(E, E^*)$ 的两个开集 $O_1$ 和 $O_2$，使得 $x_1 \in O_1$，$x_2 \in O_2$，且 $O_1 \cap O_2 = \emptyset$。根据 Hahn-Banach 定理（第二几何形式），存在一个闭超平面严格分离 $\{x_1\}$ 和 $\{x_2\}$。因此，存在某个 $f \in E^*$ 和某个 $\alpha \in \mathbb{R}$ 使得
+\[
+\langle f, x_1 \rangle < \alpha < \langle f, x_2 \rangle.
+\]
+令
+\begin{align*}
+O_1 &= \{ x \in E; \langle f, x \rangle < \alpha \} = \varphi_f^{-1}((-\infty, \alpha)), \\
+O_2 &= \{ x \in E; \langle f, x \rangle > \alpha \} = \varphi_f^{-1}((\alpha, +\infty)).
+\end{align*}
+显然，$O_1$ 和 $O_2$ 对于 $\sigma(E, E^*)$ 是开集，并且它们满足所要求的性质。
+\end{proof}
+
+\begin{proposition}\label{prop3.4}
+设 $x_0 \in E$；给定 $\varepsilon > 0$ 和 $E^*$ 中的一个\textbf{有限}集 $\{f_1, f_2, \dots, f_k\}$，考虑
+\[
+V = V(f_1, f_2, \dots, f_k; \varepsilon) = \{x \in E; |\langle f_i, x - x_0 \rangle| < \varepsilon \quad \forall i = 1, 2, \dots, k\}.
+\]
+则 $V$ 是 $x_0$ 在拓扑 $\sigma(E, E^*)$下的一个邻域。此外，通过改变 $\varepsilon$，$k$ 和 $E^*$ 中的 $f_i$，我们得到了 $x_0$ 在拓扑 $\sigma(E, E^*)$ 下的一个\textbf{邻域基}。
+\end{proposition}
+
+\begin{proof}
+显然 $V = \cap_{i=1}^k \varphi_{f_i}^{-1}((a_i - \varepsilon, a_i + \varepsilon))$，其中 $a_i = \langle f_i, x_0 \rangle$，因此它在拓扑 $\sigma(E, E^*)$ 中是开集。反之，设 $U$ 是 $x_0$ 在拓扑 $\sigma(E, E^*)$ 下的一个邻域。根据 3.1 节的讨论，我们知道存在一个包含 $x_0$ 的开集 $W \subset U$，其形式为 $W = \cap_{\text{finite} f_i} \varphi_{f_i}^{-1}(\omega_i)$，其中 $\omega_i$ 是 $a_i = \langle f_i, x_0 \rangle$ 在 $\mathbb{R}$ 中的一个邻域。因此存在 $\varepsilon > 0$ 使得对每个 $i$ 都有 $(a_i - \varepsilon, a_i + \varepsilon) \subset \omega_i$。可以得出 $x_0 \in V \subset W \subset U$。
+\end{proof}
+
+\textbf{注记.} 如果序列 $(x_n)$ 在弱拓扑 $\sigma(E, E^*)$ 中收敛到 $x$，我们记为
+\[ x_n \rightharpoonup x. \]
+为避免混淆，我们应说"$x_n \to x$ 在 $\sigma(E, E^*)$ 中弱收敛"。为了完全清楚，我们有时会强调强收敛，说"$x_n \to x$ 强收敛"，意为 $\|x_n - x\| \to 0$。
+
+\begin{proposition}\label{prop3.5}
+设 $(x_n)$ 是 $E$ 中的一个序列。那么
+\begin{itemize}
+    \item[(i)] $[x_n \rightharpoonup x \text{ 在 } \sigma(E, E^*) \text{ 中}] \iff [\langle f, x_n \rangle \to \langle f, x \rangle \quad \forall f \in E^*]$。
+    \item[(ii)] 如果 $x_n \to x$ 强收敛，则 $x_n \rightharpoonup x$ 在 $\sigma(E, E^*)$ 中弱收敛。
+    \item[(iii)] 如果 $x_n \rightharpoonup x$ 在 $\sigma(E, E^*)$ 中弱收敛，则 $(x_n)$ 是有界的，且 $\|x\| \le \liminf \|x_n\|$。
+    \item[(iv)] 如果 $x_n \rightharpoonup x$ 在 $\sigma(E, E^*)$ 中弱收敛，且如果 $f_n \to f$ 在 $E^*$ 中强收敛（即 $\|f_n - f\|_{E^*} \to 0）$，则 $\langle f_n, x_n \rangle \to \langle f, x \rangle$。
+\end{itemize}
+\end{proposition}
+
+\begin{proof}
+(i) 直接由弱拓扑 $\sigma(E, E^*)$ 的定义（见命题 \ref{prop3.1}）得出。
+(ii) 从 (i) 可知，因为 $|\langle f, x_n \rangle - \langle f, x \rangle| = |\langle f, x_n - x \rangle| \le \|f\| \|x_n - x\|$。
+(iii) 由一致有界性原理（见推论 2.4）可知，对于每个 $f \in E^*$，序列 $(\langle f, x_n \rangle)_n$ 是有界的。对不等式取极限
+\[ |\langle f, x_n \rangle| \le \|f\| \|x_n\|, \]
+我们得到
+\[ |\langle f, x \rangle| \le \|f\| \liminf \|x_n\|, \]
+这（根据推论 1.4）意味着
+\[ \|x\| = \sup_{\|f\| \le 1} |\langle f, x \rangle| \le \liminf \|x_n\|. \]
+(iv) 由不等式
+\[ |\langle f_n, x_n \rangle - \langle f, x \rangle| \le |\langle f_n - f, x_n \rangle| + |\langle f, x_n - x \rangle| \le \|f_n - f\|_{E^*} \|x_n\| + |\langle f, x_n - x \rangle|, \]
+结合 (i) 和 (iii) 可得。
+\end{proof}
+
+\begin{proposition}\label{prop3.6}
+当 $E$ 是\textbf{有限维}空间时，弱拓扑 $\sigma(E, E^*)$ 和通常拓扑是\textbf{相同}的。因此，一个序列弱收敛当且仅当它强收敛。
+\end{proposition}
+
+\begin{proof}
+因为弱拓扑的开集\textit{总是}比强拓扑少，所以它足以证明每个强开集也是弱开集。设 $x_0 \in E$ 且 $U$ 是 $x_0$ 在强拓扑中的一个邻域。我们必须找到一个 $x_0$ 在弱拓扑 $\sigma(E, E^*)$ 中的邻域 $V$ 使得 $V \subset U$。换句话说，我们要找到 $f_1, f_2, \dots, f_k \in E^*$ 和 $\varepsilon > 0$ 使得
+\[ V = \{x \in E; |\langle f_i, x - x_0 \rangle| < \varepsilon \quad \forall i = 1, 2, \dots, k\} \subset U. \]
+不妨假设 $U$ 是球 $B(x_0, r)$。选择 $E$ 的一个基 $e_1, e_2, \dots, e_k$ 使得 $\|e_i\|=1$ 对所有 $i$ 成立。$E$ 中的每个 $x$ 都可以分解为 $x = \sum_{i=1}^k x_i e_i$，并且映射 $x \mapsto x_i$ 是 $E$ 上的连续线性泛函。我们有
+\[ \|x - x_0\| \le \sum_{i=1}^k |x_i - (x_0)_i| \|e_i\| < k\varepsilon \]
+对于每个 $x \in V$。选择 $\varepsilon = r/k$，我们得到 $V \subset U$。
+\end{proof}
+
+\begin{remark}\label{remark3.2}
+在弱拓扑 $\sigma(E, E^*)$ 中的开集（闭集）在强拓扑中也总是开集（闭集）。在\textbf{无限维}空间中，弱拓扑\textbf{严格}比强拓扑粗糙；即，存在在强拓扑中是开集（闭集）但在弱拓扑中不是开集（闭集）的集合。以下是两个例子：
+\end{remark}
+
+\textbf{例 1.} 单位球面 $S = \{x \in E; \|x\| = 1\}$，当 $E$ 是无限维时，在弱拓扑 $\sigma(E, E^*)$ 中\textbf{永不}闭。更精确地说，我们有
+\begin{equation}\label{eq:weak_closure_sphere}
+\overline{S}^{\sigma(E, E^*)} = B_E,
+\end{equation}
+其中 $\overline{S}^{\sigma(E, E^*)}$ 表示 $S$ 在 $\sigma(E, E^*)$ 中的闭包，而 $B_E$ 表示 $E$ 中的闭单位球，
+\[ B_E = \{x \in E; \|x\| \le 1\}. \]
+为了完成 (\ref{eq:weak_closure_sphere}) 的证明，只需知道 $B_E$ 在 $\sigma(E, E^*)$ 中是闭的。但我们有
+\[ B_E = \bigcap_{f \in E^*, \|f\| \le 1} \{x \in E; |\langle f, x \rangle| \le 1\}, \]
+它是弱闭集的交集。
+
+\textbf{例 2.} 单位开球 $U = \{x \in E; \|x\| < 1\}$，当 $E$ 是无限维时，在弱拓扑 $\sigma(E, E^*)$ 中\textbf{永不}开。假设与此相反，$U$ 是弱开的。那么它的补集 $U^c = \{x \in E; \|x\| \ge 1\}$ 将是弱闭的。它表明 $S = B_E \cap U^c$ 也是弱闭的，这与例 1 相矛盾。
+
+\begin{remark}\label{remark3.3}
+在无限维空间中，弱拓扑是\textbf{不可度量}的，即，不存在一个范数（或更一般的，一个度量）能够诱导出 $\sigma(E, E^*)$ 拓扑；见练习 3.8。然而，正如我们将在定理 \ref{theorem3.29} 中看到的，如果 $E^*$ 是可分的，人们可以在 $E$ 的有界集上定义一个范数，它在这些集合上诱导出弱拓扑 $\sigma(E, E^*)$。
+\end{remark}
+
+\begin{remark}\label{remark3.4}
+通常，在无限维空间中，存在弱收敛但不强收敛的序列。如果 $E^*$ 是可分的或 $E$ 是自反的（见练习 3.22），人们可以构造一个序列 $(x_n)$ 在 $E$ 中，使得 $\|x_n\| = 1$ 对所有 $n$ 成立且 $x_n \rightharpoonup 0$ 弱收敛。然而，在具有性质每个有界序列都有弱收敛子序列的无限维空间中，弱拓扑严格比强拓扑粗糙。这些序列是相当"罕见"和有些"病态"的。这个奇怪的事实与注记 \ref{remark3.2} 并不矛盾，后者断言在无限维空间中，弱拓扑严格比强拓扑粗糙，因为即使两个拓扑具有相同的收敛序列，它们也未必是两个相同的拓扑。
+\end{remark}
+
+\section{弱拓扑、凸集与线性算子}
+
+每个弱闭集都是强闭的，但在无限维空间中，反之则为假（见注记 \ref{remark3.2}）。然而，对于凸集来说，弱闭=强闭，这是非常有用的。
+
+\begin{theorem}\label{theorem3.7}
+设 $C$ 是 $E$ 的一个凸子集。那么 $C$ 在弱拓扑 $\sigma(E, E^*)$ 中是闭的当且仅当它在强拓扑中是闭的。
+\end{theorem}
+
+\begin{proof}
+假设 $C$ 在强拓扑中是闭的，我们来证明 $C$ 在弱拓扑中也是闭的。为此，我们只需证明其补集 $C^c$ 在弱拓扑中是开的。设 $x_0 \notin C$。由 Hahn-Banach 定理，存在一个闭超平面严格分离 $\{x_0\}$ 和 $C$。因此，存在某个 $f \in E^*$ 和某个 $\alpha \in \mathbb{R}$ 使得
+\[ \langle f, x_0 \rangle < \alpha < \langle f, y \rangle \quad \forall y \in C. \]
+设
+\[ V = \{x \in E; \langle f, x \rangle < \alpha \}, \]
+那么 $x_0 \in V$， $V \cap C^c = \emptyset$（即，$V \subset C^c$）并且 $V$ 在弱拓扑中是开的。
+\end{proof}
+
+\begin{corollary}[Mazur]\label{corollary3.8}
+假设 $(x_n)$ 弱收敛到 $x$。那么存在一个由 $x_n$ 的凸组合构成的序列 $(y_n)$，它强收敛到 $x$。
+\end{corollary}
+
+\begin{proof}
+设 $C = \text{conv}(\cup_{p=1}^\infty \{x_p\})$ 表示 $x_n$ 的凸包。由于 $x$ 属于 $\cup_{p=1}^\infty \{x_p\}$ 的弱闭包，它也先验地属于 $C$ 的弱闭包。根据定理 \ref{theorem3.7}，$x \in \bar{C}$，即 $C$ 的强闭包，结论由此得出。
+\end{proof}
+
+\begin{theorem}\label{theorem3.10}
+设 $E$ 和 $F$ 是两个 Banach 空间，$T$ 是一个从 $E$ 到 $F$ 的线性算子。假设 $T$ 在强拓扑下是连续的。那么 $T$ 在弱拓扑 $\sigma(E, E^*)$ 和 $\sigma(F, F^*)$ 下也是连续的，反之亦然。
+\end{theorem}
+
+\begin{proof}
+根据命题 \ref{prop3.2} 的观点，只需验证对每个 $f \in F^*$，映射 $x \mapsto \langle f, Tx \rangle$ 是从 $E$ 映入 $\mathbb{R}$ 的连续映射。但映射 $x \mapsto \langle f, Tx \rangle$ 是 $E$ 上的一个连续线性泛函。它也因此在弱拓扑 $\sigma(E, E^*)$ 中连续。
+\end{proof}
+
+\section{弱*拓扑 $\sigma(E^*, E)$}
+
+到目前为止，我们有两种拓扑：
+\begin{itemize}
+    \item[(a)] 与 $E^*$ 的范数相关的（强）拓扑
+    \item[(b)] 弱拓扑 $\sigma(E^*, E^{**})$，通过第 3.3 节的构造得到
+\end{itemize}
+
+我们现在要定义 $E^*$ 上的\textbf{第三种}拓扑，称为\textbf{弱*拓扑}，记为 $\sigma(E^*, E)$（这里的 $*$ 是为了提醒我们这是在对偶空间上定义的）。对于每个 $x \in E$，我们考虑线性泛函 $\varphi_x: E^* \to \mathbb{R}$，定义为 $\varphi_x(f) = \langle f, x \rangle$。这样，我们从 $E^*$ 到 $\mathbb{R}$ 得到了一族映射 $(\varphi_x)_{x \in E}$。
+
+\begin{definition}\label{def_weak_star_topology}
+$E^*$ 上的\textbf{弱*拓扑} $\sigma(E^*, E)$ 是与映射族 $(\varphi_x)_{x \in E}$ 相关联的最粗拓扑（在 3.1 节的意义下，其中 $X = E^*$，$Y_i = \mathbb{R}$ 对所有 $i$ 成立，且 $I = E$）。
+\end{definition}
+
+由于 $E \subset E^{**}$，显然拓扑 $\sigma(E^*, E)$ 比拓扑 $\sigma(E^*, E^{**})$ 更粗糙；即，$\sigma(E^*, E)$ 的开集（相应地，闭集）比 $\sigma(E^*, E^{**})$ 少，后者又比强拓扑的开集（闭集）少。
+
+\begin{remark}\label{remark3.8}
+读者可能会想，为什么会有这种对拓扑的歇斯底里。原因是：\textit{一个更粗糙的拓扑有更多的紧集}。例如，闭单位球 $B_{E^*}$ 在强拓扑中\textit{永不}紧（除非 dim $E < \infty$）；见定理 6.5。了解紧集的基本作用——例如，在存在性机制中，如最小化问题——对于理解弱*拓扑的重要性至关重要。
+\end{remark}
+
+\begin{proposition}\label{prop3.11}
+弱*拓扑是 Hausdorff 的。
+\end{proposition}
+
+\begin{proof}
+给定 $f_1, f_2 \in E^*$ 且 $f_1 \neq f_2$，存在某个 $x \in E$ 使得 $\langle f_1, x \rangle \neq \langle f_2, x \rangle$（这不需要 Hahn-Banach，仅仅是 $f_1 \neq f_2$ 的事实）。例如，假设 $\langle f_1, x \rangle < \langle f_2, x \rangle$ 并选择一个 $\alpha$ 使得
+\[ \langle f_1, x \rangle < \alpha < \langle f_2, x \rangle. \]
+令
+\begin{align*}
+O_1 &= \{ f \in E^*; \langle f, x \rangle < \alpha \} = \varphi_x^{-1}((-\infty, \alpha)), \\
+O_2 &= \{ f \in E^*; \langle f, x \rangle > \alpha \} = \varphi_x^{-1}((\alpha, +\infty)).
+\end{align*}
+则 $O_1$ 和 $O_2$ 是 $\sigma(E^*, E)$ 中的开集，使得 $f_1 \in O_1, f_2 \in O_2$ 且 $O_1 \cap O_2 = \emptyset$。
+\end{proof}
+
+\begin{proposition}\label{prop3.12}
+设 $f_0 \in E^*$；给定一个有限集 $\{x_1, x_2, \dots, x_k\}$ 在 $E$ 中和 $\varepsilon > 0$，考虑
+\[ V = V(x_1, x_2, \dots, x_k; \varepsilon) = \{f \in E^*; |\langle f - f_0, x_i \rangle| < \varepsilon \quad \forall i = 1, 2, \dots, k\}. \]
+那么 $V$ 是 $f_0$ 在拓扑 $\sigma(E^*, E)$ 下的一个邻域。此外，我们通过改变 $\varepsilon$，$k$ 和 $E$ 中的 $x_i$ 得到了 $f_0$ 在 $\sigma(E^*, E)$ 下的一个\textbf{邻域基}。
+\end{proposition}
+
+\begin{proof}
+与命题 \ref{prop3.4} 的证明相同。
+\end{proof}
+
+\textbf{注记.} 如果一个序列 $(f_n)$ 在弱*拓扑中收敛于 $f$，我们记为
+\[ f_n \stackrel{*}{\rightharpoonup} f. \]
+为避免混淆，我们有时会强调 $"f_n \stackrel{*}{\rightharpoonup} f$ 在 $\sigma(E^*, E)$ 中"。
+
+\begin{proposition}\label{prop3.13}
+设 $(f_n)$ 是 $E^*$ 中的一个序列。那么
+\begin{itemize}
+    \item[(i)] $[f_n \stackrel{*}{\rightharpoonup} f \text{ in } \sigma(E^*, E)] \iff [\langle f_n, x \rangle \to \langle f, x \rangle \quad \forall x \in E]$。
+    \item[(ii)] 如果 $f_n \to f$ 强收敛，那么 $f_n \stackrel{*}{\rightharpoonup} f$ 在 $\sigma(E^*, E)$ 中。
+    \item[(iii)] 如果 $f_n \stackrel{*}{\rightharpoonup} f$ 在 $\sigma(E^*, E)$ 中，那么 $(f_n)$ 是有界的，且 $\|f\| \le \liminf \|f_n\|$。
+    \item[(iv)] 如果 $f_n \stackrel{*}{\rightharpoonup} f$ 在 $\sigma(E^*, E)$ 中，且如果 $x_n \to x$ 强收敛在 $E$ 中，那么 $\langle f_n, x_n \rangle \to \langle f, x \rangle$。
+\end{itemize}
+复制命题 \ref{prop3.5} 的证明。
+\end{proposition}
+
+\begin{remark}\label{remark3.9}
+假设 $f_n \stackrel{*}{\rightharpoonup} f$ 在 $\sigma(E^*, E)$ 中（甚至 $f_n \to f$ 在 $\sigma(E^*, E^{**})$ 中）且 $x_n \rightharpoonup x$ 在 $\sigma(E, E^*)$ 中。通常情况下，我们不能断言 $\langle f_n, x_n \rangle \to \langle f, x \rangle$（在 Hilbert 空间中构造一个反例非常容易）。
+\end{remark}
+
+\begin{remark}\label{remark3.10}
+当 $E$ 是有限维空间时，三种拓扑（强、弱、弱*）在 $E^*$ 上是一致的。事实上，典范映射 $J: E \to E^{**}$ 是满射的（因为 $\dim E = \dim E^{**}$），因此 $\sigma(E^*, E) = \sigma(E^*, E^{**})$。
+\end{remark}
+
+\begin{proposition}\label{prop3.14}
+设 $\varphi: E^* \to \mathbb{R}$ 是一个对于弱*拓扑连续的线性泛函。那么存在某个 $x_0 \in E$ 使得
+\[ \varphi(f) = \langle f, x_0 \rangle \quad \forall f \in E^*. \]
+\end{proposition}
+
+该证明依赖于以下有用的代数引理：
+\begin{lemma}\label{lemma3.2}
+设 $X$ 是一个向量空间，$\varphi, \varphi_1, \varphi_2, \dots, \varphi_k$ 是 $X$ 上的 $(k+1)$ 个线性泛函，使得
+\begin{equation}\label{eq:lemma3.2_cond}
+[\varphi_i(v) = 0 \quad \forall i = 1, 2, \dots, k] \implies [\varphi(v) = 0].
+\end{equation}
+那么存在常数 $\lambda_1, \lambda_2, \dots, \lambda_k \in \mathbb{R}$ 使得 $\varphi = \sum_{i=1}^k \lambda_i \varphi_i$。
+\end{lemma}
+
+\begin{proof}
+考虑映射 $F: X \to \mathbb{R}^{k+1}$ 定义为
+\[ F(u) = [\varphi(u), \varphi_1(u), \dots, \varphi_k(u)]. \]
+由假设 (\ref{eq:lemma3.2_cond}) 可知，点 $a = [1, 0, 0, \dots, 0]$ 不属于 $R(F)$。因此，我们可以严格地分离 $\{a\}$ 和 $R(F)$；即，存在 $\mathbb{R}^{k+1}$ 中的常数 $\lambda, \lambda_1, \dots, \lambda_k$ 和 $\alpha$ 使得
+\[ \lambda < \alpha < \lambda \varphi(u) + \sum_{i=1}^k \lambda_i \varphi_i(u) \quad \forall u \in X. \]
+由此得出
+\[ \lambda \varphi(u) + \sum_{i=1}^k \lambda_i \varphi_i(u) = 0 \quad \forall u \in X \]
+并且 $\lambda < 0$ (所以 $\lambda \neq 0$)。
+\end{proof}
+
+\begin{proof}
+由于 $\varphi$ 在弱*拓扑 $\sigma(E^*, E)$ 下是连续的，所以存在一个 $0$ 的邻域 $V$ 使得
+\[ |\varphi(f)| < 1 \quad \forall f \in V. \]
+我们总可以假设
+\[ V = \{ f \in E^*; |\langle f, x_i \rangle| < \varepsilon \quad \forall i = 1, 2, \dots, k \} \]
+对于某些 $x_i \in E$ 和 $\varepsilon > 0$。特别地，
+\[ [\langle f, x_i \rangle = 0 \quad \forall i = 1, \dots, k] \implies [\varphi(f)=0]. \]
+\end{proof}
+
+\begin{corollary}\label{corollary3.15}
+假设 $H$ 是 $E^*$ 中在 $\sigma(E^*, E)$ 下闭的超平面。那么 $H$ 具有形式
+\[ H = \{f \in E^*; \langle f, x_0 \rangle = \alpha\} \]
+对于某个 $x_0 \in E$, $x_0 \neq 0$, 和某个 $\alpha \in \mathbb{R}$。
+\end{corollary}
+
+\section{自反空间}
+
+\begin{definition}\label{def_reflexive_space}
+设 $E$ 是一个 Banach 空间，$J: E \to E^{**}$ 是典范注入（见 1.3 节）。如果 $J$ 是满射的，即 $J(E) = E^{**}$，则称空间 $E$ 是\textbf{自反的}。
+\end{definition}
+
+当 $E$ 是自反的时，$E^{**}$ 通常与 $E$ 等同。显然，有限维空间是自反的（因为 $\dim E = \dim E^* = \dim E^{**}$）。我们将在第四章（亦见第十一章）看到，如果 $1 < p < \infty$，$L^p$（和 $\ell^p$）空间是自反的。然而，希尔伯特空间是自反的。然而，一些重要的空间不是自反的：
+\begin{itemize}
+    \item $L^1$ 和 $L^\infty$ （以及 $\ell^1, \ell^\infty$）不是自反的（见第四章和第十一章）。
+    \item $C(K)$，在一个无限紧致度量空间 $K$ 上的连续函数空间，不是自反的（见练习 3.25）。
+\end{itemize}
+
+\begin{theorem}[Banach-Alaoglu-Bourbaki]\label{theorem3.16}
+$B_{E^*} = \{f \in E^*; \|f\| \le 1\}$ 在弱*拓扑 $\sigma(E^*, E)$ 中是紧的。
+\end{theorem}
+
+\begin{remark}\label{remark3.12}
+$B_{E^*}$ 的紧性是弱*拓扑\textit{最重要}的性质；亦见注记 \ref{remark3.8}。
+\end{remark}
+
+\begin{proof}
+考虑笛卡尔积 $Y = \mathbb{R}^E$，它由所有从 $E$ 到 $\mathbb{R}$ 的映射组成；我们用 $\omega = (\omega_x)_{x \in E}$ 来表示 $Y$ 的元素，其中 $\omega_x \in \mathbb{R}$。空间 $Y$ 配备了乘积拓扑。根据 Tychonoff 定理，这个空间是紧的。现在，考虑从 $E^*$ 到 $Y$ 的典范注入 $\Phi$，定义为 $\Phi(f) = (\langle f, x \rangle)_{x \in E}$。清楚地，$\Phi$ 是从 $E^*$（配备弱*拓扑 $\sigma(E^*, E)$）到 $\Phi(E^*) \subset Y$（配备 $Y$ 的拓扑）的一个同胚。另一方面，很清楚 $\Phi(B_{E^*}) = K$，其中 $K$ 是一个紧集。
+\[
+K = \left\{ \omega \in Y \middle| 
+\begin{aligned}
+&|\omega_x| \le \|x\|, \quad \omega_{x+y} = \omega_x + \omega_y \\
+&\text{和 } \omega_{\lambda x} = \lambda \omega_x \quad \forall x, y \in E, \forall \lambda \in \mathbb{R}
+\end{aligned}
+\right\}.
+\]
+为了完成定理 \ref{theorem3.16} 的证明，只需证明 $K$ 是 $Y$ 的一个紧子集。将 $K$ 写成 $K=K_1 \cap K_2$，其中
+\[ K_1 = \{\omega \in Y; |\omega_x| \le \|x\| \quad \forall x \in E\} \]
+和
+\[ K_2 = \{\omega \in Y; \omega_{x+y} = \omega_x + \omega_y \text{ 和 } \omega_{\lambda x} = \lambda \omega_x \quad \forall \lambda \in \mathbb{R}, x, y \in E \}. \]
+集合 $K_1$ 也可以写成闭区间的乘积
+\[ K_1 = \prod_{x \in E} [-\|x\|, +\|x\|]. \]
+让我们回顾一下，紧空间的任意乘积是紧的——一个深邃的定理，归功于 Tychonoff；见，例如，H. L. Royden [1], G. B. Folland [2], J. R. Munkres [1]。因此 $K_1$ 是紧的。另一方面， $K_2$ 在 $Y$ 中是闭的；确实，为每个固定的 $\lambda \in \mathbb{R}, x, y \in E$ 定义集合
+\begin{align*}
+    A_{x,y} &= \{\omega \in Y; \omega_{x+y} - \omega_x - \omega_y = 0\}, \\
+    B_{\lambda,x} &= \{\omega \in Y; \omega_{\lambda x} - \lambda\omega_x = 0\},
+\end{align*}
+它们在 $Y$ 中是闭的（因为映射 $\omega \mapsto \omega_{x+y} - \omega_x - \omega_y$ 和 $\omega \mapsto \omega_{\lambda x} - \lambda\omega_x$ 在 $Y$ 上是连续的），并且我们有
+\[ K_2 = \left[ \bigcap_{x,y \in E} A_{x,y} \right] \cap \left[ \bigcap_{\substack{x \in E \\ \lambda \in \mathbb{R}}} B_{\lambda,x} \right]. \]
+最后， $K$ 是紧的，因为它是紧集 ($K_1$) 和闭集 ($K_2$) 的交集。
+\end{proof}
+
+\begin{theorem}[Kakutani]\label{theorem3.17}
+设 $E$ 是一个 Banach 空间。那么 $E$ 是自反的当且仅当
+\[ B_E = \{x \in E; \|x\| \le 1\} \]
+在弱拓扑 $\sigma(E, E^*)$ 中是紧的。
+\end{theorem}
+
+\begin{proof}
+假设 $E$ 是自反的，那么 $J(B_E) = B_{E^{**}}$。我们已经知道（由定理 \ref{theorem3.16}）$B_{E^{**}}$ 在拓扑 $\sigma(E^{**}, E^*)$ 中是紧的。因此，要证明 $J^{-1}$ 在配备 $\sigma(E^{**}, E^*)$ 拓扑的 $E^{**}$ 和配备 $\sigma(E, E^*)$ 拓扑的 $E$ 之间是连续的就足够了。根据命题 \ref{prop3.2} 的观点，我们只需验证对于每个固定的 $f \in E^*$，映射 $\xi \mapsto \langle f, J^{-1}\xi \rangle$ 在配备了 $\sigma(E^{**}, E^*)$ 拓扑的 $E^{**}$ 上是连续的。但 $\langle f, J^{-1}\xi \rangle = \langle \xi, f \rangle$，并且映射 $\xi \mapsto \langle \xi, f \rangle$ 确实是 $\sigma(E^{**}, E^*)$ 拓扑的定义元素之一。因此我们已经证明了 $B_E$ 在 $\sigma(E, E^*)$ 中是紧的。
+
+反向证明更为精细，依赖于以下两个引理：
+
+\end{proof}
+\begin{lemma}[Helly]\label{lemma3.3}
+设 $E$ 是一个 Banach 空间。给定 $E^*$ 中的 $f_1, f_2, \dots, f_k$ 和 $\mathbb{R}$ 中的 $\gamma_1, \gamma_2, \dots, \gamma_k$。以下性质是等价的：
+\begin{itemize}
+    \item[(i)] $\forall \varepsilon > 0 \quad \exists x_\varepsilon \in E$ 使得 $\|x_\varepsilon\| \le 1$ 并且
+    \[ |\langle f_i, x_\varepsilon \rangle - \gamma_i| < \varepsilon \quad \forall i=1, 2, \dots, k, \]
+    \item[(ii)] $|\sum_{i=1}^k \beta_i \gamma_i| \le \|\sum_{i=1}^k \beta_i f_i\|$ 对所有 $\beta_1, \beta_2, \dots, \beta_k \in \mathbb{R}$ 和 $S = \sum_{i=1}^k |\beta_i|$。
+\end{itemize}
+\end{lemma}
+
+\begin{proof}
+(i) $\implies$ (ii)。固定 $\beta_1, \beta_2, \dots, \beta_k \in \mathbb{R}$ 并令 $S = \sum_{i=1}^k |\beta_i|$。由 (i) 可知
+\[ |\sum_{i=1}^k \beta_i (\langle f_i, x_\varepsilon \rangle - \gamma_i)| \le \varepsilon S \]
+因此
+\[ |\sum_{i=1}^k \beta_i \gamma_i| \le |\sum_{i=1}^k \beta_i \langle f_i, x_\varepsilon \rangle| + \varepsilon S \le \|\sum_{i=1}^k \beta_i f_i\| + \varepsilon S. \]
+由于这对任意 $\varepsilon > 0$ 成立，我们得到 (ii)。
+
+(ii) $\implies$ (i)。设 $\gamma = (\gamma_1, \dots, \gamma_k) \in \mathbb{R}^k$ 并考虑映射 $\varphi: E \to \mathbb{R}^k$ 定义为
+\[ \varphi(x) = ((\langle f_1, x \rangle, \dots, (\langle f_k, x \rangle)). \]
+性质 (i) 表示 $\gamma \in \overline{\varphi(B_E)}$。假设与此相反，$\gamma \notin \overline{\varphi(B_E)}$。那么 $\{\gamma\}$ 和 $\overline{\varphi(B_E)}$ 可以被某个超平面严格分离；即，存在 $\beta = (\beta_1, \dots, \beta_k) \in \mathbb{R}^k$ 和 $\alpha \in \mathbb{R}$ 使得
+\[ \beta \cdot \varphi(x) < \alpha < \beta \cdot \gamma \quad \forall x \in B_E. \]
+由此得出
+\[ \sum_{i=1}^k \beta_i \langle f_i, x \rangle < \alpha < \sum_{i=1}^k \beta_i \gamma_i \quad \forall x \in B_E, \]
+因此
+\[ \|\sum_{i=1}^k \beta_i f_i\| \le \alpha < \sum_{i=1}^k \beta_i \gamma_i, \]
+这与 (ii) 相矛盾。
+\end{proof}
+
+\begin{lemma}[Goldstine]\label{lemma3.4}
+设 $E$ 为任意 Banach 空间。那么 $J(B_E)$ 在 $B_{E^{**}}$ 中关于拓扑 $\sigma(E^{**}, E^*)$ 是稠密的，因此 $J(E)$ 在 $E^{**}$ 中关于拓扑 $\sigma(E^{**}, E^*)$ 是稠密的。
+\end{lemma}
+
+\begin{proof}
+设 $\xi \in B_{E^{**}}$ 并令 $V$ 为 $\xi$ 在拓扑 $\sigma(E^{**}, E^*)$ 中的一个邻域。像往常一样，我们可以假设 $V$ 的形式为
+\[ V = \{\eta \in E^{**}; |\langle \eta - \xi, f_i \rangle| < \varepsilon \quad \forall i=1, 2, \dots, k\} \]
+对于某些 $f_1, f_2, \dots, f_k \in E^*$ 和 $\varepsilon > 0$。我们必须找到 $x \in B_E$ 使得 $J(x) \in V$，即
+\[ |\langle J(x) - \xi, f_i \rangle| < \varepsilon \quad \forall i=1, 2, \dots, k. \]
+设 $\gamma_i = \langle \xi, f_i \rangle$。根据引理 \ref{lemma3.3}，只需验证
+\[ |\sum_{i=1}^k \beta_i \gamma_i| \le \|\sum_{i=1}^k \beta_i f_i\|, \]
+这很清楚，因为 $\sum_{i=1}^k \beta_i \gamma_i = \langle \xi, \sum_{i=1}^k \beta_i f_i \rangle$ 且 $\|\xi\| \le 1$。
+\end{proof}
+
+\begin{proof}
+典范注入 $J: E \to E^{**}$ 是连续的，当 $E$ 配备 $\sigma(E, E^*)$ 拓扑，$E^{**}$ 配备 $\sigma(E^{**}, E^*)$ 拓扑时，因为对于每个 $f \in E^*$，映射 $x \mapsto \langle Jx, f \rangle = \langle f, x \rangle$ 在 $\sigma(E, E^*)$ 中是连续的。假设 $B_E$ 在 $\sigma(E, E^*)$ 中是紧的，我们推断 $J(B_E)$ 在 $E^{**}$ 中是紧的，并且因此在 $E^{**}$ 中关于拓扑 $\sigma(E^{**}, E^*)$ 是闭的。另一方面，根据引理 \ref{lemma3.4}，$J(B_E)$ 在 $B_{E^{**}}$ 中是稠密的。因此 $J(B_E) = B_{E^{**}}$。由此得出 $J(E) = E^{**}$。
+\end{proof}
+
+\begin{theorem}\label{theorem3.18}
+假设 $E$ 是一个自反 Banach 空间，$(x_n)$ 是 $E$ 中的一个有界序列。那么存在一个子序列 $(x_{n_k})$ 在弱拓扑 $\sigma(E, E^*)$ 中收敛。
+\end{theorem}
+
+反之亦然。
+
+\begin{theorem}[Eberlein-Šmulian]\label{theorem3.19}
+假设 $E$ 是一个 Banach 空间，使得每个有界序列都容许一个在 $\sigma(E, E^*)$ 中弱收敛的子序列。那么 $E$ 是自反的。
+\end{theorem}
+
+定理 \ref{theorem3.18} 的证明需要一些关于可分空间的题外话，并将在 3.6 节中给出。定理 \ref{theorem3.19} 的证明相当精巧，在此省略；参见，例如，R. Holmes [1], K. Yosida [1], N. Dunford-J. T. Schwartz [1], J. Diestel [2], 或问题 10。
+
+\begin{remark}\label{remark3.17}
+为了澄清定理 \ref{theorem3.17}、\ref{theorem3.18} 和 \ref{theorem3.19} 之间的联系，回顾以下事实是有用的：
+\begin{itemize}
+    \item[(i)] 如果 $X$ 是一个度量空间，那么
+    \[ [X \text{ 是紧的}] \iff [\text{X中的每个序列都容许一个收敛的子序列}]。 \]
+    \item[(ii)] 存在紧拓扑空间 $X$ 和 $X$ 中没有收敛子序列的序列。一个典型的例子是 $X = B_{E^*}$，配备拓扑 $\sigma(E^*, E)$；当 $E = \ell^\infty$ 时，很容易在 $X$ 中构造一个没有收敛子序列的序列（见练习 3.18）。
+    \item[(iii)] 如果 $X$ 是一个拓扑空间，具有每个序列都容许一个收敛子序列的性质，那么 $X$ 不必是紧的。
+\end{itemize}
+以下是自反空间的一些进一步性质。
+\end{remark}
+
+\begin{proposition}\label{prop3.20}
+假设 $E$ 是一个自反 Banach 空间，并设 $M \subset E$ 是 $E$ 的一个闭线性子空间。那么 $M$ 是自反的。
+\end{proposition}
+
+\begin{proof}
+空间 $M$——配备了范数 $E$——先验地有两个不同的弱拓扑：
+\begin{itemize}
+    \item[(a)] 由 $\sigma(E, E^*)$ 诱导的拓扑，
+    \item[(b)] 其自身的弱拓扑 $\sigma(M, M^*)$。
+\end{itemize}
+事实上，这两个拓扑是相同的（由 Hahn-Banach 定理，M 上的每个连续线性泛函都是 E 上的某个连续线性泛函的限制）。根据定理 \ref{theorem3.17}，我们必须验证 $B_M$ 在拓扑 $\sigma(M, M^*)$ 或等价地在拓扑 $\sigma(E, E^*)$ 中是紧的。然而，$B_E$ 在拓扑 $\sigma(E, E^*)$ 中是紧的，并且 $M$ 在拓扑 $\sigma(E, E^*)$ 中是闭的（根据定理 \ref{theorem3.7}）。因此 $B_M$ 在拓扑 $\sigma(E, E^*)$ 中是紧的。
+\end{proof}
+
+\begin{corollary}\label{corollary3.21}
+一个 Banach 空间 $E$ 是自反的当且仅当其对偶空间 $E^*$ 是自反的。
+\end{corollary}
+
+\begin{proof}
+$E \text{ 自反} \implies E^* \text{ 自反}$。这个想法很简单，粗略地说，$E^{**} = E \implies E^{***} = E^*$。更精确地，设 $J$ 是从 $E$ 到 $E^{**}$ 的典范同构。设 $\varphi \in E^{***}$ 被给定。映射 $x \mapsto \langle \varphi, Jx \rangle$ 是 $E$ 上的一个连续线性泛函。称之为 $f \in E^*$，使得
+\[ \langle \varphi, Jx \rangle = \langle f, x \rangle \quad \forall x \in E. \]
+但我们也有
+\[ \langle \varphi, Jx \rangle = \langle Jx, f \rangle \quad \forall x \in E. \]
+由于 $J$ 是满射的，我们推断
+\[ \langle \varphi, \xi \rangle = \langle \xi, f \rangle \quad \forall \xi \in E^{**}, \]
+这恰好意味着从 $E^*$ 到 $E^{***}$ 的典范注入是满射的。
+$E^* \text{ 自反} \implies E \text{ 自反}$。从上一步我们已经知道 $E^{**}$ 是自反的。由于 $J(E)$ 是 $E^{**}$ 的一个闭子空间，我们得出（由命题 \ref{prop3.20}）$J(E)$ 是自反的。因此 $E$ 是自反的。\footnote{显然，如果 E 和 F 是 Banach 空间，且 T 是从 E 到 F 的一个线性满射等距，那么 E 是自反的当且仅当 F 是自反的。当然，这与注记 14 没有矛盾！}
+\end{proof}
+
+\begin{corollary}\label{corollary3.22}
+设 $E$ 是一个自反 Banach 空间。设 $K \subset E$ 是 $E$ 的一个有界、闭、凸子集。那么 $K$ 在拓扑 $\sigma(E, E^*)$ 中是紧的。
+\end{corollary}
+
+\begin{proof}
+$K$ 在拓扑 $\sigma(E, E^*)$ 中是闭的（根据定理 \ref{theorem3.7}）。另一方面，存在一个常数 $m$ 使得 $K \subset mB_E$，并且 $mB_E$ 在 $\sigma(E, E^*)$ 中是紧的（根据定理 \ref{theorem3.17}）。
+\end{proof}
+
+\begin{corollary}\label{corollary3.23}
+设 $E$ 是一个自反 Banach 空间，并设 $A \subset E$ 是一个非空、闭、凸子集。设 $\varphi: A \to (-\infty, +\infty]$ 是一个凸、下半连续函数，使得
+\end{corollary}
+\begin{equation}\label{eq:coercive_2}
+\lim_{\|x\| \to \infty, x \in A} \varphi(x) = +\infty \quad (\text{如果 A 有界则无假设})。
+\end{equation}
+那么 $\varphi$ 在 $A$ 上达到其最小值，即，存在某个 $x_0 \in A$ 使得
+
+
+\begin{proof}
+固定任何 $a \in A$ 使得 $\varphi(a) < +\infty$ 并考虑集合
+\[ \tilde{A} = \{ x \in A; \varphi(x) \le \varphi(a) \}. \]
+那么 $\tilde{A}$ 是闭的、凸的，并且（由(\ref{eq:coercive_2})）在强拓扑中是有界的，因此它在拓扑 $\sigma(E, E^*)$ 中是紧的（根据推论 \ref{corollary3.22}）。另一方面，$\varphi$ 也是在拓扑 $\sigma(E, E^*)$ 中的下半连续函数（根据推论 \ref{corollary3.9}）。它因此在 $\tilde{A}$ 上达到其最小值（见第一章中下半连续函数的性质 5），即，存在 $x_0 \in \tilde{A}$ 使得
+\[ \varphi(x_0) \le \varphi(x) \quad \forall x \in \tilde{A}. \]
+如果 $x \in A \setminus \tilde{A}$，我们有 $\varphi(x_0) \le \varphi(a) < \varphi(x)$；因此
+\[ \varphi(x_0) \le \varphi(x) \quad \forall x \in A. \]
+\end{proof}
+
+\begin{remark}\label{remark3.18}
+推论 \ref{corollary3.23} 是自反空间和凸函数在变分法和优化中出现的许多问题中如此重要的主要原因。
+\end{remark}
+
+\begin{theorem}\label{theorem3.24}
+设 $E$ 和 $F$ 是两个自反 Banach 空间。设 $A: D(A) \subset E \to F$ 是一个在 $F$ 中具有稠密定义域且闭的无界线性算子。那么 $A^{**}$ 是良定义的 ($A^{**}: D(A^{**}) \subset E^{**} \to F^{**}$) 并且它也可以被看作是从 $E$ 到 $F$ 的无界算子。我们有
+\[ A^{**} = A. \]
+\end{theorem}
+
+\begin{proof}
+1. $D(A^*)$ 在 $F^*$ 中是稠密的。设 $\varphi$ 是 $F^*$ 上的一个在 $D(A^*)$ 上为零的连续线性泛函。鉴于推论 1.8，足以证明 $\varphi \equiv 0$ 在 $F^*$ 上。由于 $F$ 是自反的，$\varphi \in F$ 并且我们必须证明 $\varphi=0$。
+\begin{equation}\label{eq:thm3.24-proof-2}
+\langle w, \varphi \rangle = 0 \quad \forall w \in D(A^*).
+\end{equation}
+如果 $\varphi \neq 0$ 则 $[0, \varphi] \notin G(A)$ 在 $E \times F$ 中。因此，可以通过一个闭超平面将 $[0, \varphi]$ 和 $G(A)$ 严格分开；即，存在 $[f, v] \in E^* \times F^*$ 和某个 $\alpha \in \mathbb{R}$ 使得
+\[ \langle f, u \rangle + \langle v, Au \rangle < \alpha < \langle v, \varphi \rangle \quad \forall u \in D(A). \]
+由此得出
+\[ \langle f, u \rangle + \langle v, Au \rangle = 0 \quad \forall u \in D(A) \]
+和
+\[ \langle v, \varphi \rangle \neq 0. \]
+因此 $v \in D(A^*)$，我们通过在 (\ref{eq:thm3.24-proof-2}) 中选择 $w=v$ 而得出矛盾。
+2. $A^{**} = A$。我们回顾（见 2.6 节）
+\[ I[G(A^*)] = G(A)^\perp \]
+和
+\[ I[G(A^{**})] = G(A^*)^\perp. \]
+由此得出
+\[ G(A^{**}) = G(A)^{\perp\perp} = \overline{G(A)} = G(A), \]
+因为 $A$ 是闭的。
+\end{proof}
+
+\section{可分空间}
+\begin{definition}
+我们说一个度量空间 $E$ 是\textbf{可分的}，如果存在一个子集 $D \subset E$ 是可数且稠密的。
+\end{definition}
+
+\begin{proposition}\label{prop3.25}
+设 $E$ 是一个可分度量空间，$F \subset E$ 是任意子集。那么 $F$ 也是可分的。
+\end{proposition}
+
+\begin{theorem}\label{theorem3.26}
+设 $E$ 是一个 Banach 空间，其对偶空间 $E^*$ 是可分的。那么 $E$ 是可分的。
+\end{theorem}
+\begin{remark}
+反之不成立。我们将在第四章看到，$E = L^1$ 是可分的，但其对偶空间 $E^* = L^\infty$ 不是可分的。
+\end{remark}
+\begin{proof}
+设 $(f_n)_{n\ge 1}$ 是 $E^*$ 中的可数稠密子集。因为
+\[ \|f_n\| = \sup_{\|x\|\le 1} \langle f_n, x \rangle, \]
+我们可以找到 $x_n \in E$ 使得
+\[ \|x_n\| = 1 \text{ 且 } \langle f_n, x_n \rangle \ge \frac{1}{2} \|f_n\|. \]
+设 $L_0$ 是由 $(x_n)_{n\ge 1}$ 生成的在 $\mathbb{Q}$ 上的向量空间；即，$L_0$ 由元素 $(x_n)_{n\ge 1}$ 的所有有限线性组合构成，系数在 $\mathbb{Q}$ 中。显然，$L_0$ 是可数的。更进一步，设 $\Lambda_k$ 是由 $(x_k)_{1\le k\le n}$ 生成的在 $\mathbb{Q}$ 上的向量空间。显然，$\Lambda_k$ 是可数的，因此 $L_0 = \cup_{n=1}^\infty \Lambda_n$ 是可数的。
+设 $L$ 是由 $(x_n)_{n\ge 1}$ 生成的在 $\mathbb{R}$ 上的向量空间。当然，这将会证明 $L_0$ 是 $L$ 中的一个稠密子集。我们将要证明 $L$ 在 $E$ 中是稠密的。设 $f \in E^*$ 是一个在 $L$ 上为零的连续线性泛函；根据推论 1.8，我们必须证明 $f=0$。给定任何 $\varepsilon > 0$，存在一个整数 $N$ 使得 $\|f - f_N\| < \varepsilon$。我们有
+\[ \frac{1}{2} \|f_N\| \le \langle f_N, x_N \rangle = \langle f_N - f, x_N \rangle < \varepsilon \]
+（因为 $\langle f, x_N \rangle = 0$）。因此 $\|f_N\| < 2\varepsilon$。由此得出 $\|f\| \le \|f - f_N\| + \|f_N\| < 3\varepsilon$。因此 $f=0$。
+\end{proof}
+
+\begin{corollary}\label{corollary3.27}
+设 $E$ 是一个 Banach 空间。那么
+\[ [E \text{ 自反且可分}] \iff [E^* \text{ 自反且可分}] \]
+\end{corollary}
+\begin{proof}
+我们已经知道（推论 \ref{corollary3.21} 和定理 \ref{theorem3.26}）
+\[ [E^* \text{ 自反且可分}] \implies [E \text{ 自反且可分}] \]
+反之，如果 $E$ 是自反且可分的，那么 $E^{**} = J(E)$；因此 $E^{**}$ 是可分的。
+\end{proof}
+
+\begin{theorem}\label{theorem3.28}
+设 $E$ 是一个可分 Banach 空间。那么 $B_{E^*}$ 在弱*拓扑 $\sigma(E^*, E)$ 中是可度量的。
+\end{theorem}
+\begin{proof}
+设 $(x_n)_{n\ge 1}$ 是 $B_E$ 中的一个稠密可数子集。对于每个 $f \in E^*$，令
+\[ [f] = \sum_{n=1}^\infty \frac{1}{2^n} |\langle f, x_n \rangle|. \]
+显然 $[ \cdot ]$ 是 $E^*$ 上的一个范数，并且 $[f] \le \|f\|$。我们将证明由 $d(f, g) = [f-g]$ 诱导的相应度量在 $B_{E^*}$ 上与拓扑 $\sigma(E^*, E)$ 是一致的。
+(a) 设 $f_0 \in B_{E^*}$，$V$ 是 $f_0$ 在 $\sigma(E^*, E)$ 中的一个邻域。我们必须找到 $r>0$ 使得
+\[ U = \{f \in B_{E^*}; d(f, f_0) < r\} \subset V. \]
+像往常一样，我们可以假设 $V$ 的形式为
+\[ V = \{f \in B_{E^*}; |\langle f-f_0, y_i \rangle| < \varepsilon \quad \forall i=1, 2, \dots, k\} \]
+对于 $\varepsilon>0$ 和 $y_1, \dots, y_k \in E$。我们不妨假设对所有 $i$，$\|y_i\| \le 1$。对于每个 $i$ 存在一个整数 $n_i$ 使得
+\[ \|y_i - x_{n_i}\| < \varepsilon/4. \]
+选择足够小的 $r > 0$ 使得
+\[ 2^{n_i} r < \varepsilon/2 \quad \forall i=1, 2, \dots, k. \]
+我们声称对于这样的 $r$，$U \subset V$。事实上，如果 $d(f, f_0) < r$，我们有
+\[ \frac{1}{2^{n_i}} |\langle f-f_0, x_{n_i} \rangle| < r \quad \forall i=1, 2, \dots, k \]
+因此，$\forall i=1, 2, \dots, k$
+\[ |\langle f-f_0, y_i \rangle| = |\langle f-f_0, y_i-x_{n_i} \rangle + \langle f-f_0, x_{n_i} \rangle| < \frac{\varepsilon}{2} + \frac{\varepsilon}{2}. \]
+由此得出 $f \in V$。
+\end{proof}
+\begin{theorem}\label{theorem3.29}
+设 $E$ 是一个 Banach 空间，使得 $E^*$ 是可分的。那么 $B_E$ 在弱拓扑 $\sigma(E, E^*)$ 中是可度量的。
+\end{theorem}
+\begin{proof}
+与定理 \ref{theorem3.28} 的证明完全相同，只需交换 $E$ 和 $E^*$ 的角色。
+\end{proof}
+
+\section{一致凸空间}
+\begin{definition}
+一个 Banach 空间 $E$ 被称为\textbf{一致凸}的，如果
+\[ \forall \varepsilon > 0 \quad \exists \delta > 0 \text{ 使得 } [x, y \in E, \|x\| \le 1, \|y\| \le 1 \text{ 和 } \|x-y\| \ge \varepsilon] \implies \left\| \frac{x+y}{2} \right\| < 1-\delta. \]
+一致凸性是单位球的一个\textbf{几何}性质；如果范数 $\| \cdot \|$ 具有一致凸性，那么它的中点必须位于半径为 $1-\delta$ 的球内，对于某个 $\delta > 0$。特别地，单位\textbf{球面}必须是"圆的"，并且不能包含任何线段。
+\end{definition}
+
+\begin{example}
+$E=\mathbb{R}^2$ 配备范数 $\|x\|_2 = (|x_1|^2 + |x_2|^2)^{1/2}$ 是一致凸的，而范数 $\|x\|_1 = |x_1|+|x_2|$ 和 $\|x\|_\infty = \max(|x_1|, |x_2|)$ 不是一致凸的。这可以很容易地通过观察图3中的单位球来看到。
+\end{example}
+\begin{theorem}[Milman-Pettis]\label{theorem3.31}
+每个一致凸的 Banach 空间都是自反的。
+\end{theorem}
+\begin{remark}
+一致凸性是范数的一个\textbf{几何}性质；一个等价的范数\textbf{不必}是一致凸的。另一方面，自反性是一个\textbf{拓扑}性质：一个空间对于一个等价范数保持自反。这是定理 \ref{theorem3.31} 的一个显著特征。利用一个几何性质，我们推断出一个拓扑性质——这是一个终极工具！有一些奇怪的自反空间，它们不承认任何一致凸的等价范数！
+\end{remark}
+\begin{proof}
+设 $\xi \in E^{**}$ 且 $\|\xi\|=1$。我们必须证明 $\xi \in J(B_E)$。由于 $J(B_E)$ 在 $B_{E^{**}}$ 中是 $\sigma(E^{**}, E^*)$ 稠密的（引理 \ref{lemma3.4}），足以证明
+\begin{equation}\label{eq:milman-pettis-proof-1}
+\forall \varepsilon > 0 \quad \exists x \in B_E \text{ 使得 } \|\xi - J(x)\| \le \varepsilon.
+\end{equation}
+设 $\varepsilon > 0$ 并令 $\delta > 0$ 为一致凸性定义中的常数。选择 $f \in E^*$ 使得 $\|f\|=1$ 和
+\begin{equation}\label{eq:milman-pettis-proof-2}
+\langle \xi, f \rangle > 1 - (\delta/2)
+\end{equation}
+（这是可能的，因为 $\|\xi\|=1$）。令
+\[ V = \{\eta \in E^{**}; |\langle \eta - \xi, f \rangle| < \delta/2\}. \]
+那么 $V$ 是 $\xi$ 在拓扑 $\sigma(E^{**}, E^*)$ 中的一个邻域。由于 $J(B_E)$ 在 $B_{E^{**}}$ 中是 $\sigma(E^{**}, E^*)$ 稠密的，我们知道 $V \cap J(B_E) \neq \emptyset$，因此存在某个 $x \in B_E$ 使得 $J(x) \in V$。假设，与此相反，$\|\xi - Jx\| > \varepsilon$，即 $\xi \in (Jx + \varepsilon B_{E^{**}})^c = W$。集合 $W$ 也是 $\xi$ 在拓扑 $\sigma(E^{**}, E^*)$ 中的一个邻域（因为 $B_{E^{**}}$ 是 $\sigma(E^{**}, E^*)$ 紧的）。再次使用引理 \ref{lemma3.4}，我们知道 $V \cap W \cap J(B_E) \neq \emptyset$，即
+存在 $y \in B_E$ 使得 $J(y) \in V \cap W$。将 $J(x), J(y) \in V$ 写出来，我们得到
+\[ |\langle f, x \rangle - \langle \xi, f \rangle| < \delta/2 \]
+和
+\[ |\langle f, y \rangle - \langle \xi, f \rangle| < \delta/2. \]
+将这些不等式相加得到
+\[ 2\langle \xi, f \rangle < \langle f, x+y \rangle + \delta \le \|x+y\| + \delta. \]
+结合 (\ref{eq:milman-pettis-proof-2})，我们得到
+\[ \left\| \frac{x+y}{2} \right\| > 1-\delta. \]
+由一致凸性可知 $\|x-y\| \le \varepsilon$；这是荒谬的，因为 $J(y) \in W$（即 $\|x-y\| > \varepsilon$）。
+\end{proof}
+
+\begin{proposition}\label{prop3.32}
+假设 $E$ 是一个一致凸的 Banach 空间。设 $(x_n)$ 是 $E$ 中的一个序列，使得 $x_n \to x$ 弱收敛于 $\sigma(E, E^*)$ 并且
+\[ \limsup \|x_n\| \le \|x\|. \]
+那么 $x_n \to x$ 强收敛。
+\end{proposition}
+
+\begin{proof}
+我们可以总是假设 $x \neq 0$（否则结论是显然的）。令
+\[ \lambda_n = \max(\|x_n\|, \|x\|), \quad y_n = \lambda_n^{-1} x_n, \text{ and } y = \|x\|^{-1}x, \]
+那么 $\lambda_n \to \|x\|$ 并且 $y_n \to y$ 弱收敛于 $\sigma(E, E^*)$。由此得出
+\[ \|y\| \le \liminf \|(y_n+y)/2\| \]
+（见命题 \ref{prop3.5}(iii)）。另一方面，$\|y\|=1$ 且 $\|y_n\| \le 1$，所以事实上，$\|y_n+y)/2\| \to 1$。我们从一致凸性推断出 $\|y_n-y\| \to 0$ 且因此 $x_n \to x$ 强收敛。
+\end{proof}
+
+
+
+
+

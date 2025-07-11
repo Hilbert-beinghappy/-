@@ -1,0 +1,457 @@
+\chapter{希尔伯特空间}
+
+\section{定义与基本性质，到闭凸集上的投影}
+\label{sec:5.1}
+
+\begin{definition}
+设 $H$ 是一个向量空间。一个标量积 $(u, v)$ 是 $H \times H$ 上的一个双线性形式，其值在 $\mathbb{R}$ 中（即，一个从 $H \times H$ 到 $\mathbb{R}$ 的映射，在两个变量上都是线性的），满足
+\begin{align*}
+(u, v) &= (v, u) \quad \forall u, v \in H \quad \text{(对称性)}, \\
+(u, u) &\ge 0 \quad \forall u \in H \quad \text{(正性)}, \\
+(u, u) &\ne 0 \quad \forall u \ne 0 \quad \text{(定性)}.
+\end{align*}
+\end{definition}
+
+我们回顾一下，一个标量积满足 \textbf{柯西-施瓦茨不等式}
+\[
+|(u, v)| \le (u, u)^{1/2} (v, v)^{1/2} \quad \forall u, v \in H.
+\]
+[有时候记住柯西-施瓦茨不等式的证明并不要求 $(u, u) \ne 0 \; \forall u \ne 0$ 这个假设是很有用的。] 从柯西-施瓦茨不等式可以得出，量
+\[
+\boxed{|u| = (u, u)^{1/2}}
+\]
+是一个范数——我们通常用 $|\cdot|$ (而不是 $\|\cdot\|$) 来表示由标量积产生的范数。确实，我们有
+\[
+|u + v|^2 = (u + v, u + v) = |u|^2 + (u, v) + (v, u) + |v|^2 \le |u|^2 + 2|u|\,|v| + |v|^2,
+\]
+因此 $|u + v| \le |u| + |v|$。
+
+我们回顾一下经典的 \textbf{平行四边形法则}:
+\begin{equation} \label{eq:5.1}
+\frac{|a+b|^2}{2} + \frac{|a-b|^2}{2} = \frac{1}{2}(|a|^2 + |b|^2) \quad \forall a, b \in H.
+\end{equation}
+
+\begin{definition}
+一个 \textbf{希尔伯特空间} 是一个装备了标量积的向量空间 $H$，使得 $H$ 对于范数 $|\cdot|$ 是 \textbf{完备} 的。
+\end{definition}
+
+在下文中，$\mathbf{H}$ 将始终表示一个希尔伯特空间。
+
+\textbf{基本例子。} 配备了标量积
+\[
+(u, v) = \int_\Omega u(x)v(x) d\mu
+\]
+的 $L^2(\Omega)$ 是一个希尔伯特空间。特别地，$\ell^2$ 是一个希尔伯特空间。在第8章和第9章中研究的索伯列夫空间 $H^1$ 是希尔伯特空间的另一个例子；它是在 $L^2(\Omega)$ 上“建模”的。
+
+\begin{proposition}\label{prop:5.1}
+$H$是一致凸的，因此是自反的。
+\end{proposition}
+
+\begin{proof}
+设 $\varepsilon > 0$ 且 $u, v \in H$ 满足 $|u| \le 1$, $|v| \le 1$, 以及 $|u-v| > \varepsilon$。根据平行四边形法则，我们有
+\[
+\left|\frac{u+v}{2}\right|^2 < 1 - \frac{\varepsilon^2}{4} \quad \text{因此} \quad \left|\frac{u+v}{2}\right| < 1 - \delta \text{ 其中 } \delta = 1 - \left(1 - \frac{\varepsilon^2}{4}\right)^{1/2} > 0.
+\]
+\end{proof}
+
+\begin{theorem}[到闭凸集上的投影]\label{thm:5.2}
+设 $K \subset H$ 是一个非空闭凸集。那么对于每一个 $f \in H$，存在一个唯一的元素 $u \in K$ 使得
+\begin{equation}\label{eq:5.2}
+|f-u| = \min_{v \in K} |f-v| = \operatorname{dist}(f, K).
+\end{equation}
+此外， $u$ 的特征由以下性质给出
+\begin{equation}\label{eq:5.3}
+u \in K \quad \text{并且} \quad (f-u, v-u) \le 0 \quad \forall v \in K.
+\end{equation}
+\end{theorem}
+
+\textbf{记号。} 上述元素 $u$ 被称为 $f$ 在 $K$ 上的 \textbf{投影}，并表示为
+\[
+\boxed{u=P_K f}.
+\]
+不等式 \eqref{eq:5.3} 说明向量 $\vec{uf}$ 与任何向量 $\vec{uv}$ ($v \in K$) 的标量积 $\le 0$，即这两个向量确定的角度 $\theta$ 是 $\ge \pi/2$；见图4。
+
+\begin{proof}
+\textbf{(a) 存在性。} 我们将给出两种不同的证明：
+\begin{enumerate}
+    \item 函数 $\varphi(v) = |f-v|$ 是凸的、连续的并且 $\lim_{|v|\to\infty} \varphi(v) = +\infty$。根据推论3.23，由于 $H$ 是自反的，$\varphi$ 在 $K$ 上达到其最小值。
+    \item 第二种证明不依赖于自反和一致凸空间的理论。这是一个直接的论证。设 $(v_n)$ 是 \eqref{eq:5.2} 的一个极小化序列，即 $v_n \in K$ 并且
+    \[ d_n = |f-v_n| \to d = \inf_{v \in K} |f-v|. \]
+    我们断言 $(v_n)$ 是一个柯西序列。确实，将平行四边形法则应用于 $a = f-v_n$ 和 $b = f-v_m$ 可得
+    \[
+    \left|f - \frac{v_n+v_m}{2}\right|^2 + \left|\frac{v_n-v_m}{2}\right|^2 = \frac{1}{2}(d_n^2+d_m^2).
+    \]
+    但是 $\frac{v_n+v_m}{2} \in K$ 因此 $\left|f - \frac{v_n+v_m}{2}\right| \ge d$。于是
+    \[
+    \left|\frac{v_n-v_m}{2}\right|^2 \le \frac{1}{2}(d_n^2+d_m^2) - d^2 \text{ 并且 } \lim_{m,n\to\infty} |v_n-v_m|=0.
+    \]
+    因此序列 $(v_n)$ 收敛到某个极限 $u \in K$ 且 $d = |f-u|$。
+\end{enumerate}
+\textbf{(b) \eqref{eq:5.2} 和 \eqref{eq:5.3} 的等价性。} 假设 $u \in K$ 满足 \eqref{eq:5.2} 并且设 $w \in K$。我们有
+\[ v = (1-t)u + tw \in K \quad \forall t \in [0,1] \]
+因此
+\[ |f-u| \le |f - [(1-t)u+tw]| = |(f-u) - t(w-u)|. \]
+所以
+\[ |f-u|^2 \le |f-u|^2 - 2t(f-u, w-u) + t^2|w-u|^2, \]
+这意味着 $2(f-u, w-u) \le t|w-u|^2 \quad \forall t \in (0,1]$。当 $t \to 0$ 时我们得到 \eqref{eq:5.3}。
+
+反之，假设 $u$ 满足 \eqref{eq:5.3}。那么我们有
+\[ |u-f|^2 - |v-f|^2 = 2(f-u,v-u) - |u-v|^2 \le 0 \quad \forall v \in K; \]
+这意味着 \eqref{eq:5.2}。
+
+\textbf{(c) 唯一性。} 假设 $u_1$ 和 $u_2$ 满足 \eqref{eq:5.3}。我们有
+\begin{align}
+(f-u_1, v-u_1) &\le 0 \quad \forall v \in K, \label{eq:5.4} \\
+(f-u_2, v-u_2) &\le 0 \quad \forall v \in K. \label{eq:5.5}
+\end{align}
+在 \eqref{eq:5.4} 中选择 $v=u_2$ 并在 \eqref{eq:5.5} 中选择 $v=u_1$ 并将相应的不等式相加，我们得到 $|u_1-u_2|^2 \le 0$。
+\end{proof}
+
+\begin{remark}
+发现一个最小化问题与一个不等式组有关并不奇怪。让我们回顾一个著名的例子。假设 $F:\mathbb{R} \to \mathbb{R}$ 是一个可微函数，并假设 $u \in [0,1]$ 是 $F$ 在 $[0,1]$ 上达到其最小值的点。那么要么 $u \in (0,1)$ 且 $F'(u)=0$，要么 $u=0$ 且 $F'(u) \ge 0$，要么 $u=1$ 且 $F'(u) \le 1$。这三种情况可以概括为 $u \in [0,1]$ 且 $F'(u)(v-u) \le 0 \quad \forall v \in [0,1]$；另见练习5.10。
+\end{remark}
+
+\begin{remark}
+设 $K \subset E$ 是一致凸Banach空间 $E$ 中的一个非空闭凸集。那么对于每个 $f \in E$，存在唯一的元素 $u \in E$ 使得
+\[ \|f-u\| = \min_{v \in K} \|f-v\| = \operatorname{dist}(f,K); \]
+见练习3.32。
+\end{remark}
+
+\begin{proposition}\label{prop:5.3}
+设 $K \subset H$ 是一个非空闭凸集。那么 $P_K$ 不增加距离，即
+\[ |P_K f_1 - P_K f_2| \le |f_1 - f_2| \quad \forall f_1, f_2 \in H. \]
+\end{proposition}
+\begin{proof}
+设 $u_1 = P_K f_1$ 和 $u_2 = P_K f_2$。我们有
+\begin{align}
+(f_1 - u_1, v - u_1) &\le 0 \quad \forall v \in K \label{eq:5.6} \\
+(f_2 - u_2, v - u_2) &\le 0 \quad \forall v \in K \label{eq:5.7}
+\end{align}
+在 \eqref{eq:5.6} 中选择 $v=u_2$ 并在 \eqref{eq:5.7} 中选择 $v=u_1$ 并将相应的不等式相加，我们得到
+\[ |u_1 - u_2|^2 \le (f_1 - f_2, u_1 - u_2). \]
+因此 $|u_1 - u_2| \le |f_1-f_2|$。
+\end{proof}
+
+\begin{corollary}\label{cor:5.4}
+假设 $M \subset H$ 是一个闭线性子空间。设 $f \in H$。那么 $u=P_M f$ 的特征是
+\begin{equation}\label{eq:5.8}
+u \in M \quad \text{并且} \quad (f-u, v) = 0 \quad \forall v \in M.
+\end{equation}
+此外，$P_M$ 是一个线性算子，称为 \textbf{正交投影}。
+\end{corollary}
+\begin{proof}
+根据 \eqref{eq:5.3} 我们有
+\[ (f-u, v-u) \le 0 \quad \forall v \in M \]
+因此
+\[ (f-u, tv-u) \le 0 \quad \forall v \in M, \quad \forall t \in \mathbb{R}. \]
+因此 \eqref{eq:5.8} 成立。
+
+反之，如果 $u$ 满足 \eqref{eq:5.8} 我们有
+\[ (f-u, v-u) = 0 \quad \forall v \in M. \]
+很明显 $P_M$ 是线性的。
+\end{proof}
+
+\section{希尔伯特空间的对偶空间}
+\label{sec:5.2}
+
+在希尔伯特空间中，写下连续线性泛函是非常容易的。任取一个 $f \in H$；那么映射 $u \mapsto (f,u)$ 是 $H$ 上的一个连续线性泛函。一个显著的事实是，$H$ 上\textit{所有}的连续线性泛函都是以这种方式获得的：
+
+\begin{theorem}[Riesz-Fréchet 表示定理]\label{thm:5.5}
+给定任意 $\varphi \in H^*$，存在唯一的 $f \in H$ 使得
+\[ \langle \varphi, u \rangle = (f, u) \quad \forall u \in H. \]
+此外，
+\[ |f| = \|\varphi\|_{H^*}. \]
+\end{theorem}
+\begin{proof}
+我们将再次给出两种证明。
+\begin{enumerate}
+    \item 第一个几乎与定理4.11的证明相同。考虑映射 $T: H \to H^*$ 定义如下：给定任意 $f \in H$，映射 $u \mapsto (f,u)$ 是 $H$ 上的一个连续线性泛函。它定义了 $H^*$ 的一个元素，我们记作 $Tf$，因此
+    \[ (Tf, u) = (f, u) \quad \forall u \in H. \]
+    很明显 $\|Tf\|_{H^*} = |f|$。因此 $T$ 是从 $H$ 到 $T(H)$ 的一个线性等距同构，$T(H)$ 是 $H^*$ 的一个闭子空间。为了得出结论，只需证明 $T(H)$ 在 $H^*$ 中是稠密的。假设 $h \in H$ 是 $H^*$ 上的一个连续线性泛函，它在 $T(H)$ 上为零。由于 $H$ 是自反的，$h$ 属于 $H$ 并且满足 $(Tf, h) = 0 \, \forall f \in H$。因此 $(f, h) = 0 \, \forall f \in H$，所以 $h=0$。
+    \item 第二个证明是一个更直接的论证，它避免了任何对自反性的使用。设 $M = \varphi^{-1}(\{0\})$，所以 $M$ 是 $H$ 的一个闭子空间。我们总可以假设 $M \ne H$ (否则 $\varphi=0$ 并且定理 \ref{thm:5.5} 的结论是显而易见的——只需取 $f=0$)。我们断言存在某个元素 $g \in H$ 使得
+    \[ |g|=1 \text{ 并且 } (g,v)=0 \quad \forall v \in M \text{ (因此 } g \notin M). \]
+    确实，设 $g_0 \in H$ 且 $g_0 \notin M$。设 $g_1 = P_M g_0$。那么
+    \[ g = (g_0 - g_1) / |g_0 - g_1| \]
+    满足所需的性质。
+\end{enumerate}
+给定任意 $u \in H$，设
+\[ v = u - \lambda g \quad \text{其中} \quad \lambda = \frac{\langle \varphi, u \rangle}{\langle \varphi, g \rangle}. \]
+注意 $v$ 是良定义的，因为 $\langle \varphi, g \rangle \ne 0$，并且，此外，$v \in M$，因为 $\langle \varphi, v \rangle = 0$。因此 $(g,v)=0$，即
+\[ \langle \varphi, u \rangle = \langle \varphi, g \rangle (g,u) \quad \forall u \in H, \]
+这就以 $f = \langle \varphi, g \rangle g$ 完成了证明。
+\end{proof}
+
+\begin{remark}\label{rem:5.3}
+\textbf{$H$ 与 $H^*$，认同还是不认同？} 三元组 $V \subset H \subset V^*$。
+定理 \ref{thm:5.5} 断言存在一个从 $H$ 到 $H^*$ 的典范等距同构。因此认同 $H$ 和 $H^*$ 是“合法的”。我们将\textit{经常}这样做，但\textit{并非总是}。这是一个典型情况——在许多应用中出现——在这种情况下，人们应该对认同持谨慎态度。假设 $H$ 是一个希尔伯特空间，具有标量积 $(\cdot, \cdot)$ 和相应的范数 $|\cdot|$。假设 $V$ 是 $H$ 中的一个稠密线性子空间。假设 $V$ 有其自己的范数 $\|\cdot\|$ 并且 $V$ 是一个具有范数 $\|\cdot\|$ 的Banach空间。假设注入 $V \subset H$ 是连续的，即
+\[ |v| \le C \|v\| \quad \forall v \in V. \]
+[例如，$H = L^2(0,1)$ 且 $V=L^p(0,1)$ 其中 $p>2$ 或 $V=C([0,1])$。] 存在一个典范映射 $T: H^* \to V^*$，它只是 $H$ 上的连续线性泛函 $\varphi$ 在 $V$ 上的限制，即
+\[ \langle T\varphi, v \rangle_{V^*, V} = \langle \varphi, v \rangle_{H^*, H}. \]
+很容易看出 $T$ 具有以下性质：
+\begin{enumerate}[(i)]
+    \item $\|T\varphi\|_{V^*} \le C |\varphi|_{H^*}$ \quad $\forall \varphi \in H^*$,
+    \item $T$ 是单射的,
+    \item 如果 $V$ 是自反的，则 $R(T)$ 在 $V^*$ 中是稠密的。\footnote{然而，$T$ 通常\textit{不是}满射的。}
+\end{enumerate}
+将 $H^*$ 与 $H$ 等同，并使用 $T$ 作为从 $H^*$ 到 $V^*$ 的规范嵌入，通常写作
+\begin{equation}\label{eq:5.9}
+\boxed{V \subset H \simeq H^* \subset V^*}
+\end{equation}
+其中所有的注入都是连续和稠密的（如果 $V$ 是自反的）。称 $H$ 为 \textbf{枢轴空间}。注意，标量积 $(\cdot, \cdot)_{V^*,V}$ 和 $(\cdot, \cdot)$ 在两者都有意义时是一致的，即
+\[ \langle f, v \rangle_{V^*,V} = (f,v) \quad \forall f \in H, \quad \forall v \in V. \]
+如果 $V$ 原来是一个具有自己标量积 $((\cdot, \cdot))$ 和相关范数 $\|\cdot\|$ 的希尔伯特空间，情况就变得更加微妙。当然，可以借助 $((\cdot, \cdot))$ 来认同 $V$ 和 $V^*$。然而，\eqref{eq:5.9} 变得荒谬。这表明不能同时将 $V$ 和 $H$ 与它们的对偶空间认同：必须做出选择。通常的习惯是将 $H^*$ 与 $H$ 认同，写成 \eqref{eq:5.9} 的形式，而 \textbf{不} 将 $V^*$ 与 $V$ 认同 [当然，从 $V$ 到 $V^*$ 仍然存在一个等距，但它不被看作是恒等映射]。这里有一个非常有启发性的例子。
+
+设
+\[ H = \ell^2 = \left\{ u=(u_n)_{n \ge 1}; \; \sum_{n=1}^\infty u_n^2 < \infty \right\} \]
+赋以标量积 $(u,v) = \sum_{n=1}^\infty u_n v_n$。
+设
+\[ V = \left\{ u=(u_n)_{n \ge 1}; \; \sum_{n=1}^\infty n^2 u_n^2 < \infty \right\} \]
+赋以标量积 $((u,v)) = \sum_{n=1}^\infty n^2 u_n v_n$。
+显然 $V \subset H$ 且注入是连续的，并且 $V$ 在 $H$ 中是稠密的。这里我们认同 $H^*$ 与 $H$，而 $V^*$ 被认同为空间
+\[ V^* = \left\{ f=(f_n)_{n \ge 1}; \; \sum_{n=1}^\infty \frac{1}{n^2} f_n^2 < \infty \right\}, \]
+它比 $H$ 大。标量积 $\langle \cdot, \cdot \rangle_{V^*,V}$ 由下式给出
+\[ \langle f,v \rangle_{V^*,V} = \sum_{n=1}^\infty f_n v_n, \]
+而 Riesz-Fréchet 同构 $T: V \to V^*$ 由下式给出
+\[ u=(u_n)_{n \ge 1} \mapsto Tu = (n^2 u_n)_{n \ge 1}. \]
+\end{remark}
+
+\begin{remark}
+不借助一致凸空间的理论，很容易证明希尔伯特空间是自反的。只需使用两次Riesz-Fréchet同构（从 $H$ 到 $H^*$，然后再从 $H^*$ 到 $H^{**}$）。
+\end{remark}
+
+\begin{remark}
+假设希尔伯特空间 $H$ 与其对偶空间 $H^*$ 等同。设 $M$ 是 $H$ 的一个子空间。我们已经（在1.3节中）将 $M^\perp$ 定义为 $H^*$ 的一个子空间。我们现在可以将其视为 $H$ 的一个子空间，即
+\[ M^\perp = \{ u \in H; \; (u,v)=0 \quad \forall v \in M \}. \]
+显然我们有 $M \cap M^\perp = \{0\}$。此外，如果 $M$ 是闭的，我们还有 $M+M^\perp = H$。确实，每个 $f \in H$ 都可以写成
+\[ f = (P_M f) + (f - P_M f) \]
+并且 $f-P_M f \in M^\perp$；更准确地说，$f-P_M f = P_{M^\perp} f$。
+因此，在希尔伯特空间中，每个闭子空间都有一个补空间（在2.4节的意义上）。
+\end{remark}
+
+\section{Stampacchia 和 Lax-Milgram 定理}
+\label{sec:5.3}
+
+\begin{definition}
+一个双线性形式 $a: H \times H \to \mathbb{R}$ 被称为是
+\begin{enumerate}[(i)]
+    \item \textbf{连续的} 如果存在一个常数 $C$ 使得
+    \[ |a(u,v)| \le C|u|\,|v| \quad \forall u,v \in H; \]
+    \item \textbf{强制的} 如果存在一个常数 $\alpha > 0$ 使得
+    \[ a(v,v) \ge \alpha |v|^2 \quad \forall v \in H. \]
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Stampacchia]\label{thm:5.6}
+假设 $a(u,v)$ 是 $H$ 上的一个连续强制双线性形式。设 $K \subset H$ 是一个非空闭凸子集。那么，给定任意 $\varphi \in H^*$，存在唯一的元素 $u \in K$ 使得
+\begin{equation}\label{eq:5.10}
+a(u,v-u) \ge \langle \varphi, v-u \rangle \quad \forall v \in K.
+\end{equation}
+此外，如果 $a$ 是对称的，那么 $u$ 的特征由以下性质给出
+\begin{equation}\label{eq:5.11}
+u \in K \quad \text{并且} \quad \frac{1}{2}a(u,u) - \langle \varphi, u \rangle = \min_{v \in K} \left\{ \frac{1}{2}a(v,v) - \langle \varphi, v \rangle \right\}.
+\end{equation}
+\end{theorem}
+定理 \ref{thm:5.6} 的证明依赖于以下非常经典的结果。
+\begin{theorem}[Banach不动点定理——压缩映射原理]\label{thm:5.7}
+设 $X$ 是一个非空完备度量空间，设 $S: X \to X$ 是一个严格压缩映射，即
+\[ d(Sv_1, Sv_2) \le k \, d(v_1, v_2) \quad \forall v_1, v_2 \in X \text{ 且 } k < 1. \]
+那么 $S$ 有唯一的不动点，$u=Su$。
+\end{theorem}
+证明参见，例如，T. M. Apostol [1], G. Choquet [1], A. Friedman [3]。
+
+\begin{proof}[定理 \ref{thm:5.6} 的证明]
+根据Riesz-Fréchet表示定理（定理 \ref{thm:5.5}），我们知道存在 $f \in H$ 使得
+\[ \langle \varphi, v \rangle = (f,v) \quad \forall v \in H. \]
+另一方面，如果我们固定 $u \in H$，映射 $v \mapsto a(u,v)$ 是 $H$ 上的一个连续线性泛函。再次使用Riesz-Fréchet表示定理，我们找到某个唯一的元素，记为 $Au$，使得 $a(u,v)=(Au,v) \; \forall v \in H$。显然 $A$ 是从 $H$ 到 $H$ 的一个线性算子，满足
+\begin{align}
+|Au| &\le C|u| \quad \forall u \in H, \label{eq:5.12} \\
+(Au,u) &\ge \alpha|u|^2 \quad \forall u \in H. \label{eq:5.13}
+\end{align}
+问题 \eqref{eq:5.10} 相当于找到某个 $u \in K$ 使得
+\begin{equation}\label{eq:5.14}
+(Au, v-u) \ge (f, v-u) \quad \forall v \in K.
+\end{equation}
+设 $\rho > 0$ 是一个常数（待定）。注意 \eqref{eq:5.14} 等价于
+\begin{equation}\label{eq:5.15}
+(\rho f - \rho Au + u - u, v-u) \le 0 \quad \forall v \in K,
+\end{equation}
+即
+\[ u = P_K(\rho f - \rho Au + u). \]
+对每个 $v \in K$，设 $Sv = P_K(\rho f - \rho Av + v)$。我们断言，如果 $\rho > 0$ 被适当地选择，那么 $S$ 是一个严格压缩映射。确实，由于 $P_K$ 不增加距离（见命题 \ref{prop:5.3}），我们有
+\[ |Sv_1 - Sv_2| \le |(v_1 - v_2) - \rho(Av_1 - Av_2)| \]
+因此
+\[ |Sv_1 - Sv_2|^2 \le |v_1-v_2|^2 - 2\rho(A(v_1-v_2), v_1-v_2) + \rho^2|A(v_1-v_2)|^2 \]
+\[ \le |v_1-v_2|^2 (1-2\rho\alpha + \rho^2 C^2). \]
+以使得 $k^2 = 1-2\rho\alpha + \rho^2 C^2 < 1$ 的方式选择 $\rho > 0$ （即 $0 < \rho < 2\alpha/C^2$），我们发现 $S$ 有一个唯一的不动点。\footnote{如果需要数值计算不动点，选择 $\rho = \alpha/C^2$ 以最小化 $k$ 并加速 $S$ 的迭代收敛是值得的。}
+
+现在假设 $a(u,v)$ 是对称的。那么 $a(u,v)$ 在 $H$ 上定义了一个新的标量积；相应的范数 $a(u,u)^{1/2}$ 与原始范数 $|u|$ 等价。因此 $H$ 对于这个新的标量积也是一个希尔伯特空间。我们现在可以通过新的标量积来表示泛函 $\varphi$，即，存在某个唯一的元素 $g \in H$ 使得
+\[ \langle \varphi, v \rangle = a(g,v) \quad \forall v \in H. \]
+问题 \eqref{eq:5.10} 相当于找到某个 $u \in K$ 使得
+\begin{equation}\label{eq:5.16}
+a(g-u, v-u) \le 0 \quad \forall v \in K.
+\end{equation}
+\eqref{eq:5.16} 的解是一个老朋友：$u$ 就是 $g$ 在新标量积 $a$ 下到 $K$ 上的投影。我们也知道（根据定理 \ref{thm:5.2}）$u$ 是实现
+\[ \min_{v \in K} a(g-v, g-v)^{1/2} \]
+的唯一元素 $K$。
+这相当于在 $K$ 上最小化函数
+\[ v \mapsto a(g-v, g-v) = a(v,v) - 2a(g,v) + a(g,g) = a(v,v) - 2\langle\varphi, v\rangle + a(g,g), \]
+或者等价地，函数
+\[ v \mapsto \frac{1}{2}a(v,v) - \langle \varphi, v \rangle. \]
+\end{proof}
+
+\begin{remark}
+很容易检查，如果 $a(u,u)$ 是一个具有性质
+\[ a(v,v) \ge 0 \quad \forall v \in H, \]
+的双线性形式，那么函数 $v \mapsto a(v,v)$ 是凸的。
+\end{remark}
+
+\begin{corollary}[Lax-Milgram]\label{cor:5.8}
+假设 $a(u,v)$ 是 $H$ 上的一个连续强制双线性形式。那么，给定任意 $\varphi \in H^*$，存在唯一的元素 $u \in H$ 使得
+\begin{equation}\label{eq:5.17}
+a(u,v) = \langle \varphi, v \rangle \quad \forall v \in H.
+\end{equation}
+此外，如果 $a$ 是对称的，那么 $u$ 的特征由以下性质给出
+\begin{equation}\label{eq:5.18}
+u \in H \quad \text{并且} \quad \frac{1}{2}a(u,u) - \langle \varphi, u \rangle = \min_{v \in H} \left\{ \frac{1}{2}a(v,v) - \langle \varphi, v \rangle \right\}.
+\end{equation}
+\end{corollary}
+\begin{proof}
+使用定理 \ref{thm:5.6} 并设 $K=H$，然后像推论 \ref{cor:5.4} 的证明那样进行论证。
+\end{proof}
+
+\begin{remark}
+Lax-Milgram定理是解决线性椭圆型偏微分方程（见第8章和第9章）的一个非常简单而有效的工具。值得注意的是方程 \eqref{eq:5.17} 和最小化问题 \eqref{eq:5.18} 之间的联系。当这类问题出现在力学或物理学中时，它们通常有一个自然的解释：最小作用量原理，能量最小化等。在\textit{变分法}的语言中，人们说 \eqref{eq:5.17} 是与最小化问题 \eqref{eq:5.18} 相关联的\textit{欧拉方程}。粗略地说，\eqref{eq:5.17} 表示 "$F'(u)=0$"，其中 $F$ 是函数 $F(v) = \frac{1}{2}a(v,v) - \langle \varphi, v \rangle$。
+\end{remark}
+
+\begin{remark}
+有一个直接而初等的论证证明 \eqref{eq:5.17} 有唯一解。事实上，这相当于证明
+\[ \forall f \in H \quad \exists u \in H \quad \text{唯一的，使得 } Au=f, \]
+即，$A$ 是从 $H$ 到 $H$ 的一个双射。这是以下事实的一个平凡推论：
+\begin{enumerate}[(a)]
+    \item $A$ 是单射的（因为 $a$ 是强制的），
+    \item $R(A)$ 是闭的，因为 $|Av| \ge \alpha|v| \; \forall v \in H$（强制性的一个推论），
+    \item $R(A)$ 是稠密的；确实，假设 $v \in H$ 满足
+    \[ (Au, v) = 0 \quad \forall u \in H, \]
+    那么 $v=0$。
+\end{enumerate}
+\end{remark}
+
+\section{希尔伯特和，标准正交基}
+\label{sec:5.4}
+
+\begin{definition}
+设 $(E_n)_{n \ge 1}$ 是 $H$ 的一列闭子空间。如果满足以下条件，则称 $H$ 是 $E_n$ 的 \textbf{希尔伯特和}，并写作 $H = \bigoplus_{n=1}^\infty E_n$：
+\begin{enumerate}[(a)]
+    \item 空间 $E_n$ 是相互正交的，即
+    \[ (u,v)=0 \quad \forall u \in E_n, \; \forall v \in E_m, \; m \ne n, \]
+    \item 由 $\bigcup_{n=1}^\infty E_n$ 生成的线性空间在 $H$ 中是稠密的。\footnote{由 $E_n$ 生成的线性空间是在代数意义上理解的，即属于空间 $(E_n)$ 的元素的\textit{有限}线性组合。}
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}\label{thm:5.9}
+假设 $H$ 是 $E_n$ 的希尔伯特和。给定 $u \in H$，设
+\[ u_n = P_{E_n} u \]
+和
+\[ S_n = \sum_{k=1}^n u_k. \]
+那么我们有
+\begin{equation}\label{eq:5.19}
+\lim_{n\to\infty} S_n = u
+\end{equation}
+和
+\begin{equation}\label{eq:5.20}
+\sum_{k=1}^\infty |u_k|^2 = |u|^2 \quad \text{(Bessel-Parseval's identity)}.
+\end{equation}
+\end{theorem}
+使用下面的引理很方便。
+\begin{lemma}\label{lem:5.1}
+假设 $(v_n)$ 是 $H$ 中的任意序列，使得
+\begin{equation}\label{eq:5.21}
+(v_m, v_n) = 0 \quad \forall m \ne n,
+\end{equation}
+\begin{equation}\label{eq:5.22}
+\sum_{k=1}^\infty |v_k|^2 < \infty.
+\end{equation}
+设
+\[ S_n = \sum_{k=1}^n v_k. \]
+那么
+\[ S = \lim_{n\to\infty} S_n \quad \text{存在} \]
+并且，此外，
+\begin{equation}\label{eq:5.23}
+|S|^2 = \sum_{k=1}^\infty |v_k|^2.
+\end{equation}
+\end{lemma}
+\begin{proof}[引理 \ref{lem:5.1} 的证明]
+注意对于 $m>n$ 我们有
+\[ |S_m - S_n|^2 = \sum_{k=n+1}^m |v_k|^2. \]
+因此 $S_n$ 是一个柯西序列，所以 $S = \lim_{n\to\infty} S_n$ 存在。另一方面，我们有
+\[ |S_n|^2 = \sum_{k=1}^n |v_k|^2. \]
+当 $n\to\infty$ 时我们得到 \eqref{eq:5.23}。
+\end{proof}
+\begin{proof}[定理 \ref{thm:5.9} 的证明]
+由于 $u_n = P_{E_n}u$，我们有（根据 \eqref{eq:5.8}）
+\begin{equation}\label{eq:5.24}
+(u-u_n, v) = 0 \quad \forall v \in E_n,
+\end{equation}
+并且特别地，
+\[ (u,u_n) = |u_n|^2. \]
+将这些等式相加，我们发现
+\[ (u,S_n) = \sum_{k=1}^n |u_k|^2. \]
+但是我们也有
+\begin{equation}\label{eq:5.25}
+\sum_{k=1}^n |u_k|^2 = |S_n|^2,
+\end{equation}
+因此我们得到
+\[ (u,S_n) = |S_n|^2. \]
+因此 $|S_n| \le |u|$ 并且因此 $\sum_{k=1}^n |u_k|^2 \le |u|^2$。
+因此我们可以应用引理 \ref{lem:5.1} 并得出结论 $S = \lim_{n\to\infty} S_n$ 存在。让我们甚至在\textit{没有假设}（b）的情况下确定 $S$。设 $F$ 是由 $E_n$ 生成的线性空间。我们断言
+\begin{equation}\label{eq:5.26}
+S = P_{\overline{F}} u.
+\end{equation}
+确实，我们有
+\[ (u-S_n, v) = 0 \quad \forall v \in E_m, \; m \le n \]
+（只需写出 $u-S_n = (u-u_m) - \sum_{k \ne m} u_k$）。当 $n \to \infty$ 时我们得到
+\[ (u-S,v) = 0 \quad \forall v \in E_m, \quad \forall m \]
+因此
+\[ (u-S,v) = 0 \quad \forall v \in F, \]
+这意味着
+\[ (u-S,v) = 0 \quad \forall v \in \overline{F}. \]
+另一方面，$S_n \in F \; \forall n$，并且在极限情况下 $S \in \overline{F}$。这证明了 \eqref{eq:5.26}。当然，如果（b）成立，那么 $\overline{F}=H$ 并且因此 $S=u$。在 \eqref{eq:5.25} 中令 $n \to \infty$ 我们得到 \eqref{eq:5.20}。
+\end{proof}
+
+\begin{definition}
+$H$ 中的一个序列 $(e_n)_{n \ge 1}$ 被称为是 $H$ 的一个 \textbf{标准正交基} （或一个 \textbf{希尔伯特基}\footnote{不要与\textit{代数}（或\textit{Hamel}）\textit{基}混淆。基是 $H$ 中的一个族 $(e_i)_{i \in I}$，使得每个 $u \in H$ 都可以唯一地写成 $e_i$ 的\textit{有限}线性组合（见练习1.5）。} 或在没有混淆时简称为一个 \textbf{基}）\footnote{一些作者说 $(e_n)$ 是一个\textit{完备标准正交系}。} 如果它满足以下性质：
+\begin{enumerate}[(i)]
+    \item $|e_n|=1 \; \forall n$ 并且 $(e_m,e_n)=0 \; \forall m \ne n$。
+    \item 由 $e_n$ 生成的线性空间在 $H$ 中是稠密的。
+\end{enumerate}
+\end{definition}
+
+\begin{corollary}\label{cor:5.10}
+设 $(e_n)$ 是一个标准正交基。那么对于每个 $u \in H$，我们有
+\[ u = \sum_{k=1}^\infty (u,e_k)e_k, \quad \text{即} \quad u = \lim_{n\to\infty} \sum_{k=1}^n (u,e_k)e_k \]
+和
+\[ |u|^2 = \sum_{k=1}^\infty |(u,e_k)|^2. \]
+反之，给定任意序列 $(\alpha_n) \in \ell^2$，级数 $\sum_{k=1}^\infty \alpha_k e_k$ 收敛于某个元素 $u \in H$，使得 $(u,e_k)=\alpha_k \; \forall k$ 且 $|u|^2 = \sum_{k=1}^\infty \alpha_k^2$。
+\end{corollary}
+\begin{proof}
+注意 $H$ 是空间 $E_n = \mathbb{R} e_n$ 的希尔伯特和，并且 $P_{E_n} u = (u,e_n)e_n$。使用定理 \ref{thm:5.9} 和引理 \ref{lem:5.1}。
+\end{proof}
+
+\begin{remark}
+通常，定理 \ref{thm:5.9} 中的级数 $\sum u_k$ 和推论 \ref{cor:5.10} 中的级数 $\sum (u,e_k)e_k$ 不是绝对收敛的，即，可能会发生 $\sum |u_k|=\infty$ 或 $\sum |(u,e_k)e_k| = \sum |(u,e_k)| = \infty$ 的情况。
+\end{remark}
+
+\begin{theorem}\label{thm:5.11}
+每个可分希尔伯特空间都有一个标准正交基。
+\end{theorem}
+\begin{proof}
+设 $(v_n)$ 是 $H$ 的一个可数稠密子集。设 $F_k$ 表示由 $\{v_1, v_2, \dots, v_k\}$ 生成的线性空间。序列 $(F_k)$ 是一个非减的有限维空间序列，使得 $\bigcup_{k=1}^\infty F_k$ 在 $H$ 中是稠密的。在 $F_1$ 中任取一个单位向量 $e_1$。如果 $F_2 \ne F_1$，则在 $F_2$ 中存在某个向量 $e_2$，使得 $\{e_1, e_2\}$ 是 $F_2$ 的一个标准正交基。重复同样的构造，可以得到 $H$ 的一个标准正交基。
+\end{proof}
+
+\begin{remark}
+定理 \ref{thm:5.11} 与推论 \ref{cor:5.10} 相结合表明，所有可分希尔伯特空间都与空间 $\ell^2$ 同构且等距。尽管这个结果看起来很惊人，但考虑其他希尔伯特空间如 $L^2(\Omega)$（或索伯列夫空间 $H^1(\Omega)$ 等）仍然非常重要。原因是在基中书写时，许多好的线性（或非线性）算子可能看起来非常糟糕。
+\end{remark}
+
+\begin{remark}
+如果 $H$ 是一个 \textbf{不可分希尔伯特空间}——一个相当不寻常的情况——人们仍然可以（借助Zorn引理）证明存在一个\textit{不可数}的标准正交基 $(e_i)_{i \in I}$；参见，例如，W. Rudin [2], A. E. Taylor--D. C. Lay [1], G. B. Folland [2], G. Choquet [1]。
+\end{remark}

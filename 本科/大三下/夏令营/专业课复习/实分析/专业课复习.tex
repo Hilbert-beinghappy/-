@@ -1,0 +1,1856 @@
+\documentclass[lang=cn,10pt,thmcnt=section]{elegantbook}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{esint}
+\usepackage{mathtools}
+\usepackage{tikz}
+
+\title{专业课复习-实分析}
+
+
+
+\author{Huang}
+\date{\today}
+
+
+
+
+\setcounter{tocdepth}{3}
+
+
+\cover{cover.jpg}
+
+% 本文档命令
+\usepackage{array}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+
+% 修改标题页的橙色带
+% \definecolor{customcolor}{RGB}{32,178,170}
+% \colorlet{coverlinecolor}{customcolor}
+
+\begin{document}
+	
+	\maketitle
+	\frontmatter
+	
+	\tableofcontents
+	
+	\mainmatter
+
+\chapter{测度}
+在本章中，我们阐述测度论的基本概念，发展一个构造非平凡测度例子的一般过程，并将这一过程应用于构造实直线上的测度。
+
+\section{引言}
+几何学中最古老的问题之一是确定平面或三维空间中区域的面积或体积。积分微积分的技术为那些由"良好"曲线或曲面所界定的区域提供了满意的解决方案，但对于处理更复杂的集合则不足，即使在一维情况下也是如此。理想情况下，对于 $n \in \mathbb{N}$，我们希望有一个函数 $\mu$ 将每个 $E \subset \mathbb{R}^n$ 赋予一个数值 $\mu(E) \in [0,\infty]$，即 $E$ 的 $n$ 维测度，使得当通常的积分公式适用时，$\mu(E)$ 由这些公式给出。这样的函数 $\mu$ 应当具有以下性质：
+
+\begin{enumerate}[label=\roman*.]
+\item 如果 $E_1, E_2, \ldots$ 是一个有限或无限的不相交集合序列，那么
+\[\mu(E_1 \cup E_2 \cup \cdots) = \mu(E_1) + \mu(E_2) + \cdots.\]
+
+\item 如果 $E$ 与 $F$ 全等（即，如果 $E$ 可以通过平移、旋转和反射变换为 $F$），那么 $\mu(E) = \mu(F)$。
+
+\item $\mu(Q) = 1$，其中 $Q$ 是单位立方体
+\[Q = \{x \in \mathbb{R}^n : 0 \leq x_j < 1 \text{ for } j = 1, \ldots, n\}.\]
+\end{enumerate}
+
+不幸的是，这些条件是相互矛盾的。让我们看看为什么在 $n = 1$ 时是这样的。（这个论证可以很容易地推广到更高维度。）首先，我们在 $[0, 1)$ 上定义一个等价关系，声明 $x \sim y$ 当且仅当 $x - y$ 是有理数。令 $N$ 是 $[0, 1)$ 的一个子集，它恰好包含每个等价类中的一个元素。（要找到这样的 $N$，必须借助选择公理。）接下来，令 $R = \mathbb{Q} \cap [0, 1)$，对于每个 $r \in R$，令
+
+\[N_r = \{x + r : x \in N \cap [0, 1-r)\} \cup \{x + r - 1 : x \in N \cap [1-r, 1)\}.\]
+
+也就是说，要获得 $N_r$，将 $N$ 向右移动 $r$ 个单位，然后将超出 $[0, 1)$ 的部分向左移动一个单位。那么 $N_r \subset [0, 1)$，且每个 $x \in [0, 1)$ 恰好属于一个 $N_r$。事实上，如果 $y$ 是 $N$ 中属于 $x$ 的等价类的元素，则 $x \in N_r$，其中 $r = x - y$ 如果 $x \geq y$ 或 $r = x - y + 1$ 如果 $x < y$；另一方面，如果 $x \in N_r \cap N_s$，则 $x - r$（或 $x - r + 1$）和 $x - s$（或 $x - s + 1$）将是 $N$ 中属于同一等价类的不同元素，这是不可能的。
+
+假设现在 $\mu : \mathcal{P}(\mathbb{R}) \to [0, \infty]$ 满足 (i)、(ii) 和 (iii)。根据 (i) 和 (ii)，
+
+\[\mu(N) = \mu(N \cap [0, 1-r)) + \mu(N \cap [1-r, 1)) = \mu(N_r)\]
+
+对任意 $r \in R$ 成立。此外，由于 $R$ 是可数的，且 $[0, 1)$ 是 $N_r$ 的不相交并集，
+
+\[\mu([0, 1)) = \sum_{r \in R} \mu(N_r)\]
+
+根据 (i)。但 $\mu([0, 1)) = 1$ 根据 (iii)，且由于 $\mu(N_r) = \mu(N)$，右边的和要么是 $0$（如果 $\mu(N) = 0$）要么是 $\infty$（如果 $\mu(N) > 0$）。因此，这样的 $\mu$ 不可能存在。
+
+面对这种令人沮丧的情况，人们可能会考虑削弱 (i)，使得可加性只需对有限序列成立。这不是一个很好的想法，因为我们将看到：对可数序列的可加性是使理论的极限和连续性结果顺利工作的关键。此外，在维度 $n \geq 3$ 中，即使这种弱形式的 (i) 也与 (ii) 和 (iii) 不一致。事实上，1924年，巴拿赫和塔斯基证明了以下惊人结果：
+
+令 $U$ 和 $V$ 是 $\mathbb{R}^n$（$n \geq 3$）中任意有界开集。存在 $k \in \mathbb{N}$ 和 $\mathbb{R}^n$ 的子集 $E_1, \ldots, E_k, F_1, \ldots, F_k$ 使得
+\begin{itemize}
+\item $E_j$ 是不相交的，它们的并集是 $U$；
+\item $F_j$ 是不相交的，它们的并集是 $V$；
+\item $E_j$ 与 $F_j$ 全等，对 $j = 1, \ldots, k$。
+\end{itemize}
+
+因此，人们可以将一个豌豆大小的球切成有限数量的碎片，并重新排列它们以形成一个地球大小的球！不用说，这些集合 $E_j$ 和 $F_j$ 是非常奇特的。它们无法被准确地可视化，且它们的构造依赖于选择公理。但它们的存在明显排除了构造任何 $\mu : \mathcal{P}(\mathbb{R}^n) \to [0, \infty]$ 的可能性，这种 $\mu$ 会为有界开集分配正的、有限的值，并同时满足有限序列的 (i) 以及 (ii)。
+
+这些例子的寓意是 $\mathbb{R}^n$ 包含一些子集，它们的组合方式如此奇特，以至于不可能为它们定义一个几何上合理的测度概念，而解决这种情况的方法是放弃要求 $\mu$ 应定义在 $\mathbb{R}^n$ 的所有子集上。相反，我们将满足于构造一个 $\mathbb{R}^n$ 子集的类，它包含了所有人可能在实践中遇到的集合，除非有人刻意寻找病态例子。这种构造将在 \S1.5 中为 $n = 1$ 进行，在 \S2.6 中为 $n > 1$ 进行。
+
+值得一提的是，发展这个理论在更一般的情况下并不需要太多额外工作。条件 (ii) 和 (iii) 直接与欧几里得几何相关，但满足 (i) 的集函数，称为\textit{测度}，也出现在许多其他情况中。例如，在涉及质量分布的物理问题中，$\mu(E)$ 可以表示区域 $E$ 中的总质量。另一个例子是，在概率论中，考虑一个集合 $X$ 表示实验的可能结果，对于 $E \subset X$，$\mu(E)$ 是结果落在 $E$ 中的概率。因此，我们首先研究抽象集合上的测度理论。
+
+\section{$\sigma$-代数}
+
+在本节中，我们讨论作为测度定义域的集合族。
+
+令 $X$ 是一个非空集合。集合 $X$ 上的\textbf{代数}是一个非空集合族 $\mathcal{A}$，它对有限并集和补集封闭；换句话说，如果 $E_1, \ldots, E_n \in \mathcal{A}$，那么 $\bigcup_{1}^{n} E_j \in \mathcal{A}$；且如果 $E \in \mathcal{A}$，那么 $E^c \in \mathcal{A}$。$\sigma$-代数是一个对可数并集封闭的代数。（一些作者使用术语 field 和 $\sigma$-field 代替 algebra 和 $\sigma$-algebra。）
+
+我们注意到，由于 $\bigcap_{j} E_j = \left(\bigcup_{j} E_j^c\right)^c$，代数（分别是 $\sigma$-代数）也对有限（分别是可数）交集封闭。此外，如果 $\mathcal{A}$ 是一个代数，则 $\emptyset \in \mathcal{A}$ 且 $X \in \mathcal{A}$，因为如果 $E \in \mathcal{A}$，我们有 $\emptyset = E \cap E^c$ 且 $X = E \cup E^c$。
+
+值得注意的是，如果代数 $\mathcal{A}$ 对可数\textbf{不相交}并集封闭，那么它是一个 $\sigma$-代数。事实上，假设 $\{E_j\}_1^\infty \subset \mathcal{A}$。设
+
+\[F_k = E_k \setminus \left[\bigcup_{1}^{k-1} E_j\right] = E_k \cap \left[\bigcup_{1}^{k-1} E_j\right]^c.\]
+
+那么 $F_k$ 属于 $\mathcal{A}$ 且是不相交的，并且 $\bigcup_{1}^{\infty} E_j = \bigcup_{1}^{\infty} F_k$。这种用不相交序列替代集合序列的技巧值得记住；它将在下面多次使用。
+
+一些例子：如果 $X$ 是任意集合，则 $\mathcal{P}(X)$ 和 $\{\emptyset, X\}$ 是 $\sigma$-代数。如果 $X$ 是不可数的，那么
+
+\[\mathcal{A} = \{E \subset X : E \text{ 是可数的或 } E^c \text{ 是可数的}\}\]
+
+是一个 $\sigma$-代数，称为\textbf{可数或余可数集的 $\sigma$-代数}。（这里的要点是，如果 $\{E_j\}_1^\infty \subset \mathcal{A}$，那么 $\bigcup_{1}^{\infty} E_j$ 在所有 $E_j$ 都是可数时是可数的，否则是余可数的。）
+
+容易验证，$X$ 上任何 $\sigma$-代数族的交集仍然是一个 $\sigma$-代数。由此可知，如果 $\mathcal{E}$ 是 $\mathcal{P}(X)$ 的任意子集，则存在一个包含 $\mathcal{E}$ 的最小 $\sigma$-代数 $\mathcal{M}(\mathcal{E})$，即所有包含 $\mathcal{E}$ 的 $\sigma$-代数的交集。（至少存在一个这样的 $\sigma$-代数，即 $\mathcal{P}(X)$。）$\mathcal{M}(\mathcal{E})$ 被称为由 $\mathcal{E}$ \textbf{生成的} $\sigma$-代数。以下观察经常有用：
+
+\begin{lemma}\label{lemma1.1}
+如果 $\mathcal{E} \subset \mathcal{M}(\mathcal{F})$，则 $\mathcal{M}(\mathcal{E}) \subset \mathcal{M}(\mathcal{F})$。
+\end{lemma}
+
+\begin{proof}
+$\mathcal{M}(\mathcal{F})$ 是包含 $\mathcal{E}$ 的 $\sigma$-代数；因此它包含 $\mathcal{M}(\mathcal{E})$。
+\end{proof}
+
+如果 $X$ 是任意度量空间，或更一般地，任意拓扑空间（见第4章），则由 $X$ 中开集族（或等价地，由 $X$ 中闭集族）生成的 $\sigma$-代数被称为 $X$ 上的 \textbf{Borel $\sigma$-代数}，记为 $\mathcal{B}_X$。其成员被称为 \textbf{Borel 集}。$\mathcal{B}_X$ 因此包括开集、闭集、开集的可数交集、闭集的可数并集等等。
+
+这个层次结构中的各个层次有一个标准术语。开集的可数交集被称为 $G_\delta$ 集；闭集的可数并集被称为 $F_\sigma$ 集；$G_\delta$ 集的可数并集被称为 $G_{\delta\sigma}$ 集；$F_\sigma$ 集的可数交集被称为 $F_{\sigma\delta}$ 集；依此类推。（$\delta$ 和 $\sigma$ 代表德语 \textit{Durchschnitt} 和 \textit{Summe}，即交集和并集。）
+
+$\mathbb{R}$ 上的 Borel $\sigma$-代数将在接下来的内容中扮演重要角色。为了将来参考，我们注意到它可以通过多种不同方式生成：
+
+\begin{proposition}\label{proposition1.1}
+$\mathcal{B}_\mathbb{R}$ 可以由以下各项生成：
+\begin{enumerate}[label=\alph*.]
+\item 开区间：$\mathcal{E}_1 = \{(a,b) : a < b\}$,
+\item 闭区间：$\mathcal{E}_2 = \{[a,b] : a < b\}$,
+\item 半开区间：$\mathcal{E}_3 = \{(a,b] : a < b\}$ 或 $\mathcal{E}_4 = \{[a,b) : a < b\}$,
+\item 开射线：$\mathcal{E}_5 = \{(a,\infty) : a \in \mathbb{R}\}$ 或 $\mathcal{E}_6 = \{(-\infty,a) : a \in \mathbb{R}\}$,
+\item 闭射线：$\mathcal{E}_7 = \{[a,\infty) : a \in \mathbb{R}\}$ 或 $\mathcal{E}_8 = \{(-\infty,a] : a \in \mathbb{R}\}$。
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+$\mathcal{E}_j$ 的元素对于 $j \neq 3, 4$ 是开集或闭集，而 $\mathcal{E}_3$ 和 $\mathcal{E}_4$ 的元素是 $G_\delta$ 集——例如，$(a,b] = \bigcap_{1}^{\infty}(a,b+n^{-1})$。所有这些都是 Borel 集，所以根据引理 \ref{lemma1.1}，$\mathcal{M}(\mathcal{E}_j) \subset \mathcal{B}_\mathbb{R}$ 对所有 $j$ 成立。另一方面，$\mathbb{R}$ 中的每个开集都是开区间的可数并集，所以根据引理 \ref{lemma1.1}，$\mathcal{B}_\mathbb{R} \subset \mathcal{M}(\mathcal{E}_1)$。因此 $\mathcal{B}_\mathbb{R} \subset \mathcal{M}(\mathcal{E}_j)$ 对于 $j \geq 2$ 的情况现在可以通过证明所有开区间都在 $\mathcal{M}(\mathcal{E}_j)$ 中并应用引理 \ref{lemma1.1} 来建立。例如，$(a,b) = \bigcup_{1}^{\infty}[a+n^{-1}, b-n^{-1}] \in \mathcal{M}(\mathcal{E}_2)$。其他情况的验证留给读者（练习 2）。
+\end{proof}
+
+令 $\{X_\alpha\}_{\alpha\in A}$ 是一个非空集合的索引集合，$X = \prod_{\alpha\in A} X_\alpha$，且 $\pi_\alpha : X \to X_\alpha$ 是坐标映射。如果 $\mathcal{M}_\alpha$ 是 $X_\alpha$ 上的 $\sigma$-代数，对每个 $\alpha$，则 $X$ 上的\textbf{积 $\sigma$-代数}是由
+\[\{\pi_\alpha^{-1}(E_\alpha) : E_\alpha \in \mathcal{M}_\alpha, \alpha \in A\}\]
+生成的 $\sigma$-代数。
+
+我们用 $\bigotimes_{\alpha\in A} \mathcal{M}_\alpha$ 表示这个 $\sigma$-代数。（如果 $A = \{1,\ldots,n\}$，我们也写作 $\bigotimes_{1}^{n} \mathcal{M}_j$ 或 $\mathcal{M}_1 \otimes \cdots \otimes \mathcal{M}_n$。）这个定义的重要性将在 \S2.1 中变得更清晰；目前我们给出一个可能更直观的积 $\sigma$-代数特征，适用于可数多个因子的情况。
+
+\begin{proposition}\label{proposition1.3}
+如果 $A$ 是可数的，则 $\bigotimes_{\alpha\in A} \mathcal{M}_\alpha$ 是由 $\{\prod_{\alpha\in A} E_\alpha : E_\alpha \in \mathcal{M}_\alpha\}$ 生成的 $\sigma$-代数。
+\end{proposition}
+
+\begin{proof}
+如果 $E_\alpha \in \mathcal{M}_\alpha$，则 $\pi_\alpha^{-1}(E_\alpha) = \prod_{\beta\in A} E_\beta$，其中 $E_\beta = X$ 对于 $\beta \neq \alpha$；另一方面，$\prod_{\alpha\in A} E_\alpha = \bigcap_{\alpha\in A} \pi_\alpha^{-1}(E_\alpha)$。因此结果由引理 \ref{lemma1.1} 得出。
+\end{proof}
+
+\begin{proposition}\label{proposition1.4}
+假设 $\mathcal{M}_\alpha$ 由 $\mathcal{E}_\alpha$ 生成，$\alpha \in A$。则 $\bigotimes_{\alpha\in A} \mathcal{M}_\alpha$ 由 $\mathcal{F}_1 = \{\pi_\alpha^{-1}(E_\alpha) : E_\alpha \in \mathcal{E}_\alpha, \alpha \in A\}$ 生成。如果 $A$ 是可数的且 $X_\alpha \in \mathcal{E}_\alpha$ 对所有 $\alpha$，则 $\bigotimes_{\alpha\in A} \mathcal{M}_\alpha$ 由 $\mathcal{F}_2 = \{\prod_{\alpha\in A} E_\alpha : E_\alpha \in \mathcal{E}_\alpha\}$ 生成。
+\end{proposition}
+
+\begin{proof}
+显然 $\mathcal{M}(\mathcal{F}_1) \subset \bigotimes_{\alpha\in A} \mathcal{M}_\alpha$。另一方面，对于每个 $\alpha$，集合族 $\{E \subset X_\alpha : \pi_\alpha^{-1}(E) \in \mathcal{M}(\mathcal{F}_1)\}$ 容易看出是 $X_\alpha$ 上包含 $\mathcal{E}_\alpha$ 从而包含 $\mathcal{M}_\alpha$ 的 $\sigma$-代数。换句话说，$\pi_\alpha^{-1}(E) \in \mathcal{M}(\mathcal{F}_1)$ 对所有 $E \in \mathcal{M}_\alpha$，$\alpha \in A$，因此 $\bigotimes_{\alpha\in A} \mathcal{M}_\alpha \subset \mathcal{M}(\mathcal{F}_1)$。第二个断言从第一个断言得出，如命题 \ref{proposition1.3} 的证明所示。
+\end{proof}
+
+\begin{proposition}\label{proposition1.5}
+令 $X_1,\ldots,X_n$ 是度量空间，令 $X = \prod_{1}^{n} X_j$，配备积度量。则 $\bigotimes_{1}^{n} \mathcal{B}_{X_j} \subset \mathcal{B}_X$。如果 $X_j$ 是可分的，则 $\bigotimes_{1}^{n} \mathcal{B}_{X_j} = \mathcal{B}_X$。
+\end{proposition}
+
+\begin{proof}
+根据命题\ref{proposition1.4}，$\bigotimes_{1}^{n} \mathcal{B}_{X_j}$ 由集合 $\pi_j^{-1}(U_j)$，$1 \leq j \leq n$，生成，其中 $U_j$ 是 $X_j$ 中的开集。由于这些集合在 $X$ 中是开的，引理 \ref{lemma1.1} 表明 $\bigotimes_{1}^{n} \mathcal{B}_{X_j} \subset \mathcal{B}_X$。现在假设 $C_j$ 是 $X_j$ 中的可数稠密集，令 $\mathcal{E}_j$ 是 $X_j$ 中以有理半径和中心在 $C_j$ 的球的集合。则 $X_j$ 中的每个开集都是 $\mathcal{E}_j$ 中成员的并集——事实上，是可数并集，因为 $\mathcal{E}_j$ 本身是可数的。此外，$X$ 中坐标全部在 $C_j$ 中的点集是 $X$ 的可数稠密子集，且半径为 $r$ 的球是半径为 $r$ 的 $X_j$ 中球的有限积。由此可知 $\mathcal{B}_{X_j}$ 由 $\mathcal{E}_j$ 生成，且 $\mathcal{B}_X$ 由 $\{\prod_{1}^{n} E_j : E_j \in \mathcal{E}_j\}$ 生成。根据命题\ref{proposition1.4}，$\bigotimes_{1}^{n} \mathcal{B}_{X_j} = \mathcal{B}_X$。
+\end{proof}
+
+\begin{corollary}\label{corollary1.6}
+$\mathcal{B}_{\mathbb{R}^n} = \bigotimes_{1}^{n} \mathcal{B}_\mathbb{R}$.
+\end{corollary}
+
+我们以一个后面将会用到的技术性结果结束本节。我们定义\textbf{基本族}为一个集合 $X$ 的子集族 $\mathcal{E}$ 满足
+\begin{itemize}
+\item $\emptyset \in \mathcal{E}$,
+\item 如果 $E, F \in \mathcal{E}$ 则 $E \cap F \in \mathcal{E}$,
+\item 如果 $E \in \mathcal{E}$ 则 $E^c$ 是 $\mathcal{E}$ 中成员的有限不相交并集。
+\end{itemize}
+
+\begin{proposition}\label{proposition1.7}
+如果 $\mathcal{E}$ 是一个基本族，则 $\mathcal{E}$ 成员的有限不相交并集的集合族 $\mathcal{A}$ 是一个代数。
+\end{proposition}
+
+\begin{proof}
+如果 $A, B \in \mathcal{E}$ 且 $B^c = \bigcup_{j}^{l} C_j$（$C_j \in \mathcal{E}$，不相交），则 $A \setminus B = \bigcup_{j}^{l} (A \cap C_j)$ 且 $A \cup B = (A \setminus B) \cup B$，其中这些并集是不相交的，所以 $A \setminus B \in \mathcal{A}$ 且 $A \cup B \in \mathcal{A}$。现在通过归纳法可知，如果 $A_1, \ldots, A_n \in \mathcal{E}$，则 $\bigcup_{j}^{n} A_j \in \mathcal{A}$；确实，根据归纳假设，我们可以假设 $A_1, \ldots, A_{n-1}$ 是不相交的，然后 $\bigcup_{j}^{n} A_j = A_n \cup \bigcup_{j}^{n-1} (A_j \setminus A_n)$，这是一个不相交并集。为了看到 $\mathcal{A}$ 对补集封闭，假设 $A_1, \ldots, A_n \in \mathcal{E}$ 且 $A_m^c = \bigcup_{j=1}^{J_m} B_m^j$，其中 $B_m^1, \ldots, B_m^{J_m}$ 是 $\mathcal{E}$ 的不相交成员。那么
+\[\left(\bigcup_{m=1}^{n} A_m\right)^c = \bigcap_{m=1}^{n} \left(\bigcup_{j=1}^{J_m} B_m^j\right) = \bigcup\{B_1^{j_1} \cap \cdots \cap B_n^{j_n} : 1 \leq j_m \leq J_m, 1 \leq m \leq n\},\]
+这属于 $\mathcal{A}$。
+\end{proof}
+
+\section{测度}
+
+设 $X$ 是一个配备有 $\sigma$-代数 $\mathcal{M}$ 的集合。$\mathcal{M}$ 上的\textbf{测度}（或 $(X, \mathcal{M})$ 上的测度，或如果 $\mathcal{M}$ 已知则简称为 $X$ 上的测度）是一个函数 $\mu : \mathcal{M} \to [0, \infty]$ 满足
+
+\begin{enumerate}[label=\roman*.]
+\item $\mu(\emptyset) = 0$,
+\item 如果 $\{E_j\}_1^\infty$ 是 $\mathcal{M}$ 中的不相交集合序列，则 $\mu(\bigcup_{1}^{\infty} E_j) = \sum_{1}^{\infty} \mu(E_j)$。
+\end{enumerate}
+
+性质 (ii) 被称为\textbf{可数可加性}。它蕴含\textbf{有限可加性}：
+
+\begin{enumerate}[label=\roman*$'$.]
+\item 如果 $E_1, \ldots, E_n$ 是 $\mathcal{M}$ 中的不相交集合，则 $\mu(\bigcup_{1}^{n} E_j) = \sum_{1}^{n} \mu(E_j)$,
+\end{enumerate}
+
+因为可以取 $E_j = \emptyset$ 对于 $j > n$。满足 (i) 和 (ii$'$) 但不必满足 (ii) 的函数 $\mu$ 被称为\textbf{有限可加测度}。
+
+如果 $X$ 是一个集合且 $\mathcal{M} \subset \mathcal{P}(X)$ 是一个 $\sigma$-代数，则 $(X, \mathcal{M})$ 被称为\textbf{可测空间}，而 $\mathcal{M}$ 中的集合被称为\textbf{可测集}。如果 $\mu$ 是 $(X, \mathcal{M})$ 上的测度，则 $(X, \mathcal{M}, \mu)$ 被称为\textbf{测度空间}。
+
+设 $(X, \mathcal{M}, \mu)$ 是一个测度空间。以下是关于 $\mu$ 的"大小"的一些标准术语。如果 $\mu(X) < \infty$（这意味着对于所有 $E \in \mathcal{M}$，$\mu(E) < \infty$，因为 $\mu(X) = \mu(E) + \mu(E^c)$），则 $\mu$ 被称为\textbf{有限的}。如果 $X = \bigcup_{1}^{\infty} E_j$，其中 $E_j \in \mathcal{M}$ 且 $\mu(E_j) < \infty$ 对所有 $j$，则 $\mu$ 被称为 $\sigma$-\textbf{有限的}。更一般地，如果 $E = \bigcup_{1}^{\infty} E_j$，其中 $E_j \in \mathcal{M}$ 且 $\mu(E_j) < \infty$ 对所有 $j$，则集合 $E$ 被称为对 $\mu$ 是 $\sigma$-\textbf{有限的}。（说 $E$ 具有 $\sigma$-有限测度会更正确但更繁琐。）如果对于每个 $E \in \mathcal{M}$ 且 $\mu(E) = \infty$，存在 $F \in \mathcal{M}$ 使得 $F \subset E$ 且 $0 < \mu(F) < \infty$，则 $\mu$ 被称为\textbf{半有限的}。
+
+每个 $\sigma$-有限测度都是半有限的（练习 13），但反之不然。大多数在实践中出现的测度都是 $\sigma$-有限的，这是幸运的，因为非-$\sigma$-有限测度往往表现出病态行为。非-$\sigma$-有限测度的性质将在练习中不时地被探讨。
+
+让我们检查一些测度的例子。这些例子本质上是相当平凡的，尽管第一个在实际应用中很重要。更有趣的例子的构造是我们将在下一节中转向的任务。
+
+\begin{itemize}
+\item 设 $X$ 是任意非空集合，$\mathcal{M} = \mathcal{P}(X)$，且 $f$ 是从 $X$ 到 $[0, \infty]$ 的任意函数。则 $f$ 确定了 $\mathcal{M}$ 上的一个测度 $\mu$，公式为 $\mu(E) = \sum_{x \in E} f(x)$。（对于可能的不可数和的讨论，见 §0.5。）读者可以验证 $\mu$ 是半有限的当且仅当对于每个 $x \in X$，$f(x) < \infty$，且 $\mu$ 是 $\sigma$-有限的当且仅当 $\mu$ 是半有限的且 $\{x : f(x) > 0\}$ 是可数的。两个特殊情况特别重要：如果 $f(x) = 1$ 对所有 $x$，$\mu$ 被称为 $X$ 上的\textbf{计数测度}；如果对某个 $x_0 \in X$，$f$ 由 $f(x_0) = 1$ 且 $f(x) = 0$ 对于 $x \neq x_0$ 定义，则 $\mu$ 被称为在 $x_0$ 处的\textbf{点质量}或\textbf{狄拉克测度}。（同样的名称也适用于这些测度对 $X$ 上较小的 $\sigma$-代数的限制。）
+
+\item 设 $X$ 是一个不可数集合，且设 $\mathcal{M}$ 是可数或余可数集的 $\sigma$-代数。$\mathcal{M}$ 上由 $\mu(E) = 0$ 如果 $E$ 是可数的且 $\mu(E) = 1$ 如果 $E$ 是余可数的定义的函数 $\mu$ 容易看出是一个测度。
+
+\item 设 $X$ 是一个无限集合且 $\mathcal{M} = \mathcal{P}(X)$。定义 $\mu(E) = 0$ 如果 $E$ 是有限的，$\mu(E) = \infty$ 如果 $E$ 是无限的。则 $\mu$ 是一个有限可加测度但不是一个测度。
+\end{itemize}
+
+测度的基本性质总结在以下定理中。
+
+\begin{theorem}\label{theorem1.8}
+设 $(X, \mathcal{M}, \mu)$ 是一个测度空间。
+\begin{enumerate}[label=\alph*.]
+\item (单调性) 如果 $E, F \in \mathcal{M}$ 且 $E \subset F$，则 $\mu(E) \leq \mu(F)$。
+\item (次可加性) 如果 $\{E_j\}_1^\infty \subset \mathcal{M}$，则 $\mu(\bigcup_1^\infty E_j) \leq \sum_1^\infty \mu(E_j)$。
+\item (从下连续性) 如果 $\{E_j\}_1^\infty \subset \mathcal{M}$ 且 $E_1 \subset E_2 \subset \cdots$，则 $\mu(\bigcup_1^\infty E_j) = \lim_{j\to\infty} \mu(E_j)$。
+\item (从上连续性) 如果 $\{E_j\}_1^\infty \subset \mathcal{M}$，$E_1 \supset E_2 \supset \cdots$，且 $\mu(E_1) < \infty$，则 $\mu(\bigcap_1^\infty E_j) = \lim_{j\to\infty} \mu(E_j)$。
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) 如果 $E \subset F$，则 $\mu(F) = \mu(E) + \mu(F \setminus E) \geq \mu(E)$。
+
+(b) 令 $F_1 = E_1$ 且 $F_k = E_k \setminus (\bigcup_1^{k-1} E_j)$ 对于 $k > 1$。则 $F_k$ 是不相交的且 $\bigcup_1^n F_j = \bigcup_1^n E_j$ 对于所有 $n$。因此，根据 (a)，
+\[\mu\left(\bigcup_1^\infty E_j\right) = \mu\left(\bigcup_1^\infty F_j\right) = \sum_1^\infty \mu(F_j) \leq \sum_1^\infty \mu(E_j).\]
+
+(c) 设 $E_0 = \emptyset$，我们有
+\[\mu\left(\bigcup_1^\infty E_j\right) = \sum_1^\infty \mu(E_j \setminus E_{j-1}) = \lim_{n\to\infty} \sum_1^n \mu(E_j \setminus E_{j-1}) = \lim_{n\to\infty} \mu(E_n).\]
+
+(d) 令 $F_j = E_1 \setminus E_j$；则 $F_1 \subset F_2 \subset \cdots$，$\mu(E_1) = \mu(F_j) + \mu(E_j)$，且 $\bigcup_1^\infty F_j = E_1 \setminus (\bigcap_1^\infty E_j)$。根据 (c)，
+\[\mu(E_1) = \mu\left(\bigcap_1^\infty E_j\right) + \lim_{j\to\infty} \mu(F_j) = \mu\left(\bigcap_1^\infty E_j\right) + \lim_{j\to\infty} [\mu(E_1) - \mu(E_j)].\]
+
+由于 $\mu(E_1) < \infty$，我们可以从等式两边减去它，得到所需结果。
+\end{proof}
+
+我们注意到，(d) 部分中的条件 $\mu(E_1) < \infty$ 可以替换为对某个 $n > 1$ 有 $\mu(E_n) < \infty$，因为前 $n-1$ 个 $E_j$ 可以从交集中丢弃而不影响交集。然而，某种有限性假设是必要的，因为可能发生对所有 $j$ 都有 $\mu(E_j) = \infty$ 但 $\mu(\bigcap_1^\infty E_j) < \infty$ 的情况。（例如，令 $\mu$ 是 $(\mathbb{N}, \mathcal{P}(\mathbb{N}))$ 上的计数测度，令 $E_j = \{n : n \geq j\}$；则 $\bigcap_1^\infty E_j = \emptyset$。）
+
+如果 $(X, \mathcal{M}, \mu)$ 是一个测度空间，一个集合 $E \in \mathcal{M}$ 满足 $\mu(E) = 0$ 被称为\textbf{零测集}。根据次可加性，零测集的可数并集是一个零测集，这一事实我们将经常使用。如果关于点 $x \in X$ 的陈述对于 $x$ 在某个零测集中除外是真的，我们说它在\textbf{几乎处处}（简写为 a.e.）或\textbf{$\mu$-几乎处处}是真的。（如果需要更精确，我们将谈论 $\mu$-零集或 $\mu$-几乎处处。）
+
+如果 $\mu(E) = 0$ 且 $F \subset E$，则 $\mu(F) = 0$，根据单调性，条件是 $F \in \mathcal{M}$，但一般来说 $F \in \mathcal{M}$ 并不一定为真。一个其定义域包含所有零测集的子集的测度被称为\textbf{完备的}。完备性有时可以避免烦人的技术性问题，并且总是可以通过扩展 $\mu$ 的定义域来实现，如下所示。
+
+\begin{theorem}\label{theorem1.9}
+假设 $(X, \mathcal{M}, \mu)$ 是一个测度空间。令 $\mathcal{N} = \{N \in \mathcal{M} : \mu(N) = 0\}$ 且 $\overline{\mathcal{M}} = \{E \cup F : E \in \mathcal{M} \text{ 且 } F \subset N \text{ 对某个 } N \in \mathcal{N}\}$。则 $\overline{\mathcal{M}}$ 是一个 $\sigma$-代数，且存在 $\mu$ 到 $\overline{\mathcal{M}}$ 上的完备测度的唯一扩展 $\overline{\mu}$。
+\end{theorem}
+
+\begin{proof}
+由于 $\mathcal{M}$ 和 $\mathcal{N}$ 对可数并集封闭，$\overline{\mathcal{M}}$ 也是如此。如果 $E \cup F \in \overline{\mathcal{M}}$，其中 $E \in \mathcal{M}$ 且 $F \subset N \in \mathcal{N}$，我们可以假设 $E \cap N = \emptyset$（否则，用 $F \setminus E$ 和 $N \setminus E$ 替代 $F$ 和 $N$）。则 $E \cup F = (E \cup N) \cap (N^c \cup F)$，所以 $(E \cup F)^c = (E \cup N)^c \cup (N^c \cup F)^c$。但 $(E \cup N)^c \in \mathcal{M}$ 且 $N^c \cup F \subset N$，所以 $(E \cup F)^c \in \overline{\mathcal{M}}$。因此 $\overline{\mathcal{M}}$ 是一个 $\sigma$-代数。
+
+如果 $E \cup F \in \overline{\mathcal{M}}$ 如上所述，我们设 $\overline{\mu}(E \cup F) = \mu(E)$。这是良定义的，因为如果 $E_1 \cup F_1 = E_2 \cup F_2$ 其中 $F_j \subset N_j \in \mathcal{N}$，则 $E_1 \subset E_2 \cup N_2$ 且所以 $\mu(E_1) \leq \mu(E_2) + \mu(N_2) = \mu(E_2)$，同样 $\mu(E_2) \leq \mu(E_1)$。容易验证 $\overline{\mu}$ 是 $\overline{\mathcal{M}}$ 上的一个完备测度，且 $\overline{\mu}$ 是唯一扩展 $\mu$ 的测度；细节留给读者（练习 6）。
+\end{proof}
+
+定理\ref{theorem1.9} 中的测度 $\overline{\mu}$ 被称为 $\mu$ 的\textbf{完备化}，而 $\overline{\mathcal{M}}$ 被称为相对于 $\mu$ 的 $\mathcal{M}$ 的完备化。
+\section{外测度}
+
+在本节中，我们将发展用于构造测度的工具。为了说明这些想法，回顾一下微积分中用于定义平面 $\mathbb{R}^2$ 中有界区域 $E$ 的面积的过程可能会有所帮助。我们在平面上画一个矩形网格，并通过网格中包含于 $E$ 的矩形面积之和从下方近似 $E$ 的面积，从上方则通过与 $E$ 相交的网格矩形的面积之和。当网格越来越细时，这些近似的极限给出了 $E$ 的"内面积"和"外面积"，如果它们相等，则它们的共同值就是 $E$ 的"面积"。（我们将在 \S2.6 中更详细地讨论这些问题。）这里的关键思想是外面积，因为如果 $R$ 是包含 $E$ 的大矩形，则 $E$ 的内面积就是 $R$ 的面积减去 $R \setminus E$ 的外面积。
+
+外面积概念的抽象概括如下。非空集合 $X$ 上的\textbf{外测度}是一个函数 $\mu^* : \mathcal{P}(X) \to [0, \infty]$ 满足
+
+\begin{itemize}
+\item $\mu^*(\emptyset) = 0$,
+\item $\mu^*(A) \leq \mu^*(B)$ 如果 $A \subset B$,
+\item $\mu^*(\bigcup_{1}^{\infty} A_j) \leq \sum_{1}^{\infty} \mu^*(A_j)$。
+\end{itemize}
+
+获得外测度最常见的方式是从一个"基本集"族 $\mathcal{E}$ 开始，在这些集合上已定义了测度的概念（例如平面中的矩形），然后通过 $\mathcal{E}$ 的成员的可数并集从"外部"近似任意集合。具体构造如下。
+
+\begin{proposition}\label{proposition1.10}
+设 $\mathcal{E} \subset \mathcal{P}(X)$ 且 $\rho : \mathcal{E} \to [0, \infty]$ 满足 $\emptyset \in \mathcal{E}$，$X \in \mathcal{E}$，且 $\rho(\emptyset) = 0$。对任意 $A \subset X$，定义
+\[\mu^*(A) = \inf\left\{\sum_{1}^{\infty} \rho(E_j) : E_j \in \mathcal{E} \text{ 且 } A \subset \bigcup_{1}^{\infty} E_j\right\}.\]
+则 $\mu^*$ 是一个外测度。
+\end{proposition}
+
+\begin{proof}
+对于任意 $A \subset X$ 存在 $\{E_j\}_{1}^{\infty} \subset \mathcal{E}$ 使得 $A \subset \bigcup_{1}^{\infty} E_j$（取 $E_j = X$ 对所有 $j$），所以 $\mu^*$ 的定义是有意义的。显然 $\mu^*(\emptyset) = 0$（取 $E_j = \emptyset$ 对所有 $j$），且 $\mu^*(A) \leq \mu^*(B)$ 对于 $A \subset B$，因为定义 $\mu^*(A)$ 时取下确界的集合包含了定义 $\mu^*(B)$ 时对应的集合。为了证明可数次可加性，假设 $\{A_j\}_{1}^{\infty} \subset \mathcal{P}(X)$ 且 $\epsilon > 0$。对每个 $j$ 存在 $\{E_k^j\}_{k=1}^{\infty} \subset \mathcal{E}$ 使得 $A_j \subset \bigcup_{k=1}^{\infty} E_k^j$ 且 $\sum_{k=1}^{\infty} \rho(E_k^j) \leq \mu^*(A_j) + \epsilon2^{-j}$。但是如果 $A = \bigcup_{1}^{\infty} A_j$，我们有 $A \subset \bigcup_{j,k=1}^{\infty} E_k^j$ 且 $\sum_{j,k} \rho(E_k^j) \leq \sum_j \mu^*(A_j) + \epsilon$，因此 $\mu^*(A) \leq \sum_j \mu^*(A_j) + \epsilon$。由于 $\epsilon$ 是任意的，我们得到结论。
+\end{proof}
+
+从外测度到测度的基本步骤如下。如果 $\mu^*$ 是 $X$ 上的外测度，一个集合 $A \subset X$ 被称为 $\mu^*$-\textbf{可测的}，如果
+\[\mu^*(E) = \mu^*(E \cap A) + \mu^*(E \cap A^c) \text{ 对所有 } E \subset X.\]
+
+当然，不等式 $\mu^*(E) \leq \mu^*(E \cap A) + \mu^*(E \cap A^c)$ 对任意 $A$ 和 $E$ 都成立，所以为了证明 $A$ 是 $\mu^*$-可测的，只需证明反向不等式。如果 $\mu^*(E) = \infty$，后者是平凡的，所以我们看到 $A$ 是 $\mu^*$-可测的，如果
+\[\mu^*(E) \geq \mu^*(E \cap A) + \mu^*(E \cap A^c) \text{ 对所有 } E \subset X \text{ 满足 } \mu^*(E) < \infty.\]
+
+对于 $\mu^*$-可测性概念的一些动机可以通过参考本节开始的讨论获得。如果 $E$ 是一个包含 $A$ 的"表现良好"集合，那么使得 $E \supset A$ 的方程 $\mu^*(E) = \mu^*(E \cap A) + \mu^*(E \cap A^c)$ 表示 $A$ 的外测度，$\mu^*(A)$，等于 $A$ 的"内测度"，$\mu^*(E) - \mu^*(E \cap A^c)$。从包含 $A$ 的"表现良好"集合到 $X$ 的任意子集的飞跃是一个很大的飞跃，但它由以下定理证明是合理的。
+
+\begin{theorem}[Carathéodory's Theorem]\label{theorem1.11}
+如果 $\mu^*$ 是 $X$ 上的外测度，则 $\mu^*$-可测集的集合族 $\mathcal{M}$ 是一个 $\sigma$-代数，且 $\mu^*$ 对 $\mathcal{M}$ 的限制是一个完备测度。
+\end{theorem}
+
+\begin{proof}
+首先，我们注意到 $\mathcal{M}$ 对补集封闭，因为 $\mu^*$-可测性的定义对 $A$ 和 $A^c$ 是对称的。接下来，如果 $A, B \in \mathcal{M}$ 且 $E \subset X$，
+\begin{align}
+\mu^*(E) &= \mu^*(E \cap A) + \mu^*(E \cap A^c)\\
+&= \mu^*(E \cap A \cap B) + \mu^*(E \cap A \cap B^c) + \mu^*(E \cap A^c \cap B) + \mu^*(E \cap A^c \cap B^c).
+\end{align}
+
+但 $(A \cup B) = (A \cap B) \cup (A \cap B^c) \cup (A^c \cap B)$，所以根据次可加性，
+\[\mu^*(E \cap A \cap B) + \mu^*(E \cap A \cap B^c) + \mu^*(E \cap A^c \cap B) \geq \mu^*(E \cap (A \cup B)),\]
+
+因此
+\[\mu^*(E) \geq \mu^*(E \cap (A \cup B)) + \mu^*(E \cap (A \cup B)^c).\]
+
+由此可知 $A \cup B \in \mathcal{M}$，所以 $\mathcal{M}$ 是一个代数。此外，如果 $A, B \in \mathcal{M}$ 且 $A \cap B = \emptyset$，
+\[\mu^*(A \cup B) = \mu^*((A \cup B) \cap A) + \mu^*((A \cup B) \cap A^c) = \mu^*(A) + \mu^*(B),\]
+
+所以 $\mu^*$ 在 $\mathcal{M}$ 上是有限可加的。
+
+为了证明 $\mathcal{M}$ 是一个 $\sigma$-代数，只需证明 $\mathcal{M}$ 对可数不相交并集封闭。如果 $\{A_j\}_1^\infty$ 是 $\mathcal{M}$ 中的不相交集合序列，令 $B_n = \bigcup_1^n A_j$ 且 $B = \bigcup_1^\infty A_j$。则对任意 $E \subset X$，
+\begin{align}
+\mu^*(E \cap B_n) &= \mu^*(E \cap B_n \cap A_n) + \mu^*(E \cap B_n \cap A_n^c)\\
+&= \mu^*(E \cap A_n) + \mu^*(E \cap B_{n-1}),
+\end{align}
+
+所以通过简单归纳可知 $\mu^*(E \cap B_n) = \sum_1^n \mu^*(E \cap A_j)$。因此，
+\[\mu^*(E) = \mu^*(E \cap B_n) + \mu^*(E \cap B_n^c) \geq \sum_1^n \mu^*(E \cap A_j) + \mu^*(E \cap B^c),\]
+
+当 $n \to \infty$ 时，我们得到
+\begin{align}
+\mu^*(E) &\geq \sum_1^\infty \mu^*(E \cap A_j) + \mu^*(E \cap B^c) \geq \mu^*\left(\bigcup_1^\infty (E \cap A_j)\right) + \mu^*(E \cap B^c)\\
+&= \mu^*(E \cap B) + \mu^*(E \cap B^c) \geq \mu^*(E).
+\end{align}
+
+在这最后一个计算中的所有不等式因此都是等式。由此可知 $B \in \mathcal{M}$ 且——取 $E = B$——$\mu^*(B) = \sum_1^\infty \mu^*(A_j)$，所以 $\mu^*$ 在 $\mathcal{M}$ 上是可数可加的。最后，如果 $\mu^*(A) = 0$，对任意 $E \subset X$ 我们有
+\[\mu^*(E) \leq \mu^*(E \cap A) + \mu^*(E \cap A^c) = \mu^*(E \cap A^c) \leq \mu^*(E),\]
+
+所以 $A \in \mathcal{M}$。因此 $\mu^*|\mathcal{M}$ 是一个完备测度。
+\end{proof}
+
+我们对Carathéodory定理的首次应用将在从代数到$\sigma$-代数扩展测度的背景下进行。更准确地说，如果$\mathcal{A} \subset \mathcal{P}(X)$是一个代数，函数$\mu_0 : \mathcal{A} \to [0, \infty]$被称为\textbf{预测度}，如果
+\begin{itemize}
+\item $\mu_0(\emptyset) = 0$,
+\item 如果$\{A_j\}_{1}^{\infty}$是$\mathcal{A}$中的不相交集合序列，且$\bigcup_{1}^{\infty} A_j \in \mathcal{A}$，则$\mu_0(\bigcup_{1}^{\infty} A_j) = \sum_{1}^{\infty} \mu_0(A_j)$。
+\end{itemize}
+
+特别地，预测度是有限可加的，因为可以取$A_j = \emptyset$对于$j$较大的情况。有限和$\sigma$-有限预测度的概念与测度的定义相同。如果$\mu_0$是$\mathcal{A} \subset \mathcal{P}(X)$上的预测度，它根据命题\ref{proposition1.10}诱导出$X$上的外测度，即
+
+\begin{align}
+ \quad \mu^*(E) = \inf\left\{\sum_{1}^{\infty}\mu_0(A_j) : A_j \in \mathcal{A}, E \subset \bigcup_{1}^{\infty}A_j\right\}.
+\end{align}
+
+\begin{proposition}\label{proposition1.13}
+如果 $\mu_0$ 是 $\mathcal{A}$ 上的预测度，且 $\mu^*$ 由 1.7 定义，则
+\begin{enumerate}[label=\alph*.]
+\item $\mu^*|\mathcal{A} = \mu_0$;
+\item $\mathcal{A}$ 中的每个集合都是 $\mu^*$ 可测的。
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) 假设 $E \in \mathcal{A}$。如果 $E \subset \bigcup_{1}^{\infty} A_j$ 且 $A_j \in \mathcal{A}$，令 $B_n = E \cap (A_n \setminus \bigcup_{1}^{n-1} A_j)$。则 $B_n$ 是 $\mathcal{A}$ 中互不相交的成员，它们的并集是 $E$，所以 $\mu_0(E) = \sum_{1}^{\infty} \mu_0(B_j) \leq \sum_{1}^{\infty} \mu_0(A_j)$。由此可知 $\mu_0(E) \leq \mu^*(E)$，而反向不等式是显然的，因为 $E \subset \bigcup_{1}^{\infty} A_j$，其中 $A_1 = E$ 且 $A_j = \emptyset$，对于 $j > 1$。
+
+(b) 如果 $A \in \mathcal{A}$，$E \subset X$，且 $\epsilon > 0$，则存在序列 $\{B_j\}_{1}^{\infty} \subset \mathcal{A}$ 使得 $E \subset \bigcup_{1}^{\infty} B_j$ 且 $\sum_{1}^{\infty} \mu_0(B_j) \leq \mu^*(E) + \epsilon$。由于 $\mu_0$ 在 $\mathcal{A}$ 上是可加的，
+\begin{align}
+\mu^*(E) + \epsilon \geq \sum_{1}^{\infty} \mu_0(B_j \cap A) + \sum_{1}^{\infty} \mu_0(B_j \cap A^c) \geq \mu^*(E \cap A) + \mu^*(E \cap A^c).
+\end{align}
+由于 $\epsilon$ 是任意的，$A$ 是 $\mu^*$-可测的。
+\end{proof}
+
+\begin{theorem}\label{theorem1.14}
+设 $\mathcal{A} \subset \mathcal{P}(X)$ 是一个代数，$\mu_0$ 是 $\mathcal{A}$ 上的预测度，$\mathcal{M}$ 是由 $\mathcal{A}$ 生成的 $\sigma$-代数。存在 $\mathcal{M}$ 上的测度 $\mu$ 使得其在 $\mathcal{A}$ 上的限制是 $\mu_0$——即 $\mu = \mu^*|\mathcal{M}$，其中 $\mu^*$ 由 1.7 定义。如果 $\nu$ 是 $\mathcal{M}$ 上的另一个扩展 $\mu_0$ 的测度，则对所有 $E \in \mathcal{M}$ 有 $\nu(E) \leq \mu(E)$，当且仅当 $\mu(E) < \infty$ 时等号成立。如果 $\mu_0$ 是 $\sigma$-有限的，则 $\mu$ 是 $\mu_0$ 在 $\mathcal{M}$ 上的唯一扩展。
+\end{theorem}
+
+\begin{proof}
+第一个断言由 Carathéodory 定理和命题 \ref{proposition1.13} 得出，因为 $\mu^*$-可测集的 $\sigma$-代数包含 $\mathcal{A}$ 从而包含 $\mathcal{M}$。对于第二个断言，如果 $E \in \mathcal{M}$ 且 $E \subset \bigcup_{1}^{\infty} A_j$，其中 $A_j \in \mathcal{A}$，则 $\nu(E) \leq \sum_{1}^{\infty} \nu(A_j) = \sum_{1}^{\infty} \mu_0(A_j)$，因此 $\nu(E) \leq \mu(E)$。此外，如果我们令 $A = \bigcup_{1}^{\infty} A_j$，我们有
+\begin{align}
+\nu(A) = \lim_{n \to \infty} \nu\left(\bigcup_{1}^{n} A_j\right) = \lim_{n \to \infty} \mu\left(\bigcup_{1}^{n} A_j\right) = \mu(A).
+\end{align}
+
+如果 $\mu(E) < \infty$，我们可以选择 $A_j$ 使得 $\mu(A) < \mu(E) + \epsilon$，因此 $\mu(A \setminus E) < \epsilon$，
+\begin{align}
+\mu(E) \leq \mu(A) = \nu(A) = \nu(E) + \nu(A \setminus E) \leq \nu(E) + \mu(A \setminus E) < \nu(E) + \epsilon.
+\end{align}
+
+由于 $\epsilon$ 是任意的，$\mu(E) = \nu(E)$。最后，假设 $X = \bigcup_{1}^{\infty} A_j$，其中 $\mu_0(A_j) < \infty$，我们可以假设 $A_j$ 是不相交的。那么对于任何 $E \in \mathcal{M}$，
+\begin{align}
+\mu(E) = \sum_{1}^{\infty} \mu(E \cap A_j) = \sum_{1}^{\infty} \nu(E \cap A_j) = \nu(E),
+\end{align}
+所以 $\nu = \mu$。
+\end{proof}
+
+这个定理的证明产生的结果比陈述本身更多。实际上，$\mu_0$可以被扩展为所有$\mu^*$-可测集构成的代数$\mathcal{M}^*$上的测度。$\mathcal{M}$与$\mathcal{M}^*$之间的关系在习题22中进行了探讨（与习题20b一起，后者确保了由$\mu_0$和$\mu$诱导的外测度是相同的）。
+
+\section{实数轴上的Borel测度}
+
+我们现在可以构建一个测量$\mathbb{R}$子集的确定性理论，基于区间的测度等于其长度这一思想。我们从一个更一般的（但只是稍微更复杂的）构造开始，它产生了一大类在$\mathbb{R}$上的测度，其定义域是Borel $\sigma$-代数$\mathcal{B}_{\mathbb{R}}$；这些测度被称为$\mathbb{R}$上的\textbf{Borel测度}。
+
+为了说明这些思想，假设$\mu$是$\mathbb{R}$上的有限Borel测度，并令$F(x) = \mu((-\infty, x])$。（$F$有时被称为$\mu$的\textbf{分布函数}。）根据定理\ref{theorem1.8}，$F$是递增的，且根据定理\ref{theorem1.8}d，$F$是右连续的，因为$(-\infty, x] = \bigcap_{1}^{\infty}(-\infty, x_n]$，当$x_n \searrow x$时。（回顾§0.5中关于递增函数的讨论。）此外，如果$b > a$，则$(-\infty, b] = (-\infty, a] \cup (a, b]$，所以$\mu((a, b]) = F(b) - F(a)$。我们的程序将是反转这个过程，从一个递增的、右连续的函数$F$开始构造测度$\mu$。特殊情况$F(x) = x$将产生通常的"长度"测度。
+
+我们理论的基本构件将是$\mathbb{R}$中的左开右闭区间——即形如$(a, b]$或$(a, \infty)$或$\emptyset$的集合，其中$-\infty \leq a < b < \infty$。在本节中，我们将这些集合称为h-区间（h表示"半开"）。显然，两个h-区间的交集是一个h-区间，而h-区间的补集是一个h-区间或两个h-区间的不相交并集。根据命题\ref{proposition1.7}，h-区间的有限不相交并集的集合$\mathcal{A}$是一个代数，而根据命题\ref{proposition1.1}，由$\mathcal{A}$生成的$\sigma$-代数是$\mathcal{B}_{\mathbb{R}}$。
+
+\begin{definition}
+设$F : \mathbb{R} \to \mathbb{R}$是一个递增的、右连续的函数。定义$\mu$为
+\begin{align}
+\mu((a, b]) = F(b) - F(a).
+\end{align}
+则$\mu$是一个$\mathbb{R}$上的测度。
+\end{definition}
+
+\begin{proposition}\label{proposition1.15}
+	设$F : \mathbb{R} \to \mathbb{R}$是递增且右连续的函数。如果$(a_j, b_j]$（$j = 1, \ldots, n$）是不相交的h-区间，定义
+	\begin{align}
+	\mu_0\left(\bigcup_{1}^{n}(a_j, b_j]\right) = \sum_{1}^{n}[F(b_j) - F(a_j)],
+	\end{align}
+	并设$\mu_0(\emptyset) = 0$。那么$\mu_0$是代数$\mathcal{A}$上的预测度。
+	\end{proposition}
+	
+	\begin{proof}
+	首先我们必须检验$\mu_0$是良定义的，因为$\mathcal{A}$中的元素可以用多种方式表示为h-区间的不相交并集。如果$\{(a_j, b_j]\}_{1}^{n}$是不相交的，且$\bigcup_{1}^{n}(a_j, b_j] = (a, b]$，那么，在可能重新标记索引$j$后，我们必须有$a = a_1 < b_1 = a_2 < b_2 = \ldots < b_n = b$，所以$\sum_{1}^{n}[F(b_j) - F(a_j)] = F(b) - F(a)$。更一般地，如果$\{I_i\}_{1}^{n}$和$\{J_j\}_{1}^{m}$是有限的不相交h-区间序列，使得$\bigcup_{1}^{n} I_i = \bigcup_{1}^{m} J_j$，这个推理表明
+	\begin{align}
+	\sum_{i} \mu_0(I_i) = \sum_{i,j} \mu_0(I_i \cap J_j) = \sum_{j} \mu_0(J_j).
+	\end{align}
+	
+	因此$\mu_0$是良定义的，且根据构造它是有限可加的。
+	
+	剩下要证明的是，如果$\{I_j\}_{1}^{\infty}$是不相交h-区间的序列，且$\bigcup_{1}^{\infty} I_j \in \mathcal{A}$，则$\mu_0(\bigcup_{1}^{\infty} I_j) = \sum_{1}^{\infty} \mu_0(I_j)$。由于$\bigcup_{1}^{\infty} I_j$是h-区间的有限并集，序列$\{I_j\}_{1}^{\infty}$可以分割成有限多个子序列，使得每个子序列中区间的并集是单个h-区间。通过分别考虑每个子序列并使用$\mu_0$的有限可加性，我们可以假设$\bigcup_{1}^{\infty} I_j$是一个h-区间$I = (a, b]$。在这种情况下，我们有
+	\begin{align}
+	\mu_0(I) = \mu_0\left(\bigcup_{1}^{n} I_j\right) + \mu_0\left(I \setminus \bigcup_{1}^{n} I_j\right) \geq \mu_0\left(\bigcup_{1}^{n} I_j\right) = \sum_{1}^{n} \mu_0(I_j).
+	\end{align}
+	
+	令$n \to \infty$，我们得到$\mu_0(I) \geq \sum_{1}^{\infty} \mu(I_j)$。为了证明反向不等式，让我们首先假设$a$和$b$是有限的，并固定$\epsilon > 0$。由于$F$是右连续的，存在$\delta > 0$使得$F(a + \delta) - F(a) < \epsilon$，且如果$I_j = (a_j, b_j]$，对每个$j$存在$\delta_j > 0$使得$F(b_j + \delta_j) - F(b_j) < \epsilon 2^{-j}$。开区间$(a_j, b_j + \delta_j)$覆盖紧集$[a + \delta, b]$，所以存在有限子覆盖。通过丢弃任何包含在更大区间中的$(a_j, b_j + \delta_j)$并重新标记索引$j$，我们可以假设
+	\begin{itemize}
+	\item 区间$(a_1, b_1 + \delta_1), \ldots, (a_N, b_N + \delta_N)$覆盖$[a + \delta, b]$,
+	\item $b_j + \delta_j \in (a_{j+1}, b_{j+1} + \delta_{j+1})$，对$j = 1, \ldots, N - 1$。
+	\end{itemize}
+	
+	但是，然后
+	\begin{align}
+	\mu_0(I) &< F(b) - F(a + \delta) + \epsilon\\
+	&\leq F(b_N + \delta_N) - F(a_1) + \epsilon\\
+	&= F(b_N + \delta_N) - F(a_N) + \sum_{1}^{N-1}[F(a_{j+1}) - F(a_j)] + \epsilon\\
+	&\leq F(b_N + \delta_N) - F(a_N) + \sum_{1}^{N-1}[F(b_j + \delta_j) - F(a_j)] + \epsilon\\
+	&< \sum_{1}^{N}[F(b_j) + \epsilon 2^{-j} - F(a_j)] + \epsilon\\
+	&< \sum_{1}^{\infty} \mu(I_j) + 2\epsilon.
+	\end{align}
+	
+	由于$\epsilon$是任意的，当$a$和$b$都是有限时，证明完成。如果$a = -\infty$，对任意$M < \infty$，区间$(a_j, b_j + \delta_j)$覆盖$[-M, b]$，所以同样的推理给出$F(b) - F(-M) \leq \sum_{1}^{\infty} \mu_0(I_j) + 2\epsilon$，而如果$b = \infty$，对任意$M < \infty$，我们同样得到$F(M) - F(a) \leq \sum_{1}^{\infty} \mu_0(I_j) + 2\epsilon$。通过令$\epsilon \to 0$和$M \to \infty$，所需结果成立。
+\end{proof}
+\begin{theorem}\label{theorem1.16}
+如果$F : \mathbb{R} \to \mathbb{R}$是任意递增、右连续的函数，则存在唯一的Borel测度$\mu_F$在$\mathbb{R}$上使得$\mu_F((a, b]) = F(b) - F(a)$对所有$a, b$成立。如果$G$是另一个这样的函数，则$\mu_F = \mu_G$当且仅当$F - G$是常数。反之，如果$\mu$是$\mathbb{R}$上的Borel测度，在所有有界Borel集上是有限的，且我们定义
+\begin{align}
+F(x) = 
+\begin{cases}
+\mu((0, x]) & \text{如果} \; x > 0, \\
+0 & \text{如果} \; x = 0, \\
+-\mu((x, 0]) & \text{如果} \; x < 0,
+\end{cases}
+\end{align}
+则$F$是递增且右连续的，且$\mu = \mu_F$。
+\end{theorem}
+
+\begin{proof}
+每个$F$通过命题\ref{proposition1.15}在$\mathcal{A}$上诱导一个预测度。显然$F$和$G$诱导相同的预测度当且仅当$F - G$是常数，且这些预测度是$\sigma$-有限的（因为$\mathbb{R} = \bigcup_{-\infty}^{\infty}(j, j+1]$）。因此，前两个断言由定理\ref{theorem1.14}得出。对于最后一个断言，$\mu$的单调性蕴含$F$的单调性，而$\mu$从上方和下方的连续性蕴含$F$对于$x \geq 0$和$x < 0$是右连续的。显然$\mu = \mu_F$在$\mathcal{A}$上成立，因此根据定理\ref{theorem1.14}中的唯一性，$\mu = \mu_F$在$\mathcal{B}_{\mathbb{R}}$上成立。
+\end{proof}
+
+几点说明是有必要的。首先，这个理论同样可以通过使用形如$[a, b)$的区间和左连续函数$F$来发展。其次，如果$\mu$是$\mathbb{R}$上的有限Borel测度，则$\mu = \mu_F$，其中$F(x) = \mu((-\infty, x])$是$\mu$的累积分布函数；这与定理\ref{theorem1.14}中指定的$F$相差常数$\mu((-\infty, 0])$。第三，§1.4的理论对每个递增且右连续的$F$不仅给出了Borel测度$\mu_F$，还给出了一个完备测度$\overline{\mu}_F$，其定义域包含$\mathcal{B}_{\mathbb{R}}$。实际上，$\overline{\mu}_F$就是$\mu_F$的完备化（练习22a或下面的定理\ref{theorem1.19}），并且可以证明其定义域总是严格大于$\mathcal{B}_{\mathbb{R}}$。我们通常也用$\mu_F$表示这个完备测度；它被称为与$F$相关联的\textbf{Lebesgue-Stieltjes测度}。
+
+Lebesgue-Stieltjes测度具有一些有用的正则性质，我们现在来研究。在这个讨论中，我们固定一个与递增、右连续函数$F$相关联的完备Lebesgue-Stieltjes测度$\mu$，并用$\mathcal{M}_{\mu}$表示$\mu$的定义域。因此，对任意$E \in \mathcal{M}_{\mu}$，
+\begin{align}
+\mu(E) &= \inf\left\{\sum_{1}^{\infty}[F(b_j) - F(a_j)] : E \subset \bigcup_{1}^{\infty}(a_j, b_j]\right\} \\
+&= \inf\left\{\sum_{1}^{\infty}\mu((a_j, b_j]) : E \subset \bigcup_{1}^{\infty}(a_j, b_j]\right\}.
+\end{align}
+
+我们首先观察到，在$\mu(E)$的第二个公式中，我们可以用开h-区间替代h-区间：
+
+\begin{lemma}\label{lemma1.17}
+对任意$E \in \mathcal{M}_{\mu}$，
+\begin{align}
+\mu(E) = \inf\left\{\sum_{1}^{\infty} \mu((a_j, b_j)) : E \subset \bigcup_{1}^{\infty}(a_j, b_j)\right\}.
+\end{align}
+\end{lemma}
+
+\begin{proof}
+让我们称右边的量为$\nu(E)$。假设$E \subset \bigcup_{1}^{\infty}(a_j, b_j)$。每个$(a_j, b_j)$是h-区间的可数不相交并集$I_j^k$（$k = 1, 2, \ldots$）；具体地，$I_j^k = (c_j^k, c_j^{k+1}]$，其中$\{c_j\}$是任意序列，满足$c_j^1 = a_j$且$c_j^k$当$k \to \infty$时增加到$b_j$。因此$E \subset \bigcup_{j,k=1}^{\infty} I_j^k$，所以
+\begin{align}
+\sum_{1}^{\infty} \mu((a_j, b_j)) = \sum_{j,k=1}^{\infty} \mu(I_j^k) \geq \mu(E),
+\end{align}
+因此$\nu(E) \geq \mu(E)$。另一方面，给定$\epsilon > 0$，存在$\{(a_j, b_j]\}_{1}^{\infty}$使得$E \subset \bigcup_{1}^{\infty}(a_j, b_j]$且$\sum_{1}^{\infty} \mu((a_j, b_j]) \leq \mu(E) + \epsilon$，并且对每个$j$存在$\delta_j > 0$使得$F(b_j + \delta_j) - F(b_j) < \epsilon 2^{-j}$。那么$E \subset \bigcup_{1}^{\infty}(a_j, b_j + \delta_j)$且
+\begin{align}
+\sum_{1}^{\infty}\mu((a_j, b_j + \delta_j)) \leq \sum_{1}^{\infty}\mu((a_j, b_j]) + \epsilon \leq \mu(E) + 2\epsilon,
+\end{align}
+所以$\nu(E) \leq \mu(E)$。
+\end{proof}
+
+\begin{theorem}\label{theorem1.18}
+如果$E \in \mathcal{M}_{\mu}$，则
+\begin{align}
+\mu(E) &= \inf\{\mu(U) : U \supset E \text{ 且 } U \text{ 是开集}\} \\
+&= \sup\{\mu(K) : K \subset E \text{ 且 } K \text{ 是紧集}\}.
+\end{align}
+\end{theorem}
+
+\begin{proof}
+根据引理\ref{lemma1.17}，对任意$\epsilon > 0$存在区间$(a_j, b_j)$使得$E \subset \bigcup_{1}^{\infty}(a_j, b_j)$且$\mu(E) \leq \sum_{1}^{\infty} \mu((a_j, b_j)) + \epsilon$。如果$U = \bigcup_{1}^{\infty}(a_j, b_j)$，则$U$是开集，$U \supset E$，且$\mu(U) \leq \mu(E) + \epsilon$。另一方面，当$U \supset E$时，$\mu(U) \geq \mu(E)$，所以第一个等式成立。对于第二个等式，首先假设$E$是有界的。如果$E$是闭集，则$E$是紧的，等式显然。否则，给定$\epsilon > 0$，我们可以选择一个开集$U \supset \overline{E} \setminus E$使得$\mu(U) \leq \mu(\overline{E} \setminus E) + \epsilon$。令$K = \overline{E} \setminus U$。则$K$是紧的，$K \subset E$，且
+\begin{align}
+\mu(K) &= \mu(E) - \mu(E \cap U) = \mu(E) - [\mu(U) - \mu(U \setminus E)] \\
+&\geq \mu(E) - \mu(U) + \mu(\overline{E} \setminus E) \geq \mu(E) - \epsilon.
+\end{align}
+
+如果$E$是无界的，令$E_j = E \cap (j, j + 1]$。根据前面的论证，对任意$\epsilon > 0$存在紧集$K_j \subset E_j$使得$\mu(K_j) \geq \mu(E_j) - \epsilon 2^{-j}$。令$H_n = \bigcup_{-n}^{n} K_j$。则$H_n$是紧的，$H_n \subset E$，且$\mu(H_n) \geq \mu\left(\bigcup_{-n}^{n} E_j\right) - \epsilon$。由于$\mu(E) = \lim_{n\to\infty} \mu\left(\bigcup_{-n}^{n} E_j\right)$，结果成立。
+\end{proof}
+
+\begin{theorem}\label{theorem1.19}
+如果$E \subset \mathbb{R}$，以下条件等价：
+\begin{enumerate}[label=\alph*.]
+\item $E \in \mathcal{M}_{\mu}$。
+\item $E = V \setminus N_1$，其中$V$是$G_{\delta}$集且$\mu(N_1) = 0$。
+\item $E = H \cup N_2$，其中$H$是$F_{\sigma}$集且$\mu(N_2) = 0$。
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+显然(b)和(c)各自蕴含(a)，因为$\mu$在$\mathcal{M}_{\mu}$上是完备的。假设$E \in \mathcal{M}_{\mu}$且$\mu(E) < \infty$。根据定理\ref{theorem1.18}，对$j \in \mathbb{N}$我们可以选择开集$U_j \supset E$和紧集$K_j \subset E$使得
+\begin{align}
+\mu(U_j) - 2^{-j} \leq \mu(E) \leq \mu(K_j) + 2^{-j}.
+\end{align}
+
+令$V = \bigcap_{1}^{\infty} U_j$且$H = \bigcup_{1}^{\infty} K_j$。则$H \subset E \subset V$且$\mu(V) = \mu(H) = \mu(E) < \infty$，所以$\mu(V \setminus E) = \mu(E \setminus H) = 0$。当$\mu(E) < \infty$时，结果得证；对一般情况的扩展留给读者（练习25）。
+\end{proof}
+
+定理\ref{theorem1.19}的重要性在于所有的Borel集（更一般地，所有$\mathcal{M}_{\mu}$中的集合）都具有合理简单的形式，模去测度为零的集合。这与从开集构造Borel集所需的复杂操作形成鲜明对比，如果不排除零测集；参见下文的命题\ref{proposition1.23}。关于一般可测集可以用"简单"集近似的思想的另一个版本包含在以下命题中，其证明留给读者（练习26）：
+
+\begin{proposition}\label{proposition1.20}
+如果$E \in \mathcal{M}_{\mu}$且$\mu(E) < \infty$，则对每个$\epsilon > 0$存在一个集合$A$，它是有限个开区间的并集，使得$\mu(E \triangle A) < \epsilon$。
+\end{proposition}
+
+我们现在来研究$\mathbb{R}$上最重要的测度，即\textbf{Lebesgue测度}：这是与函数$F(x) = x$相关联的完备测度$\mu_F$，对于该函数，区间的测度就是其长度。我们将用$m$表示它。$m$的定义域称为\textbf{Lebesgue可测}集类，我们将其表示为$\mathcal{L}$。我们也将$m$在$\mathcal{B}_{\mathbb{R}}$上的限制称为Lebesgue测度。
+
+Lebesgue测度最重要的性质之一是它在平移下的不变性和在伸缩下的简单行为。如果$E \subset \mathbb{R}$且$s, r \in \mathbb{R}$，我们定义
+\begin{align}
+E + s = \{x + s : x \in E\}, \quad rE = \{rx : x \in E\}.
+\end{align}
+
+\begin{theorem}\label{theorem1.21}
+如果$E \in \mathcal{L}$，则对所有$s, r \in \mathbb{R}$，有$E + s \in \mathcal{L}$且$rE \in \mathcal{L}$。此外，$m(E + s) = m(E)$且$m(rE) = |r|m(E)$。
+\end{theorem}
+
+\begin{proof}
+由于开区间的集合在平移和伸缩下是不变的，$\mathcal{B}_{\mathbb{R}}$也是如此。对于$E \in \mathcal{B}_{\mathbb{R}}$，令$m_s(E) = m(E + s)$且$m^r(E) = m(rE)$。那么$m_s$和$m^r$显然在区间的有限并集上与$m$和$|r|m$一致，因此根据定理1.14，在$\mathcal{B}_{\mathbb{R}}$上也一致。特别地，如果$E \in \mathcal{B}_{\mathbb{R}}$且$m(E) = 0$，则$m(E + s) = m(rE) = 0$，由此可知Lebesgue零测集类在平移和伸缩下是保持不变的。因此$\mathcal{L}$（其成员是Borel集与Lebesgue零测集的并集）在平移和伸缩下保持不变，且对所有$E \in \mathcal{L}$，有$m(E + s) = m(E)$和$m(rE) = |r|m(E)$。
+\end{proof}
+
+$\mathbb{R}$中子集的测度理论性质和拓扑性质之间的关系是微妙的，包含一些令人惊讶的事实。考虑以下事实：$\mathbb{R}$中的每个单点集都具有Lebesgue测度零，因此每个可数集也是如此。特别地，$m(\mathbb{Q}) = 0$。设$\{r_j\}_{1}^{\infty}$是$[0, 1]$中有理数的一个枚举，给定$\epsilon > 0$，令$I_j$是以$r_j$为中心、长度为$\epsilon 2^{-j}$的区间。那么集合$U = (0, 1) \cap \bigcup_{1}^{\infty} I_j$是开的且在$[0, 1]$中稠密，但$m(U) \leq \sum_{1}^{\infty} \epsilon 2^{-j} = \epsilon$；其补集$K = [0, 1] \setminus U$是闭的且处处不稠密，但$m(K) \geq 1 - \epsilon$。因此，在拓扑上"大"的集合（开且稠密）可以在测度理论上很小，而在拓扑上"小"的集合（处处不稠密）可以在测度理论上很大。（然而，非空开集不可能具有Lebesgue测度零。）
+
+Lebesgue零测集不仅包括所有可数集，还包括许多具有连续统势的集合。我们现在介绍标准例子，Cantor集，它也因其他原因而有趣。
+
+$[0, 1]$中的每个$x$都有一个三进制展开式$x = \sum_{1}^{\infty} a_j 3^{-j}$，其中$a_j = 0, 1$或$2$。除非$x$形如$p3^{-k}$（对某些整数$p, k$），否则这个展开式是唯一的；在这种情况下，$x$有两种展开式：一种是对$j > k$有$a_j = 0$，另一种是对$j > k$有$a_j = 2$。假设$p$不能被$3$整除，那么这两种展开式中，一种有$a_k = 1$，另一种有$a_k = 0$或$a_k = 2$。如果我们约定总是使用后一种展开式，我们可以看到
+\begin{align}
+a_1 = 1 \text{ 当且仅当 } \frac{1}{3} < x < \frac{2}{3},\\
+a_1 \neq 1 \text{ 且 } a_2 = 1 \text{ 当且仅当 } \frac{1}{9} < x < \frac{2}{9} \text{ 或 } \frac{7}{9} < x < \frac{8}{9},
+\end{align}
+依此类推。还有用处的是注意到，如果$x = \sum a_j 3^{-j}$且$y = \sum b_j 3^{-j}$，则$x < y$当且仅当存在$n$使得$a_n < b_n$且对$j < n$有$a_j = b_j$。
+
+\textbf{Cantor集}$C$是$[0, 1]$中所有具有三进制展开式$x = \sum a_j 3^{-j}$的$x$的集合，其中对所有$j$都有$a_j \neq 1$。因此，$C$是通过从$[0, 1]$中删除开的中间三分之一$(\frac{1}{3}, \frac{2}{3})$，然后从剩余的两个区间中删除开的中间三分之一$(\frac{1}{9}, \frac{2}{9})$和$(\frac{7}{9}, \frac{8}{9})$，依此类推而得到的。$C$的基本性质总结如下：
+
+
+\begin{proposition}\label{proposition1.22}
+设$C$为康托尔集。
+\begin{enumerate}[label=\alph*.]
+\item $C$是紧的、无处稠密的，且完全不连通的（即，$C$的唯一连通子集是单点集）。此外，$C$没有孤立点。
+\item $m(C) = 0$。
+\item $\operatorname{card}(C) = \mathfrak{c}$。
+\end{enumerate}
+
+
+\end{proposition}
+\begin{proof}
+	我们将(a)的证明留给读者（练习27）。关于(b)，$C$是通过从$[0,1]$中删除一个长度为$\frac{1}{3}$的区间，两个长度为$\frac{1}{9}$的区间，依此类推而得到的。因此
+	\[
+	m(C) = 1 - \sum_{0}^{\infty} \frac{2^j}{3^{j+1}} = 1 - \frac{1}{3} \cdot \frac{1}{1-(2/3)} = 0.
+	\]
+	
+	最后，假设$x \in C$，则$x = \sum_{0}^{\infty} a_j3^{-j}$，其中对所有$j$，$a_j = 0$或$2$。令$f(x) = \sum_{1}^{\infty} b_j2^{-j}$，其中$b_j = a_j/2$。定义$f(x)$的级数是一个数在$[0,1]$中的二进制展开，且$[0,1]$中的任何数都可以通过这种方式获得。因此$f$将$C$映射到$[0,1]$上，(c)由此得证。
+	\end{proof}
+让我们更仔细地研究前面证明中的映射$f$。不难看出，如果$x, y \in C$且$x < y$，那么$f(x) < f(y)$，除非$x$和$y$是从$[0,1]$中删除以获得$C$的某个区间的两个端点。在这种情况下，$f(x) = p2^{-k}$，其中$p$和$k$是某些整数，且$f(x)$和$f(y)$是这个数的两种二进制展开。因此，我们可以通过在$C$缺失的每个区间上将其声明为常数，将$f$扩展为从$[0,1]$到自身的映射。这个扩展后的$f$仍然是单调递增的，且由于其值域是整个$[0,1]$，它不能有跳跃间断点；因此它是连续的。$f$被称为\textbf{康托尔函数}或\textbf{康托尔-勒贝格函数}。
+
+通过从$[0,1]$开始并连续删除区间中间三分之一的康托尔集构造有一个明显的推广。如果$I$是一个有界区间，$\alpha \in (0,1)$，我们称与$I$具有相同中点且长度等于$\alpha$乘以$I$长度的开区间为$I$的"开中间$\alpha$段"。如果$\{\alpha_j\}_{1}^{\infty}$是$(0,1)$中的任意数列，那么我们可以定义一个闭集的递减序列$\{K_j\}$如下：$K_0 = [0,1]$，且$K_j$是通过从构成$K_{j-1}$的每个区间中删除开中间$\alpha_j$段而得到的。所得的极限集$K = \bigcap_{1}^{\infty} K_j$被称为\textbf{广义康托尔集}。广义康托尔集都与普通康托尔集共享命题\ref{proposition1.22}中的性质(a)和(c)。至于它们的勒贝格测度，显然$m(K_j) = (1-\alpha_j)m(K_{j-1})$，所以$m(K)$是无穷乘积$\prod_{1}^{\infty}(1-\alpha_j) = \lim_{n\to\infty}\prod_{1}^{n}(1-\alpha_j)$。如果所有$\alpha_j$都等于固定的$\alpha \in (0,1)$（例如，普通康托尔集的$\alpha = \frac{1}{3}$），那么$m(K) = 0$。然而，如果$\alpha_j$在$j \to \infty$时足够快地趋近于0，$m(K)$将是正的，且对于任何$\beta \in (0,1)$，都可以选择$\alpha_j$使得$m(K)$等于$\beta$；参见练习32。这提供了另一种构造具有正测度的无处稠密集的方法。
+
+并非每个勒贝格可测集都是博雷尔集。可以通过使用康托尔函数来展示$\mathcal{L}\setminus\mathcal{B}_{\mathbb{R}}$中的例子；参见第2章的练习9。或者，可以观察到由于康托尔集的每个子集都是勒贝格可测的，我们有$\operatorname{card}(\mathcal{L}) = \operatorname{card}(\mathcal{P}(\mathbb{R})) > \mathfrak{c}$，而$\operatorname{card}(\mathcal{B}_{\mathbb{R}}) = \mathfrak{c}$。
+
+\chapter{积分}
+
+\section{可测映射}
+
+我们从可测映射的讨论开始研究积分理论，可测映射是可测空间范畴中的态射。
+
+我们回顾，任何映射 $f : X \to Y$ 在两个集合之间诱导了一个映射 $f^{-1} : \mathcal{P}(Y) \to \mathcal{P}(X)$，定义为 $f^{-1}(E) = \{x \in X : f(x) \in E\}$，它保持并集、交集和补集。因此，如果 $\mathcal{N}$ 是 $Y$ 上的 $\sigma$-代数，$\{f^{-1}(E) : E \in \mathcal{N}\}$ 是 $X$ 上的 $\sigma$-代数。如果 $(X,\mathcal{M})$ 和 $(Y,\mathcal{N})$ 是可测空间，映射 $f : X \to Y$ 称为 $(\mathcal{M},\mathcal{N})$-可测的，或者当 $\mathcal{M}$ 和 $\mathcal{N}$ 被理解时简称为可测的，如果对所有 $E \in \mathcal{N}$ 有 $f^{-1}(E) \in \mathcal{M}$。
+
+显然，可测映射的复合也是可测的；即，如果 $f : X \to Y$ 是 $(\mathcal{M},\mathcal{N})$-可测的且 $g : Y \to Z$ 是 $(\mathcal{N},\mathcal{O})$-可测的，则 $g \circ f$ 是 $(\mathcal{M},\mathcal{O})$-可测的。
+
+\begin{proposition}\label{proposition2.1}
+如果 $\mathcal{N}$ 由 $\mathcal{E}$ 生成，则 $f : X \to Y$ 是 $(\mathcal{M},\mathcal{N})$-可测的当且仅当对所有 $E \in \mathcal{E}$ 有 $f^{-1}(E) \in \mathcal{M}$。
+\end{proposition}
+
+\begin{proof}
+"仅当"蕴含是平凡的。对于逆命题，观察到 $\{E \subset Y : f^{-1}(E) \in \mathcal{M}\}$ 是包含 $\mathcal{E}$ 的 $\sigma$-代数；因此它包含 $\mathcal{N}$。
+\end{proof}
+
+\begin{corollary}\label{corollary2.2}
+如果 $X$ 和 $Y$ 是度量（或拓扑）空间，则每个连续函数 $f : X \to Y$ 是 $(\mathcal{B}_X, \mathcal{B}_Y)$-可测的。
+\end{corollary}
+
+\begin{proof}
+$f$ 是连续的当且仅当对每个开集 $U \subset Y$，$f^{-1}(U)$ 在 $X$ 中是开的。
+\end{proof}
+
+如果 $(X,\mathcal{M})$ 是可测空间，$X$ 上的实值或复值函数 $f$ 称为 $\mathcal{M}$-可测的，或简称为可测的，如果它是 $(\mathcal{M},\mathcal{B}_\mathbb{R})$ 或 $(\mathcal{M},\mathcal{B}_\mathbb{C})$ 可测的。$\mathcal{B}_\mathbb{R}$ 或 $\mathcal{B}_\mathbb{C}$ 总是被理解为值域空间上的 $\sigma$-代数，除非另有说明。特别地，$f : \mathbb{R} \to \mathbb{C}$ 是 Lebesgue（分别为 Borel）可测的，如果它是 $(\mathcal{L}, \mathcal{B}_\mathbb{C})$（分别为 $(\mathcal{B}_\mathbb{R}, \mathcal{B}_\mathbb{C})$）可测的；对于 $f : \mathbb{R} \to \mathbb{R}$ 也是类似的。
+
+警告：如果 $f,g : \mathbb{R} \to \mathbb{R}$ 是 Lebesgue 可测的，不能推断 $f \circ g$ 是 Lebesgue 可测的，即使 $g$ 被假定为连续的。（如果 $E \in \mathcal{B}_\mathbb{R}$ 我们有 $f^{-1}(E) \in \mathcal{L}$，但除非 $f^{-1}(E) \in \mathcal{B}_\mathbb{R}$，否则无法保证 $g^{-1}(f^{-1}(E))$ 在 $\mathcal{L}$ 中。见练习 9。）然而，如果 $f$ 是 Borel 可测的，则当 $g$ 是 Lebesgue 或 Borel 可测时，$f \circ g$ 是 Lebesgue 或 Borel 可测的。
+
+\begin{proposition}\label{proposition2.3}
+如果 $(X,\mathcal{M})$ 是可测空间且 $f : X \to \mathbb{R}$，则以下条件等价：
+\begin{enumerate}[label=\alph*.]
+\item $f$ 是 $\mathcal{M}$-可测的。
+\item 对所有 $a \in \mathbb{R}$，$f^{-1}((a,\infty)) \in \mathcal{M}$。
+\item 对所有 $a \in \mathbb{R}$，$f^{-1}([a,\infty)) \in \mathcal{M}$。
+\item 对所有 $a \in \mathbb{R}$，$f^{-1}((-\infty,a)) \in \mathcal{M}$。
+\item 对所有 $a \in \mathbb{R}$，$f^{-1}((-\infty,a]) \in \mathcal{M}$。
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+这从命题 \ref{proposition1.1} 和 \ref{proposition2.1} 可得。
+\end{proof}
+
+有时我们希望考虑 $X$ 的子集上的可测性。如果 $(X,\mathcal{M})$ 是可测空间，$f$ 是 $X$ 上的函数，且 $E \in \mathcal{M}$，我们说 $f$ 在 $E$ 上是可测的，如果对所有 Borel 集 $B$，$f^{-1}(B) \cap E \in \mathcal{M}$。（等价地，$f|E$ 是 $\mathcal{M}_E$-可测的，其中 $\mathcal{M}_E = \{F \cap E : F \in \mathcal{M}\}$。）
+
+给定一个集合 $X$，如果 $\{(Y_\alpha,\mathcal{N}_\alpha)\}_{\alpha\in A}$ 是可测空间的族，且对每个 $\alpha \in A$，$f : X \to Y_\alpha$ 是一个映射，则存在 $X$ 上唯一的最小 $\sigma$-代数，使得所有 $f_\alpha$ 都是可测的，即由集合 $f_\alpha^{-1}(E_\alpha)$ 生成的 $\sigma$-代数，其中 $E_\alpha \in \mathcal{N}_\alpha$ 且 $\alpha \in A$。它被称为由 $\{f_\alpha\}_{\alpha\in A}$ 生成的 $\sigma$-代数。特别地，如果 $X = \prod_{\alpha\in A} Y_\alpha$，我们看到 $X$ 上的乘积 $\sigma$-代数，如 §1.2 中定义的，是由坐标映射 $\pi_\alpha : X \to Y_\alpha$ 生成的 $\sigma$-代数。
+
+\begin{proposition}\label{proposition2.4}
+设 $(X,\mathcal{M})$ 和 $(Y_\alpha,\mathcal{N}_\alpha)$ $(\alpha \in A)$ 是可测空间，$Y = \prod_{\alpha\in A} Y_\alpha$，$\mathcal{N} = \bigotimes_{\alpha\in A} \mathcal{N}_\alpha$，且 $\pi_\alpha : Y \to Y_\alpha$ 是坐标映射。则 $f : X \to Y$ 是 $(\mathcal{M},\mathcal{N})$-可测的当且仅当对所有 $\alpha$，$f_\alpha = \pi_\alpha \circ f$ 是 $(\mathcal{M},\mathcal{N}_\alpha)$-可测的。
+\end{proposition}
+
+\begin{proof}
+如果 $f$ 是可测的，则每个 $f_\alpha$ 也是可测的，因为可测映射的复合是可测的。反之，如果每个 $f_\alpha$ 是可测的，则对所有 $E_\alpha \in \mathcal{N}_\alpha$，$f^{-1}(\pi_\alpha^{-1}(E_\alpha)) = f_\alpha^{-1}(E_\alpha) \in \mathcal{M}$，因此根据命题 2.1，$f$ 是可测的。
+\end{proof}
+
+\begin{corollary}\label{corollary2.5}
+一个函数 $f : X \to \mathbb{C}$ 是 $\mathcal{M}$-可测的当且仅当 $\mathrm{Re}\,f$ 和 $\mathrm{Im}\,f$ 是 $\mathcal{M}$-可测的。
+\end{corollary}
+
+\begin{proof}
+这可由命题 \ref{proposition1.5} 得出，因为 $\mathcal{B}_\mathbb{C} = \mathcal{B}_{\mathbb{R}^2} = \mathcal{B}_\mathbb{R} \otimes \mathcal{B}_\mathbb{R}$。
+\end{proof}
+
+有时需要考虑值在扩展实数系 $\overline{\mathbb{R}} = [-\infty, \infty]$ 中的函数。我们通过 $\overline{\mathcal{B
+}_\mathbb{R}} = \{E \subset \overline{\mathbb{R}} : E \cap \mathbb{R} \in \mathcal{B}_\mathbb{R}\}$ 来定义 $\overline{\mathbb{R}}$ 中的 Borel 集。(如果我们将 $\overline{\mathbb{R}}$ 视为一个度量空间，度量为 $\rho(x, y) = |A(x) - A(y)|$，其中 $A(x) = \arctan x$，这与 Borel $\sigma$-代数的通常定义一致。) 命题 \ref{proposition2.3} 很容易验证 $\overline{\mathcal{B}_\mathbb{R}}$ 是由射线 $(a, \infty]$ 或 $[-\infty, a)$ ($a \in \mathbb{R}$) 生成的，我们定义一个函数 $f : X \to \overline{\mathbb{R}}$ 是 $\mathcal{M}$-可测的，如果它是 $(\mathcal{M}, \overline{\mathcal{B}_\mathbb{R}})$-可测的。见练习 1。我们现在建立可测性在熟悉的代数和极限运算下是保持的。
+\begin{proposition}\label{proposition2.6}
+如果 $f, g : X \to \mathbb{C}$ 是 $\mathcal{M}$-可测的，那么 $f+g$ 和 $fg$ 也是。
+\end{proposition}
+
+\begin{proof}
+定义 $F : X \to \mathbb{C} \times \mathbb{C}$，$F(x) = (f(x), g(x))$，$\phi : \mathbb{C} \times \mathbb{C} \to \mathbb{C}$，$\phi(z,w) = z+w$，以及 $\psi : \mathbb{C} \times \mathbb{C} \to \mathbb{C}$，$\psi(z,w) = zw$。由于根据命题 1.5，$\mathcal{B}_{\mathbb{C} \times \mathbb{C}} = \mathcal{B}_\mathbb{C} \otimes \mathcal{B}_\mathbb{C}$，所以根据命题 2.4，$F$ 是 $(\mathcal{M}, \mathcal{B}_{\mathbb{C} \times \mathbb{C}})$-可测的，而根据推论 \ref{corollary2.4}，$\phi$ 和 $\psi$ 是 $(\mathcal{B}_{\mathbb{C} \times \mathbb{C}}, \mathcal{B}_\mathbb{C})$-可测的。因此 $f+g = \phi \circ F$ 和 $fg = \psi \circ F$ 是 $\mathcal{M}$-可测的。
+\end{proof}
+
+命题 \ref{proposition2.6} 对 $\overline{\mathbb{R}}$-值函数仍然成立，只要我们稍微注意一下不确定表达式 $\infty - \infty$ 和 $0 \cdot \infty$。(然而，回想一下，我们总是定义 $0 \cdot \infty = 0$。) 见练习 2。
+
+\begin{proposition}\label{proposition2.7}
+如果 $\{f_j\}$ 是 $(X, \mathcal{M})$ 上的一列 $\overline{\mathbb{R}}$-值可测函数，则函数
+\begin{align*}
+g_1(x) &= \sup_j f_j(x), & g_3(x) &= \limsup_{j\to\infty} f_j(x), \\
+g_2(x) &= \inf_j f_j(x), & g_4(x) &= \liminf_{j\to\infty} f_j(x)
+\end{align*}
+都是可测的。如果对每个 $x \in X$，$f(x) = \lim_{j\to\infty} f(x)$ 存在，则 $f$ 是可测的。
+\end{proposition}
+
+\begin{proof}
+我们有
+\[ g_1^{-1}((a, \infty]) = \bigcup_{j=1}^{\infty} f_j^{-1}((a, \infty]), \quad g_2^{-1}([-\infty, a)) = \bigcup_{j=1}^{\infty} f_j^{-1}([-\infty, a)), \]
+所以根据命题 \ref{proposition2.3}，$g_1$ 和 $g_2$ 是可测的。更一般地，如果 $h_k(x) = \sup_{j>k} f_j(x)$，则对每个 $k$，$h_k$ 是可测的，所以 $g_3 = \inf_k h_k$ 是可测的，对 $g_4$ 也一样。最后，如果 $f$ 存在，则 $f = g_3 = g_4$，所以 $f$ 是可测的。
+\end{proof}
+
+\begin{corollary}\label{corollary2.8}
+如果 $f, g : X \to \overline{\mathbb{R}}$ 是可测的，那么 $\max(f,g)$ 和 $\min(f,g)$ 也是。
+\end{corollary}
+
+\begin{corollary}\label{corollary2.9}
+如果 $\{f_j\}$ 是一列复值可测函数，且对所有 $x$，$f(x) = \lim_{j\to\infty} f_j(x)$ 存在，则 $f$ 是可测的。
+\end{corollary}
+
+\begin{proof}
+应用推论 \ref{corollary2.5}。
+\end{proof}
+
+为了将来的参考，我们介绍两种有用的函数分解。首先，如果 $f : X \to \mathbb{R}$，我们定义其正部和负部为
+\[ f^+(x) = \max(f(x), 0), \quad f^-(x) = \max(-f(x), 0). \]
+则 $f = f^+ - f^-$。如果 $f$ 是可测的，根据推论 \ref{corollary2.8}，$f^+$ 和 $f^-$ 也是。其次，如果 $f : X \to \mathbb{C}$，我们有其极分解：
+\[ f = (\mathrm{sgn}\,f)|f|, \quad \text{其中 } \mathrm{sgn}\,z = \begin{cases} z/|z| & \text{if } z \neq 0, \\ 0 & \text{if } z = 0. \end{cases} \]
+同样，如果 $f$ 是可测的，那么 $|f|$ 和 $\mathrm{sgn}\,f$ 也是。事实上，$z \mapsto |z|$ 是连续的，而 $z \mapsto \mathrm{sgn}\,z$ 在 $\mathbb{C}$ 上是 Borel 可测的，因为如果 $U \subset \mathbb{C}$ 是开的，$\mathrm{sgn}^{-1}(U)$ 要么是开的，要么是 $V \cup \{0\}$ 的形式，其中 $V$ 是开的。因此 $|f| = |\cdot| \circ f$ 和 $\mathrm{sgn}\,f = \mathrm{sgn} \circ f$ 是可测的。
+
+我们现在讨论作为积分理论构造块的函数。假设 $(X, \mathcal{M})$ 是一个可测空间。$E \subset X$ 的特征函数 $\chi_E$（有时称为 $E$ 的指示函数并记为 $1_E$）定义为
+\[ \chi_E(x) = \begin{cases} 1 & \text{if } x \in E, \\ 0 & \text{if } x \notin E. \end{cases} \]
+很容易检查 $\chi_E$ 是可测的当且仅当 $E \in \mathcal{M}$。$X$ 上的一个简单函数是 $\mathcal{M}$ 中集合的特征函数的具有复系数的有限线性组合。(我们不允许简单函数取 $\pm\infty$ 值。) 等价地，$f : X \to \mathbb{C}$ 是简单的当且仅当 $f$ 是可测的且 $f$ 的值域是 $\mathbb{C}$ 的一个有限子集。事实上，我们有
+\[ f = \sum_{j=1}^{n} z_j \chi_{E_j}, \quad \text{其中 } E_j = f^{-1}(\{z_j\}) \text{ 且 } \mathrm{range}(f) = \{z_1, \dots, z_n\}. \]
+
+我们称之为 $f$ 的标准表示。它将 $f$ 展示为不交集（其并集为 $X$）的特征函数的线性组合，系数各不相同。注意：系数 $z_j$ 之一可能为 0，但项 $z_j \chi_{E_j}$ 仍被设想为标准表示的一部分，因为当 $f$ 与其他函数相互作用时，集合 $E_j$ 可能发挥作用。
+
+很明显，如果 $f$ 和 $g$ 是简单函数，那么 $f+g$ 和 $fg$ 也是。我们现在表明，任意可测函数可以被简单函数很好地逼近。
+
+\begin{theorem}\label{theorem2.10}
+设 $(X, \mathcal{M})$ 是一个可测空间。
+\begin{enumerate}[label=\alph*.]
+\item 如果 $f : X \to [0, \infty]$ 是可测的，则存在一列简单函数 $\{\phi_n\}$ 使得 $0 \le \phi_1 \le \phi_2 \le \dots \le f$，$\phi_n \to f$ 逐点收敛，并且在 $f$ 有界的任何集合上 $\phi_n \to f$ 一致收敛。
+\item 如果 $f : X \to \mathbb{C}$ 是可测的，则存在一列简单函数 $\{\phi_n\}$ 使得 $0 \le |\phi_1| \le |\phi_2| \le \dots \le |f|$，$\phi_n \to f$ 逐点收敛，并且在 $|f|$ 有界的任何集合上 $\phi_n \to f$ 一致收敛。
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) 对 $n = 0, 1, 2, \dots$ 和 $0 \le k \le 2^{2n}-1$，令
+\[ E_n^k = f^{-1}([k2^{-n}, (k+1)2^{-n})) \quad \text{和} \quad F_n = f^{-1}([2^n, \infty]), \]
+并定义
+\[ \phi_n = \sum_{k=0}^{2^{2n}-1} k2^{-n} \chi_{E_n^k} + 2^n \chi_{F_n}. \]
+(这个公式在印刷品中看起来很乱，但很容易以图形方式理解) 很容易检查对所有 $n$ 有 $\phi_n \le \phi_{n+1}$，并且在集合 $\{f \le 2^n\}$ 上有 $0 \le f - \phi_n \le 2^{-n}$。因此结论成立。
+
+(b) 如果 $f = g + ih$，我们可以将 (a) 应用于 $g$ 和 $h$ 的正部和负部，得到非负简单函数的序列 $\psi_n^+, \psi_n^-, \zeta_n^+, \zeta_n^-$，它们分别向 $g^+, g^-, h^+, h^-$ 递增。令 $\phi_n = \psi_n^+ - \psi_n^- + i(\zeta_n^+ - \zeta_n^-)$；这是一个简单的练习，以验证 $\phi_n$ 具有所需的性质。
+\end{proof}
+
+如果 $\mu$ 是 $(X, \mathcal{M})$ 上的一个测度，我们可能希望在考虑可测函数时排除 $\mu$-零集。在这方面，如果测度 $\mu$ 是完备的，生活会更简单。
+
+\begin{proposition}\label{proposition2.11}
+以下蕴含关系成立当且仅当测度 $\mu$ 是完备的：
+\begin{enumerate}[label=\alph*.]
+\item 如果 $f$ 是可测的且 $f=g$ $\mu$-几乎处处，则 $g$ 是可测的。
+\item 如果 $f_n$ 是可测的对每个 $n \in \mathbb{N}$ 且 $f_n \to f$ $\mu$-几乎处处，则 $f$ 是可测的。
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+证明留给读者（练习 10）。
+\end{proof}
+
+另一方面，以下结果表明，通过忘记测度的完备性，不太可能犯任何严重的错误。
+
+\begin{proposition}\label{proposition2.12}	
+设 $(X, \mathcal{M}, \mu)$ 是一个测度空间，并设 $(X, \overline{\mathcal{M}}, \overline{\mu})$ 是其完备化。如果 $f$ 是 $X$ 上的一个 $\overline{\mathcal{M}}$-可测函数，则存在一个 $\mathcal{M}$-可测函数 $g$ 使得 $f=g$ $\overline{\mu}$-几乎处处。
+\end{proposition}
+
+\begin{proof}
+如果 $f = \chi_E$ 其中 $E \in \overline{\mathcal{M}}$，这从 $\overline{\mu}$ 的定义是显然的，因此如果 $f$ 是一个 $\overline{\mathcal{M}}$-可测的简单函数。对于一般情况，根据定理 \ref{theorem2.10}，选择一列 $\overline{\mathcal{M}}$-可测的简单函数 $\{\phi_n\}$ 逐点收敛于 $f$，并且对每个 $n$ 设 $\psi_n$ 是一个 $\mathcal{M}$-可测的简单函数，使得 $\psi_n = \phi_n$ 在集合 $E_n \in \overline{\mathcal{M}}$（$\overline{\mu}(E_n)=0$）之外成立。选择 $N \in \mathcal{M}$ 使得 $\mu(N)=0$ 和 $N \supset \bigcup_1^\infty E_n$，并令 $g = \lim \chi_{X \setminus N} \psi_n$。则根据推论 \ref{corollary2.9}，$g$ 是 $\mathcal{M}$-可测的，且在 $N^c$ 上 $g=f$。
+\end{proof}
+\section{非负函数的积分}
+在本节中，我们固定一个测度空间 $(X, \mathcal{M}, \mu)$，并定义
+\[ L^+ = \text{the space of all measurable functions from } X \text{ to } [0, \infty]. \]
+如果 $\phi$ 是 $L^+$ 中的一个简单函数，其标准表示为 $\phi = \sum_{1}^{n} a_j \chi_{E_j}$，我们定义 $\phi$ 关于 $\mu$ 的积分为
+\[ \int \phi \,d\mu = \sum_{j=1}^{n} a_j \mu(E_j) \]
+(像往常一样，约定 $0 \cdot \infty = 0$)。我们注意到 $\int \phi \,d\mu$ 可能等于 $\infty$。在没有混淆危险的情况下，我们将简单地写成 $\int \phi$ 来表示 $\int \phi \,d\mu$。此外，当积分的参数 $\phi$ 是由变量 $x$ 的公式给出或者当有其他变量参与时，有时明确地显示这个参数是有帮助的；在这种情况下，我们将使用记法 $\int \phi(x) \,d\mu(x)$。(一些作者更喜欢写成 $\int \phi(x) \,\mu(dx)$。) 最后，如果 $A \in \mathcal{M}$，则 $\phi \chi_A$ 也是简单的 (即 $\phi \chi_A = \sum a_j \chi_{A \cap E_j}$)，我们定义 $\int_A \phi \,d\mu$ (或 $\int_A \phi(x) \,d\mu(x)$) 为 $\int \phi \chi_A \,d\mu$。相同的符号约定也将应用于下面要定义的更一般函数的积分。总结如下：
+\[ \int_A \phi \,d\mu = \int_A \phi = \int_A \phi(x) \,d\mu(x) = \int \phi \chi_A \,d\mu, \quad \int = \int_X. \]
+
+\begin{proposition}\label{proposition2.13}
+设 $\phi$ 和 $\psi$ 是 $L^+$ 中的简单函数。
+\begin{enumerate}[label=\alph*.]
+    \item 如果 $c \ge 0$，则 $\int c\phi = c \int \phi$。
+    \item $\int(\phi + \psi) = \int \phi + \int \psi$。
+    \item 如果 $\phi \le \psi$，则 $\int \phi \le \int \psi$。
+    \item 映射 $A \mapsto \int_A \phi \,d\mu$ 是 $\mathcal{M}$ 上的一个测度。
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) 是平凡的。对于 (b)，设 $\sum_1^n a_j \chi_{E_j}$ 和 $\sum_1^m b_k \chi_{F_k}$ 分别是 $\phi$ 和 $\psi$ 的标准表示。则 $E_j = \bigcup_{k=1}^m (E_j \cap F_k)$ 并且 $F_k = \bigcup_{j=1}^n (E_j \cap F_k)$，因为 $\bigcup_1^n E_j = \bigcup_1^m F_k = X$，并且这些并集是不交的。因此，$\mu$ 的有限可加性意味着
+\[ \int \phi + \psi = \sum_{j,k} (a_j + b_k) \mu(E_j \cap F_k), \]
+并且同样的推理表明右边的和等于 $\int(\phi + \psi)$。此外，如果 $\phi \le \psi$，则只要 $E_j \cap F_k \neq \emptyset$ 就有 $a_j \le b_k$，所以
+\[ \int \phi = \sum_{j,k} a_j \mu(E_j \cap F_k) \le \sum_{j,k} b_k \mu(E_j \cap F_k) = \int \psi, \]
+这证明了 (c)。最后，如果 $\{A_k\}$ 是 $\mathcal{M}$ 中的一个不交序列且 $A = \bigcup_1^\infty A_k$，
+\[ \int_A \phi = \sum_j a_j \mu(A \cap E_j) = \sum_{j,k} a_j \mu(A_k \cap E_j) = \sum_k \int_{A_k} \phi, \]
+这建立了 (d)。
+\end{proof}
+
+我们现在将积分扩展到所有函数 $f \in L^+$，定义
+\[ \int f \,d\mu = \sup \left\{\int \phi \,d\mu : 0 \leq \phi \leq f, \, \phi \text{ simple} \right\}. \]
+
+根据命题\ref{proposition2.13}c，当 $f$ 是简单函数时，$\int f$ 的两个定义是一致的，因为取上确界的简单函数族包括 $f$ 本身。此外，从定义中显而易见
+\[ \int f \leq \int g \text{ 当 } f \leq g, \text{ 且 } \int cf = c \int f \text{ 对于所有 } c \in [0, \infty). \]
+
+下一步是建立一个基本的收敛定理。
+
+\begin{theorem}[单调收敛定理]\label{theorem2.14}
+如果 $\{f_n\}$ 是 $L^+$ 中的一个序列，满足对所有 $j$ 有 $f_j \leq f_{j+1}$，且 $f = \lim_{n\to\infty} f_n (= \sup_n f_n)$，则 $\int f = \lim_{n\to\infty} \int f_n$。
+\end{theorem}
+
+\begin{proof}
+$\{\int f_n\}$ 是一个递增的数列，所以其极限存在（可能等于 $\infty$）。此外，对所有 $n$ 有 $\int f_n \leq \int f$，因此 $\lim \int f_n \leq \int f$。为了建立反向不等式，固定 $\alpha \in (0,1)$，让 $\phi$ 是一个简单函数满足 $0 \leq \phi \leq f$，并令 $E_n = \{x : f_n(x) \geq \alpha\phi(x)\}$。那么 $\{E_n\}$ 是一个递增的可测集序列，其并集是 $X$，并且我们有 $\int f_n \geq \int_{E_n} f_n \geq \alpha \int_{E_n} \phi$。根据命题\ref{proposition2.13}d和定理\ref{theorem1.18}c，$\lim \int_{E_n} \phi = \int \phi$，因此 $\lim \int f_n \geq \alpha \int \phi$。由于这对所有 $\alpha < 1$ 成立，它对 $\alpha = 1$ 也成立，取遍所有满足 $\phi \leq f$ 的简单函数 $\phi$ 的上确界，我们得到 $\lim \int f_n \geq \int f$。
+\end{proof}
+
+
+单调收敛定理在许多情况下是一个重要的工具，但它对我们的直接意义如下。$\int f$ 的定义涉及到一个巨大（通常是不可数）的简单函数族上的上确界，因此直接从定义计算 $\int f$ 可能会很困难。然而，单调收敛定理向我们保证，要计算 $\int f$，只需计算 $\lim \int \phi_n$ 就足够了，其中 $\{\phi_n\}$ 是任何一个递增到 $f$ 的简单函数序列，而定理\ref{theorem2.10}保证了这样的序列存在。作为第一个应用，我们建立积分的可加性。
+
+\begin{theorem}\label{theorem2.15}
+如果 $\{f_n\}$ 是 $L^+$ 中的一个有限或无限序列，且 $f = \sum_n f_n$，则 $\int f = \sum_n \int f_n$。
+\end{theorem}
+
+\begin{proof}
+首先考虑两个函数 $f_1$ 和 $f_2$。根据定理\ref{theorem2.10}，我们可以找到非负简单函数的序列 $\{\phi_j\}$ 和 $\{\psi_j\}$，它们分别递增到 $f_1$ 和 $f_2$。于是 $\{\phi_j + \psi_j\}$ 递增到 $f_1 + f_2$，所以根据单调收敛定理和定理2.13b，
+\[ \int (f_1 + f_2) = \lim \int(\phi_j + \psi_j) = \lim \int \phi_j + \lim \int \psi_j = \int f_1 + \int f_2. \]
+因此，通过归纳法，对任何有限的 $N$，有 $\int \sum_1^N f_n = \sum_1^N \int f_n$。令 $N \to \infty$ 并再次应用单调收敛定理，我们得到 $\int \sum_1^\infty f_n = \sum_1^\infty \int f_n$。
+\end{proof}
+
+\begin{proposition}\label{proposition2.16}
+如果 $f \in L^+$，则 $\int f = 0$ 当且仅当 $f = 0$ a.e. (几乎处处)。
+\end{proposition}
+
+\begin{proof}
+如果 $f$ 是简单的，这是显然的：如果 $f = \sum_1^n a_j \chi_{E_j}$ 且 $a_j \ge 0$，则 $\int f = 0$ 当且仅当对每个 $j$ 要么 $a_j=0$ 要么 $\mu(E_j)=0$。在一般情况下，如果 $f=0$ a.e. 并且 $\phi$ 是满足 $0 \le \phi \le f$ 的简单函数，则 $\phi=0$ a.e.，因此 $\int \phi = 0$。因此 $\int f = \sup_{\phi \le f} \int \phi = 0$。另一方面，$\{x: f(x)>0\} = \bigcup_1^\infty E_n$ 其中 $E_n = \{x: f(x) > n^{-1}\}$，所以如果 $f=0$ a.e. 是不成立的，我们必然对某个 $n$ 有 $\mu(E_n)>0$。但此时 $f > n^{-1}\chi_{E_n}$，所以 $\int f \ge n^{-1}\mu(E_n) > 0$。
+\end{proof}
+
+\begin{corollary}\label{corollary2.17}
+如果 $\{f_n\} \subset L^+$，$f \in L^+$，并且 $f_n(x)$ 对 a.e. (几乎所有) $x$ 递增到 $f(x)$，则 $\int f = \lim \int f_n$。
+\end{corollary}
+
+\begin{proof}
+如果 $f_n(x)$ 对 $x \in E$ (其中 $\mu(E^c)=0$) 递增到 $f(x)$，则 $f - f\chi_E=0$ a.e. 并且 $f_n - f_n\chi_E=0$ a.e.，所以根据单调收敛定理，$\int f = \int f\chi_E = \lim \int f_n\chi_E = \lim \int f_n$。
+\end{proof}
+
+
+序列 $\{f_n\}$ 至少几乎处处递增的假设对于单调收敛定理是至关重要的。例如，如果 $X$ 是 $\mathbb{R}$ 且 $\mu$ 是勒贝格测度，我们有 $\chi_{(n,n+1)} \to 0$ 并且 $n\chi_{(0,1/n)} \to 0$ 逐点收敛，但是对所有 $n$，$\int \chi_{(n,n+1)} = \int n\chi_{(0,1/n)} = 1$。通过画出图像可以看出，这些例子中的问题在于，当 $n \to \infty$ 时，图像下的面积“逃逸到无穷”，因此极限中的面积比预期的要小。这是极限的积分不等于积分的极限的典型情况，但在这种情况下，仍然有一个不等式是成立的。我们从下面的一般结果中推导出它。
+
+\begin{lemma}[法图引理]\label{lemma2.18}
+如果 $\{f_n\}$ 是 $L^+$ 中的任意序列，则
+\[ \int (\liminf f_n) \le \liminf \int f_n. \]
+\end{lemma}
+
+\begin{proof}
+对每个 $k \ge 1$，我们有 $\inf_{n \ge k} f_n \le f_j$ 对 $j \ge k$ 成立，因此 $\int \inf_{n \ge k} f_n \le \int f_j$ 对 $j \ge k$ 成立，因此 $\int \inf_{n \ge k} f_n \le \inf_{j \ge k} \int f_j$。现在令 $k \to \infty$ 并应用单调收敛定理：
+\[ \int(\liminf f_n) = \lim_{k\to\infty} \int(\inf_{n\ge k} f_n) \le \liminf \int f_n. \]
+\end{proof}
+
+\begin{corollary}\label{corollary2.19}
+如果 $\{f_n\} \subset L^+$，$f \in L^+$，且 $f_n \to f$ a.e. (几乎处处)，则 $\int f \le \liminf \int f_n$。
+\end{corollary}
+
+\begin{proof}
+如果 $f_n \to f$ 处处收敛，结果直接从法图引理得出，而这可以通过根据命题2.16在一个零测集上修改 $f_n$ 和 $f$ 来实现，且不影响积分值。
+\end{proof}
+
+\begin{proposition}\label{proposition2.20}
+如果 $f \in L^+$ 且 $\int f < \infty$，则 $\{x : f(x) = \infty\}$ 是一个零测集，且 $\{x : f(x) > 0\}$ 是 $\sigma$-有限的。
+\end{proposition}
+
+\begin{proof}
+证明留给读者（练习12）。
+\end{proof}
+
+\section{复值函数的积分}
+
+我们继续在一个固定的测度空间 $(X, \mathcal{M}, \mu)$ 上工作。上一节中定义的积分可以以一种明显的方式扩展到实值可测函数 $f$ 上；即，如果 $f^+$ 和 $f^-$ 是 $f$ 的正部和负部，并且 $\int f^+$ 和 $\int f^-$ 中至少有一个是有限的，我们定义
+\[ \int f = \int f^+ - \int f^-. \]
+我们将主要关注 $\int f^+$ 和 $\int f^-$ 都是有限的情况；此时我们称 $f$ 是可积的 (integrable)。由于 $|f| = f^+ + f^-$，很明显 $f$ 是可积的当且仅当 $\int |f| < \infty$。
+
+\begin{proposition}\label{proposition2.21}
+$X$ 上的可积实值函数集合是一个实向量空间，并且积分是其上的一个线性泛函。
+\end{proposition}
+
+\begin{proof}
+第一个断言来自于事实 $|af+bg| \le |a||f| + |b||g|$，并且很容易检查对任何 $a \in \mathbb{R}$ 都有 $\int af = a \int f$。为了证明可加性，假设 $f$ 和 $g$ 是可积的，并令 $h = f+g$。则 $h^+ - h^- = f^+ - f^- + g^+ - g^-$，所以 $h^+ + f^- + g^- = h^- + f^+ + g^+$。根据定理\ref{theorem2.15}，
+\[ \int h^+ + \int f^- + \int g^- = \int h^- + \int f^+ + \int g^+, \]
+然后重新组合即可得到期望的结果：
+\[ \int h = \int h^+ - \int h^- = \int f^+ - \int f^- + \int g^+ - \int g^- = \int f + \int g. \]
+\end{proof}
+
+接下来，如果 $f$ 是一个复值可测函数，我们称 $f$ 是可积的如果 $\int |f| < \infty$。更一般地，如果 $E \in \mathcal{M}$，$f$ 在 $E$ 上是可积的如果 $\int_E |f| < \infty$。由于 $|\mathrm{Re}\,f| \le |f|$ 和 $|\mathrm{Im}\,f| \le |f|$，以及 $|f| \le |\mathrm{Re}\,f| + |\mathrm{Im}\,f|$，所以 $f$ 是可积的当且仅当 $\mathrm{Re}\,f$ 和 $\mathrm{Im}\,f$ 都是可积的，并且在这种情况下我们定义
+\[ \int f = \int \mathrm{Re}\,f + i \int \mathrm{Im}\,f. \]
+由此可以轻易得出，复值可积函数的空间是一个复向量空间，并且积分是其上的一个复线性泛函。我们临时将这个空间记为 $L^1(\mu)$ (或 $L^1(X, \mu)$，或 $L^1(X)$，或根据上下文简单记为 $L^1$)。上标1是标准记法，但直到第6章它对我们都没有任何意义。
+
+\begin{proposition}\label{proposition2.22}
+如果 $f \in L^1$，则 $|\int f| \le \int |f|$。
+\end{proposition}
+
+\begin{proof}
+如果 $f=0$ 这是平凡的，如果 $f$ 是实值的，也几乎是平凡的，因为
+\[ \left|\int f\right| = \left|\int f^+ - \int f^-\right| \le \int f^+ + \int f^- = \int |f|. \]
+如果 $f$ 是复值的且 $\int f \neq 0$，令 $\alpha = \overline{\mathrm{sgn}(\int f)}$。则 $|\int f| = \alpha \int f = \int \alpha f$。特别地，$\int \alpha f$ 是实值的，所以
+\[ \left|\int f\right| = \mathrm{Re} \int \alpha f = \int \mathrm{Re}(\alpha f) \le \int |\mathrm{Re}(\alpha f)| \le \int |\alpha f| = \int |f|. \]
+\end{proof}
+
+\begin{proposition}\label{proposition2.23}
+\begin{enumerate}[label=\alph*.]
+	\item 如果 $f \in L^1$，则 $\{x : f(x) \neq 0\}$ 是 $\sigma$-有限的。
+	\item 如果 $f, g \in L^1$，则对所有 $E \in \mathcal{M}$ 都有 $\int_E f = \int_E g$ 当且仅当 $\int |f-g| = 0$ 当且仅当 $f=g$ a.e. (几乎处处)。
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) 和 (b) 中的第二个等价关系可由命题\ref{proposition2.20}和\ref{proposition2.16}得出。如果 $\int |f-g|=0$，则根据命题\ref{proposition2.22}，对任何 $E \in \mathcal{M}$，
+\[ \left|\int_E f - \int_E g\right| \le \int \chi_E |f-g| \le \int |f-g| = 0, \]
+因此 $\int_E f = \int_E g$。另一方面，如果 $u = \mathrm{Re}(f-g)$，$v = \mathrm{Im}(f-g)$，并且 $f=g$ a.e. 不成立，则 $u^+, u^-, v^+, v^-$ 中至少有一个必须在某个正测度集上非零。例如，如果 $E = \{x: u^+(x) > 0\}$ 有正测度，则 $\mathrm{Re}(\int_E f - \int_E g) = \int_E u^+ > 0$ 因为在 $E$ 上 $u^- = 0$；其他情况类似。
+\end{proof}
+
+这个命题表明，为了积分的目的，在零测集上改变函数的值没有影响。事实上，我们可以对那些仅定义在补集为零测集的可测集 $E$ 上的函数 $f$ 进行积分，只需将 $f$ 在 $E^c$ 上的值定义为零（或任何其他值）即可。通过这种方式，我们可以将几乎处处有限的 $\overline{\mathbb{R}}$-值函数视为用于积分的实值函数。
+
+考虑到这一点，我们将发现把 $L^1(\mu)$ 重新定义为 $X$ 上几乎处处定义的可积函数的等价类的集合会更方便，其中 $f$ 和 $g$ 被认为是等价的当且仅当 $f=g$ a.e.。这个新的 $L^1(\mu)$ 仍然是一个复向量空间（在几乎处处的逐点加法和标量乘法下）。尽管我们此后将 $L^1(\mu)$ 视为一个等价类的空间，我们仍然会使用记号“$f \in L^1(\mu)$”来表示 $f$ 是一个几乎处处定义的可积函数。这种记号上的微小滥用是普遍接受的，并且很少引起混淆。
+
+$L^1(\mu)$ 的新定义还有两个进一步的优点。首先，如果 $\overline{\mu}$ 是 $\mu$ 的完备化，命题\ref{proposition2.12} 在 $L^1(\overline{\mu})$ 和 $L^1(\mu)$ 之间产生了一个自然的一一对应关系，所以我们可以（并且将会）将这两个空间等同起来。其次，$L^1$ 是一个度量空间，其度量函数为 $\rho(f,g) = \int |f-g|$。（三角不等式很容易验证，并且显然 $\rho(f,g)=\rho(g,f)$；但要获得 $\rho(f,g)=0$ 仅当 $f=g$ 的条件，必须将几乎处处相等的函数等同起来，根据命题\ref{proposition2.23}b。）我们将把关于这个度量的收敛称为 $L^1$ 中的收敛；因此 $f_n \to f$ 在 $L^1$ 中当且仅当 $\int |f_n - f| \to 0$。
+
+我们现在介绍三个基本收敛定理中的最后一个（另外两个是单调收敛定理和法图引理）并推导一些有用的推论。在勒贝格测度下关于 $\mathbb{R}$ 上积分的背景中，如法图引理之前的讨论所述，这个定理背后的思想是，如果 $f_n \to f$ a.e. 并且 $|f_n|$ 的图像被限制在一个面积有限的平面区域内，从而其下方的面积无法逃逸到无穷，那么 $\int f_n \to \int f$。
+
+
+
+\begin{theorem}[控制收敛定理]\label{theorem2.24}
+设 $\{f_n\}$ 是 $L^1$ 中的一个序列，满足 (a) $f_n \to f$ a.e.，并且 (b) 存在一个非负函数 $g \in L^1$ 使得对所有 $n$ 都有 $|f_n| \le g$ a.e.。那么 $f \in L^1$ 并且 $\int f = \lim_{n\to\infty} \int f_n$。
+\end{theorem}
+
+\begin{proof}
+根据命题\ref{proposition2.11}和\ref{proposition2.12}，$f$ 是可测的（可能需要在零测集上重新定义），并且由于 $|f| \le g$ a.e.，我们有 $f \in L^1$。通过取实部和虚部，我们不妨假设 $f_n$ 和 $f$ 是实值的，此时我们有 $g+f_n \ge 0$ a.e. 和 $g-f_n \ge 0$ a.e.。因此根据法图引理，
+\begin{align*}
+    \int g + \int f &\le \liminf \int(g+f_n) = \int g + \liminf \int f_n, \\
+    \int g - \int f &\le \liminf \int(g-f_n) = \int g - \limsup \int f_n.
+\end{align*}
+因此，$\liminf \int f_n \ge \int f \ge \limsup \int f_n$，于是结论成立。
+\end{proof}
+
+\begin{theorem}\label{theorem2.25}
+假设 $\{f_j\}$ 是 $L^1$ 中的一个序列，满足 $\sum_1^\infty \int |f_j| < \infty$。那么级数 $\sum_1^\infty f_j$ 几乎处处收敛到一个函数 $f \in L^1$，并且 $\int \sum_1^\infty f_j = \sum_1^\infty \int f_j$。
+\end{theorem}
+
+\begin{proof}
+根据定理\ref{theorem2.15}，$\int \sum_1^\infty |f_j| = \sum_1^\infty \int |f_j| < \infty$，所以函数 $g = \sum_1^\infty |f_j|$ 属于 $L^1$。特别地，根据命题2.20，$\sum_1^\infty |f_j(x)|$ 对几乎所有 $x$ 是有限的，因此对于这些 $x$，级数 $\sum_1^\infty f_j(x)$ 收敛。此外，对所有 $n$ 都有 $|\sum_1^n f_j| \le g$，所以我们可以对部分和序列应用控制收敛定理，得到 $\int \sum_1^\infty f_j = \sum_1^\infty \int f_j$。
+\end{proof}
+
+\begin{theorem}\label{theorem2.26}
+如果 $f \in L^1(\mu)$ 且 $\epsilon > 0$，则存在一个可积简单函数 $\phi = \sum a_j \chi_{E_j}$ 使得 $\int |f - \phi| \,d\mu < \epsilon$。（也就是说，可积简单函数在 $L^1$ 度量下是稠密的）。如果 $\mu$ 是 $\mathbb{R}$ 上的勒贝格-斯蒂尔切斯测度，$\phi$ 的定义中的集合 $E_j$ 可以取为有限个开区间的并集；此外，存在一个在有界区间外为零的连续函数 $g$ 使得 $\int |f-g| \,d\mu < \epsilon$。
+\end{theorem}
+
+\begin{proof}
+设 $\{\phi_n\}$ 如定理\ref{theorem2.10}b所述；那么根据控制收敛定理，当 $n$ 足够大时，有 $\int |\phi_n - f| < \epsilon$，因为 $|\phi_n - f| \le 2|f|$。如果 $\phi_n = \sum a_j \chi_{E_j}$，其中 $E_j$ 不交且 $a_j$ 非零，我们观察到 $\mu(E_j) = |a_j|^{-1} \int_{E_j} |\phi_n| \le |a_j|^{-1} \int |f| < \infty$。此外，如果 $E$ 和 $F$ 是可测集，我们有 $\mu(E \Delta F) = \int |\chi_E - \chi_F|$。因此如果 $\mu$ 是 $\mathbb{R}$ 上的勒贝格-斯蒂尔切斯测度，根据命题\ref{proposition1.20}，我们可以用开区间 $I_k$ 的有限和在 $L^1$ 度量下任意逼近 $\chi_{E_j}$。最后，如果 $I_k=(a,b)$，我们可以用在 $(a,b)$ 外为零的连续函数在 $L^1$ 度量下逼近 $\chi_{I_k}$。(例如，给定 $\epsilon > 0$，取 $g$ 为在 $(-\infty, a]$ 和 $[b, \infty)$ 上等于0，在 $[a+\epsilon, b-\epsilon]$ 上等于1，并且在 $[a, a+\epsilon]$ 和 $[b-\epsilon, b]$ 上线性的连续函数。) 将这些事实放在一起，我们便得到了期望的断言。
+\end{proof}
+
+下一个定理给出了一个判据，比大多数高等微积分书籍中找到的判据限制更少，用于判断交换极限和积分的有效性。
+
+\begin{theorem}\label{theorem2.27}
+假设 $f: X \times [a,b] \to \mathbb{C}$ ($-\infty < a < b < \infty$) 并且对每个 $t \in [a,b]$，$f(\cdot, t) : X \to \mathbb{C}$ 是可积的。令 $F(t) = \int_X f(x,t) \,d\mu(x)$。
+\begin{enumerate}[label=\alph*.]
+    \item 假设存在 $g \in L^1(\mu)$ 使得对所有 $x,t$ 都有 $|f(x,t)| \le g(x)$。如果对每个 $x$，$\lim_{t\to t_0} f(x,t) = f(x,t_0)$，则 $\lim_{t\to t_0} F(t) = F(t_0)$；特别地，如果对每个 $x$，$f(x, \cdot)$ 是连续的，则 $F$ 是连续的。
+    \item 假设对所有 $x,t$，$\partial f/\partial t$ 存在，并且存在一个 $g \in L^1(\mu)$ 使得 $|(\partial f/\partial t)(x,t)| \le g(x)$。那么 $F$ 是可微的且 $F'(x) = \int (\partial f/\partial t)(x,t) \,d\mu(x)$。
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+对于(a)，对任何收敛到 $t_0$ 的序列 $\{t_n\} \subset [a,b]$，应用控制收敛定理到函数 $f_n(x) = f(x,t_n)$。对于(b)，观察到
+\[ \frac{\partial f}{\partial t}(x, t_0) = \lim h_n(x) \quad \text{其中 } h_n(x) = \frac{f(x, t_n) - f(x, t_0)}{t_n - t_0}, \]
+$\{t_n\}$ 同样是收敛到 $t_0$ 的序列。因此 $\partial f/\partial t$ 是可测的，并且根据中值定理，
+\[ |h_n(x)| \le \sup_{t \in [a,b]} \left|\frac{\partial f}{\partial t}(x,t)\right| \le g(x), \]
+所以可以再次调用控制收敛定理得到
+\[ F'(t_0) = \lim \frac{F(t_n) - F(t_0)}{t_n - t_0} = \lim \int h_n(x) \,d\mu(x) = \int \frac{\partial f}{\partial t}(x,t_0) \,d\mu(x). \]
+\end{proof}
+
+在前面的证明中使用收敛到 $t_0$ 的序列的技巧在技术上是必要的，因为控制收敛定理只处理函数序列。然而，在这种情况下，我们通常只说“令 $t \to t_0$”，并理解序列收敛是论证的基础。
+
+需要注意的是，在定理\ref{theorem2.27}中，$f$ 或 $\partial f/\partial t$ 的估计成立的区间 $[a,b]$ 可能是一个开区间 $I$（也许是 $\mathbb{R}$ 本身）的一个合适的子区间，在 $I$ 上 $f(x,\cdot)$ 是定义的。如果(a)或(b)的假设对所有 $[a,b] \subset I$ 成立，可能控制函数 $g$ 依赖于 $a$ 和 $b$，那么我们就得到被积函数 $F$ 在整个 $I$ 上的连续性或可微性，因为这些性质是局部的。
+
+在测度 $\mu$ 是 $\mathbb{R}$ 上的勒贝格测度的特殊情况下，我们所建立的积分称为勒贝格积分。此时，研究勒贝格积分和黎曼积分在 $\mathbb{R}$ 上的关系是恰当的。我们将使用达布对黎曼积分通过上和与下和的刻画，我们现在回顾一下。
+
+令 $[a,b]$ 是一个紧区间。我们称一个\textbf{划分} $P$ 是一个有限序列 $P=\{t_j\}_0^n$ 使得 $a=t_0 < t_1 < \dots < t_n=b$。令 $f$ 是一个任意有界实值函数。对每个划分 $P$ 我们定义
+\[ S_P f = \sum_1^n M_j(t_j-t_{j-1}), \quad s_P f = \sum_1^n m_j(t_j-t_{j-1}), \]
+其中 $M_j$ 和 $m_j$ 是 $f$ 在 $[t_{j-1}, t_j]$ 上的上确界和下确界。然后我们定义
+\[ \overline{I}_a^b(f) = \inf_P S_P f, \quad \underline{I}_a^b(f) = \sup_P s_P f, \]
+其中下确界和上确界取遍所有划分 $P$。如果 $\overline{I}_a^b(f) = \underline{I}_a^b(f)$，它们共同的值就是\textbf{黎曼积分} $\int_a^b f(x)\,dx$，且 $f$ 被称为\textbf{黎曼可积}的。
+
+\begin{theorem}\label{theorem2.28}
+令 $f$ 是 $[a,b]$ 上的一个有界实值函数。
+\begin{enumerate}[label=\alph*.]
+    \item 如果 $f$ 是黎曼可积的，则 $f$ 是勒贝格可测的（因此是可积的，因为它是有界的），并且 $\int_{[a,b]} f \,dm = \int_a^b f(x)\,dx$。
+    \item $f$ 是黎曼可积的当且仅当集合 $\{x \in [a,b] : f \text{ 在 } x \text{ 处不连续}\}$ 的勒贝格测度为零。
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+假设 $f$ 是黎曼可积的。对每个划分 $P$ 令
+\[ G_P = \sum_1^n M_j \chi_{(t_{j-1}, t_j]}, \quad g_P = \sum_1^n m_j \chi_{(t_{j-1}, t_j]} \]
+（使用与上面相同的记号），所以 $S_P f = \int G_P \,dm$ 并且 $s_P f = \int g_P \,dm$。存在一个划分序列 $\{P_k\}$，其网格（即 $\max_j(t_j-t_{j-1})$）趋于零，其中每个划分都包含前一个划分（因此 $g_{P_k}$ 随着 $k$ 递增而 $G_{P_k}$ 递减），使得 $S_{P_k} f$ 和 $s_{P_k} f$ 收敛到 $\int_a^b f(x)\,dx$。令 $G = \lim G_{P_k}$ 且 $g = \lim g_{P_k}$。则 $g \le f \le G$，并且根据控制收敛定理，$\int G \,dm = \int g \,dm = \int_a^b f(x)\,dx$。因此 $\int(G-g)\,dm = 0$，所以 $G=g$ a.e.。根据命题\ref{proposition2.16}，由于 $g=f$ a.e.，$f$ 是可测的（作为简单函数序列的极限）且 $m$ 是完备的，并且 $\int_{[a,b]} f\,dm = \int_{[a,b]} g\,dm = \int_a^b f(x)\,dx$。这证明了(a)，而(b)的证明在练习23中概述。
+\end{proof}
+
+（正确的）黎曼积分因此被包含在勒贝格积分中。一些广义黎曼积分（绝对收敛的那些）可以直接解释为勒贝格积分，但其他的仍然需要一个极限过程。例如，如果 $f$ 在 $[0,b]$ 上对所有 $b > 0$ 都是黎曼可积的，且在 $[0, \infty)$ 上是勒贝格可积的，那么 $\int_{[0,\infty)} f \,dm = \lim_{b\to\infty} \int_0^b f(x) \,dx$（根据控制收敛定理），但右边的极限即使当 $f$ 不可积时也可能存在。（例如：$f = \sum_1^{\infty} n^{-1}(-1)^n \chi_{(n,n+1]}$。） 此后我们通常将使用记号 $\int_a^b f(x) \,dx$ 表示勒贝格积分。
+
+关于勒贝格积分和黎曼积分构造的几点比较可能会有所帮助。设 $f$ 是 $[a,b]$ 上的一个有界可测函数，为简单起见，让我们假设 $f \geq 0$。要计算 $f$ 的黎曼积分，人们将区间 $[a,b]$ 分成子区间，并用在每个子区间上取常数的函数从上下方逼近 $f$。
+
+要计算 $f$ 的勒贝格积分，人们选取一个递增到 $f$ 的简单函数序列。特别地，如果人们选择在定理\ref{theorem2.10}a的证明中构造的序列，实际上是在将 $f$ 的\textbf{值域}分成子区间 $I_j$ 并在每个集合 $f^{-1}(I_j)$ 上用常数逼近 $f$。这一过程需要一个更复杂的测度理论作为起点，因为即使当 $f$ 连续时，集合 $f^{-1}(I_j)$ 也可能很复杂；但它更适合于特定的 $f$，因此更灵活——且更易于推广。（在勒贝格理论中，$f$ 可测的假设消除了考虑上下逼近的必要性；然而，后一种观点在抽象环境中也可以应用。见练习24。）
+
+勒贝格理论相比黎曼理论有两个真正的优势。首先，更强大的收敛定理，如单调收敛定理和控制收敛定理，是可用的。这些不仅产生了以前无法获得的结果，还减少了证明经典定理的工作量。其次，可以积分的函数类更广。例如，如果 $R$ 是 $[0,1]$ 中的有理数集合，$\chi_R$ 不是黎曼可积的，因为它在 $[0,1]$ 上处处不连续，但它是勒贝格可积的，且 $\int \chi_R \,dm = 0$。（实际上，这在某种意义上是一个平凡的例子，因为 $\chi_R$ 几乎处处与常数函数0相同。对于一个更有趣的例子，见练习25。）当然，在经典分析中遇到的几乎所有函数都是（局部）黎曼可积的，所以这种额外的一般性在计算特定积分时很少被使用。然而，它具有关键作用，使得各种以积分定义度量的函数度量空间在使用勒贝格可积函数时是\textbf{完备的}，而在只考虑黎曼可积函数时则不然。我们将在后面，特别是在第6章中更深入地研究这种情况。（我们已经证明了 $L^1(\mu)$ 的完备性，它被伪装成定理\ref{theorem2.25}。要去掉这个伪装，请看定理\ref{theorem5.1}。）
+
+我们通过介绍最无处不在的高等超越函数——\textbf{伽马函数} $\Gamma$ 来结束本节，它将在后面的多个地方发挥作用。如果 $z \in \mathbb{C}$ 且 $\text{Re } z > 0$，定义 $f_z : (0,\infty) \to \mathbb{C}$ 为 $f_z(t) = t^{z-1}e^{-t}$。（这里 $t^{z-1} = \exp[(z-1)\log t]$。）因为 $|t^{z-1}| = t^{\text{Re }z-1}$，我们有 $|f_z(t)| \leq t^{\text{Re }z-1}$，且对 $t \geq 1$ 有 $|f_z(t)| \leq C_z e^{-t/2}$。（$C_z$ 的精确值可以通过最大化 $t^{\text{Re }z-1}e^{-t/2}$ 容易找到，但这里并不重要。）由于 $\int_0^1 t^a \,dt < \infty$ 对 $a > -1$ 成立，且 $\int_1^{\infty} e^{-t/2} \,dt < \infty$，我们看到 $f_z \in L^1((0,\infty))$ 对 $\text{Re }z > 0$ 成立，我们定义
+\[ \Gamma(z) = \int_0^{\infty} t^{z-1}e^{-t} \,dt \quad (\text{Re }z > 0). \]
+
+由于
+\[ \int_{\epsilon}^{N} t^z e^{-t} \,dt = -t^z e^{-t}\big|_{\epsilon}^{N} + z \int_{\epsilon}^{N} t^{z-1}e^{-t} \,dt \]
+通过分部积分，让 $\epsilon \to 0$ 和 $N \to \infty$，我们看到对 $\text{Re }z > 0$，$\Gamma$ 满足函数方程
+\[ \Gamma(z+1) = z\Gamma(z). \]
+
+这个方程可以用来将 $\Gamma$ 扩展到（几乎）整个复平面。具体地，对于 $-1 < \text{Re }z \leq 0$，我们可以\textbf{定义} $\Gamma(z)$ 为 $\Gamma(z+1)/z$，然后通过归纳法，
+
+定义了 $\text{Re }z > -n$ 的 $\Gamma(z)$ 后，我们\textbf{定义} $\text{Re }z > -n-1$ 的 $\Gamma(z)$ 为 $\Gamma(z+1)/z$。结果是一个函数，它在除了非正整数（因为刚才描述的算法涉及除以零）的奇点外的整个 $\mathbb{C}$ 上都有定义。
+
+我们有 $\Gamma(1) = \int_0^{\infty} e^{-t} \,dt = -e^{-t}\big|_0^{\infty} = 1$，所以函数方程的 $n$ 次应用表明 $\Gamma(n+1) = n!$。（这个事实的另一个证明在练习29中概述。）伽马函数的许多应用涉及它为非整数提供了阶乘函数的扩展这一事实。
+
+
+\section{收敛模式}
+
+如果 $\{f_n\}$ 是定义在集合 $X$ 上的复值函数序列，陈述"$f_n \to f$ 当 $n \to \infty$"可以在许多不同的意义上理解，例如，逐点收敛或一致收敛。如果 $X$ 是一个测度空间，我们也可以谈论几乎处处（a.e.）收敛或在 $L^1$ 中的收敛。当然，一致收敛蕴含逐点收敛，后者又蕴含几乎处处收敛（反之一般不成立），但这些
+
+收敛模式并不蕴含 $L^1$ 收敛，反之亦然。记住以下在 $\mathbb{R}$ 上（带勒贝格测度）的例子将会很有用：
+
+\begin{enumerate}[label=\roman*.]
+    \item $f_n = n^{-1}\chi_{(0,n)}$。
+    \item $f_n = \chi_{(n,n+1)}$。
+    \item $f_n = n\chi_{[0,1/n]}$。
+    \item $f_1 = \chi_{[0,1]}$, $f_2 = \chi_{[0,1/2]}$, $f_3 = \chi_{[1/2,1]}$, $f_4 = \chi_{[0,1/4]}$, $f_5 = \chi_{[1/4,1/2]}$, $f_6 = \chi_{[1/2,3/4]}$, $f_7 = \chi_{[3/4,1]}$, 一般地，$f_n = \chi_{[j/2^k, (j+1)/2^k]}$ 其中 $n = 2^k + j$ 且 $0 \leq j < 2^k$。
+\end{enumerate}
+在 (i)、(ii) 和 (iii) 中，$f_n \to 0$ 分别是一致、逐点和几乎处处收敛，但 $f_n \not\to 0 \in L^1$（事实上 $\int |f_n| = \int f_n = 1$ 对所有 $n$ 成立）。在 (iv) 中，$f_n \to 0$ 在 $L^1$ 中，因为 $\int |f_n| = 2^{-k}$ 对 $2^k \leq n < 2^{k+1}$，但 $f_n(x)$ 对任何 $x \in [0,1]$ 都不收敛，因为存在无穷多个 $n$ 使得 $f_n(x) = 0$ 以及无穷多个 $n$ 使得 $f_n(x) = 1$。
+
+另一方面，如果 $f_n \to f$ 几乎处处且 $|f_n| \leq g \in L^1$ 对所有 $n$，则 $f_n \to f$ 在 $L^1$ 中。（这显然来自控制收敛定理，因为 $|f_n - f| \leq 2g$。）另外，我们将在下面看到，如果 $f_n \to f$ 在 $L^1$ 中，则存在某个子序列收敛到 $f$ 几乎处处。
+
+另一种经常有用的收敛模式是测度收敛。我们说可测复值函数序列 $\{f_n\}$ 在测度空间 $(X, \mathcal{M}, \mu)$ 上是\textbf{依测度 Cauchy} 的，如果对每个 $\epsilon > 0$，
+\[ \mu(\{x : |f_n(x) - f_m(x)| \geq \epsilon\}) \to 0 \text{ 当 } m,n \to \infty, \]
+并且我们说 $\{f_n\}$ \textbf{依测度收敛}到 $f$，如果对每个 $\epsilon > 0$，
+\[ \mu(\{x : |f_n(x) - f(x)| \geq \epsilon\}) \to 0 \text{ 当 } n \to \infty. \]
+
+例如，上面的序列 (i)、(iii) 和 (iv) 依测度收敛到零，但 (ii) 不是依测度 Cauchy 的。
+
+\begin{proposition}\label{proposition2.29}
+如果 $f_n \to f$ 在 $L^1$ 中，则 $f_n \to f$ 依测度。
+\end{proposition}
+
+\begin{proof}
+令 $E_{n,\epsilon} = \{x : |f_n(x)-f(x)| \geq \epsilon\}$。那么 $\int |f_n-f| \geq \int_{E_{n,\epsilon}} |f_n-f| \geq \epsilon\mu(E_{n,\epsilon})$，所以 $\mu(E_{n,\epsilon}) \leq \epsilon^{-1} \int |f_n - f| \to 0$。
+\end{proof}
+
+命题\ref{proposition2.29}的逆命题是假的，如例子 (i) 和 (iii) 所示。
+
+\begin{theorem}\label{theorem2.30}
+假设 $\{f_n\}$ 是依测度 Cauchy 的。则存在可测函数 $f$ 使得 $f_n \to f$ 依测度，并且存在子序列 $\{f_{n_j}\}$ 收敛到 $f$ 几乎处处。此外，如果 $f_n \to g$ 依测度，则 $g = f$ 几乎处处。
+\end{theorem}
+
+\begin{proof}
+我们可以选择 $\{f_n\}$ 的子序列 $\{g_j\} = \{f_{n_j}\}$ 使得如果 $E_j = \{x : |g_j(x) - g_{j+1}(x)| \geq 2^{-j}\}$，则 $\mu(E_j) \leq 2^{-j}$。如果 $F_k = \bigcup_{j=k}^{\infty} E_j$，则 $\mu(F_k) \leq \sum_{k}^{\infty} 2^{-j} = 2^{1-k}$，且如果 $x \notin F_k$，对 $i \geq j \geq k$ 我们有
+
+\begin{equation}
+|g_j(x) - g_i(x)| \leq \sum_{l=j}^{i-1} |g_{l+1}(x) - g_l(x)| \leq \sum_{l=j}^{i-1} 2^{-l} \leq 2^{1-j}.
+\end{equation}
+
+因此 $\{g_j\}$ 在 $F_k^c$ 上逐点 Cauchy。令 $F = \bigcap_{k=1}^{\infty} F_k = \limsup E_j$。则 $\mu(F) = 0$，如果我们设 $f(x) = \lim g_j(x)$ 对 $x \notin F$ 且 $f(x) = 0$ 对 $x \in F$，则 $f$ 是可测的（见练习3和5）且 $g_j \to f$ 几乎处处。同样，(2.31) 表明 $|g_j(x) - f(x)| \leq 2^{1-j}$ 对 $x \notin F_k$ 且 $j \geq k$。因为 $\mu(F_k) \to 0$ 当 $k \to \infty$，所以 $g_j \to f$ 依测度。但那么 $f_n \to f$ 依测度，因为
+
+\[ \{x : |f_n(x)-f(x)| \geq \epsilon\} \subset \{x : |f_n(x)-g_j(x)| \geq \frac{1}{2}\epsilon\}\cup\{x : |g_j(x)-f(x)| \geq \frac{1}{2}\epsilon\}, \]
+
+而右侧的集合在 $n$ 和 $j$ 足够大时都具有小测度。同样地，如果 $f_n \to g$ 依测度，
+
+\[ \{x : |f(x)-g(x)| \geq \epsilon\} \subset \{x : |f(x)-f_n(x)| \geq \frac{1}{2}\epsilon\}\cup\{x : |f_n(x)-g(x)| \geq \frac{1}{2}\epsilon\} \]
+
+对所有 $n$ 成立，因此 $\mu(\{x : |f(x) - g(x)| \geq \epsilon\}) = 0$ 对所有 $\epsilon$ 成立。让 $\epsilon$ 通过某个值序列趋于零，我们得出 $f = g$ 几乎处处。
+\end{proof}
+
+\begin{corollary}\label{corollary2.32}
+如果 $f_n \to f$ 在 $L^1$ 中，则存在子序列 $\{f_{n_j}\}$ 使得 $f_{n_j} \to f$ 几乎处处。
+\end{corollary}
+
+\begin{proof}
+结合命题\ref{proposition2.29}和定理\ref{theorem2.30}。
+\end{proof}
+
+\begin{theorem}[Egoroff定理]\label{theorem2.33}
+假设 $\mu(X) < \infty$，且 $f_1, f_2, \ldots$ 和 $f$ 是 $X$ 上的可测复值函数，使得 $f_n \to f$ 几乎处处。则对每个 $\epsilon > 0$，存在 $E \subset X$ 使得 $\mu(E) < \epsilon$ 且 $f_n \to f$ 在 $E^c$ 上一致收敛。
+\end{theorem}
+
+\begin{proof}
+不失一般性，我们可以假设 $f_n \to f$ 在 $X$ 上处处成立。对 $k, n \in \mathbb{N}$ 令
+\[ E_n(k) = \bigcup_{m=n}^{\infty} \{x : |f_m(x) - f(x)| \geq k^{-1}\}. \]
+
+那么，对固定的 $k$，$E_n(k)$ 随着 $n$ 的增加而减少，且 $\bigcap_{n=1}^{\infty} E_n(k) = \emptyset$，所以由于 $\mu(X) < \infty$，我们得出 $\mu(E_n(k)) \to 0$ 当 $n \to \infty$。给定 $\epsilon > 0$ 和 $k \in \mathbb{N}$，选择 $n_k$ 足够大使得 $\mu(E_{n_k}(k)) < \epsilon 2^{-k}$ 并令 $E = \bigcup_{k=1}^{\infty} E_{n_k}(k)$。那么 $\mu(E) < \epsilon$，且我们有 $|f_n(x) - f(x)| < k^{-1}$ 对 $n > n_k$ 和 $x \notin E$ 成立。因此 $f_n \to f$ 在 $E^c$ 上一致收敛。
+\end{proof}
+
+Egoroff定理结论中涉及的收敛类型有时被称为\textbf{几乎一致收敛}。不难看出，几乎一致收敛蕴含几乎处处收敛和依测度收敛（练习39）。
+
+\section{乘积测度}
+
+设 $(X, \mathcal{M}, \mu)$ 和 $(Y, \mathcal{N}, \nu)$ 是测度空间。我们已经讨论了乘积 $\sigma$-代数 $\mathcal{M} \otimes \mathcal{N}$ 在 $X \times Y$ 上；现在我们构造一个在 $\mathcal{M} \otimes \mathcal{N}$ 上的测度，它在某种明显的意义上是 $\mu$ 和 $\nu$ 的乘积。
+
+首先，我们定义一个（可测的）\textbf{矩形}为形如 $A \times B$ 的集合，其中 $A \in \mathcal{M}$ 且 $B \in \mathcal{N}$。显然
+\[ (A \times B) \cap (E \times F) = (A \cap E) \times (B \cap F), \quad (A \times B)^c = (X \times B^c) \cup (A^c \times B). \]
+
+因此，根据命题1.7，有限不交矩形并的集合 $\mathcal{A}$ 是一个代数，当然它生成的 $\sigma$-代数就是 $\mathcal{M} \otimes \mathcal{N}$。
+
+假设 $A \times B$ 是一个矩形，可表示为（有限或可数个）矩形 $A_j \times B_j$ 的不交并。那么对于 $x \in X$ 和 $y \in Y$，
+\[ \chi_A(x)\chi_B(y) = \chi_{A \times B}(x, y) = \sum \chi_{A_j \times B_j}(x, y) = \sum \chi_{A_j}(x)\chi_{B_j}(y). \]
+
+如果我们对 $x$ 积分并使用定理\ref{theorem2.15}，我们得到
+\[ \mu(A)\chi_B(y) = \int \chi_A(x)\chi_B(y) d\mu(x) = \sum \int \chi_{A_j}(x)\chi_{B_j}(y) d\mu(x) = \sum \mu(A_j)\chi_{B_j}(y). \]
+
+同样地，对 $y$ 积分得到
+\[ \mu(A)\nu(B) = \sum \mu(A_j)\nu(B_j). \]
+
+由此可知，如果 $E \in \mathcal{A}$ 是矩形 $A_1 \times B_1, \ldots, A_n \times B_n$ 的不交并，且我们设
+\[ \pi(E) = \sum_{1}^{n} \mu(A_j)\nu(E_j) \]
+
+（按惯例，$0 \cdot \infty = 0$），那么 $\pi$ 在 $\mathcal{A}$ 上是良定义的（因为任何 $E$ 作为有限不交矩形并的两种表示都有一个共同的细分），且 $\pi$ 是 $\mathcal{A}$ 上的预测度。根据定理1.14，因此 $\pi$ 在 $X \times Y$ 上生成一个外测度，其限制在 $\mathcal{M} \times \mathcal{N}$ 上是一个延拓 $\pi$ 的测度。我们称这个测度为 $\mu$ 和 $\nu$ 的\textbf{乘积}，记为 $\mu \times \nu$。此外，如果 $\mu$ 和 $\nu$ 是 $\sigma$-有限的——比如，$X = \bigcup_1^\infty A_j$ 且 $Y = \bigcup_1^\infty B_k$，其中 $\mu(A_j) < \infty$ 且 $\nu(B_k) < \infty$——那么 $X \times Y = \bigcup_{j,k} A_j \times B_k$，且 $\mu \times \nu(A_j \times B_k) < \infty$，所以 $\mu \times \nu$ 也是 $\sigma$-有限的。在这种情况下，根据定理1.14，$\mu \times \nu$ 是 $\mathcal{M} \otimes \mathcal{N}$ 上唯一的满足 $\mu \times \nu(A \times B) = \mu(A)\nu(B)$ 对所有矩形 $A \times B$ 都成立的测度。
+
+同样的构造适用于任何有限数量的因子。即，假设 $(X_j, \mathcal{M}_j, \mu_j)$ 对 $j = 1, \ldots, n$ 是测度空间。如果我们定义一个矩形为形如 $A_1 \times \cdots \times A_n$ 的集合，其中 $A_j \in \mathcal{M}_j$，那么有限不交矩形并的集合 $\mathcal{A}$ 是一个代数，同样的过程产生一个测度 $\mu_1 \times \cdots \times \mu_n$ 在 $\mathcal{M}_1 \otimes \cdots \otimes \mathcal{M}_n$ 上，满足
+\[ \mu_1 \times \cdots \times \mu_n(A_1 \times \cdots \times A_n) = \prod_{j=1}^{n} \mu_j(A_j). \]
+
+此外，如果 $\mu_j$ 都是 $\sigma$-有限的，使得从 $\mathcal{A}$ 到 $\bigotimes_1^n \mathcal{M}_j$ 的扩展是唯一确定的，那么显然的结合性质成立。例如，如果我们将 $X_1 \times X_2 \times X_3$ 与 $(X_1 \times X_2) \times X_3$ 认同，我们有 $\mathcal{M}_1 \otimes \mathcal{M}_2 \otimes \mathcal{M}_3 = (\mathcal{M}_1 \otimes \mathcal{M}_2) \otimes \mathcal{M}_3$（前者由形如 $A_1 \times A_2 \times A_3$ 的集合生成，其中 $A_j \in \mathcal{M}_j$，后者由形如 $B \times A_3$ 的集合生成，其中 $B \in \mathcal{M}_1 \otimes \mathcal{M}_2$ 且 $A_3 \in \mathcal{M}_3$），且 $\mu_1 \times \mu_2 \times \mu_3 = (\mu_1 \times \mu_2) \times \mu_3$（因为它们在形如 $A_1 \times A_2 \times A_3$ 的集合上一致，因此一般情况下由唯一性可得）。详细内容留给读者（练习45）。下面我们所有结果都有明显的推广到 $n$ 个因子的乘积，但为简单起见，我们将坚持 $n = 2$ 的情况。
+
+我们回到两个测度空间 $(X, \mathcal{M}, \mu)$ 和 $(Y, \mathcal{N}, \nu)$ 的情况。如果 $E \subset X \times Y$，对于 $x \in X$ 和 $y \in Y$，我们定义 $E$ 的 $x$\textbf{-截面} $E_x$ 和 $y$\textbf{-截面} $E^y$ 为
+\[ E_x = \{y \in Y : (x, y) \in E\}, \quad E^y = \{x \in X : (x, y) \in E\}. \]
+
+同样，如果 $f$ 是 $X \times Y$ 上的函数，我们定义 $f$ 的 $x$\textbf{-截面} $f_x$ 和 $y$\textbf{-截面} $f^y$ 为
+\[ f_x(y) = f^y(x) = f(x, y). \]
+
+因此，例如，$(\chi_E)_x = \chi_{E_x}$ 且 $(\chi_E)^y = \chi_{E^y}$。
+
+\begin{proposition}\label{proposition2.34}
+\begin{enumerate}[label=\alph*.]
+\item 如果 $E \in \mathcal{M} \times \mathcal{N}$，那么 $E_x \in \mathcal{N}$ 对所有 $x \in X$ 且 $E^y \in \mathcal{M}$ 对所有 $y \in Y$。
+\item 如果 $f$ 是 $\mathcal{M} \otimes \mathcal{N}$-可测的，那么 $f_x$ 是 $\mathcal{N}$-可测的对所有 $x \in X$ 且 $f^y$ 是 $\mathcal{M}$-可测的对所有 $y \in Y$。
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+令 $\mathcal{R}$ 为 $X \times Y$ 的所有子集 $E$ 的集合，使得 $E_x \in \mathcal{N}$ 对所有 $x$ 且 $E^y \in \mathcal{M}$ 对所有 $y$。那么 $\mathcal{R}$ 显然包含所有矩形（例如，$(A \times B)_x = B$ 如果 $x \in A$，$= \emptyset$ 否则）。由于 $(\bigcup_1^\infty E_j)_x = \bigcup_1^\infty (E_j)_x$ 且 $(E^c)_x = (E_x)^c$，同样对 $y$-截面也成立，$\mathcal{R}$ 是一个 $\sigma$-代数。因此 $\mathcal{R} \supset \mathcal{M} \otimes \mathcal{N}$，这证明了 (a)。(b) 从 (a) 可得，因为 $(f_x)^{-1}(B) = (f^{-1}(B))_x$ 且 $(f^y)^{-1}(B) = (f^{-1}(B))^y$。
+\end{proof}
+
+在继续之前，我们需要一个技术性引理。我们定义 $X$ 上的\textbf{单调类}为 $\mathcal{P}(X)$ 的一个子集 $\mathcal{C}$，它对可数递增并和可数递减交是封闭的（即，如果 $E_j \in \mathcal{C}$ 且 $E_1 \subset E_2 \subset \cdots$，那么 $\bigcup E_j \in \mathcal{C}$，同样对交也成立）。显然每个 $\sigma$-代数都是一个单调类。此外，任何族的单调类的交也是一个单调类，所以对任何 $\mathcal{E} \subset \mathcal{P}(X)$ 都存在一个包含 $\mathcal{E}$ 的唯一最小单调类，称为 $\mathcal{E}$ \textbf{生成的单调类}。
+
+\begin{theorem}[单调类引理]\label{theorem2.35}
+如果 $\mathcal{A}$ 是 $X$ 的子集代数，那么 $\mathcal{A}$ 生成的单调类 $\mathcal{C}$ 与 $\mathcal{A}$ 生成的 $\sigma$-代数 $\mathcal{M}$ 一致。
+\end{theorem}
+
+\begin{proof}
+因为 $\mathcal{M}$ 是一个单调类，我们有 $\mathcal{C} \subset \mathcal{M}$；如果我们能证明 $\mathcal{C}$ 是一个 $\sigma$-代数，我们就会有 $\mathcal{M} \subset \mathcal{C}$。为此，对 $E \in \mathcal{C}$ 让我们定义
+\[ \mathcal{C}(E) = \{F \in \mathcal{C} : E \setminus F, F \setminus E, \text{ 和 } E \cap F \text{ 都在 } \mathcal{C}\}. \]
+
+显然 $\emptyset$ 和 $E$ 都在 $\mathcal{C}(E)$ 中，且 $E \in \mathcal{C}(F)$ 当且仅当 $F \in \mathcal{C}(E)$。同样，容易检验 $\mathcal{C}(E)$ 是一个单调类。如果 $E \in \mathcal{A}$，那么 $F \in \mathcal{C}(E)$ 对所有 $F \in \mathcal{A}$ 都成立，因为 $\mathcal{A}$ 是一个代数；即，$\mathcal{A} \subset \mathcal{C}(E)$，因此 $\mathcal{C} \subset \mathcal{C}(E)$。因此，如果 $F \in \mathcal{C}$，那么 $F \in \mathcal{C}(E)$ 对所有 $E \in \mathcal{A}$ 都成立。但这意味着 $E \in \mathcal{C}(F)$ 对所有 $E \in \mathcal{A}$ 都成立，所以 $\mathcal{A} \subset \mathcal{C}(F)$ 因此 $\mathcal{C} \subset \mathcal{C}(F)$。结论：如果 $E, F \in \mathcal{C}$，那么 $E \setminus F$ 和 $E \cap F$ 都在 $\mathcal{C}$ 中。因为 $X \in \mathcal{A} \subset \mathcal{C}$，$\mathcal{C}$ 因此是一个代数。但如果 $\{E_j\}_1^\infty \subset \mathcal{C}$，我们有 $\bigcup_1^n E_j \in \mathcal{C}$ 对所有 $n$，且因为 $\mathcal{C}$ 对可数递增并是封闭的，$\bigcup_1^\infty E_j \in \mathcal{C}$。简而言之，$\mathcal{C}$ 是一个 $\sigma$-代数，我们完成了证明。
+\end{proof}
+
+现在我们来到本节的主要结果，它将 $X \times Y$ 上的积分与 $X$ 和 $Y$ 上的积分联系起来。
+
+\begin{theorem}\label{theorem2.36}
+假设 $(X, \mathcal{M}, \mu)$ 和 $(Y, \mathcal{N}, \nu)$ 是 $\sigma$-有限测度空间。如果 $E \in \mathcal{M} \otimes \mathcal{N}$，那么函数 $x \mapsto \nu(E_x)$ 和 $y \mapsto \mu(E^y)$ 分别在 $X$ 和 $Y$ 上是可测的，且
+\[ \mu \times \nu(E) = \int \nu(E_x) d\mu(x) = \int \mu(E^y) d\nu(y). \]
+\end{theorem}
+
+\begin{proof}
+首先假设 $\mu$ 和 $\nu$ 是有限的，且令 $\mathcal{C}$ 为所有 $E \in \mathcal{M} \otimes \mathcal{N}$ 的集合，对其定理的结论成立。如果 $E = A \times B$，那么 $\nu(E_x) = \chi_A(x)\nu(B)$ 且 $\mu(E^y) = \mu(A)\chi_B(y)$，所以显然 $E \in \mathcal{C}$。通过可加性可知有限不交矩形并都在 $\mathcal{C}$ 中，所以根据引理\ref{theorem2.35}，只需证明 $\mathcal{C}$ 是一个单调类。如果 $\{E_n\}$ 是 $\mathcal{C}$ 中的递增序列且 $E = \bigcup_1^\infty E_n$，那么函数 $f_n(y) = \mu((E_n)^y)$ 是可测的且逐点递增到 $f(y) = \mu(E^y)$。因此 $f$ 是可测的，且根据单调收敛定理，
+\[ \int \mu(E^y) d\nu(y) = \lim \int \mu((E_n)^y) d\nu(y) = \lim \mu \times \nu(E_n) = \mu \times \nu(E). \]
+
+同样地 $\mu \times \nu(E) = \int \nu(E_x) d\mu(x)$，所以 $E \in \mathcal{C}$。类似地，如果 $\{E_n\}$ 是 $\mathcal{C}$ 中的递减序列且 $\bigcap_1^\infty E_n$，函数 $y \mapsto \mu((E_1)^y)$ 在 $L^1(\nu)$ 中因为 $\mu((E_1)^y) \leq \mu(X) < \infty$ 且 $\nu(Y) < \infty$，所以可以应用控制收敛定理证明 $E \in \mathcal{C}$。因此 $\mathcal{C}$ 是一个单调类，证明在有限测度空间的情况下完成。
+
+最后，如果 $\mu$ 和 $\nu$ 是 $\sigma$-有限的，我们可以将 $X \times Y$ 写成递增序列 $\{X_j \times Y_j\}$ 的并，其中每个矩形都具有有限测度。如果 $E \in \mathcal{M} \otimes \mathcal{N}$，前面的论证应用于 $E \cap (X_j \times Y_j)$ 对每个 $j$ 得到
+\[ \mu \times \nu(E \cap (X_j \times Y_j)) = \int \chi_{X_j}(x) \nu(E_x \cap Y_j) d\mu(x) = \int \chi_{Y_j}(y) \mu(E^y \cap X_j) d\nu(y), \]
+
+最后应用单调收敛定理得到所需结果。
+\end{proof}
+
+\begin{theorem}[Fubini-Tonelli定理]\label{theorem2.37}
+假设 $(X, \mathcal{M}, \mu)$ 和 $(Y, \mathcal{N}, \nu)$ 是 $\sigma$-有限测度空间。
+\begin{enumerate}[label=\alph*.]
+\item (Tonelli) 如果 $f \in L^+(X \times Y)$，那么函数 $g(x) = \int f_x d\nu$ 和 $h(y) = \int f^y d\mu$ 分别在 $L^+(X)$ 和 $L^+(Y)$ 中，且
+\begin{equation}\label{equation2.38}
+\int f d(\mu \times \nu) = \int \left[ \int f(x, y) d\nu(y) \right] d\mu(x) = \int \left[ \int f(x, y) d\mu(x) \right] d\nu(y).
+\end{equation}
+\item (Fubini) 如果 $f \in L^1(\mu \times \nu)$，那么 $f_x \in L^1(\nu)$ 对 a.e. $x \in X$, $f^y \in L^1(\mu)$ 对 a.e. $y \in Y$，a.e.定义的函数 $g(x) = \int f_x d\nu$ 和 $h(x) = \int f^y d\nu$ 分别在 $L^1(\mu)$ 和 $L^1(\nu)$ 中，且\eqref{equation2.38}成立。
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+当 $f$ 是特征函数时，Tonelli定理归结为定理\ref{theorem2.36}，因此对非负简单函数由线性性成立。如果 $f \in L^+(X \times Y)$，设 $\{f_n\}$ 为如定理\ref{theorem2.10}中递增逐点收敛到 $f$ 的简单函数序列。单调收敛定理暗示，首先，相应的 $g_n$ 和 $h_n$ 递增到 $g$ 和 $h$（所以 $g$ 和 $h$ 是可测的），且，其次
+\[ \int g d\mu = \lim \int g_n d\mu = \lim \int f_n d(\mu \times \nu) = \int f d(\mu \times \nu), \]
+\[ \int h d\nu = \lim \int h_n d\nu = \lim \int f_n d(\mu \times \nu) = \int f d(\mu \times \nu), \]
+
+这就是\eqref{equation2.38}。这建立了Tonelli定理，并且还表明如果 $f \in L^+(X \times Y)$ 且 $\int f d(\mu \times \nu) < \infty$，那么 $g < \infty$ a.e.且 $h < \infty$ a.e.，即 $f_x \in L^1(\nu)$ 对 a.e. $x$ 且 $f^y \in L^1(\mu)$ 对 a.e. $y$。如果 $f \in L^1(\mu \times \nu)$，那么Fubini定理的结论通过对 $f$ 的实部和虚部的正部和负部应用这些结果可得。
+\end{proof}
+
+几点注释：
+
+\begin{itemize}
+\item 我们通常在\eqref{equation2.38}中省略括号，写作：
+\[ \int \left[ \int f(x, y) d\mu(x) \right] d\nu(y) = \iint f(x, y) d\mu(x) d\nu(y) = \iint f d\mu d\nu. \]
+
+\item $\sigma$-有限的假设是必要的；见练习46。
+
+\item 假设 $f \in L^+(X \times Y)$ 或 $f \in L^1(\mu \times \nu)$ 是必要的，有两个方面。首先，$f_x$ 和 $f^y$ 对所有 $x, y$ 可测且迭代积分 $\iint f d\mu d\nu$ 和 $\iint f d\nu d\mu$ 存在，即使 $f$ 不是 $\mathcal{M} \otimes \mathcal{N}$-可测的是可能的。然而，迭代积分不必相等；见练习47。其次，如果 $f$ 不是非负的，$f_x$ 和 $f^y$ 对所有 $x, y$ 可积且迭代积分 $\iint f d\mu d\nu$ 和 $\iint f d\nu d\mu$ 存在，即使 $\int |f| d(\mu \times \nu) = \infty$ 也是可能的。但再次，迭代积分不必相等；见练习48。
+
+\item Fubini和Tonelli定理经常一起使用。典型地，人们希望反转双重积分 $\iint f d\mu d\nu$ 中的积分顺序。首先，通过使用Tonelli定理将 $\int |f| d(\mu \times \nu)$ 评估为迭代积分，验证 $\int |f| d(\mu \times \nu) < \infty$；然后应用Fubini定理得出 $\iint f d\mu d\nu = \iint f d\nu d\mu$。例子见§2.6中的练习。
+
+\item 即使 $\mu$ 和 $\nu$ 是完备的，$\mu \times \nu$ 几乎从不是完备的。事实上，假设存在非空 $A \in \mathcal{M}$ 使得 $\mu(A) = 0$ 且 $\mathcal{N} \neq \mathcal{P}(Y)$。（例如，$\mu = \nu = $ $\mathbb{R}$ 上的勒贝格测度。）如果 $E \in \mathcal{P}(Y) \setminus \mathcal{N}$，则 $A \times E \notin \mathcal{M} \otimes \mathcal{N}$ 根据命题\ref{proposition2.34}，但 $A \times E \subset A \times Y$，且 $\mu \times \nu(A \times Y) = 0$。
+
+如果希望使用完备测度，当然可以考虑 $\mu \times \nu$ 的完备化。在这种情况下，$X \times Y$ 上的函数的可测性与其 $x$-截面和 $y$-截面的可测性之间的关系不那么简单。然而，当适当重述时，Fubini-Tonelli定理仍然有效：
+\end{itemize}
+
+\begin{theorem}[完备测度的Fubini-Tonelli定理]\label{theorem2.39}
+设 $(X, \mathcal{M}, \mu)$ 和 $(Y, \mathcal{N}, \nu)$ 是完备的 $\sigma$-有限测度空间，且设 $(X \times Y, \mathcal{L}, \lambda)$ 是 $(X \times Y, \mathcal{M} \otimes \mathcal{N}, \mu \times \nu)$ 的完备化。如果 $f$ 是 $\mathcal{L}$-可测的且要么 (a) $f \geq 0$ 或 (b) $f \in L^1(\lambda)$，那么 $f_x$ 对 a.e. $x$ 是 $\mathcal{N}$-可测的且 $f^y$ 对 a.e. $y$ 是 $\mathcal{M}$-可测的，且在情况 (b) 中 $f_x$ 和 $f^y$ 也分别对 a.e. $x$ 和 $y$ 可积。此外，$x \mapsto \int f_x d\nu$ 和 $y \mapsto \int f^y d\mu$ 是可测的，且在情况 (b) 中也是可积的，且
+\[ \int f d\lambda = \iint f(x, y) d\mu(x) d\nu(y) = \iint f(x, y) d\nu(y) d\mu(x). \]
+\end{theorem}
+
+这个定理是定理\ref{theorem2.37}的一个相当简单的推论；证明在练习49中概述。
+
+\section{n维勒贝格积分}
+
+\textbf{勒贝格测度} $m^n$ 在 $\mathbb{R}^n$ 上是 $\mathbb{R}$ 上勒贝格测度的 $n$ 重积的完备化，即 $m \times \cdots \times m$ 在 $\mathcal{B}_{\mathbb{R}} \otimes \cdots \otimes \mathcal{B}_{\mathbb{R}} = \mathcal{B}_{\mathbb{R}^n}$ 上的完备化，或者等价地是 $m \times \cdots \times m$ 在 $\mathcal{L} \otimes \cdots \otimes \mathcal{L}$ 上的完备化。$m^n$ 的域是\textbf{勒贝格可测集}的类 $\mathcal{L}^n$；有时我们也将 $m^n$ 作为在更小的域 $\mathcal{B}_{\mathbb{R}^n}$ 上的测度来考虑。如果没有混淆的危险，我们将通常省略上标 $n$ 并写 $m$ 代替 $m^n$，并且，如同 $n=1$ 的情况，我们将为 $\int f \,dm$ 写成 $\int f(x) \,dx$。在下文中，如果 $E = \prod_1^n E_j$ 是 $\mathbb{R}^n$ 中的一个矩形，我们将称集合 $E_j \subset \mathbb{R}$ 为 $E$ 的\textbf{边}。
+
+我们从将 §1.5 中的一些结果扩展到 $n$ 维情况开始。
+
+\begin{theorem}\label{theorem2.40}
+假设 $E \in \mathcal{L}^n$。
+\begin{enumerate}[label=\alph*.]
+\item $m(E) = \inf\{m(U) : U \supset E, U \text{ open}\} = \sup\{m(K) : K \subset E, K \text{ compact}\}$。
+\item $E = A_1 \setminus N_1 = A_2 \cup N_2$ 其中 $A_1$ 是一个 $F_\sigma$ 集，$A_2$ 是一个 $G_\delta$ 集，且 $m(N_1)=m(N_2)=0$。
+\item 如果 $m(E) < \infty$，对任何 $\epsilon > 0$ 存在一个有限集 $\{R_j\}_1^N$ 的不交矩形，其边是区间，使得 $m(E \Delta \bigcup_1^N R_j) < \epsilon$。
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+根据乘积测度的定义，如果 $E \in \mathcal{L}^n$ 且 $\epsilon > 0$，存在一个可数族 $\{T_j\}$ 的矩形，使得 $E \subset \bigcup_1^\infty T_j$ 且 $\sum_1^\infty m(T_j) \le m(E) + \epsilon$。对每个 $j$，通过应用定理1.18到 $T_j$ 的边，我们可以找到一个矩形 $U_j \supset F_j$ 其边是开区间，使得 $m(U_j) < m(T_j) + \epsilon 2^{-j}$。如果 $U = \bigcup_1^\infty U_j$，则 $U$ 是开集且 $m(U) \le \sum_1^\infty m(U_j) \le m(E) + 2\epsilon$。这证明了(a)中的第一个等式；第二个等式可由其推出，如同在定理1.18和1.19的证明中一样。接下来，如果 $m(E) < \infty$，则 $m(U_j) < \infty$ 对所有 $j$ 成立。由于 $U_j$ 是开区间的可数并，通过取有限子并集，我们得到 $V_j \subset U_j$，其边是有限个区间的并，使得 $m(V_j) \ge m(U_j) - \epsilon 2^{-j}$。如果 $N$ 足够大，则
+\[ m(E \setminus \bigcup_1^N V_j) \le m(\bigcup_1^N U_j \setminus V_j) + m(\bigcup_{N+1}^\infty U_j) < 2\epsilon \]
+并且
+\[ m(\bigcup_1^N V_j \setminus E) \le m(\bigcup_1^\infty U_j \setminus E) < \epsilon, \]
+因此 $m(E \Delta \bigcup_1^N V_j) < 3\epsilon$。既然 $\bigcup_1^N V_j$ 可以表示为有限不交的矩形（其边是区间）的并，我们便证明了(c)。
+\end{proof}
+
+\begin{theorem}\label{theorem2.41}
+如果 $f \in L^1(m)$ 且 $\epsilon > 0$，存在一个简单函数 $\phi = \sum_1^N a_j \chi_{R_j}$，其中每个 $R_j$ 是区间的乘积，使得 $\int |f-\phi| < \epsilon$，并且存在一个在有界集外为零的连续函数 $g$ 使得 $\int |f-g| < \epsilon$。
+\end{theorem}
+
+\begin{proof}
+如定理\ref{theorem2.26}的证明中，用简单函数逼近 $f$，然后用定理\ref{theorem2.40}c将后者逼近成所需形式的函数 $\phi$。最后，通过应用定理\ref{theorem2.26}证明中论证的一个明显推广，用连续函数逼近这样的 $\phi$。
+\end{proof}
+
+\begin{theorem}\label{theorem2.42}
+勒贝格测度是平移不变的。更精确地，对 $a \in \mathbb{R}^n$ 定义 $\tau_a : \mathbb{R}^n \to \mathbb{R}^n$ 为 $\tau_a(x) = x+a$。
+\begin{enumerate}[label=\alph*.]
+\item 如果 $E \in \mathcal{L}^n$，则 $\tau_a(E) \in \mathcal{L}^n$ 且 $m(\tau_a(E)) = m(E)$。
+\item 如果 $f : \mathbb{R}^n \to \mathbb{C}$ 是勒贝格可测的，那么 $f \circ \tau_a$ 也是。此外，如果 $f \ge 0$ 或 $f \in L^1(m)$，则 $\int (f \circ \tau_a) \,dm = \int f \,dm$。
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+由于 $\tau_a$ 及其逆 $\tau_{-a}$ 是连续的，它们保持Borel集的类。公式 $m(\tau_a(E)) = m(E)$ 如果 $E$ 是一个矩形，则可从一维结果（定理1.21）轻易得出，然后对一般Borel集也成立，因为 $m$ 在矩形上的作用是唯一的（根据定理1.14）。特别地，Borel集 $E$ 使得 $m(E)=0$ 的集合在 $\tau_a$ 下是不变的。断言(a)现在立即得出。
+如果 $f$ 是勒贝格可测的且 $B$ 是 $\mathbb{C}$ 中的Borel集，我们有 $f^{-1}(B) = E \cup N$ 其中 $E$ 是Borel集且 $m(N)=0$。但 $\tau_a^{-1}(E)$ 是Borel集且 $m(\tau_a^{-1}(N))=0$，所以 $(f \circ \tau_a)^{-1}(B) \in \mathcal{L}^n$ 且 $f \circ \tau_a$ 是勒贝格可测的。等式 $\int (f \circ \tau_a) \,d\mu = \int f \,d\mu$ 如果 $f = \chi_E$ 则归结为等式 $m(\tau_{-a}(E)) = m(E)$。然后它对简单函数通过线性性成立，因此对非负可测函数通过积分的定义成立。对实部和虚部的正部和负部取值，则得到 $f \in L^1(m)$ 的结果。
+\end{proof}
+
+让我们现在将 $\mathbb{R}^n$ 上的勒贝格测度与通常在高等微积分书籍中找到的更朴素的 $n$ 维测度理论进行比较。在这次讨论中，$\mathbb{R}^n$ 中的\textbf{立方体}是一个闭区间（其边长相等）的笛卡尔积。
+
+对 $k \in \mathbb{Z}$，令 $\Omega_k$ 为边长为 $2^{-k}$ 且其顶点在格点 $(2^{-k}\mathbb{Z})^n$ 上的立方体集合。（即，$\prod_1^n [a_j, b_j] \in \Omega_k$ 当且仅当 $2^k a_j$ 和 $2^k b_j$ 是整数且 $b_j - a_j = 2^{-k}$ 对所有 $j$ 成立。）注意任何两个 $\Omega_k$ 中的立方体都有不交的内部，且 $\Omega_{k+1}$ 中的立方体是通过平分 $\Omega_k$ 中立方体的边得到的。
+
+如果 $E \subset \mathbb{R}^n$，我们通过 $\Omega_k$ 的网格定义 $E$ 的内逼近和外逼近为
+\[ \underline{A}(E,k) = \bigcup\{Q \in \Omega_k : Q \subset E\}, \quad \overline{A}(E,k) = \bigcup\{Q \in \Omega_k : Q \cap E \neq \emptyset\}. \]
+（见图2.2）。$\underline{A}(E,k)$ 的测度（无论是在朴素的几何意义上还是在勒贝格意义上）就是 $2^{-nk}$ 乘以在 $\underline{A}(E,k)$ 中的 $\Omega_k$ 立方体的数量，我们记为 $m(\underline{A}(E,k))$; 同样对 $m(\overline{A}(E,k))$。此外，集合 $\underline{A}(E,k)$ 随着 $k$ 的增加而增加，而集合 $\overline{A}(E,k)$ 减少，因为每个 $\Omega_k$ 中的立方体是 $\Omega_{k+1}$ 中立方体的并集。因此极限
+\[ \underline{\kappa}(E) = \lim_{k\to\infty} m(\underline{A}(E,k)), \quad \overline{\kappa}(E) = \lim_{k\to\infty} m(\overline{A}(E,k)) \]
+存在。它们被称为 $E$ 的\textbf{内若尔当容度}和\textbf{外若尔当容度}，如果它们相等，它们的共同值 $\kappa(E)$ 就是 $E$ 的\textbf{若尔当容度}。
+
+两个评论：首先，若尔当容度通常是使用边长不一定相等的矩形定义的，但结果是一样的。其次，尽管以上所有定义对任意 $E \subset \mathbb{R}^n$ 都有意义，若尔当容度的理论只有当 $E$ 有界时才有意义，否则 $\overline{\kappa}(E)$ 总是等于 $\infty$。
+
+令
+\[ \underline{A}(E) = \bigcup_1^\infty \underline{A}(E,k), \quad \overline{A}(E) = \bigcap_1^\infty \overline{A}(E,k). \]
+那么 $\underline{A}(E) \subset E \subset \overline{A}(E)$，$\underline{A}(E)$ 和 $\overline{A}(E)$ 是Borel集，且 $\underline{\kappa}(E) = m(\underline{A}(E))$ 和 $\overline{\kappa}(E) = m(\overline{A}(E))$。因此 $E$ 的若尔当容度存在当且仅当 $m(\overline{A}(E) \setminus \underline{A}(E)) = 0$，这意味着 $E$ 是勒贝格可测的且 $m(E) = \kappa(E)$。
+
+为了进一步阐明勒贝格测度与导致若尔当容度的逼近过程之间的关系，我们建立以下引理。（引理的第二部分将在后面使用。）
+
+\begin{lemma}\label{lemma2.43}
+如果 $U \subset \mathbb{R}^n$ 是开集，则 $U = \underline{A}(U)$。此外，$U$ 是具有不交内部的立方体的可数并。
+\end{lemma}
+
+\begin{proof}
+如果 $x \in U$，令 $\delta = \inf\{|y-x| : y \notin U\}$，因为 $U$ 是开集所以 $\delta$ 是正的。如果 $Q$ 是 $\Omega_k$ 中的立方体，包含 $x$，那么 $Q$ 中的每一点 $y$ 与 $x$ 的距离最多为 $2^{-k}\sqrt{n}$（当 $|x_j-y_j| = 2^{-k}$ 对所有 $j$ 成立的最坏情况），所以只要 $k$ 足够大使得 $2^{-k}\sqrt{n} < \delta$，我们就有 $Q \subset U$。但那么 $x \in \underline{A}(U,k) \subset \underline{A}(U)$。这表明 $U \subset \underline{A}(U)$，第二个断言通过写 $\underline{A}(U) = \underline{A}(U,0) \cup \bigcup_1^\infty [\underline{A}(U,k) \setminus \underline{A}(U,k-1)]$ 得出。$\underline{A}(U,0)$ 是 $\Omega_0$ 中立方体的（可数）并，且对 $k \ge 1$，$\underline{A}(U,k) \setminus \underline{A}(U,k-1)$ 的闭包是 $\Omega_k$ 中立方体的（可数）并。这些立方体都有不交的内部，结果随之得出。
+\end{proof}
+
+引理\ref{lemma2.43}立即暗示任何开集的勒贝格测度等于其内若尔当容度。另一方面，假设 $F \subset \mathbb{R}^n$ 是紧集。我们可以找到一个大的立方体，比如 $Q_0 = \{x : |x_j| \le 2^M\}$，其内部包含 $F$。如果 $Q \in \Omega_k$ 且 $Q \cap F \neq \emptyset$ 或 $Q \subset (\text{int}(Q_0) \setminus F)$，那么 $m(\overline{A}(F,k)) + m(\underline{A}(\text{int}(Q_0)\setminus F,k)) = m(Q_0)$。令 $k \to \infty$，我们得到 $\overline{\kappa}(F) + \underline{\kappa}(\text{int}(Q_0) \setminus F) = m(Q_0)$。但 $Q_0 \setminus F$ 是开集 $\text{int}(Q_0) \setminus F$ 和边界 $Q_0$ 的并集，其内容为零，所以 $\underline{\kappa}(Q_0 \setminus F) = \kappa(\text{int}(Q_0) \setminus F) = m(Q_0 \setminus F)$。由此可知任何紧集的勒贝格测度等于其外若尔当容度。
+
+将这些结果与定理\ref{theorem2.40}a结合，我们可以确切地看到勒贝格测度如何与若尔当容度比较。一个集合 $E$ 的若尔当容度由有限并的立方体从内部和外部逼近定义。另一方面，勒贝格测度是由一个两步逼近过程给出的：首先从外部逼近 $E$ 通过开集，从内部通过紧集，然后用有限并的立方体从外部逼近开集，从内部逼近紧集。勒贝格可测集正是那些这个外部-内部和内部-外部逼近在极限中给出相同答案的集合。（比较§1.4的练习19。）
+
+我们现在研究勒贝格积分在线性变换下的行为。我们确定一个线性映射 $T : \mathbb{R}^n \to \mathbb{R}^n$ 与其矩阵 $(T_{ij}) = (e_i \cdot T e_j)$，其中 $\{e_j\}$ 是 $\mathbb{R}^n$ 中的标准基。我们用 $\det T$ 表示该矩阵的行列式，并回忆 $\det(T \circ S) = (\det T)(\det S)$。此外，我们采用标准符号 $GL(n,\mathbb{R})$（“一般线性”群）表示 $\mathbb{R}^n$ 的可逆线性变换群。我们将需要来自初等线性代数的一个事实，即每个 $T \in GL(n,\mathbb{R})$ 都可以写成有限个三种“初等”类型变换的乘积。第一种类型将一个坐标加到另一个坐标上并保持其他坐标不变；第二种类型将一个坐标乘以一个非零常数 $c$ 并保持其他坐标不变；第三种类型交换两个坐标并保持其他坐标不变。用符号表示：
+\begin{align*}
+    T_1(x_1, \ldots, x_j, \ldots, x_n) &= (x_1, \ldots, x_i+cx_j, \ldots, x_n) \quad (c \neq 0), \\
+    T_2(x_1, \ldots, x_j, \ldots, x_n) &= (x_1, \ldots, cx_j, \ldots, x_n) \quad (k \neq j), \\
+    T_3(x_1, \ldots, x_j, \ldots, x_k, \ldots, x_n) &= (x_1, \ldots, x_k, \ldots, x_j, \ldots, x_n).
+\end{align*}
+每个可逆变换是这三种类型变换的乘积这一事实，仅仅是每个非奇异矩阵都可以行化简为单位矩阵这一事实。
+
+\begin{theorem}\label{theorem2.44}
+假设 $T \in GL(n,\mathbb{R})$。
+\begin{enumerate}[label=\alph*.]
+\item 如果 $f$ 是 $\mathbb{R}^n$ 上的勒贝格可测函数，那么 $f \circ T$ 也是。如果 $f \ge 0$ 或 $f \in L^1(m)$，那么
+\begin{equation}\label{equation2.45}
+\int f(x) \,dx = |\det T| \int f \circ T(x) \,dx.
+\end{equation}
+\item 如果 $E \in \mathcal{L}^n$，那么 $T(E) \in \mathcal{L}^n$ 且 $m(T(E)) = |\det T|m(E)$。
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+首先假设 $f$ 是Borel可测的。那么 $f \circ T$ 也是Borel可测的，因为 $T$ 是连续的。如果\eqref{equation2.45}对变换 $T$ 和 $S$ 都成立，那么它对 $T \circ S$ 也成立，因为
+\[ \int f(x) \,dx = |\det T| \int f \circ T(x) \,dx = |\det T| |\det S| \int (f \circ T) \circ S(x) \,dx = |\det(T \circ S)| \int f \circ (T \circ S)(x) \,dx. \]
+因此，证明\eqref{equation2.45}对上面描述的三种类型的变换 $T_1, T_2, T_3$ 就足够了。但这是Fubini-Tonelli定理的一个简单推论。对 $T_3$ 我们交换变量 $x_j$ 和 $x_k$ 的积分顺序，对 $T_1$ 和 $T_2$ 我们首先对 $x_j$ 积分并使用一维公式
+\[ \int f(t) \,dt = |c| \int f(ct) \,dt, \quad \int f(t+a) \,dt = \int f(t) \,dt, \]
+这从定理1.21得出。由于容易验证 $\det T_1 = c, \det T_2 = 1, \det T_3 = -1$，\eqref{equation2.45}成立。此外，如果 $E$ 是一个Borel集，那么 $T(E)$ 也是（因为 $T^{-1}$ 是连续的），通过取 $f=\chi_E$，我们得到 $m(T(E)) = |\det T|m(E)$。特别地，Borel零测集在 $T$ 和 $T^{-1}$ 下是不变的，因此 $\mathcal{L}^n$ 也是。勒贝格可测函数和集合的结果现在如定理\ref{theorem2.42}的证明中那样得出。
+\end{proof}
+
+\begin{corollary}\label{corollary2.46}
+勒贝格测度在旋转下是不变的。
+\end{corollary}
+
+\begin{proof}
+旋转是满足 $TT^*=I$ 的线性映射，其中 $T^*$ 是 $T$ 的转置。由于 $\det T = \det T^*$，这个条件意味着 $|\det T|=1$。
+\end{proof}
+
+接下来我们将定理\ref{theorem2.44}推广到可微映射。这个结果将不会在别处使用，并且可以初读时跳过。我们将在§11.2中用略有不同的方法证明一个概括。
+
+设 $G = (g_1, \ldots, g_n)$ 是从 $\mathbb{R}^n$ 中开集 $\Omega$ 到 $\mathbb{R}^n$ 的映射，其分量 $g_j$ 是 $C^1$ 类，即具有连续的一阶偏导数。我们用矩阵 $((\partial g_i / \partial x_j)(x))$ 定义的线性映射 $D_x G$ 表示 $G$ 的导数。如果 $G$ 是线性的，则 $D_x G = G$ 对所有 $x$ 成立。$G$ 被称为 $C^1$ \textbf{微分同胚}，如果 $G$ 是单射的且 $D_x G$ 对所有 $x \in \Omega$ 可逆。在这种情况下，反函数定理断言 $G^{-1} : G(\Omega) \to \Omega$ 也是一个 $C^1$ 微分同胚且 $D_y(G^{-1}) = [D_{G^{-1}(y)}G]^{-1}$ 对 $y \in G(\Omega)$ 成立。
+
+\begin{theorem}\label{theorem2.47}
+假设 $\Omega$ 是 $\mathbb{R}^n$ 中的一个开集且 $G : \Omega \to \mathbb{R}^n$ 是一个 $C^1$ 微分同胚。
+\begin{enumerate}[label=\alph*.]
+\item 如果 $f$ 是 $G(\Omega)$ 上的勒贝格可测函数，那么 $f \circ G$ 在 $\Omega$ 上是勒贝格可测的。如果 $f \geq 0$ 或 $f \in L^1(G(\Omega), m)$，那么
+\[ \int_{G(\Omega)} f(x) \,dx = \int_{\Omega} f \circ G(x) |\det D_x G| \,dx. \]
+\item 如果 $E \subset \Omega$ 且 $E \in \mathcal{L}^n$，那么 $G(E) \in \mathcal{L}^n$ 且 $m(G(E)) = \int_E |\det D_x G| \,dx$。
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+考虑Borel可测函数和集合就足够了。由于 $G$ 和 $G^{-1}$ 都是连续的，不存在可测性问题，一般情况如定理\ref{theorem2.42}的证明中那样得出。一点记号：对 $x \in \mathbb{R}^n$ 和 $T = (T_{ij}) \in GL(n,\mathbb{R})$，我们设
+\[ \|x\| = \max_{1 \leq j \leq n} |x_j|, \quad \|T\| = \max_{1 \leq i \leq n} \sum_{j=1}^n |T_{ij}|. \]
+我们有 $\|Tx\| \le \|T\|\|x\|$，且 $\{x : \|x-a\| \le h\}$ 是以 $a$ 为中心，边长为 $2h$ 的立方体。
+
+设 $Q$ 是 $\Omega$ 中的一个立方体，设 $Q = \{x: \|x-a\| \le h\}$。根据中值定理，$g_j(x) - g_j(a) = \sum_j (x_j-a_j)(\partial g_j/\partial x_j)(y)$ 对某些在连接 $x$ 和 $a$ 的线段上的点 $y$ 成立，所以 $G(x) - G(a) - D_a G(x-a)$ 的范数比 $\|D_y G - D_a G\|$ 小。因此 $G(Q)$ 包含在一个以 $D_a G(Q)$ 为中心的立方体中，其边长是 $Q$ 的 $(\sup_{y \in Q} \|D_y G - D_a G\|)$ 倍。由于 $D_x G$ 在 $x$ 中是连续的，对于任何 $\epsilon > 0$ 我们可以选择 $\delta > 0$ 使得如果 $\|y-z\| \le \delta$，则 $\|(D_z G)^{-1}D_y G - I\| \le \epsilon$ 对 $z, y \in Q$ 成立。现在让我们将 $Q$ 细分为内部不交，边长最多为 $\delta$ 的子立方体 $Q_1, \ldots, Q_N$，其中心为 $x_1, \ldots, x_N$。用 $T = D_{x_j}G$ 替换 $G$ 并应用\eqref{equation2.48}到 $Q_j$ 上，我们得到
+\[ m(G(Q_j)) \le \sum_{j=1}^N m(G(Q_j)) \le \sum_{j=1}^N |\det D_{x_j} G| (\sup_{y \in Q_j}\|(D_{x_j}G)^{-1}D_y G\|)^n m(Q_j) \le (1+\epsilon)\sum_1^N |\det D_{x_j}G| m(Q_j). \]
+
+最后的和是 $\sum_1^N |\det D_{x_j} G|\chi_{Q_j}(x)$ 的积分，当 $\delta \to 0$ 时它在 $Q$ 上一致地趋向于 $|\det D_x G|$，因为 $D_x G$ 是连续的。因此，让 $\delta \to 0$ 且 $\epsilon \to 0$，我们发现
+\[ m(G(Q)) \le \int_Q |\det D_x G| \,dx. \]
+
+我们声称这个估计在 $Q$ 被 $\Omega$ 中的任何Borel集替换时都成立。事实上，如果 $U \subset \Omega$ 是开集，根据引理\ref{lemma2.43} 我们可以写 $U = \bigcup_1^\infty Q_j$，其中 $Q_j$ 是内部不交的立方体。由于立方体的边界具有勒贝格测度零，我们有
+\[ m(G(U)) \le \sum_1^\infty m(G(Q_j)) \le \sum_1^\infty \int_{Q_j} |\det D_x G| \,dx = \int_U |\det D_x G| \,dx. \]
+
+此外，如果 $E \subset \Omega$ 是任何具有有限测度的Borel集，根据定理\ref{theorem2.40}存在一个递减的开集序列 $U_j \supset E$ 使得 $E \subset \bigcap_1^\infty U_j$ 且 $m(\bigcap_1^\infty U_j \setminus E) = 0$。因此根据控制收敛定理，
+\[ m(G(E)) \le m(G(\bigcap_1^\infty U_j)) = \lim m(G(U_j)) \le \lim \int_{U_j} |\det D_x G| \,dx = \int_E |\det D_x G| \,dx. \]
+
+最后，由于 $m$ 是 $\sigma$-有限的，它对 $\Omega$ 中的任何Borel集 $E$ 都成立。如果 $f = \sum a_j \chi_{A_j}$ 是 $G(\Omega)$ 上的非负简单函数，我们因此有
+\[ \int_{G(\Omega)} f(x) \,dx = \sum a_j m(A_j) \le \sum a_j \int_{G^{-1}(A_j)} |\det D_x G| \,dx = \int_\Omega f \circ G(x) |\det D_x G| \,dx. \]
+定理\ref{theorem2.10}和单调收敛定理意味着
+\[ \int_{G(\Omega)} f(x) \,dx \le \int_{\Omega} f \circ G(x) |\det D_x G| \,dx \]
+对任何非负可测函数 $f$ 成立。但同样的推理适用于用 $G^{-1}$ 替换 $G$ 和用 $f \circ G$ 替换 $f$，所以
+\[ \int_{\Omega} f \circ G(x) \,dx \le \int_{G(\Omega)} f \circ G \circ G^{-1}(x) |\det D_{G^{-1}(x)}G^{-1}| |\det D_x G| \,dx = \int_{G(\Omega)} f(x) \,dx. \]
+
+这对 $f \ge 0$ 建立了\eqref{equation2.45}，并且对 $f \in L^1$ 也成立，因为后者是 $f=\chi_E$ 的特殊情况(a)，证明完成。
+\end{proof}
+
+\section{极坐标中的积分}
+
+$\mathbb{R}^2$ 和 $\mathbb{R}^3$ 中最重要的非线性坐标系是极坐标 $(x = r\cos\theta, y = r\sin\theta)$ 和球坐标 $(x = r\sin\phi\cos\theta, y = r\sin\phi\sin\theta, z = r\cos\phi)$。定理\ref{theorem2.47}应用到这些坐标，得到了熟悉的公式（粗略地说）$dx\,dy = r\,dr\,d\theta$ 和 $dx\,dy\,dz = r^2\sin\phi\,dr\,d\theta\,d\phi$。类似的坐标系存在于更高维度，但随着维度增加它们变得越来越复杂。（见习题65。）然而对于大多数目的，只需知道勒贝格测度实际上是 $(0,\infty)$ 上的测度 $r^{n-1}\,dr$ 和单位球面上某个"表面测度"的乘积（$n=2$ 时为 $d\theta$，$n=3$ 时为 $\sin\phi\,d\theta\,d\phi$）。
+
+
+我们构造这个表面测度的动机来自平面几何中的一个熟悉事实。即，如果 $S_\theta$ 是半径为 $r$ 的圆盘的一个扇区，中心角为 $\theta$（即，圆盘中包含在角的两边之间的区域），则面积 $m(S_\theta)$ 与 $\theta$ 成正比；事实上，$m(S_\theta) = \frac{1}{2}r^2\theta$。这个方程可以解出 $\theta$，因此用来\textbf{定义}角度测度 $\theta$ 以面积 $m(S_\theta)$ 表示。同样的想法适用于更高维：我们将单位球面子集的表面测度定义为单位球对应扇形的勒贝格测度。
+
+我们用 $S^{n-1}$ 表示单位球面 $\{x \in \mathbb{R}^n : |x| = 1\}$。如果 $x \in \mathbb{R}^n \setminus \{0\}$，则 $x$ 的\textbf{极坐标}为
+\[r = |x| \in (0,\infty), \quad x' = \frac{x}{|x|} \in S^{n-1}.\]
+
+映射 $\Phi(x) = (r, x')$ 是从 $\mathbb{R}^n \setminus \{0\}$ 到 $(0,\infty) \times S^{n-1}$ 的连续双射，其（连续）逆为 $\Phi^{-1}(r,x') = rx'$。我们用 $m_*$ 表示由 $\Phi$ 从 $\mathbb{R}^n$ 上的勒贝格测度诱导的 $(0,\infty) \times S^{n-1}$ 上的 Borel 测度，即，$m_*(E) = m(\Phi^{-1}(E))$。此外，我们定义 $(0,\infty)$ 上的测度 $\rho = \rho_n$，其中 $\rho(E) = \int_E r^{n-1}\,dr$。
+
+\begin{theorem}\label{theorem2.49}
+存在 $S^{n-1}$ 上唯一的 Borel 测度 $\sigma = \sigma_{n-1}$ 使得 $m_* = \rho \times \sigma$。如果 $f$ 是 $\mathbb{R}^n$ 上的 Borel 可测函数且 $f \geq 0$ 或 $f \in L^1(m)$，则
+\[(2.50) \quad \int_{\mathbb{R}^n} f(x)\,dx = \int_0^\infty \int_{S^{n-1}} f(rx')r^{n-1}\,d\sigma(x')\,dr.\]
+\end{theorem}
+
+\begin{proof}
+方程(2.50)，当 $f$ 是集合的特征函数时，只是方程 $m_* = \rho \times \sigma$ 的重述，对一般的 $f$ 则通过通常的线性和逼近参数可得。因此我们只需构造 $\sigma$。
+
+如果 $E$ 是 $S^{n-1}$ 中的 Borel 集，对 $a > 0$ 令
+\[E_a = \Phi^{-1}((0,a] \times E) = \{rx' : 0 < r \leq a, x' \in E\}.\]
+
+如果(2.50)在 $f = \chi_{E_1}$ 时成立，我们必须有
+\[m(E_1) = \int_0^1 \int_E r^{n-1}\,d\sigma(x')\,dr = \sigma(E)\int_0^1 r^{n-1}\,dr = \frac{\sigma(E)}{n}.\]
+
+因此我们\textbf{定义} $\sigma(E)$ 为 $n \cdot m(E_1)$。由于映射 $E \mapsto E_1$ 将 Borel 集映射到 Borel 集且与并集、交集和补集操作可交换，显然 $\sigma$ 是 $S^{n-1}$ 上的 Borel 测度。此外，由于 $E_a$ 是 $E_1$ 在映射 $x \mapsto ax$ 下的像，根据定理\ref{theorem2.44}，$m(E_a) = a^nm(E_1)$，因此，如果 $0 < a < b$，则
+\[m_*((a,b] \times E) = m(E_b \setminus E_a) = \frac{b^n - a^n}{n}\sigma(E) = \sigma(E)\int_a^b r^{n-1}\,dr = \rho \times \sigma((a,b] \times E).\]
+
+固定 $E \in \mathcal{B}_{S^{n-1}}$ 并令 $\mathcal{A}_E$ 为形如 $(a,b] \times E$ 的集合的有限不交并集合。根据命题\ref{proposition1.7}，$\mathcal{A}_E$ 是 $(0,\infty) \times E$ 上的代数，它生成 $\sigma$-代数 $\mathcal{M}_E = \{A \times E : A \in \mathcal{B}_{(0,\infty)}\}$。根据前面的计算，我们有 $m_* = \rho \times \sigma$ 在 $\mathcal{A}_E$ 上，因此根据定理\ref{theorem1.14}的唯一性断言，$m_* = \rho \times \sigma$ 在 $\mathcal{M}_E$ 上。但 $\bigcup\{\mathcal{M}_E : E \in \mathcal{B}_{S^{n-1}}\}$ 恰好是 $(0,\infty) \times S^{n-1}$ 中的 Borel 矩形集合，因此再次应用唯一性定理表明 $m_* = \rho \times \sigma$ 在所有 Borel 集上。
+\end{proof}
+
+当然，(2.50)可以通过考虑测度 $\sigma$ 的完备化扩展到勒贝格可测函数。细节留给读者。
+
+\begin{corollary}\label{corollary2.51}
+如果 $f$ 是 $\mathbb{R}^n$ 上的可测函数，非负或可积，满足 $f(x) = g(|x|)$ 对某个 $(0,\infty)$ 上的函数 $g$，则
+\[\int f(x)\,dx = \sigma(S^{n-1})\int_0^\infty g(r)r^{n-1}\,dr.\]
+\end{corollary}
+
+\begin{corollary}\label{corollary2.52}
+令 $c$ 和 $C$ 表示正常数，令 $B = \{x \in \mathbb{R}^n : |x| < c\}$。假设 $f$ 是 $\mathbb{R}^n$ 上的可测函数。
+\begin{enumerate}[label=\alph*.]
+\item 如果 $|f(x)| \leq C|x|^{-a}$ 在 $B$ 上对某个 $a < n$，则 $f \in L^1(B)$。然而，如果 $|f(x)| \geq C|x|^{-n}$ 在 $B$ 上，则 $f \notin L^1(B)$。
+\item 如果 $|f(x)| \leq C|x|^{-a}$ 在 $B^c$ 上对某个 $a > n$，则 $f \in L^1(B^c)$。然而，如果 $|f(x)| \geq C|x|^{-n}$ 在 $B^c$ 上，则 $f \notin L^1(B^c)$。
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+应用推论\ref{corollary2.51}到 $|x|^{-a}\chi_B$ 和 $|x|^{-a}\chi_{B^c}$。
+\end{proof}
+
+我们很快将计算 $\sigma(S^{n-1})$。当然，我们知道 $\sigma(S^1) = 2\pi$；这只是圆周与半径之比 $2\pi$ 的定义。有了这个事实，我们可以计算一个非常重要的积分。
+
+\begin{proposition}\label{proposition2.53}
+如果 $a > 0$，则
+\[\int_{\mathbb{R}^n} \exp(-a|x|^2)\,dx = \left(\frac{\pi}{a}\right)^{n/2}.\]
+\end{proposition}
+
+\begin{proof}
+用 $I_n$ 表示左边的积分。对 $n = 2$，根据推论\ref{corollary2.51}，我们有
+\[I_2 = 2\pi \int_0^\infty re^{-ar^2}\,dr = -\left(\frac{\pi}{a}\right)e^{-ar^2}\bigg|_0^\infty = \frac{\pi}{a}.\]
+
+由于 $\exp(-a|x|^2) = \prod_1^n \exp(-ax_j^2)$，Tonelli 定理蕴含 $I_n = (I_1)^n$。特别地，$I_1 = (I_2)^{1/2}$，所以 $I_n = (I_2)^{n/2} = (\pi/a)^{n/2}$。
+\end{proof}
+
+一旦我们知道这个结果，证明中使用的方法可以反过来，用来通过§2.3中引入的 gamma 函数计算所有 $n$ 的 $\sigma(S^{n-1})$。
+
+\begin{proposition}\label{proposition2.54}
+$\sigma(S^{n-1}) = \frac{2\pi^{n/2}}{\Gamma(n/2)}$.
+\end{proposition}
+
+
+\begin{proof}
+根据推论\ref{corollary2.51}，命题\ref{proposition2.53}和替换 $s = r^2$，
+\begin{align*}
+\pi^{n/2} &= \int_{\mathbb{R}^n} e^{-|x|^2}\,dx = \sigma(S^{n-1})\int_0^\infty r^{n-1}e^{-r^2}\,dr\\
+&= \frac{\sigma(S^{n-1})}{2}\int_0^\infty s^{(n/2)-1}e^{-s}\,ds = \frac{\sigma(S^{n-1})}{2}\Gamma\left(\frac{n}{2}\right).
+\end{align*}
+\end{proof}
+
+\begin{corollary}\label{corollary2.55}
+如果 $B^n = \{x \in \mathbb{R}^n : |x| < 1\}$，则 $m(B^n) = \frac{\pi^{n/2}}{\Gamma(\frac{1}{2}n + 1)}$.
+\end{corollary}
+
+\begin{proof}
+$m(B^n) = n^{-1}\sigma(S^{n-1})$ 根据 $\sigma$ 的定义，且 $\frac{1}{2}n\Gamma(\frac{1}{2}n) = \Gamma(\frac{1}{2}n + 1)$ 根据 gamma 函数的函数方程。
+\end{proof}
+
+我们在§2.3中观察到 $\Gamma(n) = (n-1)!$。现在我们也可以计算半整数处的 gamma 函数值：
+
+\begin{proposition}\label{proposition2.56}
+$\Gamma(n + \frac{1}{2}) = (n-\frac{1}{2})(n-\frac{3}{2})\cdots(\frac{1}{2})\sqrt{\pi}$.
+\end{proposition}
+
+\begin{proof}
+我们有 $\Gamma(n + \frac{1}{2}) = (n-\frac{1}{2})(n-\frac{3}{2})\cdots(\frac{1}{2})\Gamma(\frac{1}{2})$ 根据函数方程，且根据命题\ref{proposition2.53}和替换 $s = r^2$，
+\[\Gamma(\frac{1}{2}) = \int_0^\infty s^{-1/2}e^{-s}\,ds = 2\int_0^\infty e^{-r^2}\,dr = \int_{-\infty}^\infty e^{-r^2}\,dr = \sqrt{\pi}.\]
+\end{proof}
+
+命题\ref{proposition2.56}和公式 $\Gamma(n) = (n-1)!$ 的一个有趣结果是，单位球面的表面测度和 $\mathbb{R}^n$ 中单位球的勒贝格测度总是 $\pi$ 的整数幂的有理倍数，且当 $n$ 增加2时，$\pi$ 的幂增加1。
+
+\chapter{$L^P$ 空间}
+
+\section{$L^p$ 空间的基本理论}
+
+本章我们将研究一个固定的测度空间 $(X, \mathcal{M}, \mu)$。如果 $f$ 是 $X$ 上的可测函数且 $0 < p < \infty$，我们定义
+\[ \|f\|_p = \left[ \int |f|^p \,d\mu \right]^{1/p} \]
+（允许 $\|f\|_p = \infty$ 的可能性），并且我们定义
+\[ L^p(X, \mathcal{M}, \mu) = \{f: X \to \mathbb{C} : f \text{ 是可测的且 } \|f\|_p < \infty\}。 \]
+我们把 $L^p(X, \mathcal{M}, \mu)$ 简记为 $L^p(\mu)$，$L^p(X)$，或者在不会引起混淆时简记为 $L^p$。与处理 $L^1$ 空间时一样，当两个函数几乎处处相等时，我们认为它们定义了 $L^p$ 中的同一个元素。
+如果 $A$ 是任意非空集合，我们定义 $l^p(A)$ 为 $L^p(\mu)$，其中 $\mu$ 是 $(A, \mathcal{P}(A))$ 上的计数测度，并且我们把 $l^p(\mathbb{N})$ 简记为 $l^p$。
+$L^p$ 是一个向量空间，因为如果 $f, g \in L^p$，那么
+\[ |f+g|^p \le [2 \max(|f|, |g|)]^p \le 2^p(|f|^p + |g|^p), \]
+所以 $f+g \in L^p$。我们的记号表明 $\|\cdot\|_p$ 是 $L^p$ 上的一个范数。事实上，很明显 $\|f\|_p = 0$ 当且仅当 $f=0$ a.e. 并且 $\|cf\|_p = |c|\|f\|_p$，所以唯一的问题是三角不等式。事实证明，三角不等式恰好在 $p \ge 1$ 时成立，因此我们的注意力将几乎完全集中在这种情形上。
+
+然而，在继续之前，让我们看看为什么当 $p < 1$ 时三角不等式不成立。假设 $a>0, b>0$ 且 $0<p<1$。对于 $t>0$，我们有 $t^{p-1} > (a+t)^{p-1}$，通过从 $0$ 到 $b$ 积分，我们得到 $a^p + b^p > (a+b)^p$。因此，如果 $E$ 和 $F$ 是 $X$ 中不相交的正有限测度集，并且我们设 $a = \mu(E)^{1/p}$ 和 $b = \mu(F)^{1/p}$，我们看到
+\[ \|\chi_E + \chi_F\|_p = (a^p + b^p)^{1/p} > a+b = \|\chi_E\|_p + \|\chi_F\|_p. \]
+$L^p$ 空间理论的基石是霍尔德不等式，我们现在来推导它。
+
+\begin{lemma}\label{lemma6.1}
+如果 $a \ge 0, b \ge 0$ 且 $0 < \lambda < 1$，那么
+\[ a^\lambda b^{1-\lambda} \le \lambda a + (1-\lambda)b, \]
+等号成立当且仅当 $a=b$。
+\end{lemma}
+
+\begin{proof}
+如果 $b=0$，结果是显然的；否则，两边同除以 $b$ 并令 $t=a/b$，问题就化为证明 $t^\lambda \le \lambda t + (1-\lambda)$，且等号成立当且仅当 $t=1$。但根据基本微积分，函数 $t^\lambda - \lambda t$ 在 $t<1$ 时严格递增，在 $t>1$ 时严格递减，所以它的最大值 $1-\lambda$ 在 $t=1$ 处取到。
+\end{proof}
+
+\begin{theorem}[霍尔德不等式]\label{theorem6.2}
+假设 $1 < p < \infty$ 且 $p^{-1} + q^{-1} = 1$（即 $q=p/(p-1)$）。如果 $f$ 和 $g$ 是 $X$ 上的可测函数，那么
+\begin{equation}\label{eq6.3}
+\|fg\|_1 \le \|f\|_p\|g\|_q.
+\end{equation}
+特别地，如果 $f \in L^p$ 且 $g \in L^q$，那么 $fg \in L^1$，并且在这种情况下，\eqref{eq6.3} 中等号成立当且仅当对某些 $\alpha\beta \ne 0$ 的常数 $\alpha, \beta$ 有 $\alpha|f|^p = \beta|g|^q$ a.e. 成立。
+\end{theorem}
+
+\begin{proof}
+如果 $\|f\|_p = 0$ 或 $\|g\|_q = 0$（此时 $f=0$ 或 $g=0$ a.e.），或者如果 $\|f\|_p = \infty$ 或 $\|g\|_q = \infty$，则结果是平凡的。此外，我们观察到如果 \eqref{eq6.3} 对特定的 $f$ 和 $g$ 成立，那么它对 $f$ 和 $g$ 的所有标量倍数也成立，因为如果将 $f$ 和 $g$ 替换为 $af$ 和 $bg$，\eqref{eq6.3} 的两边都乘以一个因子 $|ab|$。因此，只需在 $\|f\|_p = \|g\|_q = 1$ 的情况下证明 \eqref{eq6.3} 成立，且等号成立当且仅当 $|f|^p=|g|^q$ a.e. 即可。为此，我们应用引理 \ref{lemma6.1}，取 $a = |f(x)|^p$，$b=|g(x)|^q$ 以及 $\lambda=p^{-1}$，得到
+\begin{equation}\label{eq6.4}
+|f(x)g(x)| \le p^{-1}|f(x)|^p + q^{-1}|g(x)|^q.
+\end{equation}
+对两边积分得到
+\[ \|fg\|_1 \le p^{-1}\int|f|^p + q^{-1}\int|g|^q = p^{-1} + q^{-1} = 1 = \|f\|_p\|g\|_q. \]
+这里的等号成立当且仅当它在 \eqref{eq6.4} 中 a.e. 成立，而根据引理 \ref{lemma6.1}，这恰好在 $|f|^p = |g|^q$ a.e. 时发生。
+\end{proof}
+
+在 $L^p$ 理论中，霍尔德不等式中出现的条件 $p^{-1}+q^{-1}=1$ 经常出现。如果 $1 < p < \infty$，满足 $p^{-1}+q^{-1}=1$ 的数 $q=p/(p-1)$ 称为 $p$ 的\emph{共轭指数}。
+
+\begin{theorem}[闵可夫斯基不等式]\label{theorem6.5}
+如果 $1 \le p < \infty$ 且 $f,g \in L^p$，那么
+\[ \|f+g\|_p \le \|f\|_p + \|g\|_p. \]
+\end{theorem}
+
+\begin{proof}
+如果 $p=1$ 或者 $f+g=0$ a.e.，结果是显然的。否则，我们观察到
+\[ |f+g|^p \le (|f|+|g|)|f+g|^{p-1} \]
+并应用霍尔德不等式，注意到当 $q$ 是 $p$ 的共轭指数时，有 $(p-1)q=p$：
+\begin{align*}
+\int |f+g|^p &\le \int |f||f+g|^{p-1} + \int |g||f+g|^{p-1} \\
+&\le \|f\|_p \||f+g|^{p-1}\|_q + \|g\|_p \||f+g|^{p-1}\|_q \\
+&= (\|f\|_p+\|g\|_p) \left( \int |f+g|^{(p-1)q} \right)^{1/q} \\
+&= (\|f\|_p+\|g\|_p) \left( \int |f+g|^p \right)^{1/q}.
+\end{align*}
+因此，
+\[ \|f+g\|_p = \left[ \int |f+g|^p \right]^{1-(1/q)} \le \|f\|_p + \|g\|_p. \]
+这个结果表明，对于 $p \ge 1$，$L^p$ 是一个赋范向量空间。更进一步：
+\end{proof}
+
+\begin{theorem}\label{theorem6.6}
+对于 $1 \le p < \infty$，$L^p$ 是一个巴拿赫空间。
+\end{theorem}
+\begin{proof}
+我们使用定理 5.1。假设 $\{f_k\} \subset L^p$ 并且 $\sum_1^\infty \|f_k\|_p = B < \infty$。令 $G_n = \sum_1^n |f_k|$ 和 $G = \sum_1^\infty |f_k|$。那么对所有 $n$ 都有 $\|G_n\|_p \le \sum_1^n \|f_k\|_p \le B$，所以根据单调收敛定理，$\int G^p = \lim \int G_n^p \le B^p$。因此 $G \in L^p$，特别地 $G(x) < \infty$ a.e.，这意味着级数 $\sum_1^\infty f_k$ a.e. 收敛。记其和为 $F$，我们有 $|F| \le G$，因此 $F \in L^p$；此外，$|F - \sum_1^n f_k|^p = |\sum_{n+1}^\infty f_k|^p \le (2G)^p \in L^1$，所以根据控制收敛定理，
+\[ \|F - \sum_1^n f_k\|_p^p = \int |F - \sum_1^n f_k|^p \to 0. \]
+因此级数 $\sum_1^\infty f_k$ 在 $L^p$ 范数下收敛。
+\end{proof}
+
+\begin{proposition}\label{prop6.7}
+对于 $1 \le p < \infty$，简单函数 $f=\sum_1^n a_j \chi_{E_j}$（其中对所有 $j$ 都有 $\mu(E_j) < \infty$）的集合在 $L^p$ 中是稠密的。
+\end{proposition}
+\begin{proof}
+显然这样的函数在 $L^p$ 中。如果 $f \in L^p$，根据定理 \ref{theorem2.10}，选择一个简单函数序列 $\{f_n\}$ 使得 $f_n \to f$ a.e. 并且 $|f_n| \le |f|$。那么 $f_n \in L^p$ 且 $|f_n - f|^p \le 2^p |f|^p \in L^1$，所以根据控制收敛定理，$\|f_n - f\|_p \to 0$。此外，如果 $f_n = \sum a_j \chi_{E_j}$，其中 $E_j$ 不相交且 $a_j$ 非零，我们必须有 $\mu(E_j) < \infty$，因为 $\sum |a_j|^p \mu(E_j) = \int |f_n|^p < \infty$。
+\end{proof}
+
+为了完善 $L^p$ 空间的图像，我们引入一个对应于极限值 $p=\infty$ 的空间。如果 $f$ 是一个可测函数，我们定义
+\[ \|f\|_\infty = \inf\{a \ge 0 : \mu(\{x:|f(x)| > a\}) = 0\}, \]
+并约定 $\inf\emptyset = \infty$。我们观察到下确界实际上是可以取到的，因为
+\[ \{x: |f(x)| > a\} = \bigcup_1^\infty \{x: |f(x)| > a+n^{-1}\}, \]
+如果右边的集合都是零测集，那么左边的集合也是。$\|f\|_\infty$ 被称为 $|f|$ 的\textbf{本性上确界}，有时写作
+\[ \|f\|_\infty = \operatorname{ess sup}_{x \in X} |f(x)|. \]
+我们现在定义
+\[ L^\infty = L^\infty(X, \mathcal{M}, \mu) = \{ f: X \to \mathbb{C} : f \text{ 是可测的且 } \|f\|_\infty < \infty \}, \]
+并遵循通常的约定，即两个 a.e. 相等的函数定义了 $L^\infty$ 中的同一个元素。因此 $f \in L^\infty$ 当且仅当存在一个有界可测函数 $g$ 使得 $f=g$ a.e.；我们可以取 $g=f\chi_E$ 其中 $E=\{x:|f(x)| \le \|f\|_\infty \}$。
+
+两个注记：首先，对于固定的 $X$ 和 $\mathcal{M}$，$L^\infty(\mu)$ 对 $\mu$ 的依赖只在于 $\mu$ 决定了哪些集合是零测集；如果 $\mu$ 和 $\nu$ 是相互绝对连续的，那么 $L^\infty(\mu) = L^\infty(\nu)$。其次，如果 $\mu$ 不是半有限的，在某些情况下采用一个稍有不同的 $L^\infty$ 定义是合适的。这一点将在练习 23-25 中探讨。
+
+我们已经为 $1 \le p < \infty$ 证明的结果可以很容易地推广到 $p=\infty$ 的情况，如下所示：
+
+\begin{theorem}\label{theorem6.8}
+\begin{enumerate}[(a)]
+    \item 如果 $f$ 和 $g$ 是 $X$ 上的可测函数，则 $\|fg\|_1 \le \|f\|_1 \|g\|_\infty$。如果 $f \in L^1$ 且 $g \in L^\infty$，则 $\|fg\|_1 = \|f\|_1\|g\|_\infty$ 当且仅当在 $f(x) \ne 0$ 的集合上 a.e. 有 $|g(x)| = \|g\|_\infty$。
+    \item $\|\cdot\|_\infty$ 是 $L^\infty$ 上的一个范数。
+    \item $\|f_n - f\|_\infty \to 0$ 当且仅当存在 $E \in \mathcal{M}$ 使得 $\mu(E^c)=0$ 且 $f_n$ 在 $E$ 上一致收敛于 $f$。
+    \item $L^\infty$ 是一个巴拿赫空间。
+    \item 简单函数在 $L^\infty$ 中是稠密的。
+\end{enumerate}
+证明留给读者（练习2）。
+\end{theorem}
+鉴于定理 \ref{theorem6.8}(a) 和形式上的等式 $1^{-1}+\infty^{-1}=1$，将 $1$ 和 $\infty$ 视为彼此的共轭指数是自然的，我们此后也这样做。
+定理 \ref{theorem6.8}(c) 表明 $\|\cdot\|_\infty$ 与一致范数 $\|\cdot\|_u$ 密切相关，但通常不相同。然而，如果我们处理的是勒贝格测度，或更一般地，任何对所有开集都赋予正值的波莱尔测度，那么只要 $f$ 是连续的，就有 $\|f\|_\infty = \|f\|_u$，因为 $\{x:|f(x)|>a\}$ 是开集。在这种情况下，我们可以互换使用记号 $\|f\|_\infty$ 和 $\|f\|_u$，并且我们可以将有界连续函数的空间视为 $L^\infty$ 的一个（闭！）子空间。
+
+一般情况下，对于任意 $p \ne q$，我们有 $L^p \not\subset L^q$；要了解问题所在，考察 $(0,\infty)$ 上带有勒贝格测度的以下简单例子是很有启发性的。令 $f_a(x) = x^{-a}$，其中 $a>0$。初等微积分表明 $f_a \chi_{(0,1)} \in L^p$ 当且仅当 $pa<1$，以及 $f_a \chi_{(1,\infty)} \in L^p$ 当且仅当 $pa > 1$。因此我们看到一个函数可能因为两个原因而不在 $L^p$ 中：要么 $|f|^p$ 在某点附近增长过快，要么它在无穷远处衰减得不够快。在第一种情况下，$|f|^p$ 的行为随着 $p$ 的增加而变差，而在第二种情况下则变好。换句话说，如果 $p < q$，那么 $L^p$ 中的函数可以比 $L^q$ 中的函数具有更强的局部奇异性，而 $L^q$ 中的函数可以比 $L^p$ 中的函数在全局上更分散。这些不甚精确的表述实际上是对一般情况的相当准确的指导，对此我们现在给出四个精确的结果。后两个结果表明，在测度空间的某些条件下，可以得到 $L^p \subset L^q$ 的包含关系，这些条件排除了上述两种不良行为之一；对于更一般的结果，见练习 5。
+
+\begin{proposition}\label{prop6.9}
+如果 $0 < p < q < r \le \infty$，则 $L^q \subset L^p + L^r$；也就是说，每个 $f \in L^q$ 都是一个 $L^p$ 中的函数和一个 $L^r$ 中的函数的和。
+\end{proposition}
+\begin{proof}
+如果 $f \in L^q$，令 $E = \{x: |f(x)| > 1\}$ 并设 $g=f\chi_E$ 和 $h=f\chi_{E^c}$。那么 $|g|^p = |f|^p \chi_E \le |f|^q \chi_E$，所以 $g \in L^p$；并且 $|h|^r = |f|^r \chi_{E^c} \le |f|^q \chi_{E^c}$，所以 $h \in L^r$。（对于 $r=\infty$，显然 $\|h\|_\infty \le 1$。）
+\end{proof}
+
+\begin{proposition}\label{prop6.10}
+如果 $0 < p < q < r \le \infty$，则 $L^p \cap L^r \subset L^q$ 且 $\|f\|_q \le \|f\|_p^\lambda \|f\|_r^{1-\lambda}$，其中 $\lambda \in (0,1)$ 由下式定义
+\[ q^{-1} = \lambda p^{-1} + (1-\lambda)r^{-1}, \quad \text{即 } \lambda = \frac{q^{-1}-r^{-1}}{p^{-1}-r^{-1}}. \]
+\end{proposition}
+\begin{proof}
+如果 $r=\infty$，我们有 $|f|^q \le \|f\|_\infty^{q-p}|f|^p$ 且 $\lambda = p/q$，所以
+\[ \|f\|_q^q = \int |f|^q \le \|f\|_\infty^{q-p} \int |f|^p = \|f\|_\infty^{q-p}\|f\|_p^p = \|f\|_p^q \|f\|_\infty^{q-p}. \]
+开 $q$ 次根得到 $\|f\|_q \le \|f\|_p^{p/q} \|f\|_\infty^{1-(p/q)} = \|f\|_p^\lambda \|f\|_\infty^{1-\lambda}$。
+
+如果 $r < \infty$，我们使用霍尔德不等式，取共轭指数对为 $p/\lambda q$ 和 $r/(1-\lambda)q$：
+\begin{align*}
+\int |f|^q &= \int |f|^{\lambda q} |f|^{(1-\lambda)q} \le \| |f|^{\lambda q} \|_{p/\lambda q} \| |f|^{(1-\lambda)q} \|_{r/(1-\lambda)q} \\
+&= \left[ \int (|f|^{\lambda q})^{p/\lambda q} \right]^{\lambda q/p} \left[ \int (|f|^{(1-\lambda)q})^{r/(1-\lambda)q} \right]^{(1-\lambda)q/r} \\
+&= \left[ \int |f|^p \right]^{\lambda q/p} \left[ \int |f|^r \right]^{(1-\lambda)q/r} = \|f\|_p^{\lambda q} \|f\|_r^{(1-\lambda)q}.
+\end{align*}
+开 $q$ 次根，我们就完成了证明。
+\end{proof}
+
+\begin{proposition}\label{prop6.11}
+如果 $A$ 是任何集合且 $0 < p < q \le \infty$，则 $l^p(A) \supset l^q(A)$ 且 $\|f\|_q \le \|f\|_p$。
+\end{proposition}
+\begin{proof}
+显然 $\|f\|_\infty = \sup_A |f(\alpha)| \le \sum_A |f(\alpha)|_p$，因此 $\|f\|_\infty \le \|f\|_p$。
+然后 $q < \infty$ 的情况可由命题 \ref{prop6.10} 得出：如果 $\lambda=p/q$，
+\[ \|f\|_q \le \|f\|_p^\lambda \|f\|_\infty^{1-\lambda} \le \|f\|_p. \]
+\end{proof}
+
+\begin{proposition}\label{prop6.12}
+如果 $\mu(X) < \infty$ 且 $0 < p < q \le \infty$，则 $L^p(\mu) \supset L^q(\mu)$ 且 $\|f\|_p \le \|f\|_q \mu(X)^{(1/p)-(1/q)}$。
+\end{proposition}
+\begin{proof}
+如果 $q=\infty$，这是显然的：
+\[ \|f\|_p^p = \int |f|^p \le \|f\|_\infty^p \int 1 = \|f\|_\infty^p \mu(X). \]
+如果 $q < \infty$，我们使用霍尔德不等式，共轭指数为 $q/p$ 和 $q/(q-p)$：
+\[ \|f\|_p^p = \int |f|^p \cdot 1 \le \| |f|^p \|_{q/p} \|1\|_{q/(q-p)} = \|f\|_q^p \mu(X)^{(q-p)/q}. \]
+\end{proof}
+
+我们以关于 $L^p$ 空间重要性的几点评论来结束本节。三个最显然重要的是 $L^1$, $L^2$ 和 $L^\infty$。我们对 $L^1$ 已经很熟悉了；$L^2$ 之所以特殊是因为它是一个希尔伯特空间；而 $L^\infty$ 上的拓扑与一致收敛的拓扑密切相关。不幸的是，$L^1$ 和 $L^\infty$ 在许多方面是病态的，处理中间的 $L^p$ 空间更为有效。这方面的一个体现是 §6.2 中的对偶理论；另一个事实是，许多在傅里叶分析和微分方程中有意义的算子在 $L^p$ 上（对于 $1 < p < \infty$）有界，但在 $L^1$ 或 $L^\infty$ 上无界。（一些例子在 §9.4 中提到。）
+
+\section{ $L^p$ 的对偶}
+
+假设 $p$ 和 $q$ 是共轭指数。霍尔德不等式表明每个 $g \in L^q$ 都通过
+\[ \phi_g(f) = \int fg, \]
+定义了 $L^p$ 上的有界线性泛函 $\phi_g$，且 $\phi_g$ 的算子范数至多为 $\|g\|_q$。（如果 $p=2$ 且我们将 $L^2$ 视为希尔伯特空间，那么更适合定义 $\phi_g(f) = \int f\overline{g}$。对于 $p \neq 2$，可以使用相同的约定而不改变下面的结果。）事实上，映射 $g \to \phi_g$ 几乎总是从 $L^q$ 到 $(L^p)^*$ 的等距同构。
+
+\begin{proposition}\label{prop6.13}
+假设 $p$ 和 $q$ 是共轭指数且 $1 \leq q < \infty$。如果 $g \in L^q$，那么
+\[ \|g\|_q = \|\phi_g\| = \sup\left\{\left|\int fg\right| : \|f\|_p = 1\right\}. \]
+如果 $\mu$ 是半有限的，这个结果对 $q = \infty$ 也成立。
+\end{proposition}
+
+\begin{proof}
+霍尔德不等式表明 $\|\phi_g\| \leq \|g\|_q$，如果 $g = 0$ （a.e.），等号显然成立。如果 $g \neq 0$ 且 $q < \infty$，令
+\[ f = \frac{|g|^{q-1}\overline{\text{sgn}\,g}}{\|g\|_q^{q-1}}. \]
+则
+\[ \|f\|_p^p = \frac{\int |g|^{(q-1)p}}{\|g\|_q^{(q-1)p}} = \frac{\int |g|^q}{\int |g|^q} = 1, \]
+所以
+\[ \|\phi_g\| \geq \int fg = \frac{\int |g|^q}{\|g\|_q^{q-1}} = \|g\|_q. \]
+（如果 $q=1$，则 $f = \overline{\text{sgn}\,g}$，$\|f\|_\infty = 1$，且 $\int fg = \|g\|_1$。）如果 $q = \infty$，对于 $\epsilon > 0$，令 $A = \{x : |g(x)| > \|g\|_\infty - \epsilon\}$。则 $\mu(A) > 0$，所以如果 $\mu$ 是半有限的，存在 $B \subset A$ 使得 $0 < \mu(B) < \infty$。令 $f = \mu(B)^{-1}\chi_B\overline{\text{sgn}\,g}$；则 $\|f\|_1 = 1$，所以
+\[ \|\phi_g\| \geq \int fg = \frac{1}{\mu(B)}\int_B |g| \geq \|g\|_\infty - \epsilon. \]
+由于 $\epsilon$ 是任意的，$\|\phi_g\| = \|g\|_\infty$。
+\end{proof}
+
+反过来，如果 $f \to \int fg$ 是 $L^p$ 上的有界线性泛函，那么在几乎所有情况下，$g \in L^q$。事实上，我们有以下更强的结果。
+
+\begin{theorem}\label{theorem6.14}
+设 $p$ 和 $q$ 是共轭指数。假设 $g$ 是 $X$ 上的可测函数，使得对于简单函数空间 $\Sigma$ 中的所有 $f$（这些函数在有限测度集之外消失），都有 $fg \in L^1$，且量
+\[ M_q(g) = \sup\left\{\left|\int fg\right| : f \in \Sigma \text{ 且 } \|f\|_p = 1\right\} \]
+是有限的。另外，假设 $S_g = \{x : g(x) \neq 0\}$ 是 $\sigma$-有限的，或者 $\mu$ 是半有限的。那么 $g \in L^q$ 且 $M_q(g) = \|g\|_q$。
+\end{theorem}
+
+\begin{proof}
+首先，我们指出，如果 $f$ 是有界可测函数，在有限测度集 $E$ 之外消失，且 $\|f\|_p = 1$，则 $|\int fg| \leq M_q(g)$。确实，根据定理 \ref{theorem2.10}，存在简单函数序列 $\{f_n\}$ 使得 $|f_n| \leq |f|$（特别地，$f_n$ 在 $E$ 之外消失）且 $f_n \to f$ a.e.。由于 $|f_n| \leq \|f\|_\infty\chi_E$ 且 $\chi_Eg \in L^1$，根据控制收敛定理，$|\int fg| = \lim |\int f_ng| \leq M_q(g)$。
+
+现在假设 $q < \infty$。我们可以假设 $S_g$ 是 $\sigma$-有限的，因为当 $\mu$ 是半有限时，这个条件自动成立；见练习 17。令 $\{E_n\}$ 是测度有限的集合递增序列，使得 $S_g = \bigcup_1^\infty E_n$。令 $\{\phi_n\}$ 是简单函数序列，使得 $\phi_n \to g$ 逐点且 $|\phi_n| \leq |g|$，并令 $g_n = \phi_n\chi_{E_n}$。则 $g_n \to g$ 逐点，$|g_n| \leq |g|$，且 $g_n$ 在 $E_n$ 之外消失。令
+\[ f_n = \frac{|g_n|^{q-1}\overline{\text{sgn}\,g}}{\|g_n\|_q^{q-1}}. \]
+则如在命题 \ref{prop6.13} 的证明中，$\|f_n\|_p = 1$，且根据法图引理，
+\[ \|g\|_q \leq \liminf \|g_n\|_q = \liminf \int |f_ng_n| \]
+\[ \leq \liminf \int |f_ng| = \liminf \int f_ng \leq M_q(g). \]
+（对于最后一个估计，我们使用了证明开始时的备注。）另一方面，霍尔德不等式给出 $M_q(g) \leq \|g\|_q$，因此对于 $q < \infty$ 的情况，证明完成。
+
+现在假设 $q = \infty$。给定 $\epsilon > 0$，令 $A = \{x : |g(x)| \geq M_\infty(g) + \epsilon\}$。如果 $\mu(A)$ 为正，我们可以选择 $B \subset A$ 使得 $0 < \mu(B) < \infty$（要么因为 $\mu$ 是半有限的，要么因为 $A \subset S_g$）。设 $f = \mu(B)^{-1}\chi_B\overline{\text{sgn}\,g}$，则 $\|f\|_1 = 1$，且 $\int fg = \mu(B)^{-1}\int_B |g| \geq M_\infty(g) + \epsilon$。但这与证明开始时的备注矛盾。因此 $\|g\|_\infty \leq M_\infty(g)$，反向不等式是显然的。
+\end{proof}
+
+关于 $(L^p)^*$ 描述的最后也是最深刻的部分是映射 $g \to \phi_g$ 在几乎所有情况下都是满射。
+
+\begin{theorem}\label{theorem6.15}
+设 $p$ 和 $q$ 是共轭指数。如果 $1 < p < \infty$，对于每个 $\phi \in (L^p)^*$，存在 $g \in L^q$ 使得对所有 $f \in L^p$ 都有 $\phi(f) = \int fg$，因此 $L^q$ 与 $(L^p)^*$ 等距同构。同样的结论对 $p=1$ 也成立，只要 $\mu$ 是 $\sigma$-有限的。
+\end{theorem}
+
+\begin{proof}
+首先，假设 $\mu$ 是有限的，因此所有简单函数都在 $L^p$ 中。如果 $\phi \in (L^p)^*$ 且 $E$ 是可测集，令 $\nu(E) = \phi(\chi_E)$。对于任何不相交序列 $\{E_j\}$，如果 $E = \bigcup_1^\infty E_j$，我们有 $\chi_E = \sum_1^\infty \chi_{E_j}$，其中级数在 $L^p$ 范数中收敛：
+\[ \left\|\chi_E - \sum_1^n \chi_{E_j}\right\|_p = \left\|\sum_{n+1}^\infty \chi_{E_j}\right\|_p = \mu\left(\bigcup_{n+1}^\infty E_j\right)^{1/p} \to 0 \text{ 当 } n \to \infty. \]
+（在这一点上，我们需要假设 $p < \infty$。）因此，由于 $\phi$ 是线性且连续的，
+\[ \nu(E) = \sum_1^\infty \phi(\chi_{E_j}) = \sum_1^\infty \nu(E_j), \]
+所以 $\nu$ 是一个复测度。另外，如果 $\mu(E) = 0$，则 $\chi_E = 0$ 作为 $L^p$ 的元素，所以 $\nu(E) = 0$；也就是说，$\nu \ll \mu$。根据拉东-尼科迪姆定理，存在 $g \in L^1(\mu)$ 使得对所有 $E$ 都有 $\phi(\chi_E) = \nu(E) = \int_E g\,d\mu$，因此对所有简单函数 $f$ 都有 $\phi(f) = \int fg\,d\mu$。此外，$|\int fg| \leq \|\phi\| \|f\|_p$，所以根据定理 \ref{theorem6.14}，$g \in L^q$。一旦我们知道了这一点，从命题 \ref{prop6.7} 可知，对所有 $f \in L^p$ 都有 $\phi(f) = \int fg$。
+
+现在假设 $\mu$ 是 $\sigma$-有限的。令 $\{E_n\}$ 是集合的递增序列，满足 $0 < \mu(E_n) < \infty$ 且 $X = \bigcup_1^\infty E_n$，我们同意将 $L^p(E_n)$ 和 $L^q(E_n)$ 分别视为 $L^p(X)$ 和 $L^q(X)$ 的子空间，包含那些在 $E_n$ 之外消失的函数。前面的论证表明，对于每个 $n$，存在 $g_n \in L^q(E_n)$ 使得对所有 $f \in L^p(E_n)$ 都有 $\phi(f) = \int fg_n$，且 $\|g_n\|_q = \|\phi|L^p(E_n)\| \leq \|\phi\|$。函数 $g_n$ 对零测集上的改变是唯一的，所以在 $E_n$ 上 $g_n = g_m$ a.e.，当 $n < m$ 时，我们可以通过设定 $g = g_n$ 在 $E_n$ 上来 a.e. 定义 $X$ 上的 $g$。根据单调收敛定理，$\|g\|_q = \lim \|g_n\|_q \leq \|\phi\|$，所以 $g \in L^q$。此外，如果 $f \in L^p$，那么根据控制收敛定理，$f\chi_{E_n} \to f$ 在 $L^p$ 范数中，因此 $\phi(f) = \lim \phi(f\chi_{E_n}) = \lim \int_{E_n} fg = \int fg$。
+
+最后，假设 $\mu$ 是任意的且 $p > 1$，所以 $q < \infty$。如前所述，对于每个 $\sigma$-有限集 $E \subset X$，存在唯一的 a.e. 函数 $g_E \in L^q(E)$ 使得对所有 $f \in L^p(E)$ 都有 $\phi(f) = \int fg_E$ 且 $\|g_E\|_q \leq \|\phi\|$。如果 $F$ 是 $\sigma$-有限的且 $F \supset E$，则在 $E$ 上 $g_F = g_E$ a.e.，所以 $\|g_F\|_q \geq \|g_E\|_q$。令 $M$ 是 $\|g_E\|_q$ 的上确界，当 $E$ 遍历所有 $\sigma$-有限集时，注意到 $M \leq \|\phi\|$。选择一个序列 $\{E_n\}$ 使得 $\|g_{E_n}\|_q \to M$，并设 $F = \bigcup_1^\infty E_n$。则 $F$ 是 $\sigma$-有限的且 $\|g_F\|_q \geq \|g_{E_n}\|_q$ 对所有 $n$ 成立，因此 $\|g_F\|_q = M$。现在，如果 $A$ 是包含 $F$ 的 $\sigma$-有限集，我们有
+\[ \int |g_F|^q + \int |g_{A\setminus F}|^q = \int |g_A|^q \leq M^q = \int |g_F|^q, \]
+因此 $g_{A\setminus F} = 0$ 且 $g_A = g_F$ a.e.（这里我们使用了 $q < \infty$ 的事实。）但如果 $f \in L^p$，则 $A = F \cup \{x : f(x) \neq 0\}$ 是 $\sigma$-有限的，所以 $\phi(f) = \int fg_A = \int fg_F$。因此我们可以取 $g = g_F$，证明完成。
+\end{proof}
+
+\begin{corollary}\label{corollary6.16}
+如果 $1 < p < \infty$，$L^p$ 是自反的。
+\end{corollary}
+
+我们以关于特殊情况 $p=1$ 和 $p=\infty$ 的一些评论来结束。对于任何测度 $\mu$，对应 $g \mapsto \phi_g$ 将 $L^\infty$ 映射到 $(L^1)^*$，但一般情况下它既不是单射也不是满射。当 $\mu$ 不是半有限时，单射性失败。确实，如果 $E \subset X$ 是一个无限测度集，不包含正有限测度的子集，且 $f \in L^1$，则 $\{x : f(x) \neq 0\}$ 是 $\sigma$-有限的，因此与 $E$ 的交集是零测集。由此可知 $\phi_{\chi_E} = 0$ 尽管 $\chi_E \neq 0$ 在 $L^\infty$ 中。然而，这个问题可以通过重新定义 $L^\infty$ 来解决；见练习 23-24。满射性的失败更微妙，最好通过一个例子来说明；另见练习 25。
+
+设 $X$ 是一个不可数集，$\mu = $ 在 $(X, \mathcal{P}(X))$ 上的计数测度，$\mathcal{M} = $ 可数或余可数集的 $\sigma$-代数，且 $\mu_0 = \mu$ 对 $\mathcal{M}$ 的限制。每个 $f \in L^1(\mu)$ 在可数集之外消失，因此 $L^1(\mu) = L^1(\mu_0)$。另一方面，$L^\infty(\mu)$ 包含 $X$ 上的所有有界函数，而 $L^\infty(\mu_0)$ 包含那些除了在可数集上外都是常数的有界函数。考虑到这一点，容易看出 $L^1(\mu_0)$ 的对偶是 $L^\infty(\mu)$ 而不是较小的空间 $L^\infty(\mu_0)$。
+
+至于 $p = \infty$ 的情况：映射 $g \to \phi_g$ 根据命题 \ref{prop6.13} 总是 $L^1$ 到 $(L^\infty)^*$ 的等距嵌入，但它几乎从不是满射。我们将在 §6.6 中说更多关于这一点的内容；目前，我们给出一个具体的例子。（另一个例子可以在练习 19 中找到。）
+
+设 $X = [0,1]$，$\mu = $ 勒贝格测度。映射 $f \mapsto f(0)$ 是 $C(X)$ 上的有界线性泛函，我们将 $C(X)$ 视为 $L^\infty$ 的子空间。根据哈恩-巴拿赫定理，存在 $\phi \in (L^\infty)^*$ 使得对所有 $f \in C(X)$ 都有 $\phi(f) = f(0)$。要看到 $\phi$ 不能通过对 $L^1$ 函数的积分给出，考虑函数 $f_n \in C(X)$，定义为 $f_n(x) = \max(1-nx, 0)$。则对所有 $n$ 都有 $\phi(f_n) = f_n(0) = 1$，但 $f_n(x) \to 0$ 对所有 $x > 0$，所以根据控制收敛定理，对所有 $g \in L^1$ 都有 $\int f_ng \to 0$。
+
+
+\section{一些有用的不等式}
+
+估计和不等式是 $L^p$ 空间在分析中应用的核心。其中最基本的是霍尔德不等式和闵可夫斯基不等式。在本节中，我们将介绍一些这个领域的额外重要结果。第一个结果几乎是平凡的，但它足够有用，值得特别提及。
+
+\begin{theorem}[切比雪夫不等式]\label{theorem6.17}
+如果 $f \in L^p$ $(0 < p < \infty)$，那么对于任何 $\alpha > 0$，
+\[ \mu(\{x : |f(x)| > \alpha\}) \leq \left[ \frac{\|f\|_p}{\alpha} \right]^p. \]
+\end{theorem}
+
+\begin{proof}
+令 $E_\alpha = \{x : |f(x)| > \alpha\}$。那么
+\[ \|f\|_p^p = \int |f|^p \geq \int_{E_\alpha} |f|^p \geq \alpha^p \int_{E_\alpha} 1 = \alpha^p \mu(E_\alpha). \]
+\end{proof}
+
+下一个结果是关于积分算子在 $L^p$ 空间上有界性的相当一般的定理。
+
+\begin{theorem}\label{theorem6.18}
+设 $(X, \mathcal{M}, \mu)$ 和 $(Y, \mathcal{N}, \nu)$ 是 $\sigma$-有限测度空间，并且 $K$ 是 $X \times Y$ 上的 $(\mathcal{M} \otimes \mathcal{N})$-可测函数。假设存在 $C > 0$ 使得 $\int |K(x,y)| d\mu(x) \leq C$ 对几乎所有 $y \in Y$ 成立，且 $\int |K(x,y)| d\nu(y) \leq C$ 对几乎所有 $x \in X$ 成立，并且 $1 \leq p \leq \infty$。如果 $f \in L^p(\nu)$，则积分
+\[ Tf(x) = \int K(x,y)f(y) d\nu(y) \]
+对几乎所有 $x \in X$ 绝对收敛，由此定义的函数 $Tf$ 属于 $L^p(\mu)$，且 $\|Tf\|_p \leq C\|f\|_p$。
+\end{theorem}
+
+\begin{proof}
+假设 $1 < p < \infty$。令 $q$ 是 $p$ 的共轭指数。通过对乘积
+\[ |K(x,y)f(y)| = |K(x,y)|^{1/q}(|K(x,y)|^{1/p}|f(y)|) \]
+应用霍尔德不等式，我们有
+\[ \int |K(x,y)f(y)| d\nu(y) \leq \left[ \int |K(x,y)| d\nu(y) \right]^{1/q} \left[ \int |K(x,y)| |f(y)|^p d\nu(y) \right]^{1/p} \]
+\[ \leq C^{1/q} \left[ \int |K(x,y)| |f(y)|^p d\nu(y) \right]^{1/p} \]
+对几乎所有 $x \in X$ 成立。因此，根据托内利定理，
+\[ \int \left[ \int |K(x,y) f(y)| d\nu(y) \right]^p d\mu(x) \leq C^{p/q} \iint |K(x,y)| |f(y)|^p d\nu(y) d\mu(x) \]
+\[ \leq C^{(p/q)+1} \int |f(y)|^p d\nu(y). \]
+
+由于最后一个积分是有限的，富比尼定理意味着 $K(x,\cdot)f \in L^1(\nu)$ 对几乎所有 $x$ 成立，因此 $Tf$ 几乎处处良定义，并且
+\[ \int |Tf(x)|^p d\mu(x) \leq C^{(p/q)+1}\|f\|_p^p. \]
+
+取 $p$ 次方根，我们完成了证明。
+
+对于 $p = 1$，证明类似但更简单，只需要假设 $\int |K(x,y)|d\mu(x) \leq C$；对于 $p = \infty$，证明是平凡的，只需要假设 $\int |K(x,y)|d\nu(y) \leq C$。详细内容留给读者（练习26）。
+\end{proof}
+
+闵可夫斯基不等式表明和的 $L^p$ 范数最多是 $L^p$ 范数的和。这个结果有一个推广，其中和被积分替代：
+
+\begin{theorem}[积分的闵可夫斯基不等式]\label{theorem6.19}
+假设 $(X, \mathcal{M}, \mu)$ 和 $(Y, \mathcal{N}, \nu)$ 是 $\sigma$-有限测度空间，并且 $f$ 是 $X \times Y$ 上的 $(\mathcal{M} \otimes \mathcal{N})$-可测函数。
+\begin{enumerate}[(a)]
+\item 如果 $f \geq 0$ 且 $1 \leq p < \infty$，那么
+\[ \left[ \int \left( \int f(x,y) d\nu(y) \right)^p d\mu(x) \right]^{1/p} \leq \int \left[ \int f(x,y)^p d\mu(x) \right]^{1/p} d\nu(y). \]
+
+\item 如果 $1 \leq p \leq \infty$，$f(\cdot,y) \in L^p(\mu)$ 对几乎所有 $y$，且函数 $y \mapsto \|f(\cdot,y)\|_p$ 在 $L^1(\nu)$ 中，那么 $f(x,\cdot) \in L^1(\nu)$ 对几乎所有 $x$，函数 $x \mapsto \int f(x,y) d\nu(y)$ 在 $L^p(\mu)$ 中，且
+\[ \left\| \int f(\cdot,y) d\nu(y) \right\|_p \leq \int \|f(\cdot,y)\|_p d\nu(y). \]
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+如果 $p = 1$，(a) 仅仅是托内利定理。如果 $1 < p < \infty$，令 $q$ 是 $p$ 的共轭指数，并假设 $g \in L^q(\mu)$。那么根据托内利定理和霍尔德不等式，
+\[ \int \left[ \int f(x,y) d\nu(y) \right] |g(x)| d\mu(x) = \iint f(x,y)|g(x)| d\mu(x) d\nu(y) \]
+\[ \leq \|g\|_q \int \left[ \int f(x,y)^p d\mu(x) \right]^{1/p} d\nu(y). \]
+
+因此断言 (a) 从定理 \ref{theorem6.14} 可得。当 $p < \infty$ 时，(b) 从 (a)（将 $f$ 替换为 $|f|$）和富比尼定理可得；当 $p = \infty$ 时，它是积分单调性的简单结果。
+\end{proof}
+
+我们的最后一个结果是关于 $(0, \infty)$ 上带勒贝格测度的积分算子的定理。
+
+\begin{theorem}\label{theorem6.20}
+设 $K$ 是 $(0,\infty) \times (0,\infty)$ 上的勒贝格可测函数，满足对所有 $\lambda > 0$ 有 $K(\lambda x, \lambda y) = \lambda^{-1}K(x,y)$ 且对某个 $p \in [1,\infty]$ 有 $\int_0^\infty |K(x,1)||x|^{-1/p} dx = C < \infty$，并且 $q$ 是 $p$ 的共轭指数。对于 $f \in L^p$ 和 $g \in L^q$，令
+\[ Tf(y) = \int_0^\infty K(x,y)f(x) dx, \quad Sg(x) = \int_0^\infty K(x,y)g(y) dy. \]
+那么 $Tf$ 和 $Sg$ 几乎处处有定义，并且 $\|Tf\|_p \leq C\|f\|_p$ 和 $\|Sg\|_q \leq C\|g\|_q$。
+\end{theorem}
+
+\begin{proof}
+令 $z = x/y$，我们有
+\[ \int_0^\infty |K(x,y)f(x)| dx = \int_0^\infty |K(yz,y)f(yz)||y| dz = \int_0^\infty |K(z,1)f_z(y)| dz \]
+其中 $f_z(y) = f(yz)$；此外，
+\[ \|f_z\|_p = \left[ \int_0^\infty |f(yz)|^p dy \right]^{1/p} = \left[ \int_0^\infty |f(x)|^p z^{-1} dx \right]^{1/p} = z^{-1/p}\|f\|_p. \]
+因此，根据积分的闵可夫斯基不等式，$Tf$ 几乎处处存在，且
+\[ \|Tf\|_p \leq \int_0^\infty |K(z,1)| \|f_z\|_p dz = \|f\|_p \int_0^\infty |K(z,1)||z|^{-1/p} dz = C\|f\|_p. \]
+
+最后，令 $u = y^{-1}$，我们有
+\[ \int_0^\infty |K(1,y)||y|^{-1/q} dy = \int_0^\infty |K(y^{-1},1)||y|^{-1-(1/q)} dy \]
+\[ = \int_0^\infty |K(u,1)||u|^{-1/p} du = C, \]
+所以同样的推理表明 $Sg$ 几乎处处有定义，且 $\|Sg\|_q \leq C\|g\|_q$。
+\end{proof}
+
+\begin{corollary}\label{corollary6.21}
+令
+\[ Tf(y) = y^{-1} \int_0^y f(x) dx, \quad Sg(x) = \int_x^\infty y^{-1}g(y) dy. \]
+那么对于 $1 < p \leq \infty$ 和 $1 \leq q < \infty$，
+\[ \|Tf\|_p \leq \frac{p}{p-1}\|f\|_p, \quad \|Sg\|_q \leq q\|g\|_q. \]
+\end{corollary}
+
+\begin{proof}
+令 $K(x,y) = y^{-1}\chi_E(x,y)$，其中 $E = \{(x,y) : x < y\}$。 那么 $\int_0^\infty |K(x,1)||x|^{-1/p} dx = \int_0^1 x^{-1/p} dx = p/(p-1) = q$，其中 $q$ 是 $p$ 的共轭指数，因此定理 \ref{theorem6.20} 给出了结果。
+\end{proof}
+
+推论 \ref{corollary6.21} 是 \textbf{哈代不等式} 的特殊情况；一般结果在练习 29 中。
+
+\section{ 分布函数和弱 $L^p$}
+
+如果 $f$ 是 $(X, \mathcal{M}, \mu)$ 上的可测函数，我们定义其\textbf{分布函数} $\lambda_f : (0, \infty) \to [0, \infty]$ 为
+\[ \lambda_f(\alpha) = \mu(\{x : |f(x)| > \alpha\}). \]
+
+（这与 §1.5 和 §10.1 中讨论的"分布函数"密切相关，但不完全相同。）我们在一个命题中总结 $\lambda_f$ 的基本性质：
+
+\begin{proposition}\label{proposition6.22}
+\begin{enumerate}[a.]
+\item $\lambda_f$ 是递减的且右连续的。
+\item 如果 $|f| \leq |g|$，则 $\lambda_f \leq \lambda_g$。
+\item 如果 $|f_n|$ 递增收敛到 $|f|$，则 $\lambda_{f_n}$ 递增收敛到 $\lambda_f$。
+\item 如果 $f = g + h$，则 $\lambda_f(\alpha) \leq \lambda_g(\frac{1}{2}\alpha) + \lambda_h(\frac{1}{2}\alpha)$。
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+令 $E(\alpha, f) = \{x : |f(x)| > \alpha\}$。函数 $\lambda_f$ 是递减的，因为如果 $\alpha < \beta$，则 $E(\alpha, f) \supset E(\beta, f)$；它是右连续的，因为 $E(\alpha, f)$ 是 $\{E(\alpha + n^{-1}, f)\}_{1}^{\infty}$ 的递增并集。如果 $|f| \leq |g|$，则 $E(\alpha, f) \subset E(\alpha, g)$，所以 $\lambda_f \leq \lambda_g$。如果 $|f_n|$ 递增收敛到 $|f|$，则 $E(\alpha, f)$ 是 $\{E(\alpha, f_n)\}$ 的递增并集，所以 $\lambda_{f_n}$ 递增收敛到 $\lambda_f$。最后，如果 $f = g + h$，则 $E(\alpha, f) \subset E(\frac{1}{2}\alpha, g) \cup E(\frac{1}{2}\alpha, h)$，这意味着 $\lambda_f(\alpha) \leq \lambda_g(\frac{1}{2}\alpha) + \lambda_h(\frac{1}{2}\alpha)$。
+\end{proof}
+
+假设 $\lambda_f(\alpha) < \infty$ 对所有 $\alpha > 0$ 成立。根据命题 \ref{proposition6.22}a，$\lambda_f$ 在 $(0, \infty)$ 上定义了一个负的Borel测度 $\nu$，使得当 $0 < a < b$ 时，$\nu((a, b]) = \lambda_f(b) - \lambda_f(a)$。（我们在 §1.5 中对 $\mathbb{R}$ 的Borel测度的构造在 $(0, \infty)$ 上同样有效。）因此我们可以考虑函数 $\phi$ 在 $(0, \infty)$ 上的勒贝格-斯蒂尔杰斯积分 $\int \phi d\lambda_f = \int \phi d\nu$。下面的结果表明，$|f|$ 在 $X$ 上的函数积分可以简化为这样的勒贝格-斯蒂尔杰斯积分。
+
+\begin{proposition}\label{proposition6.23}
+如果 $\lambda_f(\alpha) < \infty$ 对所有 $\alpha > 0$ 成立，且 $\phi$ 是 $(0, \infty)$ 上的非负Borel可测函数，则
+\[ \int_X \phi \circ |f| d\mu = -\int_0^{\infty} \phi(\alpha)d\lambda_f(\alpha). \]
+\end{proposition}
+
+\begin{proof}
+如果 $\nu$ 是由 $\lambda_f$ 确定的负测度，我们有
+\[ \nu((a, b]) = \lambda_f(b) - \lambda_f(a) = -\mu(\{x : a < |f(x)| \leq b\}) = -\mu(|f|^{-1}((a, b])). \]
+由扩展的唯一性（定理 \ref{theorem1.14}），对所有的Borel集 $E \subset (0, \infty)$，都有 $\nu(E) = -\mu(|f|^{-1}(E))$。但这意味着当 $\phi$ 是Borel集的特征函数时，$\int_X \phi \circ |f| d\mu = -\int_0^{\infty} \phi(\alpha)d\lambda_f(\alpha)$，因此当 $\phi$ 是简单函数时也成立。一般情况下，根据定理 \ref{theorem2.10} 和单调收敛定理可得结论。
+\end{proof}
+
+这个结果中我们最感兴趣的情况是 $\phi(\alpha) = \alpha^p$，这给出了
+\[ \int |f|^p d\mu = -\int_0^{\infty} \alpha^p d\lambda_f(\alpha). \]
+
+通过对右边进行分部积分（定理 3.36），可以得到一个更有用的形式：$\int |f|^p d\mu = p\int_0^{\infty} \alpha^{p-1}\lambda_f(\alpha) d\alpha$。除非我们知道 $\alpha^p\lambda_f(\alpha) \to 0$ 当 $\alpha \to 0$ 和 $\alpha \to \infty$ 时，否则这个计算的有效性并不清楚；尽管如此，结论是正确的。
+
+\begin{proposition}\label{proposition6.24}
+如果 $0 < p < \infty$，则
+\[ \int |f|^p d\mu = p\int_0^{\infty} \alpha^{p-1}\lambda_f(\alpha) d\alpha. \]
+\end{proposition}
+
+\begin{proof}
+如果对某些 $\alpha > 0$ 有 $\lambda_f(\alpha) = \infty$，则两个积分都是无穷大。如果不是，且 $f$ 是简单函数，则 $\lambda_f$ 在 $\alpha \to 0$ 时有界，且在足够大的 $\alpha$ 时消失，所以上述描述的分部积分有效。（在这种情况下，也很容易直接验证公式。）对于一般情况，令 $\{g_n\}$ 是简单函数序列，递增收敛到 $|f|$；则对 $g_n$ 成立的所需结果，根据命题 \ref{proposition6.22}c 和单调收敛定理，对 $f$ 也成立。
+\end{proof}
+
+$L^p$ 空间的一个变体经常出现，如下所示。如果 $f$ 是 $X$ 上的可测函数且 $0 < p < \infty$，我们定义
+\[ [f]_p = \left(\sup_{\alpha>0} \alpha^p \lambda_f(\alpha)\right)^{1/p}, \]
+并定义\textbf{弱 $L^p$} 为所有满足 $[f]_p < \infty$ 的 $f$ 的集合。$[\cdot]_p$ 不是一个范数；容易验证 $[cf]_p = |c|[f]_p$，但三角不等式不成立。然而，弱 $L^p$ 是一个拓扑向量空间；详见练习 35。
+
+$L^p$ 和弱 $L^p$ 之间的关系如下。一方面，
+\[ L^p \subset \text{弱} L^p, \quad \text{且} \quad [f]_p \leq \|f\|_p. \]
+（这只是切比雪夫不等式的重述。）另一方面，如果我们在积分 $p\int_0^{\infty} \alpha^{p-1}\lambda_f(\alpha) d\alpha$ 中用 $([f]_p/\alpha)^p$ 替换 $\lambda_f(\alpha)$，该积分等于 $\|f\|_p^p$，我们得到一个常数乘以 $\int_0^{\infty} \alpha^{-1} d\alpha$，这在 $0$ 和 $\infty$ 处都发散 — 但仅仅是勉强发散。只需对 $\lambda_f$ 在 $0$ 和 $\infty$ 附近有稍强一些的估计，就能得到 $f \in L^p$。（参见练习 36。）弱 $L^p$ 中但不在 $L^p$ 中的标准例子是 $f(x) = x^{-1/p}$，定义在 $(0, \infty)$ 上（带勒贝格测度）。
+
+表示一个函数为"小"部分和"大"部分之和通常是很方便的。下面是一种做法，它给出了分布函数的简单公式。
+
+\begin{proposition}\label{proposition6.25}
+如果 $f$ 是可测函数且 $A > 0$，令 $E(A) = \{x : |f(x)| > A\}$，并设
+\[ h_A = f\chi_{X\setminus E(A)} + A(\text{sgn } f)\chi_{E(A)}, \quad g_A = f - h_A = (\text{sgn } f)(|f| - A)\chi_{E(A)}. \]
+那么
+\[ \lambda_{g_A}(\alpha) = \lambda_f(\alpha + A), \quad \lambda_{h_A}(\alpha) = \begin{cases} \lambda_f(\alpha) & \text{如果 } \alpha < A, \\ 0 & \text{如果 } \alpha \geq A. \end{cases} \]
+证明留给读者（练习 37）。
+\end{proposition}
+
+
+
+
+
+
+\end{document}

@@ -1,0 +1,746 @@
+\chapter{一致有界性原理和闭图像定理}
+
+\section{贝尔纲定理}
+
+下面的经典结果在第二章的证明中起着至关重要的作用。
+
+\begin{theorem}[贝尔]\label{theorem2.1}
+设$X$是一个完备度量空间，$(X_n)_{n \geq 1}$是$X$中的一列闭子集。假设对于每个$n \geq 1$，
+\[
+\text{Int } X_n = \emptyset.
+\]
+那么
+\[
+\text{Int } \left(\bigcup_{n=1}^\infty X_n\right) = \emptyset.
+\]
+\end{theorem}
+
+\begin{remark}
+贝尔纲定理通常以下面的形式使用。设$X$是一个非空完备度量空间。设$(X_n)_{n \geq 1}$是一列闭子集，使得
+\[
+\bigcup_{n=1}^\infty X_n = X.
+\]
+那么存在某个$n_0$使得$\text{Int } X_{n_0} \neq \emptyset$。
+\end{remark}
+
+\begin{proof}
+令$O_n = X_n^c$，那么对于每个$n \geq 1$，$O_n$在$X$中是开集且稠密。我们的目标是证明$G = \bigcap_{n=1}^\infty O_n$在$X$中是稠密的。设$\omega$是$X$中的一个非空开集；我们将证明$\omega \cap G \neq \emptyset$。
+通常，设
+\[
+B(x, r) = \{y \in X; d(y, x) < r\}.
+\]
+选择任意$x_0 \in \omega$和$r_0 > 0$使得
+\[
+\overline{B(x_0, r_0)} \subset \omega.
+\]
+然后，选择$x_1 \in B(x_0, r_0) \cap O_1$和$r_1 > 0$使得
+\[
+\begin{cases}
+\overline{B(x_1, r_1)} \subset B(x_0, r_0) \cap O_1, \\
+0 < r_1 < \frac{r_0}{2},
+\end{cases}
+\]
+这是可能的，因为$O_1$是开集且稠密的。通过归纳，我们构造序列$(x_n)$和$(r_n)$使得
+\[
+\begin{cases}
+\overline{B(x_{n+1}, r_{n+1})} \subset B(x_n, r_n) \cap O_{n+1}, \quad \forall n \geq 0, \\
+0 < r_{n+1} < \frac{r_n}{2}.
+\end{cases}
+\]
+由此可知$(x_n)$是一个柯西序列；设$x_n \to \ell$。由于对于每一个$p \geq 0$，$x_{n+p} \in B(x_n, r_n)$，我们在极限（当$p \to \infty$时）得到
+\[
+\ell \in \overline{B(x_n, r_n)}, \quad \forall n \geq 0.
+\]
+特别地，$\ell \in \omega \cap G$。
+\end{proof}
+
+\section{一致有界性原理}
+
+
+设$E$和$F$是两个赋范向量空间(n.v.s.)。我们用$\mathcal{L}(E, F)$表示从$E$到$F$的连续（=有界）线性算子的空间，其范数为
+\[
+\|T\|_{\mathcal{L}(E, F)} = \sup_{\substack{x \in E \\ \|x\| \leq 1}} \|Tx\|.
+\]
+通常，我们写$\mathcal{L}(E)$而不是$\mathcal{L}(E, E)$。
+
+\begin{theorem}[Banach-Steinhaus, 一致有界性原理]\label{theorem2.2}
+设$E$和$F$是两个Banach空间，设$(T_i)_{i \in I}$是从$E$到$F$的一族（不必可数）连续线性算子。假设
+\begin{equation}
+\sup_{i \in I} \|T_i x\| < \infty \quad \forall x \in E. \label{eq:2.1}
+\end{equation}
+那么
+\begin{equation}
+\sup_{i \in I} \|T_i\|_{\mathcal{L}(E, F)} < \infty. \label{eq:2.2}
+\end{equation}
+换句话说，存在一个常数$c$使得
+\[
+\|T_i x\| \leq c\|x\| \quad \forall x \in E, \quad \forall i \in I.
+\]
+\end{theorem}
+
+\begin{remark}
+定理\ref{theorem2.2}的结论是相当出人意料和令人惊讶的。从逐点估计可以推导出一个全局（一致）估计。
+\end{remark}
+
+\begin{proof}
+对于每个$n \geq 1$，令
+\[
+X_n = \{x \in E; \quad \forall i \in I, \|T_i x\| \leq n\},
+\]
+所以$X_n$是闭集，并且由\eqref{eq:2.1}我们有
+\[
+\bigcup_{n=1}^\infty X_n = E.
+\]
+由贝尔纲定理可知，存在某个$n_0 \geq 1$使得$\text{Int}(X_{n_0}) \neq \emptyset$。选择$x_0 \in E$和$r > 0$使得$B(x_0, r) \subset X_{n_0}$。我们有
+\[
+\|T_i(x_0+rz)\| \leq n_0 \quad \forall i \in I, \quad \forall z \in B(0, 1).
+\]
+这导致
+\[
+r\|T_i\|_{\mathcal{L}(E,F)} \leq n_0 + \|T_i x_0\|,
+\]
+这意味着\eqref{eq:2.2}成立。
+\end{proof}
+
+\begin{remark}
+回想一下，连续映射的\textbf{逐点极限}不一定是连续的。线性假设在定理\ref{theorem2.2}中起着至关重要的作用。注意，在定理\ref{theorem2.2}的证明中，我们没有用到$F$是完备的。然而，在下面的设定中，它确实起作用了。
+\end{remark}
+
+下面是一致有界性原理的一些直接推论。
+
+\begin{corollary}\label{corollary2.3}
+设$E$和$F$是两个Banach空间。设$(T_n)$是从$E$到$F$的一列连续线性算子，使得对于每个$x \in E$，$T_n x$收敛（当$n \to \infty$时）到一个极限，记为$Tx$。那么我们有
+\begin{enumerate}[(a)]
+\item $\sup_n \|T_n\|_{\mathcal{L}(E,F)} < \infty$,
+\item $T \in \mathcal{L}(E,F)$,
+\item $\|T\|_{\mathcal{L}(E,F)} \leq \liminf_{n \to \infty} \|T_n\|_{\mathcal{L}(E,F)}$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(a) 直接由定理\ref{theorem2.2}得出，因此存在一个常数$c$使得
+\[
+\|T_n x\| \leq c\|x\| \quad \forall n, \quad \forall x \in E.
+\]
+在极限处我们发现
+\[
+\|Tx\| \leq c\|x\| \quad \forall x \in E.
+\]
+由于$T$显然是线性的，我们得到(b)。
+最后，我们有
+\[
+\|T_n x\| \leq \|T_n\|_{\mathcal{L}(E,F)} \|x\| \quad \forall x \in E,
+\]
+(c)也直接得出。
+\end{proof}
+
+\begin{corollary}\label{corollary2.4}
+设$G$是一个Banach空间，设$B$是$G$的一个子集。假设
+\begin{equation}
+\text{对于每个 } f \in G^*, \text{ 集合 } f(B) = \{\langle f, x \rangle; x \in B\} \text{ 在 } \mathbb{R} \text{ 中是有界的}. \label{eq:2.3}
+\end{equation}
+那么
+\begin{equation}
+B \text{ 是有界的}. \label{eq:2.4}
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+我们将使用定理\ref{theorem2.2}，其中$E=G^*$, $F=\mathbb{R}$，$I=B$。对于每个$b \in B$，设
+\[
+T_b(f) = \langle f, b \rangle, \quad f \in E = G^*,
+\]
+这样由\eqref{eq:2.3}，
+\[
+\sup_{b \in B} |T_b(f)| < \infty \quad \forall f \in E.
+\]
+由定理\ref{theorem2.2}可知，存在一个常数$c$使得
+\[
+|\langle f, b \rangle| \leq c\|f\| \quad \forall f \in G^* \quad \forall b \in B.
+\]
+因此我们发现（使用推论\ref{corollary1.4}）
+\[
+\|b\| \leq c \quad \forall b \in B.
+\]
+\end{proof}
+
+\begin{remark}
+推论\ref{corollary2.4}表明，为了证明一个集合$B$是有界的，只需通过有界线性泛函来“观察”$B$。这是一种在有限维空间中熟悉的过程，其中线性泛函是与某个基相关的分量。在某种意义上，推论\ref{corollary2.4}取代了在无限维空间中的分量使用。有时，人们通过说“弱有界”$\iff$“强有界”来表达推论\ref{corollary2.4}的结论（见第三章）。
+\end{remark}
+
+接下来我们有推论\ref{corollary2.4}的一个对偶陈述：
+
+\begin{corollary}\label{corollary2.5}
+设$G$是一个Banach空间，设$B^*$是$G^*$的一个子集。假设
+\begin{equation}
+\text{对于每个 } x \in G, \text{ 集合 } \langle B^*, x \rangle = \{\langle f, x \rangle; f \in B^*\} \text{ 在 } \mathbb{R} \text{ 中是有界的}. \label{eq:2.5}
+\end{equation}
+那么
+\begin{equation}
+B^* \text{ 是有界的}. \label{eq:2.6}
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+使用定理\ref{theorem2.2}，其中$E=G$, $F=\mathbb{R}$，$I=B^*$。对于每个$b \in B^*$设
+\[
+T_b(x) = \langle b, x \rangle \quad (x \in G=E).
+\]
+我们发现存在一个常数$c$使得
+\[
+|\langle b, x \rangle| \leq c\|x\| \quad \forall b \in B^*, \quad \forall x \in G.
+\]
+我们得出（从对偶范数的定义）
+\[
+\|b\| \leq c \quad \forall b \in B^*.
+\]
+\end{proof}
+
+\section{开映射定理和闭图像定理}
+
+这里是两个由Banach提出的基本结果。
+
+\begin{theorem}[开映射定理]\label{theorem2.6}
+设$E$和$F$是两个Banach空间，设$T$是从$E$到$F$的连续线性算子，且$T$是满射的（=映上的）。那么存在一个常数$c>0$使得
+\begin{equation}
+T(B_E(0,1)) \supset B_F(0,c). \label{eq:2.7}
+\end{equation}
+\end{theorem}
+
+\begin{remark}
+性质\eqref{eq:2.7}意味着$E$中任何开集的像在$F$中是开集（这证明了这个定理的名称！）。确实，让我们假设$U$是$E$中的一个开集，并让我们证明$T(U)$是开的。在$F$中任取一点$y_0 \in T(U)$，设$y_0=Tx_0$对于某个$x_0 \in U$。设$r>0$使得$B(x_0, r) \subset U$，即$x_0+B(0,r) \subset U$。由此可知
+\[
+y_0 + T(B(0,r)) \subset T(U).
+\]
+使用\eqref{eq:2.7}我们得到$T(B(0,r)) \supset B(0, rc)$，因此
+\[
+B(y_0, rc) \subset T(U).
+\]
+\end{remark}
+
+定理\ref{theorem2.6}的一些重要推论如下。
+
+\begin{corollary}\label{corollary2.7}
+设$E$和$F$是两个Banach空间，设$T$是从$E$到$F$的连续线性算子，且$T$是双射的，即单射（=一对一）和满射。那么$T^{-1}$是连续的（从$F$到$E$）。
+\end{corollary}
+
+\begin{proof}
+推论\ref{corollary2.7}的证明和定理\ref{theorem2.6}的假设立即意味着如果$x \in E$被选择使得$\|Tx\|<c$，那么$\|x\|<1$。通过齐次性，我们有
+\[
+\|x\| \leq \frac{1}{c} \|Tx\| \quad \forall x \in E
+\]
+因此$T^{-1}$是连续的。
+\end{proof}
+
+\begin{corollary}\label{corollary2.8}
+设$E$是一个向量空间，赋有两个范数$\|\cdot\|_1$和$\|\cdot\|_2$。假设$E$对于两个范数都是Banach空间，并且存在一个常数$C \geq 0$使得
+\[
+\|x\|_2 \leq C\|x\|_1 \quad \forall x \in E.
+\]
+那么这两个范数是\textbf{等价的}，即存在一个常数$c>0$使得
+\[
+\|x\|_1 \leq c\|x\|_2 \quad \forall x \in E.
+\]
+\end{corollary}
+
+\begin{proof}
+用$E=(E, \|\cdot\|_1)$, $F=(E, \|\cdot\|_2)$和$T=I$来应用推论\ref{corollary2.7}。
+\end{proof}
+
+\begin{proof}[定理\ref{theorem2.6}的证明]
+我们将证明分为两个步骤。
+
+\textbf{步骤1.} 假设$T$是从$E$到$F$的线性满射算子。那么存在一个常数$c>0$使得
+\begin{equation}
+\overline{T(B(0,1))} \supset B(0, 2c). \label{eq:2.8}
+\end{equation}
+\begin{proof}
+设$X_n = n\overline{T(B(0,1))}$。由于$T$是满射的，我们有$\bigcup_{n=1}^\infty X_n = F$，并且根据贝尔纲定理，存在某个$n_0$使得$\text{Int}(X_{n_0}) \neq \emptyset$。由此可知
+\[
+\text{Int}[\overline{T(B(0,1))}] \neq \emptyset.
+\]
+选择$c>0$和$y_0 \in F$使得
+\begin{equation}
+B(y_0, 4c) \subset \overline{T(B(0,1))}. \label{eq:2.9}
+\end{equation}
+特别地，$y_0 \in \overline{T(B(0,1))}$，并且通过对称性，
+\begin{equation}
+-y_0 \in \overline{T(B(0,1))}. \label{eq:2.10}
+\end{equation}
+将\eqref{eq:2.9}和\eqref{eq:2.10}相加得到
+\[
+B(0, 4c) \subset \overline{T(B(0,1))} + \overline{T(B(0,1))}.
+\]
+另一方面，由于$T(B(0,1))$是凸的，我们有
+\[
+\overline{T(B(0,1))} + \overline{T(B(0,1))} = 2\overline{T(B(0,1))},
+\]
+\eqref{eq:2.8}也随之成立。
+\end{proof}
+
+\textbf{步骤2.} 假设$T$是从$E$到$F$的连续线性算子，满足\eqref{eq:2.8}。那么我们有
+\begin{equation}
+T(B(0,1)) \supset B(0,c). \label{eq:2.11}
+\end{equation}
+\begin{proof}
+选择任意$y \in F$使得$\|y\|<c$。我们的目标是找到一个$x \in E$使得
+\[
+\|x\| < 1 \quad \text{和} \quad Tx=y.
+\]
+由\eqref{eq:2.8}我们知道
+\begin{equation}
+\forall \varepsilon > 0 \quad \exists z \in E \text{ with } \|z\| < \frac{1}{2} \text{ and } \|y - Tz\| < \varepsilon. \label{eq:2.12}
+\end{equation}
+选择$\varepsilon = c/2$，我们找到一些$z_1 \in E$使得
+\[
+\|z_1\| < \frac{1}{2} \quad \text{和} \quad \|y-Tz_1\| < \frac{c}{2}.
+\]
+通过对$y-Tz_1$应用与$c/2$（而不是$c$）相同的构造，我们找到一些$z_2 \in E$使得
+\[
+\|z_2\| < \frac{1}{4} \quad \text{和} \quad \|(y-Tz_1) - Tz_2\| < \frac{c}{4}.
+\]
+类似地进行，通过归纳我们得到一个序列$(z_n)$使得
+\[
+\|z_n\| < \frac{1}{2^n} \quad \text{和} \quad \|y-T(z_1+z_2+\dots+z_n)\| < \frac{c}{2^n} \quad \forall n.
+\]
+由此可知序列$x_n = z_1+z_2+\dots+z_n$是一个柯西序列。设$x_n \to x$，显然，$\|x\| < 1$且$y=Tx$（因为$T$是连续的）。
+\end{proof}
+\end{proof}
+
+\begin{theorem}[闭图像定理]\label{theorem2.9}
+设$E$和$F$是两个Banach空间，设$T$是从$E$到$F$的线性算子。假设$T$的图像$G(T)$在$E \times F$中是闭集。那么$T$是连续的。
+\end{theorem}
+
+\begin{remark}
+反之亦然，因为任何连续映射的图像都是闭的。
+\end{remark}
+
+\begin{proof}
+考虑$E$上的两个范数
+\[
+\|x\|_1 = \|x\|_E + \|Tx\|_F \quad \text{和} \quad \|x\|_2 = \|x\|_E
+\]
+（范数$\|\cdot\|_1$被称为\textbf{图像范数}）。
+很容易检查，由于$G(T)$是闭的，$(E, \|\cdot\|_1)$是一个Banach空间。另一方面，$E$也是范数$\|\cdot\|_2$的Banach空间。此外，我们显然有$\|x\|_2 \leq \|x\|_1$。由推论\ref{corollary2.8}可知，这两个范数是等价的，因此存在一个常数$c>0$使得$\|x\|_1 \leq c\|x\|_2$。我们得出$\|Tx\|_F \leq c\|x\|_E$。
+\end{proof}
+
+\section{补子空间，线性算子的左右可逆性}
+
+我们从Banach空间中闭子空间的一些几何性质开始，这些性质源于开映射定理。
+
+\begin{theorem}\label{theorem2.10}
+设$E$是一个Banach空间。假设$G$和$L$是两个闭线性子空间，使得$G+L$是闭的。那么存在一个常数$C \geq 0$使得
+\begin{equation}
+\begin{cases}
+\text{每个 } z \in G+L \text{ 承认一个形式为} \\
+z = x+y \text{ 的分解，其中 } x \in G, y \in L, \text{ 并且 } \|x\| \leq C\|z\| \text{ 和 } \|y\| \leq C\|z\|.
+\end{cases} \label{eq:2.13}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+考虑乘积空间$G \times L$及其范数
+\[
+\|[x,y]\| = \|x\| + \|y\|
+\]
+和空间$G+L$及其范数。映射$T: G \times L \to G+L$定义为$T[x,y] = x+y$是连续、线性和满射的。通过开映射定理，存在一个常数$c>0$使得$G+L$中的每个$z$都可以写成$z=x+y$的形式，其中$x \in G, y \in L$且$\|[x,y]\| < c$可以写成$z=x+y$的形式，其中$x \in G, y \in L$且$\|[x,y]\| < c$。通过齐次性，$G+L$中的每个$z$都可以写成
+\[
+z = x+y \quad \text{其中 } x \in G, y \in L, \text{ 且 } \|x\| + \|y\| \leq (1/c)\|z\|.
+\]
+\end{proof}
+
+\begin{corollary}\label{corollary2.11}
+在与定理\ref{theorem2.10}相同的假设下，存在一个常数$C$使得
+\begin{equation}
+\text{dist}(x, G \cap L) \leq C\{\text{dist}(x,G) + \text{dist}(x,L)\} \quad \forall x \in E. \label{eq:2.14}
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+给定$x \in E$和$\varepsilon > 0$，存在$a \in G$和$b \in L$使得
+\[
+\|x-a\| \leq \text{dist}(x,G) + \varepsilon, \quad \|x-b\| \leq \text{dist}(x,L) + \varepsilon.
+\]
+性质\eqref{eq:2.13}应用于$z=a-b$说明存在$a' \in G$和$b' \in L$使得
+\[
+a-b = a' + b', \quad \|a'\| \leq C\|a-b\|, \quad \|b'\| \leq C\|a-b\|.
+\]
+由此可知$a-a' = b+b' \in G \cap L$且
+\begin{align*}
+\text{dist}(x, G \cap L) &\leq \|x-(a-a')\| \leq \|x-a\| + \|a'\| \\
+&\leq \|x-a\| + C\|a-b\| \leq \|x-a\| + C(\|x-a\| + \|x-b\|) \\
+&\leq (1+C)\text{dist}(x,G) + \text{dist}(x,L) + (1+2C)\varepsilon.
+\end{align*}
+最后，我们通过令$\varepsilon \to 0$得到\eqref{eq:2.14}。
+\end{proof}
+
+\begin{remark}
+推论\ref{corollary2.11}的反命题也成立：如果$G$和$L$是两个闭线性子空间使得\eqref{eq:2.14}成立，那么$G+L$是闭的（见练习2.16）。
+\end{remark}
+
+\begin{definition}
+设$G \subset E$是Banach空间$E$的一个闭子空间。一个子空间$L \subset E$被称为$G$的\textbf{拓扑补}或简称$G$的\textbf{补}，如果
+\begin{enumerate}[(i)]
+    \item $L$是闭的，
+    \item $G \cap L = \{0\}$且$G+L=E$。
+\end{enumerate}
+我们也说$G$和$L$是$E$的\textbf{互补子空间}。如果成立，那么每个$z \in E$都可以唯一地写成$z=x+y$的形式，其中$x \in G$和$y \in L$。由定理\ref{theorem2.10}可知，投影算子$z \mapsto x$和$z \mapsto y$是连续线性算子。（这个性质也可以作为互补子空间的定义。）
+\end{definition}
+
+\begin{example}
+\begin{enumerate}
+    \item 每个有限维子空间$G$都承认一个补。实际上，设$e_1, e_2, \dots, e_n$是$G$的一个基。$G$中的每个$x$都可以写成$x=\sum_{i=1}^n x_i e_i$。设$\varphi_i(x)=x_i$。使用Hahn-Banach（解析形式）——或者更准确地说是推论\ref{corollary1.2}——每个$\varphi_i$都可以延拓成一个连续线性泛函$\bar{\varphi}_i$定义在$E$上。很容易检查$L = \bigcap_{i=1}^n (\bar{\varphi}_i)^{-1}(0)$是$G$的补。
+    \item 每个有限余维的闭子空间$G$都承认一个补。要选择任何与$G \cap L = \{0\}$和$G+L=E$的有限维空间$L$就足够了（$L$是闭的，因为它是有限维的）。
+    这里是这种情况的一个典型例子。设$N \subset E^*$是$p$维的一个子空间。那么
+    \[ G = \{x \in E; \langle f, x \rangle = 0 \quad \forall f \in N\} = N^\perp \]
+    是闭的且余维为$p$。实际上，设$f_1, f_2, \dots, f_p$是$N$的一个基。那么存在$e_1, e_2, \dots, e_p \in E$使得
+    \[ \langle f_i, e_j \rangle = \delta_{ij} \quad \forall i, j=1, 2, \dots, p. \]
+    [考虑映射$\Phi: E \to \mathbb{R}^p$定义为
+    \[ \Phi(x) = (\langle f_1, x \rangle, \langle f_2, x \rangle, \dots, \langle f_p, x \rangle) \]
+    并注意$\Phi$是满射的；否则，会存在——由Hahn-Banach（第二几何形式）——某个$\alpha=(\alpha_1, \alpha_2, \dots, \alpha_p) \neq 0$使得
+    \[ \alpha \cdot \Phi(x) = \sum_{i=1}^n \alpha_i \langle f_i, x \rangle = 0 \quad \forall x \in E, \]
+    这是荒谬的]。
+    很容易检查由向量$(e_i)_{1 \leq i \leq p}$生成的空间是$G$的线性补。$N^\perp$的余维为$p$的另一个证明是命题\ref{proposition1.11}的事实。
+    \item 在希尔伯特空间中，每个闭子空间都承认一个补（见第5.2节）。
+\end{enumerate}
+\end{example}
+
+\begin{remark}
+重要的是要知道一些闭子空间（即使在自反Banach空间中）\textbf{没有补}。事实上，J. Lindenstrauss和L. Tzafriri [1]的一个著名结果断言，在一个Banach空间中，每个闭子空间都承认一个补，当且仅当这个空间与一个希尔伯特空间同构。
+\end{remark}
+
+\begin{definition}
+设$T \in \mathcal{L}(E,F)$。算子$S \in \mathcal{L}(F,E)$是$T$的\textbf{右逆}，如果$T \circ S = I_F$。算子$S \in \mathcal{L}(F,E)$是$T$的\textbf{左逆}，如果$S \circ T = I_E$。
+\end{definition}
+
+我们的下一个结果为这些逆的存在提供了必要和充分的条件。
+
+\begin{theorem}\label{theorem2.12}
+设$T \in \mathcal{L}(E,F)$是\textbf{满射}的。以下性质是等价的：
+\begin{enumerate}[(i)]
+    \item $T$承认一个右逆。
+    \item $N(T) = T^{-1}(0)$在$E$中承认一个补。
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(i) $\implies$ (ii). 设$S$是$T$的一个右逆。很容易看出（请检查）$R(S)=S(F)$是$N(T)$的一个补。
+
+(ii) $\implies$ (i). 设$L$是$N(T)$的一个补。设$P$是从$E$到$L$的（连续）投影算子。给定$f \in F$，我们用$x$表示方程$Tx=f$的任意解。设$S f = Px$并注意$S$独立于$x$的选择。很容易检查$S \in \mathcal{L}(F,E)$且$T \circ S = I_F$。
+\end{proof}
+
+\begin{remark}
+鉴于注记8和定理\ref{theorem2.12}，很容易构造出没有右逆的满射算子$T$。确实，设$G$是一个没有补的闭子空间，并设$F=E/G$，并设$T$是从$E$到$F$的典范投影（关于$E/G$的定义和性质，见第11.2节）。
+\end{remark}
+
+\begin{theorem}\label{theorem2.13}
+假设$T \in \mathcal{L}(E,F)$是\textbf{单射}的。以下性质是等价的：
+\begin{enumerate}[(i)]
+    \item $T$承认一个左逆。
+    \item $R(T)=T(E)$是闭的并且在$F$中承认一个补。
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(i) $\implies$ (ii). 很容易检查$R(T)$是闭的并且$N(S)$是$R(T)$的补[写$f=TSf+(f-TSf)$]。
+
+(ii) $\implies$ (i). 设$P$是从$F$到$R(T)$的连续投影算子。设$f \in F$；由于$Pf \in R(T)$，存在唯一的$x \in E$使得$Tx=Pf$。设$Sf=x$。很明显$S \circ T = I_E$；此外，根据推论\ref{corollary2.7}，$S$是连续的。
+\end{proof}
+
+
+\section{再论正交性}
+
+这里有一些给出和或交的正交表示的简单公式。
+
+\begin{proposition}\label{proposition2.14}
+设$G$和$L$是$E$中的两个闭子空间。那么
+\begin{gather}
+(G \cap L)^\perp = \overline{G^\perp + L^\perp}, \label{eq:2.16} \\
+(G+L)^\perp = G^\perp \cap L^\perp. \label{eq:2.17}
+\end{gather}
+\end{proposition}
+\begin{proof}
+很明显$G^\perp + L^\perp \subset (G \cap L)^\perp$；因此，如果$x \in (G^\perp+L^\perp)^\perp$并且$f \in G^\perp+L^\perp$那么$\langle f, x \rangle=0$。反之，我们有$G^\perp \subset (G \cap L)^\perp$和$L^\perp \subset (G \cap L)^\perp$。同样地，$(G^\perp+L^\perp)^\perp \subset G \cap L$。因此$(G \cap L)^\perp \supset \overline{G^\perp+L^\perp}$。
+\end{proof}
+
+\begin{corollary}\label{corollary2.15}
+设$G$和$L$是$E$中的两个闭子空间。那么
+\begin{gather}
+(G \cap L)^\perp \supset G^\perp+L^\perp, \label{eq:2.18} \\
+(G^\perp \cap L^\perp)^\perp = \overline{G+L}. \label{eq:2.19}
+\end{gather}
+\end{corollary}
+\begin{proof}
+使用命题\ref{proposition1.9}和\ref{proposition2.14}。
+\end{proof}
+
+这里有一个更深的结果。
+\begin{theorem}\label{theorem2.16}
+设$G$和$L$是Banach空间$E$中的两个闭子空间。以下性质是等价的：
+\begin{enumerate}[(a)]
+    \item $G+L$在$E$中是闭的,
+    \item $G^\perp+L^\perp$在$E^*$中是闭的,
+    \item $G+L = (G^\perp \cap L^\perp)^\perp$,
+    \item $G^\perp+L^\perp = (G \cap L)^\perp$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(a) $\iff$ (c)由\eqref{eq:2.19}得出。(d) $\iff$ (b)是明显的。
+我们剩下(a) $\implies$ (d)和(b) $\implies$ (a)的推导。
+(a) $\implies$ (d). 鉴于\eqref{eq:2.18}足以证明$(G \cap L)^\perp \subset G^\perp+L^\perp$。给定$f \in (G \cap L)^\perp$，考虑泛函$\varphi: G+L \to \mathbb{R}$定义如下。对于每个$x \in G+L$写$x=a+b$其中$a \in G$和$b \in L$。设
+\[ \varphi(x) = \langle f, a \rangle. \]
+显然，$\varphi$与$x$的分解无关，且$\varphi$是线性的。另一方面，根据定理\ref{theorem2.10}我们可以选择一种分解$x$的方式使得$\|a\| \leq C\|x\|$，因此
+\[ |\varphi(x)| \leq C\|f\| \|x\| \quad \forall x \in G+L. \]
+将$\varphi$通过连续线性泛函$\bar{\varphi}$延拓到$E$的所有部分（见推论\ref{corollary1.2}）。因此我们有
+\[ f = (f-\bar{\varphi}) + \bar{\varphi} \quad \text{其中 } f-\bar{\varphi} \in G^\perp \text{ 且 } \bar{\varphi} \in L^\perp. \]
+(b) $\implies$ (a). 我们从推论\ref{corollary2.11}知道存在一个常数$C$使得
+\begin{equation}
+\text{dist}(f, G^\perp \cap L^\perp) \leq C\{\text{dist}(f, G^\perp) + \text{dist}(f, L^\perp)\} \quad \forall f \in E^*. \label{eq:2.20}
+\end{equation}
+另一方面，我们有
+\begin{equation}
+\text{dist}(f, G^\perp) = \sup_{\substack{x \in G \\ \|x\| \leq 1}} \langle f, x \rangle \quad \forall f \in E^*. \label{eq:2.21}
+\end{equation}
+[使用定理\ref{theorem1.12}其中$\varphi(x)=I_{B_E}(x)-\langle f,x \rangle$和$\psi(x)=I_{G}(x)$，其中
+\[ B_E = \{x \in E; \|x\| \leq 1\}.] \]
+同样地，我们有
+\begin{equation}
+\text{dist}(f, L^\perp) = \sup_{\substack{x \in L \\ \|x\| \leq 1}} \langle f, x \rangle \quad \forall f \in E^*. \label{eq:2.22}
+\end{equation}
+并且由\eqref{eq:2.17})
+\begin{equation}
+\text{dist}(f, G^\perp \cap L^\perp) = \text{dist}(f, (G+L)^\perp) = \sup_{\substack{x \in G+L \\ \|x\| \leq 1}} \langle f, x \rangle \quad \forall f \in E^*. \label{eq:2.23}
+\end{equation}
+结合\eqref{eq:2.20}, \eqref{eq:2.21}和\eqref{eq:2.23}我们得到
+\begin{equation}
+\sup_{\substack{x \in G+L \\ \|x\| \leq 1}} \langle f, x \rangle \leq C \left\{ \sup_{\substack{x \in G \\ \|x\| \leq 1}} \langle f, x \rangle + \sup_{\substack{x \in L \\ \|x\| \leq 1}} \langle f, x \rangle \right\} \quad \forall f \in E^*. \label{eq:2.24}
+\end{equation}
+由此可知
+\begin{equation}
+\overline{B_{G+L}} \supset \frac{1}{C} B_{\overline{G+L}}. \label{eq:2.25}
+\end{equation}
+事实上，通过矛盾来证明，假设存在$x_0 \in \overline{G+L}$其中$\|x_0\| \leq 1/C$且$x_0 \notin \overline{B_G+B_L}$。那么存在一个严格分离$\{x_0\}$和$\overline{B_G+B_L}$的闭超平面。因此存在某个$f_0 \in E^*$和$\alpha \in \mathbb{R}$使得
+\[ \langle f_0, x \rangle < \alpha < \langle f_0, x_0 \rangle \quad \forall x \in \overline{B_G+B_L}. \]
+因此，我们会有
+\[ \sup_{x \in G, \|x\| \leq 1} \langle f_0, x \rangle + \sup_{x \in L, \|x\| \leq 1} \langle f_0, x \rangle \leq \alpha < \langle f_0, x_0 \rangle, \]
+这与\eqref{eq:2.24}和\eqref{eq:2.25}的证明相矛盾。
+最后，考虑空间$X=G \times L$及其范数
+\[ \|[x,y]\| = \max\{\|x\|, \|y\|\} \]
+和空间$Y=\overline{G+L}$及其范数。映射$T:X \to Y$定义为$T([x,y])=x+y$是线性和连续的。从\eqref{eq:2.25}我们有
+\[ \overline{T(B_X)} \supset \frac{1}{2C} B_Y. \]
+使用定理\ref{theorem2.6}（开映射定理）的证明的步骤2我们得出
+\[ T(B_X) \supset \frac{1}{2C} B_Y. \]
+由此可知$T$从$X$到$Y$是满射的，即$G+L=\overline{G+L}$。
+\end{proof}
+
+\section{无界线性算子简介，伴随的定义}
+
+\begin{definition}
+设$E$和$F$是两个Banach空间。从$E$到$F$的\textbf{无界线性算子}是一个线性映射$A:D(A) \subset E \to F$定义在一个线性子空间$D(A) \subset E$上，取值在$F$中。$D(A)$被称为$A$的\textbf{定义域}。
+如果$D(A)=E$并且存在一个常数$c \geq 0$使得
+\[ \|Au\| \leq c\|u\| \quad \forall u \in E. \]
+就称$A$是\textbf{有界的}（或\textbf{连续的}）。
+有界算子的范数定义为
+\[ \|A\|_{\mathcal{L}(E,F)} = \sup_{u \neq 0} \frac{\|Au\|}{\|u\|}. \]
+\end{definition}
+
+\begin{remark}
+当然可能会发生一个无界线性算子结果是有界的。这种术语稍微不一致，但通常被使用并且不会导致混淆。
+\end{remark}
+
+这里有一些重要的定义和进一步的记号：
+\begin{gather*}
+\text{A的图像} = G(A) = \{[u, Au]; u \in D(A)\} \subset E \times F, \\
+\text{A的值域} = R(A) = \{Au; u \in D(A)\} \subset F, \\
+\text{A的核} = N(A) = \{u \in D(A); Au=0\} \subset E.
+\end{gather*}
+如果$G(A)$在$E \times F$中是闭的，则称映射$A$是\textbf{闭的}。
+
+\begin{remark}
+为了证明一个算子$A$是闭的，一般会进行如下操作。取一个序列$(u_n)$在$D(A)$中使得$u_n \to u$在$E$中且$Au_n \to f$在$F$中。然后检查两个事实：
+\begin{enumerate}[(a)]
+    \item $u \in D(A)$,
+    \item $f=Au$.
+\end{enumerate}
+注意，仅假设序列$(u_n)$使得$u_n \to 0$在$E$中且$Au_n \to f$在$F$中（并证明$f=0$）是不够的。
+\end{remark}
+
+\begin{remark}
+如果$A$是闭的，那么$N(A)$是闭的；然而，$R(A)$不一定是闭的。
+\end{remark}
+
+\begin{remark}
+在实践中，大多数无界算子是\textbf{闭的}并且是\textbf{稠密定义的}，即$D(A)$在$E$中是稠密的。
+\end{remark}
+
+\begin{definition}
+设$A:D(A) \subset E \to F$是一个\textbf{稠密定义}的无界线性算子。我们将引入一个无界线性算子$A^*: D(A^*) \subset F^* \to E^*$。首先，我们定义其定义域：
+\[ D(A^*) = \{v \in F^*; \exists c \geq 0 \text{ s.t. } |\langle v, Au \rangle| \leq c\|u\| \quad \forall u \in D(A)\}. \]
+\end{definition}
+
+很明显$D(A^*)$是$F^*$的一个线性子空间。我们现在将定义$A^*v$。给定$v \in D(A^*)$，考虑映射$g:D(A) \to \mathbb{R}$定义为
+\[ g(u) = \langle v, Au \rangle \quad \forall u \in D(A). \]
+我们有
+\[ |g(u)| \leq c\|u\| \quad \forall u \in D(A). \]
+根据Hahn-Banach（解析形式；见定理\ref{theorem1.1}）存在一个线性映射$f:E \to \mathbb{R}$延拓$g$并且使得
+\[ |f(u)| \leq c\|u\| \quad \forall u \in E. \]
+由此可知$f \in E^*$。注意$g$的延拓是唯一的，因为$D(A)$在$E$中是稠密的。
+设
+\[ A^*v = f. \]
+无界线性算子$A^*:D(A^*) \subset F^* \to E^*$被称为$A$的\textbf{伴随}。简而言之，$A$和$A^*$之间的基本关系由
+\[ \langle v, Au \rangle_{F^*,F} = \langle A^*v, u \rangle_{E^*,E} \quad \forall u \in D(A), v \in D(A^*). \]
+给出。
+
+\begin{remark}
+调用Hahn-Banach来延拓$g$不是必要的。只需使用经典延拓定理，因为$g$在$D(A)$上是一致连续的，并且$E$是完备的（见，例如，H. L. Royden [1]（第7章的命题11）或J. Dugundji [1]（第XIV章的定理5.2））。
+\end{remark}
+
+\begin{remark}
+可能会发生$D(A^*)$在$F^*$中不是稠密的（即使$A$是闭的）；但这是一个相当病理的情况（见练习2.22）。如果$A$是闭的，则$D(A^*)$在$F^*$的弱$*$拓扑$\sigma(F^*,F)$中总是稠密的（见第三章，问题9）。如果$F$是自反的，那么$D(A^*)$在$F^*$的通常（范数）拓扑中是稠密的（见定理3.24）。
+\end{remark}
+
+\begin{remark}
+如果$A$是一个有界算子，那么$A^*$也是一个有界算子（从$F^*$到$E^*$）并且此外，
+\[ \|A^*\|_{\mathcal{L}(F^*,E^*)} = \|A\|_{\mathcal{L}(E,F)}. \]
+确实，很明显$D(A^*)=F^*$。从基本关系，我们有
+\[ |\langle A^*v, u \rangle| \leq \|A\| \|v\| \|u\| \quad \forall u \in E, \quad \forall v \in F^*, \]
+这意味着$\|A^*v\| \leq \|A\| \|v\|$因此$\|A^*\| \leq \|A\|$。
+我们也有
+\[ |\langle v, Au \rangle| \leq \|A^*\| \|v\| \|u\| \quad \forall u \in E, \quad \forall v \in F^*, \]
+根据推论\ref{corollary1.4}，这意味着$\|Au\| \leq \|A^*\|\|u\|$因此$\|A\| \leq \|A^*\|$。
+\end{remark}
+
+\begin{proposition}\label{proposition2.17}
+设$A:D(A) \subset E \to F$是一个稠密定义的无界线性算子。那么$A^*$是闭的，即$G(A^*)$在$F^* \times E^*$中是闭的。
+\end{proposition}
+\begin{proof}
+设$v_n \in D(A^*)$使得$v_n \to v$在$F^*$中，$A^*v_n \to f$在$E^*$中。我们需要检查(a) $v \in D(A^*)$和(b) $A^*v=f$。
+我们有
+\[ \langle v_n, Au \rangle = \langle A^*v_n, u \rangle \quad \forall u \in D(A). \]
+在极限我们得到
+\[ \langle v, Au \rangle = \langle f, u \rangle \quad \forall u \in D(A). \]
+因此$v \in D(A^*)$（因为$|\langle v, Au \rangle| \leq \|f\|\|u\| \quad \forall u \in D(A)$）并且$A^*v=f$。
+\end{proof}
+$A$和$A^*$的图像通过一个非常简单的正交关系相关联：
+考虑同构$I:F^* \times E^* \to E^* \times F^*$定义为
+\[ I([v,f]) = [-f, v]. \]
+设$A:D(A) \subset E \to F$是一个稠密定义的无界线性算子。那么
+\[ I[G(A^*)] = G(A)^\perp. \]
+确实，设$[v,f] \in F^* \times E^*$，那么
+\begin{align*}
+[v,f] \in G(A^*) &\iff \langle f,u \rangle = \langle v,Au \rangle \quad \forall u \in D(A) \\
+&\iff -\langle f,u \rangle + \langle v,Au \rangle = 0 \quad \forall u \in D(A) \\
+&\iff [-f,v] \in G(A)^\perp.
+\end{align*}
+
+这里有一些关于值域和核的标准正交关系。
+\begin{corollary}\label{corollary2.18}
+设$A:D(A) \subset E \to F$是一个稠密定义且闭的无界线性算子。那么
+\begin{enumerate}[(i)]
+    \item $N(A^*) = R(A)^\perp$,
+    \item $N(A) = R(A^*)_\perp$,
+    \item $N(A^*)_\perp = \overline{R(A)}$,
+    \item $N(A)^\perp = \overline{R(A^*)}$.
+\end{enumerate}
+\end{corollary}
+\begin{proof}
+注意(iii)和(iv)直接由(i)和(ii)结合命题\ref{proposition1.9}得出。有一个简单的(i)和(ii)的直接证明（见练习2.18）。然而，通过以下设备将这些事实与命题\ref{proposition2.14}联系起来是有益的。考虑空间$X=E \times F$，那么$X^* = E^* \times F^*$，以及$X$的子空间
+\[ G=G(A) \quad \text{和} \quad L=E \times \{0\}. \]
+很容易检查
+\begin{gather}
+N(A) \times \{0\} = G \cap L, \label{eq:2.26} \\
+E \times R(A) = G+L, \label{eq:2.27} \\
+\{0\} \times N(A^*) = G^\perp \cap L^\perp, \label{eq:2.28} \\
+R(A^*) \times F^* = G^\perp + L^\perp. \label{eq:2.29}
+\end{gather}
+(i)的证明。由\eqref{eq:2.29}我们有
+\[ R(A^*) \times \{0\} = (G^\perp+L^\perp) \cap G \cap L \quad \text{(由\eqref{eq:2.16})} \]
+\[ = N(A) \times \{0\} \quad \text{(由\eqref{eq:2.26})}. \]
+(ii)的证明。由\eqref{eq:2.27}我们有
+\[ \{0\} \times R(A)^\perp = (G+L)^\perp = G^\perp \cap L^\perp \quad \text{(由\eqref{eq:2.17})} \]
+\[ = \{0\} \times N(A^*) \quad \text{(由\eqref{eq:2.28})}. \]
+\end{proof}
+
+\begin{remark}
+即使$A$是有界线性算子，也可能发生$N(A) \neq \overline{R(A^*)}$（见练习2.23）。然而，$N(A)^\perp$总是$R(A^*)$在弱$*$拓扑$\sigma(E^*,E)$下的闭包（见问题9）。特别地，如果$E$是自反的，那么$N(A)^\perp = \overline{R(A^*)}$。
+\end{remark}
+
+\section{算子的闭值域刻画}
+主要结果关注具有闭值域的算子。
+
+\begin{theorem}\label{theorem2.19_again}
+设$A:D(A) \subset E \to F$是一个稠密定义且闭的无界线性算子。以下性质是等价的：
+\begin{enumerate}[(i)]
+    \item $R(A)$是闭的,
+    \item $R(A^*)$是闭的,
+    \item $R(A) = N(A^*)_\perp$,
+    \item $R(A^*) = N(A)^\perp$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+与推论\ref{corollary2.18}的证明中相同的记号，我们有
+\begin{enumerate}[(i)]
+    \item $G+L$在$X$中是闭的（见\eqref{eq:2.27}）,
+    \item $G^\perp+L^\perp$在$X^*$中是闭的（见\eqref{eq:2.29}）,
+    \item $G+L = (G^\perp \cap L^\perp)^\perp$（见\eqref{eq:2.27}和\eqref{eq:2.28}）,
+    \item $(G \cap L)^\perp = G^\perp+L^\perp$（见\eqref{eq:2.26}和\eqref{eq:2.29}）.
+\end{enumerate}
+结论则由定理\ref{theorem2.16}得出。
+\end{proof}
+
+\begin{remark}
+设$A:D(A) \subset E \to F$是一个闭无界线性算子。那么$R(A)$是闭的当且仅当存在一个常数$C$使得
+\[ \text{dist}(u, N(A)) \leq C\|Au\| \quad \forall u \in D(A); \]
+见练习2.14。
+\end{remark}
+
+下一个结果提供了满射算子的一个有用刻画。
+\begin{theorem}\label{theorem2.20_again}
+设$A:D(A) \subset E \to F$是一个稠密定义的无界线性算子。以下性质是等价的：
+\begin{enumerate}[(a)]
+    \item $A$是满射的，即$R(A)=F$,
+    \item 存在一个常数$C$使得
+    \[ \|v\| \leq C\|A^*v\| \quad \forall v \in D(A^*), \]
+    (c) $N(A^*) = \{0\}$且$R(A^*)$是闭的。
+\end{enumerate}
+\end{theorem}
+\begin{remark}
+(b) $\implies$ (a)的推导有时在建立算子$A$是满射时很有用。一个过程如下。假设$v$满足$A^*v=f$。一个人试图证明$\|v\| \leq C\|f\|$（其中$C$与$f$无关）。这就是所谓的\textbf{先验估计}方法。一个人不关心方程$A^*v=f$是否有解；一个人假设$v$是一个先验解，并试图估计其范数。
+\end{remark}
+\begin{proof}
+(a) $\iff$ (b). 设
+\[ B^* = \{v \in D(A^*); \|A^*v\| \leq 1\}. \]
+通过齐次性，足以证明$B^*$是有界的。为此——鉴于推论\ref{corollary2.5}（一致有界性原理）——我们只需要证明对于任何$f_0 \in F$集合$\langle B^*, f_0 \rangle$在$\mathbb{R}$中有界。由于$A$是满射的，存在某个$u_0 \in D(A)$使得$Au_0=f_0$。对于每个$v \in B^*$我们有
+\[ \langle v, f_0 \rangle = \langle v, Au_0 \rangle = \langle A^*v, u_0 \rangle \]
+因此$|\langle v, f_0 \rangle| \leq \|u_0\|$。
+(b) $\implies$ (c). 假设$f_n = A^*v_n \to f$。使用(b)我们看到$(v_n)$是柯西序列，所以$v_n \to v$。由于$A^*$是闭的（见命题\ref{proposition2.17}），我们得出$A^*v=f$。
+(c) $\implies$ (a). 由于$R(A^*)$是闭的，我们从定理\ref{theorem2.19}推断出$R(A)=N(A^*)_\perp = F$。
+\end{proof}
+
+这里有一个“对偶”陈述。
+\begin{theorem}\label{theorem2.21_again}
+设$A:D(A) \subset E \to F$是一个稠密定义且闭的无界线性算子。以下性质是等价的：
+\begin{enumerate}[(a)]
+    \item $A^*$是满射的，即$R(A^*)=E^*$,
+    \item 存在一个常数$C$使得
+    \[ \|u\| \leq C\|Au\| \quad \forall u \in D(A), \]
+    (c) $N(A)=\{0\}$且$R(A)$是闭的。
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+证明与定理\ref{theorem2.20}的证明类似，我们将其作为一个练习。
+\end{proof}
+\begin{remark}
+如果一个人假设$\dim E < \infty$或$\dim F < \infty$，那么以下是等价的：
+\begin{gather*}
+A \text{ 满射} \iff A^* \text{ 单射}, \\
+A^* \text{ 满射} \iff A \text{ 单射},
+\end{gather*}
+这确实是有限维空间中线性算子的经典结果。这些等价性成立的原因是$R(A)$和$R(A^*)$是有限维的（因此是闭的）。
+在\textbf{一般情况}下，只有以下推论
+\begin{gather*}
+A \text{ 满射} \implies A^* \text{ 单射}, \\
+A^* \text{ 满射} \implies A \text{ 单射}.
+\end{gather*}
+反例可以从下面的简单例子中看出。设$E=F=\ell^2$；对于每个$x \in \ell^2$写$x=(x_n)_{n \geq 1}$并设$Ax = (\frac{1}{n}x_n)_{n \geq 1}$。很容易看出$A$是一个有界算子且$A^*=A$；$A$（相应地$A^*$）是单射的但$A$（相应地$A^*$）不是满射的；$R(A)$（相应地$R(A^*)$）是稠密的而不是闭的。
+\end{remark}
+
+
