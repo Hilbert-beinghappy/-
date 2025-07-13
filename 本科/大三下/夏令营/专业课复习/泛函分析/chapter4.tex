@@ -102,6 +102,7 @@ $\mathcal{M}$ 的成员被称为\textit{可测集}。有时我们用 $|A|$ 代�
 \[ \|f\|_{L^\infty} = \|f\|_\infty = \inf\{C; \text{在 } \Omega \text{ 上几乎处处 } |f(x)| \le C \}. \]
 \end{definition}
 下面的注记意味着 $\| \cdot \|_\infty$ 是一个范数。
+
 \begin{remark}
 如果 $f \in L^\infty$ 那么我们有
 \[ |f(x)| \le \|f\|_\infty \quad \text{在 } \Omega \text{ 上几乎处处}. \]
@@ -227,6 +228,7 @@ $L^p$ 对任意 $1 < p < \infty$ 都是自反的。
 \end{theorem}
 
 证明包括三个步骤：
+
 \textbf{步骤 1 (Clarkson 不等式的第一部分).} 设 $2 \le p < \infty$。我们断言
 \begin{equation}\label{eq:clarkson1}
 \left\| \frac{f+g}{2} \right\|_p^p + \left\| \frac{f-g}{2} \right\|_p^p \le \frac{1}{2}(\|f\|_p^p + \|g\|_p^p) \quad \forall f, g \in L^p.
@@ -401,16 +403,17 @@ $L^\infty$ & 否 & 否 & 严格大于 $L^1$ \\
 
 \begin{proposition}[以及支集的定义]\label{proposition4.17}
 设 $f: \mathbb{R}^N \to \mathbb{R}$ 是任意函数。考虑 $\mathbb{R}^N$ 中所有开集 $\omega$ 的族 $(\omega_i)_{i \in I}$，使得对每个 $i \in I$, $f=0$ 在 $\omega_i$ 上几乎处处成立。设 $\omega = \cup_{i \in I} \omega_i$。那么 $f=0$ 在 $\omega$ 上几乎处处成立。
+\textbf{定义.} \textit{supp $f$} 是 $\mathbb{R}^N$ 中 $\omega$ 的补集。
 \end{proposition}
 
-\textbf{定义.} \textit{supp $f$} 是 $\mathbb{R}^N$ 中 $\omega$ 的补集。
+
 
 \begin{remark}
 (a) 假设 $f_1 = f_2$ 在 $\mathbb{R}^N$ 上几乎处处成立；显然我们有 supp $f_1$ = supp $f_2$。因此我们可以在不说它在等价类中定义的情况下，谈论 $L^p$ 中函数的支集。
 (b) 如果 $f$ 是 $\mathbb{R}^N$ 上的连续函数，则很容易检验支集的新定义与通常的定义一致。
 \end{remark}
 
-\begin{proof}[命题 \ref{proposition4.17} 的证明]
+\begin{proof}
 由于我们可能要恢复可数情况，集合 $I$ 不一定是可数的这一事实并不清楚。在 $\omega$ 上有一个可数的开集族 $(O_n)$，使得每个开集 $O_n$ 是某个 $\omega_i$ 的子集，并且 $\omega = \cup_n O_n$。写 $\omega_i = \cup_{n \in A_i} O_n$ 并且 $\omega = \cup_{i \in I} \omega_i = \cup_{n \in B} O_n$，其中 $B = \cup_{i \in I} A_i$。由于 $f=0$ 在每个 $O_n$ 上几乎处处成立，其中 $n \in B$，我们得出 $f=0$ 在 $\omega$ 上几乎处处成立。
 \end{proof}
 
@@ -595,6 +598,7 @@ i.e., $\forall \varepsilon > 0 \quad \exists \delta > 0$ 使得 $\forall f \in \
 \end{theorem}
 \begin{proof}
 证明包括四个步骤：
+
 \textbf{步骤 1:} 我们断言
 \begin{equation}\label{eq:step1_proof_4.26}
 \| \rho_n \star f - f \|_p \le \varepsilon \quad \forall f \in \mathcal{F}, \quad \forall n > 1/\delta. \tag{23}

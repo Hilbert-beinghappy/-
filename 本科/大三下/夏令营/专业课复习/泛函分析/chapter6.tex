@@ -192,7 +192,7 @@ Tu_n - Tu_m = -(u_n - Tu_n) + (u_m - Tu_m) + (u_n-u_m).
 -(u_n-Tu_n) + (u_m-Tu_m) \in E_{m+1}.
 \]
 由此可知 \(\|Tu_n - Tu_m\| \ge \mathrm{dist}(u_n, E_{m+1}) \ge 1/2\)。这是不可能的，因为 \(T\) 是紧的。
-反过来，假设 \(R(I-T)=E\)。根据推论 2.18 我们知道 \(N(I-T^*) = R(I-T)^\perp = \{0\}\)。由于 \(K(E,E^*)\) 是紧的，我们可以应用前面的步骤来推断 \(R(I-T^*) = E^*\)。使用推论 2.18，我们再次得出结论 \(N(I-T)=R(I-T^*)^\perp=\{0\}\)。
+反过来，假设 \(R(I-T)=E\)。根据推论 \ref{corollary2.18} 我们知道 \(N(I-T^*) = R(I-T)^\perp = \{0\}\)。由于 \(K(E,E^*)\) 是紧的，我们可以应用前面的步骤来推断 \(R(I-T^*) = E^*\)。使用推论 \ref{corollary2.18}，我们再次得出结论 \(N(I-T)=R(I-T^*)^\perp=\{0\}\)。
 
 (d) 设 \(d=\dim N(I-T)\) 和 \(d^*=\dim N(I-T^*)\)。我们将首先证明 \(d \le d^*\)。假设不是，即 \(d>d^*\)。由于 \(N(I-T)\) 是有限维的，它在 \(E\) 中有一个补（见第 2.4 节，例 2.4）。另一方面，\(R(I-T)=N(I-T^*)^\perp\) 有余维数 \(d^*\)（见第 2.4 节，例 2），因此它有一个维数为 \(d^*\) 的补，记为 \(F\)。由于 \(d<d^*\)，存在一个线性映射 \(A:N(I-T) \to F\) 它是单射的但非满射的。设 \(S=T+\Lambda \circ P\)。那么 \(S \in K(E)\)，因为 \(\Lambda \circ P\) 是有限秩的。我们断言 \(N(I-S) = \{0\}\)。事实上，如果
 \[
@@ -226,7 +226,7 @@ N(T - \lambda I) \ne \{0\};
 \]
 对应的非零向量空间被称为\textbf{特征空间}。所有特征值的集合用 \(EV(T)\) 表示。
 \end{definition}
-1. 记住如果 \(\lambda \in \rho(T)\)，那么 \((T - \lambda I)^{-1} \in \mathcal{L}(E)\) 是有用的（见推论 2.7）。
+1. 记住如果 \(\lambda \in \rho(T)\)，那么 \((T - \lambda I)^{-1} \in \mathcal{L}(E)\) 是有用的（见推论 \ref{corollary2.7}）。
 2. 很明显 \(EV(T) \subset \sigma(T)\)。一般来说，这个包含关系可以是严格的：可能存在一些 \(\lambda\) 使得
 \[
 N(T - \lambda I) = \{0\} \quad \text{但} \quad R(T - \lambda I) \ne E
@@ -357,7 +357,7 @@ m = \inf_{u \in H, \|u\|=1} (Tu, u) \quad \text{和} \quad M = \sup_{u \in H, \|
 \[
 (\lambda u - Tu, u) \ge (\lambda - M)\|u\|^2 = \alpha \|u\|^2 \quad \forall u \in H, \text{其中 } \alpha > 0.
 \]
-应用 Lax-Milgram 定理（推论 5.8），我们推断 \(\lambda I - T\) 是双射的，因此 \(\lambda \in \rho(T)\)。类似地，任何 \(\lambda < m\) 都属于 \(\rho(T)\)。因此 \(\sigma(T) \subset [m, M]\)。
+应用 Lax-Milgram 定理（推论 \ref{cor:5.8}），我们推断 \(\lambda I - T\) 是双射的，因此 \(\lambda \in \rho(T)\)。类似地，任何 \(\lambda < m\) 都属于 \(\rho(T)\)。因此 \(\sigma(T) \subset [m, M]\)。
 我们现在证明 \(M \in \sigma(T)\) ( \(m \in \sigma(T)\) 的证明是类似的)。定义双线性形式 \(a(u,v) = (Mu - Tu, v)\) 是对称的并且满足
 \[
 a(v,v) \ge 0 \quad \forall v \in H.

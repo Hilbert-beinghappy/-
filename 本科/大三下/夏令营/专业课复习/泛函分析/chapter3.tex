@@ -104,11 +104,11 @@ V = V(f_1, f_2, \dots, f_k; \varepsilon) = \{x \in E; |\langle f_i, x - x_0 \ran
 \begin{proof}
 (i) 直接由弱拓扑 $\sigma(E, E^*)$ 的定义（见命题 \ref{prop3.1}）得出。
 (ii) 从 (i) 可知，因为 $|\langle f, x_n \rangle - \langle f, x \rangle| = |\langle f, x_n - x \rangle| \le \|f\| \|x_n - x\|$。
-(iii) 由一致有界性原理（见推论 2.4）可知，对于每个 $f \in E^*$，序列 $(\langle f, x_n \rangle)_n$ 是有界的。对不等式取极限
+(iii) 由一致有界性原理（见推论 \ref{corollary2.4}）可知，对于每个 $f \in E^*$，序列 $(\langle f, x_n \rangle)_n$ 是有界的。对不等式取极限
 \[ |\langle f, x_n \rangle| \le \|f\| \|x_n\|, \]
 我们得到
 \[ |\langle f, x \rangle| \le \|f\| \liminf \|x_n\|, \]
-这（根据推论 1.4）意味着
+这（根据推论 \ref{corollary1.4}）意味着
 \[ \|x\| = \sup_{\|f\| \le 1} |\langle f, x \rangle| \le \liminf \|x_n\|. \]
 (iv) 由不等式
 \[ |\langle f_n, x_n \rangle - \langle f, x \rangle| \le |\langle f_n - f, x_n \rangle| + |\langle f, x_n - x \rangle| \le \|f_n - f\|_{E^*} \|x_n\| + |\langle f, x_n - x \rangle|, \]
@@ -200,7 +200,7 @@ $E^*$ 上的\textbf{弱*拓扑} $\sigma(E^*, E)$ 是与映射族 $(\varphi_x)_{x
 由于 $E \subset E^{**}$，显然拓扑 $\sigma(E^*, E)$ 比拓扑 $\sigma(E^*, E^{**})$ 更粗糙；即，$\sigma(E^*, E)$ 的开集（相应地，闭集）比 $\sigma(E^*, E^{**})$ 少，后者又比强拓扑的开集（闭集）少。
 
 \begin{remark}\label{remark3.8}
-读者可能会想，为什么会有这种对拓扑的歇斯底里。原因是：\textit{一个更粗糙的拓扑有更多的紧集}。例如，闭单位球 $B_{E^*}$ 在强拓扑中\textit{永不}紧（除非 dim $E < \infty$）；见定理 6.5。了解紧集的基本作用——例如，在存在性机制中，如最小化问题——对于理解弱*拓扑的重要性至关重要。
+读者可能会想，为什么会有这种对拓扑的歇斯底里。原因是：\textit{一个更粗糙的拓扑有更多的紧集}。例如，闭单位球 $B_{E^*}$ 在强拓扑中\textit{永不}紧（除非 dim $E < \infty$）；见定理 \ref{theorem:6.5}。了解紧集的基本作用——例如，在存在性机制中，如最小化问题——对于理解弱*拓扑的重要性至关重要。
 \end{remark}
 
 \begin{proposition}\label{prop3.11}
