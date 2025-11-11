@@ -1,0 +1,68 @@
+\documentclass[lang=cn,a4paper]{elegantbook}
+
+\title{动手学深度学习}
+\author{黄佳炜}
+\date{\today}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,decorations.pathreplacing}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{halfgray}{gray}{0.55}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries\color{deepblue},
+    emphstyle=\ttfamily\color{deepred},
+    stringstyle=\color{deepgreen},
+    numbers=left,
+    numberstyle=\small\color{halfgray},
+    rulesepcolor=\color{red!20!green!20!blue!20},
+    frame=shadowbox,
+}
+
+\begin{document}
+
+\maketitle
+\frontmatter
+\tableofcontents
+
+\mainmatter
+
+\chapter{循环神经网络}
+
+\input{chapter8/section_8_0_intro.tex}
+
+\input{chapter8/section_8_1.tex}
+
+\input{chapter8/section_8_2.tex}
+
+\input{chapter8/section_8_3.tex}
+
+\input{chapter8/section_8_4.tex}
+
+\input{chapter8/section_8_5.tex}
+
+\input{chapter8/section_8_6.tex}
+
+\input{chapter8/section_8_7.tex}
+
+\chapter{现代循环神经网络}
+
+\input{chapter9/section_9_1.tex}
+
+\input{chapter9/section_9_2.tex}
+
+\input{chapter9/section_9_4.tex}
+
+\input{chapter9/section_9_5.tex}
+
+\input{chapter9/section_9_6.tex}
+
+\input{chapter9/section_9_7.tex}
+
+\end{document}

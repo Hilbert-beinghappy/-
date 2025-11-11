@@ -1,0 +1,2583 @@
+\section{从零开始实现循环神经网络}
+
+
+\section{8.5 从零开始实现循环神经网络}
+
+\paragraph{从零实现的意义}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 两种方式
+\node[draw,fill=yellow!20,rounded corners,text width=5cm,align=center] at (0,2) {
+\textbf{使用框架}\\
+\texttt{nn.RNN()}\\
+简单快速\\
+但细节不清楚
+};
+
+\node[draw,fill=green!20,rounded corners,text width=5cm,align=center] at (7,2) {
+\textbf{从零实现}\\
+手写每一行代码\\
+理解每个细节\\
+知其所以然
+};
+
+\draw[->,ultra thick,blue] (2.7,2) -- (4.3,2);
+\node[above,blue] at (3.5,2.3) {本节目标};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[你将学会]
+\begin{itemize}
+    \item RNN的完整工作流程
+    \item 梯度计算和反向传播
+    \item 序列建模的技巧和tricks
+    \item 为学习更复杂的模型打下基础
+\end{itemize}
+\end{definition}
+
+
+\paragraph{One-Hot编码的优势}
+\begin{definition}[为什么用One-Hot？]
+\begin{itemize}
+    \item 简单直观
+    \item 无大小关系（不会让模型认为'a' < 'b'）
+    \item 与序列长度无关（参数量与序列长度无关）
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[与词级别的区别]
+\begin{itemize}
+    \item 词级别：通常几千到几万个词
+    \item 字符级别：通常几十个字符
+    \item 字符级别模型参数更少，训练更快
+\end{itemize}
+\end{theorem}
+
+
+\paragraph{One-Hot编码实现}
+\begin{lstlisting}[language=Python]
+import torch.nn.functional as F
+
+def get_one_hot(indices, vocab_size):
+    """ one-hotvector indices: shape (N,) vocab_size: """
+    one_hot = torch.zeros(len(indices), vocab_size)
+
+    # 1
+    one_hot.scatter_(1, indices.unsqueeze(1), 1)
+
+    return one_hot
+
+indices = torch.tensor([0, 2, 4])  # 'a', 'c', 'e'
+one_hot = get_one_hot(indices, vocab_size=5)
+print(one_hot)
+\end{lstlisting}
+
+\begin{definition}[输出结果]
+\begin{verbatim}
+tensor([[1., 0., 0., 0., 0.],  # 'a'
+        [0., 0., 1., 0., 0.],  # 'c'
+        [0., 0., 0., 0., 1.]]) # 'e'
+\end{verbatim}
+\end{definition}
+
+\paragraph{独热编码的维度转换}
+\textbf{问题：}字符是离散符号，需要转为向量
+
+\begin{definition}[独热编码：]
+输入：形状为 (batch\_size, num\_steps) 的索引 \\
+输出：形状为 (num\_steps, batch\_size, vocab\_size) 的one-hot张量
+\end{definition}
+
+
+
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+% 字符表
+\node[left] at (0,2) {词表长度为 $V$ 的向量表};
+
+% 示例
+\node[draw,fill=blue!20] at (1,1) {hello};
+\draw[->,thick] (1.5,1) -- (2.5,1);
+
+% one-hot表示
+\foreach \i in {0,...,4} {
+    \node[draw,minimum size=0.3cm] at (\i*0.4,0) {\tiny 0};
+}
+\node[draw,fill=red!20,minimum size=0.3cm] at (0,0) {\tiny 1};
+
+\node[below] at (1,-0.5) {\small 长度为 $V$ 的向量，只有一个位置为1};
+\end{tikzpicture}
+\end{center}
+
+
+\begin{itemize}
+\item 每个字符对应一个位置
+\item 便于神经网络处理
+\item 但向量维度很高
+\end{itemize}
+
+
+\paragraph{批处理独热编码}
+\begin{lstlisting}[language=Python]
+import torch
+
+# data
+batch_size, num_steps, vocab_size = 2, 3, 28
+X = torch.tensor([[1, 2, 3], [4, 5, 6]])  # (2, 3)
+
+X_one_hot = get_one_hot(X, vocab_size)
+print(f"shape: {X_one_hot.shape}")  # (3, 2, 28)
+\end{lstlisting}
+
+\begin{theorem}[注意]
+转置是为了方便RNN按时间步处理：$(T, N, V)$
+\end{theorem}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+% 原始数据
+\node[draw,fill=blue!20] at (0,2) {$X$ (2,3)};
+\node[below] at (0,1.5) {\small 批量索引};
+
+% 转换过程
+\draw[->,thick] (0.5,2) -- (2,2);
+\node[above] at (1.25,2.1) {\small one-hot};
+
+% 结果
+\node[draw,fill=green!20] at (4,2) {$X_{one-hot}$ (3,2,28)};
+\node[below] at (4,1.5) {\small 批量向量};
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{RNN语言模型的完整流程}
+\begin{itemize}
+    \item \textbf{步骤1: 数据准备} - 文本 $\rightarrow$ 字符索引 $\rightarrow$ One-hot向量
+    \item \textbf{步骤2: RNN计算} - 循环神经网络处理序列
+    \item \textbf{步骤3: 输出预测} - 计算下一个字符的概率分布
+    \item \textbf{步骤4: 采样} - 根据概率选择下一个字符
+\end{itemize}
+
+
+\paragraph{步骤3: 输出预测}
+\begin{itemize}
+    \item 向输出层：$\mathbf{O}_t = \mathbf{H}_t \mathbf{W}_{hq} + \mathbf{b}_q$
+    \item 输出维度 = 词表大小
+    \item 稀疏表示（未归一化的logits）
+\end{itemize}
+
+
+\paragraph{步骤4: 采样}
+根据概率分布选择下一个字符
+
+
+
+\paragraph{独热编码实现}
+\begin{lstlisting}[language=python]
+import torch
+import torch.nn.functional as F
+
+def one_hot(indices, vocab_size):
+    """ indices: (batch_size, num_steps) Return: (batch_size, num_steps, vocab_size) """
+    return F.one_hot(indices, vocab_size).float()
+
+# comment
+vocab_size = 28  # 26个字母 + 空格 + 其他
+batch_size, num_steps = 2, 5
+
+# comment
+X = torch.randint(0, vocab_size, (batch_size, num_steps))
+print(f"索引形状: {X.shape}")  # (2, 5)
+
+# comment
+X_one_hot = one_hot(X, vocab_size)
+print(f"独热编码形状: {X_one_hot.shape}")  # (2, 5, 28)
+\end{lstlisting}
+
+
+\paragraph{完整的RNN模型}
+\begin{lstlisting}
+class RNNModelScratch:
+    def __init__(self, vocab_size, num_hiddens):
+        self.vocab_size = vocab_size
+        self.num_hiddens = num_hiddens
+        
+        #  comment
+        self.params = self.init_params()
+    
+    def init_params(self):
+        """Simple function"""
+        def normal(shape):
+            return torch.randn(size=shape) * 0.01
+        
+        # comment
+        W_xh = normal((self.vocab_size, self.num_hiddens))
+        # comment
+        W_hh = normal((self.num_hiddens, self.num_hiddens))
+        # comment
+        b_h = torch.zeros(self.num_hiddens)
+        # comment
+        W_hq = normal((self.num_hiddens, self.vocab_size))
+        # comment
+        b_q = torch.zeros(self.vocab_size)
+        
+        # comment
+        params = [W_xh, W_hh, b_h, W_hq, b_q]
+        for param in params:
+            param.requires_grad_(True)
+        
+        return params
+\end{lstlisting}
+
+
+\paragraph{完整的字符级RNN语言模型}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% RNN流程图
+\node[draw,fill=yellow!20,rounded corners,text width=10cm,align=center] at (5,3) {
+\textbf{输入：}字符序列 $\to$ 独热编码
+};
+
+\draw[->,thick] (5,2.5) -- (5,2);
+
+\node[draw,fill=blue!20,rounded corners,text width=10cm,align=center] at (5,1.5) {
+\textbf{RNN层：}循环更新隐状态\\
+$\mathbf{H}_t = \tanh(\mathbf{X}_t \mathbf{W}_{xh} + \mathbf{H}_{t-1}\mathbf{W}_{hh} + \mathbf{b}_h)$
+};
+
+\draw[->,thick] (5,1) -- (5,0.5);
+
+\node[draw,fill=green!20,rounded corners,text width=10cm,align=center] at (5,0) {
+\textbf{输出层：}预测下一个字符\\
+$\mathbf{O}_t = \mathbf{H}_t \mathbf{W}_{hq} + \mathbf{b}_q$
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[目标]
+最大化正确字符的预测概率
+\end{theorem}
+
+
+\paragraph{字符级模型的优缺点}
+
+
+\textcolor{blue}{\textbf{优点：}}
+\begin{itemize}
+    \item $\checkmark$ 词表很小（$\sim$100）
+    \item $\checkmark$ 无OOV问题
+    \item $\checkmark$ 可以生成任意词
+    \item $\checkmark$ 适合演示和教学
+\end{itemize}
+
+\textbf{适用场景：}
+\begin{itemize}
+    \item 拼写纠错
+    \item 文本生成
+    \item DNA序列分析
+\end{itemize}
+
+
+\textcolor{red}{\textbf{缺点：}}
+\begin{itemize}
+    \item $\times$ 序列很长
+    \item $\times$ 训练慢
+    \item $\times$ 需要更多计算
+    \item $\times$ 难以捕捉长期依赖
+\end{itemize}
+
+\textbf{实际应用：}
+\begin{itemize}
+    \item 现代NLP多用词级或子词级
+\end{itemize}
+
+
+
+\paragraph{训练循环}
+\begin{lstlisting}
+def train_epoch(model, train_iter, loss_fn, optimizer):
+    """epoch"""
+    total_loss = 0
+    num_batches = 0
+    
+    for X, Y in train_iter:
+        # X, Y: (batch_size, num_steps)
+        
+        # One-hot编码
+        inputs = get_one_hot(X, model.vocab_size)
+        # inputs: (num_steps, batch_size, vocab_size)
+        
+        # comment
+        state = model.init_state(X.shape[0])
+        
+        # comment
+        outputs, state = model.forward(inputs, state)
+        # outputs: (num_steps * batch_size, vocab_size)
+        
+        # comment
+        Y = Y.T.reshape(-1)  # (num_steps * batch_size,)
+        loss = loss_fn(outputs, Y)
+        
+        # comment
+        optimizer.zero_grad()
+        loss.backward()
+        # comment
+        grad_clipping(model.params, 1)
+        optimizer.step()
+        
+        total_loss += loss.item()
+        num_batches += 1
+    
+    return total_loss / num_batches
+\end{lstlisting}
+
+
+\paragraph{梯度裁剪的重要性}
+\textbf{问题：}RNN容易出现梯度爆炸
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 梯度爆炸
+\draw[->,thick] (0,0) -- (6,0) node[right] {训练步数};
+\draw[->,thick] (0,0) -- (0,3) node[above] {梯度范数};
+
+% 爆炸曲线
+\draw[red,thick] (0.5,0.5) -- (1,0.6) -- (1.5,0.8) -- (2,1.5) -- (2.5,2.8);
+\node[red,above] at (2.5,2.8) {爆炸！};
+
+% 裁剪后
+\draw[blue,thick] (3,0.5) -- (3.5,0.6) -- (4,0.8) -- (4.5,1.0) -- (5,1.0) -- (5.5,0.9);
+\draw[dashed,green!60!black] (0,1) -- (6,1);
+\node[green!60!black,left] at (0,1) {阈值};
+\node[blue,above] at (5,1.2) {裁剪后稳定};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[梯度裁剪]
+$$\mathbf{g} \leftarrow \min\left(1, \frac{\theta}{\|\mathbf{g}\|}\right) \mathbf{g}$$
+其中 $\theta$ 是阈值（通常取1或5）
+\end{definition}
+
+
+\paragraph{困惑度与交叉熵的关系}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 坐标轴
+\draw[->,thick] (0,0) -- (6,0) node[right] {交叉熵};
+\draw[->,thick] (0,0) -- (0,4) node[above] {困惑度};
+
+% 指数曲线
+\draw[blue,thick,domain=0:3.5,samples=100] plot (\x,{exp(\x*0.6)});
+
+% 标注点
+\fill[red] (1,1.82) circle (2pt);
+\node[red,above right] at (1,1.82) {CE=1, PPL$\approx$ 2-3};
+
+% 高困惑度
+\fill[red] (2,3.32) circle (2pt);
+\node[red,above right] at (2,3.32) {CE=2, PPL$=e^2\approx$7.4};
+
+% 公式
+\node[below,text width=6cm,align=center] at (3,-0.8) {
+$\text{PPL} = \exp(\text{CE})$
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[注意]
+困惑度对交叉熵的微小差异很敏感（指数关系）
+\end{theorem}
+
+
+\paragraph{困惑度的意义}
+\begin{definition}[直观理解]
+困惑度告诉我们：在每一步，模型平均在多少个选项之间``困惑''
+\end{definition}
+
+\begin{example}[示例]
+\begin{itemize}
+    \item PPL = 2：模型在2个选项间困惑
+    \item PPL = 28：模型在28个字符间困惑（相当于随机猜）
+    \item PPL = 1.5：模型比较确定
+\end{itemize}
+\end{example}
+
+
+\paragraph{计算困惑度}
+\begin{lstlisting}
+def evaluate_perplexity(model, data_iter):
+    """modeldata"""
+    model.eval()
+    total_loss = 0
+    total_tokens = 0
+    
+    with torch.no_grad():
+        for X, Y in data_iter:
+            # One-hot编码
+            inputs = get_one_hot(X, model.vocab_size)
+            state = model.init_state(X.shape[0])
+            
+            outputs, state = model.forward(inputs, state)
+            # output: (num_steps * batch_size, vocab_size)
+            
+            # loss
+            Y = Y.T.reshape(-1)
+            loss = F.cross_entropy(outputs, Y, reduction='sum')
+            
+            total_loss += loss.item()
+            total_tokens += Y.numel()
+    
+    # comment = exp(平均交叉熵)
+    perplexity = math.exp(total_loss / total_tokens)
+    return perplexity
+
+# comment
+ppl = evaluate_perplexity(model, test_iter)
+print(f"test集困惑度: {ppl:.2f}")
+\end{lstlisting}
+
+
+\paragraph{困惑度的实际意义}
+\textbf{困惑度 = 平均分支因子}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% PPL = 2
+\node[circle,draw,fill=blue!20] at (0,2) {当前};
+\draw[->,thick] (0.5,2) -- (1.5,2.5);
+\draw[->,thick] (0.5,2) -- (1.5,1.5);
+\node[circle,draw,fill=green!20] at (2,2.5) {选项1};
+\node[circle,draw,fill=green!20] at (2,1.5) {选项2};
+\node[below] at (1,0.5) {PPL = 2：在2个选项间困惑};
+
+% PPL = 4
+\node[circle,draw,fill=blue!20] at (5,2) {当前};
+\draw[->,thick] (5.5,2) -- (6.5,3);
+\draw[->,thick] (5.5,2) -- (6.5,2.3);
+\draw[->,thick] (5.5,2) -- (6.5,1.7);
+\draw[->,thick] (5.5,2) -- (6.5,1);
+\node[circle,draw,fill=orange!20,scale=0.6] at (7,3) {1};
+\node[circle,draw,fill=orange!20,scale=0.6] at (7,2.3) {2};
+\node[circle,draw,fill=orange!20,scale=0.6] at (7,1.7) {3};
+\node[circle,draw,fill=orange!20,scale=0.6] at (7,1) {4};
+\node[below] at (6,0.5) {PPL = 4：在4个选项间困惑};
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{困惑度的实际值}
+\textbf{不同模型的困惑度范围：}
+
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{模型} & \textbf{数据集} & \textbf{PPL} \\
+\hline
+随机模型 & 任意 & $\sim$ 词表大小 \\
+\hline
+N-gram (n=3) & Penn Treebank & $\sim$140 \\
+\hline
+简单RNN & Penn Treebank & $\sim$120 \\
+\hline
+LSTM & Penn Treebank & $\sim$80 \\
+\hline
+LSTM + 正则化 & Penn Treebank & $\sim$60 \\
+\hline
+Transformer (大) & Penn Treebank & $\sim$20-30 \\
+\hline
+GPT-3 & 网络文本 & $\sim$20 \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.3cm}
+\begin{theorem}[注意]
+\begin{itemize}
+    \item 不同数据集的PPL不具可比性
+    \item 字符级模型的PPL通常更低（词表小）
+    \item PPL是相对指标，越低越好
+    \item PPL=4：平均4个选择
+\end{itemize}
+\end{theorem}
+
+
+\paragraph{困惑度与准确率的关系}
+\begin{definition}[解释]
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 坐标轴
+\draw[->,thick] (0,0) -- (8,0) node[right] {训练epoch};
+\draw[->,thick] (0,0) -- (0,4) node[above] {PPL};
+
+% 困惑度曲线（下降）
+\draw[blue,thick,domain=0:7,samples=50] plot (\x,{3.5*exp(-0.3*\x)+0.5});
+\node[blue,right] at (7,1) {困惑度};
+
+\end{tikzpicture}
+\end{center}
+\end{definition}
+
+
+\paragraph{训练过程中的困惑度变化}
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 坐标轴
+\draw[->,thick] (0,0) -- (8,0) node[right] {Epoch};
+\draw[->,thick] (0,0) -- (0,4) node[above] {困惑度};
+
+% 标注区域
+\fill[green!20,opacity=0.3] (0,0) rectangle (8,1.5);
+\node[green!60!black] at (4,1.2) {目标区域};
+
+% 训练集困惑度
+\draw[blue,thick,domain=0.5:7.5,samples=50] plot (\x,{3.8/(\x*0.5+0.5)+0.5});
+
+\fill[red!20,opacity=0.3] (0,2.5) rectangle (8,4);
+\node[red!60!black] at (4,3.5) {训练不足};
+\node[blue,right] at (7,1.5) {训练集};
+
+% 关键点
+\fill[red] (1,3.5) circle (3pt) node[above] {\tiny 开始};
+\fill[green!60!black] (5,1.2) circle (3pt) node[above] {\tiny 收敛};
+
+% 验证集困惑度
+\draw[red,thick,domain=0.5:7.5,samples=50] plot (\x,{3.8/(\x*0.5+0.5)+0.2});
+\node[red,right] at (7,1.5) {验证集};
+
+% 标注
+\draw[dashed] (0,1) -- (8,1);
+\node[below] at (4,0.8) {\tiny 目标困惑度水平};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[训练过程]
+\begin{itemize}
+    \item 初期：PPL很高（模型随机猜测）
+    \item 中期：PPL快速下降（学习规律）
+    \item 后期：PPL缓慢下降（微调，后期趋于平稳）
+    \item 最终：PPL稳定（收敛）
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[过拟合检测]
+\begin{itemize}
+    \item 训练集PPL继续下降，验证集PPL开始上升 $\to$ 过拟合
+    \item 两者的PPL都稳定下降 $\to$ 训练良好
+\end{itemize}
+\end{theorem}
+
+
+\subsection{8.4节总结}
+\begin{definition}[核心概念]
+\begin{enumerate}
+    \item \textbf{隐状态}：记忆历史信息的向量
+    \item \textbf{RNN}：通过隐状态记住历史
+    \item \textbf{参数共享}：所有时间步共享权重
+\end{enumerate}
+\end{definition}
+
+
+\subsection{8.4节总结}
+\begin{definition}[数学公式]
+    \textbf{无隐状态网络}：MLP无法处理变长序列
+    $$\mathbf{H}_t = \phi(\mathbf{X}_t \mathbf{W}_{xh} + \mathbf{b})$$
+
+    \textbf{RNN}：通过隐状态记住历史
+    $$\mathbf{H}_t = \tanh(\mathbf{X}_t \mathbf{W}_{xh} + \mathbf{H}_{t-1} \mathbf{W}_{hh} + \mathbf{b}_h)$$
+
+    \textbf{参数共享}：所有时间步共享权重
+\end{definition}
+
+
+\subsection{8.4节总结}
+\begin{definition}[模型类型]
+    \begin{itemize}
+        \item \textbf{字符级模型}：用独热编码表示字符
+        \item \textbf{词级模型}：用词嵌入表示词语
+    \end{itemize}
+\end{definition}
+
+\begin{definition}[评估指标]
+    \textbf{困惑度}：评估模型质量
+    $$\text{PPL} = \exp\left(-\frac{1}{n}\sum_{t=1}^n \log P(x_t|x_{<t})\right)$$
+\end{definition}
+
+
+\paragraph{RNN的关键特性}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 特性1
+\node[draw,fill=blue!20,text width=9cm] at (5,3.5) {
+\textbf{1. 参数共享}\\
+$\mathbf{W}_{xh}, \mathbf{W}_{hh}, \mathbf{W}_{hy}$ 在所有时间步共享
+};
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{RNN的优缺点}
+
+
+\textcolor{blue}{\textbf{优点：}}
+\begin{itemize}
+    \item $\checkmark$ 能处理变长序列
+    \item $\checkmark$ 参数共享，所有时间步复用泛化好
+    \item $\checkmark$ 参数量与序列长度无关
+\end{itemize}
+
+
+\textcolor{red}{\textbf{缺点：}}
+\begin{itemize}
+    \item $\times$ 梯度消失/爆炸问题
+    \item $\times$ 长距离依赖建模困难
+    \item $\times$ 无法并行计算（必须按顺序）
+\end{itemize}
+
+
+
+\paragraph{RNN的关键特性}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 特性2
+\node[draw,fill=green!20,text width=9cm] at (5,2.2) {
+\textbf{2. 顺序处理}\\
+必须按顺序处理：$\mathbf{H}_1 \rightarrow \mathbf{H}_2 \rightarrow \mathbf{H}_3$\\
+$\Rightarrow$ 参数数量固定，与序列长度无关
+};
+
+% 特性3
+\node[draw,fill=orange!20,text width=9cm] at (5,0.9) {
+\textbf{3. 理论上的记忆能力}\\
+隐状态 $\mathbf{H}_t$ 可以编码所有历史\\
+$\Rightarrow$ 但实际受限于梯度消失/爆炸
+};
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[下一步]
+8.5节将从零实现RNN，深入理解其工作机制
+\end{theorem}
+
+
+\paragraph{RNN的应用场景}
+
+
+\textbf{适合RNN的任务：}
+\begin{itemize}
+    \item 语言建模
+    \item 机器翻译
+    \item 语音识别
+    \item 时间序列预测
+    \item 视频分析
+\end{itemize}
+
+
+\textbf{RNN的挑战：}
+\begin{itemize}
+    \item 梯度消失/爆炸
+    \item 长期依赖问题
+    \item 训练慢（顺序处理）
+    \item 难以并行
+\end{itemize}
+
+
+\vspace{0.5cm}
+\begin{definition}[改进方向]
+\begin{itemize}
+    \item LSTM/GRU：解决梯度问题（第9章）
+    \item 注意力机制：捕捉长期依赖
+    \item Transformer：完全并行化（后续章节）
+\end{itemize}
+\end{definition}
+
+
+latex
+\paragraph{从理论到实践}
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 学习路径
+\node[draw,fill=yellow!20,rounded corners,text width=2.5cm,align=center] at (0,2) {
+8.1-8.3\\
+理论基础
+};
+
+\draw[->,ultra thick] (1.5,2) -- (2.5,2);
+
+\node[draw,fill=blue!20,rounded corners,text width=2.5cm,align=center] at (4,2) {
+8.4\\
+RNN原理
+};
+
+\draw[->,ultra thick] (5.5,2) -- (6.5,2);
+
+\node[draw,fill=green!20,rounded corners,text width=2.5cm,align=center] at (8,2) {
+8.5-8.6\\
+RNN实现
+};
+
+\draw[->,ultra thick] (9.5,2) -- (10.5,2);
+
+\node[draw,fill=red!20,rounded corners,text width=2.5cm,align=center] at (12,2) {
+8.7\\
+BPTT
+};
+
+% 标注
+\node[below,text width=12cm,align=center] at (6,0.5) {
+我们已经理解了RNN的\textbf{工作原理}\\
+接下来将\textbf{从零实现}RNN（8.5节）
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[已掌握的知识]
+\begin{itemize}
+    \item $\checkmark$ 为什么需要隐状态
+    \item $\checkmark$ RNN的数学公式
+    \item $\checkmark$ 参数共享机制
+    \item $\checkmark$ 字符级语言模型
+    \item $\checkmark$ 困惑度评估
+\end{itemize}
+\end{definition}
+
+
+\subsection{8.4节核心公式总结}
+\begin{definition}[RNN的核心公式]
+\begin{align*}
+\text{\textbf{隐状态更新：}} \quad & \mathbf{H}_t = \phi(\mathbf{X}_t \mathbf{W}_{xh} + \mathbf{H}_{t-1}\mathbf{W}_{hh} + \mathbf{b}_h) \\
+\text{\textbf{输出计算：}} \quad & \mathbf{O}_t = \mathbf{H}_t \mathbf{W}_{hq} + \mathbf{b}_q \\
+\text{\textbf{概率预测：}} \quad & P(x_{t+1}) = \text{softmax}(\mathbf{O}_t) \\
+\text{\textbf{困惑度：}} \quad & \text{PPL} = \exp\left(-\frac{1}{n}\sum_{t=1}^{n}\log P(x_t \mid x_{<t})\right)
+\end{align*}
+\end{definition}
+
+\begin{theorem}[关键要点]
+\begin{itemize}
+    \item 隐状态 $\mathbf{H}_t$ 携带历史信息
+    \item 参数 $\mathbf{W}_{xh}, \mathbf{W}_{hh}, \mathbf{W}_{hq}$ 在所有时间步共享
+    \item 激活函数通常使用 $\tanh$
+    \item 困惑度越低，模型越好
+\end{itemize}
+\end{theorem}
+
+
+\paragraph{RNN与传统模型对比}
+\begin{center}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{特性} & \textbf{N-gram} & \textbf{MLP} & \textbf{RNN} \\
+\hline
+处理变长序列 & $\times$ & $\times$ & $\checkmark$ \\
+\hline
+参数数量 & 随$\tau$指数增长 & 随$\tau$线性增长 & 固定 \\
+\hline
+长期依赖 & 受限于$\tau$ & 受限于$\tau$ & 理论上可以 \\
+\hline
+并行化 & $\checkmark$ & $\checkmark$ & $\times$ \\
+\hline
+参数共享 & $\times$ & $\times$ & $\checkmark$ \\
+\hline
+训练难度 & 简单 & 中等 & 较难 \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+\begin{definition}[RNN的核心优势]
+通过\textbf{隐状态}和\textbf{参数共享}，实现了用固定参数处理任意长度序列
+\end{definition}
+
+
+\paragraph{训练RNN的关键技巧}
+
+
+\textbf{1. 梯度裁剪}
+\begin{itemize}
+    \item 防止梯度爆炸
+    \item 阈值通常取1或5
+    \item 必不可少！
+\end{itemize}
+
+\textbf{2. 隐状态初始化}
+\begin{itemize}
+    \item 零初始化
+    \item 可学习初始化
+    \item 使用前一批次的隐状态
+\end{itemize}
+
+
+\textbf{3. 序列采样}
+\begin{itemize}
+    \item 随机采样：简单
+    \item 顺序分区：效果好
+    \item 保持隐状态连续性
+\end{itemize}
+
+\textbf{4. 学习率调整}
+\begin{itemize}
+    \item 从较小值开始
+    \item 使用学习率衰减
+    \item 监控梯度范数
+\end{itemize}
+
+
+\vspace{0.5cm}
+\begin{theorem}[经验]
+RNN训练需要仔细调参，梯度裁剪是关键！
+\end{theorem}
+
+
+\paragraph{常见问题与解决方案}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 问题1
+\node[draw,fill=red!20,text width=5cm] at (0,3.5) {
+\textbf{问题1：梯度爆炸}\\
+梯度突然变得很大
+};
+\node[draw,fill=green!20,text width=5cm] at (6,3.5) {
+\textbf{解决：}\\
+梯度裁剪 + 小学习率
+};
+\draw[->,thick] (2.7,3.5) -- (3.8,3.5);
+
+% 问题2
+\node[draw,fill=red!20,text width=5cm] at (0,2.2) {
+\textbf{问题2：梯度消失}\\
+长期依赖学不到
+};
+\node[draw,fill=green!20,text width=5cm] at (6,2.2) {
+\textbf{解决：}\\
+使用LSTM/GRU（第9章）
+};
+\draw[->,thick] (2.7,2.2) -- (3.8,2.2);
+
+% 问题3
+\node[draw,fill=red!20,text width=5cm] at (0,0.9) {
+\textbf{问题3：训练慢}\\
+顺序处理效率低
+};
+\node[draw,fill=green!20,text width=5cm] at (6,0.9) {
+\textbf{解决：}\\
+截断BPTT + GPU加速
+};
+\draw[->,thick] (2.7,0.9) -- (3.8,0.9);
+
+\end{tikzpicture}
+\end{center}
+
+
+\subsection{8.4节思维导图}
+\begin{center}
+\begin{tikzpicture}[scale=0.75,
+    box/.style={rectangle,draw,fill=blue!20,rounded corners,text width=2.3cm,align=center,minimum height=0.8cm}]
+
+% 中心
+\node[box,fill=yellow!30,text width=3cm] (center) at (6,3) {\textbf{8.4 RNN原理}};
+
+% 四个主要分支
+\node[box] (no) at (0,5) {8.4.1\\无隐状态\\网络};
+\node[box] (yes) at (4,5.5) {8.4.2\\有隐状态\\RNN};
+\node[box] (char) at (8,5.5) {8.4.3\\字符级\\语言模型};
+\node[box] (ppl) at (12,5) {8.4.4\\困惑度};
+
+% 连接
+\draw[->,thick] (center) -- (no);
+\draw[->,thick] (center) -- (yes);
+\draw[->,thick] (center) -- (char);
+\draw[->,thick] (center) -- (ppl);
+
+% 细节
+\node[font=\tiny,text width=2.5cm,align=center] at (0,3.8) {MLP无法\\处理变长序列};
+\node[font=\tiny,text width=2.5cm,align=center] at (4,3.8) {隐状态记忆\\参数共享};
+\node[font=\tiny,text width=2.5cm,align=center] at (8,3.8) {One-hot编码\\预测下一字符};
+\node[font=\tiny,text width=2.5cm,align=center] at (12,3.8) {评估指标\\PPL=exp(CE)};
+
+% 关键公式
+\node[draw,fill=green!20,text width=10cm,font=\small] at (6,1) {
+\textbf{核心公式：}$\mathbf{H}_t = \tanh(\mathbf{X}_t \mathbf{W}_{xh} + \mathbf{H}_{t-1}\mathbf{W}_{hh} + \mathbf{b}_h)$
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{知识检查}
+\begin{definition}[问题1]
+为什么RNN需要隐状态？传统MLP有什么问题？
+\end{definition}
+
+\begin{definition}[问题2]
+RNN的参数数量与序列长度有关吗？为什么？
+\end{definition}
+
+\begin{definition}[问题3]
+什么是困惑度？如何解释PPL=10？
+\end{definition}
+
+\begin{definition}[问题4]
+为什么字符级RNN的困惑度通常比词级低？
+\end{definition}
+
+\begin{theorem}[思考]
+如何解决RNN的梯度消失问题？（提示：LSTM）
+\end{theorem}
+
+
+\paragraph{准备进入8.5节}
+\begin{center}
+\Large \textcolor{blue}{从理论到实践：从零实现RNN}
+\end{center}
+
+\vspace{0.5cm}
+\begin{definition}[8.4节回顾]
+\begin{itemize}
+    \item 理解了RNN的\textbf{核心思想}：用隐状态记忆历史
+    \item 掌握了RNN的\textbf{数学原理}：前向传播公式
+    \item 学会了\textbf{评估模型}：困惑度指标
+\end{itemize}
+\end{definition}
+
+\begin{definition}[8.5节预告]
+\begin{itemize}
+    \item 从零实现RNN的每个细节
+    \item 独热编码、初始化参数
+    \item 前向传播、梯度裁剪
+    \item 训练完整的字符级语言模型
+    \item 文本生成
+\end{itemize}
+\end{definition}
+
+
+\paragraph{第8章进度总结}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 进度条
+\draw[thick,fill=gray!20] (0,2) rectangle (12,2.8);
+
+% 已完成部分
+\draw[thick,fill=green!40] (0,2) rectangle (6.5,2.8);
+
+% 分节标记
+\foreach \x/\label in {0/8.1,3/8.2,4.5/8.3,6/8.4,9/8.5,10.5/8.6,12/8.7} {
+    \draw[thick] (\x,2) -- (\x,2.8);
+    \node[below,font=\tiny] at (\x,1.8) {\label};
+}
+
+% 当前位置
+\draw[->,ultra thick,red] (6.5,3.5) -- (6.5,2.9);
+\node[above,red] at (6.5,3.6) {当前位置};
+
+% 标注
+\node[below,text width=12cm,align=center] at (6,0.8) {
+已完成：序列模型、文本预处理、语言模型、RNN原理\\
+下一步：RNN从零实现（8.5）
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\section{8.5 循环神经网络的从零开始实现}
+
+\subsection{8.5 循环神经网络的从零开始实现}
+\begin{center}
+\Large \textcolor{blue}{动手实现：从零开始构建RNN}
+\end{center}
+
+
+\subsection{8.5节 - 章节导航}
+\begin{definition}[本节内容]
+\begin{itemize}
+    \item 8.5.1 独热编码
+    \item 8.5.2 初始化模型参数
+    \item 8.5.3 循环神经网络模型
+    \item 8.5.4 预测
+    \item 8.5.5 梯度裁剪
+    \item 8.5.6 训练
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[学习目标]
+\begin{enumerate}
+    \item 手写独热编码函数
+    \item 理解RNN参数初始化
+    \item 实现RNN前向传播
+    \item 生成文本预测
+    \item 掌握梯度裁剪技巧
+    \item 训练完整的字符级语言模型
+\end{enumerate}
+\end{theorem}
+
+
+\paragraph{从零实现的意义}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 两种方式
+\node[draw,fill=yellow!20,rounded corners,text width=5cm,align=center] at (0,2) {
+\textbf{使用框架}\\
+\texttt{nn.RNN()}\\
+简单快速\\
+但细节不清楚
+};
+
+\node[draw,fill=green!20,rounded corners,text width=5cm,align=center] at (7,2) {
+\textbf{从零实现}\\
+手写每一行代码\\
+理解每个细节\\
+知其所以然
+};
+
+\draw[->,ultra thick,blue] (2.7,2) -- (4.3,2);
+\node[above,blue] at (3.5,2.3) {本节目标};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[你将学会]
+\begin{itemize}
+    \item 如何将文本转为张量
+    \item RNN的参数有哪些，形状是什么
+    \item 前向传播的每一步计算
+    \item 如何生成新文本
+    \item 训练的完整流程
+\end{itemize}
+\end{definition}
+
+
+
+\subsection{独热编码}
+
+\subsection{8.5.1 独热编码}
+
+\subsection{8.5.1 独热编码}
+\begin{center}
+\Large \textcolor{blue}{第一步：将字符转为向量}
+\end{center}
+
+
+\paragraph{为什么需要独热编码？}
+\textbf{问题：}神经网络只能处理数字
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 字符
+\node[draw,fill=yellow!20,rounded corners,text width=2.5cm,align=center] at (0,2) {
+字符\\
+``a''
+};
+
+\draw[->,thick,red] (1.5,2) -- (2.5,2);
+\node[red,above] at (2,2.2) {\tiny \text{×}直接用？};
+
+% 神经网络
+\node[draw,fill=blue!20,rounded corners,text width=2.5cm,align=center] at (4.5,2) {
+RNN\\
+需要向量
+};
+
+% 解决方案
+\draw[->,ultra thick] (0,1.2) -- (0,0.5);
+\node[left] at (-0.3,0.85) {\tiny 编码};
+
+\node[draw,fill=green!20,rounded corners,text width=2.5cm,align=center] at (0,0) {
+向量\\
+$[1,0,0,...,0]$
+};
+
+\draw[->,ultra thick,green!60!black] (1.5,0) -- (4.5,1.5);
+\node[green!60!black,above] at (3,0.8) {\tiny \checkmark 独热编码};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[核心思想]
+用长度为词表大小的向量表示每个字符，只有一个位置为1，其余为0
+\end{theorem}
+
+
+\paragraph{独热编码详解}
+\textbf{假设词表：}\texttt{vocab = {' ':0, 'a':1, 'b':2, 'c':3, 'd':4, 'e':5}}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 词表
+\node[left] at (-0.5,3.5) {词表:};
+\foreach \i/\c in {0/{ },1/a,2/b,3/c,4/d,5/e} {
+    \node[draw,minimum size=0.5cm] at (\i*1.2,3.5) {\tiny \c};
+    \node[below,font=\tiny] at (\i*1.2,3) {\i};
+}
+
+% 字符'c'
+\node[left] at (-0.5,2) {字符``c''};
+\node[right] at (0.5,2) {索引=3};
+
+\draw[->,thick] (1.5,2) -- (1.5,1.5);
+
+% 独热向量
+\node[left] at (-0.5,1) {独热编码:};
+\foreach \i in {0,1,2,3,4,5} {
+    \ifnum\i=3
+        \node[draw,fill=red!30,minimum size=0.5cm] at (\i*1.2,1) {\tiny 1};
+    \else
+        \node[draw,minimum size=0.5cm] at (\i*1.2,1) {\tiny 0};
+    \fi
+}
+
+% 维度标注
+\draw[<->,thick] (0,0.3) -- (6,0.3);
+\node[below] at (3,0.1) {向量长度 = 词表大小 = 6};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[特点]
+\begin{itemize}
+    \item 向量维度 = 词表大小
+    \item 稀疏表示：只有一个1，其余全是0
+    \item 没有顺序关系：``a''和``b''距离相同
+\end{itemize}
+\end{definition}
+
+
+\paragraph{批量独热编码}
+\textbf{输入：}批量的索引矩阵
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 索引矩阵
+\node[left] at (-1,3) {索引矩阵:};
+\node[draw,fill=yellow!20,text width=3cm,font=\small] at (2,3) {
+\texttt{X = [[1, 2, 3],}\\
+\texttt{      [4, 5, 0]]}\\
+形状: $(2, 3)$
+};
+
+\node[below,font=\small,align=center] at (2,2.2) {
+批量大小=2\\
+序列长度=3
+};
+
+\draw[->,ultra thick] (2,1.8) -- (2,1.2);
+\node[right] at (2.3,1.5) {\tiny 独热编码};
+
+% 独热张量
+\node[left] at (-1,0.3) {独热张量:};
+\node[draw,fill=green!20,text width=4cm,font=\small,align=center] at (2.5,0.3) {
+形状: $(3, 2, 6)$\\
+(时间步, 批量, 词表大小)
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[维度变化]
+$(batch\_size, num\_steps)$ $\rightarrow$ $(num\_steps, batch\_size, vocab\_size)$
+\end{theorem}
+
+
+\paragraph{独热编码实现 - 方法1（手动）}
+\begin{lstlisting}
+import torch
+
+def one_hot_manual(X, vocab_size):
+    """ X: (batch_size, num_steps) vocab_size: vocabulary Return: (num_steps, batch_size, vocab_size) """
+    batch_size, num_steps = X.shape
+    
+    output = torch.zeros((num_steps, batch_size, vocab_size))
+    
+    # X: (num_steps, batch_size)
+    X = X.T
+    
+    # 1
+    for t in range(num_steps):
+        for b in range(batch_size):
+            idx = X[t, b]
+            output[t, b, idx] = 1
+    
+    return output
+
+X = torch.tensor([[1, 2, 3], [4, 5, 0]])
+result = one_hot_manual(X, vocab_size=6)
+print(f"shape: {result.shape}")  # (3, 2, 6)
+\end{lstlisting}
+
+
+\paragraph{独热编码实现 - 方法2（PyTorch）}
+\begin{lstlisting}
+import torch.nn.functional as F
+
+def one_hot(X, vocab_size):
+    """ PyTorch X: (batch_size, num_steps) Return: (num_steps, batch_size, vocab_size) """
+    # : (num_steps, batch_size)
+    X = X.T
+    
+    output = F.one_hot(X, vocab_size)
+    
+    # float32neural network
+    return output.to(torch.float32)
+
+X = torch.tensor([[1, 2, 3], [4, 5, 0]])
+result = one_hot(X, vocab_size=6)
+print(f"shape: {result.shape}")  # (3, 2, 6)
+print(f"data类型: {result.dtype}")  # torch.float32
+
+print(f"第1个time step，第1个样本:")
+print(result[0, 0])  # [0, 1, 0, 0, 0, 0]
+\end{lstlisting}
+
+\begin{definition}[推荐]
+使用PyTorch内置的\texttt{F.one\_hot}，更高效！
+\end{definition}
+
+
+\paragraph{独热编码的优缺点}
+
+
+\textcolor{blue}{\textbf{优点：}}
+\begin{itemize}
+    \item $\checkmark$ 简单直观
+    \item $\checkmark$ 字符间无顺序假设
+    \item $\checkmark$ 易于理解和实现
+    \item $\checkmark$ 适合小词表
+\end{itemize}
+
+\textbf{适用场景：}
+\begin{itemize}
+    \item 字符级模型（词表小）
+    \item 分类任务
+    \item 教学演示
+\end{itemize}
+
+
+\textcolor{red}{\textbf{缺点：}}
+\begin{itemize}
+    \item $\times$ 高维稀疏
+    \item $\times$ 无语义信息
+    \item $\times$ 内存占用大
+    \item $\times$ 无法表示相似性
+\end{itemize}
+
+\textbf{改进方案：}
+\begin{itemize}
+    \item 词嵌入（Word Embedding）
+    \item 降维表示
+    \item 预训练向量
+\end{itemize}
+
+
+\vspace{0.5cm}
+\begin{theorem}[实际应用]
+现代NLP通常用\textbf{词嵌入}代替独热编码（后续章节）
+\end{theorem}
+
+
+\paragraph{完整的数据准备}
+\begin{lstlisting}
+def prepare_data(batch_size, num_steps):
+    """Prepare training data"""
+    # data
+    train_iter, vocab = load_data_time_machine(
+        batch_size, num_steps
+    )
+    
+    # batch
+    for X, Y in train_iter:
+        print(f"Xshape（索引）: {X.shape}")  # (batch_size, num_steps)
+        print(f"Yshape（标签）: {Y.shape}")  # (batch_size, num_steps)
+        
+        X_one_hot = one_hot(X, len(vocab))
+        print(f"X_one_hotshape: {X_one_hot.shape}")  
+        # (num_steps, batch_size, vocab_size)
+        
+        break
+    
+    return train_iter, vocab
+
+train_iter, vocab = prepare_data(batch_size=32, num_steps=35)
+print(f"vocabulary大小: {len(vocab)}")
+\end{lstlisting}
+
+
+
+\subsection{初始化模型参数}
+
+\subsection{8.5.2 初始化模型参数}
+
+\subsection{8.5.2 初始化模型参数}
+\begin{center}
+\Large \textcolor{blue}{第二步：初始化RNN的权重和偏置}
+\end{center}
+
+
+\paragraph{RNN需要哪些参数？}
+\textbf{回顾公式：}
+\begin{align*}
+\mathbf{H}_t &= \tanh(\mathbf{X}_t \mathbf{W}_{xh} + \mathbf{H}_{t-1}\mathbf{W}_{hh} + \mathbf{b}_h) \\
+\mathbf{O}_t &= \mathbf{H}_t \mathbf{W}_{hq} + \mathbf{b}_q
+\end{align*}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 参数表格
+\node[draw,fill=yellow!20,text width=10cm,align=left] at (5,2) {
+\textbf{需要初始化的参数：}\\
+1. $\mathbf{W}_{xh}$：输入到隐藏层权重，形状 $(vocab\_size, num\_hiddens)$\\
+2. $\mathbf{W}_{hh}$：隐藏层到隐藏层权重，形状 $(num\_hiddens, num\_hiddens)$\\
+3. $\mathbf{b}_h$：隐藏层偏置，形状 $(num\_hiddens,)$\\
+4. $\mathbf{W}_{hq}$：隐藏层到输出权重，形状 $(num\_hiddens, vocab\_size)$\\
+5. $\mathbf{b}_q$：输出层偏置，形状 $(vocab\_size,)$
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[关键]
+这5个参数在\textbf{所有时间步}共享！
+\end{definition}
+
+
+\paragraph{参数形状分析}
+\textbf{假设：}词表大小 $V=28$，隐藏单元数 $h=512$
+
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{参数} & \textbf{形状} & \textbf{参数量} \\
+\hline
+$\mathbf{W}_{xh}$ & $(28, 512)$ & 14,336 \\
+\hline
+$\mathbf{W}_{hh}$ & $(512, 512)$ & 262,144 \\
+\hline
+$\mathbf{b}_h$ & $(512,)$ & 512 \\
+\hline
+$\mathbf{W}_{hq}$ & $(512, 28)$ & 14,336 \\
+\hline
+$\mathbf{b}_q$ & $(28,)$ & 28 \\
+\hline
+\textbf{总计} & & \textbf{291,356} \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{theorem}[观察]
+\begin{itemize}
+    \item 大部分参数在 $\mathbf{W}_{hh}$（90\%）
+    \item 与序列长度\textbf{无关}
+    \item 参数量主要由 $num\_hiddens$ 决定
+\end{itemize}
+\end{theorem}
+
+
+\paragraph{参数初始化实现}
+\begin{lstlisting}
+import torch
+
+def get_params(vocab_size, num_hiddens, device):
+    """ RNNparameters vocab_size: vocabulary num_hiddens: device: （CPU/GPU） """
+    num_inputs = num_outputs = vocab_size
+    
+    def normal(shape):
+        """正态分布初始化"""
+        return torch.randn(size=shape, device=device) * 0.01
+    
+    # parameters
+    W_xh = normal((num_inputs, num_hiddens))
+    W_hh = normal((num_hiddens, num_hiddens))
+    b_h = torch.zeros(num_hiddens, device=device)
+    
+    # Outputparameters
+    W_hq = normal((num_hiddens, num_outputs))
+    b_q = torch.zeros(num_outputs, device=device)
+    
+    params = [W_xh, W_hh, b_h, W_hq, b_q]
+    for param in params:
+        param.requires_grad_(True)
+    
+    return params
+\end{lstlisting}
+
+
+\paragraph{初始化策略详解}
+
+
+\textbf{权重初始化：}
+\begin{itemize}
+    \item 使用\textbf{正态分布} $\mathcal{N}(0, 0.01^2)$
+    \item 小的随机值
+    \item 避免对称性
+\end{itemize}
+
+\textbf{为什么用0.01？}
+\begin{itemize}
+    \item 太大：梯度爆炸
+    \item 太小：梯度消失
+    \item 0.01是经验值
+\end{itemize}
+
+
+\textbf{偏置初始化：}
+\begin{itemize}
+    \item 使用\textbf{零初始化}
+    \item 不影响对称性
+    \item 训练中会更新
+\end{itemize}
+
+\textbf{更好的初始化：}
+\begin{itemize}
+    \item Xavier初始化
+    \item He初始化
+    \item 正交初始化（RNN常用）
+\end{itemize}
+
+
+\vspace{0.5cm}
+\begin{theorem}[重要]
+RNN对初始化敏感，建议使用\textbf{正交初始化} $\mathbf{W}_{hh}$
+\end{theorem}
+
+
+\paragraph{正交初始化（进阶）}
+\begin{lstlisting}
+def init_rnn_params_orthogonal(vocab_size, num_hiddens, device):
+    """（）"""
+    num_inputs = num_outputs = vocab_size
+    
+    W_xh = torch.randn(num_inputs, num_hiddens, device=device) * 0.01
+    
+    W_hh = torch.eye(num_hiddens, device=device)
+    #  torch.nn.init.orthogonal_(W_hh)
+    
+    b_h = torch.zeros(num_hiddens, device=device)
+    
+    # Output
+    W_hq = torch.randn(num_hiddens, num_outputs, device=device) * 0.01
+    b_q = torch.zeros(num_outputs, device=device)
+    
+    params = [W_xh, W_hh, b_h, W_hq, b_q]
+    for param in params:
+        param.requires_grad_(True)
+    
+    return params
+\end{lstlisting}
+
+\begin{definition}[优势]
+正交矩阵保持梯度范数，缓解梯度消失/爆炸
+\end{definition}
+
+
+\paragraph{初始化隐状态}
+\begin{lstlisting}
+def init_rnn_state(batch_size, num_hiddens, device):
+    """ RNN batch_size: num_hiddens: Return: (batch_size, num_hiddens) """
+    return (torch.zeros((batch_size, num_hiddens), device=device),)
+    # ReturnLSTM
+
+batch_size, num_hiddens = 32, 512
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+state = init_rnn_state(batch_size, num_hiddens, device)
+print(f"隐状态shape: {state[0].shape}")  # (32, 512)
+print(f"隐状态全为0: {torch.all(state[0] == 0)}")  # True
+\end{lstlisting}
+
+\begin{theorem}[注意]
+每个新序列开始时需要重新初始化隐状态（或使用上一批次的最终状态）
+\end{theorem}
+
+
+
+\subsection{循环神经网络模型}
+
+\subsection{8.5.3 循环神经网络模型}
+
+\subsection{8.5.3 循环神经网络模型}
+\begin{center}
+\Large \textcolor{blue}{第三步：实现RNN前向传播}
+\end{center}
+
+
+\paragraph{前向传播流程}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 流程图
+\node[draw,fill=yellow!20,rounded corners,text width=8cm] at (5,4.5) {
+\textbf{输入:}\\
+- \texttt{inputs}: 独热编码序列 $(T, B, V)$\\
+- \texttt{state}: 初始隐状态 $(B, H)$\\
+- \texttt{params}: 模型参数
+};
+
+\draw[->,thick] (5,4) -- (5,3.5);
+
+\node[draw,fill=blue!20,rounded corners,text width=8cm] at (5,3) {
+\textbf{循环处理每个时间步:}\\
+for $t = 1$ to $T$:\\
+\quad $\mathbf{H}_t = \tanh(\mathbf{X}_t \mathbf{W}_{xh} + \mathbf{H}_{t-1}\mathbf{W}_{hh} + \mathbf{b}_h)$\\
+\quad $\mathbf{O}_t = \mathbf{H}_t \mathbf{W}_{hq} + \mathbf{b}_q$
+};
+
+\draw[->,thick] (5,2.5) -- (5,2);
+
+\node[draw,fill=green!20,rounded corners,text width=8cm] at (5,1.5) {
+\textbf{输出:}\\
+- \texttt{outputs}: 所有时间步的输出 $(T \times B, V)$\\
+- \texttt{state}: 最终隐状态 $(B, H)$
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{RNN前向传播实现}
+\begin{lstlisting}
+def rnn(inputs, state, params):
+    """ RNN inputs: (num_steps, batch_size, vocab_size) state: (batch_size, num_hiddens) params: [W_xh, W_hh, b_h, W_hq, b_q] Return: outputs (num_steps*batch_size, vocab_size), state (batch_size, num_hiddens) """
+    # parameters
+    W_xh, W_hh, b_h, W_hq, b_q = params
+    H, = state  # comment
+    outputs = []
+    
+    # time step
+    for X in inputs:  # X: (batch_size, vocab_size)
+        H = torch.tanh(torch.mm(X, W_xh) + 
+                       torch.mm(H, W_hh) + b_h)
+        # H: (batch_size, num_hiddens)
+        
+        # Output
+        Y = torch.mm(H, W_hq) + b_q
+        # Y: (batch_size, vocab_size)
+        
+        outputs.append(Y)
+    
+    # Output
+    return torch.cat(outputs, dim=0), (H,)
+    # (num_steps*batch_size, vocab_size), (batch_size, num_hiddens)
+\end{lstlisting}
+
+
+\paragraph{前向传播的维度变化}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 时间步1
+\node[above] at (2,3.5) {\small 时间步 $t=1$};
+\node[draw,fill=green!20,text width=2.5cm,align=center] at (2,2.8) {
+$\mathbf{X}_1$\\
+$(B, V)$
+};
+\node[draw,fill=red!20,text width=2.5cm,align=center] at (2,1.8) {
+$\mathbf{H}_0$\\
+$(B, H)$
+};
+
+\draw[->,thick] (2,2.5) -- (2,2.2) node[midway,right,font=\tiny] {$\mathbf{W}_{xh}$};
+\draw[->,thick] (2,1.5) -- (2,2.2) node[midway,right,font=\tiny] {$\mathbf{W}_{hh}$};
+
+\node[draw,fill=red!20,text width=2.5cm,align=center] at (2,0.8) {
+$\mathbf{H}_1$\\
+$(B, H)$
+};
+
+\draw[->,thick] (2,0.5) -- (2,0) node[midway,right,font=\tiny] {$\mathbf{W}_{hq}$};
+
+\node[draw,fill=blue!20,text width=2.5cm,align=center] at (2,-0.3) {
+$\mathbf{O}_1$\\
+$(B, V)$
+};
+
+% 时间步2
+\node[above] at (6,3.5) {\small 时间步 $t=2$};
+\node[draw,fill=green!20,text width=2.5cm,align=center] at (6,2.8) {
+$\mathbf{X}_2$\\
+$(B, V)$
+};
+\node[draw,fill=red!20,text width=2.5cm,align=center] at (6,1.8) {
+$\mathbf{H}_1$\\
+$(B, H)$
+};
+
+\draw[->,thick] (6,2.5) -- (6,2.2);
+\draw[->,thick] (6,1.5) -- (6,2.2);
+
+\node[draw,fill=red!20,text width=2.5cm,align=center] at (6,0.8) {
+$\mathbf{H}_2$\\
+$(B, H)$
+};
+
+\draw[->,thick] (6,0.5) -- (6,0);
+
+\node[draw,fill=blue!20,text width=2.5cm,align=center] at (6,-0.3) {
+$\mathbf{O}_2$\\
+$(B, V)$
+};
+
+% 隐状态传递
+\draw[->,ultra thick,red] (3.3,0.8) -- (4.7,0.8);
+
+% 标注
+\node[below,text width=8cm,align=center] at (4,-1.2) {
+\small $B$=batch\_size, $V$=vocab\_size, $H$=num\_hiddens
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{测试RNN前向传播}
+\begin{lstlisting}
+vocab_size, num_hiddens = 28, 512
+batch_size, num_steps = 2, 5
+device = torch.device('cpu')
+
+# parameters
+params = get_params(vocab_size, num_hiddens, device)
+
+X = torch.randint(0, vocab_size, (batch_size, num_steps))
+X_one_hot = one_hot(X, vocab_size)
+print(f"输入shape: {X_one_hot.shape}")  # (5, 2, 28)
+
+state = init_rnn_state(batch_size, num_hiddens, device)
+
+outputs, new_state = rnn(X_one_hot, state, params)
+
+print(f"Outputshape: {outputs.shape}")  # (10, 28) = (5*2, 28)
+print(f"新隐状态shape: {new_state[0].shape}")  # (2, 512)
+\end{lstlisting}
+
+\textbf{输出解释：}
+\begin{itemize}
+    \item 输出：$(num\_steps \times batch\_size, vocab\_size) = (10, 28)$
+    \item 每个位置是未归一化的logits（预测分数）
+\end{itemize}
+
+
+\paragraph{RNN模型封装成类}
+\textbf{为了便于使用，封装成类：}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+\node[draw,fill=yellow!20,rounded corners,text width=10cm] at (5,3) {
+\textbf{RNNModelScratch类}\\
+- \texttt{\_\_init\_\_}: 初始化参数\\
+- \texttt{forward}: 前向传播\\
+- \texttt{begin\_state}: 创建初始隐状态
+};
+
+\draw[->,thick] (5,2.5) -- (5,2);
+
+\node[draw,fill=green!20,rounded corners,text width=10cm] at (5,1.3) {
+\textbf{优点：}\\
+$\checkmark$ 面向对象，易于管理\\
+$\checkmark$ 接口统一\\
+$\checkmark$ 便于后续扩展
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{RNN类实现 - 初始化}
+\begin{lstlisting}
+class RNNModelScratch:
+    """RNNmodel"""
+    
+    def __init__(self, vocab_size, num_hiddens, device,
+                 get_params, init_state, forward_fn):
+        """
+        vocab_size: vocabulary大小
+        num_hiddens: 隐藏单元数
+        device: 设备
+        get_params: 获取parameters的函数
+        init_state: 初始化状态的函数
+        forward_fn: 前向传播函数
+        """
+        self.vocab_size = vocab_size
+        self.num_hiddens = num_hiddens
+        self.params = get_params(vocab_size, num_hiddens, device)
+        self.init_state = init_state
+        self.forward_fn = forward_fn
+    
+    def __call__(self, X, state):
+        """调using向传播"""
+        X = one_hot(X, self.vocab_size)
+        return self.forward_fn(X, state, self.params)
+    
+    def begin_state(self, batch_size, device):
+        """创建初始隐状态"""
+        return self.init_state(batch_size, self.num_hiddens, device)
+\end{lstlisting}
+
+
+\paragraph{创建RNN模型实例}
+\begin{lstlisting}
+# parameters
+vocab_size = 28
+num_hiddens = 512
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+# model
+net = RNNModelScratch(
+    vocab_size, num_hiddens, device,
+    get_params, init_rnn_state, rnn
+)
+
+# test
+batch_size, num_steps = 2, 5
+X = torch.randint(0, vocab_size, (batch_size, num_steps))
+state = net.begin_state(batch_size, device)
+
+Y, new_state = net(X.to(device), state)
+
+print(f"modelOutputshape: {Y.shape}")  # (10, 28)
+print(f"modelparameters数量: {sum(p.numel() for p in net.params)}")
+\end{lstlisting}
+
+\textbf{输出：}
+\begin{verbatim}
+模型输出形状: torch.Size([10, 28])
+模型参数数量: 291356
+\end{verbatim}
+
+
+
+\subsection{预测}
+
+\subsection{8.5.4 预测}
+
+\subsection{8.5.4 预测}
+\begin{center}
+\Large \textcolor{blue}{第四步：使用RNN生成文本}
+\end{center}
+
+
+\paragraph{文本生成的两种方式}
+
+
+\textbf{1. 给定前缀预测}
+\begin{itemize}
+    \item 输入：``time trav''
+    \item 输出：``eller''
+    \item 用于补全
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+\foreach \i/\c in {0/t,1/i,2/m,3/e,4/{ },5/t,6/r,7/a,8/v} {
+    \node[draw,fill=blue!20,minimum size=0.4cm,font=\tiny] at (\i*0.5,1) {\c};
+}
+\node[left,font=\tiny] at (0,1) {输入};
+
+\foreach \i/\c in {0/e,1/l,2/l,3/e,4/r} {
+    \node[draw,fill=green!20,minimum size=0.4cm,font=\tiny] at (\i*0.5,0) {\c};
+}
+\node[left,font=\tiny] at (0,0) {预测};
+\end{tikzpicture}
+\end{center}
+
+
+\textbf{2. 随机采样生成}
+\begin{itemize}
+    \item 输入：``t''
+    \item 每步采样下一个字符
+    \item 用于创作
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+\node[draw,fill=blue!20,minimum size=0.4cm,font=\tiny] at (0,1) {t};
+\node[left,font=\tiny] at (-0.3,1) {输入};
+
+\draw[->,thick] (0.3,1) -- (0.7,1);
+
+\foreach \i/\c in {0/h,1/e,2/{ },3/t,4/i,5/m,6/e} {
+    \node[draw,fill=green!20,minimum size=0.4cm,font=\tiny] at (\i*0.5+1,1) {\c};
+}
+\node[right,font=\tiny] at (4.5,1) {...};
+
+\node[below,font=\tiny,text width=3cm,align=center] at (2,0.3) {
+逐步采样生成
+};
+\end{tikzpicture}
+\end{center}
+
+
+\vspace{0.5cm}
+\begin{theorem}[关键]
+采样时需要根据概率分布选择，而非总是选最大概率的字符
+\end{theorem}
+
+
+\paragraph{预测函数 - 给定前缀}
+\begin{lstlisting}
+def predict_ch8(prefix, num_preds, net, vocab, device):
+    """ prediction prefix: ， "time traveller" num_preds: prediction net: RNNmodel vocab: vocabulary device: """
+    state = net.begin_state(batch_size=1, device=device)
+    
+    outputs = [vocab[prefix[0]]]
+    
+    get_input = lambda: torch.tensor([outputs[-1]], 
+                                     device=device).reshape((1, 1))
+    
+    # ""using
+    for y in prefix[1:]:
+        _, state = net(get_input(), state)
+        outputs.append(vocab[y])
+    
+    # predictionnum_preds
+    for _ in range(num_preds):
+        y, state = net(get_input(), state)
+        outputs.append(int(y.argmax(dim=1).reshape(1)))
+    
+    return ''.join([vocab.idx_to_token[i] for i in outputs])
+\end{lstlisting}
+
+
+\paragraph{预测过程可视化}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 前缀阶段
+\node[above] at (2,3.5) {\small 阶段1: 预热（前缀）};
+\foreach \i/\c in {0/t,1/i,2/m,3/e} {
+    \node[draw,fill=blue!20,minimum size=0.6cm] at (\i*0.8,3) {\c};
+    \node[circle,draw,fill=red!20,minimum size=0.5cm] at (\i*0.8,2) {\tiny$h_{\i}$};
+    \draw[->,thick] (\i*0.8,2.6) -- (\i*0.8,2.3);
+    \ifnum\i>0
+        \pgfmathtruncatemacro{\prev}{\i-1}
+        \draw[->,thick,blue] (\prev*0.8+0.3,2) -- (\i*0.8-0.3,2);
+    \fi
+}
+
+% 预测阶段
+\node[above] at (7,3.5) {\small 阶段2: 预测};
+\foreach \i/\c in {4/{ },5/t,6/r} {
+    \node[draw,fill=green!20,minimum size=0.6cm] at (\i*0.8,3) {\c};
+    \node[circle,draw,fill=red!20,minimum size=0.5cm] at (\i*0.8,2) {\tiny$h_{\i}$};
+    \draw[->,thick] (\i*0.8,2.6) -- (\i*0.8,2.3);
+    \pgfmathtruncatemacro{\prev}{\i-1}
+    \draw[->,thick,blue] (\prev*0.8+0.3,2) -- (\i*0.8-0.3,2);
+}
+
+% 标注
+\node[below,font=\small] at (1.2,1.3) {用前缀更新隐状态};
+\node[below,font=\small,green!60!black] at (5.6,1.3) {采样生成新字符};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[两个阶段]
+\begin{enumerate}
+    \item \textbf{预热}：用前缀字符更新隐状态，不输出
+    \item \textbf{生成}：每步采样一个字符，作为下一步输入
+\end{enumerate}
+\end{definition}
+
+
+\paragraph{随机采样 vs 贪心采样}
+
+
+\textbf{贪心采样：}
+\begin{lstlisting}[basicstyle=\ttfamily\tiny]
+y_hat = net(X, state)
+pred = y_hat.argmax(dim=1)
+\end{lstlisting}
+
+\textbf{特点：}
+\begin{itemize}
+    \item 确定性
+    \item 可能重复
+    \item 缺乏多样性
+\end{itemize}
+
+
+\textbf{随机采样：}
+\begin{lstlisting}[basicstyle=\ttfamily\tiny]
+y_hat = net(X, state)
+probs = F.softmax(y_hat, dim=1)
+pred = torch.multinomial(
+    probs, num_samples=1
+).squeeze()
+\end{lstlisting}
+
+\textbf{特点：}
+\begin{itemize}
+    \item 随机性
+    \item 多样化
+    \item 更真实
+\end{itemize}
+
+
+\vspace{0.5cm}
+\begin{example}[例子]
+概率：``a'':0.5, ``b'':0.3, ``c'':0.2\\
+贪心：总是选``a'' | 随机：按概率采样
+\end{example}
+
+
+\paragraph{带温度的采样}
+\begin{lstlisting}
+def predict_with_temperature(prefix, num_preds, net, vocab, 
+                            device, temperature=1.0):
+    """ parameters temperature: parameters - temperature > 1: （） - temperature < 1: （） - temperature = 1: """
+    state = net.begin_state(batch_size=1, device=device)
+    outputs = [vocab[prefix[0]]]
+    
+    get_input = lambda: torch.tensor([outputs[-1]], 
+                                     device=device).reshape((1, 1))
+    
+    for y in prefix[1:]:
+        _, state = net(get_input(), state)
+        outputs.append(vocab[y])
+    
+    # prediction
+    for _ in range(num_preds):
+        y, state = net(get_input(), state)
+        y = y / temperature
+        probs = F.softmax(y, dim=1)
+        pred = torch.multinomial(probs, num_samples=1).item()
+        outputs.append(pred)
+    
+    return ''.join([vocab.idx_to_token[i] for i in outputs])
+\end{lstlisting}
+
+
+\paragraph{温度参数的作用}
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 坐标轴
+\draw[->,thick] (0,0) -- (6,0) node[right] {字符};
+\draw[->,thick] (0,0) -- (0,3.5) node[above] {概率};
+
+% 原始分布 (T=1)
+\draw[blue,thick] (1,2.5) -- (1,0) node[below,font=\tiny] {a};
+\draw[blue,thick] (2,1.5) -- (2,0) node[below,font=\tiny] {b};
+\draw[blue,thick] (3,0.8) -- (3,0) node[below,font=\tiny] {c};
+\draw[blue,thick] (4,0.4) -- (4,0) node[below,font=\tiny] {d};
+\node[blue] at (5.5,2) {$T=1$};
+
+% 低温 (T=0.5)
+\draw[red,thick,dashed] (1,3.2) -- (1,0);
+\draw[red,thick,dashed] (2,1.0) -- (2,0);
+\draw[red,thick,dashed] (3,0.3) -- (3,0);
+\draw[red,thick,dashed] (4,0.1) -- (4,0);
+\node[red] at (5.5,3.2) {$T=0.5$ (尖锐)};
+
+% 高温 (T=2)
+\draw[green!60!black,thick,dotted] (1,1.8) -- (1,0);
+\draw[green!60!black,thick,dotted] (2,1.6) -- (2,0);
+\draw[green!60!black,thick,dotted] (3,1.3) -- (3,0);
+\draw[green!60!black,thick,dotted] (4,1.0) -- (4,0);
+\node[green!60!black] at (5.5,0.5) {$T=2$ (平滑)};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[温度效果]
+\begin{itemize}
+    \item $T \rightarrow 0$：接近贪心，总选最大概率
+    \item $T = 1$：原始分布
+    \item $T \rightarrow \infty$：接近均匀分布，完全随机
+\end{itemize}
+\end{definition}
+
+
+
+\subsection{梯度裁剪}
+
+\subsection{8.5.5 梯度裁剪}
+
+\subsection{8.5.5 梯度裁剪}
+\begin{center}
+\Large \textcolor{blue}{第五步：防止梯度爆炸}
+\end{center}
+
+
+\paragraph{为什么需要梯度裁剪？}
+\textbf{RNN的梯度问题：}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 正常梯度
+\draw[->,thick] (0,0) -- (0,3.5) node[above] {梯度范数};
+\draw[->,thick] (0,0) -- (8,0) node[right] {训练步数};
+
+% 梯度曲线
+\draw[blue,thick] (0.5,0.5) -- (1,0.6) -- (1.5,0.7) -- (2,0.8);
+\draw[blue,thick] (2,0.8) -- (2.5,1.5) -- (3,3.2);
+\node[blue,above] at (3,3.2) {爆炸！};
+
+% 裁剪后
+\draw[green!60!black,thick,dashed] (0.5,0.5) -- (1,0.6) -- (1.5,0.7) -- (2,0.8) -- (2.5,1.0) -- (3,1.0) -- (3.5,0.9);
+
+% 阈值线
+\draw[red,dashed,thick] (0,1) -- (8,1);
+\node[red,left] at (0,1) {阈值};
+
+latex
+% 标注
+\node[green!60!black,below] at (5,0.5) {裁剪后稳定};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[梯度爆炸的危害]
+\begin{itemize}
+    \item 参数更新过大
+    \item 损失突然变为NaN
+    \item 训练崩溃
+\end{itemize}
+\end{theorem}
+
+
+\paragraph{梯度裁剪原理}
+\textbf{核心思想：}限制梯度的L2范数不超过阈值
+
+\begin{definition}[算法]
+设所有梯度为 $\mathbf{g} = [g_1, g_2, \ldots, g_n]$
+
+1. 计算梯度范数：$\|\mathbf{g}\| = \sqrt{\sum_{i=1}^{n} g_i^2}$
+
+2. 如果 $\|\mathbf{g}\| > \theta$，则缩放：
+$$\mathbf{g} \leftarrow \frac{\theta}{\|\mathbf{g}\|} \mathbf{g}$$
+\end{definition}
+
+\begin{example}[例子]
+\begin{itemize}
+    \item 梯度：$\mathbf{g} = [3, 4]$，范数 $\|\mathbf{g}\| = 5$
+    \item 阈值：$\theta = 1$
+    \item 裁剪后：$\mathbf{g} = \frac{1}{5}[3, 4] = [0.6, 0.8]$，范数=1
+\end{itemize}
+\end{example}
+
+
+\paragraph{梯度裁剪实现}
+\begin{lstlisting}
+def grad_clipping(params, theta):
+    """ params: modelparameters theta: """
+    # parametersL2
+    norm = torch.sqrt(sum(torch.sum((p.grad ** 2)) for p in params))
+    
+    if norm > theta:
+        for param in params:
+            param.grad[:] *= theta / norm
+    
+    return norm  # Return原始范数用于监控
+
+# optimizer.step()
+theta = 1.0  # comment
+grad_norm = grad_clipping(net.params, theta)
+print(f"梯度范数: {grad_norm:.4f}")
+\end{lstlisting}
+
+\begin{definition}[关键点]
+\begin{itemize}
+    \item 在反向传播后、参数更新前调用
+    \item 阈值通常取1或5
+    \item 保持梯度方向不变，只改变大小
+\end{itemize}
+\end{definition}
+
+
+\paragraph{梯度裁剪的效果}
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 对比图
+\node[draw,fill=red!20,text width=5cm,align=center] at (0,2) {
+\textbf{不裁剪}\\
+梯度：$[300, 400]$\\
+范数：$500$\\
+更新步长：巨大\\
+$\Rightarrow$ 参数爆炸
+};
+
+\draw[->,ultra thick] (2.7,2) -- (3.3,2);
+
+\node[draw,fill=green!20,text width=5cm,align=center] at (6.5,2) {
+\textbf{裁剪后（$\theta=1$）}\\
+梯度：$[0.6, 0.8]$\\
+范数：$1$\\
+更新步长：合理\\
+$\Rightarrow$ 训练稳定
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[为什么有效？]
+\begin{itemize}
+    \item 限制了单步更新的最大幅度
+    \item 避免了参数的剧烈变化
+    \item 保持了梯度的方向信息
+\end{itemize}
+\end{definition}
+
+
+\paragraph{监控梯度范数}
+\begin{lstlisting}
+def train_epoch_with_grad_monitor(net, train_iter, loss, updater, 
+                                  device, theta):
+    """trainingepoch"""
+    grad_norms = []  # comment
+    
+    for X, Y in train_iter:
+        state = net.begin_state(batch_size=X.shape[0], device=device)
+        y, state = net(X.to(device), state)
+        
+        # loss
+        l = loss(y, Y.T.reshape(-1).to(device))
+        
+        updater.zero_grad()
+        l.backward()
+        
+        grad_norm = grad_clipping(net.params, theta)
+        grad_norms.append(grad_norm.item())
+        
+        # parameters
+        updater.step()
+    
+    return grad_norms
+
+import matplotlib.pyplot as plt
+plt.plot(grad_norms)
+plt.axhline(y=theta, color='r', linestyle='--', label='阈值')
+plt.ylabel('梯度范数')
+plt.xlabel('batch')
+plt.legend()
+\end{lstlisting}
+
+
+\paragraph{阈值选择}
+\begin{center}
+\begin{tabular}{|c|l|l|}
+\hline
+\textbf{阈值} & \textbf{效果} & \textbf{适用场景} \\
+\hline
+0.1-0.5 & 非常保守，可能训练慢 & 极不稳定的模型 \\
+\hline
+1.0 & \textcolor{blue}{\textbf{推荐值}} & 大多数RNN \\
+\hline
+5.0 & 较宽松 & 稳定的模型 \\
+\hline
+10+ & 几乎不裁剪 & 调试用 \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+\begin{definition}[经验法则]
+\begin{itemize}
+    \item 从$\theta=1$开始
+    \item 观察训练损失曲线
+    \item 如果损失突然跳跃 $\Rightarrow$ 减小$\theta$
+    \item 如果训练太慢 $\Rightarrow$ 增大$\theta$
+\end{itemize}
+\end{definition}
+
+
+
+\subsection{训练}
+
+\subsection{8.5.6 训练}
+
+\subsection{8.5.6 训练}
+\begin{center}
+\Large \textcolor{blue}{第六步：训练完整的RNN模型}
+\end{center}
+
+
+\paragraph{训练流程总览}
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 流程图
+\node[draw,fill=yellow!20,rounded corners,text width=9cm] at (5,5) {
+\textbf{1. 数据准备}\\
+加载数据迭代器、词表
+};
+
+\draw[->,thick] (5,4.6) -- (5,4.2);
+
+\node[draw,fill=blue!20,rounded corners,text width=9cm] at (5,3.8) {
+\textbf{2. 模型初始化}\\
+创建RNN模型、初始化参数
+};
+
+\draw[->,thick] (5,3.4) -- (5,3);
+
+\node[draw,fill=green!20,rounded corners,text width=9cm] at (5,2.6) {
+\textbf{3. 循环训练}\\
+for epoch in epochs:\\
+\quad for batch in train\_iter:\\
+\quad \quad 前向传播 $\rightarrow$ 计算损失 $\rightarrow$ 反向传播\\
+\quad \quad 梯度裁剪 $\rightarrow$ 更新参数
+};
+
+\draw[->,thick] (5,2) -- (5,1.6);
+
+\node[draw,fill=orange!20,rounded corners,text width=9cm] at (5,1.2) {
+\textbf{4. 评估与生成}\\
+计算困惑度、生成文本
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{训练一个epoch}
+\begin{lstlisting}
+def train_epoch_ch8(net, train_iter, loss, updater, device, 
+                    use_random_iter):
+    """trainingepoch"""
+    state, timer = None, Timer()
+    metric = Accumulator(2)  # comment：(loss和, tokens数)
+    
+    for X, Y in train_iter:
+        if state is None or use_random_iter:
+            state = net.begin_state(batch_size=X.shape[0], device=device)
+        else:
+            if isinstance(state, tuple):
+                state = tuple(s.detach() for s in state)
+            else:
+                state = state.detach()
+        
+        y = Y.T.reshape(-1).to(device)
+        X = X.to(device)
+        
+        y_hat, state = net(X, state)
+        
+        # loss
+        l = loss(y_hat, y).mean()
+        
+        updater.zero_grad()
+        l.backward()
+        grad_clipping(net.params, 1)  # comment
+        updater.step()
+        
+        metric.add(l * y.numel(), y.numel())
+    
+    return math.exp(metric[0] / metric[1]), metric[1] / timer.stop()
+\end{lstlisting}
+
+
+\paragraph{为什么要分离隐状态？}
+\textbf{关键代码：}\texttt{state = state.detach()}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 不分离
+\node[above] at (2,3.5) {\small 不分离（错误）};
+\node[draw,fill=red!20,text width=4cm] at (2,2.5) {
+批次1 $\rightarrow$ 批次2 $\rightarrow$ 批次3\\
+\tiny 梯度一直累积\\
+\tiny 内存爆炸！
+};
+
+\draw[->,ultra thick,red] (2,2) -- (2,1.5);
+\node[red] at (2,1.2) {$\times$};
+
+% 分离
+\node[above] at (7,3.5) {\small 分离（正确）};
+\node[draw,fill=green!20,text width=4cm] at (7,2.5) {
+批次1 | 批次2 | 批次3\\
+\tiny 每批次独立计算梯度\\
+\tiny 内存稳定
+};
+
+\draw[->,ultra thick,green!60!black] (7,2) -- (7,1.5);
+\node[green!60!black] at (7,1.2) {$\checkmark$};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[原因]
+\begin{itemize}
+    \item \texttt{detach()} 切断梯度传播链
+    \item 保留隐状态的\textbf{数值}，丢弃\textbf{计算图}
+    \item 防止BPTT跨越多个批次（内存爆炸）
+\end{itemize}
+\end{definition}
+
+
+\paragraph{完整训练函数}
+\begin{lstlisting}
+def train_ch8(net, train_iter, vocab, lr, num_epochs, device,
+              use_random_iter=False):
+    """trainingRNNmodel"""
+    loss = nn.CrossEntropyLoss()
+    # optimizer
+    if isinstance(net, nn.Module):
+        updater = torch.optim.SGD(net.parameters(), lr)
+    else:
+        updater = lambda batch_size: sgd(net.params, lr, batch_size)
+    
+    # prediction
+    predict = lambda prefix: predict_ch8(prefix, 50, net, vocab, device)
+    
+    # training
+    for epoch in range(num_epochs):
+        ppl, speed = train_epoch_ch8(net, train_iter, loss, updater,
+                                     device, use_random_iter)
+        
+        # 10epoch
+        if (epoch + 1) % 10 == 0:
+            print(predict('time traveller'))
+    
+    print(f'困惑度 {ppl:.1f}, {speed:.1f} tokens/秒 on {str(device)}')
+    print(predict('time traveller'))
+    print(predict('traveller'))
+\end{lstlisting}
+
+
+\paragraph{运行训练}
+\begin{lstlisting}
+# parameters
+num_epochs = 500
+lr = 1
+batch_size = 32
+num_steps = 35
+num_hiddens = 512
+
+# data
+train_iter, vocab = load_data_time_machine(batch_size, num_steps)
+
+# model
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+net = RNNModelScratch(len(vocab), num_hiddens, device,
+                      get_params, init_rnn_state, rnn)
+
+# training
+train_ch8(net, train_iter, vocab, lr, num_epochs, device)
+\end{lstlisting}
+
+\textbf{训练输出示例：}
+\begin{verbatim}
+困惑度 1.2, 8500.3 词元/秒 on cuda:0
+time traveller smiled round at us then still s
+traveller smiled round at us then still smiling
+\end{verbatim}
+
+
+\paragraph{训练过程可视化}
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 困惑度曲线
+\draw[->,thick] (0,0) -- (8,0) node[right] {Epoch};
+\draw[->,thick] (0,0) -- (0,4) node[above] {困惑度};
+
+% 曲线
+\draw[blue,thick] (0.5,3.5) -- (1,2.8) -- (1.5,2.2) -- (2,1.8) -- (2.5,1.5) -- (3,1.3) -- (3.5,1.2) -- (7.5,1.1);
+
+% 标注关键点
+\fill[red] (0.5,3.5) circle (2pt) node[above,font=\tiny] {初始：高};
+\fill[green!60!black] (3,1.3) circle (2pt) node[above,font=\tiny] {快速下降};
+\fill[blue] (7.5,1.1) circle (2pt) node[above,font=\tiny] {收敛};
+
+% 分阶段
+\draw[dashed] (0,2) -- (8,2);
+\node[left,font=\tiny] at (0,2) {目标值};
+
+\node[below,text width=8cm,align=center] at (4,-0.8) {
+\small 典型训练曲线：初期快速下降，后期缓慢收敛
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{生成文本示例}
+\textbf{训练不同阶段的生成效果：}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% Epoch 10
+\node[draw,fill=red!20,text width=10cm] at (5,3.5) {
+\textbf{Epoch 10 (困惑度 $\sim$10):}\\
+\texttt{time travellerkkkkkkkkkk...}\\
+\tiny 几乎随机，大量重复
+};
+
+% Epoch 100
+\node[draw,fill=orange!20,text width=10cm] at (5,2.3) {
+\textbf{Epoch 100 (困惑度 $\sim$3):}\\
+\texttt{time traveller the the time...}\\
+\tiny 开始有简单结构
+};
+
+% Epoch 500
+\node[draw,fill=green!20,text width=10cm] at (5,1.1) {
+\textbf{Epoch 500 (困惑度 $\sim$1.2):}\\
+\texttt{time traveller smiled round at us}\\
+\tiny 流畅、符合语法
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[观察]
+困惑度越低，生成文本质量越高
+\end{theorem}
+
+
+\paragraph{调试技巧}
+\begin{definition}[常见问题与解决]
+\begin{enumerate}
+    \item \textbf{损失变NaN}
+    \begin{itemize}
+        \item 检查学习率（降低）
+        \item 检查梯度裁剪（降低阈值）
+        \item 检查数据（是否有异常值）
+    \end{itemize}
+    
+    \item \textbf{困惑度不下降}
+    \begin{itemize}
+        \item 增加隐藏单元数
+        \item 增加训练轮数
+        \item 调整学习率
+    \end{itemize}
+    
+    \item \textbf{内存不足}
+    \begin{itemize}
+        \item 减小batch\_size
+        \item 减小num\_steps
+        \item 减小num\_hiddens
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+
+\paragraph{保存和加载模型}
+\begin{lstlisting}
+# modelparameters
+def save_model(net, path):
+    """modelparameters"""
+    if isinstance(net, nn.Module):
+        torch.save(net.state_dict(), path)
+    else:
+        # model
+        torch.save([p.data for p in net.params], path)
+
+# modelparameters
+def load_model(net, path):
+    """加载modelparameters"""
+    if isinstance(net, nn.Module):
+        net.load_state_dict(torch.load(path))
+    else:
+        params = torch.load(path)
+        for p, p_load in zip(net.params, params):
+            p.data = p_load
+
+save_model(net, 'rnn_model.pth')
+# ...  ...
+load_model(net, 'rnn_model.pth')
+\end{lstlisting}
+
+
+\paragraph{超参数调优建议}
+\begin{center}
+\begin{tabular}{|l|c|l|}
+\hline
+\textbf{超参数} & \textbf{推荐范围} & \textbf{说明} \\
+\hline
+学习率 & 0.1-5 & RNN可用较大学习率 \\
+\hline
+隐藏单元数 & 256-1024 & 越大越好，但内存限制 \\
+\hline
+批量大小 & 32-128 & 取决于GPU内存 \\
+\hline
+序列长度 & 35-100 & 太长会梯度消失 \\
+\hline
+梯度裁剪 & 1-5 & 从1开始 \\
+\hline
+训练轮数 & 500-2000 & 直到困惑度收敛 \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+\begin{definition}[调优策略]
+\begin{enumerate}
+    \item 先用小模型（num\_hiddens=128）快速迭代
+    \item 确认能训练后，逐步增大模型
+    \item 监控困惑度和生成质量
+\end{enumerate}
+\end{definition}
+
+\section{8.6 循环神经网络的简洁实现}
+
+\subsection{8.6 循环神经网络的简洁实现}
+\begin{center}
+\Large \textcolor{blue}{使用PyTorch高级API快速实现RNN}
+\end{center}
+
+
+\subsection{8.6节 - 章节导航}
+\begin{definition}[本节内容]
+\begin{itemize}
+    \item 8.6.1 定义模型
+    \item 8.6.2 训练与预测
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[学习目标]
+\begin{enumerate}
+    \item 掌握PyTorch的\texttt{nn.RNN}模块
+    \item 理解简洁实现与从零实现的对应关系
+    \item 学会用高级API快速搭建模型
+    \item 对比两种实现方式的优缺点
+\end{enumerate}
+\end{theorem}
+
+
+\paragraph{从零实现 vs 简洁实现}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 从零实现
+\node[draw,fill=yellow!20,rounded corners,text width=5cm,align=center] at (0,2.5) {
+\textbf{从零实现（8.5节）}\\
+手写每一行代码
+};
+
+\node[draw,fill=orange!20,text width=5cm] at (0,1.3) {
+\textbf{优点：}\\
+$\checkmark$ 理解原理\\
+$\checkmark$ 灵活定制\\
+$\checkmark$ 教学价值高
+};
+
+\node[draw,fill=red!20,text width=5cm] at (0,-0.2) {
+\textbf{缺点：}\\
+$\times$ 代码量大\\
+$\times$ 容易出错\\
+$\times$ 优化不足
+};
+
+% 简洁实现
+\node[draw,fill=blue!20,rounded corners,text width=5cm,align=center] at (7,2.5) {
+\textbf{简洁实现（8.6节）}\\
+使用PyTorch API
+};
+
+\node[draw,fill=green!20,text width=5cm] at (7,1.3) {
+\textbf{优点：}\\
+$\checkmark$ 代码简洁\\
+$\checkmark$ 高度优化\\
+$\checkmark$ 功能丰富
+};
+
+\node[draw,fill=orange!20,text width=5cm] at (7,-0.2) {
+\textbf{缺点：}\\
+$\times$ 细节隐藏\\
+$\times$ 定制受限\\
+$\times$ 需要理解8.5
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+

@@ -1,0 +1,23 @@
+# LaTeX 编译产生的临时文件
+*.aux
+*.log
+*.out
+*.toc
+*.bcf
+*.xml
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.blg
+*.bbl
+*.nav
+*.snm
+*.vrb
+
+# 保留 PDF 和源文件
+!main.pdf
+!*.tex
+!*.cls
+!*.sty
+
+

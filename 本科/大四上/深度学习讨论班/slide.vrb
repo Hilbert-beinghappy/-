@@ -1,0 +1,26 @@
+\frametitle{翻译示例}
+\begin{lstlisting}
+# trainingmodel
+net.load_state_dict(torch.load('seq2seq.pth'))
+
+# test
+engs = ['go .', 'i lost .', 'he\'s calm .', 'i\'m home .']
+fras = ['va !', 'j\'ai perdu .', 'il est calme .', 'je suis chez moi .']
+
+for eng, fra in zip(engs, fras):
+    translation = predict_seq2seq(
+        net, eng, src_vocab, tgt_vocab, num_steps, device)
+    print(f'{eng} => {translation}, bleu {bleu(translation, fra, k=2):.3f}')
+\end{lstlisting}
+
+\textbf{输出示例：}
+\begin{verbatim}
+go . => va !, bleu 1.000
+i lost . => j'ai perdu ., bleu 1.000
+he's calm . => il est calme ., bleu 1.000
+i'm home . => je suis chez moi ., bleu 1.000
+\end{verbatim}
+
+\begin{alertblock}{观察}
+简单句子翻译完美，BLEU=1.0
+\end{alertblock}

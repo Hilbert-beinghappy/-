@@ -1,0 +1,714 @@
+\section{未命名节}
+
+\subsection{双向RNN的动机}
+
+\subsection{9.4.1 双向循环神经网络的动机}
+
+\subsection{9.4.1 双向循环神经网络的动机}
+\begin{center}
+\Large \textcolor{blue}{为什么需要看"未来"？}
+\end{center}
+
+
+\paragraph{自然语言的双向性}
+\textbf{观察：}理解一个词常需要上下文
+
+\begin{example}[例子1：词性标注]
+``The \textbf{bank} is closed.'' $\rightarrow$ bank = 银行（名词）\\
+``I will \textbf{bank} on you.'' $\rightarrow$ bank = 依靠（动词）
+
+需要看后面的词才能确定词性
+\end{example}
+
+\begin{example}[例子2：命名实体识别]
+``\textbf{Apple} released a new phone.'' $\rightarrow$ Apple = 公司\\
+``I ate an \textbf{apple}.'' $\rightarrow$ apple = 水果
+
+需要看上下文才能判断
+\end{example}
+
+\begin{example}[例子3：情感分析]
+``The movie was not bad.'' $\rightarrow$ 正面（需要看到``not''）\\
+只看``bad''会误判为负面
+\end{example}
+
+
+\paragraph{单向 vs 双向对比}
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 句子
+\node[font=\large] at (5,4) {句子：``I love this movie very much''};
+
+% 单向（预测"this"）
+\node[above] at (2,3) {\small 单向RNN预测``this''};
+\node[draw,fill=blue!20] (w1) at (0.5,2.5) {I};
+\node[draw,fill=blue!20] (w2) at (1.5,2.5) {love};
+\node[draw,fill=red!20] (w3) at (2.5,2.5) {this};
+\node[draw,fill=gray!20] (w4) at (3.5,2.5) {?};
+\node[draw,fill=gray!20] (w5) at (4.5,2.5) {?};
+
+\draw[->,thick] (w1) -- (w2) -- (w3);
+\node[below,text width=5cm,align=center] at (2.5,1.8) {
+只能用``I love'' $\rightarrow$ 信息不足
+};
+
+% 双向
+\node[above] at (8,3) {\small 双向RNN预测``this''};
+\node[draw,fill=blue!20] (v1) at (6,2.5) {I};
+\node[draw,fill=blue!20] (v2) at (7,2.5) {love};
+\node[draw,fill=red!20] (v3) at (8,2.5) {this};
+\node[draw,fill=green!20] (v4) at (9,2.5) {movie};
+\node[draw,fill=green!20] (v5) at (10,2.5) {much};
+
+\draw[->,thick,blue] (v1) -- (v2) -- (v3);
+\draw[<-,thick,green!60!black] (v3) -- (v4) -- (v5);
+\node[below,text width=5cm,align=center] at (8,1.8) {
+用``I love'' + ``movie much'' $\rightarrow$ 信息充分
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{双向RNN适用的任务}
+\begin{definition}[完全适合（离线任务）]
+\begin{itemize}
+    \item \textbf{文本分类}：情感分析、主题分类
+    \item \textbf{序列标注}：词性标注、命名实体识别
+    \item \textbf{机器翻译}：编码器部分
+    \item \textbf{问答系统}：理解问题和文档
+    \item \textbf{文本摘要}：理解全文
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[不适合（在线任务）]
+\begin{itemize}
+    \item \textbf{语言模型}：预测下一个词（不能看未来）
+    \item \textbf{实时语音识别}：需要即时输出
+    \item \textbf{在线翻译}：解码器部分（逐词生成）
+\end{itemize}
+\end{theorem}
+
+
+
+\subsection{双向RNN的定义}
+
+\subsection{9.4.2 双向循环神经网络的定义}
+
+\subsection{9.4.2 双向循环神经网络的定义}
+\begin{center}
+\Large \textcolor{blue}{双向RNN的数学表示}
+\end{center}
+
+
+\paragraph{双向RNN的结构}
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+% 输入
+\foreach \t in {1,2,3,4} {
+    \node[circle,draw,fill=yellow!20,minimum size=0.6cm] (x\t) at (\t*2,0) {\tiny$x_{\t}$};
+}
+
+% 前向层
+\foreach \t in {1,2,3,4} {
+    \node[circle,draw,fill=blue!20,minimum size=0.8cm] (f\t) at (\t*2,1.5) {\tiny$\overrightarrow{h}_{\t}$};
+    \draw[->,thick] (x\t) -- (f\t);
+}
+\draw[->,thick,red] (f1) -- (f2) -- (f3) -- (f4);
+\node[above,red,font=\small] at (4,2) {前向层};
+
+% 后向层
+\foreach \t in {1,2,3,4} {
+    \node[circle,draw,fill=green!20,minimum size=0.8cm] (b\t) at (\t*2,3) {\tiny$\overleftarrow{h}_{\t}$};
+    \draw[->,thick] (x\t) to[bend left=30] (b\t);
+}
+\draw[<-,thick,blue] (b1) -- (b2) -- (b3) -- (b4);
+\node[above,blue,font=\small] at (4,3.5) {后向层};
+
+% 输出
+\foreach \t in {1,2,3,4} {
+    \node[circle,draw,fill=purple!20,minimum size=0.8cm] (o\t) at (\t*2,4.5) {\tiny$o_{\t}$};
+    \draw[->,thick] (f\t) to[bend right=15] (o\t);
+    \draw[->,thick] (b\t) -- (o\t);
+}
+\node[above,purple,font=\small] at (4,5) {输出（拼接）};
+
+\node[below,text width=8cm,align=center] at (4.5,-0.8) {
+\small 每个时间步的输出结合了前向和后向信息
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{双向RNN的数学公式}
+\begin{definition}[前向层（从左到右）]
+$$\overrightarrow{\mathbf{H}}_t = \phi(\mathbf{X}_t\mathbf{W}_{xh}^{(f)} + \overrightarrow{\mathbf{H}}_{t-1}\mathbf{W}_{hh}^{(f)} + \mathbf{b}_h^{(f)})$$
+\end{definition}
+
+\begin{definition}[后向层（从右到左）]
+$$\overleftarrow{\mathbf{H}}_t = \phi(\mathbf{X}_t\mathbf{W}_{xh}^{(b)} + \overleftarrow{\mathbf{H}}_{t+1}\mathbf{W}_{hh}^{(b)} + \mathbf{b}_h^{(b)})$$
+\end{definition}
+
+\begin{definition}[输出（拼接）]
+$$\mathbf{H}_t = [\overrightarrow{\mathbf{H}}_t; \overleftarrow{\mathbf{H}}_t]$$
+$$\mathbf{O}_t = \mathbf{H}_t\mathbf{W}_{hq} + \mathbf{b}_q$$
+\end{definition}
+
+\begin{theorem}[关键]
+\begin{itemize}
+    \item $\overrightarrow{\mathbf{H}}_t$：前向隐状态，维度 $h$
+    \item $\overleftarrow{\mathbf{H}}_t$：后向隐状态，维度 $h$
+    \item $\mathbf{H}_t$：拼接后，维度 $2h$
+\end{itemize}
+\end{theorem}
+
+
+\paragraph{双向RNN的计算流程}
+\begin{center}
+\begin{tikzpicture}[scale=0.75]
+% 步骤1
+\node[draw,fill=yellow!20,rounded corners,text width=11cm] at (5.5,4.5) {
+\textbf{步骤1：}前向传播（$t=1 \rightarrow T$）\\
+$\overrightarrow{\mathbf{H}}_1 = \phi(\mathbf{X}_1\mathbf{W}_{xh}^{(f)} + \mathbf{b}_h^{(f)})$\\
+$\overrightarrow{\mathbf{H}}_2 = \phi(\mathbf{X}_2\mathbf{W}_{xh}^{(f)} + \overrightarrow{\mathbf{H}}_1\mathbf{W}_{hh}^{(f)} + \mathbf{b}_h^{(f)})$\\
+...
+};
+
+\draw[->,thick] (5.5,4) -- (5.5,3.6);
+
+% 步骤2
+\node[draw,fill=blue!20,rounded corners,text width=11cm] at (5.5,3.1) {
+\textbf{步骤2：}后向传播（$t=T \rightarrow 1$）\\
+$\overleftarrow{\mathbf{H}}_T = \phi(\mathbf{X}_T\mathbf{W}_{xh}^{(b)} + \mathbf{b}_h^{(b)})$\\
+$\overleftarrow{\mathbf{H}}_{T-1} = \phi(\mathbf{X}_{T-1}\mathbf{W}_{xh}^{(b)} + \overleftarrow{\mathbf{H}}_T\mathbf{W}_{hh}^{(b)} + \mathbf{b}_h^{(b)})$\\
+...
+};
+
+\draw[->,thick] (5.5,2.6) -- (5.5,2.2);
+
+% 步骤3
+\node[draw,fill=green!20,rounded corners,text width=11cm] at (5.5,1.7) {
+\textbf{步骤3：}拼接隐状态\\
+$\mathbf{H}_t = [\overrightarrow{\mathbf{H}}_t; \overleftarrow{\mathbf{H}}_t]$ \quad for $t=1,\ldots,T$
+};
+
+\draw[->,thick] (5.5,1.2) -- (5.5,0.8);
+
+% 步骤4
+\node[draw,fill=purple!20,rounded corners,text width=11cm] at (5.5,0.3) {
+\textbf{步骤4：}计算输出\\
+$\mathbf{O}_t = \mathbf{H}_t\mathbf{W}_{hq} + \mathbf{b}_q$
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{维度变化分析}
+\textbf{假设：}隐藏单元数 $h=256$，词表大小 $V=28$
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 输入
+\node[draw,fill=yellow!20,text width=3cm] at (0,3) {
+输入 $\mathbf{X}_t$\\
+$(batch, V)$\\
+$(32, 28)$
+};
+
+\draw[->,thick] (1.5,3) -- (2.5,3);
+
+% 前向
+\node[draw,fill=blue!20,text width=3cm] at (4,4) {
+前向 $\overrightarrow{\mathbf{H}}_t$\\
+$(batch, h)$\\
+$(32, 256)$
+};
+
+% 后向
+\node[draw,fill=green!20,text width=3cm] at (4,2) {
+后向 $\overleftarrow{\mathbf{H}}_t$\\
+$(batch, h)$\\
+$(32, 256)$
+};
+
+\draw[->,thick] (5.5,4) -- (6.5,3.5);
+\draw[->,thick] (5.5,2) -- (6.5,2.5);
+\node[right,font=\tiny] at (6,3.8) {拼接};
+
+% 拼接
+\node[draw,fill=purple!20,text width=3cm] at (8.5,3) {
+拼接 $\mathbf{H}_t$\\
+$(batch, 2h)$\\
+$(32, 512)$
+};
+
+\draw[->,thick] (10,3) -- (11,3);
+
+% 输出
+\node[draw,fill=red!20,text width=3cm] at (12.5,3) {
+输出 $\mathbf{O}_t$\\
+$(batch, V)$\\
+$(32, 28)$
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[关键]
+拼接后维度\textbf{翻倍}：$h \rightarrow 2h$
+\end{theorem}
+
+
+\paragraph{双向RNN的参数分析}
+\textbf{参数数量：}
+
+\begin{definition}[单向RNN]
+$$\text{params} = (d+h) \times h + h + h \times V + V$$
+\end{definition}
+
+\begin{definition}[双向RNN]
+\begin{itemize}
+    \item 前向层：$(d+h) \times h + h$
+    \item 后向层：$(d+h) \times h + h$
+    \item 输出层：$2h \times V + V$ （注意：$2h$）
+\end{itemize}
+$$\text{params} = 2 \times [(d+h) \times h + h] + 2h \times V + V$$
+\end{definition}
+
+\begin{example}[具体例子（$d=28, h=256, V=28$）]
+单向：$(28+256) \times 256 + 256 + 256 \times 28 + 28 \approx 80K$
+
+双向：$2 \times (284 \times 256 + 256) + 512 \times 28 + 28 \approx 160K$
+
+双向参数约是单向的\textbf{2倍}
+\end{example}
+
+
+
+\subsection{双向RNN的实现}
+
+\subsection{9.4.3 双向循环神经网络的实现}
+
+\subsection{9.4.3 双向循环神经网络的实现}
+\begin{center}
+\Large \textcolor{blue}{用PyTorch实现双向RNN}
+\end{center}
+
+
+\paragraph{使用PyTorch创建双向RNN}
+\begin{lstlisting}
+import torch.nn as nn
+
+# RNN
+rnn_layer = nn.RNN(
+    input_size=vocab_size,
+    hidden_size=num_hiddens,
+    num_layers=1,
+    bidirectional=True  #  commentTrue
+)
+
+print(rnn_layer)
+# RNN(28, 256, bidirectional=True)
+
+# test
+X = torch.randn(num_steps, batch_size, vocab_size)
+H = torch.zeros(2, batch_size, num_hiddens)  #  comment2 = 2个方向
+
+Y, H_new = rnn_layer(X, H)
+
+print(f"输入shape: {X.shape}")      # (5, 32, 28)
+print(f"Outputshape: {Y.shape}")      # (5, 32, 512) = 2*256
+print(f"隐状态shape: {H_new.shape}") # (2, 32, 256)
+\end{lstlisting}
+
+\begin{theorem}[注意]
+\begin{itemize}
+    \item 输出维度：$2 \times hidden\_size$
+    \item 隐状态第一维：$2 \times num\_layers$（2个方向）
+\end{itemize}
+\end{theorem}
+
+
+\paragraph{双向LSTM/GRU}
+\begin{lstlisting}
+# LSTM
+lstm_layer = nn.LSTM(
+    input_size=vocab_size,
+    hidden_size=num_hiddens,
+    num_layers=1,
+    bidirectional=True
+)
+
+# LSTMHC
+H = torch.zeros(2, batch_size, num_hiddens)  # 2个方向
+C = torch.zeros(2, batch_size, num_hiddens)
+state = (H, C)
+
+Y, (H_new, C_new) = lstm_layer(X, state)
+print(f"Outputshape: {Y.shape}")  # (num_steps, batch, 2*hidden)
+
+# GRU
+gru_layer = nn.GRU(
+    input_size=vocab_size,
+    hidden_size=num_hiddens,
+    bidirectional=True
+)
+\end{lstlisting}
+
+
+\paragraph{完整的双向RNN模型}
+\begin{lstlisting}
+class BiRNNModel(nn.Module):
+    """RNNmodel"""
+    
+    def __init__(self, vocab_size, num_hiddens, rnn_type='lstm'):
+        super(BiRNNModel, self).__init__()
+        self.vocab_size = vocab_size
+        self.num_hiddens = num_hiddens
+        self.rnn_type = rnn_type
+        
+        # RNN
+        if rnn_type == 'lstm':
+            self.rnn = nn.LSTM(vocab_size, num_hiddens, bidirectional=True)
+        elif rnn_type == 'gru':
+            self.rnn = nn.GRU(vocab_size, num_hiddens, bidirectional=True)
+        else:
+            self.rnn = nn.RNN(vocab_size, num_hiddens, bidirectional=True)
+        
+        # Outputdimension2*num_hiddens
+        self.linear = nn.Linear(2 * num_hiddens, vocab_size)
+    
+    def forward(self, inputs, state):
+        # one-hot
+        X = F.one_hot(inputs.T, self.vocab_size).type(torch.float32)
+        
+        # RNN
+        Y, state = self.rnn(X, state)
+        
+        # Output
+        output = self.linear(Y.reshape(-1, Y.shape[-1]))
+        
+        return output, state
+\end{lstlisting}
+
+
+\paragraph{完整的双向RNN模型（续）}
+\begin{lstlisting}
+    def begin_state(self, batch_size, device):
+        # 2
+        if self.rnn_type == 'lstm':
+            # LSTMReturn(H, C)
+            return (torch.zeros((2, batch_size, self.num_hiddens), 
+                              device=device),
+                    torch.zeros((2, batch_size, self.num_hiddens), 
+                              device=device))
+        else:
+            # RNN/GRUReturnH
+            return torch.zeros((2, batch_size, self.num_hiddens), 
+                             device=device)
+
+# LSTMmodel
+net = BiRNNModel(vocab_size=28, num_hiddens=256, rnn_type='lstm')
+
+# parameters
+num_params = sum(p.numel() for p in net.parameters())
+print(f"parameters数量: {num_params:,}")
+# parameters: 1,067,036 (2)
+\end{lstlisting}
+
+
+\paragraph{多层双向RNN}
+\begin{lstlisting}
+# 2LSTM
+lstm_layer = nn.LSTM(
+    input_size=vocab_size,
+    hidden_size=num_hiddens,
+    num_layers=2,          # 2层
+    bidirectional=True,    #  comment
+    dropout=0.5            #  commentdropout
+)
+
+# 2 * 2 = 4
+H = torch.zeros(4, batch_size, num_hiddens)
+C = torch.zeros(4, batch_size, num_hiddens)
+state = (H, C)
+
+Y, (H_new, C_new) = lstm_layer(X, state)
+print(f"Outputshape: {Y.shape}")      # (5, 32, 512)
+print(f"Hshape: {H_new.shape}")     # (4, 32, 256)
+print(f"Cshape: {C_new.shape}")     # (4, 32, 256)
+\end{lstlisting}
+
+\begin{theorem}[注意]
+隐状态第一维 = $num\_layers \times 2$（方向数）
+\end{theorem}
+
+
+\paragraph{双向RNN的隐状态结构}
+\textbf{2层双向LSTM的隐状态排列：}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 隐状态索引
+\node[draw,fill=blue!20,minimum width=2cm,minimum height=0.8cm] at (0,3) {索引0};
+\node[draw,fill=blue!20,minimum width=2cm,minimum height=0.8cm] at (0,2) {索引1};
+\node[draw,fill=green!20,minimum width=2cm,minimum height=0.8cm] at (0,1) {索引2};
+\node[draw,fill=green!20,minimum width=2cm,minimum height=0.8cm] at (0,0) {索引3};
+
+% 说明
+\node[right,text width=6cm] at (2.5,3) {第1层前向 $\overrightarrow{\mathbf{H}}^{(1)}$};
+\node[right,text width=6cm] at (2.5,2) {第1层后向 $\overleftarrow{\mathbf{H}}^{(1)}$};
+\node[right,text width=6cm] at (2.5,1) {第2层前向 $\overrightarrow{\mathbf{H}}^{(2)}$};
+\node[right,text width=6cm] at (2.5,0) {第2层后向 $\overleftarrow{\mathbf{H}}^{(2)}$};
+
+% 标注
+\draw[decorate,decoration={brace,amplitude=10pt}] (-0.5,3.5) -- (-0.5,1.5);
+\node[left] at (-1,2.5) {第1层};
+
+\draw[decorate,decoration={brace,amplitude=10pt}] (-0.5,1.5) -- (-0.5,-0.5);
+\node[left] at (-1,0.5) {第2层};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[规律]
+对于 $L$ 层双向RNN，隐状态顺序：\\
+$[\overrightarrow{H}^{(1)}, \overleftarrow{H}^{(1)}, \overrightarrow{H}^{(2)}, \overleftarrow{H}^{(2)}, \ldots, \overrightarrow{H}^{(L)}, \overleftarrow{H}^{(L)}]$
+\end{definition}
+
+
+
+\subsection{应用与限制}
+
+\subsection{9.4.4 应用与限制}
+
+\subsection{9.4.4 应用与限制}
+\begin{center}
+\Large \textcolor{blue}{何时使用双向RNN？}
+\end{center}
+
+
+\paragraph{双向RNN的应用场景}
+\begin{definition}[完美适用（批处理任务）]
+\begin{enumerate}
+    \item \textbf{序列标注}
+    \begin{itemize}
+        \item 词性标注（POS Tagging）
+        \item 命名实体识别（NER）
+        \item 语义角色标注
+    \end{itemize}
+    
+    \item \textbf{文本分类}
+    \begin{itemize}
+        \item 情感分析
+        \item 主题分类
+        \item 垃圾邮件检测
+    \end{itemize}
+    
+    \item \textbf{机器翻译编码器}
+    \begin{itemize}
+        \item 理解源语言句子
+        \item 提供丰富的上下文表示
+    \end{itemize}
+    
+    \item \textbf{问答系统}
+    \begin{itemize}
+        \item 理解问题和文档
+        \item 提取答案
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+
+\paragraph{双向RNN的限制}
+\begin{theorem}[不适用（在线任务）]
+\begin{enumerate}
+    \item \textbf{语言模型}
+    \begin{itemize}
+        \item 预测下一个词时不能看未来
+        \item 必须用单向RNN
+    \end{itemize}
+    
+    \item \textbf{实时语音识别}
+    \begin{itemize}
+        \item 需要即时输出
+        \item 不能等待整个句子
+    \end{itemize}
+    
+    \item \textbf{在线翻译（解码器）}
+    \begin{itemize}
+        \item 逐词生成，看不到未来
+    \end{itemize}
+    
+    \item \textbf{流式处理}
+    \begin{itemize}
+        \item 数据流式到达
+        \item 无法回看
+    \end{itemize}
+\end{enumerate}
+\end{theorem}
+
+
+\paragraph{双向RNN的代价}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 优点
+\node[draw,fill=green!20,rounded corners,text width=5cm] at (0,2.5) {
+\textbf{优点：}\\
+$\checkmark$ 性能更好\\
+$\checkmark$ 更丰富的上下文\\
+$\checkmark$ 适合大多数NLP任务
+};
+
+% 代价
+\node[draw,fill=red!20,rounded corners,text width=5cm] at (6.5,2.5) {
+\textbf{代价：}\\
+$\times$ 参数翻倍\\
+$\times$ 计算翻倍\\
+$\times$ 内存翻倍\\
+$\times$ 不能在线推理
+};
+
+% 权衡
+\node[draw,fill=blue!20,text width=11cm] at (3.25,0.5) {
+\textbf{权衡：}如果任务允许批处理，双向通常值得（性能提升 $>$ 计算成本）
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{单向 vs 双向性能对比}
+\textbf{任务：}命名实体识别（NER）
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 柱状图
+\draw[->,thick] (0,0) -- (0,4) node[above] {F1分数};
+\draw[->,thick] (0,0) -- (8,0) node[right] {模型};
+
+% 单向LSTM
+\fill[blue!50] (0.5,0) rectangle (1.5,2.5);
+\node[below] at (1,0) {\small 单向};
+\node[above] at (1,2.5) {\small 75.2};
+
+% 双向LSTM
+\fill[green!50] (2.5,0) rectangle (3.5,3.2);
+\node[below] at (3,0) {\small 双向};
+\node[above] at (3,3.2) {\small 82.1};
+
+% 提升标注
+\draw[<->,thick,red] (1.8,2.5) -- (1.8,3.2);
+\node[red,right] at (2,2.85) {\small +6.9\%};
+
+% 单向+深度
+\fill[orange!50] (4.5,0) rectangle (5.5,2.8);
+\node[below,font=\tiny] at (5,0) {2层单向};
+\node[above] at (5,2.8) {\small 77.5};
+
+% 双向+深度
+\fill[purple!50] (6.5,0) rectangle (7.5,3.5);
+\node[below,font=\tiny] at (7,0) {2层双向};
+\node[above] at (7,3.5) {\small 84.3};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[观察]
+双向RNN通常比单向提升5-10个百分点
+\end{definition}
+
+
+\paragraph{实际应用案例}
+\begin{definition}[经典应用]
+\begin{enumerate}
+    \item \textbf{Google BERT (2018)}
+    \begin{itemize}
+        \item 实际是双向Transformer（概念类似）
+        \item 革命性地利用了双向信息
+    \end{itemize}
+    
+    \item \textbf{ELMo (2018)}
+    \begin{itemize}
+        \item 双向LSTM语言模型
+        \item 前向和后向独立训练再组合
+    \end{itemize}
+    
+    \item \textbf{BiLSTM-CRF (NER标准架构)}
+    \begin{itemize}
+        \item 双向LSTM编码
+        \item CRF层解码
+        \item NER任务的标准选择
+    \end{itemize}
+    
+    \item \textbf{机器翻译的编码器}
+    \begin{itemize}
+        \item 几乎都用双向RNN
+        \item 充分理解源语言
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+
+\paragraph{双向RNN的变体}
+\begin{definition}[改进的双向架构]
+\begin{enumerate}
+    \item \textbf{深度双向RNN}
+    \begin{itemize}
+        \item 垂直堆叠多层双向RNN
+        \item 每层都是双向
+    \end{itemize}
+    
+    \item \textbf{单向+双向混合}
+    \begin{itemize}
+        \item 底层：双向（捕捉上下文）
+        \item 顶层：单向（任务特定）
+    \end{itemize}
+    
+    \item \textbf{不对称双向}
+    \begin{itemize}
+        \item 前向层：标准LSTM
+        \item 后向层：简化版（节省计算）
+    \end{itemize}
+    
+    \item \textbf{延迟后向}
+    \begin{itemize}
+        \item 前向实时处理
+        \item 后向延迟几步（平衡实时性和效果）
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+
+\section{9.5 机器翻译与数据集}
+
+\subsection{9.5 机器翻译与数据集}
+\begin{center}
+\Large \textcolor{blue}{Machine Translation}\\
+\large 序列到序列学习的经典应用
+\end{center}
+
+
+\subsection{9.5节 - 章节导航}
+\begin{definition}[本节内容]
+\begin{itemize}
+    \item 9.5.1 机器翻译简介
+    \item 9.5.2 数据集下载与预处理
+    \item 9.5.3 词表构建
+    \item 9.5.4 数据加载器
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[学习目标]
+\begin{enumerate}
+    \item 理解机器翻译的挑战
+    \item 掌握双语数据集的处理
+    \item 学会构建源语言和目标语言词表
+    \item 实现序列对的批量加载
+\end{enumerate}
+\end{theorem}
+
+
+

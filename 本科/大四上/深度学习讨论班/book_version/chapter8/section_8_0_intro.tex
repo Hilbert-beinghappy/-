@@ -1,0 +1,147 @@
+\section{引言}
+
+    \titlepage
+    \begin{figure}[htpb]
+        \begin{center}
+            \includegraphics[width=0.4\linewidth]{pic/fzu-logo.png}
+        \end{center}
+    \end{figure}
+
+
+
+
+
+\subsection{8.1 序列模型 - 完整导航}
+\begin{definition}[本节内容结构]
+\begin{itemize}
+    \item 8.1.1 统计工具
+    \item 8.1.2 训练
+    \item 8.1.3 预测
+    \item 8.1.4 小结
+
+\end{itemize}
+\end{definition}
+
+
+
+
+% ==================== 引入 ====================
+\paragraph{开场：什么是序列？}
+
+
+\textbf{生活中的序列无处不在：}
+\begin{itemize}
+    \item  你说的每句话
+    \item  一首歌的旋律
+    \item  股票的价格变化
+    \item  每天的气温
+    \item  视频的每一帧
+    \item  聊天记录
+\end{itemize}
+
+
+\begin{theorem}[序列的特点]
+\begin{enumerate}
+    \item \textbf{有顺序}\\
+    "我爱你" $\neq$ "你爱我"
+    
+    \item \textbf{有依赖}\\
+    后面依赖前面的信息
+    
+    \item \textbf{变长}\\
+    长度不固定
+\end{enumerate}
+\end{theorem}
+
+
+\vspace{0.5cm}
+\begin{center}
+\Large \textcolor{red}{问题：如何用模型处理序列数据？}
+\end{center}
+
+
+% ==================== 传统方法的问题 ====================
+\paragraph{传统神经网络的局限}
+\textbf{标准全连接网络（MLP）：}
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+% 输入层
+\foreach \i in {1,2,3} {
+    \node[circle,draw,fill=green!30,minimum size=0.6cm] (i\i) at (0,\i*0.8) {};
+}
+\node[left] at (i2) {输入层};
+
+% 隐藏层
+\foreach \i in {1,2,3,4} {
+    \node[circle,draw,fill=blue!30,minimum size=0.6cm] (h\i) at (2,\i*0.6+0.2) {};
+}
+\node at (2,2.8) {隐藏层};
+
+% 输出层
+\foreach \i in {1,2} {
+    \node[circle,draw,fill=red!30,minimum size=0.6cm] (o\i) at (4,\i+0.5) {};
+}
+\node[right] at (4,2) {输出层};
+
+% 连接
+\foreach \i in {1,2,3} {
+    \foreach \j in {1,2,3,4} {
+        \draw[->,thin,gray] (i\i) -- (h\j);
+    }
+}
+\foreach \i in {1,2,3,4} {
+    \foreach \j in {1,2} {
+        \draw[->,thin,gray] (h\i) -- (o\j);
+    }
+}
+\end{tikzpicture}
+\end{center}
+
+\textbf{三大问题：}
+\begin{enumerate}
+    \item \text{×} \textbf{固定输入大小}：必须是固定维度的向量
+    \item \text{×} \textbf{无记忆能力}：每次输入独立处理，忘记历史
+    \item \text{×} \textbf{参数不共享}：处理序列不同位置用不同参数
+\end{enumerate}
+
+
+\paragraph{问题示例：预测明天的股价}
+\begin{center}
+\begin{tikzpicture}[scale=1.1]
+% 时间轴
+\draw[->,thick] (0,0) -- (9,0) node[right] {时间（天）};
+\draw[->,thick] (0,0) -- (0,3.5) node[above] {股价};
+
+% 画点和线
+\foreach \x/\y in {1/1.2, 2/1.5, 3/1.3, 4/1.8, 5/1.6, 6/2.0, 7/1.9} {
+    \fill[blue] (\x,\y) circle (3pt);
+    \node[below,font=\tiny] at (\x,0) {$x_{\x}$};
+}
+
+% 连线
+\draw[blue,thick] (1,1.2) -- (2,1.5) -- (3,1.3) -- (4,1.8) -- (5,1.6) -- (6,2.0) -- (7,1.9);
+
+% 今天
+\draw[red,very thick] (7,-0.2) -- (7,2.5);
+\node[red,below,font=\large] at (7,-0.3) {\textbf{今天}};
+
+% 明天
+\fill[green!60!black] (8,2.2) circle (3pt);
+\draw[green!60!black,thick,dashed] (7,1.9) -- (8,2.2);
+\node[green!60!black,below,font=\tiny] at (8,0) {$x_8$};
+\node[green!60!black,above,font=\large] at (8,2.5) {\textbf{预测？}};
+
+\end{tikzpicture}
+\end{center}
+
+\textbf{思考：如何预测 $x_8$（明天的价格）？}
+
+\begin{definition}[三种思路]
+\begin{enumerate}
+    \item 只看今天：$x_8 = f(x_7)$
+    \item 看最近几天：$x_8 = f(x_7, x_6, x_5)$
+    \item 看所有历史：$x_8 = f(x_7, x_6, \ldots, x_1)$
+\end{enumerate}
+\end{definition}
+
+

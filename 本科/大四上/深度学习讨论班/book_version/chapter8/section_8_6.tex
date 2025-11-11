@@ -1,0 +1,808 @@
+\section{未命名节}
+
+\subsection{定义模型}
+
+\subsection{8.6.1 定义模型}
+
+\subsection{8.6.1 定义模型}
+\begin{center}
+\Large \textcolor{blue}{使用\texttt{nn.RNN}构建模型}
+\end{center}
+
+
+\paragraph{PyTorch的RNN模块}
+\begin{lstlisting}
+import torch
+import torch.nn as nn
+
+# RNN
+rnn_layer = nn.RNN(
+    input_size=vocab_size,    #  commentdimension（vocabulary大小）
+    hidden_size=num_hiddens,  #  comment
+    num_layers=1,             # RNN层数
+    nonlinearity='tanh',      #  comment
+    batch_first=False         #  commentshape (seq, batch, feature)
+)
+
+vocab_size, num_hiddens = 28, 512
+rnn_layer = nn.RNN(vocab_size, num_hiddens)
+
+print(rnn_layer)
+# RNN(28, 512)
+\end{lstlisting}
+
+\begin{definition}[关键参数]
+\begin{itemize}
+    \item \texttt{input\_size}：每个时间步的输入特征数
+    \item \texttt{hidden\_size}：隐藏状态的维度
+    \item \texttt{num\_layers}：堆叠的RNN层数（默认1）
+\end{itemize}
+\end{definition}
+
+
+\paragraph{RNN层的输入输出}
+\begin{lstlisting}
+batch_size, num_steps = 2, 5
+X = torch.randn(num_steps, batch_size, vocab_size)  #  comment
+H = torch.zeros(1, batch_size, num_hiddens)  #  comment
+
+Y, H_new = rnn_layer(X, H)
+
+print(f"输入shape: {X.shape}")      # (5, 2, 28)
+print(f"Outputshape: {Y.shape}")      # (5, 2, 512)
+print(f"隐状态shape: {H_new.shape}")  # (1, 2, 512)
+\end{lstlisting}
+
+\begin{definition}[形状说明]
+\begin{itemize}
+    \item 输入：$(num\_steps, batch\_size, input\_size)$
+    \item 输出：$(num\_steps, batch\_size, hidden\_size)$
+    \item 隐状态：$(num\_layers, batch\_size, hidden\_size)$
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[注意]
+\texttt{batch\_first=False}时，第一个维度是时间步！
+\end{theorem}
+
+
+\paragraph{完整的RNN语言模型}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 模型结构
+\node[draw,fill=yellow!20,rounded corners,text width=10cm] at (5,4) {
+\textbf{输入层：}独热编码 $(T, B, V)$
+};
+
+\draw[->,thick] (5,3.6) -- (5,3.2);
+
+\node[draw,fill=blue!20,rounded corners,text width=10cm] at (5,2.8) {
+\textbf{RNN层：}处理序列 $(T, B, V) \rightarrow (T, B, H)$
+};
+
+\draw[->,thick] (5,2.4) -- (5,2);
+
+\node[draw,fill=green!20,rounded corners,text width=10cm] at (5,1.6) {
+\textbf{全连接层：}映射到词表 $(T \times B, H) \rightarrow (T \times B, V)$
+};
+
+\draw[->,thick] (5,1.2) -- (5,0.8);
+
+\node[draw,fill=red!20,rounded corners,text width=10cm] at (5,0.4) {
+\textbf{输出：}预测概率分布
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{RNN语言模型类定义}
+\begin{lstlisting}
+class RNNModel(nn.Module):
+    """RNNmodel"""
+    
+    def __init__(self, rnn_layer, vocab_size):
+        super(RNNModel, self).__init__()
+        self.rnn = rnn_layer
+        self.vocab_size = vocab_size
+        self.num_hiddens = self.rnn.hidden_size
+        
+        # Output -> vocabulary
+        self.linear = nn.Linear(self.num_hiddens, self.vocab_size)
+    
+    def forward(self, inputs, state):
+        """
+        inputs: (batch_size, num_steps) 索引
+        state: 隐状态
+        """
+        X = F.one_hot(inputs.T, self.vocab_size).type(torch.float32)
+        # X: (num_steps, batch_size, vocab_size)
+        
+        # RNN
+        Y, state = self.rnn(X, state)
+        # Y: (num_steps, batch_size, num_hiddens)
+        
+        output = self.linear(Y.reshape(-1, Y.shape[-1]))
+        # output: (num_steps * batch_size, vocab_size)
+        
+        return output, state
+\end{lstlisting}
+
+
+\paragraph{初始化隐状态}
+\begin{lstlisting}
+    def begin_state(self, batch_size, device):
+        """Simple function"""
+        if not isinstance(self.rnn, nn.LSTM):
+            # RNNGRU
+            return torch.zeros(
+                (self.rnn.num_layers, batch_size, self.num_hiddens),
+                device=device
+            )
+        else:
+            # LSTMhc
+            return (
+                torch.zeros(
+                    (self.rnn.num_layers, batch_size, self.num_hiddens),
+                    device=device
+                ),
+                torch.zeros(
+                    (self.rnn.num_layers, batch_size, self.num_hiddens),
+                    device=device
+                )
+            )
+\end{lstlisting}
+
+\begin{definition}[注意]
+\begin{itemize}
+    \item 隐状态形状：$(num\_layers, batch\_size, hidden\_size)$
+    \item 第一维是层数（支持多层RNN）
+\end{itemize}
+\end{definition}
+
+
+\paragraph{创建模型实例}
+\begin{lstlisting}
+# parameters
+vocab_size = 28
+num_hiddens = 512
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+# RNN
+rnn_layer = nn.RNN(vocab_size, num_hiddens)
+
+# model
+net = RNNModel(rnn_layer, vocab_size)
+net = net.to(device)
+
+# model
+print(net)
+
+# Output
+# RNNModel(
+#   (rnn): RNN(28, 512)
+#   (linear): Linear(in_features=512, out_features=28, bias=True)
+# )
+
+# parameters
+num_params = sum(p.numel() for p in net.parameters())
+print(f"parameters数量: {num_params}")
+# parameters: 291356
+\end{lstlisting}
+
+
+\paragraph{简洁实现 vs 从零实现对应关系}
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 从零实现
+\node[above] at (2,4) {\small 从零实现（8.5）};
+\node[draw,fill=yellow!20,text width=4cm,font=\small] at (2,3) {
+\texttt{W\_xh, W\_hh, b\_h}\\
+\texttt{W\_hq, b\_q}\\
+手动初始化参数
+};
+
+\node[draw,fill=orange!20,text width=4cm,font=\small] at (2,1.8) {
+\texttt{rnn(inputs, state, params)}\\
+手写前向传播
+};
+
+\node[draw,fill=green!20,text width=4cm,font=\small] at (2,0.6) {
+\texttt{init\_rnn\_state()}\\
+手动初始化隐状态
+};
+
+% 简洁实现
+\node[above] at (7.5,4) {\small 简洁实现（8.6）};
+\node[draw,fill=blue!20,text width=4cm,font=\small] at (7.5,3) {
+\texttt{nn.RNN()}\\
+自动管理参数
+};
+\node[draw,fill=blue!20,text width=4cm,font=\small] at (7.5,1.8) {
+\texttt{rnn\_layer(X, state)}\\
+自动前向传播
+};
+
+\node[draw,fill=blue!20,text width=4cm,font=\small] at (7.5,0.6) {
+\texttt{torch.zeros(...)}\\
+标准初始化
+};
+
+% 对应箭头
+\draw[<->,thick,red] (4.2,3) -- (5.3,3);
+\draw[<->,thick,red] (4.2,1.8) -- (5.3,1.8);
+\draw[<->,thick,red] (4.2,0.6) -- (5.3,0.6);
+
+\node[below,text width=9cm,align=center] at (4.8,-0.5) {
+\small 简洁实现封装了从零实现的所有细节
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{PyTorch RNN的参数管理}
+\textbf{查看RNN层的参数：}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+\node[draw,fill=yellow!20,text width=10cm,font=\small] at (5,3) {
+\textbf{nn.RNN内部参数（自动管理）：}\\
+- \texttt{weight\_ih\_l0}: 输入到隐藏 $(input\_size, hidden\_size)$\\
+- \texttt{weight\_hh\_l0}: 隐藏到隐藏 $(hidden\_size, hidden\_size)$\\
+- \texttt{bias\_ih\_l0}: 输入偏置 $(hidden\_size,)$\\
+- \texttt{bias\_hh\_l0}: 隐藏偏置 $(hidden\_size,)$
+};
+
+\draw[->,thick] (5,2.4) -- (5,2);
+
+\node[draw,fill=green!20,text width=10cm,font=\small] at (5,1.3) {
+\textbf{对应关系：}\\
+\texttt{weight\_ih} $\approx$ $\mathbf{W}_{xh}^T$ (转置！)\\
+\texttt{weight\_hh} $\approx$ $\mathbf{W}_{hh}^T$\\
+\texttt{bias\_ih + bias\_hh} $\approx$ $\mathbf{b}_h$
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[注意]
+PyTorch使用转置的权重矩阵以优化计算
+\end{theorem}
+
+
+\paragraph{查看模型参数}
+\begin{lstlisting}
+# RNNparameters
+for name, param in net.rnn.named_parameters():
+    print(f"{name}: {param.shape}")
+
+# Output
+# weight_ih_l0: torch.Size([512, 28])
+# weight_hh_l0: torch.Size([512, 512])
+# bias_ih_l0: torch.Size([512])
+# bias_hh_l0: torch.Size([512])
+
+# parameters
+for name, param in net.linear.named_parameters():
+    print(f"{name}: {param.shape}")
+
+# Output
+# weight: torch.Size([28, 512])
+# bias: torch.Size([28])
+\end{lstlisting}
+
+\begin{definition}[参数总量]
+$(512 \times 28) + (512 \times 512) + 512 + 512 + (28 \times 512) + 28 = 291,356$
+\end{definition}
+
+
+\paragraph{多层RNN}
+\textbf{堆叠多个RNN层：}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 单层
+\node[left] at (-0.5,3) {\small 单层};
+\foreach \i in {0,1,2,3} {
+    \node[circle,draw,fill=blue!20,minimum size=0.6cm] at (\i*1.5,3) {};
+}
+\node[above,font=\tiny] at (1.5,3.4) {RNN Layer 1};
+
+% 双层
+\node[left] at (-0.5,1.5) {\small 双层};
+\foreach \i in {0,1,2,3} {
+    \node[circle,draw,fill=blue!20,minimum size=0.6cm] (l1\i) at (\i*1.5,1.5) {};
+    \node[circle,draw,fill=green!20,minimum size=0.6cm] (l2\i) at (\i*1.5,0.5) {};
+}
+\node[above,font=\tiny] at (1.5,1.9) {Layer 2};
+\node[above,font=\tiny] at (1.5,0.9) {Layer 1};
+
+% 连接
+\foreach \i in {0,1,2,3} {
+    \draw[->,thick] (l2\i) -- (l1\i);
+}
+\foreach \i in {0,1,2} {
+    \pgfmathtruncatemacro{\next}{\i+1}
+    \draw[->,thick,blue] (l1\i) -- (l1\next);
+    \draw[->,thick,blue] (l2\i) -- (l2\next);
+}
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{创建多层RNN}
+\begin{lstlisting}
+# RNN
+rnn_single = nn.RNN(vocab_size, num_hiddens, num_layers=1)
+
+# RNN
+rnn_double = nn.RNN(vocab_size, num_hiddens, num_layers=2)
+
+# RNN
+rnn_triple = nn.RNN(vocab_size, num_hiddens, num_layers=3)
+
+# parameters
+print(f"单层parameters: {sum(p.numel() for p in rnn_single.parameters())}")
+print(f"双层parameters: {sum(p.numel() for p in rnn_double.parameters())}")
+print(f"三层parameters: {sum(p.numel() for p in rnn_triple.parameters())}")
+
+# Output
+# parameters: 277504
+# parameters: 540160  ()
+# parameters: 802816
+\end{lstlisting}
+
+\begin{theorem}[注意]
+层数越多，参数越多，但也更容易过拟合
+\end{theorem}
+
+
+
+\subsection{训练与预测}
+
+\subsection{8.6.2 训练与预测}
+
+\subsection{8.6.2 训练与预测}
+\begin{center}
+\Large \textcolor{blue}{使用简洁实现训练RNN}
+\end{center}
+
+
+\paragraph{训练流程对比}
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+% 从零实现
+\node[above] at (2,4.5) {\small 从零实现};
+\node[draw,fill=yellow!20,text width=4cm,font=\tiny] at (2,3.5) {
+手动独热编码\\
+手动矩阵乘法\\
+手动梯度裁剪\\
+自定义优化器
+};
+
+% 简洁实现
+\node[above] at (8,4.5) {\small 简洁实现};
+\node[draw,fill=green!20,text width=4cm,font=\tiny] at (8,3.5) {
+\texttt{F.one\_hot()}自动编码\\
+\texttt{rnn\_layer()}自动计算\\
+\texttt{nn.utils.clip\_grad}裁剪\\
+\texttt{torch.optim}优化器
+};
+
+% 共同部分
+\node[draw,fill=blue!20,text width=9cm] at (5,2) {
+\textbf{共同点：}\\
+- 相同的损失函数（交叉熵）\\
+- 相同的训练循环\\
+- 相同的评估指标（困惑度）
+};
+
+% 箭头
+\draw[->,thick] (2,3) -- (2,2.5);
+\draw[->,thick] (8,3) -- (8,2.5);
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{训练一个epoch（简洁版）}
+\begin{lstlisting}
+def train_epoch_ch8(net, train_iter, loss, updater, device, 
+                    use_random_iter):
+    """trainingepoch"""
+    state = None
+    metric = Accumulator(2)
+    
+    for X, Y in train_iter:
+        if state is None or use_random_iter:
+            state = net.begin_state(batch_size=X.shape[0], device=device)
+        else:
+            if isinstance(net, nn.Module) and not isinstance(state, tuple):
+                state.detach_()
+            else:
+                state = tuple(s.detach() for s in state)
+        
+        y = Y.T.reshape(-1)
+        X, y = X.to(device), y.to(device)
+        y_hat, state = net(X, state)
+        
+        # loss
+        l = loss(y_hat, y).mean()
+        
+        updater.zero_grad()
+        l.backward()
+        grad_clipping(net, 1)  # comment
+        updater.step()
+        
+        metric.add(l * y.numel(), y.numel())
+    
+    return math.exp(metric[0] / metric[1])
+\end{lstlisting}
+
+
+\paragraph{梯度裁剪（简洁版）}
+\begin{lstlisting}
+def grad_clipping(net, theta):
+    """PyTorch"""
+    if isinstance(net, nn.Module):
+        # 1clip_grad_norm_
+        params = [p for p in net.parameters() if p.requires_grad]
+        norm = torch.nn.utils.clip_grad_norm_(params, theta)
+    else:
+        # 2
+        norm = torch.sqrt(sum(torch.sum((p.grad ** 2)) 
+                             for p in net.params))
+        if norm > theta:
+            for param in net.params:
+                param.grad[:] *= theta / norm
+    return norm
+\end{lstlisting}
+
+\begin{definition}[PyTorch内置方法]
+\texttt{torch.nn.utils.clip\_grad\_norm\_}自动处理所有参数的梯度裁剪
+\end{definition}
+
+
+\paragraph{完整训练函数}
+\begin{lstlisting}
+def train_ch8(net, train_iter, vocab, lr, num_epochs, device,
+              use_random_iter=False):
+    """trainingmodel（）"""
+    loss = nn.CrossEntropyLoss()
+    
+    # optimizer
+    if isinstance(net, nn.Module):
+        updater = torch.optim.SGD(net.parameters(), lr)
+    else:
+        updater = lambda batch_size: sgd(net.params, lr, batch_size)
+    
+    # prediction
+    predict = lambda prefix: predict_ch8(prefix, 50, net, vocab, device)
+    
+    # training
+    for epoch in range(num_epochs):
+        ppl = train_epoch_ch8(net, train_iter, loss, updater,
+                             device, use_random_iter)
+        
+        if (epoch + 1) % 10 == 0:
+            print(f'epoch {epoch + 1}, 困惑度 {ppl:.1f}')
+            print(predict('time traveller'))
+    
+    print(f'困惑度 {ppl:.1f}')
+    print(predict('time traveller'))
+    print(predict('traveller'))
+\end{lstlisting}
+
+
+\paragraph{运行训练}
+\begin{lstlisting}
+# parameters
+num_epochs = 500
+lr = 1
+batch_size = 32
+num_steps = 35
+num_hiddens = 512
+
+# data
+train_iter, vocab = load_data_time_machine(batch_size, num_steps)
+
+# model
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+rnn_layer = nn.RNN(len(vocab), num_hiddens)
+net = RNNModel(rnn_layer, len(vocab))
+net = net.to(device)
+
+# training
+train_ch8(net, train_iter, vocab, lr, num_epochs, device)
+\end{lstlisting}
+
+\textbf{训练输出：}
+\begin{verbatim}
+epoch 10, 困惑度 15.3
+time traveller the the the the the the...
+epoch 500, 困惑度 1.2
+time traveller smiled round at us then still smiling
+\end{verbatim}
+
+
+\paragraph{简洁实现的优势}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 优势1
+\node[draw,fill=green!20,rounded corners,text width=10cm] at (5,3.8) {
+\textbf{1. 代码简洁}\\
+RNN定义只需1行：\texttt{nn.RNN(input\_size, hidden\_size)}\\
+vs 从零实现需要30+行
+};
+
+% 优势2
+\node[draw,fill=blue!20,rounded corners,text width=10cm] at (5,2.5) {
+\textbf{2. 高度优化}\\
+- 使用cuDNN加速（GPU上）\\
+- 内存优化的反向传播\\
+- 自动混合精度支持
+};
+
+% 优势3
+\node[draw,fill=orange!20,rounded corners,text width=10cm] at (5,1.2) {
+\textbf{3. 功能丰富}\\
+- 双向RNN：\texttt{bidirectional=True}\\
+- Dropout：\texttt{dropout=0.5}\\
+- 多层堆叠：\texttt{num\_layers=3}
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{双向RNN}
+\begin{lstlisting}
+# RNN
+rnn_layer = nn.RNN(
+    input_size=vocab_size, 
+    hidden_size=num_hiddens,
+    bidirectional=True  #  comment
+)
+
+# Outputdimension 2 * hidden_size
+print(f"隐藏层Outputdimension: {rnn_layer.hidden_size * 2}")
+# Outputdimension: 1024
+
+# dimension
+net.linear = nn.Linear(num_hiddens * 2, vocab_size)
+\end{lstlisting}
+
+\begin{definition}[双向RNN原理]
+\begin{itemize}
+    \item 同时从前向后和从后向前处理序列
+    \item 捕捉双向的上下文信息
+    \item 适合分类任务，不适合生成任务
+\end{itemize}
+\end{definition}
+
+
+\paragraph{添加Dropout}
+\begin{lstlisting}
+# DropoutRNN
+rnn_layer = nn.RNN(
+    input_size=vocab_size, 
+    hidden_size=num_hiddens,
+    num_layers=2,      #  comment
+    dropout=0.5        # Dropout比例
+)
+
+# Dropout
+# 1 -> Dropout -> 2
+\end{lstlisting}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+\node[draw,fill=blue!20,minimum size=0.8cm] (l1) at (0,2) {Layer 1};
+\node[draw,fill=red!20,minimum size=0.8cm] (d) at (0,1) {Dropout};
+\node[draw,fill=blue!20,minimum size=0.8cm] (l2) at (0,0) {Layer 2};
+
+\draw[->,thick] (l1) -- (d);
+\draw[->,thick] (d) -- (l2);
+
+\node[right,text width=4cm,font=\small] at (1.5,1) {
+随机丢弃部分神经元\\
+防止过拟合
+};
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{性能对比}
+\begin{center}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{指标} & \textbf{从零实现} & \textbf{简洁实现} & \textbf{对比} \\
+\hline
+代码行数 & $\sim$200 & $\sim$50 & 4倍 \\
+\hline
+训练速度 & 5000 词/秒 & 12000 词/秒 & 2.4倍 \\
+\hline
+GPU加速 & 手动优化 & cuDNN自动 & 更快 \\
+\hline
+内存占用 & 较高 & 优化 & 更少 \\
+\hline
+易用性 & 复杂 & 简单 & 更易 \\
+\hline
+可定制性 & 高 & 中等 & 受限 \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+\begin{theorem}[建议]
+\begin{itemize}
+    \item 学习阶段：从零实现（理解原理）
+    \item 实际项目：简洁实现（高效开发）
+\end{itemize}
+\end{theorem}
+
+
+\paragraph{预测函数（通用版）}
+\begin{lstlisting}
+def predict_ch8(prefix, num_preds, net, vocab, device):
+    """prediction（）"""
+    state = net.begin_state(batch_size=1, device=device)
+    outputs = [vocab[prefix[0]]]
+    
+    get_input = lambda: torch.tensor([outputs[-1]], device=device
+                                     ).reshape((1, 1))
+    
+    for y in prefix[1:]:
+        _, state = net(get_input(), state)
+        outputs.append(vocab[y])
+    
+    # prediction
+    for _ in range(num_preds):
+        y, state = net(get_input(), state)
+        outputs.append(int(y.argmax(dim=1).reshape(1)))
+    
+    return ''.join([vocab.idx_to_token[i] for i in outputs])
+
+print(predict_ch8('time traveller', 50, net, vocab, device))
+\end{lstlisting}
+
+
+\paragraph{简洁实现的完整流程}
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 流程
+\node[draw,fill=yellow!20,rounded corners,text width=9cm] at (5,4.5) {
+\textbf{1. 导入库}\\
+\texttt{import torch.nn as nn}
+};
+
+\draw[->,thick] (5,4.1) -- (5,3.7);
+
+\node[draw,fill=blue!20,rounded corners,text width=9cm] at (5,3.3) {
+\textbf{2. 创建RNN层}\\
+\texttt{rnn\_layer = nn.RNN(vocab\_size, num\_hiddens)}
+};
+
+\draw[->,thick] (5,2.9) -- (5,2.5);
+
+\node[draw,fill=green!20,rounded corners,text width=9cm] at (5,2.1) {
+\textbf{3. 封装为模型}\\
+\texttt{net = RNNModel(rnn\_layer, vocab\_size)}
+};
+
+\draw[->,thick] (5,1.7) -- (5,1.3);
+
+\node[draw,fill=orange!20,rounded corners,text width=9cm] at (5,0.9) {
+\textbf{4. 训练}\\
+\texttt{train\_ch8(net, train\_iter, vocab, lr, epochs, device)}
+};
+
+\draw[->,thick] (5,0.5) -- (5,0.1);
+
+\node[draw,fill=red!20,rounded corners,text width=9cm] at (5,-0.3) {
+\textbf{5. 预测}\\
+\texttt{predict\_ch8('prefix', 50, net, vocab, device)}
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{实用技巧}
+\begin{definition}[1. 模型保存与加载]
+\begin{lstlisting}[basicstyle=\ttfamily\tiny]
+torch.save(net.state_dict(), 'rnn_model.pth')
+
+net.load_state_dict(torch.load('rnn_model.pth'))
+net.eval()  #  comment
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[2. 使用更好的优化器]
+\begin{lstlisting}[basicstyle=\ttfamily\tiny]
+# Adamoptimizer
+optimizer = torch.optim.Adam(net.parameters(), lr=0.001)
+
+# learning rate
+scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=100, gamma=0.1)
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[3. 早停（Early Stopping）]
+\begin{lstlisting}[basicstyle=\ttfamily\tiny]
+best_ppl = float('inf')
+patience = 0
+
+if val_ppl < best_ppl:
+    best_ppl = val_ppl
+    torch.save(net.state_dict(), 'best_model.pth')
+    patience = 0
+else:
+    patience += 1
+    if patience > 20:
+        break  #  comment
+\end{lstlisting}
+\end{definition}
+
+\section{8.7 通过时间反向传播}
+
+\subsection{8.7 通过时间反向传播（BPTT）}
+\begin{center}
+\Large \textcolor{blue}{深入理解RNN的梯度计算}
+\end{center}
+
+
+\subsection{8.7节 - 章节导航}
+\begin{definition}[本节内容]
+\begin{itemize}
+    \item 8.7.1 循环神经网络的梯度分析
+    \item 8.7.2 通过时间反向传播的细节
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[学习目标]
+\begin{enumerate}
+    \item 理解BPTT算法的原理
+    \item 掌握RNN梯度的数学推导
+    \item 理解梯度消失/爆炸的根源
+    \item 了解截断BPTT的必要性
+\end{enumerate}
+\end{theorem}
+
+
+\paragraph{为什么需要学习BPTT？}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 问题
+\node[draw,fill=red!20,rounded corners,text width=10cm] at (5,3.5) {
+\textbf{RNN训练中的问题：}\\
+$\times$ 梯度爆炸：损失突然变为NaN\\
+$\times$ 梯度消失：长期依赖学不到\\
+$\times$ 训练不稳定：需要仔细调参
+};
+
+\draw[->,ultra thick] (5,3) -- (5,2.5);
+\node[right] at (5.5,2.75) {为什么？};
+
+% 原因
+\node[draw,fill=blue!20,rounded corners,text width=10cm] at (5,1.8) {
+\textbf{根源：RNN的梯度计算方式}\\
+通过时间反向传播（BPTT）导致梯度在长序列上累积或衰减
+};
+
+\draw[->,ultra thick] (5,1.3) -- (5,0.8);
+
+% 解决
+\node[draw,fill=green!20,rounded corners,text width=10cm] at (5,0.3) {
+\textbf{理解BPTT后才能：}\\
+$\checkmark$ 知道为何需要梯度裁剪\\
+$\checkmark$ 理解LSTM的设计动机
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+

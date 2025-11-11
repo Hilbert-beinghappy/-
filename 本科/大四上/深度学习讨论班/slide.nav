@@ -1,0 +1,609 @@
+\headcommand {\slideentry {0}{0}{1}{1/1}{}{0}}
+\headcommand {\beamer@framepages {1}{1}}
+\headcommand {\slideentry {0}{0}{2}{2/2}{}{0}}
+\headcommand {\beamer@framepages {2}{2}}
+\headcommand {\slideentry {0}{0}{3}{3/3}{}{0}}
+\headcommand {\beamer@framepages {3}{3}}
+\headcommand {\slideentry {0}{0}{4}{4/4}{}{0}}
+\headcommand {\beamer@framepages {4}{4}}
+\headcommand {\slideentry {0}{0}{5}{5/5}{}{0}}
+\headcommand {\beamer@framepages {5}{5}}
+\headcommand {\slideentry {0}{0}{6}{6/6}{}{0}}
+\headcommand {\beamer@framepages {6}{6}}
+\headcommand {\beamer@sectionpages {1}{6}}
+\headcommand {\beamer@subsectionpages {1}{6}}
+\headcommand {\sectionentry {1}{ 统计工具}{7}{ 统计工具}{0}}
+\headcommand {\slideentry {1}{0}{1}{7/7}{}{0}}
+\headcommand {\beamer@framepages {7}{7}}
+\headcommand {\slideentry {1}{0}{2}{8/8}{}{0}}
+\headcommand {\beamer@framepages {8}{8}}
+\headcommand {\slideentry {1}{0}{3}{9/9}{}{0}}
+\headcommand {\beamer@framepages {9}{9}}
+\headcommand {\slideentry {1}{0}{4}{10/10}{}{0}}
+\headcommand {\beamer@framepages {10}{10}}
+\headcommand {\slideentry {1}{0}{5}{11/11}{}{0}}
+\headcommand {\beamer@framepages {11}{11}}
+\headcommand {\slideentry {1}{0}{6}{12/12}{}{0}}
+\headcommand {\beamer@framepages {12}{12}}
+\headcommand {\slideentry {1}{0}{7}{13/13}{}{0}}
+\headcommand {\beamer@framepages {13}{13}}
+\headcommand {\slideentry {1}{0}{8}{14/14}{}{0}}
+\headcommand {\beamer@framepages {14}{14}}
+\headcommand {\beamer@sectionpages {7}{14}}
+\headcommand {\beamer@subsectionpages {7}{14}}
+\headcommand {\sectionentry {2}{8.1.2 训练}{15}{8.1.2 训练}{0}}
+\headcommand {\slideentry {2}{0}{1}{15/15}{}{0}}
+\headcommand {\beamer@framepages {15}{15}}
+\headcommand {\slideentry {2}{0}{2}{16/16}{}{0}}
+\headcommand {\beamer@framepages {16}{16}}
+\headcommand {\slideentry {2}{0}{3}{17/17}{}{0}}
+\headcommand {\beamer@framepages {17}{17}}
+\headcommand {\slideentry {2}{0}{4}{18/18}{}{0}}
+\headcommand {\beamer@framepages {18}{18}}
+\headcommand {\slideentry {2}{0}{5}{19/19}{}{0}}
+\headcommand {\beamer@framepages {19}{19}}
+\headcommand {\beamer@sectionpages {15}{19}}
+\headcommand {\beamer@subsectionpages {15}{19}}
+\headcommand {\sectionentry {3}{8.1.3 预测}{20}{8.1.3 预测}{0}}
+\headcommand {\slideentry {3}{0}{1}{20/20}{}{0}}
+\headcommand {\beamer@framepages {20}{20}}
+\headcommand {\slideentry {3}{0}{2}{21/21}{}{0}}
+\headcommand {\beamer@framepages {21}{21}}
+\headcommand {\slideentry {3}{0}{3}{22/22}{}{0}}
+\headcommand {\beamer@framepages {22}{22}}
+\headcommand {\slideentry {3}{0}{4}{23/23}{}{0}}
+\headcommand {\beamer@framepages {23}{23}}
+\headcommand {\slideentry {3}{0}{5}{24/24}{}{0}}
+\headcommand {\beamer@framepages {24}{24}}
+\headcommand {\slideentry {3}{0}{6}{25/25}{}{0}}
+\headcommand {\beamer@framepages {25}{25}}
+\headcommand {\slideentry {3}{0}{7}{26/26}{}{0}}
+\headcommand {\beamer@framepages {26}{26}}
+\headcommand {\slideentry {3}{0}{8}{27/27}{}{0}}
+\headcommand {\beamer@framepages {27}{27}}
+\headcommand {\slideentry {3}{0}{9}{28/28}{}{0}}
+\headcommand {\beamer@framepages {28}{28}}
+\headcommand {\slideentry {3}{0}{10}{29/29}{}{0}}
+\headcommand {\beamer@framepages {29}{29}}
+\headcommand {\slideentry {3}{0}{11}{30/30}{}{0}}
+\headcommand {\beamer@framepages {30}{30}}
+\headcommand {\beamer@sectionpages {20}{30}}
+\headcommand {\beamer@subsectionpages {20}{30}}
+\headcommand {\sectionentry {4}{8.2 文本预处理}{31}{8.2 文本预处理}{0}}
+\headcommand {\slideentry {4}{0}{1}{31/31}{}{0}}
+\headcommand {\beamer@framepages {31}{31}}
+\headcommand {\slideentry {4}{0}{2}{32/32}{}{0}}
+\headcommand {\beamer@framepages {32}{32}}
+\headcommand {\slideentry {4}{0}{3}{33/33}{}{0}}
+\headcommand {\beamer@framepages {33}{33}}
+\headcommand {\beamer@subsectionpages {31}{33}}
+\headcommand {\beamer@subsectionentry {0}{4}{1}{34}{8.2.1 读取数据集}}
+\headcommand {\slideentry {4}{1}{1}{34/34}{8.2.1 读取数据集}{0}}
+\headcommand {\beamer@framepages {34}{34}}
+\headcommand {\slideentry {4}{1}{2}{35/35}{8.2.1 读取数据集}{0}}
+\headcommand {\beamer@framepages {35}{35}}
+\headcommand {\slideentry {4}{1}{3}{36/36}{8.2.1 读取数据集}{0}}
+\headcommand {\beamer@framepages {36}{36}}
+\headcommand {\slideentry {4}{1}{4}{37/37}{8.2.1 读取数据集}{0}}
+\headcommand {\beamer@framepages {37}{37}}
+\headcommand {\slideentry {4}{1}{5}{38/38}{8.2.1 读取数据集}{0}}
+\headcommand {\beamer@framepages {38}{38}}
+\headcommand {\slideentry {4}{1}{6}{39/39}{8.2.1 读取数据集}{0}}
+\headcommand {\beamer@framepages {39}{39}}
+\headcommand {\slideentry {4}{1}{7}{40/40}{8.2.1 读取数据集}{0}}
+\headcommand {\beamer@framepages {40}{40}}
+\headcommand {\slideentry {4}{1}{8}{41/41}{8.2.1 读取数据集}{0}}
+\headcommand {\beamer@framepages {41}{41}}
+\headcommand {\slideentry {4}{1}{9}{42/42}{8.2.1 读取数据集}{0}}
+\headcommand {\beamer@framepages {42}{42}}
+\headcommand {\beamer@subsectionpages {34}{42}}
+\headcommand {\beamer@subsectionentry {0}{4}{2}{43}{8.2.2 词元化}}
+\headcommand {\slideentry {4}{2}{1}{43/43}{8.2.2 词元化}{0}}
+\headcommand {\beamer@framepages {43}{43}}
+\headcommand {\slideentry {4}{2}{2}{44/44}{8.2.2 词元化}{0}}
+\headcommand {\beamer@framepages {44}{44}}
+\headcommand {\slideentry {4}{2}{3}{45/45}{8.2.2 词元化}{0}}
+\headcommand {\beamer@framepages {45}{45}}
+\headcommand {\slideentry {4}{2}{4}{46/46}{8.2.2 词元化}{0}}
+\headcommand {\beamer@framepages {46}{46}}
+\headcommand {\slideentry {4}{2}{5}{47/47}{8.2.2 词元化}{0}}
+\headcommand {\beamer@framepages {47}{47}}
+\headcommand {\slideentry {4}{2}{6}{48/48}{8.2.2 词元化}{0}}
+\headcommand {\beamer@framepages {48}{48}}
+\headcommand {\slideentry {4}{2}{7}{49/49}{8.2.2 词元化}{0}}
+\headcommand {\beamer@framepages {49}{49}}
+\headcommand {\slideentry {4}{2}{8}{50/50}{8.2.2 词元化}{0}}
+\headcommand {\beamer@framepages {50}{50}}
+\headcommand {\slideentry {4}{2}{9}{51/51}{8.2.2 词元化}{0}}
+\headcommand {\beamer@framepages {51}{51}}
+\headcommand {\slideentry {4}{2}{10}{52/52}{8.2.2 词元化}{0}}
+\headcommand {\beamer@framepages {52}{52}}
+\headcommand {\slideentry {4}{2}{11}{53/53}{8.2.2 词元化}{0}}
+\headcommand {\beamer@framepages {53}{53}}
+\headcommand {\slideentry {4}{2}{12}{54/54}{8.2.2 词元化}{0}}
+\headcommand {\beamer@framepages {54}{54}}
+\headcommand {\beamer@subsectionpages {43}{54}}
+\headcommand {\beamer@subsectionentry {0}{4}{3}{55}{8.2.3 词表}}
+\headcommand {\slideentry {4}{3}{1}{55/55}{8.2.3 词表}{0}}
+\headcommand {\beamer@framepages {55}{55}}
+\headcommand {\slideentry {4}{3}{2}{56/56}{8.2.3 词表}{0}}
+\headcommand {\beamer@framepages {56}{56}}
+\headcommand {\slideentry {4}{3}{3}{57/57}{8.2.3 词表}{0}}
+\headcommand {\beamer@framepages {57}{57}}
+\headcommand {\slideentry {4}{3}{4}{58/58}{8.2.3 词表}{0}}
+\headcommand {\beamer@framepages {58}{58}}
+\headcommand {\slideentry {4}{3}{5}{59/59}{8.2.3 词表}{0}}
+\headcommand {\beamer@framepages {59}{59}}
+\headcommand {\slideentry {4}{3}{6}{60/60}{8.2.3 词表}{0}}
+\headcommand {\beamer@framepages {60}{60}}
+\headcommand {\slideentry {4}{3}{7}{61/61}{8.2.3 词表}{0}}
+\headcommand {\beamer@framepages {61}{61}}
+\headcommand {\slideentry {4}{3}{8}{62/62}{8.2.3 词表}{0}}
+\headcommand {\beamer@framepages {62}{62}}
+\headcommand {\slideentry {4}{3}{9}{63/63}{8.2.3 词表}{0}}
+\headcommand {\beamer@framepages {63}{63}}
+\headcommand {\slideentry {4}{3}{10}{64/64}{8.2.3 词表}{0}}
+\headcommand {\beamer@framepages {64}{64}}
+\headcommand {\slideentry {4}{3}{11}{65/65}{8.2.3 词表}{0}}
+\headcommand {\beamer@framepages {65}{65}}
+\headcommand {\beamer@subsectionpages {55}{65}}
+\headcommand {\beamer@subsectionentry {0}{4}{4}{66}{8.2.4 整合所有功能}}
+\headcommand {\slideentry {4}{4}{1}{66/66}{8.2.4 整合所有功能}{0}}
+\headcommand {\beamer@framepages {66}{66}}
+\headcommand {\slideentry {4}{4}{2}{67/67}{8.2.4 整合所有功能}{0}}
+\headcommand {\beamer@framepages {67}{67}}
+\headcommand {\slideentry {4}{4}{3}{68/68}{8.2.4 整合所有功能}{0}}
+\headcommand {\beamer@framepages {68}{68}}
+\headcommand {\slideentry {4}{4}{4}{69/69}{8.2.4 整合所有功能}{0}}
+\headcommand {\beamer@framepages {69}{69}}
+\headcommand {\slideentry {4}{4}{5}{70/70}{8.2.4 整合所有功能}{0}}
+\headcommand {\beamer@framepages {70}{70}}
+\headcommand {\slideentry {4}{4}{6}{71/71}{8.2.4 整合所有功能}{0}}
+\headcommand {\beamer@framepages {71}{71}}
+\headcommand {\slideentry {4}{4}{7}{72/72}{8.2.4 整合所有功能}{0}}
+\headcommand {\beamer@framepages {72}{72}}
+\headcommand {\slideentry {4}{4}{8}{73/73}{8.2.4 整合所有功能}{0}}
+\headcommand {\beamer@framepages {73}{73}}
+\headcommand {\slideentry {4}{4}{9}{74/74}{8.2.4 整合所有功能}{0}}
+\headcommand {\beamer@framepages {74}{74}}
+\headcommand {\slideentry {4}{4}{10}{75/75}{8.2.4 整合所有功能}{0}}
+\headcommand {\beamer@framepages {75}{75}}
+\headcommand {\slideentry {4}{4}{11}{76/76}{8.2.4 整合所有功能}{0}}
+\headcommand {\beamer@framepages {76}{76}}
+\headcommand {\slideentry {4}{4}{12}{77/77}{8.2.4 整合所有功能}{0}}
+\headcommand {\beamer@framepages {77}{77}}
+\headcommand {\beamer@sectionpages {31}{77}}
+\headcommand {\beamer@subsectionpages {66}{77}}
+\headcommand {\sectionentry {5}{8.3 语言模型和数据集}{78}{8.3 语言模型和数据集}{0}}
+\headcommand {\slideentry {5}{0}{1}{78/78}{}{0}}
+\headcommand {\beamer@framepages {78}{78}}
+\headcommand {\slideentry {5}{0}{2}{79/79}{}{0}}
+\headcommand {\beamer@framepages {79}{79}}
+\headcommand {\beamer@subsectionpages {78}{79}}
+\headcommand {\beamer@subsectionentry {0}{5}{1}{80}{8.3.1 学习语言模型}}
+\headcommand {\slideentry {5}{1}{1}{80/80}{8.3.1 学习语言模型}{0}}
+\headcommand {\beamer@framepages {80}{80}}
+\headcommand {\slideentry {5}{1}{2}{81/81}{8.3.1 学习语言模型}{0}}
+\headcommand {\beamer@framepages {81}{81}}
+\headcommand {\slideentry {5}{1}{3}{82/82}{8.3.1 学习语言模型}{0}}
+\headcommand {\beamer@framepages {82}{82}}
+\headcommand {\slideentry {5}{1}{4}{83/83}{8.3.1 学习语言模型}{0}}
+\headcommand {\beamer@framepages {83}{83}}
+\headcommand {\slideentry {5}{1}{5}{84/84}{8.3.1 学习语言模型}{0}}
+\headcommand {\beamer@framepages {84}{84}}
+\headcommand {\slideentry {5}{1}{6}{85/85}{8.3.1 学习语言模型}{0}}
+\headcommand {\beamer@framepages {85}{85}}
+\headcommand {\slideentry {5}{1}{7}{86/86}{8.3.1 学习语言模型}{0}}
+\headcommand {\beamer@framepages {86}{86}}
+\headcommand {\slideentry {5}{1}{8}{87/87}{8.3.1 学习语言模型}{0}}
+\headcommand {\beamer@framepages {87}{87}}
+\headcommand {\slideentry {5}{1}{9}{88/88}{8.3.1 学习语言模型}{0}}
+\headcommand {\beamer@framepages {88}{88}}
+\headcommand {\beamer@subsectionpages {80}{88}}
+\headcommand {\beamer@subsectionentry {0}{5}{2}{89}{8.3.2 马尔可夫模型与元语法}}
+\headcommand {\slideentry {5}{2}{1}{89/89}{8.3.2 马尔可夫模型与元语法}{0}}
+\headcommand {\beamer@framepages {89}{89}}
+\headcommand {\slideentry {5}{2}{2}{90/90}{8.3.2 马尔可夫模型与元语法}{0}}
+\headcommand {\beamer@framepages {90}{90}}
+\headcommand {\slideentry {5}{2}{3}{91/91}{8.3.2 马尔可夫模型与元语法}{0}}
+\headcommand {\beamer@framepages {91}{91}}
+\headcommand {\slideentry {5}{2}{4}{92/92}{8.3.2 马尔可夫模型与元语法}{0}}
+\headcommand {\beamer@framepages {92}{92}}
+\headcommand {\slideentry {5}{2}{5}{93/93}{8.3.2 马尔可夫模型与元语法}{0}}
+\headcommand {\beamer@framepages {93}{93}}
+\headcommand {\slideentry {5}{2}{6}{94/94}{8.3.2 马尔可夫模型与元语法}{0}}
+\headcommand {\beamer@framepages {94}{94}}
+\headcommand {\slideentry {5}{2}{7}{95/95}{8.3.2 马尔可夫模型与元语法}{0}}
+\headcommand {\beamer@framepages {95}{95}}
+\headcommand {\beamer@subsectionpages {89}{95}}
+\headcommand {\beamer@subsectionentry {0}{5}{3}{96}{8.3.3 自然语言统计}}
+\headcommand {\slideentry {5}{3}{1}{96/96}{8.3.3 自然语言统计}{0}}
+\headcommand {\beamer@framepages {96}{96}}
+\headcommand {\slideentry {5}{3}{2}{97/97}{8.3.3 自然语言统计}{0}}
+\headcommand {\beamer@framepages {97}{97}}
+\headcommand {\slideentry {5}{3}{3}{98/98}{8.3.3 自然语言统计}{0}}
+\headcommand {\beamer@framepages {98}{98}}
+\headcommand {\slideentry {5}{3}{4}{99/99}{8.3.3 自然语言统计}{0}}
+\headcommand {\beamer@framepages {99}{99}}
+\headcommand {\slideentry {5}{3}{5}{100/100}{8.3.3 自然语言统计}{0}}
+\headcommand {\beamer@framepages {100}{100}}
+\headcommand {\slideentry {5}{3}{6}{101/101}{8.3.3 自然语言统计}{0}}
+\headcommand {\beamer@framepages {101}{101}}
+\headcommand {\beamer@subsectionpages {96}{101}}
+\headcommand {\beamer@subsectionentry {0}{5}{4}{102}{8.3.4 读取长序列数据}}
+\headcommand {\slideentry {5}{4}{1}{102/102}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {102}{102}}
+\headcommand {\slideentry {5}{4}{2}{103/103}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {103}{103}}
+\headcommand {\slideentry {5}{4}{3}{104/104}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {104}{104}}
+\headcommand {\beamer@sectionpages {78}{104}}
+\headcommand {\beamer@subsectionpages {102}{104}}
+\headcommand {\sectionentry {6}{8.3 语言模型和数据集}{105}{8.3 语言模型和数据集}{0}}
+\headcommand {\slideentry {6}{0}{1}{105/105}{}{0}}
+\headcommand {\beamer@framepages {105}{105}}
+\headcommand {\slideentry {6}{0}{2}{106/106}{}{0}}
+\headcommand {\beamer@framepages {106}{106}}
+\headcommand {\beamer@subsectionpages {105}{106}}
+\headcommand {\beamer@subsectionentry {0}{6}{1}{107}{8.3.1 学习语言模型}}
+\headcommand {\slideentry {6}{1}{1}{107/107}{8.3.1 学习语言模型}{0}}
+\headcommand {\beamer@framepages {107}{107}}
+\headcommand {\slideentry {6}{1}{2}{108/108}{8.3.1 学习语言模型}{0}}
+\headcommand {\beamer@framepages {108}{108}}
+\headcommand {\slideentry {6}{1}{3}{109/109}{8.3.1 学习语言模型}{0}}
+\headcommand {\beamer@framepages {109}{109}}
+\headcommand {\slideentry {6}{1}{4}{110/110}{8.3.1 学习语言模型}{0}}
+\headcommand {\beamer@framepages {110}{110}}
+\headcommand {\slideentry {6}{1}{5}{111/111}{8.3.1 学习语言模型}{0}}
+\headcommand {\beamer@framepages {111}{111}}
+\headcommand {\slideentry {6}{1}{6}{112/112}{8.3.1 学习语言模型}{0}}
+\headcommand {\beamer@framepages {112}{112}}
+\headcommand {\slideentry {6}{1}{7}{113/113}{8.3.1 学习语言模型}{0}}
+\headcommand {\beamer@framepages {113}{113}}
+\headcommand {\slideentry {6}{1}{8}{114/114}{8.3.1 学习语言模型}{0}}
+\headcommand {\beamer@framepages {114}{114}}
+\headcommand {\slideentry {6}{1}{9}{115/115}{8.3.1 学习语言模型}{0}}
+\headcommand {\beamer@framepages {115}{115}}
+\headcommand {\beamer@subsectionpages {107}{115}}
+\headcommand {\beamer@subsectionentry {0}{6}{2}{116}{8.3.2 马尔可夫模型与元语法}}
+\headcommand {\slideentry {6}{2}{1}{116/116}{8.3.2 马尔可夫模型与元语法}{0}}
+\headcommand {\beamer@framepages {116}{116}}
+\headcommand {\slideentry {6}{2}{2}{117/117}{8.3.2 马尔可夫模型与元语法}{0}}
+\headcommand {\beamer@framepages {117}{117}}
+\headcommand {\slideentry {6}{2}{3}{118/118}{8.3.2 马尔可夫模型与元语法}{0}}
+\headcommand {\beamer@framepages {118}{118}}
+\headcommand {\slideentry {6}{2}{4}{119/119}{8.3.2 马尔可夫模型与元语法}{0}}
+\headcommand {\beamer@framepages {119}{119}}
+\headcommand {\slideentry {6}{2}{5}{120/120}{8.3.2 马尔可夫模型与元语法}{0}}
+\headcommand {\beamer@framepages {120}{120}}
+\headcommand {\slideentry {6}{2}{6}{121/121}{8.3.2 马尔可夫模型与元语法}{0}}
+\headcommand {\beamer@framepages {121}{121}}
+\headcommand {\slideentry {6}{2}{7}{122/122}{8.3.2 马尔可夫模型与元语法}{0}}
+\headcommand {\beamer@framepages {122}{122}}
+\headcommand {\beamer@subsectionpages {116}{122}}
+\headcommand {\beamer@subsectionentry {0}{6}{3}{123}{8.3.3 自然语言统计}}
+\headcommand {\slideentry {6}{3}{1}{123/123}{8.3.3 自然语言统计}{0}}
+\headcommand {\beamer@framepages {123}{123}}
+\headcommand {\slideentry {6}{3}{2}{124/124}{8.3.3 自然语言统计}{0}}
+\headcommand {\beamer@framepages {124}{124}}
+\headcommand {\slideentry {6}{3}{3}{125/125}{8.3.3 自然语言统计}{0}}
+\headcommand {\beamer@framepages {125}{125}}
+\headcommand {\slideentry {6}{3}{4}{126/126}{8.3.3 自然语言统计}{0}}
+\headcommand {\beamer@framepages {126}{126}}
+\headcommand {\slideentry {6}{3}{5}{127/127}{8.3.3 自然语言统计}{0}}
+\headcommand {\beamer@framepages {127}{127}}
+\headcommand {\slideentry {6}{3}{6}{128/128}{8.3.3 自然语言统计}{0}}
+\headcommand {\beamer@framepages {128}{128}}
+\headcommand {\beamer@subsectionpages {123}{128}}
+\headcommand {\beamer@subsectionentry {0}{6}{4}{129}{8.3.4 读取长序列数据}}
+\headcommand {\slideentry {6}{4}{1}{129/129}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {129}{129}}
+\headcommand {\slideentry {6}{4}{2}{130/130}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {130}{130}}
+\headcommand {\slideentry {6}{4}{3}{131/131}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {131}{131}}
+\headcommand {\slideentry {6}{4}{4}{132/132}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {132}{132}}
+\headcommand {\slideentry {6}{4}{5}{133/133}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {133}{133}}
+\headcommand {\slideentry {6}{4}{6}{134/134}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {134}{134}}
+\headcommand {\slideentry {6}{4}{7}{135/135}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {135}{135}}
+\headcommand {\slideentry {6}{4}{8}{136/136}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {136}{136}}
+\headcommand {\slideentry {6}{4}{9}{137/137}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {137}{137}}
+\headcommand {\slideentry {6}{4}{10}{138/138}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {138}{138}}
+\headcommand {\slideentry {6}{4}{11}{139/139}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {139}{139}}
+\headcommand {\slideentry {6}{4}{12}{140/140}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {140}{140}}
+\headcommand {\slideentry {6}{4}{13}{141/141}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {141}{141}}
+\headcommand {\slideentry {6}{4}{14}{142/142}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {142}{142}}
+\headcommand {\slideentry {6}{4}{15}{143/143}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {143}{143}}
+\headcommand {\slideentry {6}{4}{16}{144/144}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {144}{144}}
+\headcommand {\slideentry {6}{4}{17}{145/145}{8.3.4 读取长序列数据}{0}}
+\headcommand {\beamer@framepages {145}{145}}
+\headcommand {\beamer@sectionpages {105}{145}}
+\headcommand {\beamer@subsectionpages {129}{145}}
+\headcommand {\sectionentry {7}{8.4 循环神经网络}{146}{8.4 循环神经网络}{0}}
+\headcommand {\slideentry {7}{0}{1}{146/146}{}{0}}
+\headcommand {\beamer@framepages {146}{146}}
+\headcommand {\slideentry {7}{0}{2}{147/147}{}{0}}
+\headcommand {\beamer@framepages {147}{147}}
+\headcommand {\beamer@subsectionpages {146}{147}}
+\headcommand {\beamer@subsectionentry {0}{7}{1}{148}{8.4.1 无隐状态的神经网络}}
+\headcommand {\slideentry {7}{1}{1}{148/148}{8.4.1 无隐状态的神经网络}{0}}
+\headcommand {\beamer@framepages {148}{148}}
+\headcommand {\slideentry {7}{1}{2}{149/149}{8.4.1 无隐状态的神经网络}{0}}
+\headcommand {\beamer@framepages {149}{149}}
+\headcommand {\slideentry {7}{1}{3}{150/150}{8.4.1 无隐状态的神经网络}{0}}
+\headcommand {\beamer@framepages {150}{150}}
+\headcommand {\slideentry {7}{1}{4}{151/151}{8.4.1 无隐状态的神经网络}{0}}
+\headcommand {\beamer@framepages {151}{151}}
+\headcommand {\slideentry {7}{1}{5}{152/152}{8.4.1 无隐状态的神经网络}{0}}
+\headcommand {\beamer@framepages {152}{152}}
+\headcommand {\beamer@subsectionpages {148}{152}}
+\headcommand {\beamer@subsectionentry {0}{7}{2}{153}{8.4.2 有隐状态的循环神经网络}}
+\headcommand {\slideentry {7}{2}{1}{153/153}{8.4.2 有隐状态的循环神经网络}{0}}
+\headcommand {\beamer@framepages {153}{153}}
+\headcommand {\slideentry {7}{2}{2}{154/154}{8.4.2 有隐状态的循环神经网络}{0}}
+\headcommand {\beamer@framepages {154}{154}}
+\headcommand {\slideentry {7}{2}{3}{155/155}{8.4.2 有隐状态的循环神经网络}{0}}
+\headcommand {\beamer@framepages {155}{155}}
+\headcommand {\slideentry {7}{2}{4}{156/156}{8.4.2 有隐状态的循环神经网络}{0}}
+\headcommand {\beamer@framepages {156}{156}}
+\headcommand {\slideentry {7}{2}{5}{157/157}{8.4.2 有隐状态的循环神经网络}{0}}
+\headcommand {\beamer@framepages {157}{157}}
+\headcommand {\slideentry {7}{2}{6}{158/158}{8.4.2 有隐状态的循环神经网络}{0}}
+\headcommand {\beamer@framepages {158}{158}}
+\headcommand {\slideentry {7}{2}{7}{159/159}{8.4.2 有隐状态的循环神经网络}{0}}
+\headcommand {\beamer@framepages {159}{159}}
+\headcommand {\slideentry {7}{2}{8}{160/160}{8.4.2 有隐状态的循环神经网络}{0}}
+\headcommand {\beamer@framepages {160}{160}}
+\headcommand {\slideentry {7}{2}{9}{161/161}{8.4.2 有隐状态的循环神经网络}{0}}
+\headcommand {\beamer@framepages {161}{161}}
+\headcommand {\slideentry {7}{2}{10}{162/162}{8.4.2 有隐状态的循环神经网络}{0}}
+\headcommand {\beamer@framepages {162}{162}}
+\headcommand {\beamer@subsectionpages {153}{162}}
+\headcommand {\beamer@subsectionentry {0}{7}{3}{163}{9.7.4 改进方向}}
+\headcommand {\slideentry {7}{3}{1}{163/163}{9.7.4 改进方向}{0}}
+\headcommand {\beamer@framepages {163}{163}}
+\headcommand {\slideentry {7}{3}{2}{164/164}{9.7.4 改进方向}{0}}
+\headcommand {\beamer@framepages {164}{164}}
+\headcommand {\slideentry {7}{3}{3}{165/165}{9.7.4 改进方向}{0}}
+\headcommand {\beamer@framepages {165}{165}}
+\headcommand {\slideentry {7}{3}{4}{166/166}{9.7.4 改进方向}{0}}
+\headcommand {\beamer@framepages {166}{166}}
+\headcommand {\slideentry {7}{3}{5}{167/167}{9.7.4 改进方向}{0}}
+\headcommand {\beamer@framepages {167}{167}}
+\headcommand {\slideentry {7}{3}{6}{168/168}{9.7.4 改进方向}{0}}
+\headcommand {\beamer@framepages {168}{168}}
+\headcommand {\beamer@subsectionpages {163}{168}}
+\headcommand {\beamer@subsectionentry {0}{7}{4}{169}{8.4.3 基于循环神经网络的字符级语言模型}}
+\headcommand {\slideentry {7}{4}{1}{169/169}{8.4.3 基于循环神经网络的字符级语言模型}{0}}
+\headcommand {\beamer@framepages {169}{169}}
+\headcommand {\slideentry {7}{4}{2}{170/170}{8.4.3 基于循环神经网络的字符级语言模型}{0}}
+\headcommand {\beamer@framepages {170}{170}}
+\headcommand {\slideentry {7}{4}{3}{171/171}{8.4.3 基于循环神经网络的字符级语言模型}{0}}
+\headcommand {\beamer@framepages {171}{171}}
+\headcommand {\slideentry {7}{4}{4}{172/172}{8.4.3 基于循环神经网络的字符级语言模型}{0}}
+\headcommand {\beamer@framepages {172}{172}}
+\headcommand {\slideentry {7}{4}{5}{173/173}{8.4.3 基于循环神经网络的字符级语言模型}{0}}
+\headcommand {\beamer@framepages {173}{173}}
+\headcommand {\beamer@subsectionpages {169}{173}}
+\headcommand {\beamer@subsectionentry {0}{7}{5}{174}{8.4.4 困惑度}}
+\headcommand {\slideentry {7}{5}{1}{174/174}{8.4.4 困惑度}{0}}
+\headcommand {\beamer@framepages {174}{174}}
+\headcommand {\slideentry {7}{5}{2}{175/175}{8.4.4 困惑度}{0}}
+\headcommand {\beamer@framepages {175}{175}}
+\headcommand {\beamer@sectionpages {146}{175}}
+\headcommand {\beamer@subsectionpages {174}{175}}
+\headcommand {\sectionentry {8}{8.5 从零开始实现循环神经网络}{176}{8.5 从零开始实现循环神经网络}{0}}
+\headcommand {\slideentry {8}{0}{1}{176/176}{}{0}}
+\headcommand {\beamer@framepages {176}{176}}
+\headcommand {\slideentry {8}{0}{2}{177/177}{}{0}}
+\headcommand {\beamer@framepages {177}{177}}
+\headcommand {\slideentry {8}{0}{3}{178/178}{}{0}}
+\headcommand {\beamer@framepages {178}{178}}
+\headcommand {\slideentry {8}{0}{4}{179/179}{}{0}}
+\headcommand {\beamer@framepages {179}{179}}
+\headcommand {\slideentry {8}{0}{5}{180/180}{}{0}}
+\headcommand {\beamer@framepages {180}{180}}
+\headcommand {\slideentry {8}{0}{6}{181/181}{}{0}}
+\headcommand {\beamer@framepages {181}{181}}
+\headcommand {\slideentry {8}{0}{7}{182/182}{}{0}}
+\headcommand {\beamer@framepages {182}{182}}
+\headcommand {\slideentry {8}{0}{8}{183/183}{}{0}}
+\headcommand {\beamer@framepages {183}{183}}
+\headcommand {\slideentry {8}{0}{9}{184/184}{}{0}}
+\headcommand {\beamer@framepages {184}{184}}
+\headcommand {\slideentry {8}{0}{10}{185/185}{}{0}}
+\headcommand {\beamer@framepages {185}{185}}
+\headcommand {\slideentry {8}{0}{11}{186/186}{}{0}}
+\headcommand {\beamer@framepages {186}{186}}
+\headcommand {\slideentry {8}{0}{12}{187/187}{}{0}}
+\headcommand {\beamer@framepages {187}{187}}
+\headcommand {\slideentry {8}{0}{13}{188/188}{}{0}}
+\headcommand {\beamer@framepages {188}{188}}
+\headcommand {\slideentry {8}{0}{14}{189/189}{}{0}}
+\headcommand {\beamer@framepages {189}{189}}
+\headcommand {\slideentry {8}{0}{15}{190/190}{}{0}}
+\headcommand {\beamer@framepages {190}{190}}
+\headcommand {\slideentry {8}{0}{16}{191/191}{}{0}}
+\headcommand {\beamer@framepages {191}{191}}
+\headcommand {\slideentry {8}{0}{17}{192/192}{}{0}}
+\headcommand {\beamer@framepages {192}{192}}
+\headcommand {\slideentry {8}{0}{18}{193/193}{}{0}}
+\headcommand {\beamer@framepages {193}{193}}
+\headcommand {\slideentry {8}{0}{19}{194/194}{}{0}}
+\headcommand {\beamer@framepages {194}{194}}
+\headcommand {\slideentry {8}{0}{20}{195/195}{}{0}}
+\headcommand {\beamer@framepages {195}{195}}
+\headcommand {\slideentry {8}{0}{21}{196/196}{}{0}}
+\headcommand {\beamer@framepages {196}{196}}
+\headcommand {\slideentry {8}{0}{22}{197/197}{}{0}}
+\headcommand {\beamer@framepages {197}{197}}
+\headcommand {\slideentry {8}{0}{23}{198/198}{}{0}}
+\headcommand {\beamer@framepages {198}{198}}
+\headcommand {\slideentry {8}{0}{24}{199/199}{}{0}}
+\headcommand {\beamer@framepages {199}{199}}
+\headcommand {\slideentry {8}{0}{25}{200/200}{}{0}}
+\headcommand {\beamer@framepages {200}{200}}
+\headcommand {\slideentry {8}{0}{26}{201/201}{}{0}}
+\headcommand {\beamer@framepages {201}{201}}
+\headcommand {\slideentry {8}{0}{27}{202/202}{}{0}}
+\headcommand {\beamer@framepages {202}{202}}
+\headcommand {\slideentry {8}{0}{28}{203/203}{}{0}}
+\headcommand {\beamer@framepages {203}{203}}
+\headcommand {\slideentry {8}{0}{29}{204/204}{}{0}}
+\headcommand {\beamer@framepages {204}{204}}
+\headcommand {\slideentry {8}{0}{30}{205/205}{}{0}}
+\headcommand {\beamer@framepages {205}{205}}
+\headcommand {\slideentry {8}{0}{31}{207/207}{}{0}}
+\headcommand {\beamer@framepages {207}{207}}
+\headcommand {\slideentry {8}{0}{32}{208/208}{}{0}}
+\headcommand {\beamer@framepages {208}{208}}
+\headcommand {\slideentry {8}{0}{33}{209/209}{}{0}}
+\headcommand {\beamer@framepages {209}{209}}
+\headcommand {\slideentry {8}{0}{34}{210/210}{}{0}}
+\headcommand {\beamer@framepages {210}{210}}
+\headcommand {\slideentry {8}{0}{35}{211/211}{}{0}}
+\headcommand {\beamer@framepages {211}{211}}
+\headcommand {\slideentry {8}{0}{36}{212/212}{}{0}}
+\headcommand {\beamer@framepages {212}{212}}
+\headcommand {\slideentry {8}{0}{37}{213/213}{}{0}}
+\headcommand {\beamer@framepages {213}{213}}
+\headcommand {\slideentry {8}{0}{38}{214/214}{}{0}}
+\headcommand {\beamer@framepages {214}{214}}
+\headcommand {\beamer@sectionpages {176}{214}}
+\headcommand {\beamer@subsectionpages {176}{214}}
+\headcommand {\sectionentry {9}{8.5 循环神经网络的从零开始实现}{215}{8.5 循环神经网络的从零开始实现}{0}}
+\headcommand {\slideentry {9}{0}{1}{215/215}{}{0}}
+\headcommand {\beamer@framepages {215}{215}}
+\headcommand {\slideentry {9}{0}{2}{216/216}{}{0}}
+\headcommand {\beamer@framepages {216}{216}}
+\headcommand {\slideentry {9}{0}{3}{217/217}{}{0}}
+\headcommand {\beamer@framepages {217}{217}}
+\headcommand {\slideentry {9}{0}{4}{218/218}{}{0}}
+\headcommand {\beamer@framepages {218}{218}}
+\headcommand {\beamer@subsectionpages {215}{218}}
+\headcommand {\beamer@subsectionentry {0}{9}{1}{219}{8.5.1 独热编码}}
+\headcommand {\slideentry {9}{1}{1}{219/219}{8.5.1 独热编码}{0}}
+\headcommand {\beamer@framepages {219}{219}}
+\headcommand {\slideentry {9}{1}{2}{220/220}{8.5.1 独热编码}{0}}
+\headcommand {\beamer@framepages {220}{220}}
+\headcommand {\slideentry {9}{1}{3}{221/221}{8.5.1 独热编码}{0}}
+\headcommand {\beamer@framepages {221}{221}}
+\headcommand {\slideentry {9}{1}{4}{222/222}{8.5.1 独热编码}{0}}
+\headcommand {\beamer@framepages {222}{222}}
+\headcommand {\slideentry {9}{1}{5}{223/223}{8.5.1 独热编码}{0}}
+\headcommand {\beamer@framepages {223}{223}}
+\headcommand {\slideentry {9}{1}{6}{224/224}{8.5.1 独热编码}{0}}
+\headcommand {\beamer@framepages {224}{224}}
+\headcommand {\slideentry {9}{1}{7}{225/225}{8.5.1 独热编码}{0}}
+\headcommand {\beamer@framepages {225}{225}}
+\headcommand {\slideentry {9}{1}{8}{226/226}{8.5.1 独热编码}{0}}
+\headcommand {\beamer@framepages {226}{226}}
+\headcommand {\slideentry {9}{1}{9}{227/227}{8.5.1 独热编码}{0}}
+\headcommand {\beamer@framepages {227}{227}}
+\headcommand {\beamer@subsectionpages {219}{227}}
+\headcommand {\beamer@subsectionentry {0}{9}{2}{228}{8.5.2 初始化模型参数}}
+\headcommand {\slideentry {9}{2}{1}{228/228}{8.5.2 初始化模型参数}{0}}
+\headcommand {\beamer@framepages {228}{228}}
+\headcommand {\slideentry {9}{2}{2}{229/229}{8.5.2 初始化模型参数}{0}}
+\headcommand {\beamer@framepages {229}{229}}
+\headcommand {\slideentry {9}{2}{3}{230/230}{8.5.2 初始化模型参数}{0}}
+\headcommand {\beamer@framepages {230}{230}}
+\headcommand {\slideentry {9}{2}{4}{231/231}{8.5.2 初始化模型参数}{0}}
+\headcommand {\beamer@framepages {231}{231}}
+\headcommand {\slideentry {9}{2}{5}{232/232}{8.5.2 初始化模型参数}{0}}
+\headcommand {\beamer@framepages {232}{232}}
+\headcommand {\slideentry {9}{2}{6}{233/233}{8.5.2 初始化模型参数}{0}}
+\headcommand {\beamer@framepages {233}{233}}
+\headcommand {\slideentry {9}{2}{7}{234/234}{8.5.2 初始化模型参数}{0}}
+\headcommand {\beamer@framepages {234}{234}}
+\headcommand {\slideentry {9}{2}{8}{235/235}{8.5.2 初始化模型参数}{0}}
+\headcommand {\beamer@framepages {235}{235}}
+\headcommand {\beamer@subsectionpages {228}{235}}
+\headcommand {\beamer@subsectionentry {0}{9}{3}{236}{8.5.3 循环神经网络模型}}
+\headcommand {\slideentry {9}{3}{1}{236/236}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {236}{236}}
+\headcommand {\slideentry {9}{3}{2}{237/237}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {237}{237}}
+\headcommand {\slideentry {9}{3}{3}{238/238}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {238}{238}}
+\headcommand {\slideentry {9}{3}{4}{239/239}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {239}{239}}
+\headcommand {\slideentry {9}{3}{5}{240/240}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {240}{240}}
+\headcommand {\slideentry {9}{3}{6}{241/241}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {241}{241}}
+\headcommand {\slideentry {9}{3}{7}{242/242}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {242}{242}}
+\headcommand {\slideentry {9}{3}{8}{243/243}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {243}{243}}
+\headcommand {\slideentry {9}{3}{9}{244/244}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {244}{244}}
+\headcommand {\slideentry {9}{3}{10}{245/245}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {245}{245}}
+\headcommand {\slideentry {9}{3}{11}{246/246}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {246}{246}}
+\headcommand {\beamer@subsectionpages {236}{246}}
+\headcommand {\beamer@subsectionentry {0}{9}{4}{247}{8.5.2 初始化模型参数}}
+\headcommand {\slideentry {9}{4}{1}{247/247}{8.5.2 初始化模型参数}{0}}
+\headcommand {\beamer@framepages {247}{247}}
+\headcommand {\slideentry {9}{4}{2}{248/248}{8.5.2 初始化模型参数}{0}}
+\headcommand {\beamer@framepages {248}{248}}
+\headcommand {\slideentry {9}{4}{3}{249/249}{8.5.2 初始化模型参数}{0}}
+\headcommand {\beamer@framepages {249}{249}}
+\headcommand {\slideentry {9}{4}{4}{250/250}{8.5.2 初始化模型参数}{0}}
+\headcommand {\beamer@framepages {250}{250}}
+\headcommand {\slideentry {9}{4}{5}{251/251}{8.5.2 初始化模型参数}{0}}
+\headcommand {\beamer@framepages {251}{251}}
+\headcommand {\slideentry {9}{4}{6}{252/252}{8.5.2 初始化模型参数}{0}}
+\headcommand {\beamer@framepages {252}{252}}
+\headcommand {\slideentry {9}{4}{7}{253/253}{8.5.2 初始化模型参数}{0}}
+\headcommand {\beamer@framepages {253}{253}}
+\headcommand {\slideentry {9}{4}{8}{254/254}{8.5.2 初始化模型参数}{0}}
+\headcommand {\beamer@framepages {254}{254}}
+\headcommand {\beamer@subsectionpages {247}{254}}
+\headcommand {\beamer@subsectionentry {0}{9}{5}{255}{8.5.3 循环神经网络模型}}
+\headcommand {\slideentry {9}{5}{1}{255/255}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {255}{255}}
+\headcommand {\slideentry {9}{5}{2}{256/256}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {256}{256}}
+\headcommand {\slideentry {9}{5}{3}{257/257}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {257}{257}}
+\headcommand {\slideentry {9}{5}{4}{258/258}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {258}{258}}
+\headcommand {\slideentry {9}{5}{5}{259/259}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {259}{259}}
+\headcommand {\slideentry {9}{5}{6}{260/260}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {260}{260}}
+\headcommand {\slideentry {9}{5}{7}{261/261}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {261}{261}}
+\headcommand {\slideentry {9}{5}{8}{262/262}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {262}{262}}
+\headcommand {\slideentry {9}{5}{9}{263/263}{8.5.3 循环神经网络模型}{0}}
+\headcommand {\beamer@framepages {263}{263}}
+\headcommand {\beamer@subsectionpages {255}{263}}
+\headcommand {\beamer@subsectionentry {0}{9}{6}{264}{8.5.4 预测}}
+\headcommand {\slideentry {9}{6}{1}{264/264}{8.5.4 预测}{0}}
+\headcommand {\beamer@framepages {264}{264}}
+\headcommand {\slideentry {9}{6}{2}{265/265}{8.5.4 预测}{0}}
+\headcommand {\beamer@framepages {265}{265}}
+\headcommand {\slideentry {9}{6}{3}{266/266}{8.5.4 预测}{0}}
+\headcommand {\beamer@framepages {266}{266}}
+\headcommand {\slideentry {9}{6}{4}{267/267}{8.5.4 预测}{0}}
+\headcommand {\beamer@framepages {267}{267}}
+\headcommand {\slideentry {9}{6}{5}{268/268}{8.5.4 预测}{0}}
+\headcommand {\beamer@framepages {268}{268}}
+\headcommand {\slideentry {9}{6}{6}{269/269}{8.5.4 预测}{0}}
+\headcommand {\beamer@framepages {269}{269}}

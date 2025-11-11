@@ -1,0 +1,7 @@
+\beamer@sectionintoc {1}{研究背景与核心问题}{3}{0}{1}
+\beamer@sectionintoc {2}{理论分析与研究设计}{5}{0}{2}
+\beamer@sectionintoc {3}{实证结果与分析}{11}{0}{3}
+\beamer@sectionintoc {4}{机器学习与文本分析方法}{17}{0}{4}
+\beamer@sectionintoc {5}{进一步讨论}{19}{0}{5}
+\beamer@sectionintoc {6}{结论与启示}{24}{0}{6}
+\beamer@sectionintoc {7}{研究方法与技术总结}{26}{0}{7}

@@ -1,0 +1,591 @@
+\section{未命名节}
+
+\subsection{训练Seq2Seq模型}
+
+\subsection{9.7.1 训练Seq2Seq模型}
+
+\subsection{9.7.1 训练Seq2Seq模型}
+\begin{center}
+\Large \textcolor{blue}{英语到法语的翻译}
+\end{center}
+
+
+\paragraph{完整的训练流程}
+\begin{lstlisting}
+# data
+batch_size = 64
+num_steps = 10
+lr = 0.005
+num_epochs = 300
+
+train_iter, src_vocab, tgt_vocab = load_data_nmt(
+    batch_size, num_steps)
+
+# modelparameters
+embed_size = 32
+num_hiddens = 32
+num_layers = 2
+dropout = 0.1
+
+# model
+encoder = Seq2SeqEncoder(len(src_vocab), embed_size, 
+                        num_hiddens, num_layers, dropout)
+decoder = Seq2SeqDecoder(len(tgt_vocab), embed_size, 
+                        num_hiddens, num_layers, dropout)
+net = EncoderDecoder(encoder, decoder)
+
+# training
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+train_seq2seq(net, train_iter, lr, num_epochs, tgt_vocab, device)
+\end{lstlisting}
+
+
+\paragraph{训练循环详解}
+\begin{lstlisting}
+def train_seq2seq(net, data_iter, lr, num_epochs, tgt_vocab, device,
+                  save_path='seq2seq.pth'):
+    """trainingseq2seqmodel"""
+    net.to(device)
+    optimizer = torch.optim.Adam(net.parameters(), lr=lr)
+    animator = Animator(xlabel='epoch', ylabel='loss',
+                       xlim=[10, num_epochs])
+    
+    for epoch in range(num_epochs):
+        timer = Timer()
+        metric = Accumulator(2)  # loss和, tokens数
+        
+        for batch in data_iter:
+            optimizer.zero_grad()
+            X, X_valid_len, Y, Y_valid_len = [x.to(device) for x in batch]
+            
+            # Y<bos>
+            bos = torch.tensor([tgt_vocab['<bos>']] * Y.shape[0], 
+                              device=device).reshape(-1, 1)
+            dec_input = torch.cat([bos, Y[:, :-1]], 1)
+            
+            Y_hat, _ = net(X, dec_input)
+            
+            # loss
+            l = masked_softmax_cross_entropy(Y_hat, Y, Y_valid_len)
+            l.sum().backward()
+            
+            grad_clipping(net, 1)
+            
+            optimizer.step()
+            
+            with torch.no_grad():
+                metric.add(l.sum(), Y_valid_len.sum())
+        
+        if (epoch + 1) % 10 == 0:
+            animator.add(epoch + 1, (metric[0] / metric[1],))
+    
+    print(f'loss {metric[0] / metric[1]:.3f}, '
+          f'{metric[1] / timer.stop():.1f} tokens/sec on {str(device)}')
+    
+    # model
+    torch.save(net.state_dict(), save_path)
+\end{lstlisting}
+
+
+\paragraph{训练过程可视化}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 坐标轴
+\draw[->,thick] (0,0) -- (8,0) node[right] {Epoch};
+\draw[->,thick] (0,0) -- (0,4) node[above] {Loss};
+
+% 损失曲线
+\draw[blue,thick] (0.5,3.5) -- (1,3) -- (2,2.3) -- (3,1.8) -- (4,1.4) -- (5,1.2) -- (7,1.0);
+
+% 标注关键点
+\fill[red] (0.5,3.5) circle (2pt) node[above,font=\tiny] {初始：高};
+\fill[green!60!black] (3,1.8) circle (2pt) node[above,font=\tiny] {快速下降};
+\fill[blue] (7,1.0) circle (2pt) node[above,font=\tiny] {收敛};
+
+% 阶段标注
+\draw[dashed] (0,1.5) -- (8,1.5);
+\node[left,font=\tiny] at (0,1.5) {目标};
+
+\node[below,text width=8cm,align=center] at (4,-0.8) {
+\small 典型训练曲线：初期快速下降，后期缓慢收敛
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[训练输出示例]
+\begin{verbatim}
+loss 0.023, 14523.3 tokens/sec on cuda:0
+\end{verbatim}
+\end{definition}
+
+
+
+\subsection{预测与评估}
+
+\subsection{9.7.2 预测与评估}
+
+\subsection{9.7.2 预测与评估}
+\begin{center}
+\Large \textcolor{blue}{用训练好的模型翻译}
+\end{center}
+
+
+\paragraph{预测函数}
+\begin{lstlisting}
+def predict_seq2seq(net, src_sentence, src_vocab, tgt_vocab, 
+                   num_steps, device, save_attention_weights=False):
+    """prediction"""
+    net.eval()
+    src_tokens = src_vocab[src_sentence.lower().split(' ')] + [
+        src_vocab['<eos>']]
+    enc_valid_len = torch.tensor([len(src_tokens)], device=device)
+    
+    # length
+    src_tokens = truncate_pad(src_tokens, num_steps, src_vocab['<pad>'])
+    enc_X = torch.unsqueeze(
+        torch.tensor(src_tokens, dtype=torch.long, device=device), 
+        dim=0)
+    
+    enc_outputs = net.encoder(enc_X, enc_valid_len)
+    dec_state = net.decoder.init_state(enc_outputs, enc_valid_len)
+    
+    dec_X = torch.unsqueeze(
+        torch.tensor([tgt_vocab['<bos>']], dtype=torch.long, 
+                    device=device), dim=0)
+    
+    output_seq, attention_weight_seq = [], []
+    
+    for _ in range(num_steps):
+        Y, dec_state = net.decoder(dec_X, dec_state)
+        dec_X = Y.argmax(dim=2)
+        pred = dec_X.squeeze(dim=0).type(torch.int32).item()
+        
+        if pred == tgt_vocab['<eos>']:
+            break
+        
+        output_seq.append(pred)
+    
+    return ' '.join(tgt_vocab.to_tokens(output_seq))
+\end{lstlisting}
+
+
+\paragraph{翻译示例}
+\begin{lstlisting}
+# trainingmodel
+net.load_state_dict(torch.load('seq2seq.pth'))
+
+# test
+engs = ['go .', 'i lost .', 'he\'s calm .', 'i\'m home .']
+fras = ['va !', 'j\'ai perdu .', 'il est calme .', 'je suis chez moi .']
+
+for eng, fra in zip(engs, fras):
+    translation = predict_seq2seq(
+        net, eng, src_vocab, tgt_vocab, num_steps, device)
+    print(f'{eng} => {translation}, bleu {bleu(translation, fra, k=2):.3f}')
+\end{lstlisting}
+
+\textbf{输出示例：}
+\begin{verbatim}
+go . => va !, bleu 1.000
+i lost . => j'ai perdu ., bleu 1.000
+he's calm . => il est calme ., bleu 1.000
+i'm home . => je suis chez moi ., bleu 1.000
+\end{verbatim}
+
+\begin{theorem}[观察]
+简单句子翻译完美，BLEU=1.0
+\end{theorem}
+
+
+\paragraph{翻译质量分析}
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 柱状图
+\draw[->,thick] (0,0) -- (0,4) node[above] {BLEU分数};
+\draw[->,thick] (0,0) -- (10,0) node[right] {句子类型};
+
+% 简单句
+\fill[green!50] (0.5,0) rectangle (1.5,3.8);
+\node[below,font=\tiny,text width=1.5cm,align=center] at (1,0) {简单句\\(1-5词)};
+\node[above] at (1,3.8) {\small 0.95};
+
+% 中等句
+\fill[blue!50] (2.5,0) rectangle (3.5,3.2);
+\node[below,font=\tiny,text width=1.5cm,align=center] at (3,0) {中等句\\(6-10词)};
+\node[above] at (3,3.2) {\small 0.78};
+
+% 复杂句
+\fill[orange!50] (4.5,0) rectangle (5.5,2.5);
+\node[below,font=\tiny,text width=1.5cm,align=center] at (5,0) {复杂句\\(11-15词)};
+\node[above] at (5,2.5) {\small 0.62};
+
+% 长句
+\fill[red!50] (6.5,0) rectangle (7.5,1.8);
+\node[below,font=\tiny,text width=1.5cm,align=center] at (7,0) {长句\\($>15$词)};
+\node[above] at (7,1.8) {\small 0.45};
+
+% 参考线
+\draw[dashed] (0,3) -- (8,3);
+\node[left,font=\tiny] at (0,3) {优秀};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[趋势]
+句子越长，BLEU越低（信息瓶颈问题）
+\end{definition}
+
+
+\paragraph{常见翻译错误}
+\begin{example}[错误类型1：漏词]
+\textbf{源：}``I love you very much .''\\
+\textbf{参考：}``Je t'aime beaucoup .''\\
+\textbf{预测：}``Je t'aime .'' \quad (漏了``beaucoup'')
+\end{example}
+
+\begin{example}[错误类型2：词序错误]
+\textbf{源：}``The red car .''\\
+\textbf{参考：}``La voiture rouge .''\\
+\textbf{预测：}``La rouge voiture .'' \quad (形容词位置错)
+\end{example}
+
+\begin{example}[错误类型3：重复]
+\textbf{源：}``I am happy .''\\
+\textbf{参考：}``Je suis heureux .''\\
+\textbf{预测：}``Je je suis heureux .'' \quad (重复``je'')
+\end{example}
+
+
+
+\subsection{性能分析}
+
+\subsection{9.7.3 性能分析}
+
+\subsection{9.7.3 性能分析}
+\begin{center}
+\Large \textcolor{blue}{Seq2Seq的优缺点}
+\end{center}
+
+
+\paragraph{Seq2Seq的优势}
+
+
+\textcolor{blue}{\textbf{优点：}}
+\begin{itemize}
+    \item $\checkmark$ \textbf{端到端}\\
+    无需人工对齐
+    
+    \item $\checkmark$ \textbf{通用}\\
+    适用多种任务
+    
+    \item $\checkmark$ \textbf{可训练}\\
+    自动学习特征
+    
+    \item $\checkmark$ \textbf{灵活}\\
+    处理变长序列
+\end{itemize}
+
+
+\textbf{应用场景：}
+\begin{itemize}
+    \item 机器翻译
+    \item 文本摘要
+    \item 对话系统
+    \item 代码生成
+    \item 图像描述
+    \item 语音识别
+\end{itemize}
+
+
+\vspace{0.5cm}
+\begin{definition}[革命性]
+Seq2Seq开启了神经序列到序列学习的新时代
+\end{definition}
+
+
+\paragraph{Seq2Seq的局限}
+\begin{theorem}[核心问题：信息瓶颈]
+\textbf{固定长度的上下文向量}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 长源序列
+\node[above] at (3,3) {\small 源序列（20词）};
+\foreach \i in {1,...,10} {
+    \node[draw,fill=blue!20,minimum size=0.4cm] at (\i*0.6,2.5) {};
+}
+\node at (6.5,2.5) {$\ldots$};
+
+% 压缩
+\draw[->,ultra thick,red] (3,2) -- (3,1.5);
+\node[right,red] at (3.3,1.75) {\tiny 压缩};
+
+% 上下文向量
+\node[draw,fill=purple!20,minimum width=1.5cm] at (3,1) {$\mathbf{c}$};
+\node[right,font=\tiny] at (3.8,1) {512维};
+
+% 问题
+\node[below,text width=6cm,align=center,red] at (3,0.3) {
+\small 所有信息都要塞进这个向量！
+};
+
+\end{tikzpicture}
+\end{center}
+\end{theorem}
+
+\begin{definition}[表现]
+\begin{itemize}
+    \item 长句翻译质量差
+    \item 重要信息丢失
+    \item 早期词的信息被"遗忘"
+\end{itemize}
+\end{definition}
+
+
+\paragraph{性能随序列长度的变化}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 坐标轴
+\draw[->,thick] (0,0) -- (8,0) node[right] {源序列长度};
+\draw[->,thick] (0,0) -- (0,4) node[above] {BLEU};
+
+% Seq2Seq曲线
+\draw[red,thick] (0.5,3.5) -- (1.5,3.2) -- (2.5,2.8) -- (3.5,2.3) -- (4.5,1.7) -- (5.5,1.2) -- (7,0.8);
+\node[red,right] at (7,0.8) {Seq2Seq};
+
+% 理想曲线
+\draw[blue,dashed] (0.5,3.5) -- (1.5,3.4) -- (2.5,3.3) -- (3.5,3.2) -- (4.5,3.1) -- (5.5,3.0) -- (7,2.9);
+\node[blue,right] at (7,2.9) {理想};
+
+% 标注
+\node[below,font=\tiny] at (1,0) {5};
+\node[below,font=\tiny] at (3,0) {10};
+\node[below,font=\tiny] at (5,0) {20};
+\node[below,font=\tiny] at (7,0) {30};
+
+% 差距
+\draw[<->,thick,purple] (5.5,1.2) -- (5.5,3.0);
+\node[purple,right] at (5.7,2.1) {\tiny 性能gap};
+
+\node[below,text width=8cm,align=center] at (4,-0.8) {
+\small Seq2Seq在长序列上性能下降严重
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+
+\subsection{改进方向}
+
+\subsection{9.7.4 改进方向}
+
+\subsection{9.7.4 改进方向}
+\begin{center}
+\Large \textcolor{blue}{如何改进Seq2Seq？}
+\end{center}
+
+
+\paragraph{改进方向1：注意力机制}
+\textbf{核心思想：}让解码器\textbf{动态}关注源序列的不同部分
+
+\begin{center}
+\begin{tikzpicture}[scale=0.75]
+% 编码器输出
+\node[above] at (3,4) {\small 编码器所有输出};
+\foreach \i in {1,...,6} {
+    \node[circle,draw,fill=blue!20,minimum size=0.6cm] (h\i) at (\i*1,3.5) {\tiny$h_{\i}$};
+}
+
+% 注意力权重
+\node[left] at (0,2.5) {\small 注意力};
+\foreach \i in {1,...,6} {
+    \node[draw,fill=red!20,minimum size=0.4cm] (a\i) at (\i*1,2.5) {\tiny$\alpha_{\i}$};
+    \draw[->,thick] (h\i) -- (a\i);
+}
+
+% 加权和
+\node[draw,fill=purple!20,rounded corners] (c) at (3.5,1.2) {加权和 $\mathbf{c}_t$};
+\foreach \i in {1,...,6} {
+    \draw[->,thick] (a\i) -- (c);
+}
+
+% 解码器
+\node[circle,draw,fill=green!20,minimum size=0.8cm] at (3.5,0) {解码器};
+\draw[->,thick] (c) -- (3.5,0.4);
+
+\node[below,text width=7cm,align=center] at (3.5,-0.8) {
+\small 每个解码步骤关注不同的源词
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[优势]
+解决信息瓶颈，长序列性能大幅提升
+\end{theorem}
+
+
+\paragraph{改进方向2：束搜索}
+\textbf{问题：}贪心解码每步只选最大概率，可能次优
+
+\begin{center}
+\begin{tikzpicture}[scale=0.75]
+% 时间步1
+\node[circle,draw,fill=blue!20] (s1) at (0,2) {$s_1$};
+
+% 候选词
+\node[draw,fill=green!20,minimum size=0.5cm] (w11) at (2,3) {\tiny Je (0.7)};
+\node[draw,fill=yellow!20,minimum size=0.5cm] (w12) at (2,2) {\tiny J' (0.2)};
+\node[draw,fill=gray!20,minimum size=0.5cm] (w13) at (2,1) {\tiny ... (0.1)};
+
+\draw[->,thick] (s1) -- (w11);
+\draw[->,thick] (s1) -- (w12);
+\draw[->,thick] (s1) -- (w13);
+
+% 贪心
+\draw[red,ultra thick] (s1) -- (w11);
+\node[red,above] at (1,3.3) {\tiny 贪心：只选最大};
+
+% 束搜索
+\draw[blue,thick] (s1) -- (w11);
+\draw[blue,thick] (s1) -- (w12);
+\node[blue,below] at (1,0.7) {\tiny 束搜索：保留top-k};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[束搜索（Beam Search）]
+\begin{itemize}
+    \item 每步保留k个最佳候选（beam size）
+    \item 权衡搜索质量和计算成本
+    \item 通常k=5-10
+\end{itemize}
+\end{definition}
+
+
+\paragraph{改进方向3：双向编码器}
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+% 单向
+\node[above] at (2,4) {\small 单向编码器};
+\foreach \i in {1,2,3} {
+    \node[circle,draw,fill=blue!20,minimum size=0.7cm] (h\i) at (\i*1.2,3.5) {\tiny$\overrightarrow{h}_{\i}$};
+}
+\draw[->,thick] (h1) -- (h2) -- (h3);
+\node[below,font=\tiny] at (2,2.8) {只看过去};
+
+% 双向
+\node[above] at (7,4) {\small 双向编码器};
+\foreach \i in {1,2,3} {
+    \node[circle,draw,fill=blue!20,minimum size=0.6cm] (f\i) at (5.5+\i*1.2,3.8) {\tiny$\overrightarrow{h}_{\i}$};
+    \node[circle,draw,fill=green!20,minimum size=0.6cm] (b\i) at (5.5+\i*1.2,3.2) {\tiny$\overleftarrow{h}_{\i}$};
+}
+\draw[->,thick] (f1) -- (f2) -- (f3);
+\draw[<-,thick] (b1) -- (b2) -- (b3);
+\node[below,font=\tiny] at (7,2.5) {看过去+未来};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[优势]
+编码器利用双向信息，更好理解源序列
+\end{definition}
+
+
+\paragraph{改进方向4：深度模型}
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+% 单层
+\node[above] at (2,4) {\small 单层};
+\node[draw,fill=blue!20,minimum width=3cm,minimum height=0.8cm] at (2,3) {Encoder};
+\node[draw,fill=green!20,minimum width=3cm,minimum height=0.8cm] at (2,2) {Decoder};
+
+% 多层
+\node[above] at (7,4) {\small 多层};
+\node[draw,fill=blue!20,minimum width=3cm,minimum height=0.6cm] at (7,3.5) {Encoder 2};
+\node[draw,fill=blue!20,minimum width=3cm,minimum height=0.6cm] at (7,2.8) {Encoder 1};
+\node[draw,fill=green!20,minimum width=3cm,minimum height=0.6cm] at (7,2.1) {Decoder 1};
+\node[draw,fill=green!20,minimum width=3cm,minimum height=0.6cm] at (7,1.4) {Decoder 2};
+
+\draw[->,thick] (7,3.2) -- (7,2.95);
+\draw[->,thick] (7,2.5) -- (7,2.25);
+\draw[->,thick] (7,1.8) -- (7,1.55);
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[配置]
+\begin{itemize}
+    \item 编码器：2-4层双向LSTM
+    \item 解码器：2-4层单向LSTM
+    \item 层间Dropout
+\end{itemize}
+\end{definition}
+
+
+\paragraph{改进效果对比}
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{模型} & \textbf{BLEU（短句）} & \textbf{BLEU（长句）} \\
+\hline
+基础Seq2Seq & 85.2 & 45.3 \\
+\hline
++ 双向编码器 & 87.1 & 52.8 \\
+\hline
++ 注意力机制 & 91.3 & 68.5 \\
+\hline
++ 束搜索 & 92.8 & 71.2 \\
+\hline
++ 深度模型 & 94.1 & 73.9 \\
+\hline
+全部改进 & \textbf{95.3} & \textbf{76.4} \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+\begin{theorem}[最大提升]
+\textbf{注意力机制}对长句的改进最显著（+23\%）
+\end{theorem}
+
+
+\subsection{9.7节总结}
+\begin{definition}[核心内容]
+\begin{enumerate}
+    \item \textbf{完整实现}：英法翻译系统
+    \begin{itemize}
+        \item 数据准备、模型训练、评估
+    \end{itemize}
+    
+    \item \textbf{性能分析}：
+    \begin{itemize}
+        \item 短句：BLEU $>$ 0.9
+        \item 长句：BLEU下降（信息瓶颈）
+    \end{itemize}
+    
+    \item \textbf{常见错误}：
+    \begin{itemize}
+        \item 漏词、词序错误、重复
+    \end{itemize}
+    
+    \item \textbf{改进方向}：
+    \begin{itemize}
+        \item 注意力机制（最重要）
+        \item 束搜索、双向编码器、深度模型
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+
+\end{document}
+
+
+% The lateset FZU-Beamer-Theme is modified by Hanlin Cai.
+% The latex template file for FZU can be found here:
+% https://github.com/GuangLun2000/FZU-latex-template
+
+
+

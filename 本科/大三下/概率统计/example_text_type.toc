@@ -1,10 +1,10 @@
 \contentsline {section}{\numberline {1}概率论入门}{2}{section.1}%
-\contentsline {section}{\numberline {2}一维随机变量}{17}{section.2}%
-\contentsline {section}{\numberline {3}二维随机变量}{42}{section.3}%
-\contentsline {section}{\numberline {4}随机变量的数值特征}{53}{section.4}%
-\contentsline {section}{\numberline {5}大数定律}{69}{section.5}%
-\contentsline {section}{\numberline {6}数理统计入门}{78}{section.6}%
-\contentsline {section}{\numberline {7}参数估计}{99}{section.7}%
-\contentsline {section}{\numberline {8}假设检验}{116}{section.8}%
-\contentsline {section}{\numberline {9}课上重点题}{117}{section.9}%
+\contentsline {section}{\numberline {2}一维随机变量}{5}{section.2}%
+\contentsline {section}{\numberline {3}二维随机变量}{13}{section.3}%
+\contentsline {section}{\numberline {4}随机变量的数值特征}{16}{section.4}%
+\contentsline {section}{\numberline {5}大数定律}{23}{section.5}%
+\contentsline {section}{\numberline {6}数理统计入门}{27}{section.6}%
+\contentsline {section}{\numberline {7}参数估计}{33}{section.7}%
+\contentsline {section}{\numberline {8}假设检验}{39}{section.8}%
+\contentsline {section}{\numberline {9}课上重点题}{40}{section.9}%
 \contentsfinish 

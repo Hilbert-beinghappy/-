@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xelatex:*)",
+      "Bash(cat:*)",
+      "Bash(awk:*)",
+      "Bash(echo:*)",
+      "Bash(timeout:*)",
+      "Bash(tr:*)",
+      "Bash(/dev/null)",
+      "Bash(chmod:*)",
+      "Bash(./compile_test.sh)",
+      "Bash(gtimeout:*)",
+      "Read(///**)",
+      "Bash(python3:*)",
+      "Bash(pdfinfo:*)",
+      "Bash(mdls:*)",
+      "Bash(pkill:*)",
+      "Bash(git checkout:*)",
+      "Bash(pdflatex:*)",
+      "Bash(lacheck:*)",
+      "Bash(git restore:*)",
+      "Bash(chktex:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

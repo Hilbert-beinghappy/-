@@ -1,0 +1,1239 @@
+\section{未命名节}
+
+\subsection{读取数据集}
+
+\subsection{8.2.1 读取数据集}
+
+\subsection{8.2.1 读取数据集}
+\begin{center}
+\Large \textcolor{blue}{第一步：获取原始文本}
+\end{center}
+
+
+\paragraph{为什么需要文本预处理？}
+\begin{center}
+\begin{tikzpicture}
+\node[text width=8cm,draw,fill=yellow!20,rounded corners] at (0,3) {
+\textbf{原始文本：}\\
+``The Time Machine, by H.G. Wells [1898]''\\
+``It was at ten o'clock to-day that...''
+};
+
+\draw[->,ultra thick] (0,2.2) -- (0,1.5);
+\node at (2,1.8) {需要转换};
+
+\node[text width=8cm,draw,fill=green!20,rounded corners] at (0,0.5) {
+\textbf{数字序列：}\\
+234, 567, 123, 89, 456, ...\\
+计算机才能处理！
+};
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[文本预处理的挑战]
+\begin{itemize}
+    \item 文本是\textbf{离散}的符号
+    \item 包含大小写、标点、特殊字符
+    \item 需要统一的处理流程
+\end{itemize}
+\end{definition}
+
+
+\paragraph{时光机器数据集}
+\textbf{数据集：}H.G. Wells的科幻小说《时光机器》(The Time Machine, 1895)
+
+\begin{example}[为什么选这个数据集？]
+\begin{itemize}
+    \item 英文文本，便于处理
+    \item 大小适中（约30KB，3万多词）
+    \item 语言规范，句子结构清晰
+    \item 开源免费
+\end{itemize}
+\end{example}
+
+\begin{center}
+\begin{tikzpicture}
+\node[draw,fill=yellow!20,rounded corners,text width=8cm,align=left,font=\small] at (5,0) {
+\textbf{原始文本片段：}\\
+\textit{``The Time Machine, by H. G. Wells [1898]''}\\
+\textit{``I''}\\
+\textit{``The Time Traveller (for so it will be convenient to speak of him)''}\\
+\textit{``was expounding a recondite matter to us...''}
+};
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[特点]
+包含标题、章节标记、对话、描述等多种文本形式
+\end{theorem}
+
+
+\paragraph{读取文本文件}
+\begin{lstlisting}
+import os
+import requests
+
+# data
+def download_data():
+    url = 'http://d2l-data.s3-accelerate.amazonaws.com/timemachine.txt'
+    response = requests.get(url)
+    with open('timemachine.txt', 'wb') as f:
+        f.write(response.content)
+
+def read_time_machine():
+    with open('timemachine.txt', 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+    return lines
+
+lines = read_time_machine()
+print(f"Total lines: {len(lines)}")
+print(f"First 3 lines:")
+for i in range(3):
+    print(f"Line {i}: {lines[i]}")
+\end{lstlisting}
+
+\textbf{输出：}
+\begin{verbatim}
+Total lines: 3221
+Line 0: The Time Machine, by H. G. Wells [1898]
+Line 1: 
+Line 2: I
+\end{verbatim}
+
+
+\paragraph{原始文本的"脏数据"}
+\textbf{问题：}原始文本包含很多"噪声"
+
+
+
+\textbf{常见噪声：}
+\begin{itemize}
+    \item 大小写混杂\\
+    \texttt{"The", "the", "THE"}
+    \item 标点符号\\
+    \texttt{"Hello!", "Hello?", "Hello."}
+    \item 特殊字符\\
+    \texttt{"don't", "it's", "---"}
+    \item 空行和空格
+    \item 数字\\
+    \texttt{"year 1898"}
+\end{itemize}
+
+
+\begin{theorem}[为什么要清洗？]
+\begin{itemize}
+    \item 减少词汇量
+    \item 统一表示形式
+    \item 避免稀疏性问题
+    \item 提高模型泛化能力
+\end{itemize}
+\end{theorem}
+
+\begin{example}[例子]
+不清洗：\\
+"The", "the", "THE" $\to$ 3个词
+
+清洗后：\\
+"the" $\to$ 1个词
+\end{example}
+
+
+
+\paragraph{文本清洗}
+\begin{lstlisting}
+import re
+
+def read_time_machine():
+    with open('timemachine.txt', 'r') as f:
+        lines = f.readlines()
+    
+    clean_lines = []
+    for line in lines:
+        # 1. 
+        line = line.lower()
+        # 2. 
+        line = re.sub('[^a-z]+', ' ', line)
+        # 3. 
+        line = line.strip()
+        # 4. 
+        if line:
+            clean_lines.append(line)
+    
+    return clean_lines
+
+lines_raw = read_raw()
+lines_clean = read_time_machine()
+print("Raw:", lines_raw[0])
+print("Clean:", lines_clean[0])
+\end{lstlisting}
+
+\textbf{输出：}
+\begin{verbatim}
+Raw: The Time Machine, by H. G. Wells [1898]
+Clean: the time machine by h g wells
+\end{verbatim}
+
+
+\paragraph{正则表达式快速入门}
+\textbf{正则表达式（Regex）：}强大的文本匹配工具
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{模式} & \textbf{含义} & \textbf{示例} \\
+\hline
+\texttt{[a-z]} & 匹配小写字母 & \texttt{"a", "b", "z"} \\
+\texttt{[A-Z]} & 匹配大写字母 & \texttt{"A", "B", "Z"} \\
+\texttt{[0-9]} & 匹配数字 & \texttt{"0", "5", "9"} \\
+\texttt{[a-zA-Z]} & 匹配所有字母 & \texttt{"a", "B", "z"} \\
+\texttt{\^{}} & 取反 & \texttt{[\^{}a-z]} = 非小写字母 \\
+\texttt{+} & 一个或多个 & \texttt{[a-z]+} = 多个字母 \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{example}[应用示例]
+\begin{itemize}
+    \item 
+    把所有\textbf{非小写字母}替换为空格
+    
+    \item 
+    把所有\textbf{数字}替换为特殊标记
+\end{itemize}
+\end{example}
+
+
+\paragraph{清洗前后对比}
+
+
+\textbf{清洗前：}
+\begin{lstlisting}[basicstyle=\ttfamily\tiny]
+The Time Machine, 
+by H. G. Wells [1898]
+
+I
+
+The Time Traveller 
+(for so it will be 
+convenient to speak of him)
+was expounding a 
+recondite matter to us.
+\end{lstlisting}
+
+
+\textbf{清洗后：}
+\begin{lstlisting}[basicstyle=\ttfamily\tiny]
+the time machine by h g wells
+
+i
+
+the time traveller for so 
+it will be convenient to 
+speak of him was expounding 
+a recondite matter to us
+\end{lstlisting}
+
+
+\vspace{0.5cm}
+\begin{definition}[观察]
+\begin{itemize}
+    \item 全部小写
+    \item 标点消失
+    \item 数字消失
+    \item 保留了空格（词与词之间的分隔）
+\end{itemize}
+\end{definition}
+
+\subsection{8.2.2 词元化}
+
+\subsection{8.2.2 词元化（Tokenization）}
+\begin{center}
+\Large \textcolor{blue}{把文本拆分成"词元"（token）}
+\end{center}
+
+
+\paragraph{什么是词元？}
+\textbf{词元（Token）：}文本的基本处理单位
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1]
+% 原始句子
+\node[text width=10cm,align=center,font=\large] at (5,3.5) {
+\textbf{原始句子：}"the time traveller was smiling"
+};
+
+\draw[->,ultra thick] (5,3) -- (5,2.5);
+
+% 词元化
+\node[draw,fill=blue!20,rounded corners] at (1,2) {the};
+\node[draw,fill=blue!20,rounded corners] at (2.5,2) {time};
+\node[draw,fill=blue!20,rounded corners] at (4.2,2) {traveller};
+\node[draw,fill=blue!20,rounded corners] at (6,2) {was};
+\node[draw,fill=blue!20,rounded corners] at (7.5,2) {smiling};
+
+\node[below,font=\small] at (4.5,1.3) {5个词元（tokens）};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[为什么需要词元化？]
+\begin{itemize}
+    \item 神经网络只能处理\textbf{固定大小}的输入
+    \item 需要将连续的文本拆分成\textbf{离散单元}
+    \item 词元是\textbf{特征提取}的基础
+\end{itemize}
+\end{theorem}
+
+
+\paragraph{词元化的三种粒度}
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 原始句子
+\node[font=\large] at (6,4.5) {\textbf{句子：}"natural language processing"};
+
+% 词级别
+\node[draw,fill=green!20,text width=10cm,align=left] at (6,3.2) {
+\textbf{1. 词级别（Word-level）}\\
+\texttt{["natural", "language", "processing"]} \\
+$\to$ 3个词元
+};
+
+% 字符级别
+\node[draw,fill=yellow!20,text width=10cm,align=left] at (6,1.8) {
+\textbf{2. 字符级别（Character-level）}\\
+\texttt{["n","a","t","u","r","a","l"," ","l","a","n","g",...]} \\
+$\to$ 27个词元
+};
+
+% 子词级别
+\node[draw,fill=orange!20,text width=10cm,align=left] at (6,0.4) {
+\textbf{3. 子词级别（Subword-level）}\\
+\texttt{["natur", "al", "language", "process", "ing"]} \\
+$\to$ 5个词元
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{词级别词元化}
+\textbf{策略：}按空格或标点分割
+
+
+
+\textcolor{blue}{\textbf{优点：}}
+\begin{itemize}
+    \item \checkmark 语义清晰
+    \item \checkmark 符合人类理解
+    \item \checkmark 适合大多数任务
+\end{itemize}
+
+\textcolor{red}{\textbf{缺点：}}
+\begin{itemize}
+    \item $\times$ 词表很大
+    \item $\times$ 未登录词（OOV）问题
+    \item $\times$ 形态变化（如：run/running）
+\end{itemize}
+
+
+\begin{example}[OOV问题]
+\textbf{训练集：}\\
+\texttt{"dog", "cat", "run"}
+
+\textbf{测试时遇到：}\\
+\texttt{"dogs", "running", "bird"}
+
+$\rightarrow$ 模型不认识！
+\end{example}
+
+
+\vspace{0.3cm}
+\begin{definition}[词表大小]
+英文：常用词汇 5万-10万\\
+中文：常用汉字 3千-5千，但词汇量更大
+\end{definition}
+
+
+\paragraph{词级别词元化代码}
+\begin{lstlisting}
+def tokenize_word_level(text):
+    """Simple function"""
+    return text.split()
+
+text = "the time traveller was smiling"
+tokens = tokenize_word_level(text)
+print(f"tokens: {tokens}")
+print(f"tokens数: {len(tokens)}")
+
+# Output
+# tokens: ['the', 'time', 'traveller', 'was', 'smiling']
+# tokens: 5
+
+# data
+lines = read_time_machine()
+all_tokens = []
+for line in lines:
+    all_tokens.extend(tokenize_word_level(line))
+
+print(f"总tokens数: {len(all_tokens)}")
+print(f"前20个tokens: {all_tokens[:20]}")
+\end{lstlisting}
+
+\textbf{输出：}
+\begin{lstlisting}[language=Python]
+总tokens数: 32775
+前20个tokens: ['the', 'time', 'machine', 'by', 'h', 'g', ...]
+\end{lstlisting}
+
+
+\paragraph{字符级别词元化}
+\textbf{策略：}把每个字符作为一个词元
+
+
+
+\textcolor{blue}{\textbf{优点：}}
+\begin{itemize}
+    \item \checkmark 词表极小（26个字母）
+    \item \checkmark 无OOV问题
+    \item \checkmark 能处理任意文本
+    \item \checkmark 对拼写错误鲁棒
+\end{itemize}
+
+\textcolor{red}{\textbf{缺点：}}
+\begin{itemize}
+    \item $\times$ 序列变得很长
+    \item $\times$ 训练慢
+    \item $\times$ 难以捕捉词级别语义
+\end{itemize}
+
+
+\begin{example}[例子]
+\textbf{输入：}\\
+\texttt{"cat"}
+
+\textbf{词级别：}\\
+1个词元：\texttt{["cat"]}
+
+\textbf{字符级别：}\\
+3个词元：\texttt{["c","a","t"]}
+\end{example}
+
+\begin{theorem}[序列长度]
+"hello world" (11个字符)\\
+vs \\
+"hello world" (2个单词)\\
+序列长度差5倍！
+\end{theorem}
+
+
+
+\paragraph{字符级别词元化代码}
+\begin{lstlisting}
+def tokenize_char_level(text):
+    """tokens"""
+    return list(text)
+
+text = "the time"
+tokens = tokenize_char_level(text)
+print(f"tokens: {tokens}")
+print(f"tokens数: {len(tokens)}")
+
+# Output
+# tokens: ['t', 'h', 'e', ' ', 't', 'i', 'm', 'e']
+# tokens: 8
+
+# Calculate vocabulary size
+lines = read_time_machine()
+text = ' '.join(lines)
+chars = set(text)
+print(f"字符集大小: {len(chars)}")
+print(f"字符集: {sorted(chars)}")
+\end{lstlisting}
+
+\textbf{输出：}
+\begin{verbatim}
+字符集大小: 27
+字符集: [' ', 'a', 'b', 'c', ..., 'z']
+\end{verbatim}
+
+\begin{definition}[观察]
+词表从5万缩小到27个！但序列长度增加5-10倍
+\end{definition}
+
+
+\paragraph{子词级别词元化}
+\textbf{核心思想：}介于词和字符之间的折中方案
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 示意图
+\node[font=\large] at (5,3.5) {\textbf{例子：}``unhappiness''};
+
+\draw[->,thick] (5,3.2) -- (5,2.7);
+
+% 词级别
+\node[draw,fill=red!20] at (2,2) {``unhappiness''};
+\node[below,font=\tiny,text width=3cm,align=center] at (2,1.5) {词级别：1个词元\\但可能OOV};
+
+% 子词级别
+\node[draw,fill=green!20] at (5,2) {``un'' + ``happi'' + ``ness''};
+\node[below,font=\tiny,text width=3cm,align=center] at (5,1.5) {子词级别：3个词元\\可组合成新词};
+
+% 字符级别
+\node[draw,fill=yellow!20,font=\small] at (8,2) {``u'',``n'',``h'',``a'',...};
+\node[below,font=\tiny,text width=3cm,align=center] at (8,1.5) {字符级别：11个词元\\序列太长};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[子词的好处]
+\begin{itemize}
+    \item 可以组合出训练集中没见过的词
+    \item 例如："unhappy" = "un" + "happy"
+    \item 即使没见过"unhappy"，也能理解它的意思
+\end{itemize}
+\end{definition}
+
+
+\paragraph{常见子词算法}
+\begin{enumerate}
+\item \textbf{BPE (Byte Pair Encoding)}
+\begin{itemize}
+    \item 从字符开始，迭代合并最频繁的相邻pair
+    \item GPT-2, RoBERTa使用
+\end{itemize}
+
+\item \textbf{WordPiece}
+\begin{itemize}
+    \item 类似BPE，但用likelihood而非频率
+    \item BERT使用
+\end{itemize}
+
+\item \textbf{SentencePiece}
+\begin{itemize}
+    \item 直接从原始文本训练，不依赖预分词
+    \item 支持多语言
+    \item T5, XLNet使用
+\end{itemize}
+\end{enumerate}
+
+\begin{theorem}[现代NLP趋势]
+大模型几乎都使用\textbf{子词级别}词元化！\\
+平衡了词表大小和序列长度
+\end{theorem}
+
+
+\paragraph{三种粒度对比总结}
+\begin{center}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{特性} & \textbf{词级别} & \textbf{字符级别} & \textbf{子词级别} \\
+\hline
+词表大小 & 很大(5万+) & 很小($\sim$100) & 中等(3万) \\
+\hline
+序列长度 & 短 & 很长 & 中等 \\
+\hline
+OOV问题 & 严重 & 无 & 轻微 \\
+\hline
+语义保留 & 好 & 差 & 较好 \\
+\hline
+训练速度 & 快 & 慢 & 中等 \\
+\hline
+应用场景 & 传统NLP & 生成任务 & 现代大模型 \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+\begin{definition}[本节使用]
+为了简单起见，我们使用\textbf{词级别}词元化\\
+在8.4节实现RNN时，会用\textbf{字符级别}
+\end{definition}
+
+
+\paragraph{完整词元化函数}
+\begin{lstlisting}
+def tokenize(lines, token_type='word'):
+    """ tokens lines: token_type: 'word' 'char' Return: tokens """
+    if token_type == 'word':
+        return [line.split() for line in lines]
+    elif token_type == 'char':
+        return [list(line) for line in lines]
+    else:
+        raise ValueError(f"Unknown token_type: {token_type}")
+
+lines = read_time_machine()
+tokens_word = tokenize(lines, 'word')
+tokens_char = tokenize(lines, 'char')
+
+print(f"词级别 - 第1行: {tokens_word[0]}")
+print(f"字符级别 - 第1行: {tokens_char[0]}")
+\end{lstlisting}
+
+\textbf{输出：}
+\begin{verbatim}
+词级别 - 第1行: ['the', 'time', 'machine', 'by', 'h', 'g', 'wells']
+字符级别 - 第1行: ['t','h','e',' ','t','i','m','e',...]
+\end{verbatim}
+
+
+
+\subsection{词表}
+
+\subsection{8.2.3 词表}
+
+\subsection{8.2.3 词表（Vocabulary）}
+\begin{center}
+\Large \textcolor{blue}{建立词元到数字的映射}
+\end{center}
+
+
+\paragraph{为什么需要词表？}
+\textbf{问题：}神经网络不能直接处理文本
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1]
+% 文本
+\node[draw,fill=yellow!20,rounded corners,text width=3cm,align=center] at (0,2) {
+文本\\
+"cat"
+};
+
+\draw[->,ultra thick,red] (1.5,2) -- (2.5,2);
+\node[red,above] at (2,2.2) {\text{×}不能直接用};
+
+% 神经网络
+\node[draw,fill=blue!20,rounded corners,text width=3cm,align=center] at (4.5,2) {
+神经网络\\
+需要数字
+};
+
+% 解决方案
+\draw[->,ultra thick,green!60!black] (0,1.2) -- (0,0.5);
+\node[draw,fill=green!20,rounded corners,text width=3cm,align=center] at (0,0) {
+数字\\
+词表["cat"]=42
+};
+
+\draw[->,ultra thick,green!60!black] (1.5,0) -- (2.5,2);
+\node[green!60!black,below] at (2,1) {$\checkmark$通过词表转换};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[词表的作用]
+建立\textbf{词元 $\leftrightarrow$ 数字}的双向映射
+\end{theorem}
+
+
+\paragraph{词表构建示例}
+\textbf{输入文本：}"the cat sat on the mat"
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 步骤1：词元化
+\node[draw,fill=yellow!20,text width=8cm] at (5,3.5) {
+\textbf{步骤1：词元化}\\
+\texttt{["the", "cat", "sat", "on", "the", "mat"]}
+};
+
+\draw[->,thick] (5,3) -- (5,2.5);
+
+% 步骤2：统计频率
+\node[draw,fill=orange!20,text width=8cm] at (5,2) {
+\textbf{步骤2：统计词频}\\
+\texttt{"the": 2, "cat": 1, "sat": 1, "on": 1, "mat": 1}
+};
+
+\draw[->,thick] (5,1.5) -- (5,1);
+
+% 步骤3：按频率排序+分配ID
+\node[draw,fill=green!20,text width=8cm,align=left] at (5,0.2) {
+\textbf{步骤3：构建词表（按频率排序）}\\
+\texttt{0: <unk>  (未知词)}\\
+\texttt{1: the    (freq=2)}\\
+\texttt{2: cat    (freq=1)}\\
+\texttt{3: mat    (freq=1)}\\
+\texttt{4: on     (freq=1)}\\
+\texttt{5: sat    (freq=1)}
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{特殊词元}
+\textbf{除了普通词，词表还包含特殊标记：}
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{符号} & \textbf{含义} & \textbf{用途} \\
+\hline
+\texttt{<unk>} & Unknown & 未知词，词表中没有的词 \\
+\hline
+\texttt{<pad>} & Padding & 填充，对齐不同长度序列 \\
+\hline
+\texttt{<bos>} & Begin of Sequence & 句子开始标记 \\
+\hline
+\texttt{<eos>} & End of Sequence & 句子结束标记 \\
+\hline
+\texttt{<mask>} & Mask & 掩码，用于BERT等模型 \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{example}[例子]
+\textbf{原始：}"hello world"
+
+\textbf{加特殊标记：}\\
+\texttt{[<bos>, "hello", "world", <eos>]}
+
+\textbf{转数字（假设词表）：}\\
+\texttt{[1, 234, 567, 2]}
+\end{example}
+
+
+\paragraph{词频统计}
+\begin{lstlisting}
+def count_corpus(tokens):
+    """tokens"""
+    # tokens1D2D
+    if len(tokens) == 0 or isinstance(tokens[0], list):
+        # 2D1D
+        tokens = [token for line in tokens for token in line]
+    
+    from collections import Counter
+    return Counter(tokens)
+
+lines = read_time_machine()
+tokens = tokenize(lines, 'word')
+counter = count_corpus(tokens)
+
+print(f"总tokens数: {sum(counter.values())}")
+print(f"不同tokens数: {len(counter)}")
+print(f"最常见的10个词: {counter.most_common(10)}")
+\end{lstlisting}
+
+\textbf{输出：}
+\begin{verbatim}
+总词元数: 32775
+不同词元数: 4580
+最常见的10个词: [('the', 2261), ('i', 1267), ('and', 1245), ...]
+\end{verbatim}
+
+
+\paragraph{词表类实现 - 初始化}
+\begin{lstlisting}
+class Vocab:
+    def __init__(self, tokens=None, min_freq=0, 
+                 reserved_tokens=None):
+        """ tokens: tokens min_freq: reserved_tokens: tokens（<pad>） """
+        if tokens is None:
+            tokens = []
+        if reserved_tokens is None:
+            reserved_tokens = []
+        
+        counter = count_corpus(tokens)
+        self._token_freqs = sorted(counter.items(), 
+                                   key=lambda x: x[1], 
+                                   reverse=True)
+        
+        # tokens0tokens1
+        self.idx_to_token = ['<unk>'] + reserved_tokens
+        self.token_to_idx = {token: idx 
+                for idx, token in enumerate(self.idx_to_token)}
+\end{lstlisting}
+
+
+\paragraph{词表类实现 - 构建映射}
+\begin{lstlisting}
+        for token, freq in self._token_freqs:
+            if freq < min_freq:
+                break
+            if token not in self.token_to_idx:
+                self.idx_to_token.append(token)
+                self.token_to_idx[token] = len(self.idx_to_token) - 1
+    
+    def __len__(self):
+        """vocabulary"""
+        return len(self.idx_to_token)
+    
+    def __getitem__(self, tokens):
+        """查询tokens对应的索引"""
+        if not isinstance(tokens, (list, tuple)):
+            return self.token_to_idx.get(tokens, self.unk)
+        return [self.__getitem__(token) for token in tokens]
+    
+    @property
+    def unk(self):
+        """未知词的索引，总是0"""
+        return 0
+    
+    def to_tokens(self, indices):
+        """索引转回tokens"""
+        if not isinstance(indices, (list, tuple)):
+            return self.idx_to_token[indices]
+        return [self.idx_to_token[index] for index in indices]
+\end{lstlisting}
+
+
+\paragraph{词表使用示例}
+\begin{lstlisting}
+# vocabulary
+lines = read_time_machine()
+tokens = tokenize(lines, 'word')
+vocab = Vocab(tokens)
+
+print(f"vocabulary大小: {len(vocab)}")
+print(f"前10个tokens: {vocab.idx_to_token[:10]}")
+
+# tokens
+test_tokens = ['the', 'time', 'machine', 'xyz']
+indices = vocab[test_tokens]
+print(f"tokens: {test_tokens}")
+print(f"索引: {indices}")
+
+# tokens
+back_tokens = vocab.to_tokens(indices)
+print(f"转回: {back_tokens}")
+\end{lstlisting}
+
+\textbf{输出：}
+\begin{verbatim}
+词表大小: 4581
+前10个词元: ['<unk>', 'the', 'i', 'and', 'of', 'a', ...]
+词元: ['the', 'time', 'machine', 'xyz']
+索引: [1, 19, 50, 0]
+转回: ['the', 'time', 'machine', '<unk>']
+\end{verbatim}
+
+\begin{theorem}[注意]
+'xyz'不在词表中，被映射到 \texttt{<unk>} (索引0)
+\end{theorem}
+
+
+\paragraph{最小频率阈值的作用}
+\textbf{问题：}低频词很多，但作用不大
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% Zipf定律图示
+\draw[->,thick] (0,0) -- (8,0) node[right] {词频排名};
+\draw[->,thick] (0,0) -- (0,4) node[above] {词频};
+
+% 曲线
+\draw[blue,thick,domain=0.5:7.5,samples=100] plot (\x,{3.5/\x});
+
+% 高频区
+\fill[green!20,opacity=0.5] (0,0) rectangle (2,4);
+\node[green!60!black] at (1,3.5) {\tiny 高频词};
+\node[green!60!black,below] at (1,0) {\tiny 保留};
+
+% 中频区
+\fill[yellow!20,opacity=0.5] (2,0) rectangle (5,4);
+\node[orange!60!black] at (3.5,2) {\tiny 中频词};
+
+% 低频区
+\fill[red!20,opacity=0.5] (5,0) rectangle (8,4);
+\node[red!60!black] at (6.5,1) {\tiny 低频词};
+\node[red!60!black,below] at (6.5,0) {\tiny 丢弃};
+
+% 阈值线
+\draw[red,dashed,thick] (0,0.7) -- (8,0.7);
+\node[red,left] at (0,0.7) {\tiny min\_freq};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[策略]
+\begin{itemize}
+    \item \texttt{min\_freq=0}：保留所有词（词表大）
+    \item \texttt{min\_freq=5}：至少出现5次才保留（减小词表）
+    \item 低频词通常是拼写错误、人名等，可以用 \texttt{<unk>} 代替
+\end{itemize}
+\end{definition}
+
+
+\paragraph{最小频率阈值示例}
+\begin{lstlisting}
+vocab_all = Vocab(tokens, min_freq=0)
+vocab_5 = Vocab(tokens, min_freq=5)
+vocab_10 = Vocab(tokens, min_freq=10)
+
+print(f"min_freq=0:  vocabulary大小={len(vocab_all)}")
+print(f"min_freq=5:  vocabulary大小={len(vocab_5)}")
+print(f"min_freq=10: vocabulary大小={len(vocab_10)}")
+
+counter = count_corpus(tokens)
+low_freq = [token for token, freq in counter.items() if freq < 5]
+print(f"频率<5的词数: {len(low_freq)}")
+print(f"示例: {low_freq[:10]}")
+\end{lstlisting}
+
+\textbf{输出：}
+\begin{verbatim}
+min_freq=0:  词表大小=4581
+min_freq=5:  词表大小=2034
+min_freq=10: 词表大小=1446
+频率<5的词数: 3143
+示例: ['1898', 'xiv', 'pg', 'redistribution', ...]
+\end{verbatim}
+
+\begin{theorem}[观察]
+68\%的词频率$<$5，但它们只占总词数的很小比例！
+\end{theorem}
+
+
+
+\subsection{整合所有功能}
+
+\subsection{8.2.4 整合所有功能}
+
+\subsection{8.2.4 整合所有功能}
+\begin{center}
+\Large \textcolor{blue}{完整的文本预处理流程}
+\end{center}
+
+
+\paragraph{完整流程总结}
+\begin{center}
+\begin{tikzpicture}[scale=0.95]
+% 步骤1
+\node[draw,fill=yellow!20,rounded corners,text width=10cm] at (5,4.5) {
+\textbf{步骤1: 读取数据}\\
+\texttt{lines = read\_time\_machine()}
+};
+
+\draw[->,thick] (5,4) -- (5,3.5);
+
+% 步骤2
+\node[draw,fill=orange!20,rounded corners,text width=10cm] at (5,3) {
+\textbf{步骤2: 词元化}\\
+\texttt{tokens = tokenize(lines, 'word')}
+};
+
+\draw[->,thick] (5,2.5) -- (5,2);
+
+% 步骤3
+\node[draw,fill=green!20,rounded corners,text width=10cm] at (5,1.5) {
+\textbf{步骤3: 构建词表}\\
+\texttt{vocab = Vocab(tokens, min\_freq=5)}
+};
+
+\draw[->,thick] (5,1) -- (5,0.5);
+
+% 步骤4
+\node[draw,fill=blue!20,rounded corners,text width=10cm] at (5,0) {
+\textbf{步骤4: 转换为索引}\\
+\texttt{corpus = [vocab[token] for line in tokens for token in line]}
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{一站式函数}
+\begin{lstlisting}
+def load_corpus_time_machine(max_tokens=-1):
+    """ Returndatatokensvocabulary max_tokens: tokens，-1 """
+    lines = read_time_machine()
+    # tokens
+    tokens = tokenize(lines, 'char')  # comment
+    # vocabulary
+    vocab = Vocab(tokens)
+    corpus = [vocab[token] for line in tokens for token in line]
+    if max_tokens > 0:
+        corpus = corpus[:max_tokens]
+    
+    return corpus, vocab
+
+corpus, vocab = load_corpus_time_machine()
+print(f"语料库length: {len(corpus)}")
+print(f"vocabulary大小: {len(vocab)}")
+print(f"前10个索引: {corpus[:10]}")
+print(f"对应tokens: {vocab.to_tokens(corpus[:10])}")
+\end{lstlisting}
+
+
+\paragraph{一站式函数输出}
+\begin{lstlisting}[basicstyle=\ttfamily\tiny]
+# Output
+语料库length: 170580
+vocabulary大小: 28
+前10个索引: [1, 8, 5, 0, 1, 9, 13, 5, 0, 13]
+对应tokens: ['t', 'h', 'e', ' ', 't', 'i', 'm', 'e', ' ', 'm']
+\end{lstlisting}
+
+\begin{definition}[观察]
+\begin{itemize}
+    \item 使用\textbf{字符级别}词元化
+    \item 语料库是一个很长的数字序列（17万+）
+    \item 词表只有28个字符（26个字母+空格+其他）
+    \item 每个索引对应词表中的一个字符
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[为什么用字符级别？]
+\begin{itemize}
+    \item RNN训练时序列不宜过长
+    \item 字符级别词表小，便于演示
+    \item 避免OOV问题
+\end{itemize}
+\end{theorem}
+
+
+\paragraph{文本$\to$数字的完整示例}
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 原始文本
+\node[draw,fill=yellow!20,rounded corners,text width=10cm,align=center] at (5,4) {
+\textbf{原始文本}\\
+``the time machine''
+};
+
+\draw[->,thick] (5,3.5) -- (5,3.2);
+\node[right] at (5.5,3.35) {\tiny 清洗};
+
+% 清洗后
+\node[draw,fill=orange!20,rounded corners,text width=10cm,align=center] at (5,2.8) {
+\textbf{清洗后}\\
+``the time machine''
+};
+
+\draw[->,thick] (5,2.4) -- (5,2.1);
+\node[right] at (5.5,2.25) {\tiny 词元化(字符级)};
+
+% 词元
+\node[draw,fill=green!20,rounded corners,text width=10cm,align=center] at (5,1.7) {
+\textbf{词元列表}\\
+t, h, e, (space), t, i, m, e, (space), m, a, c, h, i, n, e
+};
+
+\draw[->,thick] (5,1.3) -- (5,1.0);
+\node[right] at (5.5,1.15) {\tiny 词表映射};
+
+% 索引
+\node[draw,fill=blue!20,rounded corners,text width=10cm,align=center] at (5,0.6) {
+\textbf{索引序列}\\
+20, 8, 5, 0, 20, 9, 13, 5, 0, 13, 1, 3, 8, 9, 14, 5
+};
+
+\draw[->,thick] (5,0.2) -- (5,-0.1);
+
+% 神经网络
+\node[draw,fill=red!20,rounded corners,text width=10cm,align=center] at (5,-0.5) {
+\textbf{输入神经网络} \checkmark
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{词表可视化}
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 标题
+\node[font=\large\bfseries] at (5,4) {词表结构（字符级别）};
+
+% 词表
+\node[draw,fill=yellow!20,text width=10cm,align=left,font=\small] at (5,2) {
+\textbf{词表（部分）：}\\
+\texttt{0: ' '  (空格)}\\
+\texttt{1: 'a'}\\
+\texttt{2: 'b'}\\
+\texttt{3: 'c'}\\
+\texttt{4: 'd'}\\
+\texttt{5: 'e'}\\
+\texttt{...}\\
+\texttt{20: 't'}\\
+\texttt{...}\\
+\texttt{26: 'z'}
+};
+
+% 双向映射
+\node[draw,fill=green!20,text width=4cm,align=center] at (1,0) {
+字符 $\to$ 索引\\
+\texttt{'t' $\to$ 20}
+};
+
+\draw[<->,ultra thick] (3.5,0) -- (6.5,0);
+
+\node[draw,fill=blue!20,text width=4cm,align=center] at (9,0) {
+索引 $\to$ 字符\\
+\texttt{20 $\to$ 't'}
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{完整数据加载器（带批处理）}
+\begin{lstlisting}
+def load_data_time_machine(batch_size, num_steps, 
+                           use_random_iter=False):
+    """ Returndataiterationvocabulary batch_size: num_steps: time step use_random_iter: """
+    corpus, vocab = load_corpus_time_machine()
+    
+    # dataiteration8.3
+    if use_random_iter:
+        data_iter = seq_data_iter_random(corpus, batch_size, num_steps)
+    else:
+        data_iter = seq_data_iter_sequential(corpus, batch_size, num_steps)
+    
+    return data_iter, vocab
+
+batch_size, num_steps = 32, 35
+train_iter, vocab = load_data_time_machine(batch_size, num_steps)
+\end{lstlisting}
+
+
+\subsection{8.2节总结}
+\begin{definition}[核心流程]
+\begin{enumerate}
+    \item \textbf{读取数据}：从文件读取原始文本
+    \item \textbf{清洗}：转小写、去标点、去数字
+    \item \textbf{词元化}：拆分成词元（词/字符/子词）
+    \item \textbf{构建词表}：统计词频，建立索引映射
+    \item \textbf{数值化}：将文本转为数字序列
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[关键概念]
+\begin{itemize}
+    \item \textbf{词元（Token）}：文本的基本单位
+    \item \textbf{词表（Vocabulary）}：词元$\leftrightarrow$索引的映射
+    \item \textbf{语料库（Corpus）}：数值化后的文本序列
+    \item \textbf{特殊标记}：\texttt{<unk>}, \texttt{<pad>}, \texttt{<bos>}, \texttt{<eos>}
+\end{itemize}
+\end{theorem}
+
+
+\paragraph{三种词元化策略对比}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 表格形式
+\node[font=\small] at (5,4) {\textbf{句子："I love natural language processing"}};
+
+% 词级别
+\node[draw,fill=green!20,text width=10cm,align=left] at (5,3) {
+\textbf{词级别：}\\
+5个词元: \texttt{["I", "love", "natural", "language", "processing"]}\\
+词表大: 需要5万+ | 有OOV问题
+};
+
+% 子词级别
+\node[draw,fill=yellow!20,text width=10cm,align=left] at (5,1.8) {
+\textbf{子词级别：}\\
+7个词元: \texttt{["I", "love", "natur", "al", "language", "process", "ing"]}\\
+词表中: 需要3万左右 | 几乎无OOV
+};
+
+% 字符级别
+\node[draw,fill=orange!20,text width=10cm,align=left] at (5,0.6) {
+\textbf{字符级别：}\\
+33个词元: \texttt{["I", " ", "l", "o", "v", "e", " ", "n", ...]}\\
+词表小: 只需100左右 | 序列太长
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[选择建议]
+\begin{itemize}
+    \item 教学/演示 $\to$ 字符级别（简单）
+    \item 传统任务 $\to$ 词级别（快速）
+    \item 现代大模型 $\to$ 子词级别（平衡）
+\end{itemize}
+\end{definition}
+
+
+\paragraph{实战tips}
+
+
+\textbf{常见问题：}
+\begin{enumerate}
+    \item \textbf{词表太大}\\
+    $\to$ 提高 \texttt{min\_freq}\\
+    $\to$ 使用子词
+
+    \item \textbf{OOV太多}\\
+    $\to$ 降低 \texttt{min\_freq}\\
+    $\to$ 使用字符/子词
+    
+    \item \textbf{序列太长}\\
+    $\to$ 使用词级别\\
+    $\to$ 截断序列
+\end{enumerate}
+
+
+\textbf{优化建议：}
+\begin{enumerate}
+    \item 根据任务选择粒度
+    \item 合理设置频率阈值
+    \item 考虑特殊标记需求
+    \item 保存词表以便复用
+    \item 可视化词频分布
+\end{enumerate}
+
+
+\vspace{0.5cm}
+\begin{theorem}[下一步]
+有了数值化的文本，接下来学习如何构建\textbf{语言模型}（8.3节）
+\end{theorem}
+
+
+\subsection{8.2节关键代码总结}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 核心函数
+\node[draw,fill=yellow!20,text width=10cm,align=left,font=\small] at (5,3.5) {
+\textbf{核心函数：}\\
+\texttt{read\_time\_machine()} - 读取并清洗文本\\
+\texttt{tokenize(lines, type)} - 词元化\\
+\texttt{count\_corpus(tokens)} - 统计词频\\
+\texttt{Vocab(tokens, min\_freq)} - 构建词表\\
+\texttt{load\_corpus\_time\_machine()} - 一站式加载
+};
+
+% Vocab类关键方法
+\node[draw,fill=green!20,text width=10cm,align=left,font=\small] at (5,1.5) {
+\textbf{Vocab类关键方法：}\\
+\texttt{vocab[token]} - 词元$\to$索引\\
+\texttt{vocab.to\_tokens(idx)} - 索引$\to$词元\\
+\texttt{len(vocab)} - 词表大小\\
+\texttt{vocab.unk} - 未知词索引(=0)
+};
+
+% 数据流
+\node[draw,fill=blue!20,text width=10cm,align=center,font=\small] at (5,0) {
+\textbf{数据流：}\\
+文本 $\to$ 清洗 $\to$ 词元 $\to$ 词表 $\to$ 索引 $\to$ 神经网络
+};
+
+\end{tikzpicture}
+\end{center}
+
+\section{8.3 语言模型和数据集}
+
+\subsection{8.3 语言模型和数据集 - 章节导航}
+\begin{definition}[本节内容]
+\begin{itemize}
+    \item 8.3.1 学习语言模型
+    \item 8.3.2 马尔可夫模型与元语法
+    \item 8.3.3 自然语言统计
+    \item 8.3.4 读取长序列数据
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[学习目标]
+\begin{enumerate}
+    \item 理解语言模型的数学定义
+    \item 掌握困惑度（Perplexity）的计算
+    \item 了解马尔可夫假设
+    \item 学会构建序列数据迭代器
+\end{enumerate}
+\end{theorem}
+
+
+

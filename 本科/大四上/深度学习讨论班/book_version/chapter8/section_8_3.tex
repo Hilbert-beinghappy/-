@@ -1,0 +1,1110 @@
+\section{未命名节}
+
+\subsection{学习语言模型}
+
+\subsection{8.3.1 学习语言模型}
+
+\subsection{8.3.1 学习语言模型}
+\begin{center}
+\Large \textcolor{blue}{语言模型的核心：估计文本序列的概率}
+\end{center}
+
+
+\paragraph{什么是语言模型？}
+\textbf{定义：}语言模型对文本序列的概率分布进行建模
+
+\begin{definition}[数学表示]
+对于文本序列 $x_1, x_2, \ldots, x_T$，语言模型估计其概率：
+$$P(x_1, x_2, \ldots, x_T)$$
+\end{definition}
+
+\textbf{链式法则分解：}
+$$P(x_1, x_2, \ldots, x_T) = \prod_{t=1}^{T} P(x_t \mid x_1, \ldots, x_{t-1})$$
+
+\begin{example}[直观理解]
+给定前面的词，预测下一个词的概率
+\begin{itemize}
+    \item 已知：``the cat sat on the''
+    \item 预测：下一个词是 ``mat'' 的概率？
+\end{itemize}
+\end{example}
+
+
+\paragraph{语言模型的应用}
+
+
+\textbf{1. 文本生成}
+\begin{itemize}
+    \item 对话系统
+    \item 故事创作
+    \item 代码补全
+\end{itemize}
+
+\textbf{2. 机器翻译}
+\begin{itemize}
+    \item 评估译文流畅度
+    \item 选择最佳翻译
+\end{itemize}
+
+
+\textbf{3. 语音识别}
+\begin{itemize}
+    \item 纠正识别错误
+    \item 消除歧义
+\end{itemize}
+
+\textbf{4. 拼写检查}
+\begin{itemize}
+    \item 检测错误
+    \item 提供建议
+\end{itemize}
+
+
+\vspace{0.5cm}
+\begin{theorem}[核心思想]
+好的语言模型能给\textbf{合理的句子}分配\textbf{高概率}，给\textbf{不合理的句子}分配\textbf{低概率}
+\end{theorem}
+
+
+\paragraph{语言模型的挑战}
+\textbf{问题：}直接估计 $P(x_1, x_2, \ldots, x_T)$ 非常困难！
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 序列长度
+\node[draw,fill=yellow!20,text width=10cm] at (5,3.5) {
+\textbf{挑战1：序列长度不固定}\\
+不同句子长度不同，如何统一建模？
+};
+
+% 参数数量
+\node[draw,fill=orange!20,text width=10cm] at (5,2.2) {
+\textbf{挑战2：参数爆炸}\\
+如果词表大小为 $V$，长度为 $T$ 的序列有 $V^T$ 种可能！
+};
+
+% 稀疏性
+\node[draw,fill=red!20,text width=10cm] at (5,0.9) {
+\textbf{挑战3：数据稀疏}\\
+很多序列在训练集中从未出现，如何估计概率？
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[解决思路]
+\begin{itemize}
+    \item 使用\textbf{链式法则}分解
+    \item 使用\textbf{马尔可夫假设}简化
+    \item 使用\textbf{神经网络}建模条件概率
+\end{itemize}
+\end{definition}
+
+
+\paragraph{条件概率建模}
+\textbf{关键：}将复杂的联合概率分解为条件概率的乘积
+
+$$P(x_1, x_2, x_3, x_4) = P(x_1) \cdot P(x_2 \mid x_1) \cdot P(x_3 \mid x_1, x_2) \cdot P(x_4 \mid x_1, x_2, x_3)$$
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1]
+% 时间步
+\foreach \i in {1,2,3,4} {
+    \node[circle,draw,fill=blue!20] (x\i) at (\i*2,0) {$x_{\i}$};
+}
+
+% 条件依赖
+\draw[->,thick,red] (x1) to[bend left=30] node[above,font=\tiny] {$P(x_2|x_1)$} (x2);
+\draw[->,thick,red] (x1) to[bend left=40] (x3);
+\draw[->,thick,red] (x2) to[bend left=30] node[above,font=\tiny] {$P(x_3|x_1,x_2)$} (x3);
+\draw[->,thick,red] (x1) to[bend left=50] (x4);
+\draw[->,thick,red] (x2) to[bend left=40] (x4);
+\draw[->,thick,red] (x3) to[bend left=30] node[above,font=\tiny] {$P(x_4|x_1,x_2,x_3)$} (x4);
+
+\node[below,font=\small] at (4,-0.7) {每个词依赖前面所有词};
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[关键问题]
+如何高效地估计条件概率 $P(x_t \mid x_1, \ldots, x_{t-1})$？
+\end{theorem}
+
+
+\paragraph{困惑度（Perplexity）}
+\textbf{定义：}评估语言模型质量的标准指标
+
+\begin{definition}[数学定义]
+$$\text{PPL} = \exp\left(-\frac{1}{n}\sum_{t=1}^{n}\log P(x_t \mid x_1, \ldots, x_{t-1})\right)$$
+\end{definition}
+
+\textbf{等价形式：}
+$$\text{PPL} = \sqrt[n]{\frac{1}{P(x_1, x_2, \ldots, x_n)}}$$
+
+
+
+\textbf{直观理解：}
+\begin{itemize}
+    \item 平均分支因子
+    \item 模型的``困惑程度''
+    \item 越低越好
+\end{itemize}
+
+
+\textbf{取值范围：}
+\begin{itemize}
+    \item 最好：PPL = 1（完全确定）
+    \item 随机猜测：PPL = $|V|$
+    \item 实际：10-200之间
+\end{itemize}
+
+
+
+\paragraph{困惑度的直观例子}
+\textbf{例子：}预测下一个词
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 好的模型
+\node[draw,fill=green!20,text width=5cm] at (0,3) {
+\textbf{模型A（好）：}\\
+``I love''后面是：\\
+- ``you'': 0.7\\
+- ``it'': 0.2\\
+- ``apple'': 0.1\\
+\textbf{PPL} $\approx$ \textbf{2.1}
+};
+
+% 差的模型
+\node[draw,fill=red!20,text width=5cm] at (0,0.5) {
+\textbf{模型B（差）：}\\
+``I love''后面是：\\
+- ``you'': 0.01\\
+- ``it'': 0.01\\
+- 其他998个词均分\\
+\textbf{PPL} $\approx$ \textbf{100}
+};
+
+% 标注
+\node[right,text width=4cm] at (6,3) {
+\textcolor{green!60!black}{$\checkmark$ 集中在合理的词上}\\
+困惑度低
+};
+
+\node[right,text width=4cm] at (6,0.5) {
+\textcolor{red}{$\times$ 概率分散}\\
+困惑度高
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{困惑度计算示例}
+\begin{lstlisting}
+import torch
+import torch.nn.functional as F
+
+def calculate_perplexity(model, data, vocab):
+    """model"""
+    model.eval()
+    total_loss = 0
+    total_tokens = 0
+    
+    with torch.no_grad():
+        for X, Y in data:
+            # X: (batch_size, seq_len)
+            # Y: (batch_size, seq_len)
+            output = model(X)  # (batch_size, seq_len, vocab_size)
+            
+            # loss
+            loss = F.cross_entropy(
+                output.reshape(-1, len(vocab)),
+                Y.reshape(-1),
+                reduction='sum'
+            )
+            
+            total_loss += loss.item()
+            total_tokens += Y.numel()
+    
+    #  = exp()
+    perplexity = torch.exp(torch.tensor(total_loss / total_tokens))
+    return perplexity.item()
+\end{lstlisting}
+
+
+
+\subsection{马尔可夫模型与元语法}
+
+\subsection{8.3.2 马尔可夫模型与元语法}
+
+\subsection{8.3.2 马尔可夫模型与元语法}
+\begin{center}
+\Large \textcolor{blue}{简化建模：马尔可夫假设}
+\end{center}
+
+
+\paragraph{马尔可夫假设}
+\textbf{问题：}依赖所有历史太复杂
+
+$$P(x_t \mid x_1, x_2, \ldots, x_{t-1})$$
+
+\textbf{马尔可夫假设：}只依赖最近的 $\tau$ 个词
+
+$$P(x_t \mid x_1, x_2, \ldots, x_{t-1}) \approx P(x_t \mid x_{t-\tau}, \ldots, x_{t-1})$$
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 完整依赖
+\node[text width=10cm] at (5,3.5) {
+\textbf{完整模型：}依赖所有历史
+};
+\foreach \i in {1,2,3,4,5} {
+    \node[circle,draw,fill=blue!20,font=\tiny] (x\i) at (\i*1.5,2.5) {$x_{\i}$};
+}
+\node[circle,draw,fill=green!30] (x6) at (10,2.5) {$x_6$};
+\foreach \i in {1,2,3,4,5} {
+    \draw[->,thick,red] (x\i) to[bend left=20] (x6);
+}
+
+% 马尔可夫
+\node[text width=10cm] at (5,1.2) {
+\textbf{马尔可夫模型：}只依赖最近 $\tau=2$ 个
+};
+\foreach \i in {1,2,3,4,5} {
+    \node[circle,draw,fill=blue!20,font=\tiny] (y\i) at (\i*1.5,0) {$x_{\i}$};
+}
+\node[circle,draw,fill=green!30] (y6) at (10,0) {$x_6$};
+\draw[->,thick,red] (y4) to[bend left=20] (y6);
+\draw[->,thick,red] (y5) to[bend left=20] (y6);
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{N-gram模型}
+\textbf{根据 $\tau$ 的不同，有不同的N-gram模型：}
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{模型} & \textbf{$\tau$} & \textbf{条件概率} \\
+\hline
+Unigram (1-gram) & 0 & $P(x_t)$ \\
+\hline
+Bigram (2-gram) & 1 & $P(x_t \mid x_{t-1})$ \\
+\hline
+Trigram (3-gram) & 2 & $P(x_t \mid x_{t-2}, x_{t-1})$ \\
+\hline
+4-gram & 3 & $P(x_t \mid x_{t-3}, x_{t-2}, x_{t-1})$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{example}[例子：Bigram模型]
+\textbf{句子：}``the cat sat on the mat''
+
+\textbf{概率：}
+\begin{align*}
+P(\text{sentence}) &= P(\text{the}) \cdot P(\text{cat} \mid \text{the}) \cdot P(\text{sat} \mid \text{cat}) \\
+&\quad \cdot P(\text{on} \mid \text{sat}) \cdot P(\text{the} \mid \text{on}) \cdot P(\text{mat} \mid \text{the})
+\end{align*}
+\end{example}
+
+
+\paragraph{N-gram模型的估计}
+\textbf{最大似然估计（MLE）：}
+
+$$P(x_t \mid x_{t-\tau}, \ldots, x_{t-1}) = \frac{\text{count}(x_{t-\tau}, \ldots, x_{t-1}, x_t)}{\text{count}(x_{t-\tau}, \ldots, x_{t-1})}$$
+
+\begin{example}[Bigram例子]
+训练文本：``I love you I love coding I love AI''
+
+\textbf{计算：}$P(\text{you} \mid \text{love})$
+
+$$P(\text{you} \mid \text{love}) = \frac{\text{count}(\text{love you})}{\text{count}(\text{love})} = \frac{1}{3}$$
+
+其他：
+\begin{itemize}
+    \item $P(\text{coding} \mid \text{love}) = 1/3$
+    \item $P(\text{AI} \mid \text{love}) = 1/3$
+\end{itemize}
+\end{example}
+
+
+\paragraph{N-gram模型的问题}
+
+
+\textbf{优点：}
+\begin{itemize}
+    \item $\checkmark$ 简单高效
+    \item $\checkmark$ 易于实现
+    \item $\checkmark$ 可解释性强
+\end{itemize}
+
+
+\textbf{缺点：}
+\begin{itemize}
+    \item $\times$ 无法捕捉长期依赖
+    \item $\times$ 数据稀疏问题严重
+    \item $\times$ 参数随 $\tau$ 指数增长
+\end{itemize}
+
+
+\vspace{0.5cm}
+\begin{theorem}[数据稀疏问题]
+\textbf{例子：}训练集中没见过 ``love machine''
+
+$\Rightarrow$ $P(\text{machine} \mid \text{love}) = 0$
+
+\textbf{解决：}平滑技术（Laplace平滑、Good-Turing平滑等）
+\end{theorem}
+
+\begin{definition}[现代方案]
+使用\textbf{神经网络语言模型}（如RNN）克服这些问题
+\end{definition}
+
+
+\paragraph{N-gram模型实现}
+\begin{lstlisting}
+from collections import defaultdict, Counter
+
+class NgramModel:
+    def __init__(self, n=2):
+        self.n = n
+        self.context_counts = defaultdict(Counter)
+    
+    def train(self, corpus):
+        """trainingN-grammodel"""
+        for i in range(self.n - 1, len(corpus)):
+            context = tuple(corpus[i - self.n + 1:i])
+            word = corpus[i]
+            self.context_counts[context][word] += 1
+    
+    def prob(self, context, word):
+        """计算条件概率 P(word | context)"""
+        context = tuple(context)
+        if context not in self.context_counts:
+            return 0
+        
+        total = sum(self.context_counts[context].values())
+        return self.context_counts[context][word] / total
+\end{lstlisting}
+
+
+
+\subsection{自然语言统计}
+
+\subsection{8.3.3 自然语言统计}
+
+\subsection{8.3.3 自然语言统计}
+\begin{center}
+\Large \textcolor{blue}{真实文本的统计规律}
+\end{center}
+
+
+\paragraph{Zipf定律}
+\textbf{定律：}词频与其排名成反比
+
+$$\text{frequency}(k) \propto \frac{1}{k^\alpha}$$
+
+其中 $k$ 是词频排名，$\alpha \approx 1$
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 坐标轴
+\draw[->,thick] (0,0) -- (8,0) node[right] {词频排名（对数尺度）};
+\draw[->,thick] (0,0) -- (0,4) node[above] {词频（对数尺度）};
+
+% Zipf曲线
+\draw[blue,thick,domain=0.5:7.5,samples=100] plot (\x,{3.5-0.5*\x});
+
+% 标注
+\node[blue] at (2,3) {the};
+\node[blue] at (3,2.3) {of};
+\node[blue] at (4,1.8) {and};
+\node[blue] at (6,1) {machine};
+
+% 直线拟合
+\draw[red,dashed,thick] (0.5,3.2) -- (7.5,0.2);
+\node[red,right] at (7.5,0.2) {$y = -\alpha x + c$};
+
+\node[below,text width=8cm,align=center] at (4,-0.8) {
+\small 少数高频词 + 大量低频词
+};
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{Zipf定律的含义}
+
+
+\textbf{长尾分布：}
+\begin{itemize}
+    \item 少数词非常常见
+    \item 大部分词很少见
+    \item ``the'', ``of'', ``and'' 占比很大
+\end{itemize}
+
+\textbf{影响：}
+\begin{itemize}
+    \item 词表大小选择
+    \item 低频词处理
+    \item 采样策略
+\end{itemize}
+
+
+\begin{example}[时光机器数据]
+\begin{itemize}
+    \item 总词数：32,775
+    \item 不同词数：4,580
+    \item Top 10占比：30\%
+    \item Top 100占比：50\%
+    \item 出现1次的词：50\%
+\end{itemize}
+\end{example}
+
+
+\vspace{0.3cm}
+\begin{theorem}[启示]
+可以用 \texttt{min\_freq} 过滤低频词，减小词表但保留大部分信息
+\end{theorem}
+
+
+\paragraph{可视化Zipf定律}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+counter = count_corpus(tokens)
+freqs = sorted(counter.values(), reverse=True)
+
+plt.figure(figsize=(10, 5))
+
+plt.subplot(1, 2, 1)
+plt.loglog(range(1, len(freqs) + 1), freqs)
+plt.xlabel('Rank')
+plt.ylabel('Frequency')
+plt.title('Zipf Law (log-log)')
+
+plt.subplot(1, 2, 2)
+plt.plot(range(1, 100), freqs[:99])
+plt.xlabel('Rank')
+plt.ylabel('Frequency')
+plt.title('Top 100 words')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+
+\paragraph{词频统计可视化}
+% 如果有图片可以插入：
+% \includegraphics[width=0.8\textwidth]{zipf_plot.png}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 左图：对数-对数
+\begin{scope}[xshift=0cm]
+\draw[->,thick] (0,0) -- (5,0) node[right,font=\tiny] {log(rank)};
+\draw[->,thick] (0,0) -- (0,4) node[above,font=\tiny] {log(freq)};
+\draw[blue,thick] (0.5,3.5) -- (4.5,0.5);
+\node[below] at (2.5,-0.5) {\small 对数-对数图（直线）};
+\fill[red] (0.5,3.5) circle (2pt) node[left,font=\tiny] {the};
+\fill[red] (1.5,2.5) circle (2pt) node[left,font=\tiny] {of};
+\fill[red] (2.5,1.5) circle (2pt) node[left,font=\tiny] {and};
+\end{scope}
+
+% 右图：普通坐标
+\begin{scope}[xshift=7cm]
+\draw[->,thick] (0,0) -- (5,0) node[right,font=\tiny] {rank};
+\draw[->,thick] (0,0) -- (0,4) node[above,font=\tiny] {frequency};
+\draw[blue,thick,domain=0.3:5,samples=50] plot (\x,{3.5/\x});
+\node[below] at (2.5,-0.5) {\small 普通坐标（双曲线）};
+\end{scope}
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[观察]
+\begin{itemize}
+    \item 双对数图呈直线 $\Rightarrow$ 幂律分布
+    \item 少数高频词 + 长长的尾巴
+    \item 符合Zipf定律
+\end{itemize}
+\end{definition}
+
+
+
+\subsection{读取长序列数据}
+
+\subsection{8.3.4 读取长序列数据}
+
+\subsection{8.3.4 读取长序列数据}
+\begin{center}
+\Large \textcolor{blue}{如何高效地训练序列模型？}
+\end{center}
+
+
+\paragraph{训练RNN的挑战}
+\textbf{问题：}完整的文本语料库是一个很长的序列
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 长序列
+\node[text width=10cm,align=center] at (5,3) {
+\textbf{时光机器语料库：}170,580个字符\\
+\textcolor{red}{太长了！无法一次性处理}
+};
+
+\draw[->,thick] (5,2.5) -- (5,2);
+
+% 需要分割
+\node[draw,fill=yellow!20,text width=10cm] at (5,1.2) {
+\textbf{解决方案：}将长序列分割成小批量
+\begin{itemize}
+    \item 每个批量包含多个样本
+    \item 每个样本是固定长度的子序列
+\end{itemize}
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[关键问题]
+\begin{enumerate}
+    \item 如何分割长序列？
+    \item 如何保持序列的连续性？
+    \item 如何构建批量数据？
+\end{enumerate}
+\end{theorem}
+
+
+\paragraph{两种采样策略}
+
+
+\textbf{1. 随机采样}
+\begin{itemize}
+    \item 每个批量随机选起始位置
+    \item 批量间相互独立
+    \item 打乱了时序
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.6]
+\draw (0,0) rectangle (8,0.5);
+\fill[blue!30] (1,0) rectangle (3,0.5);
+\fill[green!30] (5,0) rectangle (7,0.5);
+\node[above] at (2,0.5) {\tiny 样本1};
+\node[above] at (6,0.5) {\tiny 样本2};
+\node[below] at (4,-0.2) {\tiny 随机位置};
+\end{tikzpicture}
+\end{center}
+
+\textcolor{blue}{\textbf{优点：}}
+\begin{itemize}
+    \item 简单
+    \item 并行友好
+\end{itemize}
+
+
+\textbf{2. 顺序分区}
+\begin{itemize}
+    \item 保持批量间的连续性
+    \item 按顺序划分
+    \item 保留了时序关系
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.6]
+\draw (0,0) rectangle (8,0.5);
+\fill[blue!30] (0,0) rectangle (2,0.5);
+\fill[green!30] (2,0) rectangle (4,0.5);
+\fill[red!30] (4,0) rectangle (6,0.5);
+\fill[yellow!30] (6,0) rectangle (8,0.5);
+\node[above,font=\tiny] at (1,0.5) {批次1};
+\node[above,font=\tiny] at (3,0.5) {批次2};
+\node[above,font=\tiny] at (5,0.5) {批次3};
+\node[above,font=\tiny] at (7,0.5) {批次4};
+\end{tikzpicture}
+\end{center}
+
+\textcolor{blue}{\textbf{优点：}}
+\begin{itemize}
+    \item 保持连续性
+    \item 更符合实际
+\end{itemize}
+
+
+\vspace{0.5cm}
+\begin{theorem}[选择建议]
+训练时通常使用\textbf{顺序分区}，以更好地利用上下文信息
+\end{theorem}
+
+
+\paragraph{随机采样详解}
+\textbf{策略：}从语料库中随机选择起始位置
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 完整语料库
+\draw[thick] (0,3) rectangle (10,3.5);
+\node[left] at (0,3.25) {语料库};
+\node[right] at (10,3.25) {170,580字符};
+
+% 随机采样1
+\fill[blue!30] (1,3) rectangle (3,3.5);
+\draw[->,thick,blue] (2,3) -- (2,2);
+\draw[thick,blue] (1,1.5) rectangle (3,2);
+\node[below,blue] at (2,1.5) {样本1};
+
+% 随机采样2
+\fill[green!30] (6,3) rectangle (8,3.5);
+\draw[->,thick,green!60!black] (7,3) -- (7,1);
+\draw[thick,green!60!black] (6,0.5) rectangle (8,1);
+\node[below,green!60!black] at (7,0.5) {样本2};
+
+% 随机采样3
+\fill[red!30] (4,3) rectangle (6,3.5);
+\draw[->,thick,red] (5,3) -- (5,0);
+\draw[thick,red] (4,-.5) rectangle (6,0);
+\node[below,red] at (5,-0.5) {样本3};
+
+\node[below,text width=10cm,align=center] at (5,-1.2) {
+\small 每个样本的起始位置随机选择，批量间无关联
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{随机采样实现}
+\begin{lstlisting}
+def seq_data_iter_random(corpus, batch_size, num_steps):
+    """ Random sampling to generate mini-batch subsequences corpus: list of token indices batch_size: batch size num_steps: number of time steps per subsequence """
+    corpus = corpus[random.randint(0, num_steps - 1):]
+    
+    num_subseqs = (len(corpus) - 1) // num_steps
+    
+    initial_indices = list(range(0, num_subseqs * num_steps, num_steps))
+    
+    random.shuffle(initial_indices)
+    
+    def data(pos):
+        """Return sequence of length num_steps starting from pos"""
+        return corpus[pos: pos + num_steps]
+    
+    # Generate batches
+    num_batches = num_subseqs // batch_size
+    for i in range(0, batch_size * num_batches, batch_size):
+        # Get batch_size sequences
+        initial_indices_per_batch = initial_indices[i: i + batch_size]
+        
+        X = [data(j) for j in initial_indices_per_batch]
+        Y = [data(j + 1) for j in initial_indices_per_batch]
+        
+        yield torch.tensor(X), torch.tensor(Y)
+\end{lstlisting}
+
+
+\paragraph{顺序分区详解}
+\textbf{策略：}将语料库均匀分成 \texttt{batch\_size} 份，顺序读取
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 语料库
+\node[left,font=\small] at (-0.5,3) {语料库};
+\draw[thick] (0,2.5) rectangle (10,3);
+
+% 分成batch_size份
+\foreach \i in {0,1,2,3} {
+    \fill[blue!30] (\i*2.5,2.5) rectangle (\i*2.5+2.5,3);
+    \draw[thick] (\i*2.5,2.5) rectangle (\i*2.5+2.5,3);
+    \node at (\i*2.5+1.25,2.75) {\tiny 分区\i};
+}
+
+% 每个分区顺序读取
+\draw[->,thick] (1.25,2.5) -- (1.25,1.8);
+\draw[thick,fill=blue!20] (0.5,1) rectangle (2,1.5);
+\node[below,font=\tiny] at (1.25,1) {批次1-样本0};
+
+\draw[->,thick] (3.75,2.5) -- (3.75,1.8);
+\draw[thick,fill=green!20] (3,1) rectangle (4.5,1.5);
+\node[below,font=\tiny] at (3.75,1) {批次1-样本1};
+
+\draw[->,thick] (6.25,2.5) -- (6.25,1.8);
+\draw[thick,fill=red!20] (5.5,1) rectangle (7,1.5);
+\node[below,font=\tiny] at (6.25,1) {批次1-样本2};
+
+\draw[->,thick] (8.75,2.5) -- (8.75,1.8);
+\draw[thick,fill=yellow!20] (8,1) rectangle (9.5,1.5);
+\node[below,font=\tiny] at (8.75,1) {批次1-样本3};
+
+% 下一批次
+\node[below,text width=10cm,align=center] at (5,0.3) {
+\small 批次2、批次3...依次从每个分区顺序读取下一段
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{顺序分区的优势}
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% 时间线
+\draw[->,thick] (0,3) -- (11,3) node[right] {时间};
+
+% 分区0
+\foreach \i in {0,1,2,3} {
+    \fill[blue!30] (\i*2.5,2.5) rectangle (\i*2.5+0.5,3);
+    \node[above,font=\tiny,blue] at (\i*2.5+0.25,3) {分区0-\i};
+}
+
+% 分区1
+\foreach \i in {0,1,2,3} {
+    \fill[green!30] (\i*2.5+0.6,2.5) rectangle (\i*2.5+1.1,3);
+    \node[above,font=\tiny,green!60!black] at (\i*2.5+0.85,3) {分区1-\i};
+}
+
+% 箭头表示连续
+\draw[->,thick,blue] (0.5,2.75) -- (2.5,2.75);
+\draw[->,thick,blue] (3,2.75) -- (5,2.75);
+\draw[->,thick,blue] (5.5,2.75) -- (7.5,2.75);
+
+\draw[->,thick,green!60!black] (1.1,2.85) -- (3.1,2.85);
+\draw[->,thick,green!60!black] (3.6,2.85) -- (5.6,2.85);
+\draw[->,thick,green!60!black] (6.1,2.85) -- (8.1,2.85);
+
+\node[below,text width=10cm,align=center] at (5,2) {
+\textbf{关键：}每个分区内部是\textcolor{red}{连续的}！\\
+隐状态可以跨批次传递
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[隐状态传递]
+\begin{itemize}
+    \item 批次$t$的最终隐状态 $\rightarrow$ 批次$t+1$的初始隐状态
+    \item 保持了长期依赖关系
+    \item 更符合RNN的设计理念
+\end{itemize}
+\end{theorem}
+
+
+\paragraph{顺序分区实现}
+\begin{lstlisting}
+def seq_data_iter_sequential(corpus, batch_size, num_steps):
+    """ sequence """
+    offset = random.randint(0, num_steps)
+    num_tokens = ((len(corpus) - offset - 1) // batch_size) * batch_size
+    Xs = torch.tensor(corpus[offset: offset + num_tokens])
+    Ys = torch.tensor(corpus[offset + 1: offset + 1 + num_tokens])
+    
+    # (batch_size, -1)
+    Xs = Xs.reshape(batch_size, -1)
+    Ys = Ys.reshape(batch_size, -1)
+    
+    num_batches = Xs.shape[1] // num_steps
+    
+    for i in range(0, num_steps * num_batches, num_steps):
+        X = Xs[:, i: i + num_steps]
+        Y = Ys[:, i: i + num_steps]
+        yield X, Y
+\end{lstlisting}
+
+
+\paragraph{数据迭代器对比}
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{特性} & \textbf{随机采样} & \textbf{顺序分区} \\
+\hline
+批次间关系 & 独立 & 连续 \\
+\hline
+隐状态传递 & 不需要 & 需要 \\
+\hline
+实现复杂度 & 简单 & 中等 \\
+\hline
+训练效果 & 较好 & 更好 \\
+\hline
+适用场景 & 调试、快速实验 & 正式训练 \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+\begin{example}[参数设置建议]
+\begin{itemize}
+    \item \texttt{batch\_size}：32-64（取决于GPU内存）
+    \item \texttt{num\_steps}：35-100（序列长度）
+    \item 总样本数 = \texttt{batch\_size} $\times$ \texttt{num\_batches}
+\end{itemize}
+\end{example}
+
+
+\paragraph{使用示例}
+\begin{lstlisting}
+# data
+corpus, vocab = load_corpus_time_machine()
+
+batch_size, num_steps = 32, 35
+
+random_iter = seq_data_iter_random(corpus, batch_size, num_steps)
+for X, Y in random_iter:
+    print(f'X shape: {X.shape}, Y shape: {Y.shape}')
+    break
+# Output: X shape: torch.Size([32, 35]), Y shape: torch.Size([32, 35])
+
+seq_iter = seq_data_iter_sequential(corpus, batch_size, num_steps)
+for X, Y in seq_iter:
+    print(f'X shape: {X.shape}, Y shape: {Y.shape}')
+    # X[i, :]  Y[i, :] 
+    # X[i, j]  Y[i, j]
+    break
+\end{lstlisting}
+
+\begin{definition}[形状说明]
+\begin{itemize}
+    \item \texttt{X}: (batch\_size, num\_steps) - 输入序列
+    \item \texttt{Y}: (batch\_size, num\_steps) - 目标序列
+    \item \texttt{X[i, j]} 的目标是 \texttt{Y[i, j]} (即 \texttt{X[i, j+1]})
+\end{itemize}
+\end{definition}
+
+
+\paragraph{数据批次的可视化}
+\textbf{假设：}语料库 = ``hello world this is a test''
+
+\textbf{参数：}\texttt{batch\_size=2}, \texttt{num\_steps=3}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 原始序列
+\node[left] at (-0.5,3.5) {语料库:};
+\foreach \i/\c in {0/h,1/e,2/l,3/l,4/o,5/{ },6/w,7/o,8/r,9/l,10/d,11/{ }} {
+    \node[draw,minimum size=0.5cm] at (\i*0.6,3.5) {\tiny \c};
+}
+
+% 分成2个分区
+\node[left] at (-0.5,2.5) {分区0:};
+\foreach \i/\c in {0/h,1/e,2/l,3/l,4/o,5/{ }} {
+    \node[draw,fill=blue!20,minimum size=0.5cm] at (\i*0.6,2.5) {\tiny \c};
+}
+
+\node[left] at (-0.5,1.8) {分区1:};
+\foreach \i/\c in {0/w,1/o,2/r,3/l,4/d,5/{ }} {
+    \node[draw,fill=green!20,minimum size=0.5cm] at (\i*0.6,1.8) {\tiny \c};
+}
+
+% 第一个批次
+\node[left] at (-0.5,0.8) {批次1:};
+\node[draw,fill=blue!30,minimum size=0.5cm] at (0,0.8) {\tiny h};
+\node[draw,fill=blue!30,minimum size=0.5cm] at (0.6,0.8) {\tiny e};
+\node[draw,fill=blue!30,minimum size=0.5cm] at (1.2,0.8) {\tiny l};
+\node[right,font=\tiny] at (1.8,0.8) {X[0]};
+
+\node[draw,fill=green!30,minimum size=0.5cm] at (3,0.8) {\tiny w};
+\node[draw,fill=green!30,minimum size=0.5cm] at (3.6,0.8) {\tiny o};
+\node[draw,fill=green!30,minimum size=0.5cm] at (4.2,0.8) {\tiny r};
+\node[right,font=\tiny] at (4.8,0.8) {X[1]};
+
+% 对应的Y
+\node[left] at (-0.5,0) {目标:};
+\node[draw,fill=blue!30,minimum size=0.5cm] at (0,0) {\tiny e};
+\node[draw,fill=blue!30,minimum size=0.5cm] at (0.6,0) {\tiny l};
+\node[draw,fill=blue!30,minimum size=0.5cm] at (1.2,0) {\tiny l};
+\node[right,font=\tiny] at (1.8,0) {Y[0]};
+
+\node[draw,fill=green!30,minimum size=0.5cm] at (3,0) {\tiny o};
+\node[draw,fill=green!30,minimum size=0.5cm] at (3.6,0) {\tiny r};
+\node[draw,fill=green!30,minimum size=0.5cm] at (4.2,0) {\tiny l};
+\node[right,font=\tiny] at (4.8,0) {Y[1]};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[关键]
+X的每个字符的下一个字符就是Y中对应位置的字符
+\end{definition}
+
+
+\paragraph{完整的数据加载函数}
+\begin{lstlisting}
+class SeqDataLoader:
+    """sequencedata"""
+    def __init__(self, batch_size, num_steps, use_random_iter, max_tokens):
+        if use_random_iter:
+            self.data_iter_fn = seq_data_iter_random
+        else:
+            self.data_iter_fn = seq_data_iter_sequential
+        
+        self.corpus, self.vocab = load_corpus_time_machine(max_tokens)
+        self.batch_size, self.num_steps = batch_size, num_steps
+    
+    def __iter__(self):
+        return self.data_iter_fn(self.corpus, self.batch_size, self.num_steps)
+
+def load_data_time_machine(batch_size, num_steps, 
+                           use_random_iter=False, max_tokens=10000):
+    """Return时光机器data集的iteration器和vocabulary"""
+    data_iter = SeqDataLoader(batch_size, num_steps, 
+                              use_random_iter, max_tokens)
+    return data_iter, data_iter.vocab
+
+train_iter, vocab = load_data_time_machine(batch_size=32, num_steps=35)
+\end{lstlisting}
+
+
+\subsection{8.3节总结}
+\begin{definition}[核心内容]
+\begin{enumerate}
+    \item \textbf{语言模型}：估计文本序列的概率分布
+    $$P(x_1, \ldots, x_T) = \prod_{t=1}^{T} P(x_t \mid x_1, \ldots, x_{t-1})$$
+    
+    \item \textbf{困惑度}：评估语言模型的标准指标
+    $$\text{PPL} = \exp\left(-\frac{1}{n}\sum_{t=1}^{n}\log P(x_t \mid x_{<t})\right)$$
+    
+    \item \textbf{马尔可夫假设}：简化长期依赖
+    $$P(x_t \mid x_{<t}) \approx P(x_t \mid x_{t-\tau}, \ldots, x_{t-1})$$
+    
+    \item \textbf{数据采样}：随机采样 vs 顺序分区
+\end{enumerate}
+\end{definition}
+
+
+\paragraph{关键概念对比}
+\begin{center}
+\begin{tabular}{|l|p{4cm}|p{4cm}|}
+\hline
+\textbf{概念} & \textbf{定义} & \textbf{作用} \\
+\hline
+语言模型 & 文本序列的概率分布 & 生成、评估文本 \\
+\hline
+困惑度 & $\exp(\text{负对数似然})$ & 评估模型质量 \\
+\hline
+N-gram & 前$n-1$个词预测 & 简单的语言模型 \\
+\hline
+Zipf定律 & 词频$\propto$排名$^{-1}$ & 理解词频分布 \\
+\hline
+随机采样 & 随机起始位置 & 快速训练 \\
+\hline
+顺序分区 & 保持连续性 & 更好效果 \\
+\hline
+\end{tabular}
+\end{center}
+
+
+\paragraph{为什么需要RNN？}
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+% N-gram的局限
+\node[draw,fill=red!20,text width=10cm] at (5,3.5) {
+\textbf{N-gram模型的问题：}
+\begin{itemize}
+    \item 固定的上下文窗口
+    \item 无法捕捉长期依赖
+    \item 参数随$\tau$指数增长
+    \item 数据稀疏问题
+\end{itemize}
+};
+
+\draw[->,ultra thick] (5,2.7) -- (5,2.2);
+\node[right] at (5.5,2.45) {需要改进};
+
+% RNN的优势
+\node[draw,fill=green!20,text width=10cm] at (5,1.2) {
+\textbf{RNN的解决方案：}
+\begin{itemize}
+    \item 变长的上下文（隐状态）
+    \item 能捕捉长期依赖
+    \item 参数数量固定
+    \item 共享参数，泛化能力强
+\end{itemize}
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[下一步]
+8.4节将详细介绍\textbf{循环神经网络（RNN）}的原理和实现
+\end{theorem}
+
+
+\paragraph{从统计到神经网络}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 时间线
+\draw[->,ultra thick] (0,2) -- (11,2);
+
+% N-gram
+\node[draw,fill=yellow!20,text width=2cm,align=center] at (1,2) {
+\small N-gram\\
+1980s
+};
+\node[below,font=\tiny,text width=2.5cm,align=center] at (1,1.2) {
+统计方法\\
+数据稀疏
+};
+
+% 神经网络语言模型
+\node[draw,fill=orange!20,text width=2cm,align=center] at (4,2) {
+\small NNLM\\
+2003
+};
+\node[below,font=\tiny,text width=2.5cm,align=center] at (4,1.2) {
+前馈网络\\
+固定窗口
+};
+
+% RNN
+\node[draw,fill=blue!20,text width=2cm,align=center] at (7,2) {
+\small RNN\\
+2010s
+};
+\node[below,font=\tiny,text width=2.5cm,align=center] at (7,1.2) {
+循环网络\\
+变长上下文
+};
+
+% Transformer
+\node[draw,fill=green!20,text width=2cm,align=center] at (10,2) {
+\small Transformer\\
+2017+
+};
+\node[below,font=\tiny,text width=2.5cm,align=center] at (10,1.2) {
+注意力机制\\
+当前主流
+};
+
+% 进化箭头
+\foreach \x in {2,5,8} {
+    \draw[->,thick,red] (\x,2.3) -- (\x+1.5,2.3);
+}
+
+\end{tikzpicture}
+\end{center}
+
+
+\section{8.4 循环神经网络}
+
+\subsection{8.4 循环神经网络 - 章节导航}
+\begin{definition}[本节内容]
+\begin{itemize}
+    \item 8.4.1 无隐状态的神经网络
+    \item 8.4.2 有隐状态的循环神经网络
+    \item 8.4.3 基于循环神经网络的字符级语言模型
+    \item 8.4.4 困惑度（Perplexity）
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[学习目标]
+\begin{enumerate}
+    \item 理解为什么需要隐状态
+    \item 掌握RNN的前向传播过程
+    \item 了解RNN的参数共享机制
+    \item 学会用RNN构建语言模型
+\end{enumerate}
+\end{theorem}
+
+
+

@@ -1,0 +1,2006 @@
+\section{长短期记忆网络}
+
+\section{9.2 长短期记忆网络（LSTM）}
+
+\subsection{9.2 长短期记忆网络（LSTM）}
+\begin{center}
+\Large \textcolor{blue}{Long Short-Term Memory}\\
+\large 最经典的门控RNN
+\end{center}
+
+
+\subsection{9.2节 - 章节导航}
+\begin{definition}[本节内容]
+\begin{itemize}
+    \item 9.2.1 长短期记忆网络
+    \item 9.2.2 从零开始实现
+    \item 9.2.3 简洁实现
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[学习目标]
+\begin{enumerate}
+    \item 理解LSTM的三个门
+    \item 掌握记忆细胞的概念
+    \item 对比LSTM与GRU
+    \item 学会实现LSTM
+\end{enumerate}
+\end{theorem}
+
+
+\paragraph{为什么需要LSTM？}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 历史
+\node[draw,fill=yellow!20,rounded corners,text width=10cm] at (5,3.8) {
+\textbf{历史（1997年，Hochreiter \& Schmidhuber）：}\\
+RNN无法学习长期依赖，梯度消失严重
+};
+
+\draw[->,ultra thick] (5,3.3) -- (5,2.9);
+
+% LSTM的创新
+\node[draw,fill=blue!20,rounded corners,text width=10cm] at (5,2.3) {
+\textbf{LSTM的创新：}\\
+$\checkmark$ 引入\textbf{记忆细胞}（memory cell）\\
+$\checkmark$ 3个门精确控制信息流\\
+$\checkmark$ 梯度可以无损传播
+};
+
+\draw[->,ultra thick] (5,1.8) -- (5,1.4);
+
+% 影响
+\node[draw,fill=green!20,rounded corners,text width=10cm] at (5,0.8) {
+\textbf{影响：}成为2010年代最流行的RNN架构\\
+语音识别、机器翻译、文本生成...
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+
+\subsection{长短期记忆网络}
+
+\subsection{9.2.1 长短期记忆网络}
+
+\subsection{9.2.1 长短期记忆网络}
+\begin{center}
+\Large \textcolor{blue}{LSTM的核心：记忆细胞}
+\end{center}
+
+
+\paragraph{LSTM的核心思想}
+\textbf{关键创新：}分离\textbf{记忆}和\textbf{隐状态}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 标准RNN
+\node[above] at (2,3) {\small 标准RNN};
+\node[draw,fill=blue!20,rounded corners,minimum width=2cm,minimum height=1cm,align=center] at (2,2) {
+隐状态\\
+$\mathbf{h}_t$
+};
+\node[below,font=\small] at (2,1.2) {既存储又输出};
+
+% LSTM
+\node[above] at (7,3) {\small LSTM};
+\node[draw,fill=red!20,rounded corners,minimum width=2cm,minimum height=1cm,align=center] at (7,2.5) {
+记忆细胞\\
+$\mathbf{C}_t$
+};
+\node[draw,fill=green!20,rounded corners,minimum width=2cm,minimum height=1cm,align=center] at (7,1.2) {
+隐状态\\
+$\mathbf{H}_t$
+};
+
+\draw[->,thick] (7,1.9) -- (7,1.6);
+\node[right,font=\tiny] at (7.3,1.75) {过滤};
+
+\node[below,font=\small] at (7,0.4) {分离存储和输出};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[双状态设计]
+\begin{itemize}
+    \item \textbf{记忆细胞} $\mathbf{C}_t$：长期记忆，内部状态
+    \item \textbf{隐状态} $\mathbf{H}_t$：短期记忆，对外输出
+\end{itemize}
+\end{definition}
+
+
+\paragraph{LSTM的整体结构}
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 输入
+\node[circle,draw,fill=green!20,minimum size=0.7cm] (x) at (0,0) {$\mathbf{X}_t$};
+\node[circle,draw,fill=blue!20,minimum size=0.7cm] (h_prev) at (0,4) {$\mathbf{H}_{t-1}$};
+\node[circle,draw,fill=red!20,minimum size=0.7cm] (c_prev) at (0,2.5) {$\mathbf{C}_{t-1}$};
+
+% 三个门
+\node[draw,fill=yellow!20,rounded corners,minimum width=1.5cm,minimum height=0.8cm,align=center] (forget) at (2.5,3.5) {
+遗忘门\\
+\tiny $\mathbf{F}_t$
+};
+
+\node[draw,fill=orange!20,rounded corners,minimum width=1.5cm,minimum height=0.8cm,align=center] (input) at (2.5,2) {
+输入门\\
+\tiny $\mathbf{I}_t$
+};
+
+\node[draw,fill=purple!20,rounded corners,minimum width=1.5cm,minimum height=0.8cm,align=center] (output) at (2.5,0.5) {
+输出门\\
+\tiny $\mathbf{O}_t$
+};
+
+% 候选
+\node[draw,fill=cyan!20,rounded corners,minimum width=1.5cm,minimum height=0.8cm,align=center] (cand) at (5,2) {
+候选\\
+\tiny $\tilde{\mathbf{C}}_t$
+};
+
+% 记忆细胞更新
+\node[circle,draw,fill=red!20,minimum size=1cm] (c_t) at (7.5,2.5) {$\mathbf{C}_t$};
+
+% 隐状态
+\node[circle,draw,fill=blue!20,minimum size=1cm] (h_t) at (10,2.5) {$\mathbf{H}_t$};
+
+% 连接
+\draw[->,thick] (x) -- (forget);
+\draw[->,thick] (x) -- (input);
+\draw[->,thick] (x) -- (output);
+\draw[->,thick] (h_prev) -- (forget);
+\draw[->,thick] (h_prev) -- (input);
+\draw[->,thick] (h_prev) -- (output);
+\draw[->,thick] (input) -- (cand);
+\draw[->,thick] (forget) -- (c_t);
+\draw[->,thick] (cand) -- (c_t);
+\draw[->,thick] (c_prev) -- (c_t);
+\draw[->,thick] (c_t) -- (h_t);
+\draw[->,thick] (output) -- (h_t);
+
+\node[below,text width=10cm,align=center] at (5,-0.5) {
+\small 3个门控制记忆细胞的更新，输出门控制隐状态
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{遗忘门（Forget Gate）}
+\textbf{作用：}决定从记忆细胞中\textbf{遗忘}多少信息
+
+\begin{definition}[公式]
+$$\mathbf{F}_t = \sigma(\mathbf{X}_t\mathbf{W}_{xf} + \mathbf{H}_{t-1}\mathbf{W}_{hf} + \mathbf{b}_f)$$
+\end{definition}
+
+\textbf{特点：}
+\begin{itemize}
+    \item $\sigma$ 是sigmoid，输出 $[0,1]$
+    \item $\mathbf{F}_t \approx 1$：保留记忆
+    \item $\mathbf{F}_t \approx 0$：遗忘记忆
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+\node[draw,fill=red!20] (c) at (0,0) {$\mathbf{C}_{t-1}$};
+\node[draw,fill=yellow!20] (f) at (2.5,0) {$\times \mathbf{F}_t$};
+\node[draw,fill=blue!20] (out) at (5,0) {过滤后的记忆};
+
+\draw[->,thick] (c) -- (f);
+\draw[->,thick] (f) -- (out);
+
+\node[below,font=\small,align=center] at (2.5,-0.8) {
+$\mathbf{F}_t=0$ $\Rightarrow$ 完全遗忘\\
+$\mathbf{F}_t=1$ $\Rightarrow$ 完全保留
+};
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{输入门（Input Gate）}
+\textbf{作用：}决定\textbf{写入}多少新信息到记忆细胞
+
+\begin{definition}[公式]
+\begin{align*}
+\mathbf{I}_t &= \sigma(\mathbf{X}_t\mathbf{W}_{xi} + \mathbf{H}_{t-1}\mathbf{W}_{hi} + \mathbf{b}_i) \\
+\tilde{\mathbf{C}}_t &= \tanh(\mathbf{X}_t\mathbf{W}_{xc} + \mathbf{H}_{t-1}\mathbf{W}_{hc} + \mathbf{b}_c)
+\end{align*}
+\end{definition}
+
+\textbf{两步骤：}
+\begin{enumerate}
+    \item 输入门 $\mathbf{I}_t$：控制写入多少
+    \item 候选值 $\tilde{\mathbf{C}}_t$：新的候选记忆
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+\node[draw,fill=cyan!20] (cand) at (0,0) {$\tilde{\mathbf{C}}_t$};
+\node[draw,fill=orange!20] (gate) at (2.5,0) {$\times \mathbf{I}_t$};
+\node[draw,fill=green!20] (out) at (5,0) {写入的信息};
+
+\draw[->,thick] (cand) -- (gate);
+\draw[->,thick] (gate) -- (out);
+
+\node[below,font=\small,align=center] at (2.5,-0.8) {
+$\mathbf{I}_t=1$ $\Rightarrow$ 完全写入\\
+$\mathbf{I}_t=0$ $\Rightarrow$ 不写入
+};
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{记忆细胞更新}
+\textbf{核心：}结合遗忘和输入
+
+\begin{definition}[公式]
+$$\mathbf{C}_t = \mathbf{F}_t \odot \mathbf{C}_{t-1} + \mathbf{I}_t \odot \tilde{\mathbf{C}}_t$$
+\end{definition}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 旧记忆
+\node[draw,fill=red!20] (c_old) at (0,2) {$\mathbf{C}_{t-1}$};
+\node[draw,circle,fill=yellow!20] (f) at (2,2) {$\times\mathbf{F}_t$};
+
+% 新信息
+\node[draw,fill=cyan!20] (c_new) at (0,0) {$\tilde{\mathbf{C}}_t$};
+\node[draw,circle,fill=orange!20] (i) at (2,0) {$\times\mathbf{I}_t$};
+
+% 相加
+\node[draw,circle,fill=green!20] (add) at (4,1) {$+$};
+
+% 结果
+\node[draw,fill=blue!20] (c_t) at (6,1) {$\mathbf{C}_t$};
+
+\draw[->,thick] (c_old) -- (f);
+\draw[->,thick] (c_new) -- (i);
+\draw[->,thick] (f) -- (add);
+\draw[->,thick] (i) -- (add);
+\draw[->,thick] (add) -- (c_t);
+
+\node[below,text width=6cm,align=center] at (3,-1) {
+\small 部分遗忘旧记忆 + 部分接收新信息
+};
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[关键]
+这个加法操作让梯度可以\textbf{无损传播}，缓解梯度消失！
+\end{theorem}
+
+
+\paragraph{输出门（Output Gate）}
+\textbf{作用：}决定从记忆细胞中\textbf{读出}多少信息到隐状态
+
+\begin{definition}[公式]
+\begin{align*}
+\mathbf{O}_t &= \sigma(\mathbf{X}_t\mathbf{W}_{xo} + \mathbf{H}_{t-1}\mathbf{W}_{ho} + \mathbf{b}_o) \\
+\mathbf{H}_t &= \mathbf{O}_t \odot \tanh(\mathbf{C}_t)
+\end{align*}
+\end{definition}
+
+\textbf{两步骤：}
+\begin{enumerate}
+    \item 计算输出门 $\mathbf{O}_t$
+    \item 过滤记忆细胞得到隐状态
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+\node[draw,fill=red!20] (c) at (0,0) {$\mathbf{C}_t$};
+\node[draw,circle,fill=cyan!20] (tanh) at (2,0) {$\tanh$};
+\node[draw,circle,fill=purple!20] (o) at (4,0) {$\times\mathbf{O}_t$};
+\node[draw,fill=blue!20] (h) at (6,0) {$\mathbf{H}_t$};
+
+\draw[->,thick] (c) -- (tanh);
+\draw[->,thick] (tanh) -- (o);
+\draw[->,thick] (o) -- (h);
+
+\node[below,font=\small] at (3,-0.8) {
+先$\tanh$归一化，再用$\mathbf{O}_t$过滤
+};
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{LSTM完整公式总结}
+\begin{definition}[LSTM的6个公式]
+\begin{align*}
+\mathbf{F}_t &= \sigma(\mathbf{X}_t\mathbf{W}_{xf} + \mathbf{H}_{t-1}\mathbf{W}_{hf} + \mathbf{b}_f) \quad \text{\textcolor{yellow!60!black}{遗忘门}}\\
+\mathbf{I}_t &= \sigma(\mathbf{X}_t\mathbf{W}_{xi} + \mathbf{H}_{t-1}\mathbf{W}_{hi} + \mathbf{b}_i) \quad \text{\textcolor{orange}{输入门}}\\
+\mathbf{O}_t &= \sigma(\mathbf{X}_t\mathbf{W}_{xo} + \mathbf{H}_{t-1}\mathbf{W}_{ho} + \mathbf{b}_o) \quad \text{\textcolor{purple}{输出门}}\\
+\tilde{\mathbf{C}}_t &= \tanh(\mathbf{X}_t\mathbf{W}_{xc} + \mathbf{H}_{t-1}\mathbf{W}_{hc} + \mathbf{b}_c) \quad \text{\textcolor{cyan}{候选}}\\
+\mathbf{C}_t &= \mathbf{F}_t \odot \mathbf{C}_{t-1} + \mathbf{I}_t \odot \tilde{\mathbf{C}}_t \quad \text{\textcolor{red}{细胞更新}}\\
+\mathbf{H}_t &= \mathbf{O}_t \odot \tanh(\mathbf{C}_t) \quad \text{\textcolor{blue}{隐状态}}
+\end{align*}
+\end{definition}
+
+\begin{theorem}[参数]
+4组权重和偏置：遗忘门、输入门、输出门、候选
+\end{theorem}
+
+
+\paragraph{LSTM的工作流程}
+\begin{center}
+\begin{tikzpicture}[scale=0.75]
+% 步骤1
+\node[draw,fill=yellow!20,rounded corners,text width=11cm] at (5.5,5) {
+\textbf{步骤1：}计算三个门\\
+$\mathbf{F}_t = \sigma(\mathbf{X}_t\mathbf{W}_{xf} + \mathbf{H}_{t-1}\mathbf{W}_{hf} + \mathbf{b}_f)$ \quad \textcolor{yellow!60!black}{遗忘门}\\
+$\mathbf{I}_t = \sigma(\mathbf{X}_t\mathbf{W}_{xi} + \mathbf{H}_{t-1}\mathbf{W}_{hi} + \mathbf{b}_i)$ \quad \textcolor{orange}{输入门}\\
+$\mathbf{O}_t = \sigma(\mathbf{X}_t\mathbf{W}_{xo} + \mathbf{H}_{t-1}\mathbf{W}_{ho} + \mathbf{b}_o)$ \quad \textcolor{purple}{输出门}
+};
+
+\draw[->,thick] (5.5,4.4) -- (5.5,4);
+
+% 步骤2
+\node[draw,fill=cyan!20,rounded corners,text width=11cm] at (5.5,3.5) {
+\textbf{步骤2：}计算候选记忆\\
+$\tilde{\mathbf{C}}_t = \tanh(\mathbf{X}_t\mathbf{W}_{xc} + \mathbf{H}_{t-1}\mathbf{W}_{hc} + \mathbf{b}_c)$
+};
+
+\draw[->,thick] (5.5,3) -- (5.5,2.6);
+
+% 步骤3
+\node[draw,fill=red!20,rounded corners,text width=11cm] at (5.5,2.1) {
+\textbf{步骤3：}更新记忆细胞\\
+$\mathbf{C}_t = \mathbf{F}_t \odot \mathbf{C}_{t-1} + \mathbf{I}_t \odot \tilde{\mathbf{C}}_t$
+};
+
+\draw[->,thick] (5.5,1.6) -- (5.5,1.2);
+
+% 步骤4
+\node[draw,fill=blue!20,rounded corners,text width=11cm] at (5.5,0.7) {
+\textbf{步骤4：}计算隐状态\\
+$\mathbf{H}_t = \mathbf{O}_t \odot \tanh(\mathbf{C}_t)$
+};
+
+\draw[->,thick] (5.5,0.2) -- (5.5,-0.2);
+
+% 输出
+\node[draw,fill=green!20,rounded corners,text width=11cm] at (5.5,-0.7) {
+\textbf{输出：}新的记忆细胞 $\mathbf{C}_t$ 和隐状态 $\mathbf{H}_t$
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{LSTM vs GRU}
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{特性} & \textbf{GRU} & \textbf{LSTM} \\
+\hline
+门的数量 & 2个 & 3个 \\
+\hline
+状态数量 & 1个（$\mathbf{H}_t$） & 2个（$\mathbf{C}_t, \mathbf{H}_t$） \\
+\hline
+参数量 & 较少 & 较多（约1.3倍） \\
+\hline
+计算复杂度 & 较低 & 较高 \\
+\hline
+训练速度 & 较快 & 较慢 \\
+\hline
+表达能力 & 强 & 更强 \\
+\hline
+应用广泛度 & 中等 & 很广泛 \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+\begin{definition}[选择建议]
+\begin{itemize}
+    \item 首选LSTM（更成熟，应用更多）
+    \item 追求速度用GRU
+    \item 两者性能通常接近
+\end{itemize}
+\end{definition}
+
+
+\paragraph{LSTM如何缓解梯度消失？}
+\textbf{关键：}记忆细胞的加法更新
+
+\begin{definition}[记忆细胞梯度]
+$$\frac{\partial\mathbf{C}_t}{\partial\mathbf{C}_{t-1}} = \mathbf{F}_t$$
+
+当 $\mathbf{F}_t \approx 1$ 时：
+$$\mathbf{C}_t \approx \mathbf{C}_{t-1} + \mathbf{I}_t \odot \tilde{\mathbf{C}}_t$$
+\end{definition}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 梯度流
+\foreach \t in {1,2,3,4} {
+    \node[circle,draw,fill=red!20,minimum size=0.8cm] (c\t) at (\t*2,2) {$\mathbf{C}_{\t}$};
+}
+
+% 加法连接（梯度高速公路）
+\draw[->,ultra thick,blue] (c4) -- (c3) node[midway,above,font=\tiny] {$\mathbf{F}_t \approx 1$};
+\draw[->,ultra thick,blue] (c3) -- (c2);
+\draw[->,ultra thick,blue] (c2) -- (c1);
+
+\node[below,text width=8cm,align=center] at (4,0.8) {
+梯度沿着记忆细胞的\textbf{加法路径}传播\\
+避免了连乘，缓解梯度消失！
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[对比RNN]
+RNN：梯度连乘 $\prod \mathbf{W}_{hh}$ $\Rightarrow$ 消失/爆炸\\
+LSTM：梯度加法 $\mathbf{F}_t$ $\Rightarrow$ 稳定传播
+\end{theorem}
+
+
+\paragraph{三个门的直观理解}
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 遗忘门
+\node[draw,fill=yellow!20,rounded corners,text width=3.5cm] at (0,3) {
+\textbf{遗忘门 $\mathbf{F}_t$}\\
+问：要忘记什么？\\
+\\
+$\mathbf{F}_t \approx 1$：记住\\
+$\mathbf{F}_t \approx 0$：遗忘
+};
+
+% 输入门
+\node[draw,fill=orange!20,rounded corners,text width=3.5cm] at (5,3) {
+\textbf{输入门 $\mathbf{I}_t$}\\
+问：要记住什么？\\
+\\
+$\mathbf{I}_t \approx 1$：接收\\
+$\mathbf{I}_t \approx 0$：忽略
+};
+
+% 输出门
+\node[draw,fill=purple!20,rounded corners,text width=3.5cm] at (10,3) {
+\textbf{输出门 $\mathbf{O}_t$}\\
+问：要输出什么？\\
+\\
+$\mathbf{O}_t \approx 1$：全部\\
+$\mathbf{O}_t \approx 0$：不输出
+};
+
+% 例子
+\node[draw,fill=blue!20,text width=13cm,align=left] at (5,0.8) {
+\textbf{例子：}``Alice is in Paris. She speaks fluent \_\_\_''\\
+预测空格时：\\
+- 遗忘门：忘记``Alice''，保留``Paris''（$\mathbf{F}_t$对不同位置不同）\\
+- 输入门：接收当前词``speaks''的信息\\
+- 输出门：输出与语言相关的特征
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+
+\subsection{从零开始实现}
+
+\subsection{9.2.2 从零开始实现}
+
+\subsection{9.2.2 从零开始实现}
+\begin{center}
+\Large \textcolor{blue}{手写LSTM的每个细节}
+\end{center}
+
+
+\paragraph{初始化LSTM参数}
+\begin{lstlisting}
+def get_lstm_params(vocab_size, num_hiddens, device):
+    """ LSTMparameters LSTM4parameters：、、Output、 """
+    num_inputs = num_outputs = vocab_size
+    
+    def normal(shape):
+        return torch.randn(size=shape, device=device) * 0.01
+    
+    def three():
+        """每个门/候选需要3个parameters"""
+        return (normal((num_inputs, num_hiddens)),
+                normal((num_hiddens, num_hiddens)),
+                torch.zeros(num_hiddens, device=device))
+    
+    # parameters
+    W_xf, W_hf, b_f = three()
+    # parameters
+    W_xi, W_hi, b_i = three()
+    # Outputparameters
+    W_xo, W_ho, b_o = three()
+    # parameters
+    W_xc, W_hc, b_c = three()
+    
+    # Outputparameters
+    W_hq = normal((num_hiddens, num_outputs))
+    b_q = torch.zeros(num_outputs, device=device)
+\end{lstlisting}
+
+\paragraph{初始化LSTM参数（续）}
+\begin{lstlisting}
+    # parameters
+    params = [W_xf, W_hf, b_f,  #  comment
+              W_xi, W_hi, b_i,  #  comment
+              W_xo, W_ho, b_o,  # Output门
+              W_xc, W_hc, b_c,  #  comment
+              W_hq, b_q]        # Output
+    
+    for param in params:
+        param.requires_grad_(True)
+    
+    return params
+
+vocab_size, num_hiddens = 28, 512
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+params = get_lstm_params(vocab_size, num_hiddens, device)
+
+print(f"parameters数量: {sum(p.numel() for p in params)}")
+# parameters: 1,165,340 (RNN4GRU1.3)
+\end{lstlisting}
+
+\begin{theorem}[观察]
+LSTM参数最多，但效果最好（通常）
+\end{theorem}
+
+
+\paragraph{初始化LSTM状态}
+\begin{lstlisting}
+def init_lstm_state(batch_size, num_hiddens, device):
+    """ LSTM LSTM：CH """
+    return (torch.zeros((batch_size, num_hiddens), device=device),  # H
+            torch.zeros((batch_size, num_hiddens), device=device))  # C
+
+batch_size = 32
+state = init_lstm_state(batch_size, num_hiddens, device)
+H, C = state
+
+print(f"隐状态Hshape: {H.shape}")  # (32, 512)
+print(f"记忆细胞Cshape: {C.shape}")  # (32, 512)
+\end{lstlisting}
+
+\begin{definition}[双状态]
+\begin{itemize}
+    \item $\mathbf{H}$：隐状态，对外输出
+    \item $\mathbf{C}$：记忆细胞，内部状态
+\end{itemize}
+\end{definition}
+
+
+\paragraph{LSTM前向传播}
+\begin{lstlisting}
+def lstm(inputs, state, params):
+    """ LSTM inputs: (num_steps, batch_size, vocab_size) state: (H, C) params: LSTMparameters """
+    [W_xf, W_hf, b_f, W_xi, W_hi, b_i, W_xo, W_ho, b_o,
+     W_xc, W_hc, b_c, W_hq, b_q] = params
+    
+    (H, C) = state  # comment
+    outputs = []
+    
+    for X in inputs:  # commenttime step
+        F = torch.sigmoid(torch.mm(X, W_xf) + torch.mm(H, W_hf) + b_f)
+        
+        I = torch.sigmoid(torch.mm(X, W_xi) + torch.mm(H, W_hi) + b_i)
+        
+        # Output
+        O = torch.sigmoid(torch.mm(X, W_xo) + torch.mm(H, W_ho) + b_o)
+        
+        C_tilde = torch.tanh(torch.mm(X, W_xc) + 
+                            torch.mm(H, W_hc) + b_c)
+        
+        C = F * C + I * C_tilde
+        
+        H = O * torch.tanh(C)
+\end{lstlisting}
+
+
+\paragraph{LSTM前向传播（续）}
+\begin{lstlisting}
+        # Output
+        Y = torch.mm(H, W_hq) + b_q
+        outputs.append(Y)
+    
+    return torch.cat(outputs, dim=0), (H, C)
+
+# test
+vocab_size, num_hiddens = 28, 512
+batch_size, num_steps = 2, 5
+
+X = torch.randn(num_steps, batch_size, vocab_size)
+state = init_lstm_state(batch_size, num_hiddens, device)
+
+Y, (H_new, C_new) = lstm(X, state, params)
+
+print(f"输入shape: {X.shape}")      # (5, 2, 28)
+print(f"Outputshape: {Y.shape}")      # (10, 28)
+print(f"新隐状态H: {H_new.shape}") # (2, 512)
+print(f"新记忆C: {C_new.shape}")   # (2, 512)
+\end{lstlisting}
+
+\begin{definition}[验证]
+所有形状正确，可以进行训练！
+\end{definition}
+
+
+\paragraph{创建LSTM模型类}
+\begin{lstlisting}
+class LSTMModelScratch:
+    """LSTMmodel"""
+    
+    def __init__(self, vocab_size, num_hiddens, device,
+                 get_params, init_state, forward_fn):
+        self.vocab_size = vocab_size
+        self.num_hiddens = num_hiddens
+        self.params = get_params(vocab_size, num_hiddens, device)
+        self.init_state = init_state
+        self.forward_fn = forward_fn
+    
+    def __call__(self, X, state):
+        X = F.one_hot(X.T, self.vocab_size).type(torch.float32)
+        return self.forward_fn(X, state, self.params)
+    
+    def begin_state(self, batch_size, device):
+        return self.init_state(batch_size, self.num_hiddens, device)
+
+# model
+net = LSTMModelScratch(vocab_size, num_hiddens, device,
+                       get_lstm_params, init_lstm_state, lstm)
+\end{lstlisting}
+
+
+\paragraph{训练LSTM模型}
+\begin{lstlisting}
+# parameters
+num_epochs = 500
+lr = 1
+batch_size = 32
+num_steps = 35
+
+# data
+train_iter, vocab = load_data_time_machine(batch_size, num_steps)
+
+# training8training
+train_ch8(net, train_iter, vocab, lr, num_epochs, device)
+\end{lstlisting}
+
+\textbf{训练输出：}
+\begin{verbatim}
+困惑度 1.0, 9800 词元/秒 on cpu
+time traveller smiled round at us then still smiling
+traveller for so it will be convenient to speak of him
+\end{verbatim}
+
+\begin{definition}[观察]
+\begin{itemize}
+    \item 困惑度更低（1.0 vs GRU的1.1 vs RNN的1.2）
+    \item 生成质量最好
+    \item 训练最慢（参数最多）
+\end{itemize}
+\end{definition}
+
+
+
+\subsection{简洁实现}
+
+\subsection{9.2.3 简洁实现}
+
+\subsection{9.2.3 简洁实现}
+\begin{center}
+\Large \textcolor{blue}{使用PyTorch的\texttt{nn.LSTM}}
+\end{center}
+
+
+\paragraph{使用nn.LSTM}
+\begin{lstlisting}
+import torch.nn as nn
+
+# LSTM
+lstm_layer = nn.LSTM(
+    input_size=vocab_size,   #  commentdimension
+    hidden_size=num_hiddens, #  comment
+    num_layers=1             # LSTM层数
+)
+
+print(lstm_layer)
+# LSTM(28, 512)
+
+# test
+X = torch.randn(num_steps, batch_size, vocab_size)
+H = torch.zeros(1, batch_size, num_hiddens)
+C = torch.zeros(1, batch_size, num_hiddens)
+
+Y, (H_new, C_new) = lstm_layer(X, (H, C))
+
+print(f"输入shape: {X.shape}")      # (5, 2, 28)
+print(f"Outputshape: {Y.shape}")      # (5, 2, 512)
+print(f"新隐状态H: {H_new.shape}") # (1, 2, 512)
+print(f"新记忆C: {C_new.shape}")   # (1, 2, 512)
+\end{lstlisting}
+
+
+\paragraph{完整的LSTM模型}
+\begin{lstlisting}
+class LSTMModel(nn.Module):
+    """LSTMmodel（）"""
+    
+    def __init__(self, lstm_layer, vocab_size):
+        super(LSTMModel, self).__init__()
+        self.lstm = lstm_layer
+        self.vocab_size = vocab_size
+        self.num_hiddens = self.lstm.hidden_size
+        
+        # Output
+        self.linear = nn.Linear(self.num_hiddens, self.vocab_size)
+    
+    def forward(self, inputs, state):
+        # one-hot
+        X = F.one_hot(inputs.T, self.vocab_size).type(torch.float32)
+        
+        # LSTM
+        Y, state = self.lstm(X, state)
+        
+        output = self.linear(Y.reshape(-1, Y.shape[-1]))
+        
+        return output, state
+    
+    def begin_state(self, batch_size, device):
+        # LSTMReturn(H, C)
+        return (torch.zeros((self.lstm.num_layers, batch_size, 
+                           self.num_hiddens), device=device),
+                torch.zeros((self.lstm.num_layers, batch_size, 
+                           self.num_hiddens), device=device))
+\end{lstlisting}
+
+
+\paragraph{创建和训练模型}
+\begin{lstlisting}
+# parameters
+vocab_size = len(vocab)
+num_hiddens = 512
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+# LSTM
+lstm_layer = nn.LSTM(vocab_size, num_hiddens)
+
+# model
+net = LSTMModel(lstm_layer, vocab_size)
+net = net.to(device)
+
+# training
+num_epochs = 500
+lr = 1
+train_ch8(net, train_iter, vocab, lr, num_epochs, device)
+\end{lstlisting}
+
+\textbf{输出：}
+\begin{verbatim}
+困惑度 1.0, 35000 词元/秒 on cuda:0
+time traveller smiled round at us then still smiling
+traveller for so it will be convenient to speak of him
+\end{verbatim}
+
+
+\paragraph{三种RNN架构对比}
+\begin{center}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{特性} & \textbf{RNN} & \textbf{GRU} & \textbf{LSTM} \\
+\hline
+门的数量 & 0 & 2 & 3 \\
+\hline
+状态数量 & 1 & 1 & 2 \\
+\hline
+参数量（相对） & 1$\times$ & 3$\times$ & 4$\times$ \\
+\hline
+计算复杂度 & 低 & 中 & 高 \\
+\hline
+训练速度 & 快 & 中 & 慢 \\
+\hline
+梯度消失 & 严重 & 缓解 & 最好 \\
+\hline
+长期依赖 & 差 & 好 & 最好 \\
+\hline
+困惑度（字符级） & 1.2 & 1.1 & 1.0 \\
+\hline
+应用广泛度 & 少 & 中 & 广 \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+\begin{theorem}[权衡]
+LSTM：最强但最慢 | GRU：平衡 | RNN：简单但弱
+\end{theorem}
+
+
+\paragraph{LSTM的变体}
+\begin{definition}[常见LSTM变体]
+\begin{enumerate}
+    \item \textbf{标准LSTM}（本节实现）
+    \begin{itemize}
+        \item 3个门，独立的记忆细胞
+    \end{itemize}
+    
+    \item \textbf{Peephole LSTM}
+    \begin{itemize}
+        \item 门可以"窥视"记忆细胞
+        \item $\mathbf{F}_t = \sigma(\mathbf{X}_t\mathbf{W}_{xf} + \mathbf{H}_{t-1}\mathbf{W}_{hf} + \mathbf{C}_{t-1} \odot \mathbf{W}_{cf})$
+    \end{itemize}
+    
+    \item \textbf{耦合遗忘-输入门}
+    \begin{itemize}
+        \item $\mathbf{I}_t = 1 - \mathbf{F}_t$（遗忘和输入互补）
+    \end{itemize}
+    
+    \item \textbf{No Output Gate}
+    \begin{itemize}
+        \item 去掉输出门，直接 $\mathbf{H}_t = \mathbf{C}_t$
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+
+\paragraph{性能对比可视化}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 坐标轴
+\draw[->,thick] (0,0) -- (8,0) node[right] {训练epoch};
+\draw[->,thick] (0,0) -- (0,4) node[above] {困惑度};
+
+% RNN曲线
+\draw[red,thick] (0.5,3.5) -- (1,2.8) -- (2,2.0) -- (3,1.5) -- (7,1.2);
+\node[red,right] at (7,1.2) {RNN};
+
+% GRU曲线
+\draw[blue,thick] (0.5,3.5) -- (1,2.5) -- (2,1.6) -- (3,1.2) -- (7,1.05);
+\node[blue,right] at (7,1.05) {GRU};
+
+% LSTM曲线
+\draw[green!60!black,thick] (0.5,3.5) -- (1,2.3) -- (2,1.5) -- (3,1.1) -- (7,1.0);
+\node[green!60!black,right] at (7,1.0) {LSTM};
+
+% 参考线
+\draw[dashed] (0,1) -- (8,1);
+\node[left,font=\tiny] at (0,1) {PPL=1};
+
+% 标注
+\fill[green!60!black] (7,1.0) circle (2pt);
+\node[below,text width=8cm,align=center] at (4,-0.8) {
+\small LSTM收敛最快，最终困惑度最低
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{LSTM的内存和计算开销}
+\begin{definition}[内存占用（每个时间步）]
+\begin{itemize}
+    \item 前向传播：存储 $\mathbf{H}_t, \mathbf{C}_t, \mathbf{F}_t, \mathbf{I}_t, \mathbf{O}_t, \tilde{\mathbf{C}}_t$
+    \item 内存：$\sim 6 \times (batch\_size \times num\_hiddens)$
+    \item 比RNN多约3倍
+\end{itemize}
+\end{definition}
+
+\begin{definition}[计算开销（每个时间步）]
+\begin{itemize}
+    \item 矩阵乘法：8次（4个门，每个门2次）
+    \item 激活函数：3次sigmoid + 2次tanh
+    \item 逐元素操作：多次
+    \item FLOPs：$\sim 8 \times (d \times h + h^2)$
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[实践]
+使用cuDNN优化的LSTM（如PyTorch）可大幅加速
+\end{theorem}
+
+
+\paragraph{LSTM的实际应用}
+\begin{definition}[成功应用案例]
+\begin{enumerate}
+    \item \textbf{机器翻译}（Google Translate 2016）
+    \begin{itemize}
+        \item LSTM seq2seq架构
+    \end{itemize}
+    
+    \item \textbf{语音识别}（Google Voice Search）
+    \begin{itemize}
+        \item 双向LSTM + CTC
+    \end{itemize}
+    
+    \item \textbf{图像描述生成}
+    \begin{itemize}
+        \item CNN提取特征 + LSTM生成描述
+    \end{itemize}
+    
+    \item \textbf{文本生成}
+    \begin{itemize}
+        \item 字符级LSTM生成莎士比亚风格文本
+    \end{itemize}
+    
+    \item \textbf{情感分析}
+    \begin{itemize}
+        \item LSTM捕捉长距离依赖
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+
+\subsection{9.2节总结}
+\begin{definition}[核心内容]
+\begin{enumerate}
+    \item \textbf{LSTM动机}：解决RNN梯度消失
+    
+    \item \textbf{三个门}：
+    \begin{itemize}
+        \item 遗忘门 $\mathbf{F}_t$：控制遗忘
+        \item 输入门 $\mathbf{I}_t$：控制写入
+        \item 输出门 $\mathbf{O}_t$：控制输出
+    \end{itemize}
+    
+    \item \textbf{记忆细胞}：
+    $$\mathbf{C}_t = \mathbf{F}_t \odot \mathbf{C}_{t-1} + \mathbf{I}_t \odot \tilde{\mathbf{C}}_t$$
+    
+    \item \textbf{优势}：
+    \begin{itemize}
+        \item 梯度高速公路
+        \item 长期依赖最好
+        \item 应用最广泛
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+
+\paragraph{LSTM完整公式回顾}
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+% 公式框
+\node[draw,fill=yellow!20,text width=11cm,rounded corners,font=\small] at (5.5,4.2) {
+$\mathbf{F}_t = \sigma(\mathbf{X}_t\mathbf{W}_{xf} + \mathbf{H}_{t-1}\mathbf{W}_{hf} + \mathbf{b}_f)$ \quad \textcolor{yellow!60!black}{遗忘门}
+};
+
+\node[draw,fill=orange!20,text width=11cm,rounded corners,font=\small] at (5.5,3.3) {
+$\mathbf{I}_t = \sigma(\mathbf{X}_t\mathbf{W}_{xi} + \mathbf{H}_{t-1}\mathbf{W}_{hi} + \mathbf{b}_i)$ \quad \textcolor{orange}{输入门}
+};
+
+\node[draw,fill=purple!20,text width=11cm,rounded corners,font=\small] at (5.5,2.4) {
+$\mathbf{O}_t = \sigma(\mathbf{X}_t\mathbf{W}_{xo} + \mathbf{H}_{t-1}\mathbf{W}_{ho} + \mathbf{b}_o)$ \quad \textcolor{purple}{输出门}
+};
+
+\node[draw,fill=cyan!20,text width=11cm,rounded corners,font=\small] at (5.5,1.5) {
+$\tilde{\mathbf{C}}_t = \tanh(\mathbf{X}_t\mathbf{W}_{xc} + \mathbf{H}_{t-1}\mathbf{W}_{hc} + \mathbf{b}_c)$ \quad \textcolor{cyan!60!black}{候选}
+};
+
+\node[draw,fill=red!20,text width=11cm,rounded corners,font=\small] at (5.5,0.6) {
+$\mathbf{C}_t = \mathbf{F}_t \odot \mathbf{C}_{t-1} + \mathbf{I}_t \odot \tilde{\mathbf{C}}_t$ \quad \textcolor{red}{细胞更新}
+};
+
+\node[draw,fill=blue!20,text width=11cm,rounded corners,font=\small] at (5.5,-0.3) {
+$\mathbf{H}_t = \mathbf{O}_t \odot \tanh(\mathbf{C}_t)$ \quad \textcolor{blue}{隐状态}
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{实践建议}
+\begin{definition}[何时使用LSTM]
+\textbf{推荐使用LSTM的场景：}
+\begin{itemize}
+    \item 需要捕捉长期依赖（$>100$步）
+    \item 任务对准确度要求高
+    \item 计算资源充足
+    \item 经典任务（翻译、语音识别等）
+\end{itemize}
+\end{definition}
+
+\begin{definition}[超参数建议]
+\begin{itemize}
+    \item 隐藏单元数：256-1024
+    \item 层数：1-4层（多层LSTM）
+    \item Dropout：0.2-0.5
+    \item 学习率：0.001-0.01
+    \item 梯度裁剪：必须（阈值1-5）
+\end{itemize}
+\end{definition}
+
+
+\paragraph{GRU vs LSTM：如何选择？}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 决策树
+\node[draw,fill=yellow!20,rounded corners] (start) at (5,4) {
+需要RNN架构
+};
+
+\node[draw,fill=blue!20,rounded corners] (q1) at (5,3) {
+需要最佳性能？
+};
+
+\node[draw,fill=green!20,rounded corners] (lstm) at (2,1.5) {
+选择LSTM
+};
+
+\node[draw,fill=orange!20,rounded corners] (q2) at (8,1.5) {
+追求速度？
+};
+
+\node[draw,fill=purple!20,rounded corners] (gru) at (8,0) {
+选择GRU
+};
+
+% 连接
+\draw[->,thick] (start) -- (q1);
+\draw[->,thick] (q1) -- (lstm) node[midway,above,sloped] {\tiny 是};
+\draw[->,thick] (q1) -- (q2) node[midway,above,sloped] {\tiny 否};
+\draw[->,thick] (q2) -- (gru) node[midway,right] {\tiny 是};
+\draw[->,thick] (q2) -- (10,1.5) node[right] {\tiny 否，两者都试试};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[经验法则]
+默认选LSTM，如果训练太慢再换GRU
+\end{theorem}
+
+
+\paragraph{准备进入9.3节}
+\begin{center}
+\Large \textcolor{blue}{深度循环神经网络}
+\end{center}
+
+\vspace{0.5cm}
+\begin{definition}[9.2节学到了]
+\begin{itemize}
+    \item $\checkmark$ LSTM的三个门和记忆细胞
+    \item $\checkmark$ 梯度高速公路原理
+    \item $\checkmark$ 实现LSTM模型
+\end{itemize}
+\end{definition}
+
+\begin{definition}[9.3节预告]
+\begin{itemize}
+    \item 为什么要堆叠多层RNN
+    \item 深度RNN的架构
+    \item 如何实现多层LSTM
+    \item 深度vs宽度的权衡
+\end{itemize}
+\end{definition}
+
+
+\section{9.3 深度循环神经网络}
+
+\subsection{9.3 深度循环神经网络}
+\begin{center}
+\Large \textcolor{blue}{Deep Recurrent Neural Networks}\\
+\large 堆叠多层RNN
+\end{center}
+
+
+\paragraph{为什么需要深度RNN？}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 浅层网络
+\node[draw,fill=yellow!20,rounded corners,text width=10cm] at (5,3.8) {
+\textbf{单层RNN的局限：}\\
+$\times$ 表达能力有限\\
+$\times$ 特征层次单一\\
+$\times$ 复杂模式难以捕捉
+};
+
+\draw[->,ultra thick] (5,3.3) -- (5,2.9);
+\node[right] at (5.5,3.1) {如何提升？};
+
+% 深度网络的优势
+\node[draw,fill=green!20,rounded corners,text width=10cm] at (5,2.3) {
+\textbf{深度RNN的优势：}\\
+$\checkmark$ 增强表达能力\\
+$\checkmark$ 层次化特征学习\\
+$\checkmark$ 更好的性能（通常）
+};
+
+\draw[->,ultra thick] (5,1.8) -- (5,1.4);
+
+% 结果
+\node[draw,fill=blue!20,rounded corners,text width=10cm] at (5,0.8) {
+\textbf{深度 = 垂直堆叠多层RNN}
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{深度RNN的概念}
+\textbf{核心思想：}将多个RNN层垂直堆叠
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 单层RNN
+\node[above] at (2,4) {\small 单层RNN};
+\foreach \t in {1,2,3} {
+    \node[circle,draw,fill=blue!20,minimum size=0.7cm] (h\t) at (\t*1.2,3) {\tiny$\mathbf{h}_{\t}$};
+    \node[circle,draw,fill=green!20,minimum size=0.6cm] (x\t) at (\t*1.2,2) {\tiny$\mathbf{x}_{\t}$};
+    \draw[->,thick] (x\t) -- (h\t);
+}
+\draw[->,thick] (h1) -- (h2);
+\draw[->,thick] (h2) -- (h3);
+
+% 深度RNN
+\node[above] at (7,4) {\small 深度RNN（3层）};
+% 第1层
+\foreach \t in {1,2,3} {
+    \node[circle,draw,fill=red!20,minimum size=0.6cm] (l1\t) at (5+\t*0.8,1) {\tiny$\mathbf{h}^{(1)}_{\t}$};
+    \node[circle,draw,fill=green!20,minimum size=0.5cm] (x2\t) at (5+\t*0.8,0) {\tiny$\mathbf{x}_{\t}$};
+    \draw[->,thick] (x2\t) -- (l1\t);
+}
+\draw[->,thick] (l11) -- (l12);
+\draw[->,thick] (l12) -- (l13);
+
+% 第2层
+\foreach \t in {1,2,3} {
+    \node[circle,draw,fill=orange!20,minimum size=0.6cm] (l2\t) at (5+\t*0.8,2) {\tiny$\mathbf{h}^{(2)}_{\t}$};
+    \draw[->,thick] (l1\t) -- (l2\t);
+}
+\draw[->,thick] (l21) -- (l22);
+\draw[->,thick] (l22) -- (l23);
+
+% 第3层
+\foreach \t in {1,2,3} {
+    \node[circle,draw,fill=purple!20,minimum size=0.6cm] (l3\t) at (5+\t*0.8,3) {\tiny$\mathbf{h}^{(3)}_{\t}$};
+    \draw[->,thick] (l2\t) -- (l3\t);
+}
+\draw[->,thick] (l31) -- (l32);
+\draw[->,thick] (l32) -- (l33);
+
+\node[below,text width=8cm,align=center] at (5,-0.8) {
+\small 每层的输出作为下一层的输入
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{深度RNN的数学表示}
+\textbf{$L$层深度RNN：}
+
+\begin{definition}[递推公式]
+对于第$l$层（$l=1,\ldots,L$），时间步$t$：
+$$\mathbf{H}_t^{(l)} = \phi(\mathbf{H}_t^{(l-1)}\mathbf{W}_{xh}^{(l)} + \mathbf{H}_{t-1}^{(l)}\mathbf{W}_{hh}^{(l)} + \mathbf{b}_h^{(l)})$$
+
+其中：
+\begin{itemize}
+    \item $\mathbf{H}_t^{(0)} = \mathbf{X}_t$ （输入）
+    \item $\mathbf{H}_t^{(l)}$：第$l$层在时间$t$的隐状态
+    \item $\phi$：激活函数（如$\tanh$）
+\end{itemize}
+\end{definition}
+
+\textbf{输出层：}
+$$\mathbf{O}_t = \mathbf{H}_t^{(L)}\mathbf{W}_{hq} + \mathbf{b}_q$$
+
+\begin{theorem}[关键]
+每层有自己的参数 $\mathbf{W}_{xh}^{(l)}, \mathbf{W}_{hh}^{(l)}, \mathbf{b}_h^{(l)}$
+\end{theorem}
+
+
+\paragraph{深度RNN的信息流}
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 3层RNN，3个时间步
+% 第1层
+\foreach \t in {1,2,3} {
+    \node[circle,draw,fill=red!20,minimum size=0.8cm] (l1\t) at (\t*2.5,0.5) {\tiny$h^{(1)}_{\t}$};
+}
+
+% 第2层
+\foreach \t in {1,2,3} {
+    \node[circle,draw,fill=orange!20,minimum size=0.8cm] (l2\t) at (\t*2.5,2) {\tiny$h^{(2)}_{\t}$};
+}
+
+% 第3层
+\foreach \t in {1,2,3} {
+    \node[circle,draw,fill=purple!20,minimum size=0.8cm] (l3\t) at (\t*2.5,3.5) {\tiny$h^{(3)}_{\t}$};
+}
+
+% 水平连接（时间）
+\draw[->,thick,blue] (l11) -- (l12) node[midway,above,font=\tiny] {时间};
+\draw[->,thick,blue] (l12) -- (l13);
+\draw[->,thick,blue] (l21) -- (l22);
+\draw[->,thick,blue] (l22) -- (l23);
+\draw[->,thick,blue] (l31) -- (l32);
+\draw[->,thick,blue] (l32) -- (l33);
+
+% 垂直连接（层）
+\foreach \t in {1,2,3} {
+    \draw[->,thick,red] (l1\t) -- (l2\t);
+    \draw[->,thick,red] (l2\t) -- (l3\t);
+}
+\node[right,red] at (8,2) {层};
+
+% 标注
+\node[left] at (2,0.5) {第1层};
+\node[left] at (2,2) {第2层};
+\node[left] at (2,3.5) {第3层};
+
+\node[below,text width=7cm,align=center] at (4,-0.5) {
+\small 信息在\textbf{时间}和\textbf{层}两个维度上传播
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{深度RNN的架构设计}
+\begin{definition}[常见配置]
+\begin{enumerate}
+    \item \textbf{层数}：通常2-4层
+    \begin{itemize}
+        \item 1层：单层（baseline）
+        \item 2层：常用配置
+        \item 3-4层：复杂任务
+        \item $>4$层：很少用（易过拟合）
+    \end{itemize}
+    
+    \item \textbf{每层隐藏单元数}：
+    \begin{itemize}
+        \item 可以相同：如 [512, 512, 512]
+        \item 可以递减：如 [1024, 512, 256]
+        \item 可以递增：如 [256, 512, 1024]
+    \end{itemize}
+    
+    \item \textbf{层间连接}：
+    \begin{itemize}
+        \item 标准：上一层输出 $\rightarrow$ 下一层输入
+        \item 残差：加上跳跃连接（ResNet思想）
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+
+\paragraph{深度RNN vs 单层RNN}
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{特性} & \textbf{单层RNN} & \textbf{深度RNN} \\
+\hline
+表达能力 & 弱 & 强 \\
+\hline
+参数数量 & 少 & 多（层数倍） \\
+\hline
+训练难度 & 简单 & 较难 \\
+\hline
+过拟合风险 & 低 & 高 \\
+\hline
+计算速度 & 快 & 慢 \\
+\hline
+需要数据量 & 少 & 多 \\
+\hline
+性能上限 & 低 & 高 \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+\begin{theorem}[权衡]
+\begin{itemize}
+    \item 数据少、任务简单 $\rightarrow$ 单层
+    \item 数据多、任务复杂 $\rightarrow$ 深度（2-3层）
+\end{itemize}
+\end{theorem}
+
+
+\paragraph{实现深度RNN - 从零开始}
+\begin{lstlisting}
+def deep_rnn(inputs, states, params, num_layers):
+    """ RNN inputs: (num_steps, batch_size, input_size) states: [(H1,), (H2,), ...] params: parameters num_layers: """
+    outputs = []
+    
+    for X in inputs:  # commenttime step
+        H_input = X
+        
+        for l in range(num_layers):
+            # lparameters
+            W_xh, W_hh, b_h = params[l]
+            H, = states[l]
+            
+            # l
+            H = torch.tanh(torch.mm(H_input, W_xh) + 
+                          torch.mm(H, W_hh) + b_h)
+            
+            states[l] = (H,)
+            
+            # Output
+            H_input = H
+        
+        outputs.append(H_input)  # commentOutput
+    
+    return torch.cat(outputs, dim=0), states
+\end{lstlisting}
+
+
+\paragraph{使用PyTorch实现深度RNN}
+\begin{lstlisting}
+import torch.nn as nn
+
+# 2RNN
+rnn_layer = nn.RNN(
+    input_size=vocab_size,
+    hidden_size=num_hiddens,
+    num_layers=2  #  comment
+)
+
+print(rnn_layer)
+# RNN(28, 512, num_layers=2)
+
+# test
+X = torch.randn(num_steps, batch_size, vocab_size)
+H = torch.zeros(2, batch_size, num_hiddens)  #  comment(num_layers, batch, hidden)
+
+Y, H_new = rnn_layer(X, H)
+
+print(f"输入shape: {X.shape}")      # (5, 2, 28)
+print(f"Outputshape: {Y.shape}")      # (5, 2, 512)
+print(f"隐状态shape: {H_new.shape}") # (2, 2, 512)
+\end{lstlisting}
+
+\begin{theorem}[注意]
+隐状态第一维是\textbf{层数}：$(num\_layers, batch\_size, hidden\_size)$
+\end{theorem}
+
+
+\paragraph{深度LSTM/GRU}
+\begin{lstlisting}
+# 3LSTM
+lstm_layer = nn.LSTM(
+    input_size=vocab_size,
+    hidden_size=num_hiddens,
+    num_layers=3  # 3层
+)
+
+# 3GRU
+gru_layer = nn.GRU(
+    input_size=vocab_size,
+    hidden_size=num_hiddens,
+    num_layers=3  # 3层
+)
+
+# LSTMHC
+H = torch.zeros(3, batch_size, num_hiddens)
+C = torch.zeros(3, batch_size, num_hiddens)
+state = (H, C)
+
+# GRUH
+H = torch.zeros(3, batch_size, num_hiddens)
+state = H
+\end{lstlisting}
+
+
+\paragraph{完整的深度RNN模型}
+\begin{lstlisting}
+class DeepRNNModel(nn.Module):
+    """RNNmodel"""
+    
+    def __init__(self, vocab_size, num_hiddens, num_layers, rnn_type='lstm'):
+        super(DeepRNNModel, self).__init__()
+        self.vocab_size = vocab_size
+        self.num_hiddens = num_hiddens
+        self.num_layers = num_layers
+        self.rnn_type = rnn_type
+        
+        # RNN
+        if rnn_type == 'lstm':
+            self.rnn = nn.LSTM(vocab_size, num_hiddens, num_layers)
+        elif rnn_type == 'gru':
+            self.rnn = nn.GRU(vocab_size, num_hiddens, num_layers)
+        else:
+            self.rnn = nn.RNN(vocab_size, num_hiddens, num_layers)
+        
+        # Output
+        self.linear = nn.Linear(num_hiddens, vocab_size)
+    
+    def forward(self, inputs, state):
+        # one-hot
+        X = F.one_hot(inputs.T, self.vocab_size).type(torch.float32)
+        
+        # RNN
+        Y, state = self.rnn(X, state)
+        
+        # Output
+        output = self.linear(Y.reshape(-1, Y.shape[-1]))
+        
+        return output, state
+\end{lstlisting}
+
+
+\paragraph{深度RNN模型（续）}
+\begin{lstlisting}
+    def begin_state(self, batch_size, device):
+        if self.rnn_type == 'lstm':
+            # LSTMReturn(H, C)
+            return (torch.zeros((self.num_layers, batch_size, 
+                               self.num_hiddens), device=device),
+                    torch.zeros((self.num_layers, batch_size, 
+                               self.num_hiddens), device=device))
+        else:
+            # RNN/GRUReturnH
+            return torch.zeros((self.num_layers, batch_size, 
+                              self.num_hiddens), device=device)
+
+# 3LSTM
+net = DeepRNNModel(vocab_size=28, num_hiddens=512, 
+                   num_layers=3, rnn_type='lstm')
+
+# parameters
+num_params = sum(p.numel() for p in net.parameters())
+print(f"parameters数量: {num_params:,}")
+# parameters: 3,496,020 (3parameters3)
+\end{lstlisting}
+
+
+\paragraph{训练深度RNN}
+\begin{lstlisting}
+# parameters
+vocab_size = 28
+num_hiddens = 256  #  comment
+num_layers = 2     # 2层
+batch_size = 32
+num_steps = 35
+num_epochs = 500
+lr = 1
+
+# data
+train_iter, vocab = load_data_time_machine(batch_size, num_steps)
+
+# model
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+net = DeepRNNModel(len(vocab), num_hiddens, num_layers, 'lstm')
+net = net.to(device)
+
+# training
+train_ch8(net, train_iter, vocab, lr, num_epochs, device)
+\end{lstlisting}
+
+\textbf{输出：}
+\begin{verbatim}
+困惑度 0.95, 28000 词元/秒 on cuda:0
+time traveller smiled round at us then still smiling
+\end{verbatim}
+
+
+\paragraph{不同深度的性能对比}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 坐标轴
+\draw[->,thick] (0,0) -- (8,0) node[right] {训练epoch};
+\draw[->,thick] (0,0) -- (0,4) node[above] {困惑度};
+
+% 1层
+\draw[red,thick] (0.5,3.5) -- (1,2.5) -- (2,1.6) -- (3,1.3) -- (7,1.1);
+\node[red,right] at (7,1.1) {1层};
+
+% 2层
+\draw[blue,thick] (0.5,3.5) -- (1,2.3) -- (2,1.4) -- (3,1.1) -- (7,0.95);
+\node[blue,right] at (7,0.95) {2层};
+
+% 3层
+\draw[green!60!black,thick] (0.5,3.5) -- (1,2.2) -- (2,1.3) -- (3,1.05) -- (7,0.92);
+\node[green!60!black,right] at (7,0.92) {3层};
+
+% 4层
+\draw[purple,thick,dashed] (0.5,3.5) -- (1,2.4) -- (2,1.5) -- (3,1.2) -- (7,1.0);
+\node[purple,right] at (7,1.0) {4层（过拟合）};
+
+% 参考线
+\draw[dashed] (0,1) -- (8,1);
+\node[left,font=\tiny] at (0,1) {PPL=1};
+
+\node[below,text width=8cm,align=center] at (4,-0.8) {
+\small 2-3层效果最好，更深可能过拟合
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{深度与宽度的权衡}
+\begin{definition}[两种增强模型的方式]
+\begin{enumerate}
+    \item \textbf{增加深度（层数）}
+    \begin{itemize}
+        \item 更多的非线性变换
+        \item 层次化特征学习
+        \item 参数效率高（共享结构）
+    \end{itemize}
+    
+    \item \textbf{增加宽度（隐藏单元数）}
+    \begin{itemize}
+        \item 每层表达能力更强
+        \item 更多的记忆容量
+        \item 参数增长更快（平方关系）
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+\begin{example}[实验对比]
+\begin{itemize}
+    \item 2层 $\times$ 256单元 ≈ 400K参数，PPL=0.95
+    \item 1层 $\times$ 512单元 ≈ 300K参数，PPL=1.0
+\end{itemize}
+$\Rightarrow$ 相近参数量下，深度通常更好
+\end{example}
+
+
+\paragraph{深度RNN的参数分析}
+\textbf{参数数量：}
+
+\begin{definition}[单层LSTM]
+$$\text{params} = 4 \times [(d+h) \times h + h] + (h+1) \times V$$
+\end{definition}
+
+\begin{definition}[$L$层LSTM]
+\begin{itemize}
+    \item 第1层：$4 \times [(d+h) \times h + h]$
+    \item 第2到L层：每层 $4 \times [(h+h) \times h + h] = 4 \times (2h^2 + h)$
+    \item 输出层：$(h+1) \times V$
+\end{itemize}
+$$\text{params} \approx 4(d+h)h + 4(L-1) \times 2h^2 + (h+1)V$$
+\end{definition}
+
+\begin{example}[具体例子（$d=28, h=256, V=28, L=2$）]
+约 $4 \times 284 \times 256 + 4 \times 2 \times 256^2 + 257 \times 28 \approx 815K$
+
+单层（$h=512$）：约1.1M
+
+$\Rightarrow$ 深度2层（小宽度）比单层（大宽度）参数少但效果好！
+\end{example}
+
+
+\paragraph{深度RNN的正则化}
+\textbf{问题：}深度网络容易过拟合
+
+\begin{definition}[常用正则化技术]
+\begin{enumerate}
+    \item \textbf{Dropout}
+    \begin{itemize}
+        \item 在层与层之间应用
+        \item \texttt{nn.LSTM(..., dropout=0.5)}
+        \item 只在$>1$层时生效
+    \end{itemize}
+    
+    \item \textbf{L2正则化（权重衰减）}
+    \begin{itemize}
+        \item 优化器中设置：\texttt{weight\_decay=1e-5}
+    \end{itemize}
+    
+    \item \textbf{梯度裁剪}
+    \begin{itemize}
+        \item 更重要（防止梯度爆炸）
+    \end{itemize}
+    
+    \item \textbf{Early Stopping}
+    \begin{itemize}
+        \item 监控验证集，防止过拟合
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+
+\paragraph{添加Dropout}
+\begin{lstlisting}
+# Dropout
+lstm_layer = nn.LSTM(
+    input_size=vocab_size,
+    hidden_size=num_hiddens,
+    num_layers=3,
+    dropout=0.5  #  comment1-2层后添加dropout
+)
+
+# - trainingnet.train()
+# - testnet.eval()
+# - num_layers > 1
+
+# Dropout
+#  -> LSTM1 -> Dropout(0.5) -> LSTM2 -> Dropout(0.5) -> LSTM3 -> Output
+\end{lstlisting}
+
+\begin{theorem}[Dropout率建议]
+\begin{itemize}
+    \item 0.2-0.3：轻度正则化
+    \item 0.5：标准配置
+    \item $>0.5$：可能欠拟合
+\end{itemize}
+\end{theorem}
+
+
+\paragraph{深度RNN的训练技巧}
+\begin{definition}[训练深度RNN的建议]
+\begin{enumerate}
+    \item \textbf{从浅到深}
+    \begin{itemize}
+        \item 先训练1层，确认有效
+        \item 再增加到2层、3层
+    \end{itemize}
+    
+    \item \textbf{调整学习率}
+    \begin{itemize}
+        \item 深度网络可能需要更小的学习率
+        \item 使用学习率衰减
+    \end{itemize}
+    
+    \item \textbf{梯度裁剪必须}
+    \begin{itemize}
+        \item 深度网络更容易梯度爆炸
+        \item 阈值可以稍小（如0.5-1）
+    \end{itemize}
+    
+    \item \textbf{监控梯度}
+    \begin{itemize}
+        \item 记录每层的梯度范数
+        \item 检测梯度消失/爆炸
+    \end{itemize}
+    
+    \item \textbf{批归一化}
+    \begin{itemize}
+        \item 可以用Layer Norm（RNN中更常用）
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+
+\paragraph{深度RNN的变体}
+\begin{definition}[改进的深度架构]
+\begin{enumerate}
+    \item \textbf{残差连接（Residual Connection）}
+    $$\mathbf{H}_t^{(l)} = \text{RNN}^{(l)}(\mathbf{H}_t^{(l-1)}) + \mathbf{H}_t^{(l-1)}$$
+    缓解梯度消失，允许更深
+    
+    \item \textbf{Highway Network}
+    $$\mathbf{H}_t^{(l)} = g \odot \text{RNN}^{(l)}(\mathbf{H}_t^{(l-1)}) + (1-g) \odot \mathbf{H}_t^{(l-1)}$$
+    学习跳跃连接的权重
+    
+    \item \textbf{Dense Connection}
+    每层连接到所有之前的层（类似DenseNet）
+    
+    \item \textbf{金字塔结构}
+    下层宽、上层窄：[1024, 512, 256]
+\end{enumerate}
+\end{definition}
+
+
+\paragraph{实际应用中的深度RNN}
+\begin{definition}[典型配置]
+\begin{enumerate}
+    \item \textbf{Google Neural Machine Translation (2016)}
+    \begin{itemize}
+        \item 8层LSTM编码器 + 8层LSTM解码器
+        \item 残差连接
+        \item 注意力机制
+    \end{itemize}
+    
+    \item \textbf{Google Speech Recognition}
+    \begin{itemize}
+        \item 5层双向LSTM
+        \item Dropout + 批归一化
+    \end{itemize}
+    
+    \item \textbf{OpenAI GPT-2 (Transformer前)}
+    \begin{itemize}
+        \item 研究表明：2-3层LSTM + 注意力 ≈ 浅层Transformer
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[趋势]
+现在更多用Transformer，但深度RNN在某些任务仍有优势
+\end{theorem}
+
+
+\paragraph{深度RNN vs Transformer}
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{特性} & \textbf{深度RNN} & \textbf{Transformer} \\
+\hline
+并行化 & 困难（顺序处理） & 容易 \\
+\hline
+训练速度 & 慢 & 快 \\
+\hline
+长期依赖 & LSTM可以 & 更好 \\
+\hline
+参数效率 & 高 & 低 \\
+\hline
+实时推理 & 快（逐步） & 慢（全局） \\
+\hline
+内存占用 & 低 & 高 \\
+\hline
+流式处理 & \checkmark 支持 & $\times$不支持 \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+\begin{definition}[深度RNN仍适用的场景]
+\begin{itemize}
+    \item 实时流式任务（语音识别）
+    \item 资源受限环境（移动设备）
+    \item 在线学习（持续更新）
+    \item 小数据集任务
+\end{itemize}
+\end{definition}
+
+
+\paragraph{深度RNN关键要点}
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 要点1
+\node[draw,fill=blue!20,rounded corners,text width=10cm] at (5,3.8) {
+\textbf{1. 层数选择}\\
+1层：基线 | 2层：标准 | 3层：复杂任务 | $>3$层：谨慎
+};
+
+% 要点2
+\node[draw,fill=green!20,rounded corners,text width=10cm] at (5,2.6) {
+\textbf{2. 正则化必须}\\
+Dropout（0.5）+ 梯度裁剪 + Early Stopping
+};
+
+% 要点3
+\node[draw,fill=orange!20,rounded corners,text width=10cm] at (5,1.4) {
+\textbf{3. 深度 vs 宽度}\\
+相近参数量下，深度（2层256）$>$ 宽度（1层512）
+};
+
+% 要点4
+\node[draw,fill=purple!20,rounded corners,text width=10cm] at (5,0.2) {
+\textbf{4. 训练技巧}\\
+从浅到深、监控梯度、调整学习率
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{实践建议}
+\begin{definition}[如何选择深度]
+\begin{enumerate}
+    \item \textbf{数据量小（$<$10K样本）}
+    \begin{itemize}
+        \item 用1层，避免过拟合
+    \end{itemize}
+    
+    \item \textbf{数据量中等（10K-100K）}
+    \begin{itemize}
+        \item 用2层，加Dropout
+    \end{itemize}
+    
+    \item \textbf{数据量大（$>$100K）}
+    \begin{itemize}
+        \item 尝试3层
+        \item 监控验证集性能
+    \end{itemize}
+    
+    \item \textbf{调参建议}
+    \begin{itemize}
+        \item 先固定1层，调好隐藏单元数
+        \item 再逐步增加层数
+        \item 每次增加层数后重新调学习率
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+
+\paragraph{完整示例：2层LSTM语言模型}
+\begin{lstlisting}
+import torch
+import torch.nn as nn
+
+class TwoLayerLSTM(nn.Module):
+    def __init__(self, vocab_size, embed_size=256, hidden_size=512):
+        super().__init__()
+        self.vocab_size = vocab_size
+        
+        # one-hot
+        self.embedding = nn.Embedding(vocab_size, embed_size)
+        
+        # 2LSTM
+        self.lstm = nn.LSTM(embed_size, hidden_size, 
+                           num_layers=2, dropout=0.5)
+        
+        # Output
+        self.fc = nn.Linear(hidden_size, vocab_size)
+    
+    def forward(self, x, state):
+        # x: (batch, seq_len)
+        x = self.embedding(x.T)  # (seq_len, batch, embed)
+        out, state = self.lstm(x, state)
+        out = self.fc(out.reshape(-1, out.shape[-1]))
+        return out, state
+    
+    def init_state(self, batch_size, device):
+        h = torch.zeros(2, batch_size, 512, device=device)
+        c = torch.zeros(2, batch_size, 512, device=device)
+        return (h, c)
+\end{lstlisting}
+
+
+\paragraph{常见错误与解决}
+\begin{definition}[问题1：深度网络不收敛]
+\textbf{可能原因：}
+\begin{itemize}
+    \item 学习率太大 $\rightarrow$ 减小10倍
+    \item 梯度爆炸 $\rightarrow$ 减小裁剪阈值
+    \item 初始化不好 $\rightarrow$ 使用Xavier/He初始化
+\end{itemize}
+\end{definition}
+
+\begin{definition}[问题2：验证集性能不提升]
+\textbf{可能原因：}
+\begin{itemize}
+    \item 过拟合 $\rightarrow$ 增大Dropout
+    \item 层数太多 $\rightarrow$ 减少到2层
+    \item 数据太少 $\rightarrow$ 数据增强或减少模型复杂度
+\end{itemize}
+\end{definition}
+
+\begin{definition}[问题3：训练很慢]
+\textbf{解决方案：}
+\begin{itemize}
+    \item 减少隐藏单元数
+    \item 减少层数
+    \item 使用cuDNN（PyTorch自动）
+    \item 减小批量大小（换取速度）
+\end{itemize}
+\end{definition}
+
+
+\paragraph{层数实验对比}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 柱状图
+\draw[->,thick] (0,0) -- (0,4) node[above] {困惑度};
+\draw[->,thick] (0,0) -- (8,0) node[right] {层数};
+
+% 1层
+\fill[blue!50] (0.5,0) rectangle (1.5,1.1);
+\node[below] at (1,0) {1};
+\node[above] at (1,1.1) {\small 1.1};
+
+% 2层
+\fill[green!50] (2,0) rectangle (3,0.95);
+\node[below] at (2.5,0) {2};
+\node[above] at (2.5,0.95) {\small 0.95};
+
+% 3层
+\fill[orange!50] (3.5,0) rectangle (4.5,0.92);
+\node[below] at (4,0) {3};
+\node[above] at (4,0.92) {\small 0.92};
+
+% 4层
+\fill[red!50] (5,0) rectangle (6,1.05);
+\node[below] at (5.5,0) {4};
+\node[above] at (5.5,1.05) {\small 1.05};
+
+% 5层
+\fill[purple!50] (6.5,0) rectangle (7.5,1.15);
+\node[below] at (7,0) {5};
+\node[above] at (7,1.15) {\small 1.15};
+
+% 最优标记
+\draw[green!60!black,ultra thick] (3.5,0.92) -- (4.5,0.92);
+\node[green!60!black,above] at (4,1.3) {最优};
+
+\node[below,text width=8cm,align=center] at (4,-0.8) {
+\small 3层最优，更深反而性能下降（过拟合）
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\section{9.4 双向循环神经网络}
+
+\subsection{9.4 双向循环神经网络}
+\begin{center}
+\Large \textcolor{blue}{Bidirectional RNN}\\
+\large 同时利用过去和未来的信息
+\end{center}
+
+
+\subsection{9.4节 - 章节导航}
+\begin{definition}[本节内容]
+\begin{itemize}
+    \item 9.4.1 双向循环神经网络的动机
+    \item 9.4.2 双向循环神经网络的定义
+    \item 9.4.3 双向循环神经网络的实现
+    \item 9.4.4 应用与限制
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[学习目标]
+\begin{enumerate}
+    \item 理解为什么需要双向RNN
+    \item 掌握双向RNN的结构
+    \item 学会实现双向RNN
+    \item 了解适用场景
+\end{enumerate}
+\end{theorem}
+
+
+\paragraph{为什么需要双向RNN？}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 问题
+\node[draw,fill=red!20,rounded corners,text width=10cm] at (5,3.8) {
+\textbf{标准RNN的局限：}\\
+只能利用\textbf{过去}的信息，看不到\textbf{未来}
+};
+
+\draw[->,ultra thick] (5,3.3) -- (5,2.9);
+
+% 例子
+\node[draw,fill=yellow!20,rounded corners,text width=10cm] at (5,2.3) {
+\textbf{例子：}填空题\\
+``I am \underline{\quad} because I will go to Paris tomorrow.''\\
+预测空格需要看到``Paris''（未来信息）才知道是``excited''
+};
+
+\draw[->,ultra thick] (5,1.7) -- (5,1.3);
+
+% 解决方案
+\node[draw,fill=green!20,rounded corners,text width=10cm] at (5,0.7) {
+\textbf{双向RNN：}同时从前向后和从后向前处理
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{双向RNN的核心思想}
+\textbf{标准RNN：}只看过去
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+\foreach \t in {1,2,3,4} {
+    \node[circle,draw,fill=blue!20,minimum size=0.7cm] (h\t) at (\t*1.8,1) {\tiny$h_{\t}$};
+}
+\draw[->,thick,red] (h1) -- (h2) -- (h3) -- (h4);
+\node[above,red] at (4,1.5) {只看左边（过去）};
+\end{tikzpicture}
+\end{center}
+
+\textbf{双向RNN：}同时看过去和未来
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 前向
+\foreach \t in {1,2,3,4} {
+    \node[circle,draw,fill=blue!20,minimum size=0.7cm] (f\t) at (\t*1.8,2) {\tiny$\overrightarrow{h}_{\t}$};
+}
+\draw[->,thick,red] (f1) -- (f2) -- (f3) -- (f4);
+\node[above,red,font=\tiny] at (4,2.3) {前向（看过去）};
+
+% 后向
+\foreach \t in {1,2,3,4} {
+    \node[circle,draw,fill=green!20,minimum size=0.7cm] (b\t) at (\t*1.8,0.5) {\tiny$\overleftarrow{h}_{\t}$};
+}
+\draw[<-,thick,blue] (b1) -- (b2) -- (b3) -- (b4);
+\node[below,blue,font=\tiny] at (4,0.2) {后向（看未来）};
+
+% 组合
+\foreach \t in {1,2,3,4} {
+    \draw[->,thick,purple] (f\t) -- (\t*1.8,1.25);
+    \draw[->,thick,purple] (b\t) -- (\t*1.8,1.25);
+    \node[circle,draw,fill=purple!20,minimum size=0.5cm] at (\t*1.8,1.25) {\tiny$h_{\t}$};
+}
+\node[right,purple] at (7.5,1.25) {组合};
+
+\end{tikzpicture}
+\end{center}
+
+
+

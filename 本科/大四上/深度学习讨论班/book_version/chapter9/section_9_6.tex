@@ -1,0 +1,986 @@
+\section{编码器-解码器架构}
+
+\section{9.6 编码器-解码器架构}
+
+\subsection{9.6 编码器-解码器架构}
+\begin{center}
+\Large \textcolor{blue}{Encoder-Decoder Architecture}\\
+\large 序列到序列模型的核心框架
+\end{center}
+
+
+\subsection{9.6节 - 章节导航}
+\begin{definition}[本节内容]
+\begin{itemize}
+    \item 9.6.1 编码器
+    \item 9.6.2 解码器
+    \item 9.6.3 编码器-解码器模型
+    \item 9.6.4 损失函数与训练
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[学习目标]
+\begin{enumerate}
+    \item 理解编码器-解码器架构
+    \item 实现RNN编码器
+    \item 实现RNN解码器
+    \item 掌握序列到序列模型的训练
+\end{enumerate}
+\end{theorem}
+
+
+\paragraph{编码器-解码器架构概览}
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 源序列
+\node[above] at (2,4.5) {\small 源序列（英语）};
+\foreach \i/\w in {1/I,2/love,3/you} {
+    \node[draw,fill=blue!20,minimum size=0.7cm] at (\i*1.2,4) {\tiny\w};
+}
+
+% 编码器
+\node[draw,fill=yellow!20,rounded corners,minimum width=4cm,minimum height=1.2cm] at (2.2,2.5) {
+\textbf{编码器}（Encoder）\\
+\tiny RNN/LSTM/GRU
+};
+
+\draw[->,thick] (2.2,3.5) -- (2.2,3.1);
+
+% 上下文向量
+\node[draw,fill=purple!20,rounded corners,minimum width=2.5cm] at (2.2,1.3) {
+上下文向量 $\mathbf{c}$
+};
+
+\draw[->,thick] (2.2,2) -- (2.2,1.6);
+
+% 解码器
+\node[draw,fill=orange!20,rounded corners,minimum width=4cm,minimum height=1.2cm,align=center] at (7.5,2.5) {
+\textbf{解码器}（Decoder）\\
+\tiny RNN/LSTM/GRU
+};
+
+\draw[->,ultra thick] (3.5,1.3) -- (5.7,1.8);
+\node[above,font=\tiny] at (4.6,1.8) {传递信息};
+
+% 目标序列
+\node[above] at (7.5,4.5) {\small 目标序列（法语）};
+\foreach \i/\w in {1/Je,2/t',3/aime} {
+    \node[draw,fill=green!20,minimum size=0.7cm] at ({5.5+\i*1.2},4) {\tiny\w};
+}
+
+\draw[->,thick] (7.5,3.1) -- (7.5,3.5);
+
+\node[below,text width=10cm,align=center] at (5,0.5) {
+\small 编码器压缩信息，解码器生成输出
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+
+\subsection{编码器}
+
+\subsection{9.6.1 编码器}
+
+\subsection{9.6.1 编码器}
+\begin{center}
+\Large \textcolor{blue}{将源序列编码为上下文向量}
+\end{center}
+
+
+\paragraph{编码器的任务}
+\textbf{目标：}将变长的源序列压缩成固定长度的向量
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 输入序列
+\node[above] at (3,3.5) {\small 输入：变长序列};
+\foreach \i in {1,2,3,4,5} {
+    \node[draw,fill=blue!20,minimum size=0.6cm] (x\i) at (\i*0.9,3) {\tiny$x_{\i}$};
+}
+\node at (6,3) {$\ldots$};
+
+% RNN处理
+\foreach \i in {1,2,3,4,5} {
+    \node[circle,draw,fill=red!20,minimum size=0.7cm] (h\i) at (\i*0.9,1.5) {\tiny$h_{\i}$};
+    \draw[->,thick] (x\i) -- (h\i);
+}
+\draw[->,thick] (h1) -- (h2);
+\draw[->,thick] (h2) -- (h3);
+\draw[->,thick] (h3) -- (h4);
+\draw[->,thick] (h4) -- (h5);
+
+% 上下文向量
+\node[draw,fill=purple!20,rounded corners,minimum width=1.5cm] (c) at (9,1.5) {$\mathbf{c}$};
+\draw[->,ultra thick] (h5) -- (c);
+\node[right,font=\tiny] at (7,1.7) {最后隐状态};
+
+\node[below] at (9,0.8) {\small 输出：固定维度};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[关键点]
+\begin{itemize}
+    \item 上下文向量 $\mathbf{c} = \mathbf{h}_T$（最后一个隐状态）
+    \item 维度固定（如512维）
+    \item 压缩了整个源序列的信息
+\end{itemize}
+\end{definition}
+
+
+\paragraph{编码器的抽象接口}
+\begin{lstlisting}
+class Encoder(nn.Module):
+    """（）"""
+    
+    def __init__(self, **kwargs):
+        super(Encoder, self).__init__(**kwargs)
+    
+    def forward(self, X, *args):
+        """
+        前向传播
+        X: 输入sequence
+        Return：上下文vector（可以是隐状态、Output等）
+        """
+        raise NotImplementedError
+\end{lstlisting}
+
+\begin{theorem}[设计模式]
+定义抽象基类，具体的编码器（RNN、LSTM、Transformer等）继承并实现
+\end{theorem}
+
+
+\paragraph{RNN编码器实现}
+\begin{lstlisting}
+class Seq2SeqEncoder(Encoder):
+    """RNN"""
+    
+    def __init__(self, vocab_size, embed_size, num_hiddens, 
+                 num_layers, dropout=0, **kwargs):
+        super(Seq2SeqEncoder, self).__init__(**kwargs)
+        
+        self.embedding = nn.Embedding(vocab_size, embed_size)
+        
+        # RNNLSTMGRU
+        self.rnn = nn.GRU(embed_size, num_hiddens, num_layers,
+                         dropout=dropout)
+    
+    def forward(self, X, *args):
+        """
+        X: (batch_size, num_steps) 输入sequence（词索引）
+        Return：(Output, 隐状态)
+        """
+        # (batch, steps) -> (batch, steps, embed)
+        X = self.embedding(X)
+        
+        # (batch, steps, embed) -> (steps, batch, embed)
+        X = X.permute(1, 0, 2)
+        
+        # RNN
+        output, state = self.rnn(X)
+        
+        return output, state
+\end{lstlisting}
+
+
+\paragraph{编码器的组件}
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 输入
+\node[draw,fill=yellow!20,rounded corners,text width=10cm] at (5,4.5) {
+\textbf{1. 嵌入层（Embedding）}\\
+词索引 $\rightarrow$ 稠密向量\\
+$(batch, steps)$ $\rightarrow$ $(batch, steps, embed\_size)$
+};
+
+\draw[->,thick] (5,4) -- (5,3.6);
+
+% RNN
+\node[draw,fill=blue!20,rounded corners,text width=10cm] at (5,3.1) {
+\textbf{2. RNN层（GRU/LSTM）}\\
+处理嵌入序列\\
+$(steps, batch, embed)$ $\rightarrow$ $(steps, batch, hidden)$
+};
+
+\draw[->,thick] (5,2.6) -- (5,2.2);
+
+% 输出
+\node[draw,fill=green!20,rounded corners,text width=10cm] at (5,1.7) {
+\textbf{3. 输出}\\
+- output: 所有时间步的隐状态\\
+- state: 最终隐状态（上下文向量）
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{测试编码器}
+\begin{lstlisting}
+vocab_size = 10  #  commentvocabulary大小
+embed_size = 8   #  commentdimension
+num_hiddens = 16 #  comment
+num_layers = 2   #  comment
+batch_size = 4
+num_steps = 7
+
+encoder = Seq2SeqEncoder(vocab_size, embed_size, num_hiddens, num_layers)
+
+# test
+X = torch.zeros((batch_size, num_steps), dtype=torch.long)
+output, state = encoder(X)
+
+print(f"Outputshape: {output.shape}")  # (7, 4, 16)
+print(f"状态shape: {state.shape}")   # (2, 4, 16)
+\end{lstlisting}
+
+\begin{definition}[输出解释]
+\begin{itemize}
+    \item output: $(num\_steps, batch, hidden)$ 所有隐状态
+    \item state: $(num\_layers, batch, hidden)$ 最终状态
+\end{itemize}
+\end{definition}
+
+
+
+\subsection{解码器}
+
+\subsection{9.6.2 解码器}
+
+\subsection{9.6.2 解码器}
+\begin{center}
+\Large \textcolor{blue}{从上下文向量生成目标序列}
+\end{center}
+
+
+\paragraph{解码器的任务}
+\textbf{目标：}基于上下文向量，逐步生成目标序列
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 上下文
+\node[draw,fill=purple!20,rounded corners] (c) at (0,3) {$\mathbf{c}$};
+
+% 解码步骤
+\node[circle,draw,fill=blue!20,minimum size=0.8cm] (s1) at (2,3) {\tiny$s_1$};
+\node[circle,draw,fill=blue!20,minimum size=0.8cm] (s2) at (4,3) {\tiny$s_2$};
+\node[circle,draw,fill=blue!20,minimum size=0.8cm] (s3) at (6,3) {\tiny$s_3$};
+
+\draw[->,thick] (c) -- (s1);
+\draw[->,thick] (s1) -- (s2);
+\draw[->,thick] (s2) -- (s3);
+
+% 输入
+\node[draw,fill=green!20,minimum size=0.6cm] (y0) at (2,1.5) {\tiny<bos>};
+\node[draw,fill=green!20,minimum size=0.6cm] (y1) at (4,1.5) {\tiny$y_1$};
+\node[draw,fill=green!20,minimum size=0.6cm] (y2) at (6,1.5) {\tiny$y_2$};
+
+\draw[->,thick] (y0) -- (s1);
+\draw[->,thick] (y1) -- (s2);
+\draw[->,thick] (y2) -- (s3);
+
+% 输出
+\node[draw,fill=red!20,minimum size=0.6cm] (o1) at (2,4.5) {\tiny$y_1$};
+\node[draw,fill=red!20,minimum size=0.6cm] (o2) at (4,4.5) {\tiny$y_2$};
+\node[draw,fill=red!20,minimum size=0.6cm] (o3) at (6,4.5) {\tiny$y_3$};
+
+\draw[->,thick] (s1) -- (o1);
+\draw[->,thick] (s2) -- (o2);
+\draw[->,thick] (s3) -- (o3);
+
+\node[below,text width=7cm,align=center] at (3.5,0.5) {
+\small 每步基于上下文和前一个词预测下一个词
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{解码器的输入}
+\textbf{训练时（Teacher Forcing）：}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 目标序列
+\node[above] at (3,3.5) {\small 目标序列};
+\foreach \i/\w in {1/Je,2/t',3/aime,4/<eos>} {
+    \node[draw,fill=blue!20,minimum size=0.6cm] at (\i*1.5,3) {\tiny\w};
+}
+
+% 解码器输入
+\node[left] at (0,1.8) {\small 输入};
+\node[draw,fill=green!20,minimum size=0.6cm] at (1.5,1.8) {\tiny<bos>};
+\foreach \i/\w in {1/Je,2/t',3/aime} {
+    \node[draw,fill=green!20,minimum size=0.6cm] at ({(\i+1)*1.5},1.8) {\tiny\w};
+}
+
+% 解码器输出（标签）
+\node[left] at (0,0.5) {\small 标签};
+\foreach \i/\w in {1/Je,2/t',3/aime,4/<eos>} {
+    \node[draw,fill=red!20,minimum size=0.6cm] at (\i*1.5,0.5) {\tiny\w};
+}
+
+% 标注
+\draw[<->,thick,purple] (1.5,1.3) -- (6,1.3);
+\node[purple,below] at (3.75,1.1) {\tiny 错位一个位置};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[Teacher Forcing]
+训练时，每一步都用\textbf{真实的}前一个词作为输入（而非预测的词）
+\end{theorem}
+
+
+\paragraph{解码器的抽象接口}
+\begin{lstlisting}
+class Decoder(nn.Module):
+    """Simple function"""
+    
+    def __init__(self, **kwargs):
+        super(Decoder, self).__init__(**kwargs)
+    
+    def init_state(self, enc_outputs, *args):
+        """
+        根据编码器Output初始化解码器状态
+        enc_outputs: 编码器的Output
+        """
+        raise NotImplementedError
+    
+    def forward(self, X, state):
+        """
+        前向传播
+        X: 目标sequence（解码器输入）
+        state: 解码器状态
+        """
+        raise NotImplementedError
+\end{lstlisting}
+
+
+\paragraph{RNN解码器实现}
+\begin{lstlisting}
+class Seq2SeqDecoder(Decoder):
+    """RNN"""
+    
+    def __init__(self, vocab_size, embed_size, num_hiddens, 
+                 num_layers, dropout=0, **kwargs):
+        super(Seq2SeqDecoder, self).__init__(**kwargs)
+        
+        self.embedding = nn.Embedding(vocab_size, embed_size)
+        
+        # RNN = embed + context
+        self.rnn = nn.GRU(embed_size + num_hiddens, num_hiddens, 
+                         num_layers, dropout=dropout)
+        
+        # Output
+        self.dense = nn.Linear(num_hiddens, vocab_size)
+    
+    def init_state(self, enc_outputs, *args):
+        """用编码器的最终状态初始化"""
+        return enc_outputs[1]  # enc_outputs = (output, state)
+\end{lstlisting}
+
+
+\paragraph{RNN解码器前向传播}
+\begin{lstlisting}
+    def forward(self, X, state):
+        """ X: (batch_size, num_steps) sequence state: （） """
+        X = self.embedding(X).permute(1, 0, 2)
+        # X: (num_steps, batch, embed_size)
+        
+        # vector
+        context = state[-1].repeat(X.shape[0], 1, 1)
+        # context: (num_steps, batch, num_hiddens)
+        
+        X_and_context = torch.cat((X, context), 2)
+        # (num_steps, batch, embed + hidden)
+        
+        # RNN
+        output, state = self.rnn(X_and_context, state)
+        
+        # Output
+        output = self.dense(output).permute(1, 0, 2)
+        # (batch, num_steps, vocab_size)
+        
+        return output, state
+\end{lstlisting}
+
+
+\paragraph{解码器的输入结构}
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 每个时间步
+\node[above] at (3,4) {\small 每个时间步的输入};
+
+% 嵌入
+\node[draw,fill=blue!20,minimum width=2cm,align=center] at (1,3) {
+词嵌入\\
+\tiny $(batch, embed)$
+};
+
+% 上下文
+\node[draw,fill=purple!20,minimum width=2cm,align=center] at (5,3) {
+上下文 $\mathbf{c}$\\
+\tiny $(batch, hidden)$
+};
+
+% 拼接
+\node[draw,circle,fill=yellow!20] at (3,1.8) {拼接};
+
+\draw[->,thick] (1,2.6) -- (3,2.1);
+\draw[->,thick] (5,2.6) -- (3,2.1);
+
+% 结果
+\node[draw,fill=green!20,minimum width=4cm,align=center] at (3,0.8) {
+RNN输入\\
+\tiny $(batch, embed + hidden)$
+};
+
+\draw[->,thick] (3,1.5) -- (3,1.1);
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[关键]
+每个时间步都将\textbf{词嵌入}和\textbf{上下文向量}拼接作为RNN输入
+\end{theorem}
+
+
+\paragraph{测试解码器}
+\begin{lstlisting}
+decoder = Seq2SeqDecoder(vocab_size, embed_size, num_hiddens, num_layers)
+
+state = decoder.init_state(encoder(X))
+
+# sequence
+Y = torch.zeros((batch_size, num_steps), dtype=torch.long)
+
+output, state = decoder(Y, state)
+
+print(f"Outputshape: {output.shape}")  # (4, 7, 10)
+print(f"状态shape: {state.shape}")   # (2, 4, 16)
+\end{lstlisting}
+
+\begin{definition}[输出解释]
+\begin{itemize}
+    \item output: $(batch, num\_steps, vocab\_size)$ 每步的预测分布
+    \item state: $(num\_layers, batch, hidden)$ 最终状态
+\end{itemize}
+\end{definition}
+
+
+
+\subsection{编码器-解码器模型}
+
+\subsection{9.6.3 编码器-解码器模型}
+
+\subsection{9.6.3 编码器-解码器模型}
+\begin{center}
+\Large \textcolor{blue}{组合编码器和解码器}
+\end{center}
+
+
+\paragraph{EncoderDecoder类}
+\begin{lstlisting}
+class EncoderDecoder(nn.Module):
+    """-"""
+    
+    def __init__(self, encoder, decoder, **kwargs):
+        super(EncoderDecoder, self).__init__(**kwargs)
+        self.encoder = encoder
+        self.decoder = decoder
+    
+    def forward(self, enc_X, dec_X, *args):
+        """
+        enc_X: 编码器输入（源sequence）
+        dec_X: 解码器输入（目标sequence，training时）
+        """
+        enc_outputs = self.encoder(enc_X, *args)
+        
+        dec_state = self.decoder.init_state(enc_outputs, *args)
+        
+        return self.decoder(dec_X, dec_state)
+\end{lstlisting}
+
+
+\paragraph{创建完整模型}
+\begin{lstlisting}
+# parameters
+src_vocab_size = 10  #  commentvocabulary
+tgt_vocab_size = 10  #  commentvocabulary
+embed_size = 8
+num_hiddens = 16
+num_layers = 2
+
+encoder = Seq2SeqEncoder(src_vocab_size, embed_size, 
+                        num_hiddens, num_layers)
+decoder = Seq2SeqDecoder(tgt_vocab_size, embed_size, 
+                        num_hiddens, num_layers)
+
+# model
+net = EncoderDecoder(encoder, decoder)
+
+# test
+enc_X = torch.zeros((batch_size, num_steps), dtype=torch.long)
+dec_X = torch.zeros((batch_size, num_steps), dtype=torch.long)
+output, state = net(enc_X, dec_X)
+
+print(f"Outputshape: {output.shape}")  # (4, 7, 10)
+\end{lstlisting}
+
+
+
+\subsection{损失函数与训练}
+
+\subsection{9.6.4 损失函数与训练}
+
+\subsection{9.6.4 损失函数与训练}
+\begin{center}
+\Large \textcolor{blue}{训练序列到序列模型}
+\end{center}
+
+
+\paragraph{序列到序列的损失}
+\textbf{目标：}最大化 $P(y_1, \ldots, y_{T'} \mid x_1, \ldots, x_T)$
+
+\begin{definition}[交叉熵损失]
+$$\mathcal{L} = -\frac{1}{T'}\sum_{t=1}^{T'}\log P(y_t \mid y_1, \ldots, y_{t-1}, \mathbf{c})$$
+\end{definition}
+
+\textbf{问题：}不同序列长度不同，如何处理padding？
+
+\begin{theorem}[Masked Loss]
+只计算\textbf{有效位置}的损失，忽略padding部分
+$$\mathcal{L} = -\frac{1}{\sum_t \mathbb{1}[y_t \neq \text{<pad>}]}\sum_{t: y_t \neq \text{<pad>}}\log P(y_t \mid \cdots)$$
+\end{theorem}
+
+
+\paragraph{带Mask的损失函数}
+\begin{lstlisting}
+def sequence_mask(X, valid_len, value=0):
+    """ sequencepadding X: (batch, steps, ...) valid_len: (batch,) sequencelength """
+    maxlen = X.size(1)
+    mask = torch.arange((maxlen), dtype=torch.float32,
+                       device=X.device)[None, :] < valid_len[:, None]
+    X[~mask] = value
+    return X
+
+def masked_softmax_cross_entropy(pred, label, valid_len):
+    """
+    带mask的交叉熵
+    pred: (batch, steps, vocab_size)
+    label: (batch, steps)
+    valid_len: (batch,) 有效length
+    """
+    # 1padding0
+    weights = torch.ones_like(label)
+    weights = sequence_mask(weights, valid_len)
+    
+    weights = weights.reshape(-1)
+    pred = pred.reshape(-1, pred.shape[-1])
+    label = label.reshape(-1)
+    
+    # loss
+    unweighted_loss = nn.CrossEntropyLoss(reduction='none')(pred, label)
+    
+    weighted_loss = (unweighted_loss * weights).sum() / weights.sum()
+    return weighted_loss
+\end{lstlisting}
+
+
+\paragraph{Mask损失的可视化}
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 序列
+\node[above] at (3,3.5) {\small 目标序列};
+\node[draw,fill=green!20,minimum size=0.6cm] at (0.8,3) {\tiny Je};
+\node[draw,fill=green!20,minimum size=0.6cm] at (2,3) {\tiny t'};
+\node[draw,fill=green!20,minimum size=0.6cm] at (3.2,3) {\tiny aime};
+\node[draw,fill=green!20,minimum size=0.6cm] at (4.4,3) {\tiny<eos>};
+\node[draw,fill=gray!20,minimum size=0.6cm] at (5.6,3) {\tiny<pad>};
+
+% 权重
+\node[left] at (0,1.8) {\small 权重};
+\node[draw,fill=blue!20,minimum size=0.6cm] at (0.8,1.8) {\tiny1};
+\node[draw,fill=blue!20,minimum size=0.6cm] at (2,1.8) {\tiny1};
+\node[draw,fill=blue!20,minimum size=0.6cm] at (3.2,1.8) {\tiny1};
+\node[draw,fill=blue!20,minimum size=0.6cm] at (4.4,1.8) {\tiny1};
+\node[draw,fill=red!20,minimum size=0.6cm] at (5.6,1.8) {\tiny0};
+
+% 损失
+\node[left] at (0,0.5) {\small 损失};
+\node[draw,fill=green!20,minimum size=0.6cm] at (0.8,0.5) {\tiny\checkmark};
+\node[draw,fill=green!20,minimum size=0.6cm] at (2,0.5) {\tiny\checkmark};
+\node[draw,fill=green!20,minimum size=0.6cm] at (3.2,0.5) {\tiny\checkmark};
+\node[draw,fill=green!20,minimum size=0.6cm] at (4.4,0.5) {\tiny\checkmark};
+\node[draw,fill=red!20,minimum size=0.6cm] at (5.6,0.5) {\tiny$\times$};
+
+\node[below,text width=6cm,align=center] at (3,-0.3) {
+\small 只计算有效位置的损失
+};
+
+\end{tikzpicture}
+\end{center}
+
+\paragraph{训练函数}
+\begin{lstlisting}
+def train_seq2seq(net, data_iter, lr, num_epochs, device):
+    """trainingseq2seqmodel"""
+    net.to(device)
+    optimizer = torch.optim.Adam(net.parameters(), lr=lr)
+    
+    for epoch in range(num_epochs):
+        net.train()
+        total_loss = 0
+        num_batches = 0
+        
+        for batch in data_iter:
+            X, X_valid_len, Y, Y_valid_len = [x.to(device) for x in batch]
+            
+            # bos
+            bos = torch.tensor([tgt_vocab['<bos>']] * Y.shape[0], 
+                              device=device).reshape(-1, 1)
+            dec_input = torch.cat([bos, Y[:, :-1]], 1)  # Teacher forcing
+            
+            Y_hat, _ = net(X, dec_input)
+            
+            # loss
+            l = masked_softmax_cross_entropy(Y_hat, Y, Y_valid_len)
+            
+            optimizer.zero_grad()
+            l.backward()
+            grad_clipping(net, 1)
+            optimizer.step()
+            
+            total_loss += l.item()
+            num_batches += 1
+        
+        print(f'epoch {epoch + 1}, loss {total_loss / num_batches:.3f}')
+\end{lstlisting}
+
+
+\paragraph{训练过程详解}
+\begin{center}
+\begin{tikzpicture}[scale=0.75]
+% 步骤1
+\node[draw,fill=yellow!20,rounded corners,text width=11cm] at (5.5,5) {
+\textbf{步骤1：}准备解码器输入\\
+目标序列：\texttt{[Je, t', aime, <eos>]}\\
+解码器输入：\texttt{[<bos>, Je, t', aime]} \quad (前移一位)
+};
+
+\draw[->,thick] (5.5,4.5) -- (5.5,4.1);
+
+% 步骤2
+\node[draw,fill=blue!20,rounded corners,text width=11cm] at (5.5,3.6) {
+\textbf{步骤2：}前向传播\\
+编码器处理源序列 $\rightarrow$ 解码器生成预测
+};
+
+\draw[->,thick] (5.5,3.1) -- (5.5,2.7);
+
+% 步骤3
+\node[draw,fill=green!20,rounded corners,text width=11cm] at (5.5,2.2) {
+\textbf{步骤3：}计算Masked损失\\
+只在有效位置计算交叉熵（忽略padding）
+};
+
+\draw[->,thick] (5.5,1.7) -- (5.5,1.3);
+
+% 步骤4
+\node[draw,fill=orange!20,rounded corners,text width=11cm] at (5.5,0.8) {
+\textbf{步骤4：}反向传播与更新\\
+梯度裁剪 $\rightarrow$ 优化器更新
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{预测（推理）}
+\begin{lstlisting}
+def predict_seq2seq(net, src_sentence, src_vocab, tgt_vocab, 
+                   num_steps, device):
+    """ trainingmodel src_sentence: （） """
+    net.eval()
+    
+    src_tokens = src_vocab[src_sentence.lower().split(' ')] + [
+        src_vocab['<eos>']]
+    enc_valid_len = torch.tensor([len(src_tokens)], device=device)
+    
+    src_tokens = truncate_pad(src_tokens, num_steps, src_vocab['<pad>'])
+    enc_X = torch.unsqueeze(
+        torch.tensor(src_tokens, dtype=torch.long, device=device), dim=0)
+    
+    enc_outputs = net.encoder(enc_X, enc_valid_len)
+    dec_state = net.decoder.init_state(enc_outputs, enc_valid_len)
+    
+    dec_X = torch.unsqueeze(
+        torch.tensor([tgt_vocab['<bos>']], dtype=torch.long, 
+                    device=device), dim=0)
+    output_seq = []
+    
+    for _ in range(num_steps):
+        Y, dec_state = net.decoder(dec_X, dec_state)
+        dec_X = Y.argmax(dim=2)  # comment
+        pred = dec_X.squeeze(dim=0).type(torch.int32).item()
+        
+        if pred == tgt_vocab['<eos>']:
+            break
+        output_seq.append(pred)
+    
+    return ' '.join(tgt_vocab.to_tokens(output_seq))
+\end{lstlisting}
+
+
+\paragraph{推理过程（贪心解码）}
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+% 编码
+\node[draw,fill=blue!20,rounded corners,minimum width=3cm,align=center] at (1.5,3) {
+编码器\\
+\tiny ``I love you''
+};
+
+\node[draw,fill=purple!20] (c) at (1.5,1.5) {$\mathbf{c}$};
+\draw[->,thick] (1.5,2.6) -- (c);
+
+% 解码步骤
+\node[circle,draw,fill=green!20,minimum size=0.7cm] (s1) at (4,1.5) {\tiny$s_1$};
+\node[circle,draw,fill=green!20,minimum size=0.7cm] (s2) at (6,1.5) {\tiny$s_2$};
+\node[circle,draw,fill=green!20,minimum size=0.7cm] (s3) at (8,1.5) {\tiny$s_3$};
+\node at (9.5,1.5) {$\ldots$};
+
+\draw[->,thick] (c) -- (s1);
+\draw[->,thick] (s1) -- (s2);
+\draw[->,thick] (s2) -- (s3);
+
+% 输入
+\node[below,font=\tiny] at (4,0.8) {<bos>};
+\node[below,font=\tiny] at (6,0.8) {Je};
+\node[below,font=\tiny] at (8,0.8) {t'};
+
+% 输出
+\node[above,font=\tiny,fill=red!20] at (4,2.2) {Je};
+\node[above,font=\tiny,fill=red!20] at (6,2.2) {t'};
+\node[above,font=\tiny,fill=red!20] at (8,2.2) {aime};
+
+% 箭头
+\draw[->,thick,red] (4,2) -- (6,1);
+\draw[->,thick,red] (6,2) -- (8,1);
+
+\node[below,text width=10cm,align=center] at (5.5,-0.3) {
+\small 每步选概率最大的词，作为下一步输入
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[贪心解码]
+每步选择概率最大的词，简单但可能次优（下节介绍束搜索）
+\end{theorem}
+
+
+\paragraph{BLEU评估}
+\begin{lstlisting}
+def bleu(pred_seq, label_seq, k):
+    """BLEU"""
+    pred_tokens, label_tokens = pred_seq.split(' '), label_seq.split(' ')
+    len_pred, len_label = len(pred_tokens), len(label_tokens)
+    
+    score = math.exp(min(0, 1 - len_label / len_pred))
+    
+    for n in range(1, k + 1):
+        num_matches, label_subs = 0, collections.defaultdict(int)
+        
+        for i in range(len_label - n + 1):
+            label_subs[' '.join(label_tokens[i: i + n])] += 1
+        
+        for i in range(len_pred - n + 1):
+            if label_subs[' '.join(pred_tokens[i: i + n])] > 0:
+                num_matches += 1
+                label_subs[' '.join(pred_tokens[i: i + n])] -= 1
+        
+        score *= math.pow(num_matches / (len_pred - n + 1), 
+                         math.pow(0.5, n))
+    
+    return score
+
+bleu('je t aime .', 'je t aime .', k=2)  # 1.0 (完美匹配)
+bleu('je t aime', 'je t aime .', k=2)    # 0.658 (length惩罚)
+\end{lstlisting}
+
+
+\paragraph{BLEU分数（BiLingual Evaluation Understudy）}
+\textbf{评估翻译质量的标准指标}
+
+\begin{definition}[核心思想]
+\begin{itemize}
+    \item 统计n-gram重叠
+    \item 长度惩罚
+    \item 综合评分
+\end{itemize}
+\end{definition}
+
+\begin{example}[例子]
+\textbf{参考：}``Je t'aime .''\\
+\textbf{预测1：}``Je t'aime .'' $\Rightarrow$ BLEU = 1.0\\
+\textbf{预测2：}``Je aime .'' $\Rightarrow$ BLEU $\approx$ 0.7\\
+\textbf{预测3：}``aime Je .'' $\Rightarrow$ BLEU $\approx$ 0.4
+\end{example}
+
+\begin{theorem}[范围]
+BLEU $\in [0, 1]$，越高越好
+\end{theorem}
+
+
+\subsection{9.6节总结}
+\begin{definition}[核心内容]
+\begin{enumerate}
+    \item \textbf{编码器}：将源序列压缩为上下文向量
+    $$\mathbf{c} = \text{Encoder}(x_1, \ldots, x_T)$$
+    
+    \item \textbf{解码器}：从上下文生成目标序列
+    $$P(y_t \mid y_{1:t-1}, \mathbf{c})$$
+    
+    \item \textbf{训练}：Teacher Forcing + Masked Loss
+    
+    \item \textbf{推理}：贪心解码（每步选最大概率）
+    
+    \item \textbf{评估}：BLEU分数
+\end{enumerate}
+\end{definition}
+
+
+\paragraph{关键要点回顾}
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 要点1
+\node[draw,fill=blue!20,rounded corners,text width=10cm,align=left] at (5,3.8) {
+\textbf{1. 上下文向量}\\
+编码器最后隐状态，压缩整个源序列信息
+};
+
+% 要点2
+\node[draw,fill=green!20,rounded corners,text width=10cm,align=left] at (5,2.6) {
+\textbf{2. Teacher Forcing}\\
+训练时用真实词作为解码器输入
+};
+
+% 要点3
+\node[draw,fill=orange!20,rounded corners,text width=10cm,align=left] at (5,1.4) {
+\textbf{3. Masked Loss}\\
+只计算有效位置损失，忽略padding
+};
+
+% 要点4
+\node[draw,fill=purple!20,rounded corners,text width=10cm,align=left] at (5,0.2) {
+\textbf{4. 贪心解码}\\
+推理时每步选概率最大的词
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{编码器-解码器架构的局限}
+\begin{theorem}[核心问题：信息瓶颈]
+将整个源序列压缩到\textbf{固定长度}的向量
+\begin{itemize}
+    \item 源序列很长时，信息损失严重
+    \item 解码器看不到源序列细节
+    \item 所有解码步骤共享同一个上下文
+\end{itemize}
+\end{theorem}
+
+\begin{example}[例子]
+源句子：``The agreement on the European Economic Area was signed in August 1992.''
+
+上下文向量（512维）很难完整保存这么多信息！
+\end{example}
+
+\begin{definition}[解决方案]
+\textbf{注意力机制}（Attention）：让解码器动态关注源序列的不同部分
+\end{definition}
+
+
+\paragraph{实践建议}
+\begin{definition}[超参数选择]
+\begin{itemize}
+    \item \textbf{嵌入维度}：128-512
+    \item \textbf{隐藏单元}：256-1024
+    \item \textbf{层数}：1-4层
+    \item \textbf{Dropout}：0.1-0.5
+    \item \textbf{学习率}：0.001（Adam）
+    \item \textbf{梯度裁剪}：阈值1-5
+\end{itemize}
+\end{definition}
+
+\begin{definition}[训练技巧]
+\begin{itemize}
+    \item 从小数据集开始验证
+    \item 监控训练集和验证集BLEU
+    \item 使用学习率衰减
+    \item 早停（验证集BLEU不再提升）
+\end{itemize}
+\end{definition}
+
+
+\paragraph{常见问题与解决}
+\begin{definition}[问题1：生成重复]
+\textbf{现象：}``Je Je Je ...''
+
+\textbf{原因：}模型陷入局部最优
+
+\textbf{解决：}
+\begin{itemize}
+    \item 使用束搜索（下一节）
+    \item 增加Dropout
+    \item 使用Coverage机制
+\end{itemize}
+\end{definition}
+
+\begin{definition}[问题2：翻译不完整]
+\textbf{现象：}提前输出\texttt{<eos>}
+
+\textbf{原因：}长度惩罚不够
+
+\textbf{解决：}
+\begin{itemize}
+    \item 调整BLEU中的长度惩罚
+    \item 限制最小输出长度
+\end{itemize}
+\end{definition}
+
+\section{9.7 序列到序列学习}
+
+\subsection{9.7 序列到序列学习}
+\begin{center}
+\Large \textcolor{blue}{Sequence to Sequence Learning}\\
+\large 完整实现机器翻译系统
+\end{center}
+
+
+\subsection{9.7节 - 章节导航}
+\begin{definition}[本节内容]
+\begin{itemize}
+    \item 9.7.1 训练Seq2Seq模型
+    \item 9.7.2 预测与评估
+    \item 9.7.3 性能分析
+    \item 9.7.4 改进方向
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[学习目标]
+\begin{enumerate}
+    \item 在真实数据集上训练Seq2Seq
+    \item 评估翻译质量
+    \item 分析模型性能
+    \item 了解改进方法
+\end{enumerate}
+\end{theorem}
+
+
+

@@ -1,0 +1,679 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LaTeX Beamer Presentation Code
+% Paper: 顾客至上：消费者在线投诉的基本面预测能力研究
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{beamer}
+
+% --- 中文支持与包设置 ---
+\usepackage[UTF8, scheme=plain]{ctex}
+
+\usepackage{graphicx} % 图片支持
+\usepackage{amsmath} % 数学公式支持
+\usepackage{booktabs} % 表格美化
+\usepackage{xcolor} % 颜色支持
+\usepackage{tikz} % 绘图支持
+
+% --- 主题与颜色设置 ---
+\usetheme{Madrid} % 一个经典且常用的主题
+\usecolortheme{dolphin} % 颜色主题
+
+% 去掉block的阴影效果
+\setbeamertemplate{blocks}[rounded][shadow=false]
+
+% --- 标题信息 ---
+\title[消费者在线投诉的预测能力研究]{顾客至上：消费者在线投诉的基本面预测能力研究}
+\author{汇报人：黄佳炜}
+\date{\today}
+
+\begin{document}
+
+% --- 标题页 ---
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% --- 目录页 ---
+\begin{frame}
+    \frametitle{目录}
+    \tableofcontents
+\end{frame}
+
+% --- 第一部分：研究背景与核心问题 ---
+\section{研究背景与核心问题}
+
+\begin{frame}
+    \frametitle{1.1 研究背景：数字经济与另类数据}
+    \begin{itemize}
+        \item \textbf{数字经济时代}：数据要素成为核心引擎，催生了大量"另类数据" (Alternative Data)。
+        \item \textbf{另类数据的优势}：相较于传统财务数据，具有体量大、时效性好、真实性强、颗粒度细等优点。
+        \item \textbf{消费者在线投诉}：作为一种典型的另类数据，直接反映了消费者对产品或服务的不满，是研究企业基本面的新视角。
+    \end{itemize}
+    
+    \vspace{0.3cm}
+    \textbf{研究动机：}
+    
+    以往关于消费者投诉的研究多基于小样本问卷，缺乏来自真实世界的大数据支撑。本文利用"黑猫投诉"平台千万级别的真实数据，系统地研究了其信息含量。
+\end{frame}
+
+\begin{frame}
+    \frametitle{1.2 研究问题与核心贡献}
+    \begin{columns}[T] % 分栏
+        \begin{column}{0.5\textwidth}
+            \textbf{核心研究问题：}
+            \begin{enumerate}
+                \item 消费者在线投诉数据能否预测公司未来的基本面（如营业收入增长）？
+                \item 不同类型的投诉（如产品质量 vs. 服务体验）预测能力是否有差异？
+                \item 企业对投诉的回应与否是否影响其预测能力？
+            \end{enumerate}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \textbf{主要研究贡献：}
+            \begin{itemize}
+                \item \textbf{数据创新}：首次利用大规模真实在线投诉数据，丰富了另类数据研究。
+                \item \textbf{补充文献}：拓展了基本面预测影响因素的研究，并提供了中国市场的证据。
+                \item \textbf{拓展领域}：为企业口碑、消费者行为等领域的研究提供了新的大数据支撑。
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- 第二部分：理论分析与研究设计 ---
+\section{理论分析与研究设计}
+
+\begin{frame}
+    \frametitle{2.1 理论分析与研究假设}
+    
+    \textbf{核心逻辑：投诉如何影响基本面？}
+    \begin{itemize}
+        \item \textbf{特质信息}：在线投诉揭示了公司在产品、服务、管理等方面的真实缺陷，是未经过滤的经营状况负面信息。
+        \item \textbf{口碑效应}：投诉形成负面口碑，通过社交网络传播，降低潜在消费者的购买意愿，从而影响未来销售收入。
+    \end{itemize}
+    
+    \pause
+    \vspace{0.3cm}
+    \textbf{研究假设：}
+    \begin{itemize}
+        \item \textbf{H1}: 消费者在线投诉越多，上市公司未来营业收入增长率越低。
+        \item \textbf{H2}: "结果失败"（产品质量）投诉的负面预测能力强于"过程失败"（服务体验）投诉。
+        \item \textbf{H3}: "企业无回应"的投诉比"有回应"的投诉具有更强的负面预测能力。
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{2.2 数据来源与样本}
+    \begin{itemize}
+        \item \textbf{投诉数据}：来自新浪"黑猫投诉"平台，时间跨度为 2018Q2 - 2022Q3。
+        \item \textbf{数据优势}：信息全公开、投诉真实性高、记录可回溯。
+        \item \textbf{研究样本}：将投诉数据与A股上市公司匹配，经过筛选最终得到359家公司的5688个公司-季度样本。
+        \item \textbf{其他数据}：公司财务数据来自CNRDS，股票市场数据来自WIND数据库。
+    \end{itemize}
+    
+    \vspace{0.5cm}
+    \begin{block}{数据规模}
+        \begin{itemize}
+            \item 投诉数据：超过\textcolor{red}{1000万条}真实消费者投诉
+            \item 上市公司样本：\textcolor{red}{359家}公司
+            \item 观测值：\textcolor{red}{5688个}公司-季度样本
+            \item 时间跨度：2018年第2季度至2022年第3季度
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{2.2 数据来源与样本（图示）}
+    
+    \begin{center}
+        \textbf{图1: 分季度平均在线投诉数趋势}
+        
+        \vspace{0.3cm}
+        \begin{tikzpicture}[scale=1.0]
+            % 坐标轴
+            \draw[->] (0,0) -- (9,0) node[right] {时间};
+            \draw[->] (0,0) -- (0,5) node[above] {投诉数};
+            
+            % 数据点和折线
+            \draw[thick,blue,line width=1.5pt] (0.5,1.2) -- (1.5,1.5) -- (2.5,1.8) -- (3.5,2.3) -- (4.5,2.8) -- (5.5,3.5) -- (6.5,3.8) -- (7.5,3.2) -- (8.5,2.9);
+            \foreach \x/\y in {0.5/1.2, 1.5/1.5, 2.5/1.8, 3.5/2.3, 4.5/2.8, 5.5/3.5, 6.5/3.8, 7.5/3.2, 8.5/2.9}
+                \fill[blue] (\x,\y) circle (3pt);
+            
+            % X轴标签
+            \node[below] at (0.5,0) {18Q2};
+            \node[below] at (2.5,0) {19Q2};
+            \node[below] at (4.5,0) {20Q2};
+            \node[below] at (6.5,0) {21Q2};
+            \node[below] at (8.5,0) {22Q2};
+            
+            % 标注峰值
+            \draw[red,dashed] (6.5,0) -- (6.5,3.8);
+            \node[red,above] at (6.5,3.8) {峰值};
+        \end{tikzpicture}
+        
+        \vspace{0.5cm}
+        \textbf{趋势说明}：投诉数量总体呈上升趋势，疫情后（2021Q2）达到峰值
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{2.3 研究模型设定（一）：基准回归模型}
+    
+    \textbf{基准回归模型（Panel Data Fixed Effects Model）：}
+    
+    本文使用如下模型来检验在线投诉对未来营业收入增长率的预测能力：
+    \begin{equation}
+        SalesGrowth_{i,t} = \beta_0 + \beta_1 CPLT_{i,t-1} + \sum \beta_k Controls_{i,t-1} + \alpha_i + \gamma_t + \epsilon_{i,t}
+    \end{equation}
+    
+    \vspace{0.3cm}
+    \textbf{变量解释：}
+    \begin{itemize}
+        \item $SalesGrowth_{i,t}$：公司 $i$ 在第 $t$ 季度的\textcolor{red}{营业收入同比增长率}（衡量公司赚钱能力的变化）。
+        \item $CPLT_{i,t-1}$：公司 $i$ 在第 $t-1$ 季度（\textcolor{blue}{上一季度}）的\textcolor{red}{对数化在线投诉数量}。
+        \begin{itemize}
+            \item \textbf{为什么取对数？}因为投诉数量分布很不均匀（有的公司几条，有的几万条），取对数可以"压缩"数据，让模型更稳定。
+        \end{itemize}
+        \item $Controls$：一系列\textcolor{blue}{控制变量}，排除其他因素的干扰：
+        \begin{itemize}
+            \item \textbf{LNSIZE}：公司规模（总资产的对数），大公司和小公司表现不同。
+            \item \textbf{ROA}：资产收益率，衡量公司盈利能力。
+            \item \textbf{BM}：账面市值比，反映公司估值水平。
+            \item \textbf{RET}：股票收益率，市场对公司的预期。
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{2.3 研究模型设定（二）：固定效应与标准误}
+    
+    \textbf{模型中的系数：}
+    \begin{itemize}
+        \item $\alpha_i$：\textcolor{red}{公司固定效应 (Firm Fixed Effects)}
+        \begin{itemize}
+            \item 每个公司都有自己的"个性"（比如苹果公司天生就比小米受欢迎），这个效应帮我们"剔除"这些固定的个性差异，只看投诉的影响。
+        \end{itemize}
+        \item $\gamma_t$：\textcolor{red}{时间固定效应 (Time Fixed Effects)}
+        \begin{itemize}
+            \item 不同季度可能有不同的"大环境"（比如疫情期间所有公司都不好），这个效应帮我们"剔除"时间趋势的影响。
+        \end{itemize}
+        \item $\epsilon_{i,t}$：随机误差项（模型无法解释的部分）。
+    \end{itemize}
+    
+    \vspace{0.3cm}
+    \textbf{标准误聚类调整 (Clustered Standard Errors)：}
+    \begin{itemize}
+        \item 同一家公司的不同季度数据可能相互影响（比如Q1投诉多，Q2也可能多），所以要对标准误进行\textcolor{blue}{公司层面的聚类调整}，确保统计检验的准确性。
+    \end{itemize}
+    
+    \vspace{0.2cm}
+    \alert{核心关注}：系数 $\beta_1$ 是否显著为负（投诉越多，营收增长越低）。
+\end{frame}
+
+% --- 第三部分：实证结果与分析 ---
+\section{实证结果与分析}
+
+\begin{frame}
+    \frametitle{3.1 基准回归结果 (假设H1检验)}
+    
+    \textbf{核心发现：}在线投诉数量对未来营业收入增长率具有显著的负向预测作用。
+    
+    \vspace{0.3cm}
+    \begin{itemize}
+        \item 在控制了各种变量和固定效应后，滞后一期的在线投诉量 (LCPLT) 系数显著为负。
+        \item 这意味着，上一季度的投诉越多，下一季度的营收增长率越低，验证了 \textbf{假设H1}。
+        \item \textbf{经济意义}：标准化 $\beta$ 系数约为-0.038，其影响程度与账面市值比(BM)等传统指标在同一量级，不容忽视。
+    \end{itemize}
+    
+\end{frame}
+
+\begin{frame}
+    \frametitle{3.1 基准回归结果（表格）}
+    
+    \begin{center}
+        \textbf{表4: 在线投诉与营业收入增长率基准回归结果}
+        
+        \vspace{0.3cm}
+        \begin{tabular}{lccc}
+            \toprule
+            \textbf{变量} & \textbf{(1)} & \textbf{(2)} & \textbf{(3)} \\
+            \midrule
+            L.CPLT & -0.012*** & -0.011*** & -0.010*** \\
+             & (0.003) & (0.003) & (0.003) \\
+            \midrule
+            L.LNSIZE &  & 0.005** & 0.003 \\
+            L.ROA &  & 0.182*** & 0.156*** \\
+            L.BM &  & -0.008** & -0.007** \\
+            L.RET &  & 0.024*** & 0.021*** \\
+            \midrule
+            控制变量 & No & Yes & Yes \\
+            固定效应 & No & No & Yes \\
+            观测数 & 5688 & 5688 & 5688 \\
+            $R^2$ & 0.015 & 0.142 & 0.708 \\
+            \bottomrule
+            \multicolumn{4}{l}{\tiny 注: ***、**、*分别表示1\%、5\%、10\%水平显著，括号内为标准误} \\
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{3.2 基于投诉特征的分析 (H2 \& H3检验)}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \textbf{结果失败 vs. 过程失败 (H2)}
+            \begin{itemize}
+                \item "结果失败" (CPLT\_O, 产品质量) 投诉的系数在1\%水平下显著为负。
+                \item "过程失败" (CPLT\_P, 服务体验) 投诉的系数不显著。
+                \item \textbf{结论}：产品质量问题比服务体验问题对公司基本面的负面影响更根本、更持久。
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{企业有回应 vs. 无回应 (H3)}
+            \begin{itemize}
+                \item "企业无回应" (CPLT\_NR) 投诉的系数在1\%水平下显著为负。
+                \item "企业有回应" (CPLT\_R) 投诉的系数不显著。
+                \item \textbf{结论}：企业对投诉置之不理会进一步恶化口碑，带来更强的负面冲击。
+            \end{itemize}
+        \end{column}
+    \end{columns}
+    
+\end{frame}
+
+\begin{frame}
+    \frametitle{3.2 基于投诉特征的分析（表格）}
+    
+    \begin{center}
+        \textbf{表5: 不同投诉类型的预测能力对比}
+        
+        \vspace{0.3cm}
+        \small
+        \begin{tabular}{lcc}
+            \toprule
+            \textbf{投诉类型} & \textbf{系数} & \textbf{显著性} \\
+            \midrule
+            \multicolumn{3}{c}{\textit{按内容分类（H2检验）}} \\
+            结果失败 (质量) & -0.015*** & 高度显著 \\
+            过程失败 (服务) & -0.003 & 不显著 \\
+            \midrule
+            \multicolumn{3}{c}{\textit{按响应分类（H3检验）}} \\
+            企业无回应 & -0.018*** & 高度显著 \\
+            企业有回应 & -0.004 & 不显著 \\
+            \bottomrule
+            \multicolumn{3}{l}{\tiny 注: ***表示1\%水平显著} \\
+        \end{tabular}
+        
+        \vspace{0.5cm}
+        \textbf{结论}：质量投诉和企业不响应的投诉预测能力更强！
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{3.3 稳健性检验（一）：替换变量}
+    
+    \textbf{结论是否可靠？}为确保结果的可靠性，文章进行了一系列稳健性检验，主要结论保持不变。
+    
+    \vspace{0.3cm}
+    \textbf{1. 替换被解释变量（换个角度看问题）：}
+    \begin{itemize}
+        \item \textbf{SUR (Standardized Unexpected Revenue)}：标准化未预期营业收入
+        \begin{itemize}
+            \item 实际营收 - 市场预期营收，看投诉能否预测"超预期"或"低于预期"。
+        \end{itemize}
+        \item \textbf{SUE (Standardized Unexpected Earnings)}：标准化未预期盈余
+        \begin{itemize}
+            \item 实际利润 - 市场预期利润，看投诉能否预测盈利"惊喜"或"惊吓"。
+        \end{itemize}
+        \item \textbf{结果}：投诉对这些指标的预测能力依然显著！
+    \end{itemize}
+    
+    \vspace{0.3cm}
+    \textbf{2. 替换关键解释变量（换个指标测投诉）：}
+    \begin{itemize}
+        \item 投诉收入比、投诉金额、移动平均投诉量等，结果依然稳健。
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{3.3 稳健性检验（二）：内生性问题处理}
+    
+    \textbf{什么是内生性问题？}
+    \begin{itemize}
+        \item \textcolor{red}{反向因果}：是投诉导致营收下降，还是营收下降导致投诉增多？（鸡生蛋还是蛋生鸡？）
+        \item \textcolor{red}{遗漏变量}：可能有其他因素同时影响投诉和营收（比如产品质量）。
+    \end{itemize}
+    
+    \vspace{0.3cm}
+    \textbf{解决方案1：工具变量法 (Instrumental Variable, IV)}
+    \begin{itemize}
+        \item \textbf{核心思想}：找一个变量，它只影响投诉，不直接影响营收。
+        \item \textbf{本文做法}：用\textcolor{blue}{同城市其他公司的平均投诉量}作为工具变量。
+        \begin{itemize}
+            \item \textbf{逻辑}：同城市的人可能有相似的投诉习惯（地域文化），但这不会直接影响某家公司的营收。
+        \end{itemize}
+        \item \textbf{结果}：用IV回归后，投诉对营收的负向预测依然显著！
+    \end{itemize}
+    
+    \vspace{0.3cm}
+    \textbf{解决方案2：双重差分法 (Difference-in-Differences, DID)}
+    \begin{itemize}
+        \item \textbf{核心思想}：比较"有投诉"和"没投诉"的公司，看投诉发生前后的营收变化差异。
+        \item \textbf{结果}：有投诉的公司，营收增长显著下降！
+    \end{itemize}
+\end{frame}
+
+% --- 第三点五部分：机器学习与文本分析 ---
+\section{机器学习与文本分析方法}
+
+\begin{frame}
+    \frametitle{3.4 机器学习方法：如何分类投诉类型？}
+    
+    \textbf{问题}：如何区分"结果失败"（产品质量）和"过程失败"（服务体验）投诉？
+    
+    \vspace{0.3cm}
+    \textbf{解决方案：BERT深度学习模型}
+    \begin{itemize}
+        \item \textbf{BERT是什么？}
+        \begin{itemize}
+            \item 全称：Bidirectional Encoder Representations from Transformers（双向编码器表示转换器）。
+            \item 一个超级聪明的模型，能理解文本的深层含义。
+        \end{itemize}
+        \item \textbf{为什么用BERT？}
+        \begin{itemize}
+            \item 传统方法（如关键词匹配）无法理解上下文，BERT能捕捉语义。
+            \item 在金融文本分析中表现优异（Huang et al., 2023）。
+        \end{itemize}
+    \end{itemize}
+    
+    \vspace{0.3cm}
+    \textbf{具体步骤：}
+    \begin{enumerate}
+        \item \textbf{人工标注}：随机抽取部分投诉，人工标记为"结果失败"或"过程失败"。
+        \item \textbf{模型训练}：用标注数据训练BERT模型，让它学会分类。
+        \item \textbf{自动分类}：用训练好的模型对所有投诉进行分类。
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \frametitle{3.5 文本分析方法：如何衡量消费者业务重要性？}
+    
+    \textbf{问题}：如何判断一家公司的消费者业务（toC）占比高不高？
+    
+    \vspace{0.3cm}
+    \textbf{解决方案：Word2Vec词向量模型}
+    \begin{itemize}
+        \item \textbf{Word2Vec是什么？}
+        \begin{itemize}
+            \item 一种将文字转化为数字向量的技术，相似的词在向量空间中距离更近。
+            \item \textbf{人话}：把"消费者"、"用户"、"客户"等相关词语找出来，形成一个"消费者词库"。
+        \end{itemize}
+        \item \textbf{具体步骤}：
+        \begin{enumerate}
+            \item \textbf{种子词选择}：人工阅读500份公司年报，找出与消费者相关的核心词（如"消费者"、"用户"）。
+            \item \textbf{词库扩充}：用Word2Vec的CBOW模型找出与种子词相似的词（如"客户"、"买家"）。
+            \item \textbf{专家筛选}：邀请领域专家对扩充后的词库进行筛选，确保准确性。
+            \item \textbf{计算占比}：统计公司年报中消费者相关词的出现频率，作为toC业务重要性的代理变量。
+        \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+% --- 第四部分：进一步讨论 ---
+\section{进一步讨论}
+
+\begin{frame}
+    \frametitle{4.1 预测窗口长度：持续影响}
+    
+    \textbf{问题}：投诉的预测能力能持续多久？
+    
+    \vspace{0.3cm}
+    \textbf{发现}：
+    \begin{itemize}
+        \item 在线投诉的负向预测能力可以持续\textcolor{red}{长达4个季度}
+        \item 预测效力随时间推移\textcolor{blue}{逐步减弱}
+        \item 到t+4期则完全不具备统计意义上的显著性
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{4.1 预测窗口长度（图示）}
+    
+    \begin{center}
+        \textbf{图2: 不同预测期限的系数变化}
+        
+        \vspace{0.3cm}
+        \begin{tikzpicture}[scale=1.1]
+            % 坐标轴
+            \draw[->] (0,0) -- (8,0) node[right] {预测期限};
+            \draw[->] (0,0) -- (0,4) node[above] {系数绝对值};
+            
+            % 柱状图
+            \fill[blue!80] (0.5,0) rectangle (1.5,3.0);
+            \fill[blue!65] (2,0) rectangle (3,2.7);
+            \fill[blue!50] (3.5,0) rectangle (4.5,2.4);
+            \fill[blue!35] (5,0) rectangle (6,2.0);
+            \fill[blue!20] (6.5,0) rectangle (7.5,1.2);
+            
+            % 标签
+            \node[below] at (1,0) {t};
+            \node[below] at (2.5,0) {t+1};
+            \node[below] at (4,0) {t+2};
+            \node[below] at (5.5,0) {t+3};
+            \node[below] at (7,0) {t+4};
+            
+            % 数值标注
+            \node[above] at (1,3.0) {\small -0.010***};
+            \node[above] at (2.5,2.7) {\small -0.009***};
+            \node[above] at (4,2.4) {\small -0.008**};
+            \node[above] at (5.5,2.0) {\small -0.006*};
+            \node[above] at (7,1.2) {\small -0.003};
+        \end{tikzpicture}
+        
+        \vspace{0.5cm}
+        \textbf{结论}：预测能力持续4个季度，但逐渐减弱，t+4期不显著
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{4.2 异质性分析：在哪些公司中更显著？}
+    
+    \textbf{研究问题}：投诉的预测能力在不同类型公司中是否存在差异？
+    
+    \vspace{0.3cm}
+    \textbf{两个维度}：
+    \begin{enumerate}
+        \item \textbf{信息透明度}：分析师关注度、机构持股比例
+        \begin{itemize}
+            \item 假设：信息透明度低的公司，投诉的"信息含量"更高（\textcolor{red}{雪中送炭}）
+        \end{itemize}
+        
+        \item \textbf{消费者业务重要性}：toC业务占比、销售费用
+        \begin{itemize}
+            \item 假设：消费者业务越重要，投诉的负面冲击越大
+        \end{itemize}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \frametitle{4.2 异质性分析（表格）}
+    
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \textbf{1. 信息透明度维度}
+            
+            \vspace{0.3cm}
+            \begin{center}
+                \small
+                \begin{tabular}{lc}
+                    \toprule
+                    \textbf{样本} & \textbf{系数} \\
+                    \midrule
+                    低分析师关注 & -0.018*** \\
+                    高分析师关注 & -0.006 \\
+                    \midrule
+                    低机构持股 & -0.016*** \\
+                    高机构持股 & -0.005 \\
+                    \bottomrule
+                \end{tabular}
+            \end{center}
+            
+            \vspace{0.2cm}
+            \textbf{结论}：\textcolor{red}{雪中送炭}，信息不透明时投诉更有价值。
+        \end{column}
+        
+        \begin{column}{0.48\textwidth}
+            \textbf{2. 消费者业务重要性}
+            
+            \vspace{0.3cm}
+            \begin{center}
+                \small
+                \begin{tabular}{lc}
+                    \toprule
+                    \textbf{样本} & \textbf{系数} \\
+                    \midrule
+                    高toC业务占比 & -0.019*** \\
+                    低toC业务占比 & -0.007 \\
+                    \midrule
+                    高销售费用 & -0.017*** \\
+                    低销售费用 & -0.006 \\
+                    \bottomrule
+                \end{tabular}
+            \end{center}
+            
+            \vspace{0.2cm}
+            \textbf{结论}：消费者业务越重要，投诉冲击越大。
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{4.3 其他拓展发现}
+    
+    \begin{itemize}
+        \item \textbf{行业溢出效应}："池鱼之殃"
+        \begin{itemize}
+            \item 某个公司的投诉会损害整个行业的声誉，对行业内其他公司也产生负向预测作用。
+            \item \textbf{实证结果}：行业层面投诉量系数为-0.008**，显著为负。
+        \end{itemize}
+        
+        \item \textbf{财务危机预测}：预警信号
+        \begin{itemize}
+            \item 在线投诉数量对公司未来发生财务危机的概率有显著预测能力。
+            \item \textbf{实证结果}：Logit模型中，投诉量系数为0.125***（正向预测危机）。
+        \end{itemize}
+    \end{itemize}
+    
+    \vspace{0.5cm}
+    \begin{center}
+        \fbox{\parbox{0.85\textwidth}{\centering
+            \textbf{核心发现}：投诉数据不仅能预测营收增长，还能预测财务风险， \\
+            并且在信息不对称高、消费者业务重要的公司中效果更强！
+        }}
+    \end{center}
+\end{frame}
+
+% --- 第五部分：结论与启示 ---
+\section{结论与启示}
+
+\begin{frame}
+    \frametitle{5.1 研究结论}
+    \begin{enumerate}
+        \item \textbf{信息含量确认}：消费者在线投诉作为一种另类数据，包含公司基本面的重要信息，能有效预测未来营业收入增长率。
+        \item \textbf{预测能力差异}：针对产品质量的"结果失败"投诉和"企业无回应"的投诉，具有尤其强的基本面预测效果。
+        \item \textbf{广泛影响}：投诉的预测能力存在行业溢出效应，且对财务危机也有预警作用。
+        \item \textbf{作用情境}：预测能力在信息不对称程度高（信息透明度低）和消费者业务重要性高的公司中更为显著。
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \frametitle{5.2 实践启示}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \textbf{对上市公司：}
+            \begin{itemize}
+                \item \textbf{顾客至上}：必须高度重视消费者反馈，尤其是产品质量问题。
+                \item \textbf{积极响应}：建立有效的投诉处理机制，避免"不回应"带来的口碑恶化。
+                \item \textbf{数据监控}：将在线投诉数据纳入日常经营监测体系，作为风险预警指标。
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{对投资者与监管机构：}
+            \begin{itemize}
+                \item \textbf{投资者}：可将在线投诉数据作为传统财务数据的补充，构建更全面的基本面分析和投资策略。
+                \item \textbf{监管机构}：可利用在线投诉大数据进行更及时的市场监管和消费者权益保护，防范系统性风险。
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- 第六部分：研究方法总结 ---
+\section{研究方法与技术总结}
+
+\begin{frame}
+    \frametitle{6.1 本文用到的核心方法与模型汇总}
+    
+    \textbf{计量经济学方法：}
+    \begin{itemize}
+        \item \textbf{面板数据固定效应模型 (Panel Fixed Effects Model)}：控制公司和时间的固定特征。
+        \item \textbf{工具变量法 (IV)}：解决内生性问题（反向因果、遗漏变量）。
+        \item \textbf{双重差分法 (DID)}：比较处理组和对照组的差异。
+        \item \textbf{聚类标准误 (Clustered Standard Errors)}：处理同一公司不同时期数据的相关性。
+    \end{itemize}
+    
+    \vspace{0.3cm}
+    \textbf{机器学习与文本分析方法：}
+    \begin{itemize}
+        \item \textbf{BERT深度学习模型}：分类投诉类型（结果失败 vs. 过程失败）。
+        \item \textbf{Word2Vec词向量模型 (CBOW)}：构建消费者相关词库，衡量toC业务重要性。
+    \end{itemize}
+    
+    \vspace{0.3cm}
+    \textbf{数据处理技巧：}
+    \begin{itemize}
+        \item \textbf{对数化处理}：压缩数据分布，减少极端值影响。
+        \item \textbf{标准化处理}：将不同量纲的变量转化为可比较的形式。
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{6.2 为什么这些方法很重要？}
+    
+    \textbf{1. 固定效应模型}：
+    \begin{itemize}
+        \item 就像考试时，不同学生有不同的"基础分"（有的聪明，有的努力），固定效应帮我们"剔除"这些基础分，只看"投诉"这个因素的影响。
+    \end{itemize}
+    
+    \textbf{2. 工具变量法}：
+    \begin{itemize}
+        \item 你想知道"吃冰淇淋"是否导致"溺水"，但其实是"夏天"同时导致了两者。工具变量就是找一个只影响"吃冰淇淋"但不影响"溺水"的因素（比如冰淇淋促销）。
+    \end{itemize}
+    
+    \textbf{3. BERT模型}：
+    \begin{itemize}
+        \item 传统方法像"查字典"（只看关键词），BERT像"真人阅读"（理解上下文和语义）。
+    \end{itemize}
+    
+    \textbf{4. Word2Vec模型}：
+    \begin{itemize}
+        \item 把"消费者"、"用户"、"客户"等词放在一个"朋友圈"里，因为它们意思相近。
+    \end{itemize}
+\end{frame}
+
+% --- 致谢与Q&A ---
+\begin{frame}
+    \frametitle{感谢聆听！}
+    
+    \begin{center}
+        
+        
+        \begin{itemize}
+            \item 消费者在线投诉是一种有价值的\textcolor{red}{替代数据}。
+            \item 投诉能\textcolor{red}{预测}公司未来营收增长和财务困境。
+            \item \textcolor{red}{质量投诉}和\textcolor{red}{企业不响应}的投诉预测能力更强。
+            \item 用到了\textcolor{blue}{面板回归、工具变量、BERT、Word2Vec}等多种方法。
+        \end{itemize}
+        
+        \vspace{0.5cm}
+        
+    \end{center}
+\end{frame}
+
+
+
+\end{document}

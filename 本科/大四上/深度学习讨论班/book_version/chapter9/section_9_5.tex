@@ -1,0 +1,787 @@
+\section{未命名节}
+
+\subsection{机器翻译简介}
+
+\subsection{9.5.1 机器翻译简介}
+
+\subsection{9.5.1 机器翻译简介}
+\begin{center}
+\Large \textcolor{blue}{将一种语言翻译成另一种语言}
+\end{center}
+
+
+\paragraph{什么是机器翻译？}
+\textbf{定义：}自动将文本从源语言翻译到目标语言
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 源语言
+\node[draw,fill=blue!20,rounded corners,text width=4.5cm,align=center] at (0,2) {
+\textbf{源语言（英语）}\\
+``I love machine learning.''
+};
+
+\draw[->,ultra thick] (2.5,2) -- (3.5,2);
+\node[above] at (3,2.2) {翻译};
+
+% 目标语言
+\node[draw,fill=green!20,rounded corners,text width=4.5cm,align=center] at (6.5,2) {
+\textbf{目标语言（法语）}\\
+``J'aime l'apprentissage automatique.''
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[挑战]
+\begin{itemize}
+    \item 语言结构差异（词序、语法）
+    \item 一对多映射（一词多义）
+    \item 上下文依赖
+    \item 习语和文化差异
+\end{itemize}
+\end{definition}
+
+
+\paragraph{机器翻译的历史}
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 时间线
+\draw[->,ultra thick] (0,2) -- (12,2);
+
+% 里程碑
+\node[draw,fill=yellow!20,rounded corners,text width=2cm,align=center] at (1,2) {
+\tiny 1950s\\
+\small 规则方法
+};
+
+\node[draw,fill=orange!20,rounded corners,text width=2cm,align=center] at (4,2) {
+\tiny 1990s\\
+\small 统计方法
+};
+
+\node[draw,fill=blue!20,rounded corners,text width=2cm,align=center] at (7,2) {
+\tiny 2014\\
+\small 神经网络
+};
+
+\node[draw,fill=green!20,rounded corners,text width=2cm,align=center] at (10,2) {
+\tiny 2017+\\
+\small Transformer
+};
+
+% 说明
+\node[below,font=\tiny,text width=2.5cm,align=center] at (1,1) {
+人工规则\\
+效果差
+};
+
+\node[below,font=\tiny,text width=2.5cm,align=center] at (4,1) {
+短语表\\
+需要对齐
+};
+
+\node[below,font=\tiny,text width=2.5cm,align=center] at (7,1) {
+Seq2Seq\\
+端到端
+};
+
+\node[below,font=\tiny,text width=2.5cm,align=center] at (10,1) {
+注意力\\
+SOTA
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[革命性进展]
+2014年：神经机器翻译（NMT）出现，性能超越传统方法
+\end{theorem}
+
+
+\paragraph{序列到序列（Seq2Seq）框架}
+\textbf{核心思想：}输入序列 $\rightarrow$ 输出序列
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 输入序列
+\node[above] at (2,3) {\small 输入序列};
+\foreach \t/\w in {1/I,2/love,3/ML} {
+    \node[draw,fill=blue!20,minimum size=0.7cm] at (\t*1.2,2.5) {\tiny\w};
+}
+
+% 编码器
+\node[draw,fill=yellow!20,rounded corners,minimum width=4cm,minimum height=1cm] at (2,1) {
+编码器（Encoder）
+};
+
+\draw[->,thick] (2,2) -- (2,1.5);
+
+% 中间表示
+\node[draw,fill=purple!20,rounded corners,minimum width=2cm] at (2,-0.2) {
+上下文向量
+};
+
+\draw[->,thick] (2,0.5) -- (2,0.1);
+
+% 解码器
+\node[draw,fill=orange!20,rounded corners,minimum width=4cm,minimum height=1cm] at (7,1) {
+解码器（Decoder）
+};
+
+\draw[->,thick] (3.2,-0.2) -- (5.8,0.5);
+
+% 输出序列
+\node[above] at (7,3) {\small 输出序列};
+\foreach \t/\w in {1/J',2/aime,3/ML} {
+    \node[draw,fill=green!20,minimum size=0.7cm] at (5.5+\t*1.2,2.5) {\tiny\w};
+}
+
+\draw[->,thick] (7,1.5) -- (7,2);
+
+\node[below,text width=8cm,align=center] at (4.5,-1.2) {
+\small 编码器将源语言压缩成向量，解码器从向量生成目标语言
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\paragraph{机器翻译的特点}
+
+
+\textbf{与语言模型的区别：}
+\begin{itemize}
+    \item 语言模型：\\
+    $P(x_1, \ldots, x_T)$
+    
+    \item 机器翻译：\\
+    $P(y_1, \ldots, y_{T'} \mid x_1, \ldots, x_T)$
+    
+    \item 条件生成任务
+\end{itemize}
+
+
+\textbf{挑战：}
+\begin{itemize}
+    \item 源序列和目标序列\textbf{长度不同}
+    \item 需要\textbf{对齐}
+    \item 一对多映射
+    \item 长距离依赖
+\end{itemize}
+
+
+\vspace{0.5cm}
+\begin{example}[例子]
+\textbf{英语：}``I love you'' （3个词）\\
+\textbf{法语：}``Je t'aime'' （2个词）\\
+\textbf{德语：}``Ich liebe dich'' （3个词）
+
+长度不同！
+\end{example}
+
+
+
+\subsection{数据集下载与预处理}
+
+\subsection{9.5.2 数据集下载与预处理}
+
+\subsection{9.5.2 数据集下载与预处理}
+\begin{center}
+\Large \textcolor{blue}{准备双语平行语料}
+\end{center}
+
+
+\paragraph{平行语料（Parallel Corpus）}
+\textbf{定义：}一一对应的源语言和目标语言句子对
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 表格
+\node[draw,fill=blue!20,text width=5cm] at (0,3) {
+\textbf{英语（源）}\\
+``Go.''\\
+``Hi.''\\
+``I love you.''\\
+``How are you?''
+};
+
+\node[draw,fill=green!20,text width=5cm] at (6,3) {
+\textbf{法语（目标）}\\
+``Va!''\\
+``Salut!''\\
+``Je t'aime.''\\
+``Comment allez-vous?''
+};
+
+\draw[<->,thick,red] (2.7,3.5) -- (3.3,3.5);
+\draw[<->,thick,red] (2.7,3) -- (3.3,3);
+\draw[<->,thick,red] (2.7,2.5) -- (3.3,2.5);
+\draw[<->,thick,red] (2.7,2) -- (3.3,2);
+
+\node[red,above] at (3,4) {一一对应};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[来源]
+\begin{itemize}
+    \item 官方文档翻译（联合国、欧盟）
+    \item 电影字幕
+    \item 书籍翻译
+    \item 网页翻译
+\end{itemize}
+\end{definition}
+
+\paragraph{本节使用的数据集}
+\textbf{数据集：}英语-法语翻译对
+
+\begin{definition}[数据集信息]
+\begin{itemize}
+    \item \textbf{来源：}Tatoeba项目
+    \item \textbf{语言对：}英语（en） $\leftrightarrow$ 法语（fr）
+    \item \textbf{规模：}约20万句对
+    \item \textbf{特点：}短句为主，适合教学
+    \item \textbf{格式：}制表符分隔的文本文件
+\end{itemize}
+\end{definition}
+
+\begin{example}[数据样例]
+\begin{verbatim}
+Go.    Va!
+Hi.    Salut!
+Run!   Cours!
+I see. Je vois.
+\end{verbatim}
+\end{example}
+
+
+\paragraph{下载和读取数据}
+\begin{lstlisting}
+import os
+import torch
+
+def download_extract(name, cache_dir='./data'):
+    """data"""
+    # URL
+    return os.path.join(cache_dir, name)
+
+def read_data_nmt():
+    """读取英语-法语data集"""
+    data_dir = download_extract('fra-eng')
+    with open(os.path.join(data_dir, 'fra.txt'), 'r', 
+              encoding='utf-8') as f:
+        return f.read()
+
+raw_text = read_data_nmt()
+print(raw_text[:75])
+# Go.    Va!
+# Hi.    Salut!
+# Run!   Cours!
+\end{lstlisting}
+
+
+\paragraph{数据预处理}
+\begin{lstlisting}
+def preprocess_nmt(text):
+    """data"""
+    
+    def no_space(char, prev_char):
+        """判断是否需要在字符前加空格"""
+        return char in set(',.!?') and prev_char != ' '
+    
+    text = text.replace('\u202f', ' ').replace('\xa0', ' ').lower()
+    
+    out = [' ' + char if i > 0 and no_space(char, text[i - 1]) 
+           else char for i, char in enumerate(text)]
+    
+    return ''.join(out)
+
+text = preprocess_nmt(raw_text)
+print(text[:80])
+# go .    va !
+# hi .    salut !
+# run !   cours !
+\end{lstlisting}
+
+\begin{theorem}[预处理目的]
+\begin{itemize}
+    \item 标准化格式（小写）
+    \item 分离标点符号（便于词元化）
+\end{itemize}
+\end{theorem}
+
+
+\paragraph{词元化（Tokenization）}
+\begin{lstlisting}
+def tokenize_nmt(text, num_examples=None):
+    """ tokensdata Return：tokens """
+    source, target = [], []
+    
+    for i, line in enumerate(text.split('\n')):
+        if num_examples and i >= num_examples:
+            break
+        
+        parts = line.split('\t')
+        if len(parts) == 2:
+            source.append(parts[0].split(' '))
+            target.append(parts[1].split(' '))
+    
+    return source, target
+
+# tokens
+source, target = tokenize_nmt(text)
+print(source[:3])
+# [['go', '.'], ['hi', '.'], ['run', '!']]
+print(target[:3])
+# [['va', '!'], ['salut', '!'], ['cours', '!']]
+\end{lstlisting}
+
+
+\paragraph{数据统计}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 柱状图
+\draw[->,thick] (0,0) -- (0,4) node[above] {频数};
+\draw[->,thick] (0,0) -- (8,0) node[right] {句子长度};
+
+% 英语
+\fill[blue!50] (0.5,0) rectangle (1.5,2.5);
+\node[below,font=\tiny] at (1,0) {1-5};
+\fill[blue!50] (2,0) rectangle (3,3.2);
+\node[below,font=\tiny] at (2.5,0) {6-10};
+\fill[blue!50] (3.5,0) rectangle (4.5,1.8);
+\node[below,font=\tiny] at (4,0) {11-15};
+\fill[blue!50] (5,0) rectangle (6,0.8);
+\node[below,font=\tiny] at (5.5,0) {$>15$};
+
+\node[blue,above] at (3,3.5) {英语};
+
+% 法语（用虚线）
+\draw[green!60!black,thick,dashed] (1,0) -- (1,2.3);
+\draw[green!60!black,thick,dashed] (2.5,0) -- (2.5,3.5);
+\draw[green!60!black,thick,dashed] (4,0) -- (4,2.0);
+\draw[green!60!black,thick,dashed] (5.5,0) -- (5.5,1.0);
+
+\node[green!60!black,above] at (5,3.8) {法语};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}[观察]
+\begin{itemize}
+    \item 大多数句子在10个词以内
+    \item 英语和法语长度分布相似
+    \item 适合限制最大长度
+\end{itemize}
+\end{definition}
+
+
+\paragraph{过滤和截断}
+\begin{lstlisting}
+def truncate_pad(line, num_steps, padding_token):
+    """sequencelength"""
+    if len(line) > num_steps:
+        return line[:num_steps]  # comment
+    return line + [padding_token] * (num_steps - len(line))  # comment
+
+def filter_examples(source, target, max_len=10):
+    """过滤过长的句子"""
+    source_filtered, target_filtered = [], []
+    
+    for src, tgt in zip(source, target):
+        # lengthmax_len
+        if len(src) <= max_len and len(tgt) <= max_len:
+            source_filtered.append(src)
+            target_filtered.append(tgt)
+    
+    return source_filtered, target_filtered
+
+source, target = filter_examples(source, target, max_len=10)
+print(f"过滤后句子对数量: {len(source)}")
+# : 152,777
+\end{lstlisting}
+
+
+
+\subsection{词表构建}
+
+\subsection{9.5.3 词表构建}
+
+\subsection{9.5.3 词表构建}
+\begin{center}
+\Large \textcolor{blue}{为源语言和目标语言分别构建词表}
+\end{center}
+
+
+\paragraph{双语词表}
+\textbf{关键：}源语言和目标语言需要\textbf{独立的词表}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 英语词表
+\node[draw,fill=blue!20,rounded corners,text width=5cm] at (0,2) {
+\textbf{英语词表}\\
+\texttt{{'<pad>': 0,}\\
+\texttt{ '<bos>': 1,}\\
+\texttt{ '<eos>': 2,}\\
+\texttt{ 'i': 3,}\\
+\texttt{ 'love': 4,}\\
+\texttt{ ...}}
+};
+
+% 法语词表
+\node[draw,fill=green!20,rounded corners,text width=5cm] at (7,2) {
+\textbf{法语词表}\\
+\texttt{{'<pad>': 0,}\\
+\texttt{ '<bos>': 1,}\\
+\texttt{ '<eos>': 2,}\\
+\texttt{ 'je': 3,}\\
+\texttt{ 'aime': 4,}\\
+\texttt{ ...}}
+};
+
+\node[below,text width=11cm,align=center] at (3.5,0.3) {
+\small 两个词表独立，同一个索引对应不同的词
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[特殊词元]
+\begin{itemize}
+    \item \texttt{<pad>}：填充
+    \item \texttt{<bos>}：句子开始（Begin of Sequence）
+    \item \texttt{<eos>}：句子结束（End of Sequence）
+\end{itemize}
+\end{theorem}
+
+
+\paragraph{为什么需要特殊词元？}
+\begin{definition}[<pad>（填充）]
+批量处理时，需要将不同长度的句子填充到相同长度
+\begin{verbatim}
+"Go ."       -> [Go, ., <eos>, <pad>, <pad>]
+"I love you" -> [I, love, you, ., <eos>]
+\end{verbatim}
+\end{definition}
+
+\begin{definition}[<bos>（开始）]
+解码器的初始输入，告诉模型"开始生成"
+\begin{verbatim}
+输入：[<bos>] -> 输出："Je"
+输入：[<bos>, Je] -> 输出："t'"
+\end{verbatim}
+\end{definition}
+
+\begin{definition}[<eos>（结束）]
+标记句子结束，模型知道何时停止生成
+\begin{verbatim}
+生成序列：[Je, t', aime, ., <eos>] -> 停止
+\end{verbatim}
+\end{definition}
+
+
+\paragraph{构建词表}
+\begin{lstlisting}
+class Vocab:
+    """vocabulary"""
+    def __init__(self, tokens=None, min_freq=0, reserved_tokens=None):
+        if tokens is None:
+            tokens = []
+        if reserved_tokens is None:
+            reserved_tokens = []
+        
+        counter = count_corpus(tokens)
+        self._token_freqs = sorted(counter.items(), 
+                                   key=lambda x: x[1], 
+                                   reverse=True)
+        
+        # tokens + 
+        self.idx_to_token = ['<unk>'] + reserved_tokens
+        self.token_to_idx = {token: idx 
+                            for idx, token in enumerate(self.idx_to_token)}
+        
+        for token, freq in self._token_freqs:
+            if freq < min_freq:
+                break
+            if token not in self.token_to_idx:
+                self.idx_to_token.append(token)
+                self.token_to_idx[token] = len(self.idx_to_token) - 1
+\end{lstlisting}
+
+
+\paragraph{构建双语词表}
+\begin{lstlisting}
+def build_array_nmt(lines, vocab, num_steps):
+    """sequence"""
+    # <eos>
+    lines = [vocab[l] + [vocab['<eos>']] for l in lines]
+    
+    # length
+    array = torch.tensor([
+        truncate_pad(l, num_steps, vocab['<pad>']) 
+        for l in lines
+    ])
+    
+    # lengthpadding
+    valid_len = (array != vocab['<pad>']).type(torch.int32).sum(1)
+    
+    return array, valid_len
+
+# vocabulary
+src_vocab = Vocab(source, min_freq=2, 
+                  reserved_tokens=['<pad>', '<bos>', '<eos>'])
+tgt_vocab = Vocab(target, min_freq=2, 
+                  reserved_tokens=['<pad>', '<bos>', '<eos>'])
+
+print(f"英语vocabulary大小: {len(src_vocab)}")  # comment10,000
+print(f"法语vocabulary大小: {len(tgt_vocab)}")  # comment17,000
+\end{lstlisting}
+
+
+\paragraph{词表大小对比}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% 柱状图
+\draw[->,thick] (0,0) -- (0,4) node[above] {词表大小};
+\draw[->,thick] (0,0) -- (8,0) node[right] {语言};
+
+% 英语
+\fill[blue!50] (1,0) rectangle (2.5,2.8);
+\node[below] at (1.75,0) {英语};
+\node[above] at (1.75,2.8) {10,012};
+
+% 法语
+\fill[green!50] (4,0) rectangle (5.5,3.5);
+\node[below] at (4.75,0) {法语};
+\node[above] at (4.75,3.5) {17,851};
+
+% 标注
+\node[below,text width=8cm,align=center] at (4,-0.8) {
+\small 法语词汇更丰富（动词变位、名词性别等）
+};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[观察]
+法语词表比英语大约70\%，因为法语形态变化更丰富
+\end{theorem}
+
+
+
+\subsection{数据加载器}
+
+\subsection{9.5.4 数据加载器}
+
+\subsection{9.5.4 数据加载器}
+\begin{center}
+\Large \textcolor{blue}{批量加载句子对}
+\end{center}
+
+
+\paragraph{数据加载的挑战}
+\begin{definition}[序列对的特殊性]
+\begin{enumerate}
+    \item \textbf{两个序列}
+    \begin{itemize}
+        \item 源序列（英语）
+        \item 目标序列（法语）
+    \end{itemize}
+    
+    \item \textbf{长度不同}
+    \begin{itemize}
+        \item 源序列和目标序列长度可能不同
+        \item 需要分别填充
+    \end{itemize}
+    
+    \item \textbf{解码器需要两个目标}
+    \begin{itemize}
+        \item 输入：$[\text{<bos>}, y_1, \ldots, y_{T-1}]$
+        \item 标签：$[y_1, \ldots, y_{T-1}, \text{<eos>}]$
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+
+\paragraph{解码器的输入输出}
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 目标句子
+\node[above] at (3,3.5) {\small 目标句子（法语）};
+\node at (3,3) {``Je t'aime .''};
+
+\draw[->,thick] (3,2.7) -- (3,2.3);
+
+% 解码器输入
+\node[above] at (3,2) {\small 解码器输入};
+\foreach \i/\w in {0/<bos>,1/Je,2/t',3/aime,4/.} {
+    \node[draw,fill=blue!20,minimum size=0.6cm,font=\tiny] at (\i*1.2,1.5) {\w};
+}
+
+% 解码器输出（标签）
+\node[above] at (3,0.5) {\small 解码器标签};
+\foreach \i/\w in {0/Je,1/t',2/aime,3/.,4/<eos>} {
+    \node[draw,fill=green!20,minimum size=0.6cm,font=\tiny] at (\i*1.2,0) {\w};
+}
+
+% 标注
+\draw[<->,thick,red] (0,-0.8) -- (4.8,-0.8);
+\node[red,below] at (2.4,-0.8) {\tiny 错位一个位置};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[Teacher Forcing]
+训练时，解码器的每一步都用\textbf{真实的}前一个词作为输入
+\end{theorem}
+
+
+\paragraph{数据加载函数}
+\begin{lstlisting}
+def load_data_nmt(batch_size, num_steps, num_examples=600):
+    """ data Return：dataiterationvocabulary """
+    text = preprocess_nmt(read_data_nmt())
+    source, target = tokenize_nmt(text, num_examples)
+    
+    # vocabulary
+    src_vocab = Vocab(source, min_freq=2, 
+                      reserved_tokens=['<pad>', '<bos>', '<eos>'])
+    tgt_vocab = Vocab(target, min_freq=2, 
+                      reserved_tokens=['<pad>', '<bos>', '<eos>'])
+    
+    src_array, src_valid_len = build_array_nmt(source, src_vocab, num_steps)
+    tgt_array, tgt_valid_len = build_array_nmt(target, tgt_vocab, num_steps)
+    
+    # data
+    data_arrays = (src_array, src_valid_len, tgt_array, tgt_valid_len)
+    data_iter = load_array(data_arrays, batch_size)
+    
+    return data_iter, src_vocab, tgt_vocab
+\end{lstlisting}
+
+
+\paragraph{使用数据加载器}
+\begin{lstlisting}
+# data
+train_iter, src_vocab, tgt_vocab = load_data_nmt(
+    batch_size=2, 
+    num_steps=8,
+    num_examples=600
+)
+
+# batch
+for X, X_valid_len, Y, Y_valid_len in train_iter:
+    print('X:', X.type(torch.int32))
+    print('X的有效length:', X_valid_len)
+    print('Y:', Y.type(torch.int32))
+    print('Y的有效length:', Y_valid_len)
+    break
+
+# Output
+# X: tensor([[  47,   4,    3,    3,    3, 1388,    5,    2],
+#            [  33,   81,    4,    3,    3,    5,    2,    0]])
+# Xlength: tensor([8, 7])
+# Y: tensor([[ 91,   4,   3,   3,  14,   5,   2,   0],
+#            [ 24, 115,   4,   3,   3,   5,   2,   0]])
+# Ylength: tensor([7, 7])
+\end{lstlisting}
+
+
+\paragraph{批次数据的结构}
+\textbf{一个批次包含：}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 源序列
+\node[draw,fill=blue!20,text width=10cm] at (5,3.5) {
+\textbf{源序列 X:} $(batch\_size, num\_steps)$\\
+编码器的输入，已填充到num\_steps
+};
+
+% 源序列有效长度
+\node[draw,fill=cyan!20,text width=10cm] at (5,2.4) {
+\textbf{源序列有效长度 X\_valid\_len:} $(batch\_size,)$\\
+每个序列的实际长度（不含padding）
+};
+
+% 目标序列
+\node[draw,fill=green!20,text width=10cm] at (5,1.3) {
+\textbf{目标序列 Y:} $(batch\_size, num\_steps)$\\
+解码器的输入和标签，已填充
+};
+
+% 目标序列有效长度
+\node[draw,fill=yellow!20,text width=10cm] at (5,0.2) {
+\textbf{目标序列有效长度 Y\_valid\_len:} $(batch\_size,)$\\
+每个序列的实际长度
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\subsection{9.5节总结}
+\begin{definition}[核心内容]
+\begin{enumerate}
+    \item \textbf{机器翻译}：序列到序列任务
+    \begin{itemize}
+        \item 编码器-解码器架构
+        \item 条件生成：$P(y_{1:T'} \mid x_{1:T})$
+    \end{itemize}
+    
+    \item \textbf{数据预处理}：
+    \begin{itemize}
+        \item 标准化、词元化
+        \item 过滤过长句子
+        \item 填充到固定长度
+    \end{itemize}
+    
+    \item \textbf{词表构建}：
+    \begin{itemize}
+        \item 源语言和目标语言分别构建
+        \item 特殊词元：\texttt{<pad>}, \texttt{<bos>}, \texttt{<eos>}
+    \end{itemize}
+    
+    \item \textbf{数据加载}：
+    \begin{itemize}
+        \item 批量加载句子对
+        \item 记录有效长度
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+
+\paragraph{关键要点回顾}
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+% 要点1
+\node[draw,fill=blue!20,rounded corners,text width=10cm] at (5,3.8) {
+\textbf{1. 平行语料}\\
+源语言和目标语言一一对应的句子对
+};
+
+% 要点2
+\node[draw,fill=green!20,rounded corners,text width=10cm] at (5,2.6) {
+\textbf{2. 特殊词元}\\
+\texttt{<bos>}开始 | \texttt{<eos>}结束 | \texttt{<pad>}填充
+};
+
+% 要点3
+\node[draw,fill=orange!20,rounded corners,text width=10cm] at (5,1.4) {
+\textbf{3. 双词表}\\
+源语言和目标语言独立的词表
+};
+
+% 要点4
+\node[draw,fill=purple!20,rounded corners,text width=10cm] at (5,0.2) {
+\textbf{4. Teacher Forcing}\\
+解码器训练时用真实词作为输入
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+

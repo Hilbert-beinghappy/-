@@ -1,0 +1,1758 @@
+\documentclass[lang=cn,a4paper,newtx,figureplace=section,tableplace=section]{elegantbook}
+
+\title{拓扑学}
+
+
+\author{hjw}
+
+\date{April 9, 2022}
+
+
+\setcounter{tocdepth}{3}
+
+\logo{logo-blue.jpg}
+\cover{cover.jpg}
+
+% 本文档命令
+\usepackage{array}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+
+% 修改标题页的橙色带
+% \definecolor{customcolor}{RGB}{32,178,170}
+% \colorlet{coverlinecolor}{customcolor}
+
+\begin{document}
+
+\maketitle
+\frontmatter
+
+\tableofcontents
+
+\mainmatter
+
+\chapter{拓扑空间基础}
+
+\section{拓扑空间的定义}
+
+我们首先引入拓扑和拓扑空间的概念
+\begin{definition}[拓扑]\label{def:topology}
+设 $X$ 为集合，拓扑 $\tau$ 为 $X$ 的子集族，满足
+\begin{enumerate}
+\item $\varnothing\in\tau$ 且 $X\in\tau$；
+\item 若 $\{U_i\}_{i\in I}\subseteq\tau$ 则 $\bigcup_{i\in I}U_i\in\tau$；
+\item 若 $U_1,\dots,U_n\in\tau$ 则 $\bigcap_{k=1}^n U_k\in\tau$
+\end{enumerate}
+\end{definition}
+
+例如，对于实数集 $\mathbb{R}$，常取由所有开区间生成的标准拓扑；将所有子集都视为开集得到离散拓扑，这个是最大的拓扑；而仅有 $\varnothing$ 和 $X$ 为开集的则称为平凡拓扑。
+
+\begin{example}[Zariski 拓扑]\label{def:zariski} 对域 $\mathbb{k}$ 上的仿射空间 $\mathbb{k}^n$，Zariski 拓扑定义为其闭集恰为多项式集合的零点集，即对于任意 $S\subseteq\mathbb{k}[x_1,\dots,x_n]$，令 \begin{equation} 
+V(S)=\{x\in\mathbb{k}^n:\; f(x)=0\ \text{对所有 }f\in S\}, 
+\end{equation} 并以所有此类 $V(S)$ 作为闭集产生拓扑。 
+\end{example}
+
+\begin{definition}[拓扑空间]\label{def:topological_space}
+设 $X$ 为集合，若 $\tau\subseteq\mathcal{P}(X)$ 是一个拓扑,则称 $(X,\tau)$ 为拓扑空间。 
+\end{definition}
+
+\begin{definition}[邻域]\label{def:neighborhood} 对拓扑空间 $(X,\tau)$ 中的点 $x\in X$，若 $U\in\tau$ 且 $x\in U$，则称 $U$ 为点 $x$ 的一个领域，点 $x$ 的所有领域所成的集合记为 $\mathcal{N}(x)$，即 \begin{equation} \mathcal{N}(x)=\{\,U\in\tau:\; x\in U\,\}. \end{equation} \end{definition}
+
+\begin{definition}[聚点]\label{def:accumulation_point} 设 $(X,\tau)$ 为拓扑空间，且 $A\subseteq X$，若对任意 $x\in X$ 满足对任意领域 $U\in\mathcal{N}(x)$，有 \begin{equation} (U\setminus\{x\})\cap A\neq\varnothing, \end{equation} 则称 $x$ 为集合 $A$ 的一个聚点。 
+\end{definition}
+
+\begin{definition}[闭包点]\label{def:closure_point} 设 $(X,\tau)$ 为拓扑空间，且 $A\subseteq X$，若对任意 $x\in X$ 满足对任意领域 $U\in\mathcal{N}(x)$，有 $U\cap A\neq\varnothing$，则称 $x$ 为集合 $A$ 的一个闭包点，集合 $A$ 的闭包记为 $\overline{A}$，并可等价地表述为 \begin{equation} \overline{A}=\{\,x\in X:\; U\cap A\neq\varnothing\ \text{对任意}\ U\in\mathcal{N}(x)\,\}. \end{equation}
+\end{definition}
+
+\begin{definition}[导集]\label{def:derived} 设 $(X,\tau)$ 为拓扑空间，且 $A\subseteq X$，集合 $A$ 的导集定义为所有属于 $A$ 的聚点所构成的集合，记为 $A'$，即 \begin{equation} A'=\{\,x\in X:\; (U\setminus\{x\})\cap A\neq\varnothing\ \text{对任意}\ U\in\mathcal{N}(x)\,\}. \end{equation} \end{definition}
+
+\begin{definition}[内点]\label{def:interior_point} 设 $(X,\tau)$ 为拓扑空间，且 $A\subseteq X$，若对任意 $x\in X$ 存在一个邻域 $U\in\mathcal{N}(x)$ 使得 $U\subseteq A$，则称 $x$ 为集合 $A$ 的一个内点，集合 $A$ 的内记为 $A^\circ$，并可等价地表述为 \begin{equation} A^\circ=\{\,x\in X:\;\exists\,U\in\mathcal{N}(x)\ \text{使得}\ U\subseteq A\,\}=\bigcup\{\,U\in\tau:\ U\subseteq A\,\}. \end{equation} \end{definition}
+
+\begin{remark}
+回忆起度量空间定义的上面的东西，我们发现二者其实是等价的，即在度量空间 $(X,d)$ 上由开球生成的拓扑与公理化拓扑下的内、闭、导集概念相容。
+\end{remark}
+
+\section{开集与闭集}
+
+\begin{definition}[开集]\label{def:open_set}设 $(X,\tau)$ 为拓扑空间，子集 $U\subseteq X$ 若对任意 $x\in U$ 存在邻域 $V\in\mathcal{N}(x)$ 使得 $V\subseteq U$，则称 $U$ 为 $X$ 的一个开集
+\end{definition}
+
+\begin{proposition}设 $(X,\tau)$ 为拓扑空间，且 $U\subseteq X$，则 $U$ 为开集当且仅当对任意 $x\in U$ 存在邻域 $V\in\mathcal{N}(x)$ 使得 $V\subseteq U$。 \end{proposition}
+\begin{proof}
+    左推右：
+    若 $U$ 为开集，则对任意 $x\in U$ 按照开集的定义存在邻域 $V\in\mathcal{N}(x)$ 使得 $V\subseteq U$；
+    
+    右推左：若 $U$ 为空，则显然为开集；若 $U$ 非空，则对任意 $x\in U$ 存在邻域 $V_x\in\mathcal{N}(x)$ 使得 $V_x\subseteq U$，因此
+\begin{equation}
+U=\bigcup_{x\in U}V_x,
+\end{equation}
+故 $U$ 为开集。
+\end{proof}
+
+\begin{proposition}
+若 $A$ 为闭集，则有
+\begin{equation}
+\overline{A}=A
+\end{equation}
+\end{proposition}
+\begin{proof}
+左推右：
+    先证明$\overline{A}\subset A$,设 $x\in\overline{A}$，则按闭包的定义有
+\begin{equation}
+\forall U\ni x,\quad U\cap A\neq\emptyset,
+\end{equation}
+若反设 $x\notin A$，则由于 $A$ 为闭集，$X\setminus A$ 为开集，故存在开邻域 $V\ni x$ 且 $V\subset X\setminus A$，从而 $V\cap A=\emptyset$，与上式矛盾，因此 $x\in A$，于是 $\overline{A}\subset A$.
+
+再证明
+$A\subset\overline{A}$
+：设 $x\in A$，则对于任意开邻域 $U\ni x$ 有 $x\in U\cap A$，从而 $U\cap A\neq\emptyset$，这说明 $x\in\overline{A}$，因此 $A\subset\overline{A}$。
+
+右推左：若 $\overline{A}=A$，则对任意 $x\in X\setminus A$ 有 $x\notin\overline{A}$，因此存在开邻域 $U\ni x$ 使得
+\begin{equation}
+U\cap A=\emptyset,
+\end{equation}
+从而 $X\setminus A$ 为开集，故 $A$ 为闭集。
+\end{proof}
+\begin{proposition}
+    $\overline{A}$为闭集
+\end{proposition}
+\begin{proof}
+    设 $x\in X\setminus\overline{A}$，则由 $x\notin\overline{A}$ 可知存在开邻域 $U\ni x$ 使得 $U\cap A=\emptyset$，从而 $U\subset X\setminus\overline{A}$，说明 $X\setminus\overline{A}$ 为开集，故 $\overline{A}$ 为闭集。
+\end{proof}
+
+\begin{proposition}
+    $\overline{A}$为包含$A$的最小闭集
+\end{proposition}
+\begin{proof}
+    若 $F$ 为任一包含 $A$ 的闭集，则由 $A\subset F$ 及 $F$ 的闭性可推出 $\overline{A}\subset F$，因此 $\overline{A}$ 是包含 $A$ 的最小闭集。
+\end{proof}
+\begin{remark}
+
+    $E$为含$A$的最小闭集当且仅当$E=\overline{A}$
+\end{remark}
+\begin{proof}
+
+    右推左：已经证明过了
+
+    左推右：设 $E$ 为含 $A$ 的最小闭集，则由于 $\overline{A}$ 是包含 $A$ 的闭集，由最小性得 $E\subset\overline{A}$，另一方面由 $\overline{A}$ 为所有包含 $A$ 的闭集的交集可得 $\overline{A}\subset E$，因此
+\begin{equation}
+E=\overline{A}.
+\end{equation}
+\end{proof}
+
+
+\begin{proposition}
+    若 $A$ 为开集，则有
+\begin{equation}
+A^\circ=A
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+    左推右：由于 $A$ 自身为开集且显然 $A\subset A$，由 $A^\circ$ 作为所有包含于 $A$ 的开集的并的定义可知 $A\subset A^\circ$，而先前已证明 $A^\circ\subset A$，因此 $A^\circ=A$。
+
+    右推左：因为 $A^\circ$ 为开集且
+\begin{equation}
+(A^\circ)^\circ = A^\circ
+\end{equation}
+故若 $A^\circ=A$ 则 $A$ 为开集，从而完成证明。
+\end{proof}
+\begin{proposition}
+    
+$A$的内点集（记$A^\circ$）是所有包含于$A$的最大开集
+\end{proposition}
+\begin{proof}
+    记
+\begin{equation}
+A^\circ=\bigcup\{U\mid U\subset A,\; U\text{ 为开集}\},
+\end{equation}
+则作为开集并的并集 $A^\circ$ 本身为开集，且对任意开集 $U$ 若 $U\subset A$ 则有 $U\subset A^\circ$，因此 $A^\circ$ 是所有包含于 $A$ 的开集中的最大者。
+\end{proof}
+
+\begin{remark}
+    $B$为$A^\circ$当且仅当$B$为包含于$A$的最大开集
+\end{remark}
+\begin{proof}
+    类似
+\end{proof}
+
+\begin{proposition}
+    $(X,\tau)$拓扑空间，$A\subset X$，有
+    \begin{equation}
+        A^\circ=A^{c-c}(\text{习题})
+    \end{equation}
+\end{proposition}
+\begin{proposition}
+    $A$为开集当且仅当$A^c$为闭集
+\end{proposition}
+\begin{proof}
+    左推右：若 $A$ 为开集，则对任意 $A^c$ 的极限点 $x$，若反设 $x\notin A^c$ 即 $x\in A$，则由 $A$ 的开性可取开邻域 $U$ 使得 $x\in U\subset A$，从而 $U$ 与 $A^c$ 无交以违背 $x$ 为极限点的假设，因此 $x\in A^c$，即 $A^c$ 含其所有极限点，故 $A^c$ 为闭集。
+
+    右推左：设 $A^c$ 为闭集且 $x\in A$，则 $x\notin A^c$，故 $x$ 不是 $A^c$ 的极限点，因而存在开邻域 $U$ 使得 $U\cap A^c=\varnothing$，从而 $U\subset A$，说明任意点 $x\in A$ 都有包含于 $A$ 的开邻域，即 $A$ 为开集。
+\end{proof}
+
+\chapter{连续映射}
+
+本章讨论拓扑空间之间的连续映射及其性质。
+
+\begin{definition}[连续性]\label{def:continuity}设拓扑空间 $(X,\mathcal{T}_X)$ 与 $(Y,\mathcal{T}_Y)$，映射 $f:X\to Y$ 在点 $x\in X$ 处连续，若对任意包含 $f(x)$ 的开集 $V\in\mathcal{T}_{f(x)}$，存在包含 $x$ 的开集 $U\in\mathcal{T}_X$ 使得 $f(U)\subset V$。\end{definition}
+\begin{proposition}
+映射 $f:X\to Y$ 在每一点连续当且仅当对于任意开集 $V\subset Y$，其原像 $f^{-1}(V)$ 在 $X$ 中为开集
+\end{proposition}
+\begin{proof}
+    右推左：设任意包含 $f(x)$ 的开集 $V\in\mathcal{T}_{f(x)}$，由假设 $f^{-1}(V)$ 在 $X$ 中为开且包含 $x$，于是取 $U=f^{-1}(V)$ 可得包含 $x$ 的开邻域且 $f(U)\subset V$，故 $f$ 在 $x$ 处连续，因 $x$ 为任意点，遂得 $f$ 在每一点连续。
+\end{proof}
+\begin{proposition}映射 $f:X\to Y$ 在 $X$ 上连续当且仅当对于任意闭集 $C\subset Y$，其原像 $f^{-1}(C)$ 在 $X$ 中为闭集。\end{proposition}
+\begin{proposition}
+    $f:X\to Y$ 
+    \begin{enumerate}
+        \item $\forall U\subset Y$,有$f^{-1}(U^c)=f^{-1}(U)^c$
+        \item $\forall A,B\subset Y$有，$f^{-1}(A\setminus B)=f^{-1}(A)\setminus f^{-1}(B)$
+        \item 任意一簇子集有
+\begin{equation}
+f^{-1}\Big(\bigcup_{i\in I}A_i\Big)=\bigcup_{i\in I}f^{-1}(A_i),\qquad
+f^{-1}\Big(\bigcap_{i\in I}A_i\Big)=\bigcap_{i\in I}f^{-1}(A_i).
+\end{equation}
+        \item 对于任意族 $\{U_i\}_{i\in I}\subset Y$，有
+\begin{equation*}
+f^{-1}\Big(\bigcup_{i\in I} U_i\Big)=\bigcup_{i\in I} f^{-1}(U_i).
+\end{equation*}
+    \item $f(B_1\cap B_2)\subset f(B_1)\cap f(B_2) $
+    \end{enumerate}
+\end{proposition}
+\begin{proposition}
+设拓扑空间 $(X,\mathcal{T}_X)$ 与 $(Y,\mathcal{T}_Y)$，映射 $f:X\to Y$,则以下四条等价
+    \begin{enumerate} \item 对任意点 $x\in X$，$f$ 在 $x$ 连续； \item 对任意开集 $V\subset Y$，$f^{-1}(V)$ 在 $X$ 中为开集； \item 对任意闭集 $C\subset Y$，$f^{-1}(C)$ 在 $X$ 中为闭集； \item 若$\forall A\subset X$，有
+\begin{equation}
+f(\overline{A})\subset\overline{f(A)}
+\end{equation}. 
+    \item $\forall B\subset Y$有 \begin{equation} \overline{f^{-1}(B)}\subset f^{-1}(\overline{B}) \end{equation}.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+    1,2,3相互等价已经证明过了，下面证明3和4等价
+
+    我们先证明3推4，要证$f(\overline{A})\subset\overline{f(A)}$,只要证 $\overline{A}\subset f^{-1}(\overline{f(A)})$，由于$\overline{f(A)}$为闭，对于任意 $a\in A$ 有 $f(a)\in f(A)\subset\overline{f(A)}$，故 $a\in f^{-1}(\overline{f(A)})$，即
+\begin{equation}
+A\subset f^{-1}(\overline{f(A)})
+\end{equation}
+而 $f^{-1}(\overline{f(A)})$ 为闭集，故包含 $\overline{A}$，于是 $f(\overline{A})\subset\overline{f(A)}$.
+
+接下来是4推3，那我们任取一个闭集
+\begin{equation}
+E\subset Y,\quad E\ \text{闭},
+\end{equation}
+要证$f^{-1}(E)$闭于$X$，只要证$\overline{f^{-1}(E)}\subset f^{-1}(E) $,只要证$f(\overline{f^{-1}(E)})\subset E$，这是因为，由于3对任意集合 $A$ 成立，将 $A=f^{-1}(E)$ 代入得
+\begin{equation}
+f(\overline{f^{-1}(E)})\subset\overline{f(f^{-1}(E))}\subset\overline{E}=E,
+\end{equation}
+从而 $\overline{f^{-1}(E)}\subset f^{-1}(E)$，即 $f^{-1}(E)$ 为闭集。
+\end{proof}
+
+\chapter{网与收敛}
+
+在一般拓扑空间中，序列的概念不足以刻画收敛性质，我们需要推广到网的概念。
+
+\section{预序集与定向集}
+
+\begin{definition}[预序集]\label{def:preorder}设 $(\Omega,\leq)$ 为集合 $\Omega$ 上带二元关系 $\leq$ 的结构，如果对任意 $x,y,z\in \Omega$ 都有 (i) $x\leq x$（自反性），以及 (ii) $x\leq y$ 且 $y\leq z$ 蕴含 $x\leq z$（传递性），则称 $(\Omega,\leq)$ 为预序集\end{definition}
+
+\begin{example}
+    比如说自然数就是一个预序集
+\end{example}
+
+\begin{definition}[定向集]\label{def:directed}设 $(\Omega,\leq)$ 为预序集，如果对任意有限子集 $\{x_1,\dots,x_n\}\subset \Omega$ 存在 $y\in D$ 使得 $x_i\leq y$ 对所有 $i=1,\dots,n$ 成立，则称 $(\Omega,\leq)$ 为定向集。\end{definition}
+\begin{example}
+    领域就是一个定向集
+\end{example}
+
+\section{网的定义与收敛}
+
+\begin{definition}[网]\label{def:net}设 $(\Omega,\leq)$ 为定向集，$X$ 为集合，则称任意映射 $x:\Omega\to X$ 为以 $\Omega$ 为下标的网，记作 $(x_{\alpha})_{\alpha\in \Omega}$，并称每个 $\alpha\in \Omega$ 为该网的下标和位置\end{definition}
+
+\begin{definition}[网的收敛]\label{def:net-convergence}设 $(X,\tau)$ 为拓扑空间，$(x_{\alpha})_{\alpha\in \Omega}$ 为以定向集 $(\Omega,\le)$ 为下标的网，则称 $(x_{\alpha})$ 收敛到 $x\in X$（记作 $x_{\alpha}\to x$）若对于任意包含 $x$ 的邻域 $U$ 存在 $\alpha_0\in\Omega$ 使得对所有 $\alpha\in\Omega$ 若 $\alpha\ge \alpha_0$ 则 $x_{\alpha}\in U$，即满足 \begin{equation} \forall U\in\mathcal{N}(x)\;\exists \alpha_0\in\Omega\;\forall \alpha\in\Omega\; (\alpha\ge \alpha_0\Rightarrow x_{\alpha}\in U). \end{equation} \end{definition}
+
+\begin{proposition}
+    存在一个以邻域族 $\mathcal{N}(x)$ 为定向集的网 $(x_U)_{U\in\mathcal{N}(x)}$，使得对每个 $U\in\mathcal{N}(x)$ 有 $x_U\in U$，并且该网收敛于 $x$，即
+\begin{equation}
+\forall U\in\mathcal{N}(x)\; x_U\in U,\quad (x_U)_{U\in\mathcal{N}(x)}\to x.
+\end{equation}
+\end{proposition}
+\begin{proof}
+    取定向集为邻域族 $\mathcal{N}(x)$ 并以反包含关系作为偏序（即对 $U,V\in\mathcal{N}(x)$ 令 $U\ge V$ 当且仅当 $U\subseteq V$），对每个 $U\in\mathcal{N}(x)$ 任取 $x_U\in U$，则对于任意邻域 $W\in\mathcal{N}(x)$ 取 $\alpha_0=W$ 有
+\begin{equation}
+\forall W\in\mathcal{N}(x)\;\exists \alpha_0=W\in\mathcal{N}(x)\;\forall \alpha\in\mathcal{N}(x)\;(\alpha\ge \alpha_0\Rightarrow x_\alpha\in W),
+\end{equation}
+从而 $(x_U)_{U\in\mathcal{N}(x)}\to x$.
+\end{proof}
+
+\begin{proposition}\label{prop:closure-net}设 $X$ 为拓扑空间，$A\subseteq X$，则
+\begin{equation}
+x\in\overline{A}\iff \exists\ \text{net }(x_\alpha)_{\alpha\in D}\subset A\ \text{ such that }\ (x_\alpha)\to x.
+\end{equation}
+\end{proposition}
+\begin{proof}
+
+     若存在网 $(x_\alpha)_{\alpha\in D}\subset A$ 且 $(x_\alpha)\to x$，则对任一邻域 $W\in\mathcal{N}(x)$ 存在 $\alpha_0$ 使得 $\alpha\ge\alpha_0\Rightarrow x_\alpha\in W$，从而 $W\cap A\neq\varnothing$，即 $x\in\overline{A}$；
+     
+     反之，若 $x\in\overline{A}$，则对每一邻域 $U\in\mathcal{N}(x)$ 选取一点 $x_U\in A\cap U$，即
+\begin{equation}
+\forall U\in\mathcal{N}(x)\quad x_U\in A\cap U,
+\end{equation}
+由此得到网 $(x_U)_{U\in\mathcal{N}(x)}\subset A$，且对于任意 $W\in\mathcal{N}(x)$，当 $U\subset W$ 时有 $x_U\in U\subset W$，因此
+\begin{equation}
+(x_U)_{U\in\mathcal{N}(x)}\to x,
+\end{equation}
+从而存在所需的网，证明完成。
+\end{proof}
+
+\begin{proposition}
+    $f $在 $x$ 连续当且仅当对于任意收敛到 $x$ 的网 $(x_U)_{U\in\mathcal{N}(x)}$ 都有
+\begin{equation}
+(f(x_U))_{U\in\mathcal{N}(x)}\to f(x).
+\end{equation}
+\end{proposition}
+\begin{proof}
+右推左 
+
+我们首先有\begin{equation}
+f(\overline{A})\subset\overline{f(A)}
+\end{equation}. 因此对于任意收敛到 $x$ 的网 $(x_U)_{U\in\mathcal{N}(x)}$，由于对于任一包含 $x$ 的集合 $A$ 有尾部最终包含于 $\overline{A}$ 并且 $f(\overline{A})\subset\overline{f(A)}$，其像网收敛于 $f(x)$，即
+\begin{equation}
+(f(x_U))_{U\in\mathcal{N}(x)}\to f(x).
+\end{equation}
+
+ 左推右：设 $f$ 在 $x$ 处连续，由 $x\in\overline{A}$，知$U\cap A\neq\varnothing$则存在来自 $A$ 的网 $(x_U)_{U\in\mathcal{N}(x)}$ 收敛于 $x$，故由连续性其像网收敛于 $f(x)$，即
+\begin{equation}
+(f(x_U))_{U\in\mathcal{N}(x)}\to f(x).
+\end{equation}
+
+\end{proof}
+
+\chapter{拓扑的生成}
+
+本章讨论如何从给定的集合族生成拓扑。
+
+\section{拓扑族的交}
+
+\begin{proposition}
+    $X$为集合，若$(\mathcal{T}_{\alpha})_{\alpha}$为$X$上的一族拓扑，则
+\begin{equation}
+\mathcal{T}:=\bigcap_{\alpha}\mathcal{T}_{\alpha}
+\end{equation}
+为 \(X\) 上的拓扑，且为包含所有 \(\mathcal{T}_{\alpha}\) 的最小拓扑，而 \(\bigcup_{\alpha}\mathcal{T}_{\alpha}\) 未必为拓扑。
+\end{proposition}
+\begin{proof}
+具体地，设 $\{U_i\}_{i\in I}\subset\mathcal{T}$，则对任意 $\alpha$ 有 $U_i\in\mathcal{T}_{\alpha}$，且由于每个 $\mathcal{T}_{\alpha} $对任意并运算闭合，我们有
+\begin{equation}
+\bigcup_{i\in I}U_i\in\mathcal{T}_\alpha\quad(\forall\alpha),
+\end{equation}
+
+从而 $\bigcup_{i\in I}U_i\in\bigcap_{\alpha}\mathcal{T}_{\alpha}=\mathcal{T}$，类似地可证有限交运算的闭合性，故 $\mathcal{T}$ 为拓扑且显然为包含所有 $\mathcal{T}_{\alpha} $的最小拓扑，而 $\bigcup_{\alpha}\mathcal{T}_{\alpha}$ 未必为拓扑。
+\end{proof}
+
+\section{拓扑基与子基}
+
+\begin{definition}[拓扑子基]\label{def:subbasis}$(X,\mathcal{T})$ 为拓扑空间，若由 $\mathcal S$ $\subset\mathcal{T}$, $\mathcal{T}$为 $\mathcal S$ 的最小拓扑，则称 $\mathcal S$ 为 $(X,\mathcal{T})$上的拓扑子基
+\end{definition}
+\begin{proposition}
+    $f:X\to Y$ ,$X,Y$是拓扑的， $\mathcal S$是$Y$的子基,则下列两个命题等价：\begin{enumerate} \item $f$ 连续； \item 对任意 $S\in\mathcal S$，有 $f^{-1}(S)$开于$X$. 
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    1$\to$2 显然
+
+    2$\to$1 令
+\begin{equation}
+\mathcal A=\{\,U\subset Y\mid f^{-1}(U)\text{ 在 }X\text{ 中为开集}\,\}
+\end{equation}
+只要证明$\mathcal A\supset\mathcal{T}_{Y}$，从而对任意$V\in\mathcal{T}_{Y}$有$f^{-1}(V)$在$X$中开，即$f$连续。
+
+下证$\mathcal A\supset\mathcal{T}_{Y}$，令 $\mathcal B$ 为生成 $\mathcal{T}_{Y}$ 的一组基，任取 $V\in\mathcal{T}_{Y}$，则存在指标集 $I$ 及基元 $\{B_i\}_{i\in I}\subset\mathcal B$ 使得 $V=\bigcup_{i\in I}B_i$，从而
+\begin{equation}
+f^{-1}(V)=f^{-1}\Big(\bigcup_{i\in I}B_i\Big)=\bigcup_{i\in I}f^{-1}(B_i)\in\mathcal{T}_{X},
+\end{equation}
+
+\end{proof}
+
+\begin{proposition}
+    若$\mathcal S$ 为拓扑空间 $(X,\mathcal{T})$上的子基,$(x_{\alpha})_{\alpha}$是$X$中的网,$x\in X$，则以下等价
+    \begin{enumerate}
+        \item $x_{\alpha}\to x$
+        \item \begin{equation} \forall U\in\mathcal{N}(x)\text{且}U\in\mathcal S\;\exists \alpha_0\in\Omega,\alpha\ge \alpha_0\Rightarrow x_{\alpha}\in U. \end{equation}
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    1$\to$2 显然
+
+    2$\to$1  令
+\begin{equation}
+\mathcal A=\{\,E\in\mathcal{T}\mid \exists \alpha_0\in\Omega,\alpha\ge \alpha_0\Rightarrow x_{\alpha}\in U ,\}
+\end{equation}
+
+下证$\mathcal A=\mathcal T$
+
+\begin{enumerate}
+    \item \emph{$\mathcal S \subset \mathcal A$且$\mathcal A$包含由$\mathcal S$生成的拓扑：}  
+    拓扑$\mathcal T$是由子基$\mathcal S$生成的，因此任意$V\in\mathcal T$包含一个有限交
+    \[
+    B = S_1 \cap S_2 \cap \cdots \cap S_n,
+    \]
+    其中每个$S_i\in\mathcal S$且$x\in S_i$。  
+    由假设，每个$S_i$在某一$\alpha_i$后包含$x_\alpha$，取$\alpha_0=\max\alpha_i$，则$\forall\alpha\ge\alpha_0$，有$x_\alpha\in B$。因此$B\in\mathcal A$。由于$B\subset V$且$\mathcal A$对超集封闭，得$V\in\mathcal A$，即$\mathcal T\subset\mathcal A$。
+    \item \emph{$\mathcal A$是拓扑：}  
+    由定义可见，若$E_i \in \mathcal A$，则存在相应的$\alpha_i$使得网最终在$E_i$中。取$\alpha_0 = \max \alpha_i$可得网最终在有限交$\bigcap_i E_i$中；对任意族$\{E_j\}$，网最终在某个$E_j$中即在其并集内，因此$\mathcal A$对有限交和任意并封闭，从而$\mathcal A$是拓扑。
+    \item \emph{$\mathcal A\subset\mathcal T$：}  
+    由定义$\mathcal A\subset\mathcal T$成立，因为每个$E\in\mathcal A$本身就是拓扑中的开集。
+    综上，$\mathcal A=\mathcal T$。
+    由$\mathcal A=\mathcal T$可知，对任意邻域$U\in\mathcal N(x)$，都有$U\in\mathcal A$，即网最终进入$U$，这正是$x_\alpha\to x$的定义。
+\end{enumerate}
+    
+\end{proof}
+\begin{definition}
+    $(X,\mathcal T)$是拓扑空间，$\mathcal B\subset \mathcal T$,若满足对任意$U\in\mathcal{T}$，存在$\mathcal{C}\subset\mathcal{B}$使得
+\begin{equation}
+U = \bigcup_{B \in \mathcal{C}} B\text{也记作}U=U\mathcal{C}
+\end{equation}
+成立，则称$\mathcal{B}$是$(X,\mathcal{T})$的拓扑基
+\end{definition}
+\begin{example}
+    $(X,d)$为度量空间,定义$\mathcal{B}=\{B(x,\varepsilon):x\in X,\varepsilon>0\}$则$\mathcal{B}$为$(X,\mathcal{T}_d)$的一个基。其中$\mathcal{T}_d$表示由度量$d$所诱导的拓扑，即由所有开球$B(x,\varepsilon)$生成的拓扑。
+\end{example}
+\begin{proof}
+设$U \in \mathcal{T}_d$，则按定义$U$为$d$-开集，即
+\[
+\forall x \in U, \ \exists \ \varepsilon_x > 0 \ \text{使得} \ B(x,\varepsilon_x) \subset U.
+\]
+由此我们有
+\begin{equation}
+U = \bigcup_{x\in U} B(x,\varepsilon_x).
+\end{equation}
+显然每个$B(x,\varepsilon_x) \in \mathcal{B}$，且该并为$U$的覆盖，故$\mathcal{B}$为$(X,\mathcal{T}_d)$的一个基。
+\end{proof}
+\begin{proposition}
+    若$\mathcal{B}$是$(X,\mathcal{T})$的基，$\mathcal{B}$是$(X,\mathcal{T})$的子基
+\end{proposition}
+\begin{proof}
+由假设$\mathcal{B} \subset \mathcal{T}$，且$\mathcal{T}$中任意开集均为$\mathcal{B}$中元素的并。设$\mathcal{T}'$是由$\mathcal{B}$生成的拓扑，则：
+\begin{enumerate}
+    \item 显然$\mathcal{B} \subset \mathcal{T}'$，且$\mathcal{T}' \subset \mathcal{T}$；
+    \item 对任意$U \in \mathcal{T}$，由基的定义存在$\mathcal{C} \subset \mathcal{B}$使得
+    \begin{equation}
+        U = \bigcup_{B \in \mathcal{C}} B,
+    \end{equation}
+    而这些$B$均在$\mathcal{T}'$中，因此$U \in \mathcal{T}'$。
+\end{enumerate}
+由此得$\mathcal{T} \subset \mathcal{T}'$且$\mathcal{T}' \subset \mathcal{T}$，故$\mathcal{T} = \mathcal{T}'$，从而$\mathcal{B}$亦为$(X,\mathcal{T})$的一个子基。
+\end{proof}
+
+\begin{proposition}
+    若$\mathcal{S}$为$(X,\mathcal{T})$的子基，则$\mathcal{S}_{f\cap}\cup\{x\}$为$X$的一个基.这里$\mathcal{S}_{f\cap}$为由 $\mathcal{S}$ 取有限交得到的所有集合
+\end{proposition}
+\begin{proof}
+    1. 由 $\mathcal{S}$ 是 $(X,\mathcal{T})$ 的子基可知，$\mathcal{S}_{f\cap} \subset \mathcal{T}$ 且 $X \in \mathcal{T}$，从而 $\mathcal{S}_{f\cap} \cup \{X\} \subset \mathcal{T}$。
+
+2. 设
+\[
+\mathcal{A} \triangleq \{ E \subseteq X \mid \exists \mathcal{B}' \subset \mathcal{S}_{f\cap} \cup \{X\} \ \text{使得}\ E = \bigcup_{B \in \mathcal{B}'} B \},
+\]
+则由子基定义知 $\mathcal{T} \subseteq \mathcal{A}$，反之由第1步知 $\mathcal{A} \subseteq \mathcal{T}$，故 $\mathcal{A} = \mathcal{T}$。
+
+下证 $\mathcal{S}_{f\cap} \cup \{X\}$ 满足基的判别条件，只要证 $\mathcal{A}$ 为由 $\mathcal{S}$ 生成的子拓扑，具体如下：
+\begin{enumerate}
+    \item 由于 $\mathcal{S} \subseteq \mathcal{S}_{f\cap} \subseteq \mathcal{S}_{f\cap} \cup \{X\}$，对任意 $E \in \mathcal{S}$，有 $E = E \cap E$，且 $E = \bigcup\{E\}$，因此 $E \in \mathcal{A}$，即 $\mathcal{S} \subseteq \mathcal{A}$。
+    \item 空集 $\varnothing$ 可以表示为 $\varnothing = \bigcup \varnothing \in \mathcal{A}$，而 $X = \bigcup\{X\} \in \mathcal{A}$；此外，$\mathcal{A}$ 对任意并封闭且对有限交封闭，故 $\mathcal{A}$ 为包含 $\mathcal{S}$ 的拓扑。
+\end{enumerate}
+\end{proof}
+
+\chapter{分离公理}
+
+我们现在引入分离公理的概念，用以刻画拓扑空间中点与点之间的"可分离性"。
+
+\begin{definition}[$T_0$ 空间（可分离空间）]\label{def:T0}
+设 $(X,\mathcal{T})$ 为拓扑空间，若对任意 $x, y \in X$ 且 $x \neq y$，
+\begin{equation}
+\exists U \in \mathcal{N}(x) \text{ 使得 } y \notin U \quad \text{或} \quad \exists V \in \mathcal{N}(y) \text{ 使得 } x \notin V,
+\end{equation}
+则称 $(X,\mathcal{T})$ 为 $T_0$ 空间（或可分离空间）。
+\end{definition}
+
+\begin{definition}[$T_1$ 空间]\label{def:T1}
+设 $(X,\mathcal{T})$ 为拓扑空间，若对任意 $x, y \in X$ 且 $x \neq y$，
+\begin{equation}
+\exists U \in \mathcal{N}(x) \text{ 使得 } y \notin U,
+\end{equation}
+则称 $(X,\mathcal{T})$ 为 $T_1$ 空间。
+\end{definition}
+
+\begin{remark}
+$T_1$ 空间等价于：对任意 $x, y \in X$ 且 $x \neq y$，
+\begin{equation}
+\exists U \in \mathcal{N}(x) \text{ 使得 } y \notin U \quad \text{且} \quad \exists V \in \mathcal{N}(y) \text{ 使得 } x \notin V.
+\end{equation}
+\end{remark}
+
+\begin{proposition}\label{prop:T1-characterization}
+设 $(X,\mathcal{T})$ 为拓扑空间，则以下条件等价：
+\begin{enumerate}
+    \item $X$ 为 $T_1$ 空间；
+    \item $X$ 的每个单点集为闭集；
+    \item $X$ 的每个有限子集为闭集。
+\end{enumerate}
+\end{proposition}
+
+\begin{definition}[$T_2$ 空间 (Hausdorff)]\label{def:T2}
+设 $(X,\mathcal{T})$ 为拓扑空间，若对任意 $x, y \in X$ 且 $x \neq y$，
+\begin{equation}
+\exists U \in \mathcal{N}(x), \, \exists V \in \mathcal{N}(y) \quad \text{使得} \quad U \cap V = \varnothing,
+\end{equation}
+则称 $(X,\mathcal{T})$ 为 $T_2$ 空间（或 Hausdorff 空间）。
+\end{definition}
+
+\begin{remark}
+显然有如下包含关系：
+\begin{equation}
+T_2 \Rightarrow T_1 \Rightarrow T_0.
+\end{equation}
+即任何 Hausdorff 空间都是 $T_1$ 空间，任何 $T_1$ 空间都是 $T_0$ 空间。
+\end{remark}
+
+\begin{proposition}\label{prop:T2-unique-limit}
+设 $(X,\mathcal{T})$ 为 $T_2$ 空间，则 $X$ 中任意网的极限若存在必唯一。即若网 $(x_\alpha)_{\alpha\in\Omega}$ 满足 $x_\alpha \to x$ 且 $x_\alpha \to y$，则 $x = y$。
+\end{proposition}
+\begin{proof}
+反证法。假设 $x \neq y$，由于 $(X,\mathcal{T})$ 为 $T_2$ 空间，存在 $U \in \mathcal{N}(x)$ 和 $V \in \mathcal{N}(y)$ 使得
+\begin{equation}
+U \cap V = \varnothing.
+\end{equation}
+
+由于 $x_\alpha \to x$，存在 $\alpha_1 \in \Omega$ 使得对所有 $\alpha \geq \alpha_1$，有 $x_\alpha \in U$；
+
+由于 $x_\alpha \to y$，存在 $\alpha_2 \in \Omega$ 使得对所有 $\alpha \geq \alpha_2$，有 $x_\alpha \in V$。
+
+由定向集的性质，存在 $\alpha_0 \in \Omega$ 使得 $\alpha_0 \geq \alpha_1$ 且 $\alpha_0 \geq \alpha_2$，从而
+\begin{equation}
+x_{\alpha_0} \in U \quad \text{且} \quad x_{\alpha_0} \in V,
+\end{equation}
+即 $x_{\alpha_0} \in U \cap V$。但这与 $U \cap V = \varnothing$ 矛盾。
+
+因此必有 $x = y$，即极限唯一。
+\end{proof}
+
+\begin{proposition}\label{prop:T2-diagonal}
+设 $X$ 为拓扑空间，则以下条件等价：
+\begin{enumerate}
+    \item $X$ 为 $T_2$ 空间；
+    \item $X$ 具有网收敛的唯一性。
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+$(1) \Rightarrow (2)$：由命题 \ref{prop:T2-unique-limit} 已证。
+
+$(2) \Leftarrow (1)$：反证法。假设 $X$ 不为 $T_2$ 空间，则存在 $x, y \in X$ 且 $x \neq y$，使得对任意 $U \in \mathcal{N}(x)$ 和 $V \in \mathcal{N}(y)$，都有
+\begin{equation}
+U \cap V \neq \varnothing.
+\end{equation}
+
+令
+\begin{equation}
+\Lambda = \{U \cap V : U \in \mathcal{N}(x), V \in \mathcal{N}(y), U \cap V \neq \varnothing\}.
+\end{equation}
+
+对于 $\Lambda$ 中任意两个元素 $A, B \in \Lambda$，设 $A = U_1 \cap V_1$，$B = U_2 \cap V_2$，其中 $U_1, U_2 \in \mathcal{N}(x)$，$V_1, V_2 \in \mathcal{N}(y)$。令 $C = (U_1 \cap U_2) \cap (V_1 \cap V_2)$，则 $C \in \Lambda$ 且 $C \subseteq A$ 且 $C \subseteq B$。因此 $\Lambda$ 在反包含序下构成定向集。
+
+对每个 $A \in \Lambda$，选取 $z_A \in A$，得到网 $(z_A)_{A \in \Lambda}$。
+
+对任意 $U_0 \in \mathcal{N}(x)$，取 $A_0 = U_0 \cap X \in \Lambda$（因为 $x \in U_0$ 且 $y \in X$），则当 $A \subseteq A_0$ 时，有 $z_A \in A \subseteq A_0 \subseteq U_0$，故 $z_A \to x$。
+
+同理，对任意 $V_0 \in \mathcal{N}(y)$，取 $B_0 = X \cap V_0 \in \Lambda$，可得 $z_A \to y$。
+
+因此该网同时收敛到 $x$ 和 $y$，但 $x \neq y$，这与网收敛的唯一性矛盾。
+
+故 $X$ 必为 $T_2$ 空间。
+\end{proof}
+
+\section{滤子与滤基}
+
+\begin{definition}[有限交性质]\label{def:finite-intersection}
+设 $X$ 为集合，$\mathcal{F} \subseteq \mathcal{P}(X)$。
+
+称 $\mathcal{F}$ 具有有限交性质，若对任意 $E \subseteq \mathcal{F}$ 且 $E$ 有限，存在 $x \in X$ 使得 $x \in \bigcap E$，即
+\begin{equation}
+\bigcap_{A \in E} A \neq \varnothing.
+\end{equation}
+\end{definition}
+
+\begin{definition}[滤子基]\label{def:filter-base}
+设 $X$ 为集合，$\mathcal{F} \subseteq \mathcal{P}(X)$。
+
+若 $\mathcal{F}$ 满足：
+\begin{enumerate}
+    \item $\varnothing \notin \mathcal{F}$；
+    \item 对任意 $A, B \in \mathcal{F}$，存在 $C \in \mathcal{F}$ 使得 $C \subseteq A \cap B$，
+\end{enumerate}
+则称 $\mathcal{F}$ 为 $X$ 上的一个滤子基。
+\end{definition}
+
+\begin{definition}[滤子]\label{def:filter}
+设 $X$ 为集合，$\mathcal{F} \subseteq \mathcal{P}(X)$。
+
+若 $\mathcal{F}$ 满足：
+\begin{enumerate}
+    \item $\varnothing \notin \mathcal{F}$；
+    \item 对任意 $A, B \in \mathcal{F}$，有 $A \cap B \in \mathcal{F}$；
+    \item （向上封闭）对任意 $A \in \mathcal{F}$ 和 $B \subseteq X$，若 $B \supseteq A$，则 $B \in \mathcal{F}$，
+\end{enumerate}
+则称 $\mathcal{F}$ 为 $X$ 上的一个滤子。
+\end{definition}
+
+\begin{definition}[邻域基]\label{def:neighborhood-base}
+设 $(X,\tau)$ 为拓扑空间，$x \in X$，$\mathcal{B} \subseteq \mathcal{N}(x)$。
+
+称 $\mathcal{B}$ 为点 $x$ 的一个邻域基，若对任意 $U \in \mathcal{N}(x)$，存在 $B \in \mathcal{B}$ 使得
+\begin{equation}
+B \subseteq U.
+\end{equation}
+\end{definition}
+
+\begin{proposition}\label{prop:neighborhood-base-filter-base}
+设 $(X,\tau)$ 为拓扑空间，$x \in X$，$\mathcal{B} \subseteq \mathcal{N}(x)$。则 $\mathcal{B}$ 是点 $x$ 的邻域基当且仅当 $\mathcal{B}$ 是一个滤子基。
+\end{proposition}
+
+\begin{definition}[滤子收敛]\label{def:filter-convergence}
+设 $(X,\tau)$ 为拓扑空间，$\mathcal{F} \subseteq \mathcal{P}(X)$，$x \in X$。
+
+称 $\mathcal{F}$ 收敛到 $x$，记作 $\mathcal{F} \to x$，若对任意 $U \in \mathcal{N}(x)$，存在 $F \in \mathcal{F}$ 使得
+\begin{equation}
+F \subseteq U.
+\end{equation}
+\end{definition}
+
+\begin{proposition}\label{prop:finite-intersection-unique-limit}
+设 $X$ 为 $T_2$ 空间，$\mathcal{F}$ 为 $X$ 中具有有限交性质的集族。则 $\mathcal{F}$ 的收敛点若存在必唯一，即若 $\mathcal{F} \to x$ 且 $\mathcal{F} \to y$，则 $x = y$。
+\end{proposition}
+\begin{proof}
+反证法。假设 $x \neq y$，由于 $X$ 为 $T_2$ 空间，存在 $U \in \mathcal{N}(x)$ 和 $V \in \mathcal{N}(y)$ 使得
+\begin{equation}
+U \cap V = \varnothing.
+\end{equation}
+
+由于 $\mathcal{F} \to x$，存在 $A \in \mathcal{F}$ 使得 $A \subseteq U$；
+
+由于 $\mathcal{F} \to y$，存在 $B \in \mathcal{F}$ 使得 $B \subseteq V$。
+
+因此 $A \cap B \subseteq U \cap V = \varnothing$，即 $A \cap B = \varnothing$。
+
+但这与 $\mathcal{F}$ 具有有限交性质矛盾（因为 $A, B \in \mathcal{F}$ 是有限子族，其交应非空）。
+
+故必有 $x = y$，收敛点唯一。
+\end{proof}
+
+\begin{proposition}\label{prop:T2-equivalences}
+设 $X$ 为拓扑空间，则下列命题等价：
+\begin{enumerate}
+    \item $X$ 为 $T_2$ 空间；
+    \item $X$ 中网收敛的极限唯一性；
+    \item $X$ 中满足有限交性质的集族收敛唯一性；
+    \item $X$ 中滤子基收敛唯一性；
+    \item $X$ 中滤子收敛唯一性。
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+我们按照 $(1)\Leftrightarrow(2)$，$(1)\Rightarrow(3)\Rightarrow(4)\Leftrightarrow(5)$，$(4)\Rightarrow(2)$ 的顺序证明。
+
+$(1)\Leftrightarrow(2)$：由命题 \ref{prop:T2-diagonal} 已证。
+
+$(1)\Rightarrow(3)$：由命题 \ref{prop:finite-intersection-unique-limit} 已证。
+
+$(3)\Rightarrow(4)$：显然，因为滤子基是具有有限交性质的集族。
+
+$(4)\Leftrightarrow(5)$：设 $\mathcal{B}$ 为滤子基，则 $\mathcal{B}_{\uparrow}$ 为滤子。若 $\mathcal{B} \to x$ 且 $\mathcal{B} \to y$，则 $\mathcal{B}_{\uparrow} \to x$ 且 $\mathcal{B}_{\uparrow} \to y$。由滤子收敛唯一性得 $x = y$。反之，滤子本身也是滤子基，故滤子收敛唯一性蕴含滤子基收敛唯一性。
+
+$(4)\Rightarrow(2)$：设 $(x_\alpha)_{\alpha\in\Omega}$ 为 $X$ 中的网，且 $x_\alpha \to x$ 且 $x_\alpha \to y$。
+
+令 $\mathcal{B} = \{\{x_\beta : \beta \geq \alpha\} : \alpha \in \Omega\}$，即 $E_\alpha = \{x_\beta : \beta \geq \alpha\}$。
+
+可以验证 $\mathcal{B}$ 是一个滤子基：
+\begin{itemize}
+    \item $\varnothing \notin \mathcal{B}$，因为每个 $E_\alpha$ 至少包含 $x_\alpha$；
+    \item 对任意 $E_\alpha, E_\beta \in \mathcal{B}$，由定向集性质存在 $\gamma \geq \alpha, \beta$，则 $E_\gamma \subseteq E_\alpha \cap E_\beta$。
+\end{itemize}
+
+若 $x_\alpha \to x$，则对任意 $U \in \mathcal{N}(x)$，存在 $\alpha_0$ 使得对所有 $\alpha \geq \alpha_0$ 有 $x_\alpha \in U$，即 $E_{\alpha_0} \subseteq U$，故 $\mathcal{B} \to x$。
+
+同理 $\mathcal{B} \to y$。由滤子基收敛唯一性，$x = y$。
+
+因此所有命题等价。
+\end{proof}
+
+\begin{definition}\label{def:topology-generated-by-base}
+设 $X$ 为集合，$\mathcal{B} \subseteq \mathcal{P}(X)$。定义
+\begin{equation}
+\mathcal{B}_{\uparrow} = \{\,E \subseteq X : \exists B \in \mathcal{B} \text{ 使得 } B \subseteq E\,\}.
+\end{equation}
+\end{definition}
+
+\begin{proposition}\label{prop:filter-base-generates-filter}
+设 $\mathcal{B}$ 为 $X$ 上的一个滤子基，则 $\mathcal{B}_{\uparrow}$ 为 $X$ 上的一个滤子。
+\end{proposition}
+\begin{proof}
+需要验证 $\mathcal{B}_{\uparrow}$ 满足滤子的三个条件。
+
+(1) 若 $\varnothing \in \mathcal{B}_{\uparrow}$，则存在 $B \in \mathcal{B}$ 使得 $B \subseteq \varnothing$，即 $B = \varnothing$，这与 $\varnothing \notin \mathcal{B}$ 矛盾。故 $\varnothing \notin \mathcal{B}_{\uparrow}$。
+
+(2) 对任意 $E, F \in \mathcal{B}_{\uparrow}$，存在 $B_1 \in \mathcal{B}$ 使得 $B_1 \subseteq E$，存在 $B_2 \in \mathcal{B}$ 使得 $B_2 \subseteq F$。
+
+由于 $\mathcal{B}$ 为滤子基，存在 $B \in \mathcal{B}$ 使得 $B \subseteq B_1 \cap B_2$。
+
+因此 $B \subseteq B_1 \cap B_2 \subseteq E \cap F$，即 $E \cap F \in \mathcal{B}_{\uparrow}$。
+
+(3) （向上封闭）若 $E \in \mathcal{B}_{\uparrow}$ 且 $F \supseteq E$，则存在 $B \in \mathcal{B}$ 使得 $B \subseteq E \subseteq F$，故 $F \in \mathcal{B}_{\uparrow}$。
+
+因此 $\mathcal{B}_{\uparrow}$ 为 $X$ 上的一个滤子。
+\end{proof}
+
+\begin{remark}
+此时称 $\mathcal{B}_{\uparrow}$ 为包含 $\mathcal{B}$ 的最小滤子，或者说 $\mathcal{B}$ 生成滤子 $\mathcal{B}_{\uparrow}$。
+\end{remark}
+
+\section{正则空间与正规空间}
+
+\begin{definition}[正则空间]\label{def:regular-space}
+设 $X$ 为拓扑空间，称 $X$ 为正则空间，若对任意 $x \in X$ 和任意闭集 $E \subseteq X$，若 $x \notin E$，则存在开集 $U, V$ 使得
+\begin{equation}
+x \in U, \quad E \subseteq V \quad \text{且} \quad U \cap V = \varnothing.
+\end{equation}
+\end{definition}
+
+\begin{proposition}\label{prop:regular-T1-implies-T2}
+正则 $+ T_1 \Rightarrow T_2$，即：若 $X$ 为正则空间且为 $T_1$ 空间，则 $X$ 为 $T_2$ 空间。
+\end{proposition}
+\begin{proof}
+设 $X$ 为正则且 $T_1$ 的空间，$x, y \in X$ 且 $x \neq y$。
+
+由于 $X$ 为 $T_1$ 空间，$\{y\}$ 为闭集。因为 $x \notin \{y\}$，由正则性，存在开集 $U, V$ 使得
+\begin{equation}
+x \in U, \quad \{y\} \subseteq V, \quad \text{且} \quad U \cap V = \varnothing.
+\end{equation}
+
+因此 $x \in U$，$y \in V$，且 $U \cap V = \varnothing$，故 $X$ 为 $T_2$ 空间。
+\end{proof}
+
+\begin{definition}[$T_3$ 空间]\label{def:T3-space}
+设 $X$ 为拓扑空间，称 $X$ 为 $T_3$ 空间，若 $X$ 既是正则空间又是 $T_1$ 空间。
+\end{definition}
+
+\begin{remark}
+由命题 \ref{prop:regular-T1-implies-T2}，$T_3 \Rightarrow T_2$。因此分离公理的层次为：$T_3 \Rightarrow T_2 \Rightarrow T_1 \Rightarrow T_0$。
+\end{remark}
+
+\begin{proposition}\label{prop:regular-characterization}
+$X$ 为正则空间当且仅当对任意 $x \in X$，对任意 $V \in \mathcal{N}(x)$，存在 $U \in \mathcal{N}(x)$ 使得 $x \in U \subseteq \overline{U} \subseteq V$。
+\end{proposition}
+\begin{proof}
+$(\Rightarrow)$：设 $X$ 为正则空间，$x \in X$，$V \in \mathcal{N}(x)$。
+
+不妨设 $V$ 为开集（否则取 $V$ 的开邻域）。令 $E = V^c$，则 $E$ 为闭集且 $x \notin E$。
+
+由正则性，存在开集 $U, W$ 使得 $x \in U$，$E \subseteq W$，且 $U \cap W = \varnothing$。
+
+因为 $U \cap W = \varnothing$，所以 $U \subseteq W^c$。因此 $\overline{U} \subseteq \overline{W^c}$。
+
+又因为 $W$ 为开集，所以 $W^c$ 为闭集，故 $\overline{W^c} = W^c$。
+
+因为 $E \subseteq W$，所以 $W^c \subseteq E^c = V$。
+
+综上，$x \in U \subseteq \overline{U} \subseteq W^c \subseteq V$。
+
+$(\Leftarrow)$：设条件成立，即对任意 $x \in X$ 和 $V \in \mathcal{N}(x)$，存在 $U \in \mathcal{N}(x)$ 使得 $x \in U \subseteq \overline{U} \subseteq V$。
+
+设 $x \in X$，$E$ 为闭集且 $x \notin E$。则 $V = E^c$ 为开集且 $x \in V$。
+
+由条件，存在开邻域 $U$ 使得 $x \in U \subseteq \overline{U} \subseteq V = E^c$。
+
+令 $W = (\overline{U})^c$，则 $W$ 为开集。
+
+因为 $\overline{U} \subseteq E^c$，所以 $E \subseteq (\overline{U})^c = W$。
+
+又因为 $U \cap W = U \cap (\overline{U})^c = \varnothing$。
+
+因此 $x \in U$，$E \subseteq W$，且 $U \cap W = \varnothing$，故 $X$ 为正则空间。
+\end{proof}
+
+\begin{definition}[正规空间]\label{def:normal-space}
+设 $X$ 为拓扑空间，称 $X$ 为正规空间，若对任意 $A, B$ 为 $X$ 中不相交的闭集，即 $A \cap B = \varnothing$，存在 $U, V$ 为 $X$ 中不相交的开集，使得
+\begin{equation}
+A \subseteq U \quad \text{且} \quad B \subseteq V.
+\end{equation}
+\end{definition}
+
+\begin{proposition}\label{prop:normal-characterization}
+$X$ 为正规空间当且仅当对任意闭集 $A \subseteq X$，对任意开集 $V \supseteq A$，存在开集 $U$ 使得 $A \subseteq U \subseteq \overline{U} \subseteq V$。
+\end{proposition}
+\begin{proof}
+$(\Rightarrow)$：设 $X$ 为正规空间，$A$ 为闭集，$V$ 为开集且 $A \subseteq V$。
+
+令 $B = V^c$，则 $B$ 为闭集，且 $A \cap B = \varnothing$。
+
+由正规性，存在开集 $U, W$ 使得 $A \subseteq U$，$B \subseteq W$，且 $U \cap W = \varnothing$。
+
+因为 $U \cap W = \varnothing$，所以 $U \subseteq W^c$。因此 $\overline{U} \subseteq \overline{W^c}$。
+
+又因为 $W$ 为开集，所以 $W^c$ 为闭集，故 $\overline{W^c} = W^c$。
+
+因为 $B \subseteq W$，所以 $W^c \subseteq B^c = V$。
+
+综上，$A \subseteq U \subseteq \overline{U} \subseteq W^c \subseteq V$。
+
+$(\Leftarrow)$：设条件成立，即对任意闭集 $A$ 和开集 $V \supseteq A$，存在开集 $U$ 使得 $A \subseteq U \subseteq \overline{U} \subseteq V$。
+
+设 $A, B$ 为不相交的闭集，即 $A \cap B = \varnothing$。则 $V = B^c$ 为开集且 $A \subseteq V$。
+
+由条件，存在开集 $U$ 使得 $A \subseteq U \subseteq \overline{U} \subseteq V = B^c$。
+
+令 $W = (\overline{U})^c$，则 $W$ 为开集。
+
+因为 $\overline{U} \subseteq B^c$，所以 $B \subseteq (\overline{U})^c = W$。
+
+又因为 $U \cap W = U \cap (\overline{U})^c = \varnothing$。
+
+因此 $A \subseteq U$，$B \subseteq W$，且 $U \cap W = \varnothing$，故 $X$ 为正规空间。
+\end{proof}
+
+\begin{definition}[$T_4$ 空间]\label{def:T4-space}
+设 $X$ 为拓扑空间，称 $X$ 为 $T_4$ 空间，若 $X$ 既是正规空间又是 $T_1$ 空间。
+\end{definition}
+
+\begin{proposition}\label{prop:normal-T1-implies-T3}
+正规 $+ T_1 \Rightarrow T_3$，即：若 $X$ 为正规空间且为 $T_1$ 空间，则 $X$ 为正则空间。
+\end{proposition}
+\begin{proof}
+设 $X$ 为正规且 $T_1$ 的空间，$x \in X$，$E$ 为闭集且 $x \notin E$。
+
+由于 $X$ 为 $T_1$ 空间，$\{x\}$ 为闭集。因为 $\{x\} \cap E = \varnothing$，由正规性，存在开集 $U, V$ 使得
+\begin{equation}
+\{x\} \subseteq U, \quad E \subseteq V, \quad \text{且} \quad U \cap V = \varnothing.
+\end{equation}
+
+因此 $x \in U$，$E \subseteq V$，且 $U \cap V = \varnothing$，故 $X$ 为正则空间。
+
+由定义，$X$ 也是 $T_1$ 空间，因此 $X$ 为 $T_3$ 空间。
+\end{proof}
+
+\chapter{紧致性}
+
+\section{紧空间}
+\begin{definition}[紧空间]\label{def:compact-space}
+设 $X$ 为拓扑空间，称 $X$ 为紧空间，若对任意 $\mathcal{U}$ 为 $X$ 的开覆盖（即 $\mathcal{U}$ 为开集族且 $\bigcup \mathcal{U} = X$），存在 $\mathcal{V} \subseteq \mathcal{U}$ 使得 $\mathcal{V}$ 为 $X$ 的覆盖且 $\mathcal{V}$ 为有限集（即存在有限子覆盖）。
+\end{definition}
+
+\begin{definition}[Lindelöff 空间]\label{def:lindeloff-space}
+设 $X$ 为拓扑空间，称 $X$ 为 Lindelöff 空间，若对任意开覆盖，存在可数子覆盖。
+\end{definition}
+
+\begin{remark}
+Lindelöff 空间有时也称为完全可数紧空间。其定义等价于：任意开覆盖 $\{U_\alpha\}_{\alpha \in A}$ 都存在可数子集 $\{U_{\alpha_n}\}_{n \in \mathbb{N}}$ 使得 $\bigcup_{n \in \mathbb{N}} U_{\alpha_n} = X$。
+\end{remark}
+
+\begin{definition}[可数紧空间]\label{def:countably-compact-space}
+设 $(X,\tau)$ 为拓扑空间，称 $(X,\tau)$ 为可数紧空间，若对任意可数开覆盖，存在有限子覆盖（即 $\text{CA}_2$）。
+\end{definition}
+
+\begin{definition}[序列紧空间]\label{def:sequentially-compact-space}
+设 $X$ 为拓扑空间，称 $X$ 为序列紧空间，若 $X$ 中的每个序列 $(x_n)_{n \in \mathbb{N}}$ 都有收敛子序列。
+\end{definition}
+
+\begin{proposition}\label{prop:CA2-implies-lindeloff}
+$\text{CA}_2 \Rightarrow$ Lindelöff 空间，即可数紧空间必为 Lindelöff 空间。
+\end{proposition}
+\begin{proof}
+设 $X$ 为可数紧空间，$\mathcal{U}$ 为 $X$ 的任意开覆盖。
+
+由已知，$X$ 为 $\text{CA}_2$ 空间，即 $X$ 为第二可数空间，存在可数拓扑基 $\mathcal{B}$。
+
+由命题 \ref{prop:base-property}，存在 $\overline{\mathcal{B}} \subseteq \mathcal{B}$ 使得 $\overline{\mathcal{B}}$ 覆盖 $X$ 且 $\overline{\mathcal{B}}$ 加细 $\mathcal{U}$。
+
+因为 $\mathcal{B}$ 可数，所以 $\overline{\mathcal{B}}$ 也可数。
+
+由引理 \ref{lem:refinement-cover}，由于 $\overline{\mathcal{B}}$ 可数且加细 $\mathcal{U}$，存在 $\mathcal{U}$ 的可数子族覆盖 $X$。
+
+因此 $X$ 为 Lindelöff 空间。
+\end{proof}
+
+\begin{proposition}\label{prop:CA2-implies-separable}
+$\text{CA}_2 \Rightarrow$ 可分，即第二可数空间必为可分空间。
+\end{proposition}
+\begin{proof}
+设 $X$ 为第二可数空间，$\mathcal{B}$ 为 $X$ 的可数拓扑基，且 $\phi \neq \mathcal{B}$（即 $\mathcal{B}$ 非空）。
+
+对每个 $B \in \mathcal{B}$，取 $\alpha_B \in B$。
+
+令 $D = \{\alpha_B : B \in \mathcal{B}\}$。
+
+则 $D$ 为可数集（可数集 $\mathcal{B}$ 的像）。
+
+下证 $\overline{D} = X$。
+
+对任意 $x \in X$ 和 $x$ 的任意开邻域 $U$，由于 $\mathcal{B}$ 为拓扑基，存在 $B \in \mathcal{B}$ 使得 $x \in B \subseteq U$。
+
+因为 $\alpha_B \in B \subseteq U$，所以 $\alpha_B \in U \cap D$，即 $U \cap D \neq \varnothing$。
+
+因此 $x \in \overline{D}$。
+
+由 $x$ 的任意性，$\overline{D} = X$。
+
+故 $X$ 为可分空间。
+\end{proof}
+
+\chapter{完全正则空间与 Urysohn 引理}
+
+\section{完全正则空间}
+
+\begin{definition}[完全正则空间]\label{def:completely-regular-space}
+设 $X$ 为拓扑空间，称 $X$ 为完全正则空间，若对任意 $x \in X$ 和闭集 $F \subseteq X$ 且 $x \notin F$，存在连续函数 $f: X \to [0,1]$ 使得 $f(x) = 0$ 且 $f(F) \subseteq \{1\}$。
+\end{definition}
+
+\begin{proposition}\label{prop:completely-regular-implies-regular}
+完全正则的 $\Rightarrow$ 正则，即：若 $X$ 为完全正则空间，则 $X$ 为正则空间。
+\end{proposition}
+\begin{proof}
+设 $x \in X$，$F$ 为闭集且 $x \notin F$。
+
+由完全正则性，存在连续函数 $f: X \to [0,1]$ 使得 $f(x) = 0$ 且 $f(F) \subseteq \{1\}$。
+
+令
+\begin{equation}
+U = f^{-1}\left(\left[0, \frac{1}{2}\right)\right), \quad V = f^{-1}\left(\left(\frac{1}{2}, 1\right]\right).
+\end{equation}
+
+因为 $f$ 连续，$\left[0, \frac{1}{2}\right)$ 和 $\left(\frac{1}{2}, 1\right]$ 在 $[0,1]$ 中为开集，故 $U, V$ 为开集。
+
+因为 $f(x) = 0 \in \left[0, \frac{1}{2}\right)$，所以 $x \in U$。
+
+因为 $f(F) \subseteq \{1\} \subseteq \left(\frac{1}{2}, 1\right]$，所以 $F \subseteq V$。
+
+因为 $\left[0, \frac{1}{2}\right) \cap \left(\frac{1}{2}, 1\right] = \varnothing$，所以 $U \cap V = \varnothing$。
+
+因此 $X$ 为正则空间。
+\end{proof}
+
+\begin{definition}[$T_{3\frac{1}{2}}$ 空间]\label{def:T3.5-space}
+设 $X$ 为拓扑空间，称 $X$ 为 $T_{3\frac{1}{2}}$ 空间，若 $X$ 既是完全正则空间又是 $T_1$ 空间。
+\end{definition}
+
+\begin{definition}
+设 $X$ 为拓扑空间，称 $X$ 为完全正规空间，若对任意 $A, B$ 为不相交闭集，存在连续函数 $f: X \to [0,1]$ 使得 $f(A) \subseteq \{0\}$ 且 $f(B) \subseteq \{1\}$，则称 $X$ 满足 Urysohn 可分离性。
+\end{definition}
+
+\begin{proposition}\label{prop:urysohn-implies-normal}
+若 $X$ 满足 Urysohn 可分离性，则 $X$ 正规。
+\end{proposition}
+\begin{proof}
+设 $A, B$ 为不相交闭集。
+
+由 Urysohn 可分离性，存在连续函数 $f: X \to [0,1]$ 使得 $f(A) \subseteq \{0\}$ 且 $f(B) \subseteq \{1\}$。
+
+令
+\begin{equation}
+U = f^{-1}\left(\left[0, \frac{1}{2}\right)\right), \quad V = f^{-1}\left(\left(\frac{1}{2}, 1\right]\right).
+\end{equation}
+
+因为 $f$ 连续，$\left[0, \frac{1}{2}\right)$ 和 $\left(\frac{1}{2}, 1\right]$ 在 $[0,1]$ 中为开集，故 $U, V$ 为开集。
+
+因为 $f(A) \subseteq \{0\} \subseteq \left[0, \frac{1}{2}\right)$，所以 $A \subseteq U$。
+
+因为 $f(B) \subseteq \{1\} \subseteq \left(\frac{1}{2}, 1\right]$，所以 $B \subseteq V$。
+
+因为 $\left[0, \frac{1}{2}\right) \cap \left(\frac{1}{2}, 1\right] = \varnothing$，所以 $U \cap V = \varnothing$。
+
+因此 $X$ 为完全正则空间。
+\end{proof}
+
+\section{Urysohn 引理}
+
+\begin{lemma}[Urysohn 引理的构造]\label{lem:urysohn-construction}
+设 $\Lambda \to [0,1]$ 为有序对等，且 $\lambda \in \Lambda$。设 $X$ 为拓扑空间，$(U_\alpha)_{\alpha \in \Lambda}$ 为 $X$ 中一族开集满足： 对任意 $\alpha, \beta \in \Lambda$，若 $\alpha < \beta$，则 $U_\alpha \subseteq \overline{U_\alpha} \subseteq U_\beta$，且 $U_1 = X$。
+则定义 $f: X \to [0,1]$  $\forall x$，
+\begin{equation}
+f(x) = \inf\{\alpha \in \Lambda : x \in U_\alpha\}
+\end{equation}
+为连续函数。
+\end{lemma}
+\begin{proof}
+设 $c \in [0,1]$，需证明 $f^{-1}([0,c))$ 与 $f^{-1}((c,1])$ 均为 $X$ 中开集。
+
+$\textbf{证明 $f^{-1}([0,c))$ 为开集：}$
+
+\begin{align}
+\{x : f(x) < c\} &= \{x : \exists \alpha \in \Lambda \text{ 且 } \alpha < c \text{ 使得 } x \in U_\alpha\} \\
+&= \bigcup_{\substack{\alpha \in \Lambda \\ \alpha < c}} U_\alpha
+\end{align}
+
+这是开集的并，故为开集。
+
+\textbf{证明 $f^{-1}((c,1])$ 为开集：}
+
+对于 $\inf > c$，即 $f(x) > c$，则对任意 $\alpha < c$ 均有 $x \notin U_\alpha$。
+
+\begin{align}
+\{x : f(x) > c\} &= \bigcup_{\substack{\alpha \in \Lambda \\ c < \alpha}} \overline{U_\alpha}^c
+\end{align}
+
+通过如下推理：若 $f(x) > c$，则 $\inf\{\alpha : x \in U_\alpha\} > c$，因此 $\exists \alpha \in \Lambda$ 且 $c < \alpha < f(x)$ 使得 $x \notin U_\alpha$。由于 $\overline{U_\alpha} \subseteq U_\beta$ 对任意 $\beta > \alpha$，可知 $x \notin \overline{U_\alpha}$，即 $x \in \overline{U_\alpha}^c$。
+
+反之，若 $x \in \overline{U_\alpha}^c$ 对某 $\alpha > c$，则 $x \notin \overline{U_\alpha}$，由 $U_\gamma \subseteq \overline{U_\gamma} \subseteq U_\alpha$ 对 $\gamma < \alpha$，可知 $\forall \gamma < \alpha$ 有 $x \notin U_\gamma$，因此 $\inf\{\beta : x \in U_\beta\} \geq \alpha > c$，即 $f(x) > c$。
+
+因此 $\{x : f(x) > c\}$ 为开集的并，故为开集。
+
+综上，$f$ 为连续函数。
+\end{proof}
+
+\begin{theorem}[Urysohn 引理]\label{thm:urysohn-lemma}
+设 $X$ 为正规空间，$A, B$ 为 $X$ 中不相交闭集。则存在连续函数 $f: X \to [0,1]$ 使得 $f(A) \subseteq \{0\}$ 且 $f(B) \subseteq \{1\}$。
+\end{theorem}
+\begin{proof}
+设 $A, B$ 为不相交闭集，即 $A \cap B = \varnothing$。
+
+由正规性，存在开集 $U_{\frac{1}{2}}$ 使得 
+\begin{equation}
+A \subseteq U_{\frac{1}{2}} \subseteq \overline{U_{\frac{1}{2}}} \subseteq B^c.
+\end{equation}
+
+令 $\Lambda = \left\{\frac{m}{2^n} : n, m \in \mathbb{N}, 0 \leq m \leq 2^n\right\}$ 为 $[0,1]$ 中的二进有理数。
+
+通过归纳法，对所有 $\alpha \in \Lambda \cap [0,1)$，构造开集 $U_\alpha$ 使得：对任意 $\alpha, \beta \in \Lambda$ 且 $\alpha < \beta$，有
+\begin{equation}
+A \subseteq U_\alpha \subseteq \overline{U_\alpha} \subseteq U_\beta.
+\end{equation}
+
+具体构造如下：假设对所有分母为 $2^n$ 的 $\alpha \in \Lambda$ 已构造 $U_\alpha$。对分母为 $2^{n+1}$ 的 $\alpha = \frac{2k+1}{2^{n+1}}$，由正规性，存在开集 $U_\alpha$ 使得
+\begin{equation}
+\overline{U_{\frac{k}{2^n}}} \subseteq U_\alpha \subseteq \overline{U_\alpha} \subseteq U_{\frac{k+1}{2^n}}.
+\end{equation}
+
+令 $U_1 = X$。则 $(U_\alpha)_{\alpha \in \Lambda}$ 满足引理 \ref{lem:urysohn-construction} 的条件。
+
+定义 $f: X \to [0,1]$ 为
+\begin{equation}
+f(x) = \inf\{\alpha \in \Lambda : x \in U_\alpha\}.
+\end{equation}
+
+由引理 \ref{lem:urysohn-construction}，$f$ 为连续函数。
+
+对 $x \in B$，因为 $\overline{U_{\frac{1}{2}}} \subseteq B^c$，所以 $x \notin \overline{U_{\frac{1}{2}}}$，因此对所有 $\alpha \in \Lambda \cap [0,1)$，有 $x \notin U_\alpha$（由嵌套性质）。故 $f(x) = 1$。
+
+对 $x \in A$，因为 $A \subseteq U_\alpha$ 对所有 $\alpha \in \Lambda \cap (0,1]$，所以 $f(x) = 0$。
+
+因此 $f(A) \subseteq \{0\}$ 且 $f(B) \subseteq \{1\}$。
+\end{proof}
+
+\begin{corollary}\label{cor:T4-implies-T3.5}
+$T_4 \Rightarrow T_{3\frac{1}{2}}$，即：若 $X$ 为 $T_4$ 空间，则 $X$ 为 $T_{3\frac{1}{2}}$ 空间。
+\end{corollary}
+\begin{proof}
+由 $T_4$ 空间的定义，$X$ 为正规空间且为 $T_1$ 空间。
+
+设 $x \in X$，$B$ 为闭集且 $x \notin B$。
+
+由 $T_1$ 性质，单点集 $\{x\}$ 为闭集。
+
+因为 $\{x\} \cap B = \varnothing$，由 Urysohn 引理（定理 \ref{thm:urysohn-lemma}），存在连续函数 $f: X \to [0,1]$ 使得 $f(x) = 0$ 且 $f(B) \subseteq \{1\}$。
+
+因此 $X$ 为完全正则空间。
+
+结合 $X$ 为 $T_1$ 空间，故 $X$ 为 $T_{3\frac{1}{2}}$ 空间。
+\end{proof}
+
+\begin{corollary}\label{cor:regular-normal-implies-completely-regular}
+正则 $+$ 正规 $\Rightarrow$ 完全正则，即：若 $X$ 既是正则空间又是正规空间，则 $X$ 为完全正则空间。
+\end{corollary}
+\begin{proof}
+设 $x \in X$，$B$ 为闭集且 $x \notin B$。
+
+由正则性，存在开集 $U, V$ 使得 $x \in U$，$B \subseteq V$，且 $U \cap V = \varnothing$。
+
+因此 $x \in U \subseteq V^c$，即 $x \in U \subseteq \overline{U} \subseteq V^c = B^c$（这里 $\overline{U} \subseteq V^c$ 因为 $U \cap V = \varnothing$）。
+
+由于 $\{x\}$ 和 $B$ 为不相交闭集（$\{x\} \subseteq \overline{U}$ 且 $\overline{U} \subseteq B^c$），由 Urysohn 引理（定理 \ref{thm:urysohn-lemma}）和正规性，存在连续函数 $f: X \to [0,1]$ 使得 $f(\{x\}) = \{0\}$ 且 $f(B) \subseteq \{1\}$。
+
+因此 $X$ 为完全正则空间。
+\end{proof}
+
+\chapter{可分性与可数性公理}
+
+\section{可分空间与稠密性}
+
+\begin{definition}[稠密]\label{def:dense}
+设 $X$ 为拓扑空间，$D \subseteq X$。称 $D$ 在 $X$ 中稠密，若 $\overline{D} = X$。
+\end{definition}
+
+\begin{definition}[可分空间]\label{def:separable-space}
+设 $X$ 为拓扑空间，称 $X$ 为可分空间，若 $X$ 中存在可数稠密子集，即存在可数集 $D \subseteq X$ 使得 $\overline{D} = X$。
+\end{definition}
+
+\begin{example}
+以下是可分空间的例子：
+\begin{enumerate}
+\item $\mathbb{R}^n$ 是可分的，令 $D = \{(x_1, \ldots, x_n) : x_1, \ldots, x_n \in \mathbb{Q}\}$，则 $D$ 可数且 $\overline{D} = \mathbb{R}^n$。
+\item 可分空间的可分子空间也是可分的。
+\end{enumerate}
+\end{example}
+
+\section{Lindelöff 空间与正规性}
+
+\begin{proposition}\label{prop:regular-lindeloff-implies-normal}
+正则 $+$ Lindelöff $\Rightarrow$ 正规，即：若 $X$ 既是正则空间又是 Lindelöff 空间，则 $X$ 为正规空间。
+\end{proposition}
+\begin{proof}
+设 $A, B$ 为不相交闭集。
+
+对每个 $a \in A$，由正则性，存在开邻域 $U_a$ 使得 $a \in U_a$ 且 $\overline{U_a} \cap B = \varnothing$。
+
+对每个 $b \in B$，由正则性，存在开邻域 $V_b$ 使得 $b \in V_b$ 且 $\overline{V_b} \cap A = \varnothing$。
+
+由于 $A, B$ 为闭集且 $X$ 为 Lindelöff 空间，由命题 \ref{prop:lindeloff-characterization}，存在可数序列 $(U_n)_{n=1}^{\infty}$ 为 $A$ 的开覆盖，满足对所有 $n$，有 $\overline{U_n} \cap B = \varnothing$。
+
+类似地，存在可数序列 $(V_n)_{n=1}^{\infty}$ 为 $B$ 的开覆盖，满足对所有 $n$，有 $\overline{V_n} \cap A = \varnothing$。
+
+定义新的开集序列：
+\begin{align}
+U_n^* &= U_n \setminus \left(\overline{V_1} \cup \overline{V_2} \cup \cdots \cup \overline{V_n}\right), \quad n = 1, 2, 3, \ldots \\
+V_n^* &= V_n \setminus \left(\overline{U_1} \cup \overline{U_2} \cup \cdots \cup \overline{U_n}\right), \quad n = 1, 2, 3, \ldots
+\end{align}
+
+则 $U_n^*$ 和 $V_n^*$ 均为开集（开集减去有限个闭集的并）。
+
+令
+\begin{equation}
+U^* = \bigcup_{n=1}^{\infty} U_n^*, \quad V^* = \bigcup_{n=1}^{\infty} V_n^*
+\end{equation}
+
+则 $U^*, V^*$ 为开集。
+
+\textbf{证明 $A \subseteq U^*$：}
+
+对任意 $a \in A$，存在 $n$ 使得 $a \in U_n$。由于 $\overline{V_k} \cap A = \varnothing$ 对所有 $k$，所以 $a \notin \overline{V_k}$ 对所有 $k \leq n$。因此 $a \in U_n^* \subseteq U^*$。
+
+\textbf{证明 $B \subseteq V^*$：}
+
+类似地，对任意 $b \in B$，存在 $n$ 使得 $b \in V_n$，且 $b \notin \overline{U_k}$ 对所有 $k \leq n$，因此 $b \in V_n^* \subseteq V^*$。
+
+\textbf{证明 $U^* \cap V^* = \varnothing$：}
+
+对任意 $n, m \in \mathbb{N}$，不失一般性设 $n \leq m$。则
+\begin{equation}
+U_n^* \cap V_m^* = \left(U_n \setminus \bigcup_{k=1}^{n} \overline{V_k}\right) \cap \left(V_m \setminus \bigcup_{k=1}^{m} \overline{U_k}\right) \subseteq U_n \cap (\overline{U_n})^c = \varnothing
+\end{equation}
+
+因为 $n \leq m$，所以 $\overline{U_n} \subseteq \bigcup_{k=1}^{m} \overline{U_k}$，从而 $V_m^* \subseteq (\overline{U_n})^c$。
+
+因此 $U^* \cap V^* = \varnothing$。
+
+故 $X$ 为正规空间。
+\end{proof}
+
+\begin{proposition}\label{prop:lindeloff-characterization}
+若 $X$ 为 Lindelöff 空间，$A$ 为 $X$ 中闭集，则对 $A$ 的任意开覆盖 $\mathcal{U}$（即由 $X$ 中开集组成且覆盖 $A$），存在 $\mathcal{U}$ 的可数子覆盖覆盖 $A$。
+\end{proposition}
+\begin{proof}
+设 $X$ 为 Lindelöff 空间，$A$ 为闭集，$\mathcal{U}$ 为 $A$ 的开覆盖，即 $\bigcup \mathcal{U} \supseteq A$。
+
+考虑 $X$ 的开覆盖 $\mathcal{U} \cup \{A^c\}$。
+
+由 Lindelöff 性质，存在可数子覆盖覆盖 $X$。
+
+若 $A^c$ 在该子覆盖中，则去掉 $A^c$ 后，剩余的可数个 $\mathcal{U}$ 中的开集仍覆盖 $A$。
+
+若 $A^c$ 不在该子覆盖中，则该子覆盖本身就是 $\mathcal{U}$ 的可数子覆盖，覆盖 $X$，因此也覆盖 $A$。
+
+综上，存在 $\mathcal{U}$ 的可数子覆盖覆盖 $A$。
+\end{proof}
+
+\section{第二可数空间}
+
+\begin{definition}[第二可数空间]\label{def:second-countable}
+设 $X$ 为拓扑空间，称 $X$ 为第二可数空间（即 $\text{CA}_2$ 空间），若 $X$ 存在可数拓扑基。
+\end{definition}
+
+\begin{definition}[加细]\label{def:refinement}
+设 $\mathcal{A}, \mathcal{B} \subseteq \mathcal{P}(X)$。称 $\mathcal{B}$ 为 $\mathcal{A}$ 的加细，若对任意 $A \in \mathcal{A}$，存在 $B \in \mathcal{B}$ 使得 $A \subseteq B$。
+\end{definition}
+
+\begin{proposition}\label{prop:base-property}
+若 $\mathcal{B}$ 为 $X$ 的拓扑基，$\mathcal{U}$ 为 $X$ 的开覆盖，即 $\bigcup \mathcal{U} = X$，则存在 $\overline{\mathcal{B}} \subseteq \mathcal{B}$ 使得 $\bigcup \overline{\mathcal{B}} = X$，且 $\overline{\mathcal{B}}$ 加细 $\mathcal{U}$。
+\end{proposition}
+
+\begin{lemma}\label{lem:refinement-cover}
+设 $\mathcal{A}, \mathcal{B}$ 为 $X$ 的覆盖（不要求是拓扑基），且 $\mathcal{A}$ 加细 $\mathcal{B}$。若 $\mathcal{A}$ 可数，则存在可数的 $\mathcal{B}' \subseteq \mathcal{B}$ 使得 $\mathcal{B}'$ 覆盖 $X$。
+\end{lemma}
+\begin{proof}
+设 $\mathcal{A}, \mathcal{B}$ 均为 $X$ 的覆盖，$\mathcal{A}$ 加细 $\mathcal{B}$，且 $\mathcal{A}$ 可数。
+
+由加细的定义，对每个 $A \in \mathcal{A}$，存在 $B_A \in \mathcal{B}$ 使得 $A \subseteq B_A$。
+
+令 $\mathcal{B}' = \{B_A : A \in \mathcal{A}\}$。
+
+则 $\mathcal{B}' \subseteq \mathcal{B}$。
+
+因为 $\mathcal{A}$ 可数，所以 $\mathcal{B}' = \{B_A : A \in \mathcal{A}\}$ 也是可数的（可数集的像）。
+
+且
+\begin{equation}
+\bigcup \mathcal{B}' = \bigcup_{A \in \mathcal{A}} B_A \supseteq \bigcup_{A \in \mathcal{A}} A = X
+\end{equation}
+
+因此 $\mathcal{B}'$ 是 $\mathcal{B}$ 的可数子族且覆盖 $X$。
+\end{proof}
+
+\section{可度量空间}
+
+\begin{definition}[可度量空间]
+    设 $(X, \mathcal{T})$ 为拓扑空间，称 $X$ 为可度量空间。若满足：$\exists \quad d: X \times X \to [0, +\infty)$（伪）度量，使得：
+    \begin{equation}
+        \mathcal{T}_d=\mathcal{T}
+    \end{equation}
+\end{definition}
+
+\begin{property}
+若$X$为一个可度量空间，则以下等价
+\begin{enumerate}
+    \item $X$ 为 $CA_2$的。
+    \item $X$ 为可分空间。
+    \item $X$ 为 Lindelöff 空间。
+\end{enumerate}
+\end{property}
+
+\begin{proof}
+1$\Rightarrow$2：设 $\mathcal{B}=\{B_n\}_{n\in\mathbb{N}}$ 为 $X$ 的可数拓扑基（定义 \ref{def:second-countable}）。对每个非空 $B_n$ 取一点 $x_n\in B_n$，令 $D=\{x_n:\,B_n\neq\varnothing\}$，则 $D$ 可数。任取非空开集 $U$，存在基元 $B_n\subset U$，故 $x_n\in D\cap U\neq\varnothing$，从而 $\overline{D}=X$（定义 \ref{def:separable-space}），即 $X$ 可分。
+
+1$\Rightarrow$3：令 $\mathcal{U}$ 为 $X$ 的任一开覆盖。由命题 \ref{prop:base-property}，存在 $\overline{\mathcal{B}}\subset\mathcal{B}$ 使得 $\bigcup\overline{\mathcal{B}}=X$ 且 $\overline{\mathcal{B}}$ 加细 $\mathcal{U}$。因 $\mathcal{B}$ 可数，$\overline{\mathcal{B}}$ 亦可数。由引理 \ref{lem:refinement-cover}，存在 $\mathcal{U}$ 的可数子族覆盖 $X$，故 $X$ 为 Lindelöff 空间。
+\end{proof}
+
+\begin{proposition}[基的等价刻画]\label{prop:base-equivalence}
+设 $(X,\mathcal T)$ 为拓扑空间，$\mathcal B\subset \mathcal T$。则以下等价：
+\begin{enumerate}
+  \item $\mathcal B$ 是 $(X,\mathcal T)$ 的拓扑基；
+  \item 对任意 $U\in\mathcal T$ 与任意 $x\in U$，存在 $B\in\mathcal B$ 使得 $x\in B\subset U$。
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+(1)$\Rightarrow$(2)：设 $U\in\mathcal T$。由基的定义，存在 $\mathcal C\subset \mathcal B$ 使得 $U=\bigcup_{C\in\mathcal C}C$。取 $x\in U$，则存在 $C\in\mathcal C$ 使 $x\in C$，且 $C\subset U$，令 $B=C$ 即得。
+
+(2)$\Rightarrow$(1)：设 $U\in\mathcal T$，令 $\mathcal C=\{B\in\mathcal B:\,B\subset U\}$。一方面 $\bigcup\mathcal C\subset U$；另一方面，任意 $x\in U$，由(2)存在 $B\in\mathcal B$ 使 $x\in B\subset U$，故 $x\in\bigcup\mathcal C$。于是 $U\subset \bigcup\mathcal C$，从而 $U=\bigcup\mathcal C$。
+\end{proof}
+
+\begin{proof}
+(补充：2$\Rightarrow$1 与 3$\Rightarrow$1，度量空间情形)
+
+2$\Rightarrow$1：设 $(X,d)$ 可分，取可数稠密集 $D$。对 $x\in D$ 与 $n\in\mathbb N^*$，记 $B_{x,n}=B(x,1/n)$，并令
+\[
+\mathcal B=\{B_{x,n}:\ x\in D,\ n\in\mathbb N^*\}.
+\]
+则 $\mathcal B$ 为可数族。任取开集 $U$ 与 $y\in U$，取 $\varepsilon>0$ 使 $B(y,\varepsilon)\subset U$。取 $n$ 使 $2/n<\varepsilon$，由 $D$ 稠密可取 $x\in D\cap B(y,1/n)$。则 $y\in B(x,1/n)$ 且对任意 $z\in B(x,1/n)$ 有 $d(z,y)\le d(z,x)+d(x,y)<\tfrac1n+\tfrac1n=\tfrac{2}{n}<\varepsilon$，故 $B(x,1/n)\subset B(y,\varepsilon)\subset U$。由命题 \ref{prop:base-equivalence} 知 $\mathcal B$ 为可数基，故 $X$ 为 $\mathrm{CA}_2$。
+
+3$\Rightarrow$1：设 $(X,d)$ 为 Lindelöff。对每个 $n\in\mathbb N^*$，考虑半径 $1/n$ 的开球族
+\[
+  \mathcal U_n=\{B(x,1/n):\ x\in X\},
+  \]
+  它覆盖 $X$。由 Lindelöff 性质，存在可数子族 $\mathcal B_n\subset \mathcal U_n$ 覆盖 $X$。令 $\mathcal B=\bigcup_{n\ge1}\mathcal B_n$，则 $\mathcal B$ 可数。任取开集 $U$ 与 $y\in U$，取 $\varepsilon>0$ 使 $B(y,\varepsilon)\subset U$，并取 $n$ 使 $2/n<\varepsilon$。因 $\mathcal B_n$ 覆盖 $X$，存在 $B(x,1/n)\in\mathcal B_n$ 使 $y\in B(x,1/n)$。同理得 $B(x,1/n)\subset B(y,\varepsilon)\subset U$。  故由命题 \ref{prop:base-equivalence}，$\mathcal B$ 为可数基，$X$ 为 $\mathrm{CA}_2$。
+\end{proof}
+  \begin{proposition}[紧的基刻画]\label{prop:compact-base-characterization}
+  设 $(X,\mathcal T)$ 为拓扑空间，$\mathcal B$ 为 $X$ 的一组拓扑基。则以下等价：
+  \begin{enumerate}
+    \item $X$ 为紧空间；
+    \item 对任意子族 $\mathcal U\subset \mathcal B$，若 $\bigcup \mathcal U = X$，则存在有限子族 $\mathcal U_0\subset \mathcal U$ 使得 $\bigcup \mathcal U_0 = X$。
+  \end{enumerate}
+  \end{proposition}
+
+  \begin{proof}
+  (1)$\Rightarrow$(2)：显然。由基元素构成的覆盖亦为开覆盖，紧性蕴含存在有限子覆盖。
+
+  (2)$\Rightarrow$(1)：任取开覆盖 $\mathcal V$。由命题 \ref{prop:base-property}，存在 $\overline{\mathcal B} \subset \mathcal B$ 使得 $\bigcup \overline{\mathcal B} = X$ 且 $\overline{\mathcal B}$ 加细 $\mathcal V$。由 (2) 可取有限子族 $\overline{\mathcal B}_0 \subset \overline{\mathcal B}$ 覆盖 $X$。对每个 $B\in \overline{\mathcal B}_0$，取相应的 $V_B\in \mathcal V$ 使得 $B\subset V_B$，则 $\{V_B: B\in \overline{\mathcal B}_0\}$ 为 $\mathcal V$ 的有限子覆盖，故 $X$ 紧。
+  \end{proof}
+ 
+ \begin{proposition}[紧的等价刻画：闭集的有限交性质]\label{prop:compact-FIP}
+ 设 $(X,\mathcal T)$ 为拓扑空间。以下命题等价：
+ \begin{enumerate}
+   \item $X$ 为紧空间；
+   \item 对任意闭集族 $\mathcal F\subseteq\mathcal P(X)$，若 $\mathcal F$ 具有有限交性质（即任意有限子族的交非空），则
+   \[
+   \bigcap_{F\in\mathcal F} F \neq \varnothing.
+   \]
+ \end{enumerate}
+ \end{proposition}
+ \begin{proof}
+ (1)$\Rightarrow$(2)：设 $\mathcal F$ 为闭集族且具有有限交性质。若反设 $\bigcap_{F\in\mathcal F}F=\varnothing$，则其补开的族 $\mathcal U:=\{F^c:\,F\in\mathcal F\}$ 为 $X$ 的开覆盖。由紧性，存在有限子覆盖 $\{F_i^c\}_{i=1}^n$，则
+ \[
+ X=\bigcup_{i=1}^n F_i^c \quad\Longleftrightarrow\quad \bigcap_{i=1}^n F_i=\varnothing,
+ \]
+ 这与 $\mathcal F$ 的有限交性质矛盾，故应有 $\bigcap_{F\in\mathcal F}F\neq\varnothing$。
+ 
+ (2)$\Rightarrow$(1)：设 $\mathcal U$ 为 $X$ 的开覆盖。令闭集族 $\mathcal F=\{X\setminus U:\,U\in\mathcal U\}$，则 $\mathcal F$ 具有有限交性质且
+ 若反设 $\mathcal U$ 无有限子覆盖，则对任意有限子集 $\{U_1,\dots,U_n\}\subset\mathcal U$，有
+ \[
+ U_1\cup\cdots\cup U_n\ne X\quad\Longleftrightarrow\quad (X\setminus U_1)\cap\cdots\cap(X\setminus U_n)\ne\varnothing,
+ \]
+ 因而 $\mathcal F$ 具有有限交性质。由(2)得
+ \[
+ \bigcap_{F\in\mathcal F}F\ne\varnothing\quad\Longleftrightarrow\quad X\setminus\bigcup\mathcal U\ne\varnothing,
+ \]
+ 与 $\mathcal U$ 为覆盖矛盾。故 $\mathcal U$ 必有有限子覆盖，$X$ 紧。
+ \end{proof}
+ 
+  \begin{definition}[滤子与滤子基的接触点]\label{def:filter-adherent}
+ 设 $(X,\mathcal T)$ 为拓扑空间。
+\begin{enumerate}
+    \item 若 $\mathcal F$ 为 $X$ 上的滤子，称 $x\in X$ 为 $\mathcal F$ 的接触点，若 $\forall A\in\mathcal F$ 均有 $x\in \overline{A}$。等价地 $x\in \bigcap_{A\in\mathcal F}\overline{A}$。
+    \item 若 $\mathcal B$ 为 $X$ 上的滤子基，称 $x\in X$ 为 $\mathcal B$ 的接触点，若 $\forall B\in\mathcal B$ 均有 $x\in \overline{B}$。等价地 $x\in \bigcap_{B\in\mathcal B}\overline{B}$。
+  \end{enumerate}
+  \end{definition}
+  
+  \begin{proposition}[紧的等价刻画：滤子/滤子基的接触点]\label{prop:compact-filter-cluster}
+  设 $(X,\mathcal T)$ 为拓扑空间，则以下等价：
+  \begin{enumerate}
+    \item $X$ 为紧空间；
+    \item $X$ 中任意滤子基都有接触点；
+    \item $X$ 中任意滤子都有接触点。
+  \end{enumerate}
+  \end{proposition}
+  \begin{proof}
+  (2)$\Leftrightarrow$(3)：若 $\mathcal B$ 为滤子基，记其生成的滤子为 $\mathcal B_{\uparrow}$。则对任意 $x$，
+  \[
+  x\in \bigcap_{B\in\mathcal B}\overline{B}
+  \ \Longleftrightarrow\ 
+  \forall F\in \mathcal B_{\uparrow}\ \exists B\in\mathcal B\ (B\subset F\ \&\ x\in\overline{B}\subset \overline{F})
+  \ \Longleftrightarrow\ 
+  x\in \bigcap_{F\in\mathcal B_{\uparrow}}\overline{F}.
+  \]
+  故两者的接触点集合一致。
+  
+  (1)$\Rightarrow$(2)：设 $X$ 紧且 $\mathcal B$ 为滤子基。闭集族 $\{\overline{B}:B\in\mathcal B\}$ 具有限交性质；由命题 \ref{prop:compact-FIP} 得 $\bigcap_{B\in\mathcal B}\overline{B}\ne\varnothing$，取其中一点即为接触点。
+  
+  (2)$\Rightarrow$(1)：反证。若 $X$ 不紧，取无有限子覆盖的开覆盖 $\mathcal U$，令闭集族 $\mathcal F=\{X\setminus U:\ U\in\mathcal U\}$，则 $\mathcal F$ 具有有限交性质且
+  \[
+  \bigcap_{F\in\mathcal F}F=\varnothing.
+  \]
+  定义由 $\mathcal F$ 的有限交组成的族
+  \[
+  \mathcal B:=\Big\{\bigcap_{i=1}^n F_i:\ F_i\in\mathcal F,\ n\in\mathbb N^*\Big\},
+  \]
+  则 $\mathcal B$ 为滤子基，且每个 $B\in\mathcal B$ 为闭集。由(2)存在接触点 $x\in \bigcap_{B\in\mathcal B}\overline{B}=\bigcap_{B\in\mathcal B}B=\bigcap_{F\in\mathcal F}F=\varnothing$，矛盾。故 $X$ 紧。
+  \end{proof}
+  
+
+  \begin{definition}[超滤子]\label{def:ultrafilter}
+  设 $X$ 为非空集合，$\mathcal U\subseteq\mathcal P(X)$ 为 $X$ 上的一个滤子。称 $\mathcal U$ 为 $X$ 上的一个超滤子（极大滤子），若满足：对任意 $\mathcal A\subseteq\mathcal P(X)$，只要 $\mathcal U\subsetneqq\mathcal A$，则 $\mathcal A$ 不是 $X$ 上的滤子。
+  \end{definition}
+  
+  \begin{proposition}[超滤子引理]\label{prop:ultrafilter-extension}
+  任意 $X$ 上的滤子 $\mathcal F$ 均可扩张为一个超滤子 $\mathcal U\supseteq\mathcal F$。
+  \end{proposition}
+  \begin{proof}
+  令
+  \[
+  \mathcal C=\{\mathcal G:\ \mathcal G \text{ 是 $X$ 上的滤子且 }\mathcal F\subseteq\mathcal G\},
+  \]
+  以包含关系为序。任一链 $\{\mathcal G_i\}$ 的并 $\mathcal G_*=\bigcup_i\mathcal G_i$ 仍为滤子：$\varnothing\notin\mathcal G_*$；对有限交与向上封闭性逐一验证可得，故每条链有上界。由 Zorn 引理，存在极大元 $\mathcal U$，即所求超滤子。
+  \end{proof}
+
+  \begin{proposition}[超滤子的等价性质]\label{prop:ultrafilter-properties}
+  设 $\mathcal U$ 为 $X$ 上的滤子。则以下命题等价：
+  \begin{enumerate}
+    \item $\mathcal U$ 是 $X$ 上的超滤子（极大滤子）；
+    \item 对任意 $A\subseteq X$，有 $A\in\mathcal U$ 或 $A^c\in\mathcal U$；
+    \item 对任意 $A,B\subseteq X$，若 $A\cup B\in\mathcal U$，则 $A\in\mathcal U$ 或 $B\in\mathcal U$；
+    \item 对任意 $U\subseteq X$，若对所有 $F\in\mathcal U$ 有 $U\cap F\neq\varnothing$，则 $U\in\mathcal U$。
+  \end{enumerate}
+  \end{proposition}
+
+  \begin{proof}
+  (1)$\Rightarrow$(2)：对任意 $A\subseteq X$，若 $A\notin\mathcal U$，欲证 $A^c\in\mathcal U$。由(1)超滤子定义，$\mathcal U\cup\{A\}$ 不能生成滤子（否则 $\mathcal U$ 不极大），故不具有限交性质，即存在 $F\in\mathcal U$ 使
+  \[
+  A\cap F=\varnothing\quad\Longrightarrow\quad F\subseteq A^c.
+  \]
+  由滤子向上封闭性得 $A^c\in\mathcal U$。故对任意 $A$，必有 $A\in\mathcal U$ 或 $A^c\in\mathcal U$。
+  
+  (2)$\Rightarrow$(3)：设 $A,B\subseteq X$ 且 $A\cup B\in\mathcal U$。由(2)知 $A\in\mathcal U$ 或 $B\in\mathcal U$。反设 $A\notin\mathcal U$ 且 $B\notin\mathcal U$，则由(2)得 $A^c,B^c\in\mathcal U$，从而
+  \[
+  A^c\cap B^c=(A\cup B)^c\in\mathcal U.
+  \]
+  与 $A\cup B\in\mathcal U$ 及滤子不含 $\varnothing$ 矛盾。
+  
+  (3)$\Rightarrow$(4)：设 $U\subseteq X$ 满足对任意 $F\in\mathcal U$ 均有 $U\cap F\ne\varnothing$。因 $\mathcal U$ 为滤子，$X\in\mathcal U$，而 $X=U\cup U^c$，由(3)得 $U\in\mathcal U$ 或 $U^c\in\mathcal U$。若 $U^c\in\mathcal U$，则 $U\cap U^c=\varnothing$，与假设矛盾，故 $U\in\mathcal U$。
+  
+  (4)$\Rightarrow$(1)：反证。若 $\mathcal U$ 不是超滤子，则存在滤子 $\mathcal U'$ 满足 $\mathcal U\subsetneqq\mathcal U'$。取 $U\in\mathcal U'\setminus\mathcal U$。对任意 $F\in\mathcal U\subset\mathcal U'$，因 $\mathcal U'$ 为滤子，有 $U\cap F\ne\varnothing$（否则 $\varnothing\in\mathcal U'$ 矛盾）。由(4)得 $U\in\mathcal U$，矛盾。故 $\mathcal U$ 为超滤子。
+  \end{proof}
+
+  \begin{definition}[滤子的收敛]\label{def:filter-convergence-2}
+  设 $(X,\mathcal T)$ 为拓扑空间。称滤子 $\mathcal F$ 在 $x\in X$ 收敛，记为 $\mathcal F\to x$，若对任意 $x$ 的邻域 $U$，有 $U\in\mathcal F$。
+  \end{definition}
+  
+  \begin{proposition}[超滤子的接触点与收敛]\label{prop:ultrafilter-adherent-limit}
+  设 $(X,\mathcal T)$ 为拓扑空间，$\mathcal U$ 为 $X$ 上的超滤子，$x\in X$。则以下等价：
+  \begin{enumerate}
+    \item $x$ 为 $\mathcal U$ 的接触点；
+    \item $\mathcal U\to x$。
+  \end{enumerate}
+  \end{proposition}
+  \begin{proof}
+  (1)$\Rightarrow$(2)：设 $x$ 为 $\mathcal U$ 的接触点。取 $x$ 的任意邻域 $U$。由接触点定义，$\forall F\in\mathcal U$ 有 $U\cap F\ne\varnothing$。若 $U\notin\mathcal U$，因 $\mathcal U$ 为超滤子，必有 $U^c\in\mathcal U$，与 $U\cap U^c=\varnothing$ 矛盾，故 $U\in\mathcal U$。于是 $\mathcal U\to x$。
+  
+  (2)$\Rightarrow$(1)：若 $\mathcal U\to x$，则 $\forall$ 邻域 $U\in\mathcal U$。任取 $F\in\mathcal U$，由滤子对有限交封闭，$U\cap F\in\mathcal U$，故 $U\cap F\ne\varnothing$。于是 $x\in\overline{F}$。因 $F\in\mathcal U$ 任意，得 $x\in\bigcap_{F\in\mathcal U}\overline{F}$，即 $x$ 为 $\mathcal U$ 的接触点。
+  \end{proof}
+  \begin{proposition}[紧的等价刻画：极大滤子的接触点]\label{prop:compact-filter-cluster1}
+  设 $(X,\mathcal T)$ 为拓扑空间，则以下等价：
+  \begin{enumerate}
+    \item $X$ 为紧空间；
+    \item $X$ 中任意滤子基都有接触点；
+    \item $X$ 中任意滤子都有接触点。
+    \item $X$ 中任意极大滤子都有接触点。
+    \item $X$ 中任意极大滤子收敛
+  \end{enumerate}
+  \end{proposition}
+  \begin{proof}
+  (3)$\Rightarrow$(4)：极大滤子本身是滤子，显然成立。
+  
+  (4)$\Leftrightarrow$(5)：由命题 \ref{prop:ultrafilter-adherent-limit}，对任意极大滤子 $\mathcal U$ 与点 $x$，$x$ 为 $\mathcal U$ 的接触点当且仅当 $\mathcal U\to x$。于是“任意极大滤子有接触点”当且仅当“任意极大滤子收敛”。
+  
+  (4)$\Rightarrow$(3)：任取滤子 $\mathcal F$。由超滤子引理 \ref{prop:ultrafilter-extension}，存在极大滤子 $\mathcal U\supseteq\mathcal F$。由(4) 取 $x$ 使 $x$ 为 $\mathcal U$ 的接触点。因 $\mathcal F\subseteq\mathcal U$，对任意 $A\in\mathcal F$ 亦有 $x\in\overline{A}$，故 $x$ 为 $\mathcal F$ 的接触点。
+  
+  \end{proof}
+  
+  
+  \begin{proposition}[滤子收敛的邻域基刻画]\label{prop:filter-conv-nbhd-base}
+  设 $(X,\mathcal T)$ 为拓扑空间，$x\in X$，令 $\mathcal B_x$ 为 $x$ 的邻域基。对任意滤子 $\mathcal F$，有
+  \[
+  \mathcal F\to x \Longleftrightarrow \forall B\in\mathcal B_x,\ \exists F\in\mathcal F\text{ 使 }F\subseteq B.
+  \]
+  \end{proposition}
+  \begin{proof}
+  ($\Rightarrow$) 设 $\mathcal F\to x$。任取 $B\in\mathcal B_x$，则 $B$ 为 $x$ 的邻域，故 $B\in\mathcal F$，取 $F=B$ 即得 $F\subseteq B$。
+  
+  ($\Leftarrow$) 设对任意 $B\in\mathcal B_x$，存在 $F\in\mathcal F$ 使得 $F\subseteq B$。任取 $x$ 的邻域 $U$，由邻域基性质，取 $B\in\mathcal B_x$ 使 $B\subseteq U$。于是存在 $F\in\mathcal F$ 满足 $F\subseteq B\subseteq U$。由滤子向上封闭性，$U\in\mathcal F$。故 $\mathcal F\to x$。
+  \end{proof}
+  
+  \begin{proposition}[滤子收敛的邻域子基刻画]\label{prop:filter-conv-subnbhd}
+  设 $(X,\mathcal T)$ 为拓扑空间，$x\in X$。设 $\mathcal S$ 为 $x$ 的邻域子基，即令
+  \[
+  \mathcal S_x=\{U\in\mathcal S:\ x\in U\},\qquad
+  \mathcal B_x=\Big\{\bigcap_{i=1}^n U_i:\ n\in\mathbb N^*,\ U_i\in\mathcal S_x\Big\}\cup\{X\},
+  \]
+  则 $\mathcal B_x$ 为 $x$ 的邻域基。对任意滤子 $\mathcal F$，有
+  \[
+  \mathcal F\to x\ \Longleftrightarrow\ \forall U\in\mathcal S\ (x\in U\Rightarrow \exists F\in\mathcal F\text{ 使 }F\subseteq U).
+  \]
+  \end{proposition}
+  \begin{proof}
+  ($\Rightarrow$) 若 $\mathcal F\to x$，则每个 $x$ 的邻域 $U$ 都在 $\mathcal F$ 中，尤其对任意 $U\in\mathcal S_x$，有 $U\in\mathcal F$，取 $F=U$ 即得 $F\subseteq U$。
+  
+  ($\Leftarrow$) 设对任意 $U\in\mathcal S_x$，存在 $F\in\mathcal F$ 使 $F\subseteq U$。取 $\mathcal B_x$ 为由 $\mathcal S_x$ 的有限交与 $\{X\}$ 生成的邻域基。任取 $B\in\mathcal B_x$：
+  \begin{itemize}
+    \item 若 $B=X$，任取 $F\in\mathcal F$，则 $F\subseteq X=B$；
+    \item 若 $B\ne X$，则 $B=U_1\cap\cdots\cap U_n$（$n\ge1$，$U_i\in\mathcal S_x$）。对每个 $i$ 取 $F_i\in\mathcal F$ 使 $F_i\subseteq U_i$；
+    \item 由滤子对有限交封闭，$F=\bigcap_{i=1}^n F_i\in\mathcal F$ 且 $F\subseteq\bigcap_{i=1}^n U_i=B$。
+  \end{itemize}
+  于是对任意 $B\in\mathcal B_x$，存在 $F\in\mathcal F$ 使 $F\subseteq B$。由命题 \ref{prop:filter-conv-nbhd-base} 知 $\mathcal F\to x$。
+  \end{proof}
+  
+  \begin{proposition}[紧的子基刻画（Alexander 子基定理）]\label{prop:alexander-subbase}
+  设 $\mathcal S$ 为 $X$ 的子基。则 $X$ 紧 当且仅当：对任意 $\mathcal U\subseteq\mathcal S$，若 $\mathcal U$ 覆盖 $X$，则存在有限子集 $\{U_i\}_{i=1}^n\subseteq\mathcal U$ 亦覆盖 $X$。
+  \end{proposition}
+  \begin{proof}
+  ($\Rightarrow$) 显然：紧空间的任意开覆盖（特别是由子基元素组成的覆盖）都有有限子覆盖。
+  
+  ($\Leftarrow$) 假设对任意子基覆盖都有有限子覆盖。取任意超滤子 $\mathcal U$ 于 $X$。若 $\mathcal U$ 不收敛，则对每个 $x\in X$，由命题 \ref{prop:filter-conv-subnbhd}，可取 $U_x\in\mathcal S$ 且 $x\in U_x$ 使 $U_x\notin\mathcal U$。由超滤子性质（命题 \ref{prop:ultrafilter-properties} 的(2)）知 $U_x^c\in\mathcal U$。于是 $\{U_x:x\in X\}\subseteq\mathcal S$ 构成 $X$ 的子基覆盖。由假设取有限多项 $U_{x_1},\dots,U_{x_n}$ 覆盖 $X$，则
+  \[
+  \bigcap_{i=1}^n U_{x_i}^c=\varnothing.
+  \]
+  然而每个 $U_{x_i}^c\in\mathcal U$，且超滤子对有限交封闭，故 $\bigcap_{i=1}^n U_{x_i}^c\in\mathcal U$，与滤子不含空集矛盾。故任意超滤子必收敛。由命题 \ref{prop:compact-filter-cluster1} 中 (5) 与 (1) 的等价性，得 $X$ 紧。
+  \end{proof}
+  
+ \begin{definition}[网]\label{def:net-variant}
+  设 $\Lambda$ 为定向集，$x:\Lambda\to X$。称 $(x_\alpha)_{\alpha\in\Lambda}$ 为 $X$ 中的网。
+  \end{definition}
+  
+  \begin{definition}[子网]\label{def:subnet}
+  设 $(x_\alpha)_{\alpha\in\Lambda}$ 为 $X$ 中的网。若存在定向集 $\Gamma$ 与映射 $\theta: \Gamma\to\Lambda$，满足
+  \begin{enumerate}
+    \item $\theta$ 保序；
+    \item $\theta(\Gamma)$ 在 $\Lambda$ 中无界，即对任意 $\alpha\in\Lambda$，存在 $\beta_0\in\Gamma$，使得 $\beta\ge\beta_0\Rightarrow\theta(\beta)\ge\alpha$，
+  \end{enumerate}
+  则称 $(x_{\theta(\beta)})_{\beta\in\Gamma}$ 为 $(x_\alpha)_{\alpha\in\Lambda}$ 的子网。等价地，可记为 $x\circ\theta: \Gamma\to X$。
+  \end{definition}
+  
+ \begin{proposition}[乘积拓扑的刻画]\label{prop:product-topology-initial}
+  设 $\{X_\alpha\}_{\alpha\in\Lambda}$ 为拓扑空间族。记
+  \[
+   \prod_{\alpha\in\Lambda} X_\alpha
+   =\{(x_\alpha)_{\alpha\in\Lambda} : \forall\alpha,\ x_\alpha\in X_\alpha\}.
+  \]
+  对每个 $\alpha$ 定义投影
+  \[
+   p_\alpha: \prod_{\gamma\in\Lambda} X_\gamma\to X_\alpha,\qquad (x_\gamma)_{\gamma\in\Lambda}\mapsto x_\alpha.
+  \]
+  令
+  \[
+   \mathcal S\equiv\bigcup_{\alpha\in\Lambda}\{\,p_\alpha^{-1}(U): U\subseteq X_\alpha\text{ 为开集}\,\}.
+  \]
+  则由子基 $\mathcal S$ 生成的拓扑 $\tau$ 使得每个投影 $p_\alpha$ 连续；且若 $\tau'$ 是 $\prod_{\alpha}X_\alpha$ 上的拓扑并使所有 $p_\alpha$ 连续，则 $\tau\subseteq\tau'$。因此 $\tau$ 是使所有投影连续的最小拓扑（即乘积拓扑）。
+ \end{proposition}
+ 
+ \begin{proof}
+  对任意 $\alpha$ 与 $X_\alpha$ 中开集 $U$，有 $p_\alpha^{-1}(U)\in\mathcal S\subseteq\tau$，故 $p_\alpha$ 连续。若 $\tau'$ 使所有 $p_\alpha$ 连续，则对每个开集 $U\subseteq X_\alpha$ 均有 $p_\alpha^{-1}(U)\in\tau'$，于是 $\mathcal S\subseteq\tau'$。由“由子基生成的最小拓扑”的定义知 $\tau\subseteq\tau'$。证毕。
+ \end{proof}
+ 
+ \begin{remark}
+  对命题 \ref{prop:product-topology-initial} 中的子基 $\mathcal S$，其有限交族 $\mathcal S_{f\cap}$ 构成乘积拓扑的一个基。具体地，若取有限多指标 $\alpha_1,\dots,\alpha_n$ 及开集 $U_i\subseteq X_{\alpha_i}$，则
+  \[
+   p_{\alpha_1}^{-1}(U_1)\cap\cdots\cap p_{\alpha_n}^{-1}(U_n)
+   = \prod_{\gamma\in\Lambda} V_\gamma,
+  \]
+  其中 $V_{\alpha_i}=U_i$，而当 $\gamma\notin\{\alpha_1,\dots,\alpha_n\}$ 时取 $V_\gamma=X_\gamma$。因此“盒子”形集合
+  \[
+   \Big\{\prod_{\gamma\in\Lambda} V_\gamma:\ V_{\alpha}\text{ 为开集仅在有限多 }\alpha,\ \text{其余 }V_\gamma=X_\gamma\Big\}
+  \]
+  是乘积拓扑的一个基。特别地，当 $\Lambda$ 有限（如 $\{1,\dots,n\}$）时，基可写为
+  \[
+   \{\,U_1\times\cdots\times U_n:\ U_i\subseteq X_i\text{ 为开集}\,\}.
+  \]
+  \end{remark}
+ 
+ \begin{proposition}[推论：乘积拓扑的子基]\label{prop:product-subbasis}
+  设 $\{X_\alpha\}_{\alpha\in\Lambda}$ 为拓扑空间族。则在 $\prod_{\alpha\in\Lambda} X_\alpha$ 上，集合族
+  \[
+   \mathcal S=\bigcup_{\alpha\in\Lambda}\{\,p_\alpha^{-1}(U): U\subseteq X_\alpha\ \text{开}\,\}
+  \]
+  是乘积拓扑的一个子基。
+ \end{proposition}
+ \begin{proof}
+  由命题 \ref{prop:product-topology-initial}，乘积拓扑恰为包含上述集合族的最小拓扑，故该集合族为其子基。
+ \end{proof}
+ 
+ \begin{proposition}[推论：有限乘积的基]\label{prop:finite-product-basis}
+  设 $X_1,\dots,X_n$ 为拓扑空间，$B_i$ 为 $X_i$ 的一组基。则
+  \[
+   \mathcal{B}=\{\,U_1\times\cdots\times U_n:\ U_i\in B_i\ (i=1,\dots,n)\,\}
+  \]
+  为 $X_1\times\cdots\times X_n$ 的乘积拓扑的一组基。
+ \end{proposition}
+ \begin{proof}
+  任取开盒 $V_1\times\cdots\times V_n$ 与点 $(x_1,\dots,x_n)$。由 $B_i$ 为基，存在 $U_i\in B_i$ 使 $x_i\in U_i\subseteq V_i$。则
+  $(x_1,\dots,x_n)\in U_1\times\cdots\times U_n\subseteq V_1\times\cdots\times V_n$。配合上文的“盒子基”描述可知该族满足基的判别条件，因而为一组基。
+  \end{proof}
+  
+ \begin{proposition}[连续满射下 Lindelöff 性保持]\label{prop:lindeloff-image}
+  设 $f:X\to Y$ 连续且满射。若 $X$ 为 Lindelöff 空间，则 $Y$ 为 Lindelöff 空间。
+ \end{proposition}
+ \begin{proof}
+  任取 $Y$ 的开覆盖 $\mathcal U$。则其拉回族
+  \[
+   f^{-1}(\mathcal U)=\{\,f^{-1}(U):\ U\in\mathcal U\,\}
+  \]
+  为 $X$ 的开覆盖（连续性保证开性，满射保证覆盖）。由 $X$ 的 Lindelöff 性，存在可数子族 $\{U_n\}_{n\in\mathbb N}\subset\mathcal U$ 使 $\{f^{-1}(U_n)\}$ 覆盖 $X$。于是
+  \[
+   Y=f(X)=\bigcup_{n\in\mathbb N} f\big(f^{-1}(U_n)\big)\subseteq\bigcup_{n\in\mathbb N} U_n,
+  \]
+  即 $\{U_n\}$ 为 $\mathcal U$ 的可数子覆盖，$Y$ 为 Lindelöff。
+ \end{proof}
+  
+  \begin{theorem}[Tychonoff 定理]\label{thm:tychonoff}
+  若每个 $X_\alpha$ 均为紧空间，则赋以乘积拓扑的笛卡尔积
+  \[
+   \prod_{\alpha\in\Lambda} X_\alpha
+  \]
+  亦为紧空间。
+ \end{theorem}
+ 
+ \begin{proof}
+  取任意超滤子 $\mathcal F$ 于 $\prod_{\alpha}X_\alpha$。对每个 $\alpha$，考虑投影 $p_\alpha: \prod_{\gamma}X_\gamma\to X_\alpha$。则 $p_\alpha(\mathcal F)$ 为 $X_\alpha$ 上的超滤子；由 $X_\alpha$ 的紧性（见命题 \ref{prop:compact-filter-cluster1} 的等价刻画），存在点 $x_\alpha\in X_\alpha$ 使得
+  \[
+   p_\alpha(\mathcal F)\to x_\alpha.
+  \]
+  令 $x=(x_\gamma)_{\gamma\in\Lambda}\in\prod_{\gamma}X_\gamma$。
+ 
+  下证 $\mathcal F\to x$。由上文关于乘积拓扑“盒子基”的描述，只需证：对任意指标 $\alpha$ 与含 $x_\alpha$ 的开集 $U\subseteq X_\alpha$，有 $p_\alpha^{-1}(U)\in\mathcal F$。事实上，由 $p_\alpha(\mathcal F)\to x_\alpha$ 与滤子收敛的定义，存在 $E\in p_\alpha(\mathcal F)$ 使 $E\subseteq U$；按像滤子的定义，$p_\alpha^{-1}(E)\in\mathcal F$ 且 $p_\alpha^{-1}(E)\subseteq p_\alpha^{-1}(U)$，由滤子的向上封闭性得 $p_\alpha^{-1}(U)\in\mathcal F$。进而对任意有限族 $\{(\alpha_i,U_i)\}_{i=1}^n$（每个 $U_i$ 为 $x_{\alpha_i}$ 的开邻域），由滤子对有限交封闭性，
+  \[
+   \bigcap_{i=1}^n p_{\alpha_i}^{-1}(U_i)\in\mathcal F.
+  \]
+  这些有限交构成 $x$ 的一组基邻域，故 $\mathcal F$ 包含 $x$ 的全部基邻域，从而 $\mathcal F\to x$。
+ 
+  因任意超滤子于 $\prod_{\alpha}X_\alpha$ 上皆收敛，依命题 \ref{prop:compact-filter-cluster1} 的等价性知 $\prod_{\alpha}X_\alpha$ 紧。
+ \end{proof}
+ 
+ \begin{definition}[子空间拓扑]\label{def:subspace-topology}
+  设 $(X,\mathcal T)$ 为拓扑空间，$Y\subseteq X$。定义
+  \[
+   \mathcal T|_Y\equiv\{\,U\cap Y:\ U\in\mathcal T\,\}
+  \]
+  为 $Y$ 上的子空间拓扑。称 $(Y,\mathcal T|_Y)$ 为 $(X,\mathcal T)$ 的子空间。
+ \end{definition}
+ 
+ \begin{proposition}[度量子空间]\label{prop:metric-subspace}
+  设 $(X,d)$ 为度量空间，$Y\subseteq X$。记 $d_Y:Y\times Y\to\mathbb R$ 为限制度量 $d|_{Y\times Y}$，则由 $d$ 在 $X$ 上诱导的拓扑 $\mathcal T_d$ 限制到 $Y$ 上，与由限制度量 $d_Y$ 在 $Y$ 上诱导的拓扑 $\mathcal T_{d_Y}$ 相同，即
+  \[
+   \mathcal T_d|_Y=\mathcal T_{d_Y}.
+  \]
+ \end{proposition}
+
+ \begin{proposition}[Lindelöff 子空间的刻画]\label{prop:lindeloff-subspace}
+  设 $X$ 为拓扑空间，$\Omega\subseteq X$。则下列条件等价：
+  \begin{enumerate}
+    \item $\Omega$ 在子空间拓扑 $\mathcal T|_\Omega$ 下为 Lindelöff 空间；
+    \item 对任意由 $X$ 中开集组成的族 $\mathcal U$ 且 $\bigcup \mathcal U\supseteq\Omega$，存在可数子族 $\{U_n\}_{n\in\mathbb N}\subseteq\mathcal U$ 使得 $\bigcup_{n\in\mathbb N} U_n\supseteq\Omega$。
+  \end{enumerate}
+ \end{proposition}
+ \begin{proof}
+  $(1)\Rightarrow(2)$：设 $\Omega$ 为 Lindelöff 子空间，取 $X$ 中开集族 $\mathcal U$ 覆盖 $\Omega$。令
+  \[
+   \mathcal V\equiv\{\,U\cap\Omega:\ U\in\mathcal U\,\}\subseteq\mathcal T|_\Omega.
+  \]
+  则 $\mathcal V$ 为 $\Omega$ 的开覆盖（子空间拓扑意义下）。由 $\Omega$ 的 Lindelöff 性，存在可数子族 $\{U_n\cap\Omega\}_{n\in\mathbb N}$ 覆盖 $\Omega$，从而 $\{U_n\}_{n\in\mathbb N}\subseteq\mathcal U$ 为所需可数子覆盖。
+  
+  $(2)\Rightarrow(1)$：设条件 (2) 成立，取 $\Omega$ 的任意开覆盖 $\mathcal V\subseteq\mathcal T|_\Omega$。对每个 $V\in\mathcal V$，由子空间拓扑定义，存在 $X$ 中开集 $U_V$ 使 $V=U_V\cap\Omega$。令 $\mathcal U\equiv\{U_V:\ V\in\mathcal V\}$，则 $\mathcal U$ 为 $X$ 中开集族且覆盖 $\Omega$。由条件 (2)，存在可数子族 $\{U_{V_n}\}_{n\in\mathbb N}$ 覆盖 $\Omega$，从而 $\{V_n\}_{n\in\mathbb N}=\{U_{V_n}\cap\Omega\}$ 为 $\mathcal V$ 的可数子覆盖。故 $\Omega$ 为 Lindelöff 子空间。
+ \end{proof}
+ 
+ \begin{lemma}[管状邻域引理]\label{lem:tube-lemma}
+  设 $X,Y$ 为拓扑空间，$\alpha\in X$，$K\subseteq Y$ 紧。若 $\Omega\subseteq X\times Y$ 为开集且 $\{\alpha\}\times K\subseteq\Omega$，则存在 $\alpha$ 的开邻域 $B\subseteq X$ 与 $K$ 的开邻域 $U\subseteq Y$ 使得
+  \[
+   \{\alpha\}\times K\subseteq B\times U\subseteq\Omega.
+  \]
+ \end{lemma}
+ \begin{proof}
+  对每个 $k\in K$，点 $(\alpha,k)\in\Omega$。由 $\Omega$ 的开性与乘积拓扑的基，存在 $X$ 中开集 $B_k\ni\alpha$ 与 $Y$ 中开集 $U_k\ni k$ 使 $B_k\times U_k\subseteq\Omega$。则 $\{U_k:k\in K\}$ 为 $K$ 的开覆盖；由 $K$ 的紧性，存在有限子覆盖 $\{U_{k_1},\dots,U_{k_n}\}$ 覆盖 $K$。令
+  \[
+   B\equiv\bigcap_{i=1}^n B_{k_i},\qquad U\equiv\bigcup_{i=1}^n U_{k_i}.
+  \]
+  则 $B$ 为 $\alpha$ 的开邻域（有限交），$U$ 为 $K$ 的开邻域（包含 $K$）。对任意 $(\beta,y)\in B\times U$，存在 $i$ 使 $y\in U_{k_i}$，且 $\beta\in B\subseteq B_{k_i}$，从而 $(\beta,y)\in B_{k_i}\times U_{k_i}\subseteq\Omega$。故 $\{\alpha\}\times K\subseteq B\times U\subseteq\Omega$。
+  \end{proof}
+  
+ \begin{proposition}[基在子空间中的限制仍为基]\label{prop:subspace-basis-from-basis}
+  设 $(X,\mathcal T)$ 为拓扑空间，$\mathcal B$ 为 $X$ 的一组基，$Y\subseteq X$。则
+  \[
+   \mathcal B|_Y\equiv\{\,B\cap Y:\ B\in\mathcal B\,\}
+  \]
+  为 $(Y,\mathcal T|_Y)$ 的一组基。
+ \end{proposition}
+ \begin{proof}
+  任取 $\Omega\in\mathcal T|_Y$ 与 $y\in\Omega$。存在 $U\in\mathcal T$ 使 $\Omega=U\cap Y$ 且 $y\in U$。由 $\mathcal B$ 为 $X$ 的基，存在 $B\in\mathcal B$ 使 $y\in B\subseteq U$。则 $y\in B\cap Y\subseteq U\cap Y=\Omega$，且 $B\cap Y\in\mathcal B|_Y$。由基判别定理知 $\mathcal B|_Y$ 为 $(Y,\mathcal T|_Y)$ 的基。
+ \end{proof}
+ 
+ \begin{proposition}[子空间的乘积等于乘积的子空间]\label{prop:product-subspace}
+  设 $(X,\mathcal T)$ 与 $(Y,\mathcal S)$ 为拓扑空间，$A\subseteq X$，$B\subseteq Y$。则在 $A\times B$ 上有
+  \[
+   (\mathcal T|_A)\otimes(\mathcal S|_B)\ =\ (\mathcal T\otimes\mathcal S)\big|_{A\times B}.
+  \]
+ \end{proposition}
+ \begin{proof}
+  记两边拓扑分别为 $\tau_1$ 与 $\tau_2$。考察恒等映射 $\operatorname{id}_{A\times B}: (A\times B,\tau_1)\to(A\times B,\tau_2)$。
+  
+  为证 $\operatorname{id}$ 连续，只需验证其对一个乘积基闭合：对任意 $U\in\mathcal T,\ V\in\mathcal S$，有
+  \[
+   (U\cap A)\times(V\cap B)=(U\times V)\cap(A\times B),
+  \]
+  右式为 $\tau_2$ 的基元（矩形与 $A\times B$ 的交），故 $\operatorname{id}$ 连续。
+  
+  反向连续性同理：对 $\tau_2$ 的基元 $(U\times V)\cap(A\times B)$，其像即 $(U\cap A)\times(V\cap B)$，属 $\tau_1$ 的基元，故 $\operatorname{id}^{-1}$ 连续。
+  由此 $\tau_1=\tau_2$。
+ \end{proof}
+  
+ \begin{lemma}[乘积中的常值截面连续]\label{lem:product-constant-sections}
+  设拓扑空间 $X,Y$，取 $x_0\in X,\ y_0\in Y$。定义
+  \[
+   \eta_{x_0}:Y\to X\times Y,\ y\mapsto(x_0,y),\qquad
+   \xi_{y_0}:X\to X\times Y,\ x\mapsto(x,y_0).
+  \]
+  则 $\eta_{x_0}$ 与 $\xi_{y_0}$ 均连续。
+ \end{lemma}
+ \begin{proof}
+  对乘积基元 $U\times V$（$U\subset X,\ V\subset Y$ 开），有
+  $\eta_{x_0}^{-1}(U\times V)=\begin{cases} V,& x_0\in U,\\ \varnothing,& x_0\notin U,\end{cases}$
+  与 $\xi_{y_0}^{-1}(U\times V)=\begin{cases} U,& y_0\in V,\\ \varnothing,& y_0\notin V.\end{cases}$
+  皆为开集，故两映射连续。
+ \end{proof}
+ 
+ \begin{corollary}[联合连续蕴含偏连续]\label{cor:partial-continuity}
+  若 $f:X\times Y\to Z$ 在 $(x_0,y_0)$ 处连续，则
+  $y\mapsto f(x_0,y):Y\to Z$ 在 $y_0$ 连续，且 $x\mapsto f(x,y_0):X\to Z$ 在 $x_0$ 连续。
+ \end{corollary}
+ \begin{proof}
+  由引理 \ref{lem:product-constant-sections}，$\eta_{x_0},\xi_{y_0}$ 连续，故复合 $f\circ\eta_{x_0}$ 与 $f\circ\xi_{y_0}$ 连续，即得结论。
+ \end{proof}
+ 
+ \begin{proposition}[乘积的泛性质（坐标映射判别连续）]\label{prop:product-universal}
+  设空间族 $\{X_\alpha\}_{\alpha\in\Lambda}$ 与空间 $Z$。给定映射 $f_\alpha:Z\to X_\alpha$（$\forall\alpha$），则存在唯一映射
+  \[
+   f: Z\to\prod_{\alpha\in\Lambda} X_\alpha,\qquad z\mapsto (f_\alpha(z))_{\alpha\in\Lambda},
+  \]
+  满足 $p_\alpha\circ f=f_\alpha$。且 $f$ 连续当且仅当每个 $f_\alpha$ 连续。
+ \end{proposition}
+ \begin{proof}
+  唯一性由坐标确定性：若 $g$ 亦满足 $p_\alpha\circ g=f_\alpha$，则 $p_\alpha(g(z))=p_\alpha(f(z))$ 对所有 $\alpha$，故 $g(z)=f(z)$。
+  
+  若 $f$ 连续，则 $f_\alpha=p_\alpha\circ f$ 为连续。
+  
+  反之，若每个 $f_\alpha$ 连续，对任意 $\alpha$ 与 $X_\alpha$ 中开集 $U$，有
+  \[
+   f^{-1}\big(p_\alpha^{-1}(U)\big)=(p_\alpha\circ f)^{-1}(U)=f_\alpha^{-1}(U)
+  \]
+  为 $Z$ 中开集。乘积拓扑由子基 $\{p_\alpha^{-1}(U)\}$ 生成，故 $f$ 连续。
+ \end{proof}
+ 
+ \begin{remark}
+  上述命题中的坐标映射满足 $\forall\alpha:\ f_\alpha=p_\alpha\circ f$。
+ \end{remark}
+ 
+ \begin{proposition}[坐标连续推出乘积映射连续]\label{prop:product-map-continuous}
+  设空间族 $\{X_\alpha\}_{\alpha\in\Lambda}$ 与 $\{Y_\alpha\}_{\alpha\in\Lambda}$。若对每个 $\alpha$，映射 $f_\alpha:X_\alpha\to Y_\alpha$ 连续，定义
+  \[
+   \prod_{\alpha} f_\alpha: \prod_{\alpha\in\Lambda} X_\alpha\longrightarrow \prod_{\alpha\in\Lambda} Y_\alpha,\qquad (x_\alpha)_{\alpha}\mapsto (f_\alpha(x_\alpha))_{\alpha},
+  \]
+  则 $\prod_{\alpha} f_\alpha$ 连续。
+ \end{proposition}
+ \begin{proof}
+  对任意 $\beta\in\Lambda$，有交换恒等式
+  \[
+   p_\beta\circ\Big(\prod_{\alpha} f_\alpha\Big)= f_\beta\circ p_\beta.
+  \]
+  右端为连续映射复合，故左端连续。由命题 \ref{prop:product-universal}（坐标判别：$g$ 连续 $\iff$ $p_\alpha\circ g$ 连续 $\forall\alpha$），得 $\prod_{\alpha} f_\alpha$ 连续。
+ \end{proof}
+ 
+ \begin{definition}[拓扑和（不交并）]\label{def:topological-sum}
+  设一族两两不交的拓扑空间 $(X_\alpha,\,\mathcal T_\alpha)_{\alpha\in\Lambda}$。记集合不交并
+  \[
+   \bigsqcup_{\alpha\in\Lambda} X_\alpha=\coprod_{\alpha\in\Lambda} X_\alpha.
+  \]
+  在该并集上定义拓扑 $\tau$，使每个包含映射
+  \[
+   i_\alpha:X_\alpha\hookrightarrow \bigsqcup_{\gamma\in\Lambda} X_\gamma
+  \]
+  连续且为嵌入（即 $i_\alpha:X_\alpha\to i_\alpha(X_\alpha)$ 为同胚）的最大拓扑。约定记号
+  \[
+   \coprod_{\alpha\in\Lambda} X_\alpha\equiv\big(\bigsqcup_{\alpha\in\Lambda} X_\alpha,\,\tau\big),
+  \]
+  并在需要时亦记 $\tau=\mathcal T_{\coprod}$。称 $(\bigsqcup_{\alpha}X_\alpha,\,\tau)$ 为拓扑和。
+ \end{definition}
+  
+  \begin{proposition}[拓扑和的显式刻画]\label{prop:sum-topology-explicit}
+  有
+  \[
+   \mathcal T_{\coprod}
+   =\Big\{\,\bigsqcup_{\alpha\in\Lambda} U_\alpha:\ U_\alpha\in\mathcal T_\alpha\ (\forall\alpha)\,\Big\}.
+  \]
+ \end{proposition}
+ \begin{proof}
+  记右侧集合族为 $\mathcal J$。先证 $\mathcal J$ 为拓扑并使每个 $i_\alpha$ 连续：对任意 $\Omega=\bigsqcup_\alpha U_\alpha\in\mathcal J$，有 $i_\alpha^{-1}(\Omega)=U_\alpha\in\mathcal T_\alpha$，故 $i_\alpha$ 连续。显然 $\mathcal J$ 对任意并封闭；且
+  \[
+   \Big(\bigsqcup_\alpha U_\alpha\Big)\cap\Big(\bigsqcup_\alpha V_\alpha\Big)=\bigsqcup_\alpha (U_\alpha\cap V_\alpha)\in\mathcal J,
+  \]
+  故 $\mathcal J$ 为拓扑。
+  
+  因 $\mathcal T_{\coprod}$ 是使所有 $i_\alpha$ 连续的最大拓扑，得 $\mathcal J\subseteq\mathcal T_{\coprod}$。
+  
+  反之，任取 $\Omega\in\mathcal T_{\coprod}$，则 $i_\alpha^{-1}(\Omega)=\Omega\cap X_\alpha\in\mathcal T_\alpha$。令 $U_\alpha=\Omega\cap X_\alpha$，则
+  \[
+   \Omega=\bigsqcup_{\alpha\in\Lambda}(\Omega\cap X_\alpha)=\bigsqcup_{\alpha\in\Lambda} U_\alpha\in\mathcal J.
+  \]
+  故 $\mathcal T_{\coprod}\subseteq\mathcal J$，两者相等。
+ \end{proof}
+
+  \end{document}
