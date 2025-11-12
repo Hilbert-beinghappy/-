@@ -21,3 +21,5 @@
 \contentsline {section}{\numberline {8.2}Lindelöff 空间与正规性}{21}{section.8.2}%
 \contentsline {section}{\numberline {8.3}第二可数空间}{22}{section.8.3}%
 \contentsline {section}{\numberline {8.4}可度量空间}{23}{section.8.4}%
+\contentsline {chapter}{\numberline {9}乘积与和}{28}{chapter.9}%
+\contentsline {section}{\numberline {9.1}乘积拓扑与其子基}{28}{section.9.1}%

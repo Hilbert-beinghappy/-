@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  11 NOV 2025 21:03
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.29)  12 NOV 2025 13:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -2031,14 +2031,26 @@ Chapter 8.
 [26]
 
 [27]
+Chapter 9.
 
-[28]
+
+[28
+
+]
 
 [29]
 
 [30]
 
-[31] (./elegantbook-cn.aux)
+[31]
+
+[32]
+
+[33]
+
+[34]
+
+[35] (./elegantbook-cn.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2022/08/05>
@@ -2051,18 +2063,18 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `elegantbook-cn.out' has not changed.
-(rerunfilecheck)             Checksum: F680AEF0BC8580A6635C35B1A90CD35C;2792.
+(rerunfilecheck)             Checksum: 2A44A209B3978047568C22517B842778;3021.
 Package logreq Info: Writing requests to 'elegantbook-cn.run.xml'.
 \openout1 = `elegantbook-cn.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 48452 strings out of 473832
- 1025407 string characters out of 5729481
- 2017327 words of memory out of 5000000
- 70678 multiletter control sequences out of 15000+600000
+ 48513 strings out of 473832
+ 1027447 string characters out of 5729481
+ 2017177 words of memory out of 5000000
+ 70739 multiletter control sequences out of 15000+600000
  610310 words of font info for 184 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  103i,13n,136p,699b,1344s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on elegantbook-cn.pdf (33 pages).
+Output written on elegantbook-cn.pdf (37 pages).

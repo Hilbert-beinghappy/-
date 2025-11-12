@@ -1480,6 +1480,9 @@ U_n^* \cap V_m^* = \left(U_n \setminus \bigcup_{k=1}^{n} \overline{V_k}\right) \
   则称 $(x_{\theta(\beta)})_{\beta\in\Gamma}$ 为 $(x_\alpha)_{\alpha\in\Lambda}$ 的子网。等价地，可记为 $x\circ\theta: \Gamma\to X$。
   \end{definition}
   
+ \chapter{乘积与和}
+ \section{乘积拓扑与其子基}
+ 
  \begin{proposition}[乘积拓扑的刻画]\label{prop:product-topology-initial}
   设 $\{X_\alpha\}_{\alpha\in\Lambda}$ 为拓扑空间族。记
   \[
@@ -1686,7 +1689,7 @@ U_n^* \cap V_m^* = \left(U_n \setminus \bigcup_{k=1}^{n} \overline{V_k}\right) \
   满足 $p_\alpha\circ f=f_\alpha$。且 $f$ 连续当且仅当每个 $f_\alpha$ 连续。
  \end{proposition}
  \begin{proof}
-  唯一性由坐标确定性：若 $g$ 亦满足 $p_\alpha\circ g=f_\alpha$，则 $p_\alpha(g(z))=p_\alpha(f(z))$ 对所有 $\alpha$，故 $g(z)=f(z)$。
+  若 $g$ 亦满足 $p_\alpha\circ g=f_\alpha$，则 $p_\alpha(g(z))=p_\alpha(f(z))$ 对所有 $\alpha$，故 $g(z)=f(z)$。
   
   若 $f$ 连续，则 $f_\alpha=p_\alpha\circ f$ 为连续。
   
@@ -1755,4 +1758,229 @@ U_n^* \cap V_m^* = \left(U_n \setminus \bigcup_{k=1}^{n} \overline{V_k}\right) \
   故 $\mathcal T_{\coprod}\subseteq\mathcal J$，两者相等。
  \end{proof}
 
+ \begin{lemma}[嵌入引理]\label{lem:product-coordinates}
+  设 $X$ 为拓扑空间，$(Y_\alpha)_{\alpha\in\Lambda}$ 为拓扑空间族。令
+  \[
+   f:X\to \prod_{\alpha\in\Lambda} Y_\alpha,\qquad x\mapsto (f_\alpha(x))_{\alpha\in\Lambda},
+  \]
+  其中 $f_\alpha\equiv p_\alpha\circ f$。则
+  \begin{enumerate}
+    \item $f$ 连续当且仅当每个 $f_\alpha$ 连续。等价地，对任意 $x_0\in X$，$f$ 在 $x_0$ 连续当且仅当每个 $f_\alpha$ 在 $x_0$ 连续；
+    \item 若 $f$ 为单射，则族 $\{f_\alpha\}$ 分离 $X$ 的点：对任意 $x\neq y$，存在 $\alpha$ 使 $f_\alpha(x)\neq f_\alpha(y)$；
+    \item 若$\{f_\alpha\}$ 分离$X$的点和闭集，则 $f:X\to f(X)$ 为开映射。
+  \end{enumerate}
+ \end{lemma}
+ 
+ \begin{proof}
+  取任意开集 $U\subseteq X$ 与点 $x\in U$。由假设族 $\{f_\alpha\}$ 分离点与闭集，应用于闭集 $U^c$ 与点 $x$，存在指标 $\alpha$ 与 $Y_\alpha$ 中开邻域 $V_\alpha\ni f_\alpha(x)$ 使得 $f_\alpha(U^c)\subseteq V_\alpha^{\,c}$。
+  因而 $f(x)\in p_\alpha^{-1}(V_\alpha)\cap f(X)$。对任意 $x'\in X$，若 $f(x')\in p_\alpha^{-1}(V_\alpha)\cap f(X)$，则 $f_\alpha(x')\in V_\alpha$，从而 $x'\notin U^c$；于是 $x'\in U$，并且 $f(x')\in f(U)$。
+  故有
+  \[
+   p_\alpha^{-1}(V_\alpha)\cap f(X)\subseteq f(U).
+  \]
+  其中 $p_\alpha^{-1}(V_\alpha)$ 为乘积空间中的开集，故其与 $f(X)$ 的交在子空间 $f(X)$ 中开。于是 $f(U)$ 在 $f(X)$ 中对每点 $f(x)$ 含有开邻域，故 $f(U)$ 为 $f(X)$ 的开集。命题(3)得证。
+ \end{proof}
+
+ \begin{proposition}[子空间中的闭包]\label{prop:closure-in-subspace}
+  设 $A\subseteq Y\subseteq X$。则在子空间 $Y$ 中 $A$ 的闭包满足
+  \[
+   \overline{A}^{\,Y}=\overline{A}\cap Y,
+  \]
+  其中右侧闭包在 $X$ 中取。
+ \end{proposition}
+ \begin{proof}
+  “$\subseteq$”：设 $y\in\overline{A}^{\,Y}$。则对任意 $Y$ 中开邻域 $B\in\mathcal N_Y(y)$，有 $B\cap A\neq\varnothing$。取 $X$ 中开集 $U$ 使 $B=U\cap Y$，得 $U\cap A\neq\varnothing$，故 $y\in\overline{A}$，进而 $y\in\overline{A}\cap Y$。
+  “$\supseteq$”：设 $y\in\overline{A}\cap Y$。任取 $B\in\mathcal N_Y(y)$，写作 $B=U\cap Y$ 且 $U\in\mathcal T$ 开。由 $y\in\overline{A}$ 知 $U\cap A\neq\varnothing$，故 $B\cap A\neq\varnothing$，从而 $y\in\overline{A}^{\,Y}$。
+ \end{proof}
+ 
+ \begin{corollary}\label{cor:dense-in-closure}
+  对任意 $A\subseteq X$，$A$ 在 $\overline{A}$ 中稠密。等价地，
+  \[
+   \overline{A}^{\,\overline{A}}=\overline{A}\cap\overline{A}=\overline{A}.
+  \]
+ \end{corollary}
+ 
+ \begin{corollary}\label{cor:dense-in-omega}
+  若 $\Omega\subseteq X$ 且 $\Omega\subseteq\overline{A}$，则 $A$ 在 $\Omega$ 中稠密，即
+  \[
+   \overline{A}^{\,\Omega}=\overline{A}\cap\Omega=\Omega.
+  \]
+ \end{corollary}
+
+ \begin{definition}[可度量化空间]\label{def:metrizable-space-2}
+  设拓扑空间 $(X,\mathcal T)$。若存在度量 $d:X\times X\to[0,+\infty)$ 使由 $d$ 诱导的拓扑 $\mathcal T_d$ 与 $\mathcal T$ 相同，即 $\mathcal T_d=\mathcal T$，则称 $(X,\mathcal T)$ 为可度量化（metrizable）。其中
+  \[
+   \mathcal T_d \equiv \{\,U\subseteq X:\ \forall x\in U\ \exists \varepsilon>0\ \text{s.t.}\ B_d(x,\varepsilon)\subseteq U\,\}.
+  \]
+ \end{definition}
+
+ \begin{definition}[完备可度量化空间]\label{def:completely-metrizable}
+  设拓扑空间 $(X,\mathcal T)$。若存在度量 $d:X\times X\to[0,+\infty)$ 使 $\mathcal T_d=\mathcal T$ 且度量空间 $(X,d)$ 完备，则称 $(X,\mathcal T)$ 为完备可度量化（completely metrizable）。
+ \end{definition}
+  
+\begin{proposition}[同胚不变性]\label{prop:metrizable-homeo-invariance}
+  若 $X$ 与 $Y$ 同胚，则 $X$ 可完备度量化当且仅当 $Y$ 可完备度量化。
+ \end{proposition}
+ 
+ \begin{proof}
+  设 $h:X\to Y$ 为同胚。先证“$\Rightarrow$”。若 $X$ 可完备度量化，则存在完备度量 $d_X$ 使 $\mathcal T_{d_X}=\mathcal T_X$。定义
+  \[
+   d_Y(y_1,y_2)\equiv d_X\big(h^{-1}(y_1),h^{-1}(y_2)\big),\qquad y_1,y_2\in Y.
+  \]
+  则 $h:(X,d_X)\to(Y,d_Y)$ 为等距同胚，因而 $\mathcal T_{d_Y}=\mathcal T_Y$。取任意 $(Y,d_Y)$ 的 Cauchy 列 $(y_n)$，则 $(x_n)=(h^{-1}(y_n))$ 满足
+  \[
+   d_X(x_n,x_m)=d_Y(y_n,y_m)\xrightarrow[n,m\to\infty]{}0,
+  \]
+  故 $(x_n)$ 为 $(X,d_X)$ 的 Cauchy 列，完备性给出 $x_n\to x$。由 $h$ 的等距连续性，$y_n=h(x_n)\to h(x)$，从而 $(Y,d_Y)$ 完备。于是 $Y$ 可完备度量化。
+  反向“$\Leftarrow$”同理，取同胚 $h^{-1}:Y\to X$ 即得。
+ \end{proof}
+  
+ \begin{definition}[等价度量]\label{def:equivalent-metrics}
+  设 $X$ 为集合，$d_1,d_2$ 为 $X$ 上度量。称 $d_1$ 与 $d_2$ 一致等价，若恒等映射
+  \[
+   \operatorname{id}:(X,d_1)\longrightarrow (X,d_2)
+  \]
+  为一致同胚。
+ \end{definition}
+ 
+ \begin{proposition}[有界化度量与原度量等价]\label{prop:bounded-metric-equivalent}
+  设 $d$ 为 $X$ 上度量，定义
+  \[
+   d_b(x,y)\equiv \frac{d(x,y)}{1+d(x,y)}\in[0,1).
+  \]
+  则 $d_b$ 为 $X$ 上度量，且 $\mathcal T_{d_b}=\mathcal T_d$，因而 $d$ 与 $d_b$ 等价。
+ \end{proposition}
+ \begin{proof}
+  度量性：显然 $d_b(x,y)=d_b(y,x)$，且 $d_b(x,y)=0\iff d(x,y)=0\iff x=y$。对三角不等式，记 $g(t)=t/(1+t)$，则对任意 $a,b\ge0$，
+  \[
+   g(a)+g(b)-g(a+b)=\frac{ab}{(1+a)(1+b)(1+a+b)}\ge0,
+  \]
+  故 $g(a+b)\le g(a)+g(b)$。由 $d(x,z)\le d(x,y)+d(y,z)$ 与 $g$ 单调性得
+  \[
+   d_b(x,z)=g(d(x,z))\le g(d(x,y)+d(y,z))\le g(d(x,y))+g(d(y,z))=d_b(x,y)+d_b(y,z).
+  \]
+  拓扑等价：$g$ 严格增且 $g^{-1}(s)=s/(1-s)$（$0\le s<1$）。于是对任意 $0<\varepsilon<1$，
+  \[
+   B_{d_b}(x,\varepsilon)=\{y:\ d_b(x,y)<\varepsilon\}=\{y:\ d(x,y)<\tfrac{\varepsilon}{1-\varepsilon}\}=B_d\!\Big(x,\frac{\varepsilon}{1-\varepsilon}\Big),
+  \]
+  两拓扑相同。
+\end{proof}
+
+ \begin{lemma}[可数积的度量化]\label{lem:countable-product-metrizable}
+  设 $X_n$（$n\in\mathbb N$）皆为可度量化空间，则其乘积 $\prod_{n=1}^{\infty}X_n$（赋以乘积拓扑）可度量化。
+ \end{lemma}
+ \begin{proof}
+  对每个 $n$ 取与 $X_n$ 拓扑相容的度量 $d_n$。由命题 \ref{prop:bounded-metric-equivalent} 可不失一般性假设 $d_n\le1$。定义
+  \[
+   d\big((x_n),(y_n)\big)\equiv \sum_{n=1}^{\infty}\frac{1}{2^n}\,d_n(x_n,y_n).
+  \]
+  则 $d$ 为度量：对任意 $(x_n),(y_n),(z_n)$，由每个 $d_n$ 的三角不等式逐项相加得
+  \[
+   d\big((x_n),(y_n)\big)\le d\big((x_n),(z_n)\big)+d\big((z_n),(y_n)\big).
+  \]
+
+    若每个 $(X_n,d_n)$ 完备，则 $d$ 亦完备。任取 $d$-Cauchy 列 $\big((x_n^k)_n\big)_{k\in\mathbb N}$。由
+  \[
+   2^{-i}\,d_i(x_i^k,x_i^\ell)\le d\big((x_n^k)_n,(x_n^\ell)_n\big)\xrightarrow[k,\ell\to\infty]{}0,
+  \]
+  知对每个 $i$，$(x_i^k)_k$ 为 $(X_i,d_i)$ 的 Cauchy 列。由完备性，存在 $x_i\in X_i$ 使 $x_i^k\to x_i$。记 $x=(x_i)_i$。
+  
+  取任意 $\varepsilon>0$。先选 $N$ 使 $\sum_{n>N}2^{-n}<\varepsilon/2$。再为 $1\le i\le N$ 取 $\delta_i>0$，令 $\sum_{i=1}^N2^{-i}\delta_i<\varepsilon/2$。由 $x_i^k\to x_i$，对每个 $i\le N$ 存在 $K_i$ 使 $k\ge K_i$ 时 $d_i(x_i^k,x_i)<\delta_i$。令 $K=\max\{K_1,\dots,K_N\}$，则 $k\ge K$ 时
+  \[
+   d\big((x_n^k)_n,x\big)=\sum_{i=1}^{N}2^{-i}d_i(x_i^k,x_i)+\sum_{n>N}2^{-n}d_n(x_n^k,x_n)<\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon.
+  \]
+  故 $((x_n^k)_n)_k$ 于 $d$ 收敛到 $x$，$d$ 完备。
+  记 $p_i:\prod X_n\to X_i$ 为坐标投影。注意
+  \[
+   d\big((x_n),(y_n)\big)=\sum_{n=1}^{\infty}\frac{1}{2^n}d_n(x_n,y_n)\ge \frac{1}{2^i}d_i(x_i,y_i)\qquad(\forall i),
+  \]
+  故 $p_i:\big(\prod X_n,d\big)\to (X_i,d_i)$ 连续。从而
+  \[
+   \operatorname{id}:\big(\prod\nolimits_{n}X_n,d\big)\longrightarrow \big(\prod\nolimits_{n}X_n,\mathcal T_{\Pi}\big)
+  \]
+  连续（乘积拓扑由各 $p_i$ 生成）。
+  
+  取任意 $(x_n)$ 与 $\varepsilon>0$。选 $N$ 使 $\sum_{n>N}2^{-n}<\varepsilon/2$。由 $d_n\le1$ 得
+  \[
+   \sum_{n>N}\frac{1}{2^n}d_n(x_n,y_n)<\frac{\varepsilon}{2}\qquad(\forall (y_n)).
+  \]
+  为 $1\le i\le N$ 取 $\delta_i>0$，使 $\sum_{i=1}^{N}\tfrac{1}{2^i}\delta_i<\varepsilon/2$。令
+  \[
+   U\equiv B_{d_1}(x_1,\delta_1)\times\cdots\times B_{d_N}(x_N,\delta_N)\times\prod_{n>N}X_n,
+  \]
+  则 $U$ 是乘积拓扑的基本开邻域。对任意 $(y_n)\in U$，
+  \[
+   d\big((x_n),(y_n)\big)=\sum_{i=1}^{N}\frac{1}{2^i}d_i(x_i,y_i)+\sum_{n>N}\frac{1}{2^n}d_n(x_n,y_n)<\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon,
+  \]
+  故 $U\subseteq B_d\big((x_n),\varepsilon\big)$。因而
+  \[
+   \operatorname{id}:\big(\prod\nolimits_{n}X_n,\mathcal T_{\Pi}\big)\longrightarrow \big(\prod\nolimits_{n}X_n,d\big)
+  \]
+  于 $(x_n)$ 连续，任意点同理。
+  
+  综上，$\mathcal T_d=\mathcal T_{\Pi}$，故 $\prod X_n$ 可度量化。
+  
+  
+ \end{proof}
+ 
+ \begin{theorem}[乘积中的网收敛判别]\label{thm:product-net-convergence}
+  设 $\{X_i\}_{i\in I}$ 为一族拓扑空间。令 $\big((x_i^{\alpha})_{i\in I}\big)_{\alpha}$ 为 $\prod_{i\in I}X_i$ 中的一网，且 $(x_i)_{i\in I}\in\prod_{i\in I}X_i$。则
+  \[
+   (x_i^{\alpha})_{i\in I} \longrightarrow (x_i)_{i\in I}\iff \forall i\in I,\ x_i^{\alpha}\longrightarrow x_i\text{ 于 }X_i.
+  \]
+ \end{theorem}
+ \begin{proof}
+  “$\Rightarrow$”：各坐标投影 $p_i:\prod X_i\to X_i$ 连续，故由连续映像保持极限，$p_i\big((x_i^{\alpha})_i\big)=x_i^{\alpha}\to p_i\big((x_i)_i\big)=x_i$。
+  
+  “$\Leftarrow$”：设对每个 $i\in I$ 有 $x_i^{\alpha}\to x_i$。为证 $\big((x_i^{\alpha})_i\big)$ 在乘积空间中收敛，只需验证它对乘积拓扑的任一子基开集最终落入。取任意 $i_0\in I$ 与 $x_{i_0}$ 的开邻域 $U\subset X_{i_0}$，则由 $x_{i_0}^{\alpha}\to x_{i_0}$，存在 $\beta$，使得对所有 $\alpha\succeq\beta$，$x_{i_0}^{\alpha}\in U$。这当且仅当
+  \[
+   (x_i^{\alpha})_{i\in I}\in p_{i_0}^{-1}(U)\qquad(\forall\alpha\succeq\beta),
+  \]
+  即该网最终落入子基开集 $p_{i_0}^{-1}(U)$。由子基生成开集，遂该网在乘积拓扑下收敛到 $(x_i)_i$。
+ \end{proof}
+ 
+ 
+ \begin{definition}[波兰空间]\label{def:polish-space}
+ 称拓扑空间 $X$ 为波兰空间（Polish space），若 $X$ 可分且完全可度量化，即存在完备度量 $d$ 使由 $d$ 诱导的拓扑与 $X$ 的原拓扑一致（记作 $\mathcal T_X=\mathcal T_d$）。亦即 $X$ 为可分完全可度量化空间。
+ \end{definition}
+ 
+ \begin{theorem}[Urysohn 嵌入定理的等价刻画]\label{thm:urysohn-embedding}
+  设拓扑空间 $X$，记 $I=[0,1]$ 与 $I^{\omega}=[0,1]^{\mathbb N}$。以下命题等价：
+  \begin{enumerate}
+    \item $X$ 为第二可数的 $T_3$ 空间；
+    \item $X$ 为可分度量空间；
+    \item $X$ 同胚于某个可分度量空间的子空间；
+    \item $X$ 同胚于某个波兰空间的子空间；
+    \item $X$ 可嵌入 $I^{\omega}$。
+  \end{enumerate}
+  此外，$I^{\omega}$ 为波兰空间。
+  \end{theorem}
+  \begin{proof}
+
+    1 $\Rightarrow$ 5
+    
+  第二可数 $\Rightarrow$ Lindel\"{o}f；而 $T_3+$Lindel\"{o}f $\Rightarrow T_4$（正规），故可用 Urysohn 引理。
+  取 $X$ 的可数基 $\mathcal B$。令
+  \[
+    \Lambda\equiv\{(U,V)\in\mathcal B\times\mathcal B:\ \overline{U}\subset V\}.
+  \]
+  对每个 $(U,V)\in\Lambda$，由 Urysohn 引理取连续映射
+  \[
+    f_{U,V}:X\to[0,1]\quad\text{满足}\quad f_{U,V}(\overline U)\subset\{0\},\ \ f_{U,V}(V^{c})\subset\{1\}.
+  \]
+  定义
+  \[
+    \Theta:X\longrightarrow [0,1]^{\Lambda},\qquad \Theta(x)\equiv\big(f_{U,V}(x)\big)_{(U,V)\in\Lambda}.
+  \]
+  各 $f_{U,V}$ 连续，故 $\Theta$ 连续；且 $\Lambda$ 可数，$[0,1]^{\Lambda}\cong I^{\omega}$。
+  
+  分离性质：任意 $x\in X$ 与闭集 $F\subset X$ 且 $x\notin F$，由正则性与基可选 $U,V\in\mathcal B$ 使 $x\in U$, $\overline U\subset V$ 且 $F\subset V^{c}$，于是
+  \[
+    f_{U,V}(x)=0,\qquad f_{U,V}(F)\subset\{1\}.
+  \]
+  因而 $\Theta(x)\notin \Theta(F)$，即该函数族将点与闭集分离，故 $\Theta$ 为嵌入，$X$ 与 $\Theta(X)$ 同胚，遂 $X$ 可嵌入 $I^{\omega}$。
+  
+  其余方向：$5\Rightarrow4$ 因 $I^{\omega}$ 为波兰空间；$4\Rightarrow2$ 因波兰空间为可分度量，子空间仍为可分度量；$2\Rightarrow3\Rightarrow2$ 显然；$2\Rightarrow1$ 因度量空间为 $T_3$ 且可分 $\Rightarrow$ 第二可数。
+  \end{proof}
+  
   \end{document}
