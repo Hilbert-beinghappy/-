@@ -1,0 +1,15 @@
+\contentsline {chapter}{\numberline {1}代数基础}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}代数的基本概念}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}谱理论基础}{3}{section.1.2}%
+\contentsline {section}{\numberline {1.3}幺元化}{3}{section.1.3}%
+\contentsline {section}{\numberline {1.4}谱的性质}{6}{section.1.4}%
+\contentsline {section}{\numberline {1.5}谱的例子}{7}{section.1.5}%
+\contentsline {section}{\numberline {1.6}谱与特征}{8}{section.1.6}%
+\contentsline {subsection}{\numberline {1.6.1}Banach代数}{8}{subsection.1.6.1}%
+\contentsline {section}{\numberline {1.7}多项式代数}{10}{section.1.7}%
+\contentsline {section}{\numberline {1.8}乘子代数}{11}{section.1.8}%
+\contentsline {section}{\numberline {1.9}$*$代数}{15}{section.1.9}%
+\contentsline {section}{\numberline {1.10}$*$代数幺元化}{16}{section.1.10}%
+\contentsline {section}{\numberline {1.11}$C^*$代数幺元化}{21}{section.1.11}%
+\contentsline {subsection}{\numberline {1.11.1}$A$为含幺$(e)$的$C^*$代数}{22}{subsection.1.11.1}%
+\contentsline {subsection}{\numberline {1.11.2} $A$为$C^*$代数且不含幺}{23}{subsection.1.11.2}%

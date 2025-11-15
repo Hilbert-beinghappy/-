@@ -1,0 +1,2300 @@
+\documentclass[lang=cn,a4paper,newtx,section]{elegantbook}
+
+\title{算子代数}
+
+
+\author{h and m}
+
+\date{April 9, 2022}
+
+
+\setcounter{tocdepth}{3}
+
+\logo{logo-blue.jpg}
+\cover{cover.jpg}
+
+% 本文档命令
+\usepackage{array}
+\usepackage{tikz-cd}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+
+% 修改标题页的橙色带
+% \definecolor{customcolor}{RGB}{32,178,170}
+% \colorlet{coverlinecolor}{customcolor}
+
+\begin{document}
+
+\maketitle
+\frontmatter
+
+\tableofcontents
+
+\mainmatter
+
+\chapter{代数基础}
+
+\section{代数的基本概念}
+
+\begin{definition}[F代数]
+  $F$为一个域，$A$为$F$上的线性空间，若
+  \begin{equation*}
+    A \times A \xrightarrow{m} A
+  \end{equation*}
+  为一个二元运算（结合律），则称$(A,m)$为一个$F$代数。若满足$m$为双线性且满足结合律，则称为结合代数。
+\end{definition}
+
+\begin{example}[非结合代数]
+  典型的非结合代数为矩阵代数$M_n(F)$（矩阵代数组成$F$域）。
+\end{example}
+
+\begin{example}[函数代数]
+  $\Omega$集合，$F$域，$F^\Omega$定义加法、数乘：
+  \begin{align*}
+    f, g \in F^\Omega, \quad (f+g)(x) &:= f(x) + g(x) \\
+    \lambda f(x) &:= \lambda f(x) \\
+    f \cdot g(x) &:= f(x)g(x)
+  \end{align*}
+  为$F$代数。
+\end{example}
+
+\begin{definition}[子代数]
+  若$A$为$F$代数，$B$为$A$的非空子集，若$B$对$+$、数乘、乘法封闭，则称$B$为一个子代数。
+\end{definition}
+
+\begin{proposition}
+  若$A$为$F$代数，$B$为非空子集，则
+  \begin{equation*}
+    B\text{为子代数} \Longleftrightarrow B\text{对}+\text{、数乘、乘法封闭}
+  \end{equation*}
+\end{proposition}
+
+\begin{proof}
+  $(\Rightarrow)$ 显然。
+  
+  $(\Leftarrow)$ 若$B$乘法双线性还存在，只需验证$B$继承了$A$的双线性性质。对任意$x, y, z \in B$和$\lambda \in F$，由于$B$对加法和数乘封闭，有
+  \begin{align*}
+    (x+y)z &= xz + yz \in B \\
+    x(y+z) &= xy + xz \in B \\
+    (\lambda x)y &= \lambda(xy) \in B \\
+    x(\lambda y) &= \lambda(xy) \in B
+  \end{align*}
+  这些性质从$A$继承而来，因此$B$为子代数。
+\end{proof}
+
+\begin{example}
+  $\ell^\infty(\Omega)$为$\mathbb{C}^\Omega$的子代数。（$\ell^\infty(N)$为全体有界序列）
+\end{example}
+
+\begin{definition}[理想]
+  $A$为一个$F$代数，$I$为$A$的非空子集，满足：
+  \begin{enumerate}
+    \item $I$为$A$的线性子空间；
+    \item $\forall x \in A$，有$xI = \{xy : y \in I\} \subset I$（左吸收性）；
+    \item $Ix = \{yx : y \in I\} \subset I$（右吸收性）。
+  \end{enumerate}
+  则称$I$为$A$的一个理想，并称$A$为吸收理想，则称为理想代数。
+\end{definition}
+
+\begin{remark}
+  一个代数，只有零理想，则称为单代数。例如$M_n(F)$为单代数。
+\end{remark}
+
+\begin{definition}[含幺代数]
+  若$A$为代数，且存在幺元（单位元$1$），则称$A$为一个含幺代数。
+\end{definition}
+
+\begin{definition}[保幺同态]
+  若$A \xrightarrow{f} B$同态，$A$、$B$含幺，称$f$为保幺同态若$f(1_A) = 1_B$。
+\end{definition}
+
+\begin{proposition}
+  $A \xrightarrow{f} B$为代数同态，则$\ker f$为$A$的理想。
+\end{proposition}
+
+\begin{proof}
+  对任意$x \in A$，$y \in \ker f$，有
+  \begin{equation*}
+    f(xy) = f(x) \cdot f(y) = f(x) \cdot 0 = 0
+  \end{equation*}
+  因此$xy \in \ker f$。类似地，
+  \begin{equation*}
+    f(yx) = f(y) \cdot f(x) = 0 \cdot f(x) = 0
+  \end{equation*}
+  故$yx \in \ker f$。因此$\ker f$对左右乘法都封闭，即为理想。
+  
+  此外，由于$f$是线性映射，$\ker f$显然是$A$的线性子空间。综上，$\ker f$为$A$的理想。
+\end{proof}
+
+\begin{definition}[商代数]
+  $A$为一个$F$代数，$I$为$A$的理想，则$A/I$为商空间。在$A/I$中定义乘法：
+  \begin{equation*}
+    \forall [x], [y] \in A/I, \quad [x] \cdot [y] = [xy]
+  \end{equation*}
+\end{definition}
+
+\begin{proof}
+  下证良定义：设$[x] = [x']$，$[y] = [y']$，则需证$[xy] = [x'y']$，即$[xy - x'y'] = 0$。
+  
+  考虑
+  \begin{align*}
+    xy - x'y' &= xy - xy' + xy' - x'y' \\
+    &= x(y - y') + (x - x')y'
+  \end{align*}
+  
+  由于$y - y' \in I$且$x - x' \in I$，而$I$为理想，因此
+  \begin{equation*}
+    x(y - y') \in I, \quad (x - x')y' \in I
+  \end{equation*}
+  
+  故$xy - x'y' \in I$，即$[xy - x'y'] = 0$。因此乘法定义良定。
+\end{proof}
+
+\begin{theorem}[同态基本定理]
+  已知$A \xrightarrow{f} B$为代数同态，则存在唯一的单同态$\tilde{f}: A/\ker f \to B$使得下图交换：
+  \begin{equation*}
+    \begin{tikzcd}
+      A \arrow[r, "f"] \arrow[d, "\pi"'] & B \\
+      A/\ker f \arrow[ur, "\exists! \tilde{f}"', dashed]
+    \end{tikzcd}
+  \end{equation*}
+  其中$\pi: A \to A/\ker f$为自然投射，$\tilde{f}([x]) = f(x)$，且$\tilde{f}$为单同态。
+\end{theorem}
+
+\begin{proof}
+  定义$\tilde{f}([x]) = f(x)$。首先验证良定义性：若$[x] = [y]$，则$x - y \in \ker f$，故$f(x - y) = 0$，即$f(x) = f(y)$。
+  
+  下证$\tilde{f}$保乘法：
+  \begin{align*}
+    \tilde{f}([x][y]) &= \tilde{f}([xy]) = f(xy) \\
+    &= f(x)f(y) = \tilde{f}([x])\tilde{f}([y])
+  \end{align*}
+  
+  下证$\tilde{f}$为单射：若$\tilde{f}([x]) = 0$，则$f(x) = 0$，即$x \in \ker f$，故$[x] = 0$。因此$\ker \tilde{f} = \{0\}$，$\tilde{f}$为单射。
+  
+  显然$\tilde{f} \circ \pi = f$，且由于$\pi$为满射，$\tilde{f}$由$f$唯一确定。
+\end{proof}
+
+\section{谱理论基础}
+
+\begin{definition}[谱]
+  $A$为含幺$F$代数，$a \in A$。定义
+  \begin{equation*}
+    \sigma(a) = \{\lambda \in F : \lambda 1_A - a \text{ 不可逆}\} \subset F
+  \end{equation*}
+  称$\sigma(a)$为$a$在$A$中的谱（允许$F$）。
+\end{definition}
+
+\begin{proposition}
+  $A$为含幺代数，$a \in A$。则$a$可逆$\Longleftrightarrow 0 \notin \sigma(a)$。
+\end{proposition}
+
+\begin{proof}
+  只需证$a$不可逆$\Longleftrightarrow 0 \in \sigma(a)$。
+  \begin{align*}
+    a\text{不可逆} &\Longleftrightarrow -a\text{不可逆} \\
+    &\Longleftrightarrow 0 \cdot 1_A - a\text{不可逆} \\
+    &\Longleftrightarrow 0 \in \sigma(a)
+  \end{align*}
+\end{proof}
+
+\begin{example}
+  $M_n(\mathbb{C})$为$\mathbb{C}$代数，$A \in M_n(\mathbb{C})$。则
+  \begin{equation*}
+    \sigma(A) = \{\lambda : \lambda I_n - A \text{ 不可逆}\}
+  \end{equation*}
+  为$A$的全体特征值。
+  
+  反设$\lambda$为$A$的特征值$\in \sigma(A)$。则存在$x \neq 0$使得
+  \begin{equation*}
+    Ax = \lambda \mathrm{id} \cdot x \Longrightarrow (\lambda \mathrm{id} - A)x = 0 \Longrightarrow \ker(\lambda \mathrm{id} - A) \neq 0
+  \end{equation*}
+  
+  故$\lambda \mathrm{id} - A$非单$\Longrightarrow$不可逆。
+\end{example}
+
+\begin{definition}[可除代数]
+  若$A$为含幺代数，满足每一个非零元可逆（$A \neq 0$），则称$A$为一个可除代数。
+\end{definition}
+
+\begin{proposition}
+  若$A$为一个可除$F$代数，$\forall a \in A$，$\sigma(a) \neq \emptyset$，则$A \cong F$。
+\end{proposition}
+
+\begin{proof}
+  构造映射$\theta: F \to A$，$\lambda \mapsto \lambda 1_A$。显然$\theta$为单同态，下证$\theta$为满射。
+  
+  $\forall a \in A$，由于$\sigma(a) \neq \emptyset$，$\exists \lambda \in \sigma(a)$使得$\lambda 1_A - a$在$A$中不可逆。
+  
+  由于$A$为可除代数，故$\lambda 1_A - a = 0$，即$\theta(\lambda) = a$。因此$\theta$为满射，$A \cong F$。
+\end{proof}
+
+\section{幺元化}
+
+\begin{definition}[幺元化]
+  $A$为代数，$\hat{A}$为含幺$F$代数，$\theta: A \to \hat{A}$，若
+  \begin{equation*}
+    \begin{tikzcd}
+      A \arrow[r, "\theta"] \arrow[dr, "f"'] & \hat{A} \arrow[d, "\exists! \hat{f}"', dashed] \\
+      & B
+    \end{tikzcd}
+  \end{equation*}
+  对任意含幺代数$B$及$f: A \to B$（保幺同态），使图交换，则称$(\hat{A}, \theta)$为$A$的一个幺元化。
+\end{definition}
+
+\begin{remark}[Banach代数幺元化]
+  $\hat{A} \cong A \times F$（$A \oplus F$）。
+\end{remark}
+
+\begin{proposition}
+  若$B$为含幺$F$代数，$A$为$B$的子代数，则$A + F \cdot 1$为它含$A$与$1$的最小子代数（Rmk: $k$可以不同于$F$）。
+\end{proposition}
+
+\begin{proof}
+  显然$A + F \cdot 1$为子代数。
+  
+  往取$C$为含$A$与$1$的子代数，则$C \supset A$，$C \supset 1$。
+  因此$C \supset A + F \cdot 1$。
+\end{proof}
+
+\begin{definition}[生成子代数]
+  $A$为代数，$\Omega \subset A$，$\forall b$，$\Omega \subset A$中若$b$子代数，称为由$\Omega$生成的子代数。
+\end{definition}
+
+\begin{proposition}
+  $A + \Omega$生成的子代数存在唯一性。
+\end{proposition}
+
+\begin{proof}
+  $C \triangleq \cap \{B : \Omega \subset B\text{且}B\text{为}A\text{的子代数}\}$。
+\end{proof}
+
+\begin{proposition}
+  若$A$为$B$的子代数，$1$为$B$的幺元，则
+  \begin{enumerate}
+    \item $1 \in A \Longleftrightarrow A \cap F1 = \{F0\}$
+    \item $1 \notin A \Longleftrightarrow F1 \subset A$
+  \end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+  若$\hat{A} = A + F1$且$A \cap F1 = \{0\}$（i.e. $A \oplus F1$），则$A \hookrightarrow \hat{A}$，$(\hat{A}, \iota)$为一个幺元化。
+\end{proposition}
+\begin{definition}[幺元化]
+  $A$为代数，$\hat{A}$为含幺$F$代数，若存在映射$\theta: A \to \hat{A}$，使得对任意含幺代数$B$和代数同态$f: A \to B$，存在唯一的代数同态$\hat{f}: \hat{A} \to B$满足下图交换：
+  \begin{equation*}
+    \begin{tikzcd}
+      A \arrow[r, "\theta"] \arrow[dr, "f"'] & \hat{A} \arrow[d, "\exists! \hat{f}"', dashed] \\
+      & B \text{（含幺）}
+    \end{tikzcd}
+  \end{equation*}
+  则称$(\hat{A}, \theta)$为$A$的一个幺元化。
+\end{definition}
+
+\begin{proof}
+  若$\hat{f}$存在，则$\hat{f}(a + \lambda 1) = f(a) + \lambda 1_B$，故$\hat{f}$唯一。
+  
+  下证存在。定义$\hat{f}: \hat{A} \to B$，由$\hat{A} = A \oplus F1$，
+  \begin{equation*}
+    a + \lambda 1 \longmapsto f(a) + \lambda 1_B
+  \end{equation*}
+  
+  则$\hat{f}$为代数同态，故幺元化存在且唯一。
+\end{proof}
+\begin{theorem}[幺元化存在性]
+  若$A$为$F$代数，则$A$存在幺元化。
+\end{theorem}
+
+\begin{proof}
+  定义$\hat{A} = A \oplus F$。在$\hat{A}$中定义乘法：
+  \begin{equation*}
+    (a, \lambda) \cdot (b, \mu) \triangleq (ab + \mu a + \lambda b, \lambda \mu)
+  \end{equation*}
+  
+  验证这定义了一个含幺代数结构，幺元为$(0, 1)$。
+  
+  定义$\theta: A \to \hat{A}$，$a \mapsto (a, 0)$，则$\theta$为代数单同态。
+  
+  对任意含幺代数$B$和代数同态$f: A \to B$，若存在$\hat{f}: \hat{A} \to B$使得下图交换：
+  \begin{equation*}
+    \begin{tikzcd}
+      A \arrow[r, "\theta"] \arrow[dr, "f"'] & \hat{A} \arrow[d, "\exists! \hat{f}"', dashed] \\
+      & B
+    \end{tikzcd}
+  \end{equation*}
+  
+  则$\hat{f}$存在。定义$\hat{f}: \hat{A} \to B$，
+  \begin{equation*}
+    a + \lambda 1 \mapsto f(a) + \lambda 1_B
+  \end{equation*}
+  
+  若$\hat{f}$存在，则$\hat{f}(a + \lambda 1) = f(a) + \lambda 1_B$，故$\hat{f}$唯一。
+  
+  下证存在。定义$\hat{f}: \hat{A} \to B$，由$\hat{A} = A \oplus F1$，
+  \begin{equation*}
+    a + \lambda 1 \mapsto f(a) + \lambda 1_B
+  \end{equation*}
+  
+  则$\hat{f}$为代数同态，故幺元化唯一。
+\end{proof}
+
+\begin{proposition}[幺元化唯一性]
+  若$A$有两个幺元化$(B_1, \theta_1)$及$(B_2, \theta_2)$，则$B_1 \cong B_2$，代数同构。
+\end{proposition}
+
+\begin{proof}
+  由泛性质，存在唯一的代数同态$\sigma: B_1 \to B_2$和$\tau: B_2 \to B_1$使得下图交换：
+  \begin{equation*}
+    \begin{tikzcd}
+      B_1 \arrow[rr, "\exists! \sigma", bend left=30] \arrow[loop left, "Id_{B_1}"] & & B_2 \arrow[ll, "\exists! \tau", bend left=30] \arrow[loop right, "Id_{B_2}"] \\
+      & A \arrow[ul, "\theta_1"] \arrow[ur, "\theta_2"'] &
+    \end{tikzcd}
+  \end{equation*}
+  
+  由于$(B_1, \theta_1)$和$(B_2, \theta_2)$都是幺元化，应用泛性质：
+  \begin{itemize}
+    \item 对$(B_1, \theta_1)$，存在唯一$\sigma: B_1 \to B_2$使得$\sigma \circ \theta_1 = \theta_2$
+    \item 对$(B_2, \theta_2)$，存在唯一$\tau: B_2 \to B_1$使得$\tau \circ \theta_2 = \theta_1$
+  \end{itemize}
+  
+  则$\tau \circ \sigma: B_1 \to B_1$满足$(\tau \circ \sigma) \circ \theta_1 = \theta_1$，而$Id_{B_1}$也满足此性质。由唯一性，$\tau \circ \sigma = Id_{B_1}$。
+  
+  同理，$\sigma \circ \tau = Id_{B_2}$。故$B_1 \cong B_2$。
+\end{proof}
+
+\begin{proposition}
+  若$A \xrightarrow{\theta} \hat{A} = \theta(A) \oplus F1_{\hat{A}}$，$A \xrightarrow{\sigma} B$为含幺代数同态，则$B = \sigma(A) \oplus F1_B$。
+\end{proposition}
+
+\begin{proof}
+  考虑下图：
+  \begin{equation*}
+    \begin{tikzcd}
+      A \arrow[r, "\theta"] \arrow[dr, "\sigma"'] & \hat{A} = \theta(A) \oplus F1_{\hat{A}} \arrow[d, "\exists! \tau", dashed] \\
+      & B
+    \end{tikzcd}
+  \end{equation*}
+  
+  由幺元化的泛性质，存在唯一的代数同态$\tau: \hat{A} \to B$使得$\tau \circ \theta = \sigma$。
+  
+  因此$B = \sigma(A) \oplus F1_B$。
+\end{proof}
+
+\begin{example}
+  若$\Omega$为局部紧$T_2$空间，$\Omega$非紧$\Rightarrow \hat{\Omega}$为全幺元化。
+  
+  $C_0(\Omega)$表示$\Omega \to \mathbb{C}$的全体在无穷远处趋于$0$的连续函数（$\forall \varepsilon > 0$，$\exists K \subset \Omega$紧，$\text{s.t.} \forall x \in \Omega \setminus K$，有$|f(x)| < \varepsilon$）。
+\end{example}
+
+\begin{proposition}
+  $C_0(\Omega)$为一个$\mathbb{C}$代数（不一定含幺）。
+  
+  $C(\hat{\Omega})$表示$\hat{\Omega}$上的全体连续函数（含幺代数）。
+  
+  则$C(\hat{\Omega})$为$C_0(\Omega)$的幺元化。
+  
+  定义$\theta: C_0(\Omega) \to C(\hat{\Omega})$，$f \mapsto \hat{f}$，其中
+  \begin{equation*}
+    \hat{f}(x) = \begin{cases} f(x) & x \neq \infty \\ 0 & x = \infty \end{cases}
+  \end{equation*}
+\end{proposition}
+
+\section{谱的性质}
+
+\begin{proposition}
+  若$A$为含幺代数，$a, b \in A$，则
+  \begin{equation*}
+    \sigma(ab) \cup \{0\} = \sigma(ba) \cup \{0\}
+  \end{equation*}
+\end{proposition}
+
+\begin{proof}
+  只要证：$\forall \lambda \in F$，若$\lambda \neq 0$，则$\lambda 1 - ab$可逆$\Longleftrightarrow \lambda 1 - ba$可逆。
+\end{proof}
+
+\begin{lemma}
+  若$A$为环，$a, b \in A$，则$1 - ab$可逆$\Longleftrightarrow 1 - ba$可逆。
+\end{lemma}
+
+\begin{proof}
+  显然：$\lambda - ab$可逆$\Longleftrightarrow 1 - \frac{1}{\lambda}ab$可逆。
+\end{proof}
+
+\begin{theorem}
+  若$A \hookrightarrow \hat{A}$为幺元化，$A$含幺元$e$，则有$\forall a \in A$，$\sigma_{\hat{A}}(a) \cup \{0\} = \sigma_A(a)$
+  
+\end{theorem}
+
+\begin{proof}
+  ($\subset$) $\forall \lambda \in \sigma_A(a)$。
+  
+  (1)是$\lambda = 0$，$A$是$\hat{A}$的真理想。
+  
+  
+  \textbf{Rmk}: $1$为$A$的代数理想$\Longleftrightarrow I$为$A$的环理想，因为$\lambda x = \lambda \cdot 1_{\hat{A}} \cdot x = (\lambda 1_{\hat{A}})x \in I_{\hat{A}}$。
+  
+  $A$是$\hat{A}$的真理想$\Rightarrow a \in A \Rightarrow e$在$\hat{A}$中可逆$e \Rightarrow a$在$\hat{A}$中不可逆
+  
+  $\Rightarrow -a = 0 \cdot 1 - a$在$\hat{A}$中不可逆$\Rightarrow 0 \in \sigma(a)_{\hat{A}}$
+  
+  由$\lambda \in \sigma_{\hat{A}}(a)$，得$\lambda e - a$在$A$中不可逆，要证$\lambda 1 - a$在$\hat{A}$中不可逆。
+  
+  考虑交换图：
+  \begin{equation*}
+    \begin{tikzcd}
+      A \arrow[r, "\theta", hook] \arrow[dr, "\varphi"'] & \hat{A} \arrow[d, "\exists! \psi", dashed] \\
+      & A
+    \end{tikzcd}
+  \end{equation*}
+  其中$\psi: \hat{A} \to A$，$a + \lambda 1 \longmapsto \varphi(e) + \lambda \varphi(1) = a + \lambda e$。
+  
+  验证$\psi(-a + \lambda 1) = -a + \lambda e$。$\psi$保存$\Rightarrow$保可逆性，由$\lambda e - a$不可逆，知$\lambda 1 - a$不可逆。
+  
+  ($\supset$) 下证$\sigma_A(a) \subset \sigma_{\hat{A}}(a) \cup \{0\}$。
+  
+  若$0 \in \sigma_{\hat{A}}(a) \Rightarrow 0 \in$右边。
+  
+  若$\lambda \neq 0$，由$\lambda \in \sigma_{\hat{A}}(a)$，$\lambda 1 - a$在$\hat{A}$中不可逆。
+  
+  要证$\lambda \in \sigma_A(a)$，即$\lambda e - a$在$A$中不可逆。
+  
+  反证：若$\lambda e - a$在$A$中可逆，设$b \in A$使得$(\lambda e - a)b = b(\lambda e - a)$。
+  
+  要证$\lambda 1 - a$在$\hat{A}$中有逆元$b + \frac{1}{\lambda}(1 - e)$：
+  \begin{equation*}
+    (\lambda 1 - a)\left(b + \frac{1}{\lambda}(1 - e)\right) = (\lambda 1 - a)b + (\lambda 1 - a)\frac{1}{\lambda}(1 - e) = e + 1 - e - 0 = 1
+  \end{equation*}
+  
+  \begin{equation*}
+    \begin{tikzcd}
+      \hat{A} \arrow[r, "\varphi"] & A \\
+      \lambda 1 + a \arrow[r, mapsto] & \lambda e + a
+    \end{tikzcd}
+  \end{equation*}
+  其中$\ker \varphi = F(1 - e)$。
+  
+  若存在$c$使得$(\lambda e - a)\varphi(c) = e = \varphi(c)(\lambda e - a)$，考虑映射：
+  \begin{equation*}
+    \begin{tikzcd}
+      \hat{A} \arrow[r, "\varphi"] & I_0 \\
+      x + \lambda 1 \arrow[r, mapsto] & x + \lambda e \\
+      \lambda 1 - a \arrow[r, mapsto] & \lambda e - a \\
+      c \arrow[r, mapsto] & \varphi(c)
+    \end{tikzcd}
+  \end{equation*}
+  
+  由$\varphi(e) = e$，$b \in A \Rightarrow b = \varphi(b)$，$\varphi(b - c) = 0 \Rightarrow b - c \in \ker\varphi$。
+  
+  $\ker\varphi = \{x + \lambda 1 : x + \lambda e = 0\} = \{x + \lambda 1 : x = -\lambda e\} = \{-\lambda e + \lambda 1, \lambda \in F\} = F(1 - e)$。
+  
+  由$b - c \in \ker\varphi$，设$c - b = \mu(1 - e)$，则$c = b + \mu(1 - e)$。
+  
+  由$(\lambda 1 - a)c = 1 = c(\lambda 1 - a) \Rightarrow \mu = \frac{1}{\lambda}$。
+\end{proof}
+
+\section{谱的例子}
+
+$\Omega$为Top sp.，$C(\Omega)$表示$\Omega$上~全体$\mathbb{C}$值连续函数。
+
+\begin{example}
+    $C(\Omega)$为$\mathbb{C}$代数
+\end{example}
+
+
+\textbf{左图（乘法连续）：}
+\begin{equation*}
+  \begin{tikzcd}
+    x \arrow[r, mapsto] \arrow[d] & \Omega \arrow[r, "f \cdot g"] \arrow[d, "g"] & \mathbb{C} \arrow[d, "\text{乘法连续}"] \\
+    (x, y) \arrow[r, mapsto] & \Omega \times \Omega \arrow[r, "f \times g"] & \mathbb{C} \times \mathbb{C}
+  \end{tikzcd}
+\end{equation*}
+其中$(x, y) \longmapsto (f(x), f(y))$
+
+\textbf{右图（标量乘法）：}
+\begin{equation*}
+  \begin{tikzcd}
+    x \arrow[r, mapsto] \arrow[d, "f"'] & \Omega \arrow[r, "\lambda f"] \arrow[d, "f"'] & \mathbb{C} \\
+    f(x) & \mathbb{C} \arrow[ur, "\ell_\lambda"'] &
+  \end{tikzcd}
+\end{equation*}
+\begin{example}
+    $C_b(\Omega)$表示$\Omega$上全体有界连续函数（Def: $f: \Omega \to \mathbb{C}$有界$\Longleftrightarrow \ell^\infty(\Omega) = C_b(\Omega)$（若$\Omega$赋离散拓扑）
+
+\end{example}
+\begin{example}
+    $f \in C(\Omega)$为谱，$\sigma(f) = f(\Omega)$。（像是谱）
+
+\end{example}
+
+\begin{proof}
+  $\sigma(f) = \{\lambda \in \mathbb{C} : \lambda 1 - f$不可逆$\} = \{\lambda \in \mathbb{C} : \exists x, \lambda - f(x) = 0\}$
+  
+  $\Omega \xrightarrow{f} \mathbb{C}$可逆$\Longleftrightarrow \forall x \in \Omega$，$f(x) \neq 0$。
+  
+  $\frac{1}{f}(x) \triangleq  \frac{1}{f_x}$。$\Omega \xrightarrow{f} \mathbb{C} \setminus \{0\}$
+  
+  \begin{equation*}
+    \begin{tikzcd}
+      \Omega \arrow[r, "f"] \arrow[dr, "\frac{1}{f}"'] & \mathbb{C} \setminus \{0\} \arrow[d] \\
+      & \mathbb{C}
+    \end{tikzcd}
+  \end{equation*}
+\end{proof}
+
+$f $在$C_b(\Omega)$中的谱，$\sigma(f) = \overline{f(\Omega)}$
+
+\begin{remark}
+  $C_b(\Omega)$中$f$可逆$\Longleftrightarrow \exists \delta > 0$，使$\forall x \in \Omega$有$|f(x)| > \delta$。
+\end{remark}
+
+\begin{proof}
+  ($\Rightarrow$) 设$f \cdot g = 1 = g \cdot f$，$\Rightarrow g = \frac{1}{f}$。
+  
+  $\forall x \in \Omega$，$|g(x)| = \frac{1}{|f|} > \frac{1}{M} > 0$
+  
+  ($\Leftarrow$) 由已知$\frac{1}{f}$存在，连续。
+  
+  $\forall x$，$\left|\frac{1}{f(x)}\right| = \frac{1}{|f(x)|} < \varepsilon$，$\frac{1}{f} \in C_b(\Omega)$
+  
+  ($\Leftarrow$) 上述等价于$d(f(\Omega), 0) > 0$
+  
+  \end{proof}
+\begin{proposition}
+    $f$不可逆$\Longleftrightarrow d(f(\Omega), 0) = 0 \Longleftrightarrow 0 \in \overline{f(\Omega)}$
+
+\end{proposition}
+\begin{proof}
+  $\lambda 1 - f$不可逆$\Longleftrightarrow 0 \in \overline{(\lambda 1 - f)(\Omega)}$
+  
+  $(\lambda 1 - f)(x) = \lambda 1 x - f(\lambda)$
+  
+  ($\Rightarrow$) $\overline{(\lambda 1 - f)(\Omega)} = \overline{\lambda - f(\Omega)} = \lambda - \overline{f(\Omega)}$
+  
+  $\Longleftrightarrow \lambda \in \overline{f(\Omega)}$
+\end{proof}
+
+\section{谱与特征}
+
+\begin{definition}[谱集]
+  $A$为$F$代数，$\Sigma A$表示$A$上所有唯一0同态$\tau$的$F$值函数集合。
+  
+  即$\Sigma A \triangleq \{\tau \in F^A : \tau$的唯一0同态$\}$，称为$A$的谱。
+  
+  （$A \xrightarrow{\tau} F$是0同态，称为$A$的一个特征）
+\end{definition}
+
+\begin{proposition}
+  若$A$为含幺代数，$\tau$为特征$\Longleftrightarrow \tau$为保幺同态。
+\end{proposition}
+
+\begin{proof}
+  ($\Leftarrow$) 保幺：$\tau(1) = 1$。
+  
+  ($\Rightarrow$) $A \xrightarrow{\tau} F$
+  
+  $1 \longmapsto \tau(1)$为$\tau(A)$中幺元，$\dim F = 1 \Rightarrow \tau$满射，$\tau(A) = F$。
+\end{proof}
+
+\subsection{Banach代数}
+
+Banach代数$A$，$a \in A$。
+
+\begin{theorem}
+  $A$为含幺交换Banach代数，$a \in A$则
+  \begin{equation*}
+    \sigma(a) = \{\tau(a) : \tau \in \Sigma A\}
+  \end{equation*}
+\end{theorem}
+
+\begin{definition}[谱性质]
+  若$F$代数$A$满足，$\forall B$为$F$代数，$A \xrightarrow{f} B$满同态，有$\forall b \in B$，$\sigma_B(b) \neq \phi$，
+  称$A$具有谱性质（易知$A \neq \{0\}$）。
+  
+  e.g. 交换含幺Banach代数具有谱性质。
+\end{definition}
+
+\begin{proposition}
+  $A$具有谱性质$\Longleftrightarrow \forall M$为$A$的极大理想，$A/M$每个元素谱非空。
+\end{proposition}
+
+\begin{proposition}
+  $A \xrightarrow{\varphi} B$保幺代数同态，$a \in A$则$\sigma_B(\varphi(a)) \subset \sigma_A(a)$。
+\end{proposition}
+
+\begin{proof}
+  $\forall \lambda \in \sigma_B(\varphi(a)) \Rightarrow \lambda 1_B - \varphi(a)$在$B$中不可逆
+  
+  $\Rightarrow \lambda 1_A - a$中不可逆$\Rightarrow \lambda \in \sigma_A(a)$
+\end{proof}
+
+\begin{proof}
+  ($\Leftarrow$) 因$A \xrightarrow{\pi} A/M$满同态$\Rightarrow A/M$每个元素谱非空。
+  
+  ($\Leftarrow$) 往取$A \xrightarrow{f} B \neq 0$，满同态，$\ker f$为$A$的真理想，故$\ker f$含于某个极大理想$M$。
+  
+  有交换图：
+  \begin{equation*}
+    \begin{tikzcd}
+      A \arrow[r, "f"] \arrow[d, "\pi"'] & B \\
+      A/M \arrow[ur, "\exists! \varphi"', dashed] &
+    \end{tikzcd}
+  \end{equation*}
+  存在唯一同态（满）$\Rightarrow$保幺。
+  
+  由已知$A/M$中每个元素谱非空$\Rightarrow B$中每个元素谱非空。
+\end{proof}
+
+\begin{theorem}
+  若$A$为交换含幺代数且具有谱性质，则
+  \begin{equation*}
+    \forall a \in A, \quad \sigma(a) = \{\tau(a) : \tau \in \Sigma A\}
+  \end{equation*}
+\end{theorem}
+
+\begin{proof}
+  ($\supset$) $\forall \tau \in \Sigma A$，须证$\tau(a) \in \sigma(a)$。
+  
+  i.e. $\tau(a)1 - a$在$A$中不可逆。
+  
+  $A \xrightarrow{\tau} F$保幺：
+  
+  $\tau(a)1 - a \longmapsto \tau(a) - \tau(a) = 0$，不可逆$\Rightarrow \tau(a)1 - a$在$A$中不可逆。
+  
+  ($\subset$) $\forall \lambda \in \sigma(a)$，要证$\lambda$形如某个$\tau(a)$。
+  
+  由已知$\lambda 1 - a$在$A$中不可逆。
+\end{proof}
+
+\begin{remark}
+  若$R$为交换幺环，$\lambda$为不可逆元，则$\exists M$极大理想，s.t. $\lambda \in M$。
+\end{remark}
+
+\begin{proof}
+  对于$\lambda$，$R\lambda$为含幺的最小理想，由$\lambda$不可逆
+  
+  $\Rightarrow R\lambda \subsetneq R$（包含，若$R\lambda = R$，$1 \in R\lambda$，$\exists y \in R$，$y\lambda = 1$）。
+  
+  仍存在极大理想$M \supset R\lambda \ni \lambda$，因
+  
+  由$A$的交换幺环，$\exists M$为极大理想。
+  
+  考虑$A \xrightarrow{\pi} A/M$商代数。
+  
+  $A/M$为域，可除代数，由$A$有谱性质。
+  
+  $A/M$每个元素谱非空，由已证$A/M \cong F$。
+  
+  交换图：
+  \begin{equation*}
+    \begin{tikzcd}
+      A \arrow[r, "\pi"] \arrow[rr, bend right=40, "\tau = \theta \circ \pi"'] & A/M \arrow[r, "\theta"] & F
+    \end{tikzcd}
+  \end{equation*}
+  
+  $\tau(a)$满足：
+  
+  $\lambda 1 - a \longmapsto 0 \longmapsto 0$，$\tau(\lambda 1 - a) = 0$
+  
+  $\Rightarrow \tau(\lambda 1) = \tau(a) \Rightarrow \lambda = \tau(a)$
+\end{proof}
+
+\begin{proposition}
+  $\Sigma A \cup \{0\} \xrightarrow{\Theta} \Sigma \hat{A}$为双射。
+  
+  $\tau \longmapsto \hat{\tau}$
+  
+  交换图：
+  \begin{equation*}
+    \begin{tikzcd}
+      A \arrow[r] \arrow[dr, "\tau"'] & \hat{A} \arrow[d, "\exists! \hat{\tau}"] \\
+      & F
+    \end{tikzcd}
+  \end{equation*}
+\end{proposition}
+
+\begin{proof}
+  $\tau_1 \longmapsto \hat{\tau}_1$，若$\hat{\tau}_1 = \hat{\tau}_2 \Rightarrow \tau_1 = \hat{\tau}_1|_A = \hat{\tau}_2|_A = \tau_2$
+  
+  $\tau_2 \longmapsto \hat{\tau}_2 \Rightarrow$单射
+\end{proof}
+
+\begin{proposition}
+  若$A$为含幺代数，$\Omega \subset A$，则
+  \begin{equation*}
+    \langle \Omega \cup \{1\} \rangle_{al} = \Omega\text{生成的含幺的含幺代数}
+  \end{equation*}
+\end{proposition}
+
+\begin{proof}
+  记$B = \langle \Omega \cup \{1\} \rangle_{al}$，$C$为$\Omega$生成的含幺的含幺代数。
+  
+  ($\supset$) 要证$C \supset B$。
+  
+  因$C$是含$\Omega$的含幺子代数，故$1_A \in C$，从而$\Omega \cup \{1_A\} \subset C$。
+  
+  由$B = \langle \Omega \cup \{1\} \rangle_{al}$是包含$\Omega \cup \{1\}$的最小子代数，得$B \subset C$。
+  
+  ($\subset$) 要证$B \supset C$。
+  
+  由$\Omega \subset \Omega \cup \{1\} \subset B$，故$B$是包含$\Omega$的子代数。
+  
+  又$1_A \in \Omega \cup \{1\} \subset B$，故$B$是含幺子代数。
+  
+  由$C$是包含$\Omega$的最小含幺子代数，得$C \subset B$。
+  
+  综上，$B = C$。
+\end{proof}
+
+\begin{proposition}
+  若$A$为含幺代数（不一定交换）
+  \begin{equation*}
+    \Omega \subset A \Rightarrow \langle \Omega \rangle = A \cdot \Omega \cdot A = \left\{\sum a_i \cdot x_i \cdot b_i, \quad \substack{a_i \in A \\ x_i \in \Omega \\ b_i \in A}\right\}
+  \end{equation*}
+\end{proposition}
+
+\begin{proposition}
+  $A$为代数，$\Omega \subset A$，若$\forall x, y \in \Omega$，$xy = yx$，则$\langle \Omega \rangle_{al}$为交换子代数（$\Omega$称为交换子集）
+\end{proposition}
+
+\begin{definition}[对换]
+  $A$为代数，$\Omega \subset A$，$\Omega \neq \emptyset$（结合）
+  \begin{equation*}
+    \Omega' \triangleq \{a \in A : \forall x \in \Omega, ax = xa\}
+  \end{equation*}
+\end{definition}
+
+\begin{proposition}
+  $\Omega'$为子代数，$\forall a, b \in \Omega'$，$(a+b) \in \Omega'$，$ab \in \Omega'$，$\lambda a \in \Omega'$
+\end{proposition}
+
+\begin{proof}
+  $\langle \Omega \rangle_{al}$交换$\Longleftrightarrow \langle \Omega \rangle_{al} \subset \langle \Omega \rangle_{al}'$
+  
+  $\Longleftrightarrow \Omega \subset \langle \Omega \rangle_{al}' \Longleftrightarrow \langle \Omega \rangle_{al} \subset \Omega'$
+  
+  $\Longleftrightarrow \Omega \subset \Omega' \Longleftrightarrow \Omega$交换
+\end{proof}
+
+\section{多项式代数}
+
+\begin{definition}
+  $F[x]$表示以$x$为变元的多项式代数。
+\end{definition}
+
+\begin{proposition}
+  若$A$为含幺$\sim F$代数，$a \in A$，则存在唯一同态$\hat{a}$：
+  \begin{equation*}
+    \begin{aligned}
+      F[x] &\xrightarrow{\hat{a}} A \quad f_{a \in t}, \quad \hat{a}(f) = f(a) \\
+      x &\longmapsto a
+    \end{aligned}
+  \end{equation*}
+\end{proposition}
+
+\begin{theorem}[谱映射定理]
+  若$A$为含幺$F$代数，$F$代数同态，$a \in A$，$f \in F[x]$，则
+  \begin{equation*}
+    \sigma(f(a)) = f(\sigma(a))
+  \end{equation*}
+  其中$f(\sigma(a)) \triangleq \{f(\lambda) : \lambda \in \sigma(a)\}$。
+\end{theorem}
+
+\begin{remark}
+  若$S$为幺半群，$x, y \in S$，且$xy = yx$，则$xy$可逆$\Longleftrightarrow x$与$y$可逆。
+\end{remark}
+
+\begin{proof}
+  ($\Leftarrow$) 显然
+  
+  ($\Rightarrow$) $xy \cdot a := e = a \cdot xy = a \cdot yx$，$x$有右逆，$x$有左逆$\Rightarrow x$可逆。
+\end{proof}
+
+\begin{proof}
+  ($\subset$) $\forall \lambda \in \sigma(f(a)) \Rightarrow \lambda 1 - f(a)$不可逆。
+  
+  $\Rightarrow (\lambda - f) \cdot a$，设$(\lambda - f) = c(x - \lambda_1) \cdots (x - \lambda_n)$，$c \neq 2$
+  
+  $(\lambda - f) \cdot a = c(a - \lambda_1 1) \cdots (a - \lambda_n 1)$
+  
+  不可逆$\Rightarrow \exists \lambda_i$，s.t. $a - \lambda_i 1$不可逆。
+  
+  $\Rightarrow \lambda_i \in \sigma(a)$
+  
+  而$(\lambda - f)(\lambda_i) = \lambda - f(\lambda_i)$
+  
+  $= 0 \Rightarrow \lambda = f(\lambda_i) \Rightarrow \lambda \in f(\sigma(a))$
+  
+  ($\supset$) $\forall \lambda \in f(\sigma(a))$，要证$\lambda \in \sigma(f(a))$
+  
+  i.e. $\lambda 1 - f(a)$不可逆。
+\end{proof}
+
+\section{乘子代数}
+
+$(A^{op}, +, \cdot,$ 数乘$)$，$A^{op} \triangleq A$，加法、数乘不变
+  
+$x \cdot y \triangleq yx$（反乘法）易知$A^{op}$为代数
+
+
+$A, B$为$F$代数，直和代数$A \oplus B$，乘法
+\begin{equation*}
+  (a, b) \cdot (a', b') \triangleq (aa', bb')
+\end{equation*}
+满足结合律、分配律
+
+\begin{definition}
+  $\operatorname{End}_F(A) \oplus \operatorname{End}_F(A)^{op}$为一个$F$代数
+  \begin{align*}
+    A &\xrightarrow{\ell} \operatorname{End}(A) & A &\xrightarrow{r} \operatorname{End}(A)^{op} \quad \text{同态}\\
+    a &\longmapsto \ell_a & a &\longmapsto r_a
+  \end{align*}
+\end{definition}
+
+$A \xrightarrow{\varphi} C$同态，$A \xrightarrow{\psi} D$同态，定义$A \xrightarrow{(\varphi, \psi)} C \oplus D$为同态
+\begin{align*}
+  x &\longmapsto (\varphi(x), \psi(x)) \\
+  x + y &\longmapsto (\varphi(x) + \varphi(y), \psi(x) + \psi(y)) \\
+  xy &\longmapsto (\varphi(x) \cdot \varphi(y), \psi(x) \cdot \psi(y)) \\
+  1 &\longmapsto (1_C, 1_D) \text{ 若保幺}
+\end{align*}
+
+\begin{definition}
+   \begin{equation*}
+    \begin{aligned}
+      A &\xrightarrow{\Theta} \operatorname{End}_F(A) \oplus \operatorname{End}_F(A)^{op} \text{为代数同态}\\
+      a &\longmapsto (\ell_a, r_a)
+    \end{aligned}
+  \end{equation*}
+\end{definition}
+
+\begin{proposition}
+  $\forall a \in A$，有以下性质
+  \begin{enumerate}
+    \item $\ell_a(x)y = \ell_a(xy)$
+    \item $x r_a(y) = r_a(xy)$
+    \item $x \ell_a(y) = x ay = r_a(x) y$
+  \end{enumerate}
+\end{proposition}
+
+\begin{definition}
+  $\forall (L, R) \in \operatorname{End}_F(A) \oplus \operatorname{End}_F(A)^{op}$
+  
+  称$(L, R)$为$A$上的一个乘子，若满足，$\forall x, y \in A$，有
+  \begin{enumerate}
+    \item $L(x)y = L(xy)$
+    \item $x R(y) = R(xy)$
+    \item $x L(y) = R(x)y$
+  \end{enumerate}
+  
+  $A$上全体乘子记为$M(A)$。
+\end{definition}
+
+\begin{proposition}
+  $M(A)$为$\operatorname{End}_F(A) \oplus \operatorname{End}_F(A)^{op}$的含幺子代数，幺元为$(id_A, id_A)$
+\end{proposition}
+
+\begin{proof}
+  $(L, R), (L', R') \in M(A)$
+  
+  $(L, R) + (L', R') \in M(A)$？
+  
+  $\forall x, y \in A$，$\circled{1}$ $(L + L')(x)y = (L(x) + L'(x))y = L(x)y + L'(x)y$
+  
+  $= L(xy) + L'(xy) = (L + L')(xy)$
+  
+  同理$R + R'$满足$\circled{2}$
+  
+  $x(L + L')(y) = x(L(y) + L'(y)) = xL(y) + xL'(y) = R(x)y + R'(x)y$
+  
+  $= (R + R')(x)y$ $\circled{3}$
+  
+  数乘易证。
+  
+  $(L, R) \cdot (L', R') = (L \circ L', R \circ R') \in M(A)$
+  
+  $(L \circ L')(x)y = L(L'(x))y = L(L'(x)y) = L(L'(xy))$
+  
+  $= (L \circ L')(xy)$ $\circled{1}$
+  
+  $x(L \circ L')(y) = xL(L'(y)) = R(x)L'(y) = R'(R(x))y$
+  
+  $= (R' \circ R)(x)y$ $\circled{3}$
+  
+  $x(R' \circ R)(y) = xR'(R(y)) = R'(xR(y))$
+  
+  $= R'(R(xy)) = R' \circ R(xy)$
+\end{proof}
+
+\begin{definition}[典范同态]
+  \begin{equation*}
+    \begin{aligned}
+      A &\xrightarrow{\Theta} M(A) \\
+      a &\longmapsto (\ell_a, r_a)
+    \end{aligned}
+  \end{equation*}
+  
+  $M(A)$称为$A$的乘子代数
+\end{definition}
+
+\begin{proposition}
+  $A \xrightarrow{\Theta} M(A)$典范同态，则$\Theta(A) \triangleleft M(A)$理想。
+\end{proposition}
+
+\begin{proof}
+  $\Theta(A)$线性$op$，下证、吸收率。
+  
+  $\forall a \in A$，$(\ell_a, r_a) \in \Theta(A)$，$\forall (L, R) \in M(A)$，要证
+  
+  $(L, R)(\ell_a, r_a)$及$(\ell_a, r_a)(L, R)$都在$\Theta(A)$中。
+  
+  $(L \ell_a, R r_a)$=$(\ell_b, r_b)$，$(l_a L, R r_a)$=$(\ell_c, r_c)$
+  
+  若$A$含幺1代入上式，$L\ell_a(1) =L(a)= \ell_b(1) = b$
+  
+  $R r_a(1) = R(a)= r_c(1) = c$
+  
+  $\Rightarrow$下证$(L \ell_a, r_a R) = (\ell_{L(a)}, r_{L(a)})$
+  
+  及$(l_a L, R r_a) = (\ell_{R(a)}, r_{R(a)})$
+  
+  $\forall x \in A$，有$(L \ell_a)(x) = L(ax) = L(a) x = \ell_{L(a)}(x)$
+  
+  $(r_a R)(x) = R(xa) = x R(a) = r_{L(a)}(x)$
+  
+  $(l_a L)(x) = a L(x) = R(a)x = \ell_{R(a)}(x)$
+  
+  $(R r_a)(x) = R(xa) = x R(a) = r_{R(a)}(x)$
+\end{proof}
+
+\begin{proposition}
+  $A$含幺 $\Leftrightarrow$ $A \xrightarrow{\theta} M(A)$同构
+\end{proposition}
+
+\begin{proof}
+  ($\Leftarrow$) 显然。
+  
+  ($\Rightarrow$) $A \xrightarrow{\theta} M(A)$单射。
+  
+  若$a \longmapsto (0, 0)$，则$\ell_a = 0$，$r_a = 0$$\Rightarrow \ell_a(1) = 0 \Rightarrow a = 0$
+  
+  $\ker \theta = \{0\} \Rightarrow \theta$单射
+  
+  $\theta(A)$是理想，含幺，$\Rightarrow \theta(A) = M(A)$
+  
+  故$\theta$为同构。
+\end{proof}
+
+\begin{theorem}
+  任取含幺$F$代数$B$，若$A$是$B$的理想，则$\exists B \xrightarrow{\tau} M(A)$保幺同态，s.t. $\tau|_A = \theta$。
+  
+  \begin{equation*}
+    \begin{tikzcd}
+      A \arrow[r, hook] \arrow[dr, "\theta"'] & B \arrow[d, "\tau"] \\
+      & M(A)
+    \end{tikzcd}
+  \end{equation*}
+\end{theorem}
+
+\begin{proof}
+  定义
+  \begin{equation*}
+    \begin{aligned}
+      B &\xrightarrow{\tau} M(A) \\
+      b &\longmapsto (L_b, R_b)
+    \end{aligned}
+  \end{equation*}
+  其中
+  \begin{equation*}
+    \begin{aligned}
+      A &\xrightarrow{L_b} A, & A &\xrightarrow{R_b} A \\
+      x &\longmapsto bx, & x &\longmapsto xb
+    \end{aligned}
+  \end{equation*}
+  
+  易知$L_b, R_b \in \operatorname{End}_F(A)$且$(L_b, R_b)$为乘子。
+  
+  e.g. $M(C(X)) = C(X)$\quad
+    $M(K(H)) = B(H)$
+\end{proof}
+
+\begin{definition}
+  称代数（或环）$A$非退化，若满足$\operatorname{ann}(A) = \{0\}$
+\end{definition}
+
+\begin{definition}
+  $\Omega \subset A$，$\operatorname{ann}(\Omega) := \{a \in A : a\Omega = \{0\} = \Omega a\}$
+  
+  i.e. $\forall x \in A$，若$xA = Ax = 0 \Rightarrow x = 0$（含$1$必不退化，$a1 = a = 0$）
+\end{definition}
+
+\begin{proposition}
+  若$A$非退化，则$A \xrightarrow{\theta} M(A)$为单射。
+\end{proposition}
+
+\begin{proof}
+  $A \xrightarrow{\theta} M(A)$
+  
+  若$a \longmapsto (\ell_a, r_a) = (0, 0)$，$\ell_a = 0$，$r_a = 0$
+  
+  $\Rightarrow aA = Aa = 0 \Rightarrow a = 0$
+  
+  反之若$\theta$单，则$A$非退化。
+  
+  设$aA = Aa = 0 \Rightarrow \ell_a = r_a = 0 \Rightarrow (\ell_a, r_a) = (0, 0) = \theta(a)$
+  
+  $\theta$单$\Rightarrow a = 0$
+\end{proof}
+
+\begin{definition}
+  $A$为代数，$I$为$A$的理想，称$I$为本性理想
+  
+  若满足：$\operatorname{ann}(I) = \{0\}$
+  
+  i.e. $\forall a \in A$，若$aI = \{0\} = Ia$则$a = 0$
+\end{definition}
+
+\begin{remark}
+  $\circledast$ $I \triangleleft R$，$\forall J \in R$，若$I \cap J = 0$则$J = 0$（$I$很大）（不等价）
+\end{remark}
+
+\begin{proposition}
+  若$A$非退化，则$\theta(A)$为$M(A)$的本性理想。
+\end{proposition}
+
+\begin{proof}
+  已证$\theta(A) \triangleleft M(A)$。下设$\forall (L, R) \in M(A)$且$\forall a \in A$有：
+  
+  $(L, R)(\ell_a, r_a) = (0, 0)$且$(\ell_a, r_a)(L, R) = (0, 0)$则可$(L, R) = (0, 0)$
+  
+  条件($\Leftrightarrow$) $\forall a \in A$，$\forall x \in A$，$(L \ell_a)(x) = 0$
+  
+  $(r_a R)(x) = 0$，$(R r_a)(x) = 0$，$(\ell_a L)(x) = 0$
+  
+  $\Rightarrow \forall a \in A$，$\forall x \in A$，$L(ax) = 0 \Rightarrow L(a) \cdot x = 0$
+  
+  $aL(x) = 0 \Rightarrow xL(a) = 0$
+  
+  $\Rightarrow L(c)A = AL(c) = 0 \Rightarrow \forall c$，$L(c) = 0 \Rightarrow L = 0$
+  
+  $R(x)a = 0$（$\Leftrightarrow$），$R(a)x = 0$，$R(xa) = xR(a) = 0$
+  
+  $\Rightarrow R(c)A = AR(c) = 0 \Rightarrow \forall a$，$R(a) = 0 \Rightarrow R = 0$
+\end{proof}
+
+\begin{theorem}
+  已知$A$非退化。
+  
+  \begin{equation*}
+    \begin{tikzcd}
+      A \arrow[r, hook] \arrow[dr, "\theta"'] & B \arrow[d, "\exists! \tau"] \\
+      & M(A)
+    \end{tikzcd}
+  \end{equation*}
+  
+  任取$B$含幺代数，存在唯一的保幺同态$\tau$，使图交换。
+\end{theorem}
+
+\begin{proof}
+  若$\tau_1, \tau_2$都满足条件，则要证$\forall b \in B$。
+  
+  有$\tau_1(b) = \tau_2(b)$，在$M(A)$中。$A$非退化，知。
+  
+  $\theta(A)$本性。从而只要证$\forall a \in A$，有。
+  
+  $\tau_1(b)\theta(a) = \tau_2(b)\theta(a)$
+  
+  $\theta(a)\tau_1(b) = \theta(a)\tau_2(b)$
+  
+  $\tau_1(b)\theta(a) = \tau_1(b)\tau_1(a) = \tau_1(ba) = \theta(ba)$
+  
+  $\tau_2(b)\theta(a) = \tau_2(b)\tau_2(a) = \tau_2(ba) = \theta(ba)$
+  
+  同理$\theta(a)\tau_1(b) = \theta(a)\tau_2(b) = \theta(ab)$
+  
+  进而。$A$在$B$中本性 $\Leftrightarrow$ $\tau$单。
+  
+  \begin{equation*}
+    \begin{tikzcd}
+      A \arrow[r, "\text{本性}"] \arrow[dr, "\theta"'] & B \arrow[d, "\exists! \tau"] \\
+      & M(A)
+    \end{tikzcd}
+  \end{equation*}
+  
+  $M(A)$为以$A$为本性理想的最大含幺代数。
+\end{proof}
+
+\section{$*$代数}
+
+\begin{definition}
+  若$A$为一个$\mathbb{C}$代数
+  
+  \begin{equation*}
+    \begin{aligned}
+      A &\xrightarrow{*} A \quad \text{映射满是以下性质} \\
+      x &\longmapsto *(x) \triangleq x^*
+    \end{aligned}
+  \end{equation*}
+  
+  \begin{enumerate}
+    \item $\forall x \in A$有$x^{**} = x$（$x$为时全）
+    \item $*$为共轭线性。i.e. $\forall x, y \in A$，有$(x+y)^* = x^* + y^*$，$\forall \lambda \in \mathbb{C}$，$(\lambda x)^* = \bar{\lambda}x^*$
+    \item $*$为反同态。i.e. $\forall x, y \in A$，有$(xy)^* = y^*x^*$
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}
+  若$A$为复代数，$*$为$A$上的一个星运算
+  
+  称$(A, *)$为一个$*$代数。
+\end{definition}
+
+\begin{definition}
+  $A, B$为$*$代数，$A \xrightarrow{f} B$映射。
+  
+  称$f$为一个$*$同态，若$f$为一个代数同态，且$\forall x \in A$，有$f(x^*) = f(x)^*$
+\end{definition}
+
+\begin{definition}
+  $A$为一个$*$代数，$I \triangleleft A$。若满足、$\forall x \in I$，有$x^* \in I$。
+  
+  称$I$为一个$*$理想，（$I^* = I$）
+\end{definition}
+
+\begin{proposition}
+  若$A \xrightarrow{f} B$为$*$同态。则$\ker f$为$A$的$*$理想。
+\end{proposition}
+
+\begin{proof}
+  已设$\ker f$理想。$\forall x \in \ker f$，$f(x) = f(x) = 0 \Rightarrow x^* \in \ker f$。
+\end{proof}
+
+\begin{proposition}
+  若$I$为$A$的$*$理想。则$A/I$上可良定义$*$运算
+  
+  $\forall x \in A$，$[x]^* = [x^*]$并且$(A/I, *)$为$*$代数
+\end{proposition}
+
+\begin{proof}
+  若$[x] = [y]$，$\Rightarrow x - y \in I$，$\Rightarrow (x - y)^* \in I \Rightarrow [x^*] = [y^*]$
+  
+  下证
+  \begin{equation*}
+    \begin{aligned}
+      A/I &\xrightarrow{*} A/I \text{ 是一个$*$运算} \\
+      [x] &\longmapsto [x]^*
+    \end{aligned}
+  \end{equation*}
+  
+  \begin{enumerate}
+    \item $[x]^{**} = [x^*]^* = [x^{**}] = [x]$
+    \item $([x] + [y])^* = [x + y]^* = [(x + y)^*] = [x^* + y^*] = [x]^* + [y]^*$
+    \item $([x][y])^* = [xy]^* = [(xy)^*] = [y^*x^*] = [y]^*[x]^*$
+  \end{enumerate}
+  
+  $I$为$A$的$*$理想，
+  \begin{equation*}
+    \begin{aligned}
+      A &\xrightarrow{\pi} A/I \text{ 为$*$同态} \\
+      x &\longmapsto [x]
+    \end{aligned}
+  \end{equation*}
+  
+  $\pi(x^*) = [x^*] = [x]^* = \pi(x)^*$，$\ker \pi = I$
+\end{proof}
+
+\begin{theorem}[同态基本定理]
+  \begin{equation*}
+    \begin{tikzcd}
+      A \arrow[r, "f"] \arrow[d, "\pi"'] & B \quad *\text{同态} \\
+      A/\ker f \arrow[ur, "\exists! \bar{f}"'] &
+    \end{tikzcd}
+  \end{equation*}
+\end{theorem}
+
+\begin{proof}
+  $\bar{f}([x]^*) = \bar{f}([x^*]) = f(x^*) = f(x)^* = \bar{f}([x])^*$
+\end{proof}
+
+\begin{proposition}
+  $A$含$1$，$\langle \Omega ,1\rangle_{*-al} = \Omega$生成的含$1$ $*$子代数。
+\end{proposition}
+
+\begin{proposition}
+  若$\Omega^* \subset \Omega$，则$\langle \Omega \rangle = \langle \Omega \rangle_*$，$\langle \Omega \rangle_{al} = \langle \Omega \rangle_{*-al}$。
+\end{proposition}
+
+\begin{proof}
+  $\circled{1}$ $\langle \Omega \rangle \subset \langle \Omega \rangle_*$。
+  
+  下证$\langle \Omega \rangle \supset \langle \Omega \rangle_*$，只要证$\langle \Omega \rangle$为一个$*$理想。从而
+  $\langle \Omega \rangle \supset \langle \Omega \rangle_*$
+  
+  $\forall x \in \langle \Omega \rangle$，要证$x^* \in \langle \Omega \rangle$，定义$B \triangleq \{x \in A : x^* \in \langle \Omega \rangle\}$
+  
+  易知$\langle \Omega \rangle \subset B$。下证$B$为一个理想，从而$\langle \Omega \rangle \subset B$。
+  
+  i.e. $\forall x \in \langle \Omega \rangle$，$x^* \in \langle \Omega \rangle$。
+  
+  这是因为。$0 \in B$，$x, y \in B \Rightarrow x^*, y^* \in \langle \Omega \rangle$
+  
+  $\Rightarrow (x + y)^* = x^* + y^* \in \langle \Omega \rangle \Rightarrow x + y \in B$。
+  
+  $(\lambda x)^* = \bar{\lambda}x^* \in \langle \Omega \rangle \Rightarrow \lambda x \in B$。
+  
+  $\forall x \in B$，$\forall a \in A$，有$(ax)^* = x^*a^* \in \langle \Omega \rangle \Rightarrow ax \in B$。
+  
+  故$B$为一个理想，$\Rightarrow \langle \Omega \rangle \subset B$。
+  
+  $\circled{2}$ $\langle \Omega \rangle_{al} \subset \langle \Omega \rangle_{*-al}$
+  
+  下证$\langle \Omega \rangle_{al} \supset \langle \Omega \rangle_{*-al}$，只要证$\langle \Omega \rangle_{al}$为*代数。
+  
+  从而$\langle \Omega \rangle_{al} \supset \langle \Omega \rangle_{*-al}$。
+  
+  令$B = \{\bar{x} : x \in \langle \Omega \rangle_{al}\}$。下证$B$为代数
+  
+  类似证明
+\end{proof}
+
+\section{$*$代数幺元化}
+
+\begin{definition}
+  $A$为$*$代数，$A \xrightarrow{\theta} B$为$*$同态。
+  
+  $B$为含幺$*$代数，若满足
+  
+  \begin{equation*}
+    \begin{tikzcd}
+      A \arrow[r, "\theta"] \arrow[dr, "f"'] & B \arrow[d, "\exists! \tilde{f}"', "\text{保幺同态}"] \\
+      & C \text{ 含幺$*$代数}
+    \end{tikzcd}
+  \end{equation*}
+\end{definition}
+
+\begin{proposition}
+  $A$为$*$代数幺元化存在唯一
+\end{proposition}
+
+\begin{proof}
+  $A \xrightarrow{\theta} A \oplus \mathbb{C}$代数幺元化。其中$(a, \lambda)(b, \mu) \triangleq (ab + \lambda b + \mu a, \lambda\mu)$
+  
+  在$A \oplus \mathbb{C}$中定义$*$运算。
+  
+  \begin{proposition}
+    $1^* = 1$，因为$1^*x = 1^*x^{**} = (x^*1)^* = x^{**} = x \Rightarrow 1^* = 1$
+    
+    $\forall (a, \lambda) \in A \oplus \mathbb{C}$，$(a, \lambda)^* \triangleq (a^*, \bar{\lambda})$
+    
+    \begin{enumerate}
+      \item $(a, \lambda)^{**} = (a^{**}, \overline{\bar{\lambda}}) = (a, \lambda)$
+      \item $(r(a, \lambda))^* = (ra, r\lambda)^* = ((ra)^*, \overline{r\lambda}) = (ra^*, \bar{r}\bar{\lambda}) = \bar{r}(a, \lambda)^*$
+      \item $((a, \lambda)(b, \mu))^* = (ab + \lambda b + \mu a, \lambda\mu)^* = (b^*a^* + \bar{\mu}a^* + \bar{\lambda}b^*, \bar{\lambda}\bar{\mu})$
+      
+      $(b, \mu)^*(a, \lambda)^* = (b^*, \bar{\mu})(a^*, \bar{\lambda}) = (b^*a^* + \bar{\mu}a^* + \bar{\lambda}b^*, \bar{\lambda}\bar{\mu})$
+    \end{enumerate}
+    
+    $\theta(a^*) = (a^*, 0) = (a, 0)^* = \theta(a)^*$
+  \end{proposition}
+  
+  \begin{equation*}
+    \begin{tikzcd}
+      A \arrow[r, "\theta"] \arrow[dr, "f"', "*\text{同态}"] & A \oplus \mathbb{C} \arrow[d, "\exists! \tilde{f}"', "\text{保幺同态}"] \\
+      & B \text{ 含幺$*$代数}
+    \end{tikzcd}
+  \end{equation*}
+  
+  下证$\tilde{f}$保$*$。
+  
+  $\tilde{f}((a, \lambda)^*) = \tilde{f}((a^*, \bar{\lambda})) = f(a^*) + \bar{\lambda}1_B$
+  
+  $\tilde{f}((a, \lambda))^* = (f(a) + \lambda 1_B)^* = f(a)^* + \bar{\lambda}1_B$
+\end{proof}
+
+\begin{proposition}
+  $A \xrightarrow{\theta} M(A)$，$A$为$*$代数。
+  
+  $a \longmapsto (\ell_a, r_a)$。
+  
+  则在$M(A)$上可定义$*$运算如下：$(L, R)^* = (R^*, L^*)$
+  
+  其中$L^*(x) \triangleq L(x^*)^*$，$R^*(x) = R(x^*)^*$，要证$*$为$M(A)$上的一个$*$运算。
+\end{proposition}
+
+\begin{example}
+  $\mathbb{C}$为一个$*$代数，$*$运算为共轭运算。
+  
+  $\forall \lambda \in \mathbb{C}$，$\lambda^* \triangleq \bar{\lambda}$
+  
+  \begin{enumerate}
+    \item $\bar{\bar{\lambda}} = \lambda$
+    \item $\bar{a} + \bar{b} = \overline{a + b}=a^*+b^*$，$(\lambda a)^* = \bar{\lambda}a = \bar{\lambda}\bar{a} = \bar{\lambda}a^*$
+    \item $\overline{ab} = \bar{a}\bar{b} = \bar{b}\bar{a}$
+  \end{enumerate}
+\end{example}
+
+\begin{example}
+  $M_n(\mathbb{C})$，$*$运算为$A^* = \bar{A}^T$
+  
+  \begin{enumerate}
+    \item $A^{**} = A$
+    \item $(A + B)^* = A^* + B^*$，$(\lambda A)^* = \bar{\lambda}A^*$
+    \item $(AB)^* = \overline{AB}^T = \overline{AB}^T = B^T\bar{A}^T = B^*A^*$
+  \end{enumerate}
+\end{example}
+
+\begin{definition}
+  $H_1, H_2$为Hilbert空间，$\mathcal{B}(H_1, H_2)$表示$H_1$到$H_2$的全体有界线性算子。
+\end{definition}
+
+\begin{proposition}
+  若$H_1 \xrightarrow{T} H_2$，$T \in \mathcal{B}(H_1, H_2)$则存在唯一
+  \begin{equation*}
+    \begin{aligned}
+      H_2 &\xrightarrow{T^*} H_1，T^* \in \mathcal{B}(H_2, H_1)
+    \end{aligned}
+  \end{equation*}
+  使得$\forall x \in H_1$，$\forall y \in H_2$，有$\langle Tx, y \rangle_{H_2} = \langle x, T^*y \rangle_{H_1}$
+\end{proposition}
+
+\begin{proof}
+  若$H_2 \underset{B}{\overset{A}{\rightleftarrows}} H_1$ s.t. $\langle Tx, y \rangle = \langle x, Ay \rangle = \langle x, By \rangle$
+  
+  $\langle x, (A-B)y \rangle = 0$，$\forall y \Rightarrow A - B = 0$
+\end{proof}
+
+\begin{proposition}
+  $T^{**} = T$
+\end{proposition}
+
+\begin{theorem}[Riesz表示定理]
+  给定Hilbert空间$H$，有
+  \begin{equation*}
+    \begin{aligned}
+      H &\xrightarrow{\theta} H^* \triangleq \mathcal{B}(H, \mathbb{C}) \\
+      x &\longmapsto \langle x, x\rangle
+    \end{aligned}
+  \end{equation*}
+  为保范共轭线性同构
+\end{theorem}
+
+\begin{proof}
+  $\circled{1}$ $x = 0$，$\langle x, x \rangle = 0 \Rightarrow ||\langle x, x \rangle|| = 0 = ||x||$
+  
+  $\circled{2}$ $x \neq 0$，$||x|| \neq 0$，$\langle \frac{x}{||x||}, x \rangle = ||x||$，$\Rightarrow ||\langle x, x \rangle|| = ||x||$
+  
+  $\lambda x \mapsto \langle x, \lambda x \rangle = \bar{\lambda}\langle x, x \rangle = \bar{\lambda}\theta(\lambda)$
+  
+  共轭线性$\Rightarrow$单
+  
+  （存在）$\forall y \in H_2$，定义
+  \begin{equation*}
+    \begin{aligned}
+      H_1 &\xrightarrow{\langle T*, y \rangle} \mathbb{C} \\
+      x &\longmapsto \langle Tx, y \rangle
+    \end{aligned}
+  \end{equation*}
+  
+  $|\langle Tx, y \rangle| \leq ||Tx|| ||y|| \leq ||T|| ||x|| ||y||$
+ $\Rightarrow ||\langle T x, y \rangle|| \leq ||T|| ||y||$。i.e. $\langle T x, y \rangle \in H_1^*$
+  
+  由Riesz表示定理，$\exists z \in H_1$，s.t.$\langle T x, y \rangle = \langle x, z \rangle$，记$z = T^*y$
+  
+  定义
+  \begin{equation*}
+    \begin{aligned}
+      T^*: H_2 &\longrightarrow H_1 \\
+      y &\longmapsto T^*y
+    \end{aligned}
+  \end{equation*}
+  
+  易知，$\forall x, y$，有$\langle Tx, y \rangle = \langle x, T^*y \rangle$
+  
+  下证$T^*$线性。$\forall x$，$\forall y_1, y_2$。
+  
+  $\langle T x, y_1 + y_2 \rangle = \langle x, T^*(y_1 + y_2) \rangle$
+   $=$
+
+  $\langle Tx, y_1 \rangle + \langle Tx, y_2 \rangle = \langle x, T^*y_1 \rangle + \langle x, T^*y_2 \rangle$
+   $= \langle x, T^*y_1 + T^*y_2 \rangle$
+   $\Rightarrow T^*(y_1 + y_2) = T^*y_1 + T^*y_2$（由正定）
+  
+  $\langle Tx, \lambda y \rangle = \langle x, T^*(\lambda y) \rangle$
+  
+  $=$
+  $\bar{\lambda}\langle Tx, y \rangle = \bar{\lambda}\langle x, T^*y \rangle = \langle x, \lambda T^*y \rangle$
+  $\Rightarrow T^*(\lambda y) = \lambda T^*y$
+  
+  由Riesz表示，$||T^*y|| = ||\langle T x, y \rangle||$
+  
+  对$y$，$||T^*y|| \leq ||T|| ||y|| \Rightarrow ||T^*|| \leq ||T||$
+  
+  $T^* \in \mathcal{B}(H_2, H_1)$
+  
+  $||T|| = ||T^{**}|| \leq ||T^*|| \Rightarrow ||T^*|| \leq ||T||$
+\end{proof}
+
+\begin{proposition}
+  \begin{enumerate}
+    \item $T^{**} = T$
+    \item $(T + S)^* = T^* + S^*$，且$(\lambda T)^* = \bar{\lambda}T^*$
+    \item $(T \circ S)^* = S^* \circ T^*$
+  \end{enumerate}
+  
+  \begin{equation*}
+    \begin{tikzcd}[column sep=large, row sep=large]
+      H_1 \arrow[rr, "S", bend left=20] \arrow[dr, "TS"'] & & H_2 \arrow[ll, "S^*", bend left=20] \arrow[dl, "T"] \\
+      & H_3 \arrow[ul, "S^*T^*", bend left=20] \arrow[ur, "T^*"', bend left=20] &
+    \end{tikzcd}
+  \end{equation*}
+\end{proposition}
+
+\begin{proposition}
+  $\mathcal{B}(H)$为一个$\mathbb{C}-*$代数，为$\operatorname{End}_\mathbb{C}(H)$的含幺子代数
+\end{proposition}
+
+\begin{proposition}
+  $\forall T \in \mathcal{B}(H)$有$||T^*T|| = ||TT^*|| = ||T||^2$
+\end{proposition}
+
+\begin{proposition}
+  若$A$交换非退化代数，则$M(A)$交换。
+\end{proposition}
+
+\begin{proof}
+  $\forall (L, R), (L', R') \in M(A)$，要证$(L, R)(L', R') = (L', R')(L, R)$
+  i.e. $(LL', R'R) = (L'L, RR')$
+  
+  $\forall x, y \in A$，$L(L'(x))y = L'(L(x))y$（$A$非退化）
+  
+  $L(L'(x))y = yL(L'(x)) = R(y)L'(x) = L'(xR(y)) = L'(xR(y))$
+  $= L'(R(y)x) = L'(yL(x)) = L'(L(x))y$
+\end{proof}
+
+\begin{proposition}
+  若$A$非退化，$(L, R), (L_1, R_2) \in M(A)$，则$R_1 = R_2$
+\end{proposition}
+
+\begin{proof}
+  $\forall x, y \in A$，有$R_1(x)y = xL(y) = R_2(x)y$（非退化）$\Rightarrow R_1 = R_2$
+\end{proof}
+
+\begin{lemma}
+  已知$I$为含幺代数$B$的本性理想，若$I$交换，则$B$交换。
+\end{lemma}
+
+\begin{proof}
+  由$I$在$B$中$*$性理想，知$I$非退化代数。
+  
+  \begin{equation*}
+    \begin{tikzcd}
+      I \arrow[r, hook] \arrow[dr, "\theta"'] & B \arrow[d, "\exists! \tau"', "\text{保幺单同态}"] \\
+      & M(I)
+    \end{tikzcd}
+  \end{equation*}
+  
+  （$\forall x \in I$，若$xI = 0 = Ix$，$I$本性$\Rightarrow x = 0$）
+  
+  有$M(I)$交换$\Rightarrow B$交换
+  
+  $\forall a, b \in B$，要证$ab = ba$，由$I$本性，只要证$(ab - ba)I = 0 = I(ab - ba)$
+  
+  $\forall x \in I$，有$(ab - ba)x = 0 =x(ab - ba)$
+  
+  只要证$\forall x, y \in I$，有$(ab - ba)xy = 0 = y(ab - ba)x$（$I$本性）
+  
+  W.S. $x(ab - ba)y = 0 = yx(ab - ba)$
+  
+  $\circled{1}$ $abxy = baxy$，$abxy = a(bx)y = ay \cdot bx = bx \cdot ay = ba \cdot xy$
+\end{proof}
+
+
+  全体Hilbert空间之间的有界线性算子满足
+  \begin{enumerate}
+    \item $T^{**} = T$（对合）$H \underset{T^*}{\overset{T}{\rightleftarrows}} H^*$
+    \item $(T + S)^* = T^* + S^*$（共轭线性）
+    \item $(T \circ S)^* = S^* \circ T^*$
+  \end{enumerate}
+
+
+\begin{proof}
+  $\circled{2}$ $\langle (T + S)x, y \rangle = \langle x, (T + S)^*y \rangle$
+  
+  $\langle Tx, y \rangle + \langle Sx, y \rangle = \langle x, T^*y + S^*y \rangle$
+  
+  $\circled{3}$ $\langle T \circ Sx, y \rangle = \langle x, (T \circ S)^*y \rangle$
+  
+  $\langle Sx, T^*y \rangle = \langle x, S^*T^*y \rangle$
+\end{proof}
+
+\begin{example}
+  $H$为一个Hilbert空间，$\mathcal{B}(H)$关于点态加、点态数乘、复合$*$运算为一个$*$代数。
+\end{example}
+
+\begin{example}
+  X赋范空间，$\mathcal{B}(X)$为代数$\Rightarrow$赋范代数。
+\end{example}
+
+\begin{definition}
+  若$A$为一个$F$代数，$\|\cdot\|$为$A$的一个代数，若满足$\forall x, y \in A$有$\|xy\| \leq \|x\| \|y\|$，则称$(A, \|\cdot\|)$为一个赋范代数。
+\end{definition}
+
+\begin{definition}
+  若$(A, \|\cdot\|)$为一个赋范代数且为Banach空间，称$(A, \|\cdot\|)$为一个Banach代数。
+  
+  （Banach空间：X，$(\mathcal{B}(X), \|\cdot\|)$是完备的，$\mathcal{B}(X)$为Banach空间）
+\end{definition}
+
+\begin{proposition}
+  $H_1 \underset{T^*}{\overset{T}{\rightleftarrows}} H_2$，$\|T^*T\| = \|T\|^2$
+\end{proposition}
+
+\begin{proof}
+  $\|T^*T\| \leq \|T^*\| \|T\| = \|T\|^2$
+  
+  下证$\|T\|^2 \leq \|T^*T\|$
+  
+  $\forall x \in H_1$，$\|x\| \leq 1$，$\|Tx\|^2 = \langle Tx, Tx \rangle = |\langle x, T^*Tx \rangle|$
+  $\leq \|x\| \|T^*Tx\| \leq \|T^*Tx\|$
+  
+  $\Rightarrow \|T\| \leq \|T^*T\|^{1/2} \Rightarrow \|T\|^2 \leq \|T^*T\|$
+\end{proof}
+
+\begin{definition}
+  若$(A, \|\cdot\|)$为赋范代数，$A$为$*$代数，满足：$\forall x \in A$，$\|x^*x\| = \|x\|^2$，称$\|\cdot\|$满足$C^*$等式。
+  
+  进一步，若$(A, \|\cdot\|)$完备，称$(A, \|\cdot\|)$为一个$C^*$代数。
+  （i.e. $A$为Banach代数，有$*$，$C^*$等式）
+\end{definition}
+
+\begin{example}
+  $H$为Hilbert空间，$(\mathcal{B}(H), \|\cdot\|, *)$为一个$C^*$代数。
+  $A \leq \mathcal{B}(H)$闭$*$子代数亦为$C^*$代数。
+\end{example}
+
+\begin{itemize}
+  \item $(A_\alpha)_\alpha$为一族$F$代数
+  
+  在$\prod A_\alpha$定义加、数乘、求法，使$\prod A_\alpha$亦为$F$代数。
+  
+  $(x_\alpha)_\alpha + (y_\alpha)_\alpha \triangleq (x_\alpha + y_\alpha)_\alpha$
+  
+  $\lambda(x_\alpha)_\alpha \triangleq (\lambda x_\alpha)_\alpha$
+  
+  $(x_\alpha)_\alpha \cdot (y_\alpha)_\alpha \triangleq (x_\alpha y_\alpha)_\alpha$
+\end{itemize}
+
+\begin{definition}
+  $(A_\alpha)_\alpha$为一族$*$代数，$\prod A_\alpha$为直积，
+  定义典范的$*$运算。$\forall (x_\alpha)_\alpha \in \prod A_\alpha$，$(x_\alpha)_\alpha^* \triangleq (x_\alpha^*)_\alpha$
+  
+  容易验证。
+\end{definition}
+
+\begin{definition}
+  $\bigoplus\limits_\alpha^{\ell^\infty} A_\alpha \triangleq \{(x_\alpha)_\alpha \in \prod A_\alpha : \{\|x_\alpha\| : \alpha \in \Lambda\} \text{有界}\}$
+\end{definition}
+
+\begin{proposition}
+  $\bigoplus\limits_\alpha^{\ell^\infty} A_\alpha$为$\prod A_\alpha$的子代数。
+\end{proposition}
+
+\begin{proof}
+  $\forall \alpha$，$\|x_\alpha + y_\alpha\| \leq \|x_\alpha\| + \|y_\alpha\| \leq M_1 + M_2$
+   \quad $\|x_\alpha \cdot y_\alpha\| \leq \|x_\alpha\| \|y_\alpha\| \leq M_1 M_2$
+\end{proof}
+
+\begin{remark}
+  $\bigoplus\limits_\alpha A_\alpha \leq \bigoplus\limits_\alpha^{\ell^\infty} A_\alpha$
+\end{remark}
+
+\begin{definition}
+  $(\bigoplus\limits_\alpha A_\alpha, \|\cdot\|_\infty)$为一个赋范代数。
+  $\|\cdot\|_\infty := \sup\limits_\alpha \|x_\alpha\|$
+\end{definition}
+
+\begin{proof}
+  $\|(x_\alpha)_\alpha\|_\infty = 0 \Rightarrow \forall \alpha, \|x_\alpha\| = 0 \Rightarrow x_\alpha = 0 \Rightarrow (x_\alpha)_\alpha = 0$
+  
+  $\|\lambda(x_\alpha)_\alpha\|_\infty = \sup\limits_\alpha \|\lambda x_\alpha\| = |\lambda| \sup\limits_\alpha \|x_\alpha\| = |\lambda| \|(x_\alpha)_\alpha\|_\infty$
+  
+  $\|(x_\alpha)_\alpha + (y_\alpha)_\alpha\|_\infty = \sup\limits_\alpha \|x_\alpha + y_\alpha\| \leq \sup\limits_\alpha (\|x_\alpha\| + \|y_\alpha\|) \leq \sup\limits_\alpha \|x_\alpha\| + \sup\limits_\alpha \|y_\alpha\|$
+  $\leq \|(x_\alpha)_\alpha\|_\infty + \|(y_\alpha)_\alpha\|_\infty$
+\end{proof}
+
+\begin{example}
+  \begin{equation*}
+    \begin{aligned}
+      \ell^\infty(\Omega) &= \bigoplus\limits_{\omega \in \Omega} \mathbb{C} \\
+      f &\longleftrightarrow (x_\alpha)_{\alpha \in \Omega}
+    \end{aligned}
+  \end{equation*}
+\end{example}
+
+\begin{lemma}
+  若$(A_\alpha)_\alpha$为一族Banach代数，则$\bigoplus\limits_\alpha^{\ell^\infty} A_\alpha$为Banach代数。（取Cauchy列）
+\end{lemma}
+
+\begin{proposition}
+  若$A$为赋范代数，且为$*$代数，满足：
+   $\forall x \in A$，有$\|x\|^2 \leq \|x^*x\|$，则满足$C^*$等式。
+\end{proposition}
+
+\begin{proof}
+  $\forall x \in A$，有$\|x\|^2 \leq \|x^*x\| \leq \|x^*\| \|x\|$
+  $\Rightarrow \|x\| \leq \|x^*\|$，$\forall x$，$\Rightarrow \|x^*\| \leq \|x^{**}\| = \|x\|$
+  $\Rightarrow \|x\| = \|x^*\|$
+  
+  $\|x^*x\| \leq \|x^*\| \|x\| = \|x\|^2$
+\end{proof}
+
+\begin{proposition}
+  若$(A_\alpha)_\alpha$为一族$C^*$代数，
+   则$(\bigoplus\limits_\alpha^{\ell^\infty} A_\alpha, \|\cdot\|_\infty)$为一个$C^*$代数。
+\end{proposition}
+
+\begin{proof}
+  $\|(x_\alpha)_\alpha\|_\infty^2 = (\sup\limits_\alpha \|x_\alpha\|)^2 = \sup\limits_\alpha \|x_\alpha\|^2 = \sup\limits_\alpha \|x_\alpha^* x_\alpha\| = \|((x_\alpha^*)_\alpha (x_\alpha)_\alpha)\|_\infty$
+\end{proof}
+
+\begin{example}
+  $A, B$为$C^*$代数，$(A \oplus B, \|\cdot\|_\infty)$为$C^*$代数。
+\end{example}
+
+\begin{proposition}
+  $A$为一非零含幺$C^*$代数，则$\|1\| = 1$
+\end{proposition}
+
+\begin{proof}
+  $\|1\|^2 = \|1^*1\| = \|1 \cdot 1\| = \|1\| \Rightarrow \|1\| = 1$
+\end{proof}
+
+\section{$C^*$代数幺元化}
+
+$A$为$C^*$代数，$A$是否存在幺元化
+
+$C^*$代数$A \xrightarrow{\theta} \tilde{A}$含幺$C^*$代数
+
+\begin{equation*}
+  \begin{tikzcd}
+    A \arrow[r, "\theta"] \arrow[dr, "\forall \varphi"'] & \tilde{A} \arrow[d, "\exists!"', "\text{保幺$*$同态} \tilde{\varphi}"] \\
+    & B \text{ $\forall$ 含幺$C^*$代数}
+  \end{tikzcd}
+\end{equation*}
+
+$A$为Banach代数（或赋范代数），$A$是否存在幺元化
+
+$A \longrightarrow \tilde{A}$ 含幺Banach alg
+
+\begin{equation*}
+  \begin{tikzcd}
+    A \arrow[r] \arrow[dr, "\varphi"'] & \tilde{A} \arrow[d, "\exists! \tilde{\varphi}"', "\text{保有界、保幺}"] \\
+    & B \text{ $\forall B$ Banach alg}
+  \end{tikzcd}
+\end{equation*}
+
+$A$为赋范代数（$C$-代数）
+
+定义$\tilde{A} \triangleq A \oplus \mathbb{C}$，$(a, \lambda)(b, \mu) = (ab + \lambda b + \mu a, \lambda\mu)$
+
+$\|(a, \lambda)\|_1 \triangleq \|a\| + |\lambda|$，$A \oplus \mathbb{C}$为1-范数
+
+下证$(\tilde{A}, \|\cdot\|_1)$为赋范代数。
+
+$\|(a, \lambda)(b, \mu)\|_1 = \|(ab + \lambda b + \mu a, \lambda\mu)\| = \|ab + \lambda b + \mu a\| + |\lambda\mu|$
+$\leq \|a\| \|b\| + |\lambda| \|b\| + |\mu| \|a\| + |\lambda| |\mu|$
+
+$\|(a, \lambda)\|_1 \|(b, \mu)\|_1 = (\|a\| + |\lambda|)(\|b\| + |\mu|)$ 等于上面
+
+\begin{proposition}
+  $A \xrightarrow{\theta} \tilde{A}$（$A$视为$\tilde{A}$的理想）
+  
+  \begin{equation*}
+    \begin{tikzcd}
+      A \arrow[r, "\theta"] \arrow[dr, "\forall \varphi" description, "\text{连续同态}"'] & \tilde{A} \arrow[d, "\exists! \tilde{\varphi}"', "\text{保幺同态}"] \\
+      & B
+    \end{tikzcd}
+  \end{equation*}
+  
+  $\|\theta(a)\| = \|(a, 0)\| = \|a\|$，等距嵌入
+\end{proposition}
+
+\begin{proof}
+  下证$\tilde{\varphi}$是连续的$\Leftrightarrow \tilde{\varphi}$有界
+  
+  $\tilde{\varphi}((a, \lambda)) = \varphi(a) + \lambda 1_B$
+  \quad $\|\tilde{\varphi}((a, \lambda))\| = \|\varphi(a) + \lambda 1_B\| \leq \|\varphi(a)\| + |\lambda| \|1_B\| \leq \|\varphi\| \|a\| + |\lambda| \|1_B\|$
+  
+  记$M = \max\{\|\varphi\|, \|1_B\|\} \Rightarrow \leq M(\|a\| + |\lambda|) = M\|(a, \lambda)\|_1$
+\end{proof}
+
+进一步，若$A$为Banach代数，则$(\tilde{A}, \|\cdot\|_1)$为Banach代数。
+
+\begin{remark}
+      $(A \oplus \mathbb{C}, \|\cdot\|_1)$没有$C^*$等式。
+\end{remark}
+\begin{remark}
+  Banach代数范畴下态射是连续映射。
+\end{remark}
+
+\begin{proposition}
+  $C^*$代数$A$非退化。
+\end{proposition}
+
+\begin{proof}
+  $\forall \lambda \in A$，若$xA = 0 = Ax$，要证$x= 0$。
+  
+  $\Rightarrow xx^* = 0$。$\Rightarrow \|x\|^2 = \|xx^*\| = 0 \Rightarrow \|x\| = 0 \Rightarrow x = 0$。
+\end{proof}
+
+\subsection{$A$为含幺$(e)$的$C^*$代数}
+
+
+
+  
+  $A \xrightarrow{\theta} \tilde{A} \cong A \oplus \mathbb{C}$。
+  
+  定义
+  \begin{equation*}
+    \begin{aligned}
+      \tilde{A} &\xrightarrow{\sigma} A \oplus \mathbb{C} \\
+      (a, \lambda) &\longmapsto (a + \lambda e, \lambda)
+    \end{aligned}
+  \end{equation*}
+  
+  直接验证$\sigma$为同构。
+  
+  定义$\tilde{A}$上$\|\cdot\|$，$\|(a, \lambda)\| \triangleq \max\{\|a + \lambda e\|, |\lambda|\}$
+  从而$\|\cdot\|$在$\tilde{A}$中满足$C^*$等式
+  
+  思路：
+  \begin{equation*}
+    \begin{tikzcd}[column sep=large, row sep=large]
+      a \arrow[d] & A \arrow[r, "\theta"] \arrow[dr, "\eta"] & \tilde{A} \arrow[d, "\exists! \sigma"', "\text{保幺$*$同态，图交换}"] \\
+      {(a, 0)} & & A \oplus \mathbb{C} \text{ $C^*$代数直和，有幺$(e, 1)$}
+    \end{tikzcd}
+  \end{equation*}
+  
+  $\sigma((a, \lambda)) = \eta(a) + \lambda 1_{A \oplus \mathbb{C}} = (a, 0) + \lambda(e, 1) = (a + \lambda e, \lambda)$。
+
+\begin{proof}
+  下证$\sigma$为双射。
+  
+  $\sigma$单：$(a, \lambda) \longmapsto (a + \lambda e, \lambda) = 0 \Rightarrow \lambda = 0, a + \lambda e = 0 \Rightarrow a = 0$
+  
+  $\Rightarrow (a, \lambda) = 0$。$\sigma$单。
+  
+  $\sigma$满：$\sigma(A \times \{0\}) = A \times \{0\}$。$\sigma(\{0\} \times \mathbb{C}) \supset \{0\} \times \mathbb{C}$。
+  
+  $\Rightarrow \sigma(\tilde{A}) \supset A \times \{0\} \cup \{0\} \times \mathbb{C}$。
+  
+  $\Rightarrow \sigma(\tilde{A}) \supset A \oplus \mathbb{C}$。故$\sigma$满，
+  
+  $\Rightarrow \sigma$为$*$同构，把$A \oplus \mathbb{C}$的范数拉回，
+  
+  即为$\tilde{A}$满足$C^*$等式的范数。
+\end{proof}
+
+\begin{proposition}
+  $F$为无限域，$V$为$F$-代数
+  若$\varphi$为$V \longrightarrow V$，线性映射满足任取$A, B$，
+  
+  有$\varphi(AB) = \varphi(A)\varphi(B)$或$\varphi(AB) = \varphi(B)\varphi(A)$，则$\varphi$为$V \longrightarrow V$乘法同态或反同态。
+\end{proposition}
+
+\begin{proof}
+  任取$B$，$V_B \triangleq \{A : \varphi(AB) = \varphi(A)\varphi(B)\}$
+   \quad $V_{B_2} \triangleq \{A : \varphi(AB) = \varphi(B)\varphi(A)\}$
+  
+  下证$V_B$、$V_{B_2}$为线性$Sp$。
+  
+  $\forall x,y \in \mathbb{F}, \exists V_B$，$\varphi[(x + y)B] = \varphi(xB) + \varphi(yB) = \varphi(x)\varphi(B) + \varphi(y)\varphi(B)$
+  $= \varphi(x + y)\varphi(B)$
+   $\Rightarrow x + y \in V_B$。
+  
+  $A \in V_B$，$\varphi(AB) = \lambda\varphi(A)\varphi(B) = \varphi(\lambda A)B$。$\Rightarrow \lambda A \in V_B$。
+  
+  故$V_B$为线性空间，同理$V_{B_2}$为线性空间
+  
+  $V = V_B \cup V_{B_2}$，由$F$无限域，则有填不满定理
+  $\Rightarrow V_B = V$或$V_{B_2} = V$。
+  
+  记$V_1 = \{B : V_B = V\}$，$V_2 = \{B : V_{B_2} = V\}$
+  
+  下证$V_1$，$V_2$为线性$Sp$。
+  
+  $\forall B \in V_1$，要证$\lambda B \in V_1$，$\forall \lambda \in \mathbb{F}$，$\forall A \in V$，$\varphi(A\lambda B) = \lambda\varphi(A)\varphi(B)$
+   $= \varphi(A)\varphi(\lambda B) \Rightarrow \lambda B \in V_1$。
+  
+  $\forall \lambda, \gamma \in V_1$，$\forall A \in V$，$\varphi(A(\lambda + \gamma)) = \varphi(A\lambda) + \varphi(A\gamma)$
+  $= \varphi(A)\varphi(\lambda) + \varphi(A)\varphi(\gamma) = \varphi(A)\varphi(\lambda + \gamma) \Rightarrow \lambda + \gamma \in V_1$
+  
+  故$V_1$为线性$Sp$，同理$V_2$为线性$Sp$。
+  
+  $V = V_1 \cup V_2$，由填不满定理，$V_1 = V$或$V_2 = V$
+\end{proof}
+
+\subsection{ $A$为$C^*$代数且不含幺}
+
+$A \xrightarrow{\theta} M(A)$，$*$代数/含幺代数
+
+$\Rightarrow \begin{cases}
+  aA = 0 \Rightarrow a = 0 \\
+  Aa = 0 \Rightarrow a = 0 \\
+  a^*a = 0 \Rightarrow a = 0
+\end{cases}$
+
+($C^*$代数性退化)
+
+接下来在$M(A)$上定义$*$
+
+\begin{itemize}
+  \item $A$为$C^*$代数，$\varphi \in \operatorname{End}_{\mathbb{C}}(A)$ 定义$\varphi^*: A \longrightarrow A$，$\varphi^*(x) \triangleq \varphi(x^*)^*$
+  
+  $\varphi^*$线性。$\varphi^*: x \longmapsto x^* \xrightarrow{\varphi} \varphi(x^*) \longmapsto \varphi(x^*)^*$。
+\end{itemize}
+
+\begin{proposition}
+  任取$(L, R) \in M(A)$，$(R^*, L^*) \in M(A)$。
+\end{proposition}
+
+\begin{proof}
+  $\forall x, y \in A$。
+  
+  \begin{enumerate}
+    \item $R^*(xy) = R(x^*)^*y = (y^*R(x^*))^* = (Ry^*x^*)^* = R^*(xy)$
+    
+    \item $xL^*(y) = L^*(xy)$。（自行验证）
+    
+    \item $L^*(x)y = xR^*(y)$
+    
+    $L^{(x)}y = L(x^*)^*y = (y^*L(x^*))^* = (Ry^*)x^*)^*$
+    $= xRy^*)^* = xR^*(y)$
+  \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+  若$A$为一个$*$代数，则
+  \begin{equation*}
+    \begin{aligned}
+      M(A) &\xrightarrow{*} M(A) \\
+      (L, R) &\longmapsto (R^*, L^*)
+    \end{aligned}\text{ 为一个星运算} 
+  \end{equation*}
+\end{proposition}
+
+\begin{proof}
+  $\varphi^* = * \cdot \varphi \cdot *$，$(\varphi^*)^* = * \cdot \varphi^* \cdot * = * \cdot * \cdot \varphi \cdot * \cdot * = \varphi$
+ 
+  
+  \begin{enumerate}
+    \item $(L, R)^* = (R^*, L^*)^* = (L^{**}, R^{**}) = (L, R)$
+    
+    \item $((L_1, R_1) + (L_2, R_2))^* = ((R_1 + R_2)^*, (L_1 + L_2)^*)$。
+    $\stackrel{?}{=} (L_1, R_1)^* + (L_2, R_2)^* = (R_1^*, L_1^*) + (R_2^*, L_2^*)$
+    
+    由$(\varphi + \psi)^* = x \cdot (\varphi + \psi) \cdot x = x \cdot \varphi \cdot x + x \cdot \psi \cdot x = \varphi^* + \psi^*$
+    
+    验证 $\circled{1}$  $\circled{2}$ 两式相等
+    
+    $(\lambda(L, R))^* = (\lambda L, \lambda R)^* = ((\lambda R)^*, (\lambda L)^*)$
+     $\stackrel{?}{=} \overline{\lambda}(L, R)^* = (\overline{\lambda}R^*, \overline{\lambda}L^*)$
+    
+    \item $(\lambda\varphi)^*(x) = (\lambda\varphi)(x^*)^* = \overline{\lambda}\varphi(x^*)^* = \overline{\lambda}\varphi^*(x)$
+    
+
+  \end{enumerate}
+  
+  反同态$((L_1, R)(L_2, R_2))^* = (L_1L_2, R_2R_1)^*$
+  $= ((R_2R_1)^*, (L_1L_2)^*)$。
+  
+  $(L_2, R_2)^*(L_1, R_1)^* = (R_2^*, L_2^*)(R_1^*, L_1^*) = (R_2^*R_1^*, L_1^*L_2^*)$
+  
+  $(\varphi \circ \psi)^* = * \cdot \psi \circ \varphi \circ * = * \cdot \varphi \circ * \cdot \psi \circ * = \varphi^* \circ \psi^*$
+  
+  (因为$*^{-1} = *$) 故上面两式相等
+\end{proof}
+
+\begin{proposition}
+  $A \xrightarrow{\theta} M(A)$ 为一个$*$同态。
+\end{proposition}
+
+\begin{proof}
+  要证$\theta(a)^* = \theta(a^*)$
+  
+  $\theta(a)^* = (\ell_a, r_a)^* = (r_a^*, \ell_a^*)$
+  
+  $\theta(a^*) = (\ell_{a^*}, r_{a^*})$
+  
+  而由于$r_a^*(x) = r_a(x^*)^* = (x^*a)^* = a^*x = \ell_{a^*}(x)$
+  
+  上述两式相等。
+\end{proof}
+
+\begin{itemize}
+  \item $A \hookrightarrow B$ 含幺$*$代数。$A$为$B$的$*$理想。
+  
+  \begin{equation*}
+    \begin{tikzcd}[column sep=large, row sep=large]
+      A \arrow[r] \arrow[dr, "\theta"'] & B \arrow[d, "\exists \tau"', "\text{保幺$*$同态}"] \\
+      & M(A)
+    \end{tikzcd}
+  \end{equation*}
+  
+  \begin{equation*}
+    \begin{aligned}
+      B &\xrightarrow{\tau} M(A) \\
+      b &\longmapsto (L_b, R_b)
+    \end{aligned}
+  \end{equation*}
+  
+  \begin{proof}
+    只要证$\tau$保$*$
+  
+  $\tau(b^*) = (L_{b^*}, R_{b^*})$
+  
+  $\tau(b)^* = (L_b, R_b)^* = (R_b^*, L_b^*)$ 两式相等
+  \end{proof}
+\end{itemize}
+
+\begin{lemma}
+  若$A$是$C^*$代数，$(L, R) \in M(A)$
+  则：$L, R \in \mathcal{B}(A) \subset \operatorname{End}_{\mathbb{C}}(A)$
+\end{lemma}
+
+\begin{proof}
+  由$A$为Banach Sp，$A \xrightarrow{L} A$，$A \xrightarrow{R} A$。
+  
+  由闭图像Thm. 要证$L$连续。只要证
+  
+  若$x_n \longrightarrow x$，且$L(x_n) \longrightarrow y$ 则 $L(x) \longrightarrow y$
+  
+  只要证：$\forall z \in A$，有$zL(x) = zy$
+  
+  $zL(x) = R(z)x$
+\end{proof}
+
+\begin{proposition}
+  $A$为赋范代数，则$A \times A \xrightarrow{\cdot} A$ 连续
+  \begin{equation*}
+    (x, y) \longmapsto xy
+  \end{equation*}
+\end{proposition}
+
+\begin{proof}
+  $x_n \longrightarrow x$，$y_n \longrightarrow y \stackrel{?}{\Rightarrow} x_n y_n \longrightarrow xy$
+  
+  $\|x_n y_n - xy\| = \|x_n y_n - x_n y + x_n y - xy\|$
+  $\leq \|x_n\| \|y_n - y\| + \|x_n - x\| \|y\| \longrightarrow 0$
+\end{proof}
+
+
+ 
+  回到主题
+  ，由 $x_n \longrightarrow x$，$\Rightarrow R(z)x_n =zL(x_n)\longrightarrow R(z)x$
+  
+ 
+  
+  由$L(x_n) \longrightarrow y \Rightarrow zL(x_n) \longrightarrow zy$
+  
+  故 $zy = R(z)x$ ($T_2$) 
+
+
+\begin{proposition}
+  若$A$为$C^*$代数，$(L, R) \in M(A)$
+    则：$\|L\| = \|R\|$
+\end{proposition}
+
+\begin{proof}
+  $\forall x \in A$ 且 $\|x\| \leq 1$，$\forall y \in A$，$\|y\| \leq 1$。
+  
+  $\|yL(x)\| = \|R(y)x\| \leq \|R(y)\| \|x\| \leq \|R(y)\| \leq \|R\| \|y\|$
+  $\leq \|R\|$ 
+  
+  取$y = L(x)^*$，则$\forall x$，$\|x\| \leq 1$，$\|L(x)\|^2 \leq \|R\| \|L(x)\|$
+  
+  $\Rightarrow \forall x$，$\|x\| \leq 1$，有 $\|L(x)\| \leq \|R\| \Rightarrow \|L\| \leq \|R\|$
+  
+  同理 $\|R\| \leq \|L\|$
+\end{proof}
+
+\begin{remark}
+  \begin{equation*}
+    \begin{aligned}
+      A &\xrightarrow{r} \mathcal{B}(A)  \\
+      a &\longmapsto r_a
+    \end{aligned}\text{，为等距嵌入}
+  \end{equation*}
+\end{remark}
+
+\begin{definition}
+  若$A$为$C^*$代数，已证 $M(A)$上有典范$*$运算。 且$\forall (L, R) \in M(A)$ $\|L\| = \|R\|$
+  
+  定义 $\|(L, R)\| = \|L\| = \|R\|$
+\end{definition}
+
+\begin{theorem}
+  $M(A)$为一个含幺$C^*$代数。且
+  \begin{equation*}
+    \begin{aligned}
+      A &\xrightarrow{\theta} M(A) \\
+      a &\longmapsto (\ell_a, r_a)
+    \end{aligned}
+  \end{equation*}
+  为等距$*$同构嵌入。
+\end{theorem}
+
+\begin{proof}
+  $(M(A), \|\cdot\|) \hookrightarrow (\mathcal{B}(A) \oplus \mathcal{B}(A)^{op}, \|\cdot\|_{eq})$ 为Banach Sp.
+  
+  $\|(\varphi, \psi)\| = \max\{\|\varphi\|, \|\psi\|\} \Rightarrow (M(A), \|\cdot\|)$ 为赋范空间。
+  
+  下证$M(A)$为闭子空间
+  
+  设$(L_n, R_n) \in M(A)$ 且 $(L_n, R_n) \xrightarrow{\|\cdot\|_\infty} (L, R)$
+  
+  下证$(L, R) \in M(A)$ $\forall x, y \in A$
+  
+  $L_n(x)y = L_n(xy)$
+  
+  $\downarrow$ \quad \quad 同理 $xR(y) = R(xy)$
+  
+  $L(x)y = L(xy)$。
+  
+  $xL_n(y) = R_n(x)y$
+  
+  $\downarrow$ \quad \quad $\downarrow$
+  
+  $xL(y) = R(x)y$
+\end{proof}
+
+若$A$不含幺元，则 $A \varsubsetneqq M(A)$ 且 $\theta(A) \cap \mathbb{C} 1= \emptyset$。
+
+
+
+$A \xrightarrow{\theta \cdot} \theta(A)(A(\text{挖补Thm})) \oplus \mathbb{C}1. \subset M(A)$
+
+$(a + \lambda 1)^* = a^* + \overline{\lambda} 1 \in \theta(A) \oplus \mathbb{C}1$。
+
+故$\theta(A) \oplus \mathbb{C}1$ $*$封闭
+
+$M(A)$ Banach Sp. 下证 $A \oplus \mathbb{C}1$闭于$M(A)$
+
+由$A$闭(Banach) $\mathbb{C}1$有限维$\Rightarrow A \oplus \mathbb{C}1$闭（证明下一条）
+
+\begin{equation*}
+  \begin{tikzcd}[column sep=huge, row sep=huge]
+    A \arrow[r, hook] \arrow[dr, "\forall\psi" description, "*\text{同态}"'] & A \oplus \mathbb{C}1 \subset M(A) \arrow[d, "\exists! \varphi"', "\text{保幺$*$同态}"] \\
+    & B \text{ $\forall$含幺$C^*$代数}
+  \end{tikzcd}
+\end{equation*}
+
+\begin{proposition}
+  若$X$为赋范Sp，$Y$为$X$的闭子空间，$Z$为$X$的有限维子空间，则 $Y + Z$闭子Sp
+\end{proposition}
+
+\begin{proof}
+
+  \begin{equation*}
+    \begin{aligned}
+     \text{考虑商范数} X &\xrightarrow{\pi} X/Y \quad\text{$\pi$有界线性}\\
+      Z &\longmapsto \pi(Z)\text{  为$X/Y$的有限维线性Sp}
+    \end{aligned}
+  \end{equation*}
+
+  
+  从而$\pi(Z)$闭于$X/Y$，而 $\pi^{-1}\pi(Z) = \ker\pi + Z$
+   $= Y + Z$，闭于$X$。
+\end{proof}
+\vspace{1cm}
+$A \xrightarrow{f} B$ \quad $A, B$为$C^*$代数，
+\quad $f$ $*$同态，$\operatorname{Hom}(A, B)$
+
+\begin{equation*}
+  \begin{tikzcd}[column sep=huge, row sep=huge]
+    A \arrow[r] \arrow[d, "f"', "*\text{同态}"] & \tilde{A} \arrow[d, "\exists! \tilde{f}"', "\text{保幺$*$同态}"] \\
+    B \arrow[r] & \tilde{B}
+  \end{tikzcd}
+\end{equation*}
+
+$\widetilde{\operatorname{id}_A} = \operatorname{id}_{\tilde{A}}$，$\widetilde{f \circ g} = \tilde{f} \circ \tilde{g}$，这是因为
+
+\begin{equation*}
+  \begin{tikzcd}[row sep=large, column sep=large]
+    A \arrow[rr, "g"] \arrow[dd] \arrow[dr, "f \circ g"'] & & B \arrow[dd] \arrow[dl, "f"'] \\
+    & C \arrow[dd] & \\
+    \tilde{A} \arrow[rr, "\tilde{g}"'] \arrow[dr, "\tilde{f} \circ \tilde{g}"'] & & \tilde{B} \arrow[dl, "\tilde{f}"'] \\
+    & \tilde{C} &
+  \end{tikzcd}
+\end{equation*}
+
+顶上变换，所有的侧面变换$\Rightarrow$ 底部变换
+
+故幺元化为函子
+
+\begin{example}
+  Banach $*$代数
+  
+  $(L^1(G), *)$ 为Banach $*$代数，不是$C^*$代数。
+  
+  
+\end{example}
+
+\begin{definition}
+  $A$为Banach 代数，且有$*$运算，若满足：$\forall x \in A$，有$\|x^*\| = \|x\|$，称$A$为Banach $*$代数
+\end{definition}
+
+\begin{definition}
+  $A$为含幺代数，$G(A)$表示$A$的全体可逆元。$G(A)$为乘法群
+\end{definition}
+
+\begin{lemma}
+  若$A$为含幺Banach代数，则$G(A)$为开集
+  
+  e.g. $\operatorname{GL}_n(\mathbb{R})$开于$M_n(\mathbb{R})$
+  
+  $\det$连续，$\det^{-1}(\mathbb{R} \setminus \{0\})$开
+\end{lemma}
+
+\begin{proposition}
+  $A$为含幺Banach代数，$I_A$为幺元。则$B(I_A, 1) \subset G(A)$
+\end{proposition}
+
+\begin{proof}
+  $\forall a \in B(I_A, 1)$设$a = 1 - x$，其中$x \in B(0, 1)$
+  
+  下证$a$可逆，i.e. 证$ (1-x)^{-1} = 1 + x + x^2 + \cdots$
+  
+  在Banach sp（绝对收敛$\Rightarrow$收敛）
+  
+  先证$\sum_{n=0}^{\infty} \|x^n\|$收敛，$\forall A$ Banach sp，知$\sum x^n$收敛
+  
+  $\forall n$，$\|x^n\| \leq \|x\|^n$，$\sum_{n=0}^{\infty} \|x^n\| \leq \sum_{n=0}^{\infty} \|x\|^n < +\infty$ $\Leftarrow \|x\| < 1$
+  
+  下证$(\sum_{n=0}^{\infty} x^n)(1-x) = 1 = (1-x)(\sum_{n=0}^{\infty} x^n)$
+  
+  $(\sum_{n=0}^{\infty} x_n) y = (\lim_{N\to\infty} \sum_{n=0}^{N} x_n) y = $ （右乘连续$\Rightarrow$）$\lim_{N\to\infty} (\sum_{n=0}^{N} x_n y) = \sum_{n=0}^{\infty} x_n y$
+  
+  故$(\sum_{n=0}^{\infty} x^n)(1-x) = \sum_{n=0}^{\infty} (x^n - x^{n+1}) = 1$ （$\|x^n\| \to 0$）
+\end{proof}
+
+\begin{proof}
+  $\forall a \in G(A)$，考虑
+  \begin{equation*}
+    \begin{aligned}
+      A &\xrightarrow{l_a} A \text{为同胚}\\
+      x &\longmapsto ax \\
+      1 &\longmapsto a
+    \end{aligned}
+  \end{equation*}
+  
+  $1$为$G(A)$内点，$\Rightarrow l_a(1) = a$为$l_a(G(A)) = G(A) $的内点
+  $\Rightarrow G(A)$开。
+\end{proof}
+
+\begin{proposition}
+  若$a \in G(A)$，则$B(a, \frac{1}{\|a^{-1}\|}) \subset G(A)$
+\end{proposition}
+
+\begin{proof}
+  $\forall b \in B(a, \frac{1}{\|a^{-1}\|})$设$b = a + x$，其中$\|x\| < \frac{1}{\|a^{-1}\|}$
+  
+  考虑$a^{-1}b = 1 + a^{-1}x$，要证$b$可逆，只要证$a^{-1}b$可逆
+  
+  由于$ B(1, 1) \subset G(A)$，只要验证$a^{-1}x < 1$
+  
+  $\|a^{-1}x\| \leq \|a^{-1}\| \|x\| < 1$
+\end{proof}
+
+\begin{proposition}
+  若$A$为Banach代数，$M$为$A$的极大理想，则$M$闭。
+\end{proposition}
+
+\begin{proposition}
+  若$A$为赋范代数，
+  \begin{enumerate}
+    \item $I$为理想，则$\overline{I}$为理想
+    \item $B$为子代数，则$\overline{B}$仍为子代数
+  \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+  \begin{enumerate}
+    \item $\forall n \in \overline{I}$，$\forall a \in A$，$\exists I$中序列
+    \begin{equation*}
+      \begin{aligned}
+        ax_n &\longrightarrow ax \quad (\ell_a\text{连续}) \\
+        x_n a &\longrightarrow xa \quad (r_a\text{连续})
+      \end{aligned}
+    \end{equation*}
+    
+    \item $\forall x, y \in \overline{B}$，$(x_n) \to x$，$(y_n) \to y$
+    
+    $(x_n y_n) \to (xy) \to xy = xy \in \overline{B}$
+  \end{enumerate}
+\end{proof}
+
+\begin{proof}
+  由于$ M$为理想 $\Rightarrow \overline{M}$为理想
+  
+  而$M \cap G(A) = \phi$ （真理想）
+  
+  $\Rightarrow \text{由} G(A)$开 \quad$\overline{M} \cap G(A) = \phi$
+  
+  $ M \subset \overline{M} \subsetneqq  A \Rightarrow M = \overline{M}$
+\end{proof}
+
+\begin{proposition}
+  若$A$为赋范代数，$I$为闭理想，则$(A/I, \|\cdot\|)$为一个赋范代数
+\end{proposition}
+
+\begin{proof}
+  $A/I$为商赋范空间，只需验证$\forall \alpha, \beta \in A/I$，有$\|\alpha\beta\| \leq \|\alpha\| \|\beta\|$
+  
+  由商范数定义：$\|\alpha\| = \inf\{\|a\| : a \in \alpha\}$，$\|\beta\| = \inf\{\|b\| : b \in \beta\}$
+  
+  对于$\alpha\beta = [xy]$（其中$x \in \alpha, y \in \beta$），有
+  \begin{align*}
+    \|\alpha\beta\| &= \inf\{\|z\| : z \in \alpha\beta\} \\
+    &= \inf\{\|xy\| : x \in \alpha, y \in \beta\} \\
+    &\leq \inf\{\|x\| \|y\| : x \in \alpha, y \in \beta\}  \\
+    &= \inf\{\|x\| : x \in \alpha\} \cdot \inf\{\|y\| : y \in \beta\} \quad (\text{集合大 inf小 }) \\
+    &= \|\alpha\| \|\beta\|
+  \end{align*}
+  
+  故$(A/I, \|\cdot\|)$满足范数的次乘性，为赋范代数。
+\end{proof}
+
+\begin{corollary}
+  $A$ Banach sp，$I$闭理想，则$(A/I, \|\cdot\|)$为Banach代数
+\end{corollary}
+
+\begin{proposition}
+  若$A$为含幺交换Banach代数，$M$为极大理想，则$A/M \cong \mathbb{C}$
+\end{proposition}
+
+\begin{proof}
+  $A/M$为域（可除代数）若任意元素谱非空，则$A/M \cong \mathbb{C}$（拓扑同构）
+\end{proof}
+
+\begin{theorem}
+  若$A$为含幺复Banach代数，$a \in A$，则$\sigma(a) \neq \emptyset$，且为$\mathbb{C}$中紧子集
+\end{theorem}
+
+\begin{proof}
+  先证$\sigma(a)$为$\mathbb{C}$中紧集
+  
+  对$\forall a$，定义连续映射
+  \begin{equation*}
+    \begin{aligned}
+      \mathbb{C} &\xrightarrow{\tau} A \\
+      \lambda &\longmapsto \lambda 1 - a
+    \end{aligned}
+  \end{equation*}
+  
+  $\lambda \in \tau^{-1}(G(A)^c) \Leftrightarrow \lambda 1 - a \in G(A)^c \Leftrightarrow \lambda 1 - a$不可逆
+  $\Leftrightarrow \lambda \in \sigma(a)$
+  
+  由$ G(A)^c$闭 $\Rightarrow \tau^{-1}(G(A)^c)$闭集
+  
+\end{proof}
+
+\end{document}
